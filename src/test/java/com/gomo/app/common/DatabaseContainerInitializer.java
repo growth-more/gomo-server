@@ -1,0 +1,32 @@
+package com.gomo.app.common;
+
+import org.springframework.boot.test.util.TestPropertyValues;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.containers.wait.strategy.Wait;
+
+public class DatabaseContainerInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+
+	public static MySQLContainer<?> mysqlContainer;
+
+	static {
+		mysqlContainer = new MySQLContainer<>("mysql:8.0.28")
+			.withDatabaseName("gomo")
+			.withUsername("gomo")
+			.withPassword("1111")
+			.withInitScript("database/test-schema.sql")
+			.withReuse(true)
+			.waitingFor(Wait.forListeningPort());
+		mysqlContainer.start();
+	}
+
+	@Override
+	public void initialize(ConfigurableApplicationContext context) {
+		TestPropertyValues.of(
+			"spring.datasource.url=" +  mysqlContainer.getJdbcUrl(),
+			"spring.datasource.username=" + mysqlContainer.getUsername(),
+			"spring.datasource.password=" + mysqlContainer.getPassword()
+		).applyTo(context.getEnvironment());
+	}
+}
