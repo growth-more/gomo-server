@@ -1,0 +1,75 @@
+package com.gomo.app.member.documentation;
+
+import static com.gomo.app.member.exception.MemberErrorCode.*;
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
+import static org.springframework.http.HttpStatus.*;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.restdocs.restassured.RestDocumentationFilter;
+
+import com.gomo.app.common.DocumentationTestBase;
+import com.gomo.app.common.fixture.TestMemberFixture;
+import com.gomo.app.member.common.constant.NonExistMemberField;
+import com.gomo.app.member.documentation.snippet.CreateEmailAuthCodeSnippet;
+import com.gomo.app.member.presentation.request.CreateEmailAuthCodeRequest;
+
+public class CreateEmailAuthCodeDocumentationTest extends DocumentationTestBase {
+
+	private static final String EMAIL_AUTH_URL = "/members/emails/codes/auth";
+	private static final String INVALID_EMAIL = "invalid-email";
+
+	private final RestDocumentationFilter filter = CreateEmailAuthCodeSnippet.create();
+	private final RestDocumentationFilter errorFilter = CreateEmailAuthCodeSnippet.createError();
+
+	@DisplayName("사용자가 이메일을 인증한다.")
+	@Test
+	void validate_email() {
+		given(this.specification).filter(filter)
+			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+			.body(CreateEmailAuthCodeRequest.of(NonExistMemberField.EMAIL))
+			.when()
+			.post(EMAIL_AUTH_URL)
+			.then()
+			.statusCode(CREATED.value())
+			.body("code", instanceOf(String.class));
+	}
+
+	@DisplayName("사용자가 중복된 이메일로 인증한다.")
+	@Test
+	void validate_email_with_duplicated_email() {
+		given(this.specification).filter(errorFilter)
+			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+			.body(CreateEmailAuthCodeRequest.of(TestMemberFixture.email()))
+			.when()
+			.post(EMAIL_AUTH_URL)
+			.then()
+			.statusCode(CONFLICT.value())
+			.body("timestamp", instanceOf(String.class))
+			.body("httpStatus", equalTo("409"))
+			.body("code", equalTo(EMAIL_DUPLICATED.name()))
+			.body("message", equalTo("Email already exists: " + TestMemberFixture.email()))
+			.body("path", equalTo(EMAIL_AUTH_URL));
+	}
+
+	@DisplayName("사용자가 잘못된 이메일 형식으로 인증한다.")
+	@Test
+	void validate_email_with_invalid_email() {
+		given(this.specification).filter(errorFilter)
+			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+			.body(CreateEmailAuthCodeRequest.of(INVALID_EMAIL))
+			.when()
+			.post(EMAIL_AUTH_URL)
+			.then()
+			.statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
+			.body("timestamp", instanceOf(String.class))
+			.body("httpStatus", equalTo("422"))
+			.body("code", equalTo(INVALID_PARAMETER.name()))
+			.body("message", equalTo("Invalid parameter: " + INVALID_EMAIL))
+			.body("path", equalTo(EMAIL_AUTH_URL));
+	}
+}

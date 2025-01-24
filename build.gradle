@@ -1,0 +1,144 @@
+import com.gomo.app.common.util.CommonUtils
+
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.1'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'jacoco'
+    id 'com.epages.restdocs-api-spec' version "${restdocsApiSpecVersion}"
+}
+
+group = 'com.gomo'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.12"
+    reportsDirectory = layout.buildDirectory.dir('reports/jacoco')
+}
+
+configurations {
+    asciidoctorExt
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // web
+    implementation("org.springframework.boot:spring-boot-starter-web")
+
+    // jpa
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+    // mysql
+    runtimeOnly("com.mysql:mysql-connector-j")
+
+    // lombok
+    compileOnly("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
+
+    // time-based uuid
+    implementation 'com.fasterxml.uuid:java-uuid-generator:5.1.0'
+
+    // test
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'io.rest-assured:rest-assured'
+    testImplementation "org.testcontainers:testcontainers"
+    testImplementation "org.testcontainers:mysql"
+    testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
+    testImplementation "com.epages:restdocs-api-spec-mockmvc:${restdocsApiSpecVersion}"
+    testImplementation "com.epages:restdocs-api-spec-restassured:${restdocsApiSpecVersion}"
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+test {
+    jvmArgs "--add-opens=java.base/java.time=ALL-UNNAMED"
+//    finalizedBy jacocoTestReport todo <jhl221123>>: 기능 구현 마무리 후 활성화한다.
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = false
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            element = 'CLASS'
+
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.80
+            }
+
+            limit {
+                counter = 'BRANCH'
+                value = 'COVEREDRATIO'
+                minimum = 0.80
+            }
+
+            excludes = [
+                    'com.gomo.app.GomoApplication'
+            ]
+        }
+    }
+}
+
+// generate open api specification
+openapi3 {
+    def env = System.getenv("ENV")
+    setServer(env != null && env == "prod" ? "https://api.gomo.com" : "http://localhost:8080")
+    title = "GOMO API"
+    description = "GOMO API 문서 입니다."
+    version = "1.0.0"
+    format = "json"
+}
+
+// add authentication specification to open api specification
+tasks.register("authOpenApiSpec", task -> {
+    task.dependsOn("openapi3")
+    task.doLast {
+        final String filePath = file("build/api-spec/openapi3.json").toString()
+        final File apiSpecFile = new File(filePath)
+        if (apiSpecFile.exists()) {
+            try {
+                final String apiSpec = apiSpecFile.text
+                final String updatedApiSpec = CommonUtils.addAuthOption(apiSpec)
+                apiSpecFile.write(updatedApiSpec)
+            } catch (Exception e) {
+                e.printStackTrace()
+            }
+        } else {
+            println("Can't find filePath: " + filePath)
+        }
+    }
+})
+
+// copy open api specification for swagger
+tasks.register('copyOasToSwagger', Copy) {
+    delete 'src/main/resources/static/swagger-ui/openapi3.json'
+    from 'build/api-spec/openapi3.json'
+    into 'src/main/resources/static/swagger-ui/'
+    dependsOn 'authOpenApiSpec'
+}
