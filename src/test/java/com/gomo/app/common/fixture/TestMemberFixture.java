@@ -66,6 +66,10 @@ public class TestMemberFixture {
 		);
 	}
 
+	public static MemberId id() {
+		return MemberId.of(UUID.fromString(ID));
+	}
+
 	public static String email() {
 		return EMAIL;
 	}

@@ -16,7 +16,8 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.interest.common.fixture.interest.JavaInterestFixture;
+import com.gomo.app.interest.common.dataprovider.InterestDataProvider;
+import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.quest.common.constant.NonExistQuestField;
 import com.gomo.app.quest.common.util.RepeatQuestDBDataHelper;
 import com.gomo.app.quest.documentation.snippet.CreateRepeatQuestSnippet;
@@ -38,9 +39,14 @@ public class CreateRepeatQuestDocumentationTest extends DocumentationTestBase {
 	@Autowired
 	private RepeatQuestDBDataHelper repeatQuestDBDataHelper;
 
+	@Autowired
+	private InterestDataProvider interestDataProvider;
+	private Interest subject;
+
 	@BeforeEach
 	public void setUp() {
 		sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
+		subject = interestDataProvider.backend();
 	}
 
 	@AfterEach
@@ -54,7 +60,7 @@ public class CreateRepeatQuestDocumentationTest extends DocumentationTestBase {
 		given(this.specification).filter(filter)
 			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 			.body(CreateRepeatQuestRequest.of(
-				JavaInterestFixture.id(),
+				subject.getId().getId(),
 				QuestType.DAILY,
 				NonExistQuestField.CONTENT))
 			.when()
@@ -70,7 +76,7 @@ public class CreateRepeatQuestDocumentationTest extends DocumentationTestBase {
 		given(this.specification).filter(errorFilter)
 			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 			.body(CreateRepeatQuestRequest.of(
-				JavaInterestFixture.id(),
+				subject.getId().getId(),
 				QuestType.DAILY,
 				BLANK_QUEST_CONTENT))
 			.when()
