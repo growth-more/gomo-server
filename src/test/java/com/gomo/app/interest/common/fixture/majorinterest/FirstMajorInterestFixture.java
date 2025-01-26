@@ -13,16 +13,17 @@ import com.gomo.app.interest.domain.model.RegistrantId;
 /**
  * 주요 관심사 픽스처
  * 실제 데이터베이스에 존재하는 테스트 레코드와 동일한 값을 수동으로 지정해서 사용한다.
+ * @ 해당 픽스처는 주요 관심사 삭제 기능에서 사용한다.
  */
 @Component
-public class JavaMajorInterestFixture {
+public class SecondMajorInterestFixture {
 
-	private static final String ID = "172916b7-d7f6-11ef-b7fd-0bd5a273f618";
+	private static final String ID = "bec49c34-d7f5-11ef-8497-edeb32532766";
 	private static final String REGISTRANT_ID = "a10581ce-d721-11ef-a8a5-2508e2a6438b";
-	private static final String INTEREST_ID = "f8c51811-d7c5-11ef-82dc-4322ccc3e338";
-	private static final int DISPLAY_ORDER = 1;
+	private static final String INTEREST_ID = "90a387a7-d7c5-11ef-b4d7-079c7dc41274";
+	private static final int DISPLAY_ORDER = 2;
 
-	public static MajorInterest java() {
+	public static MajorInterest spring() {
 		return MajorInterest.of(
 			MajorInterestId.of(UUID.fromString(ID)),
 			RegistrantId.of(UUID.fromString(REGISTRANT_ID)),

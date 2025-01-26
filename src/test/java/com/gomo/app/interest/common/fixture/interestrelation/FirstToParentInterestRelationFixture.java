@@ -15,13 +15,14 @@ import com.gomo.app.interest.domain.model.RegistrantId;
  * 테스트 샘플 관심사 간선
  * 실제 데이터베이스에 존재하는 테스트 레코드와 동일한 값을 수동으로 지정해서 사용한다.
  */
+//
 @Component
-public class JavaToBackendInterestRelationFixture {
+public class SecondToParentInterestRelationFixture {
 
-	private static final String ID = "80ac5a74-d7eb-11ef-a2bd-1f5e37eb89a8";
+	private static final String ID = "d08d1d8d-d7eb-11ef-9ea7-ffd9d039bbca";
 	private static final String REGISTRANT_ID = "a10581ce-d721-11ef-a8a5-2508e2a6438b";
 	private static final String PARENT_INTEREST_ID = "3bd1b3f7-d7c6-11ef-abb8-a7e09b2a499c";
-	private static final String CHILD_INTEREST_ID = "f8c51811-d7c5-11ef-82dc-4322ccc3e338";
+	private static final String CHILD_INTEREST_ID = "90a387a7-d7c5-11ef-b4d7-079c7dc41274";
 
 	public static InterestRelation relation() {
 		return InterestRelation.of(
