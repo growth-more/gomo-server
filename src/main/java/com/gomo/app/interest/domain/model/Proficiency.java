@@ -36,9 +36,23 @@ public class Proficiency {
 	}
 
 	public Proficiency enhance(
-		int scoreToAdd,
+		int scoreIncrement,
 		int scoreThreshold
 	) {
-		return null;
+		int increasedTotalScore = this.totalScore + scoreIncrement;
+		Score increasedScore = this.score.increase(scoreIncrement);
+		Level increasedLevel = this.level.copy();
+
+		int levelIncrement = increasedScore.calculateIncreasedLevel(scoreThreshold);
+		if(possibleLevelUp(levelIncrement)) {
+			increasedLevel = this.level.increase(levelIncrement);
+			increasedScore = increasedScore.trimExcess(scoreThreshold);
+		}
+
+		return new Proficiency(increasedLevel, increasedScore, increasedTotalScore);
+	}
+
+	private boolean possibleLevelUp(int increasedLevel) {
+		return increasedLevel > 0;
 	}
 }

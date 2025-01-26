@@ -1,7 +1,5 @@
 package com.gomo.app.interest.presentation.request;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.InterestName;
@@ -13,24 +11,20 @@ import lombok.Getter;
 public class CreateInterestRequest {
 
 	private String name;
-	private MultipartFile logo;
 
 	private CreateInterestRequest() {
 	}
 
 	public CreateInterestRequest(
-		String name,
-		MultipartFile logo
+		String name
 	) {
 		this.name = name;
-		this.logo = logo;
 	}
 
 	public static CreateInterestRequest of(
-		String name,
-		MultipartFile logo
+		String name
 	) {
-		return new CreateInterestRequest(name, logo);
+		return new CreateInterestRequest(name);
 	}
 
 	public Interest toDomain(InterestId interestId, RegistrantId registrantId, String logoUrl) {

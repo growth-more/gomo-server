@@ -1,6 +1,8 @@
 package com.gomo.app.interest.domain.model;
 
 import com.gomo.app.common.domain.ValueObject;
+import com.gomo.app.common.exception.DomainErrorCode;
+import com.gomo.app.common.exception.PolicyViolationException;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
@@ -37,10 +39,18 @@ public class ScoreThreshold {
 		return new ScoreThreshold(levelRange, threshold);
 	}
 
+	public int getMinLevel() {
+		return levelRange.getMin();
+	}
+
+	public int getMaxLevel() {
+		return levelRange.getMax();
+	}
+
 	@Getter
 	@Embeddable
 	@ValueObject
-	static class LevelRange {
+	public static class LevelRange {
 
 		private int min;
 
@@ -50,7 +60,7 @@ public class ScoreThreshold {
 
 		private LevelRange(int min, int max) {
 			if (min > max) {
-				throw new IllegalArgumentException("min cannot be greater than max");
+				throw new PolicyViolationException(DomainErrorCode.INVALID_PARAMETER, "Min level cannot be greater than max level");
 			}
 
 			this.min = min;

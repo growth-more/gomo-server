@@ -1,24 +1,33 @@
 package com.gomo.app.interest.domain.service;
 
-import java.util.List;
-
 import com.gomo.app.common.domain.DomainService;
 import com.gomo.app.interest.domain.model.Level;
-import com.gomo.app.interest.domain.model.ScoreThreshold;
 import com.gomo.app.interest.domain.repository.ScoreThresholdRepository;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @DomainService
 public class ScoreThresholdService {
 
-	private final List<ScoreThreshold> scoreThresholdCache;
+	private final int[] scoreThresholdCache = new int[101];
 	private final ScoreThresholdRepository scoreThresholdRepository;
 
-	protected void initializeCache() {}
+	@PostConstruct
+	protected void initializeCache() {
+		scoreThresholdRepository.findAll().forEach(scoreThreshold -> {
+			for(int i = scoreThreshold.getMinLevel(); i<= scoreThreshold.getMaxLevel(); i++) {
+				scoreThresholdCache[i] = scoreThreshold.getThreshold();
+			}
+		});
+	}
 
 	public int findScoreThreshold(Level level) {
-		return 0;
+		return scoreThresholdCache[level.getLevel()];
+	}
+
+	public int[] findAll() {
+		return scoreThresholdCache;
 	}
 }

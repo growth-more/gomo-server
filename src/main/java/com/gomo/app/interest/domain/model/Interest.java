@@ -4,6 +4,8 @@ import java.util.UUID;
 
 import com.gomo.app.common.domain.Authorizable;
 import com.gomo.app.common.domain.BaseAudit;
+import com.gomo.app.interest.exception.InterestAccessDeniedException;
+import com.gomo.app.interest.exception.InterestErrorCode;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
@@ -16,6 +18,8 @@ import lombok.Getter;
 @Getter
 @Entity
 public class Interest extends BaseAudit implements Authorizable {
+
+	private static final String DEFAULT_LOGO_URL = "https://mini-cloud/default-logo.png";
 
 	@EmbeddedId
 	private InterestId id;
@@ -30,6 +34,9 @@ public class Interest extends BaseAudit implements Authorizable {
 	private Proficiency proficiency;
 
 	@Embedded
+	@AttributeOverrides({
+		@AttributeOverride(name = "interestName", column = @Column(name = "name"))
+	})
 	private InterestName name;
 	private String logoUrl;
 
@@ -56,13 +63,18 @@ public class Interest extends BaseAudit implements Authorizable {
 		InterestName name,
 		String logoUrl
 	) {
+		if(logoUrl == null) {
+			logoUrl = DEFAULT_LOGO_URL;
+		}
 		return new Interest(id, registrantId, Proficiency.createDefault(), name, logoUrl);
 	}
 
-	public void updateName(InterestName name) {
+	public void updateName(InterestName updatedName) {
+		this.name = updatedName;
 	}
 
 	public void updateLogoUrl(String logoUrl) {
+		this.logoUrl = logoUrl;
 	}
 
 	public MajorInterest selectMajor() {
@@ -70,10 +82,14 @@ public class Interest extends BaseAudit implements Authorizable {
 	}
 
 	public void enhanceProficiency(int increment, int scoreThreshold) {
+		Proficiency enhancedProficiency = this.proficiency.enhance(increment, scoreThreshold);
+		this.proficiency = enhancedProficiency;
 	}
 
 	@Override
 	public void validateAuthority(UUID accessorId) {
-
+		if(!accessorId.equals(registrantId.getId())) {
+			throw new InterestAccessDeniedException(InterestErrorCode.ACCESS_DENIED);
+		}
 	}
 }
