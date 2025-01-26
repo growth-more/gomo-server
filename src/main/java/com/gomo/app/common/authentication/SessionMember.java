@@ -7,20 +7,20 @@ import lombok.Getter;
 @Getter
 public class SessionMember {
 
-	private UUID memberId;
+	private UUID id;
 	private String email;
 	private String handle;
 	private String name;
 	private String role;
 
 	private SessionMember(
-		UUID memberId,
+		UUID id,
 		String email,
 		String handle,
 		String name,
 		String role
 	) {
-		this.memberId = memberId;
+		this.id = id;
 		this.email = email;
 		this.handle = handle;
 		this.name = name;
@@ -28,12 +28,12 @@ public class SessionMember {
 	}
 
 	public static SessionMember of(
-		UUID memberId,
+		UUID id,
 		String email,
 		String handle,
 		String name,
 		String role
 	) {
-		return new SessionMember(memberId, email, handle, name, role);
+		return new SessionMember(id, email, handle, name, role);
 	}
 }
