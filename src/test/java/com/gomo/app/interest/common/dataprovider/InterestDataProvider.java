@@ -1,4 +1,4 @@
-package com.gomo.app.interest.common.fixture.interest;
+package com.gomo.app.interest.common.dataprovider;
 
 import java.util.UUID;
 

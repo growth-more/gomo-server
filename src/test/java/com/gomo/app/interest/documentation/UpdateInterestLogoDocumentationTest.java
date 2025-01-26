@@ -5,10 +5,8 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.http.HttpStatus.*;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,21 +14,21 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import org.springframework.util.ResourceUtils;
 
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.interest.common.util.InterestDBDataHelper;
+import com.gomo.app.interest.common.util.InterestDataHelper;
 import com.gomo.app.interest.documentation.snippet.UpdateInterestSnippet;
 import com.gomo.app.interest.exception.InterestErrorCode;
-import com.gomo.app.interest.presentation.request.LogoUpdateInterestRequest;
 
 public class UpdateInterestLogoDocumentationTest extends DocumentationTestBase {
 
 	private static final String INTEREST_URL = "/interests/{id}/logos";
+	private final static String NORMAL_IMAGE_NAME = "normal-image.png";
+	private final static String LARGE_IMAGE_NAME = "large-image.png";
 
 	private final RestDocumentationFilter filter = UpdateInterestSnippet.create();
 	private final RestDocumentationFilter errorFilter = UpdateInterestSnippet.createError();
@@ -39,7 +37,7 @@ public class UpdateInterestLogoDocumentationTest extends DocumentationTestBase {
 	private LoginMemberHelper loginHelper;
 
 	@Autowired
-	private InterestDBDataHelper interestDBDataHelper;
+	private InterestDataHelper interestDataHelper;
 
 	@BeforeEach
 	public void setUp() {
@@ -48,7 +46,7 @@ public class UpdateInterestLogoDocumentationTest extends DocumentationTestBase {
 
 	@AfterEach
 	void tearDown() {
-		interestDBDataHelper.cleanUp();
+		interestDataHelper.cleanUp();
 	}
 
 	@DisplayName("사용자가 관심사 로고 이미지를 수정한다.")
@@ -56,7 +54,7 @@ public class UpdateInterestLogoDocumentationTest extends DocumentationTestBase {
 	void update_interest_logo() throws IOException {
 		given(this.specification).filter(filter)
 			.header(HttpHeaders.CONTENT_TYPE, MediaType.MULTIPART_FORM_DATA_VALUE)
-			.body(LogoUpdateInterestRequest.of(getMultipartFile("normal-image.png")))
+			.multiPart("logo", getImageFile(NORMAL_IMAGE_NAME))
 			.when()
 			.put(INTEREST_URL)
 			.then()
@@ -68,7 +66,7 @@ public class UpdateInterestLogoDocumentationTest extends DocumentationTestBase {
 	void update_interest_logo_with_large_image() throws IOException {
 		given(this.specification).filter(errorFilter)
 			.header(HttpHeaders.CONTENT_TYPE, MediaType.MULTIPART_FORM_DATA_VALUE)
-			.body(LogoUpdateInterestRequest.of(getMultipartFile("large-image.png")))
+			.multiPart("logo", getImageFile(LARGE_IMAGE_NAME))
 			.when()
 			.put(INTEREST_URL)
 			.then()
@@ -80,9 +78,7 @@ public class UpdateInterestLogoDocumentationTest extends DocumentationTestBase {
 			.body("path", equalTo(INTEREST_URL));
 	}
 
-	private static @NotNull MockMultipartFile getMultipartFile(String imageName) throws IOException {
-		File file = ResourceUtils.getFile("classpath:resource/image/" + imageName);
-		FileInputStream input = new FileInputStream(file);
-		return new MockMultipartFile(imageName, file.getName(), "image/png", input);
+	private static File getImageFile(String imageName) throws IOException {
+		return ResourceUtils.getFile("classpath:image/" + imageName);
 	}
 }

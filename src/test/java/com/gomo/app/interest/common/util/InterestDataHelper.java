@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class InterestDBDataHelper {
+public class InterestDataHelper {
 
 	private final DataSource dataSource;
 

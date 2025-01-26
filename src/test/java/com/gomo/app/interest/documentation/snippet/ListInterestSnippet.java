@@ -21,7 +21,7 @@ public class ListInterestSnippet {
 	private static final Snippet RESPONSE_FIELDS = responseFields(
 		fieldWithPath("interests").type(JsonFieldType.ARRAY).description("관심사 목록"),
 		fieldWithPath("interests[].id").type(JsonFieldType.STRING).description("관심사 아이디"),
-		fieldWithPath("interests[].memberId").type(JsonFieldType.STRING).description("사용자 아이디"),
+		fieldWithPath("interests[].registrantId").type(JsonFieldType.STRING).description("사용자 아이디"),
 		fieldWithPath("interests[].name").type(JsonFieldType.STRING).description("관심사 이름"),
 		fieldWithPath("interests[].logoUrl").type(JsonFieldType.STRING).description("관심사 로고 이미지"),
 		fieldWithPath("interests[].level").type(JsonFieldType.NUMBER).description("레벨"),

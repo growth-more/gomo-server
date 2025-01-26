@@ -13,23 +13,28 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.interest.common.fixture.interest.BackendInterestFixture;
+import com.gomo.app.interest.common.dataprovider.InterestDataProvider;
 import com.gomo.app.interest.documentation.snippet.ReadInterestSnippet;
+import com.gomo.app.interest.domain.model.Interest;
 
 public class ReadInterestDocumentationTest extends DocumentationTestBase {
 
-	private static final String INTEREST_URL = "/interests/{interestId}";
+	private static final String INTEREST_URL = "/interests/{id}";
 
 	private final RestDocumentationFilter filter = ReadInterestSnippet.create();
 
 	@Autowired
 	private LoginMemberHelper loginHelper;
 
+	@Autowired
+	private InterestDataProvider interestDataProvider;
+	private Interest interest;
+
 	@BeforeEach
 	public void setUp() {
-		sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
+		// sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
+		interest = interestDataProvider.backend();
 	}
 
 	@DisplayName("사용자가 하나의 관심사(Backend)를 조회한다.")
@@ -38,15 +43,15 @@ public class ReadInterestDocumentationTest extends DocumentationTestBase {
 		given(this.specification).filter(filter)
 			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 			.when()
-			.get(INTEREST_URL, BackendInterestFixture.id())
+			.get(INTEREST_URL, interest.getId().getId())
 			.then()
-			.statusCode(CREATED.value())
-			.body("interestId", instanceOf(String.class))
-			.body("memberId", instanceOf(String.class))
-			.body("name", equalTo(BackendInterestFixture.name()))
-			.body("logoUrl", equalTo(BackendInterestFixture.logoUrl()))
-			.body("level", equalTo(BackendInterestFixture.level()))
-			.body("score", equalTo(BackendInterestFixture.score()))
-			.body("totalScore", equalTo(BackendInterestFixture.totalScore()));
+			.statusCode(OK.value())
+			.body("id", equalTo(interest.getId().toString()))
+			.body("registrantId", equalTo(interest.getRegistrantId().toString()))
+			.body("name", equalTo(interest.getName().toString()))
+			.body("logoUrl", equalTo(interest.getLogoUrl()))
+			.body("level", equalTo(interest.getProficiency().getLevel().getLevel()))
+			.body("score", equalTo(interest.getProficiency().getScore().getScore()))
+			.body("totalScore", equalTo(interest.getProficiency().getTotalScore()));
 	}
 }

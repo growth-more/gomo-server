@@ -15,7 +15,7 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.interest.common.fixture.interest.SpringInterestFixture;
+import com.gomo.app.interest.common.fixture.majorinterest.FirstMajorInterestFixture;
 import com.gomo.app.interest.common.util.MajorInterestDBDataHelper;
 import com.gomo.app.interest.documentation.snippet.DeleteMajorInterestSnippet;
 
@@ -47,7 +47,7 @@ public class DeleteMajorInterestDocumentationTest extends DocumentationTestBase 
 		given(this.specification).filter(filter)
 			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 			.when()
-			.delete(DELETE_MAJOR_INTEREST_URL, SpringInterestFixture.id())
+			.delete(DELETE_MAJOR_INTEREST_URL, FirstMajorInterestFixture.id())
 			.then()
 			.statusCode(NO_CONTENT.value());
 	}

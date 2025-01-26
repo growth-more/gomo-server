@@ -16,7 +16,7 @@ import com.gomo.app.interest.domain.model.RegistrantId;
  * 실제 데이터베이스에 존재하는 테스트 레코드와 동일한 값을 수동으로 지정해서 사용한다.
  */
 @Component
-public class FirstToParentInterestRelationFixture {
+public class SecondToParentInterestRelationFixture {
 
 	private static final String ID = "80ac5a74-d7eb-11ef-a2bd-1f5e37eb89a8";
 	private static final String REGISTRANT_ID = "a10581ce-d721-11ef-a8a5-2508e2a6438b";
