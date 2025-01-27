@@ -1,5 +1,6 @@
 package com.gomo.app.interest.documentation;
 
+import static com.gomo.app.common.exception.DomainErrorCode.*;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.http.HttpHeaders.*;
@@ -14,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.exception.DomainErrorCode;
 import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.interest.common.dataprovider.InterestDataProvider;
 import com.gomo.app.interest.common.util.InterestDataHelper;
@@ -67,15 +67,15 @@ public class UpdateInterestDocumentationTest extends DocumentationTestBase {
 	void update_interest_with_invalid_name() {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.body(UpdateInterestRequest.of("forbidden #{}!"))
+			.body(UpdateInterestRequest.of("forbidden{}"))
 			.when()
-			.put(INTEREST_URL, interest.getId())
+			.put(INTEREST_URL, interest.getId().getId())
 			.then()
 			.statusCode(UNPROCESSABLE_ENTITY.value())
 			.body("timestamp", instanceOf(String.class))
-			.body("httpStatus", equalTo("422"))
-			.body("code", equalTo(DomainErrorCode.INVALID_PARAMETER.name()))
-			.body("message", equalTo("Invalid parameter: forbidden #{}!"))
-			.body("path", equalTo(INTEREST_URL));
+			.body("httpStatus", equalTo(INVALID_PARAMETER.getHttpStatus()))
+			.body("code", equalTo(INVALID_PARAMETER.name()))
+			.body("message", equalTo("Interest name cannot contain forbidden characters"))
+			.body("path", matchesRegex("/interests/[a-f0-9\\-]{36}"));
 	}
 }

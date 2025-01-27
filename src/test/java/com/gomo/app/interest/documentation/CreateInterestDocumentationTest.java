@@ -1,5 +1,6 @@
 package com.gomo.app.interest.documentation;
 
+import static com.gomo.app.interest.exception.InterestErrorCode.*;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.http.HttpHeaders.*;
@@ -22,7 +23,6 @@ import com.gomo.app.common.exception.DomainErrorCode;
 import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.interest.common.util.InterestDataHelper;
 import com.gomo.app.interest.documentation.snippet.CreateInterestSnippet;
-import com.gomo.app.interest.exception.InterestErrorCode;
 import com.gomo.app.interest.presentation.request.CreateInterestRequest;
 
 @DisplayName("[Presentation documentation]: 관심사 생성 테스트")
@@ -97,8 +97,8 @@ public class CreateInterestDocumentationTest extends DocumentationTestBase {
 			.then()
 			.statusCode(PAYLOAD_TOO_LARGE.value())
 			.body("timestamp", instanceOf(String.class))
-			.body("httpStatus", equalTo("413"))
-			.body("code", equalTo(InterestErrorCode.LOGO_IMAGE_TOO_LARGE.name()))
+			.body("httpStatus", equalTo(LOGO_IMAGE_TOO_LARGE.getHttpStatus()))
+			.body("code", equalTo(LOGO_IMAGE_TOO_LARGE.name()))
 			.body("message", equalTo("Logo image size too large"))
 			.body("path", equalTo(INTEREST_URL));
 	}
