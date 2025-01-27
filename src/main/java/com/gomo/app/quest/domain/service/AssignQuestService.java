@@ -2,8 +2,8 @@ package com.gomo.app.quest.domain.service;
 
 import java.util.List;
 
-import com.gomo.app.common.domain.DisplayOrder;
-import com.gomo.app.common.domain.DomainService;
+import com.gomo.app.common.domain.service.DisplayOrder;
+import com.gomo.app.common.domain.service.DomainService;
 import com.gomo.app.member.domain.model.MemberId;
 import com.gomo.app.member.domain.model.QuestProperty;
 import com.gomo.app.quest.domain.model.QuestType;

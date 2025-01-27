@@ -1,4 +1,4 @@
-package com.gomo.app.common.domain;
+package com.gomo.app.common.domain.service;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

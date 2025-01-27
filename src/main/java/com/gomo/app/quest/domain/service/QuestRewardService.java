@@ -2,7 +2,7 @@ package com.gomo.app.quest.domain.service;
 
 import java.util.List;
 
-import com.gomo.app.common.domain.DomainService;
+import com.gomo.app.common.domain.service.DomainService;
 import com.gomo.app.quest.domain.model.QuestPointPolicy;
 import com.gomo.app.quest.domain.model.QuestReward;
 import com.gomo.app.quest.domain.model.QuestScorePolicy;

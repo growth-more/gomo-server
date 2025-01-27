@@ -19,7 +19,7 @@ import lombok.Getter;
 @Entity
 public class Interest extends BaseAudit implements Authorizable {
 
-	private static final String DEFAULT_LOGO_URL = "https://mini-cloud/default-logo.png";
+	private static final String DEFAULT_LOGO_URL = "https://image.nurdykim.me/gomo/default-logo.png";
 
 	@EmbeddedId
 	private InterestId id;

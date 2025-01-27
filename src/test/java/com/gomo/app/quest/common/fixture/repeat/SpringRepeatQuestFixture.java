@@ -4,10 +4,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
-import com.gomo.app.common.domain.DisplayOrder;
-import com.gomo.app.interest.domain.model.InterestId;
-import com.gomo.app.interest.domain.model.InterestName;
-import com.gomo.app.member.domain.model.MemberId;
+import com.gomo.app.common.domain.service.DisplayOrder;
 import com.gomo.app.quest.domain.model.ParticipantId;
 import com.gomo.app.quest.domain.model.Quest;
 import com.gomo.app.quest.domain.model.QuestContent;

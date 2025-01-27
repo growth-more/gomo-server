@@ -17,6 +17,7 @@ import com.gomo.app.interest.common.dataprovider.InterestDataProvider;
 import com.gomo.app.interest.documentation.snippet.DeleteInterestSnippet;
 import com.gomo.app.interest.domain.model.Interest;
 
+@DisplayName("[Presentation documentation]: 관심사 삭제 테스트")
 public class DeleteInterestDocumentationTest extends DocumentationTestBase {
 
 	private static final String INTEREST_URL = "/interests/{id}";

@@ -1,9 +1,10 @@
 package com.gomo.app.interest.application;
 
+import static com.gomo.app.common.exception.DomainErrorCode.*;
+
 import java.util.List;
 
 import com.gomo.app.common.application.ApplicationService;
-import com.gomo.app.common.exception.DomainErrorCode;
 import com.gomo.app.common.exception.NotFoundException;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestId;
@@ -22,7 +23,7 @@ public class ReadInterestUseCase {
 
 	public ReadInterestResponse find(InterestId interestId) {
 		Interest interest = interestRepository.findById(interestId)
-			.orElseThrow(() -> new NotFoundException(DomainErrorCode.NOT_FOUND, "Interest not found with id: " + interestId.getId()));
+			.orElseThrow(() -> new NotFoundException(NOT_FOUND, "Interest not found with id: " + interestId.getId()));
 
 		return ReadInterestResponse.of(interest);
 	}

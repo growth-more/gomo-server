@@ -2,7 +2,7 @@ package com.gomo.app.streak.domain.service;
 
 import java.util.List;
 
-import com.gomo.app.common.domain.DomainService;
+import com.gomo.app.common.domain.service.DomainService;
 import com.gomo.app.streak.domain.model.AchieverId;
 import com.gomo.app.streak.domain.model.Streak;
 import com.gomo.app.streak.domain.model.StreakId;

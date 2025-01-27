@@ -18,6 +18,7 @@ import com.gomo.app.interest.common.dataprovider.InterestDataProvider;
 import com.gomo.app.interest.documentation.snippet.ListInterestSnippet;
 import com.gomo.app.interest.domain.model.Interest;
 
+@DisplayName("[Presentation documentation]: 관심사 목록 조회 테스트")
 public class ListInterestDocumentationTest extends DocumentationTestBase {
 
 	private static final String LIST_INTEREST_URL = "/interests";
