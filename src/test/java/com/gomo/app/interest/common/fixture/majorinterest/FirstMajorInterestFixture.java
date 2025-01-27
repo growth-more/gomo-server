@@ -16,7 +16,7 @@ import com.gomo.app.interest.domain.model.RegistrantId;
  * @ 해당 픽스처는 주요 관심사 삭제 기능에서 사용한다.
  */
 @Component
-public class SpringMajorInterestFixture {
+public class FirstMajorInterestFixture {
 
 	private static final String ID = "bec49c34-d7f5-11ef-8497-edeb32532766";
 	private static final String REGISTRANT_ID = "a10581ce-d721-11ef-a8a5-2508e2a6438b";

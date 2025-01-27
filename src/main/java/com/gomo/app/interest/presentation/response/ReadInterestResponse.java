@@ -2,13 +2,15 @@ package com.gomo.app.interest.presentation.response;
 
 import java.util.UUID;
 
+import com.gomo.app.interest.domain.model.Interest;
+
 import lombok.Getter;
 
 @Getter
 public class ReadInterestResponse {
 
 	private UUID id;
-	private UUID memberId;
+	private UUID registrantId;
 	private String name;
 	private String logoUrl;
 	private int level;
@@ -17,7 +19,7 @@ public class ReadInterestResponse {
 
 	private ReadInterestResponse(
 		UUID id,
-		UUID memberId,
+		UUID registrantId,
 		String name,
 		String logoUrl,
 		int level,
@@ -25,7 +27,7 @@ public class ReadInterestResponse {
 		int totalScore
 	) {
 		this.id = id;
-		this.memberId = memberId;
+		this.registrantId = registrantId;
 		this.name = name;
 		this.logoUrl = logoUrl;
 		this.level = level;
@@ -33,15 +35,14 @@ public class ReadInterestResponse {
 		this.totalScore = totalScore;
 	}
 
-	public static ReadInterestResponse of(
-		UUID id,
-		UUID memberId,
-		String name,
-		String logoUrl,
-		int level,
-		int score,
-		int totalScore
-	) {
-		return new ReadInterestResponse(id, memberId, name, logoUrl, level, score, totalScore);
+	public static ReadInterestResponse of(Interest interest) {
+		return new ReadInterestResponse(
+			interest.getId().getId(),
+			interest.getRegistrantId().getId(),
+			interest.getName().toString(),
+			interest.getLogoUrl(),
+			interest.getProficiency().getLevel().getLevel(),
+			interest.getProficiency().getScore().getScore(),
+			interest.getProficiency().getTotalScore());
 	}
 }

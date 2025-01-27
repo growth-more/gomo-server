@@ -11,18 +11,16 @@ import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
 import com.gomo.app.common.constant.ErrorResponseFields;
 
+/**
+ * ePages는 request part를 지원하지 않는다.
+ * todo <jhl221123>: 따라서 문서화 마무리 작업 시점에 request part 정보를 OAS JSON 파일에 수동으로 추가해야 한다.
+ */
 public class CreateInterestSnippet {
 
 	private static final String IDENTIFIER = "create_interest";
 	private static final String SUMMARY = "관심사 등록 API";
 	private static final String DESCRIPTION = "사용자의 관심사를 등록합니다.";
 	private static final String TAG = "Interest";
-	private static final String MULTIPART_FILE_TYPE = "MultipartFile";
-
-	private static final Snippet REQUEST_FIELDS = requestFields(
-		fieldWithPath("name").type(JsonFieldType.STRING).description("관심사 이름"),
-		fieldWithPath("logo").type(MULTIPART_FILE_TYPE).description("로고 이미지")
-	);
 
 	private static final Snippet RESPONSE_FIELDS = responseFields(
 		fieldWithPath("id").type(JsonFieldType.STRING).description("관심사 아이디: 임의의 고유 식별 문자")
@@ -35,9 +33,7 @@ public class CreateInterestSnippet {
 				.summary(SUMMARY)
 				.description(DESCRIPTION)
 				.tag(TAG)
-				.requestSchema(Schema.schema("CreateInterestRequest"))
 				.responseSchema(Schema.schema("CreateInterestResponse")),
-			REQUEST_FIELDS,
 			RESPONSE_FIELDS
 		);
 	}
@@ -49,9 +45,7 @@ public class CreateInterestSnippet {
 				.summary(SUMMARY)
 				.description(DESCRIPTION)
 				.tag(TAG)
-				.requestSchema(Schema.schema("CreateInterestRequest"))
 				.responseSchema(Schema.schema("ErrorResponse")),
-			REQUEST_FIELDS,
 			ErrorResponseFields.RESPONSE_FIELDS
 		);
 	}

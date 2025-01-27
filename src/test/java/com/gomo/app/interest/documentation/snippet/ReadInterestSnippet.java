@@ -19,8 +19,10 @@ public class ReadInterestSnippet {
 	private static final String TAG = "Interest";
 
 	private static final Snippet RESPONSE_FIELDS = responseFields(
+		fieldWithPath("id").type(JsonFieldType.STRING).description("관심사 아이디"),
+		fieldWithPath("registrantId").type(JsonFieldType.STRING).description("등록자 아이디"),
 		fieldWithPath("name").type(JsonFieldType.STRING).description("관심사 이름"),
-		fieldWithPath("logoUrl").type(JsonFieldType.STRING).description("관심사 로고 이미지"),
+		fieldWithPath("logoUrl").type(JsonFieldType.STRING).description("로고 이미지"),
 		fieldWithPath("level").type(JsonFieldType.NUMBER).description("레벨"),
 		fieldWithPath("score").type(JsonFieldType.NUMBER).description("현재 점수"),
 		fieldWithPath("totalScore").type(JsonFieldType.NUMBER).description("전체 점수")

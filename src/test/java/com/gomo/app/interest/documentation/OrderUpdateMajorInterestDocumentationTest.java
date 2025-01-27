@@ -17,8 +17,8 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.interest.common.fixture.majorinterest.JavaMajorInterestFixture;
-import com.gomo.app.interest.common.fixture.majorinterest.SpringMajorInterestFixture;
+import com.gomo.app.interest.common.fixture.majorinterest.FirstMajorInterestFixture;
+import com.gomo.app.interest.common.fixture.majorinterest.SecondMajorInterestFixture;
 import com.gomo.app.interest.common.util.MajorInterestDBDataHelper;
 import com.gomo.app.interest.documentation.snippet.OrderUpdateMajorInterestSnippet;
 import com.gomo.app.interest.presentation.request.OrderUpdateMajorInterestRequest;
@@ -50,7 +50,7 @@ public class OrderUpdateMajorInterestDocumentationTest extends DocumentationTest
 	void update_major_interest_order() {
 		given(this.specification).filter(filter)
 			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-			.body(OrderUpdateMajorInterestRequest.of(List.of(SpringMajorInterestFixture.displayOrder(), JavaMajorInterestFixture.displayOrder())))
+			.body(OrderUpdateMajorInterestRequest.of(List.of(FirstMajorInterestFixture.displayOrder(), SecondMajorInterestFixture.displayOrder())))
 			.when()
 			.put(ORDER_UPDATE_MAJOR_INTEREST_URL)
 			.then()

@@ -5,9 +5,9 @@ import java.util.UUID;
 import org.springframework.stereotype.Component;
 
 import com.gomo.app.interest.domain.model.ChildInterestId;
+import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.InterestRelation;
 import com.gomo.app.interest.domain.model.InterestRelationId;
-import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.ParentInterestId;
 import com.gomo.app.interest.domain.model.RegistrantId;
 
@@ -17,7 +17,7 @@ import com.gomo.app.interest.domain.model.RegistrantId;
  */
 //
 @Component
-public class SpringToBackendInterestRelationFixture {
+public class FirstToParentInterestRelationFixture {
 
 	private static final String ID = "d08d1d8d-d7eb-11ef-9ea7-ffd9d039bbca";
 	private static final String REGISTRANT_ID = "a10581ce-d721-11ef-a8a5-2508e2a6438b";

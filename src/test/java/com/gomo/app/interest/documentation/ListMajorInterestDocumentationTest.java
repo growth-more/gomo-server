@@ -15,8 +15,8 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.interest.common.fixture.interest.JavaInterestFixture;
-import com.gomo.app.interest.common.fixture.interest.SpringInterestFixture;
+import com.gomo.app.interest.common.fixture.majorinterest.FirstMajorInterestFixture;
+import com.gomo.app.interest.common.fixture.majorinterest.SecondMajorInterestFixture;
 import com.gomo.app.interest.documentation.snippet.ListMajorInterestSnippet;
 
 public class ListMajorInterestDocumentationTest extends DocumentationTestBase {
@@ -46,8 +46,8 @@ public class ListMajorInterestDocumentationTest extends DocumentationTestBase {
 			.statusCode(OK.value())
 			.body("majorInterests", hasSize(2))
 			.body("majorInterests.id", hasItems(
-				JavaInterestFixture.id(),
-				SpringInterestFixture.id()
+				FirstMajorInterestFixture.id(),
+				SecondMajorInterestFixture.id()
 			));
 	}
 }

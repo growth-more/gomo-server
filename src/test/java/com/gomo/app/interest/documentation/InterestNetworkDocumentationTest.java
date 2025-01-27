@@ -15,11 +15,11 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.interest.common.fixture.interest.BackendInterestFixture;
-import com.gomo.app.interest.common.fixture.interestrelation.JavaToBackendInterestRelationFixture;
-import com.gomo.app.interest.common.fixture.interest.SpringInterestFixture;
-import com.gomo.app.interest.common.fixture.interestrelation.SpringToBackendInterestRelationFixture;
+import com.gomo.app.interest.common.dataprovider.InterestDataProvider;
+import com.gomo.app.interest.common.fixture.interestrelation.FirstToParentInterestRelationFixture;
+import com.gomo.app.interest.common.fixture.interestrelation.SecondToParentInterestRelationFixture;
 import com.gomo.app.interest.documentation.snippet.InterestNetworkSnippet;
+import com.gomo.app.interest.domain.model.Interest;
 
 public class InterestNetworkDocumentationTest extends DocumentationTestBase {
 
@@ -30,9 +30,18 @@ public class InterestNetworkDocumentationTest extends DocumentationTestBase {
 	@Autowired
 	private LoginMemberHelper loginHelper;
 
+	@Autowired
+	private InterestDataProvider interestDataProvider;
+	private Interest backend;
+	private Interest spring;
+	private Interest java;
+
 	@BeforeEach
 	public void setUp() {
 		sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
+		backend = interestDataProvider.backend();
+		spring = interestDataProvider.spring();
+		java = interestDataProvider.java();
 	}
 
 	// TODO <jhl221123>: id 외 다른 필드도 검증 필요
@@ -47,15 +56,11 @@ public class InterestNetworkDocumentationTest extends DocumentationTestBase {
 			.then()
 			.statusCode(OK.value())
 			.body("interests", hasSize(3))
-			.body("interests.id", hasItems(
-				BackendInterestFixture.id(),
-				SpringInterestFixture.id(),
-				BackendInterestFixture.id()
-			))
+			.body("interests.id", hasItems(backend.getId(), spring.getId(), java.getId()))
 			.body("relations", hasSize(2))
 			.body("relations.id", hasItems(
-				JavaToBackendInterestRelationFixture.id(),
-				SpringToBackendInterestRelationFixture.id()
+				SecondToParentInterestRelationFixture.id(),
+				FirstToParentInterestRelationFixture.id()
 			));
 	}
 }

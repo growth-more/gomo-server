@@ -2,7 +2,6 @@ package com.gomo.app.common;
 
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.*;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,10 +40,5 @@ public abstract class DocumentationTestBase {
 					.operationPreprocessors()
 			)
 			.build();
-	}
-
-	@AfterAll
-	public static void release() {
-		DatabaseContainerInitializer.mysqlContainer.stop();
 	}
 }

@@ -15,7 +15,7 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.interest.common.fixture.interestrelation.JavaToBackendInterestRelationFixture;
+import com.gomo.app.interest.common.fixture.interestrelation.SecondToParentInterestRelationFixture;
 import com.gomo.app.interest.common.util.InterestRelationDBDataHelper;
 import com.gomo.app.interest.documentation.snippet.DeleteInterestRelationSnippet;
 
@@ -48,7 +48,7 @@ public class DeleteInterestRelationDocumentationTest extends DocumentationTestBa
 			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 			.sessionId(sessionId)
 			.when()
-			.delete(DELETE_INTEREST_RELATION_URL, JavaToBackendInterestRelationFixture.id())
+			.delete(DELETE_INTEREST_RELATION_URL, SecondToParentInterestRelationFixture.id())
 			.then()
 			.statusCode(NO_CONTENT.value());
 	}

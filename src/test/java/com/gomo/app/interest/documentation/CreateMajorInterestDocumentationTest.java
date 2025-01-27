@@ -16,9 +16,10 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.interest.common.fixture.interest.BackendInterestFixture;
+import com.gomo.app.interest.common.dataprovider.InterestDataProvider;
 import com.gomo.app.interest.common.util.MajorInterestDBDataHelper;
 import com.gomo.app.interest.documentation.snippet.CreateMajorInterestSnippet;
+import com.gomo.app.interest.domain.model.Interest;
 
 public class CreateMajorInterestDocumentationTest extends DocumentationTestBase {
 
@@ -32,9 +33,14 @@ public class CreateMajorInterestDocumentationTest extends DocumentationTestBase 
 	@Autowired
 	private MajorInterestDBDataHelper majorInterestDBDataHelper;
 
+	@Autowired
+	private InterestDataProvider interestDataProvider;
+	private Interest interest;
+
 	@BeforeEach
 	public void setUp() {
 		sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
+		interest = interestDataProvider.backend();
 	}
 
 	@AfterEach
@@ -48,7 +54,7 @@ public class CreateMajorInterestDocumentationTest extends DocumentationTestBase 
 		given(this.specification).filter(filter)
 			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 			.when()
-			.post(CREATE_MAJOR_INTEREST_URL, BackendInterestFixture.id())
+			.post(CREATE_MAJOR_INTEREST_URL, interest.getId())
 			.then()
 			.statusCode(CREATED.value())
 			.body("id", hasLength(36));
