@@ -1,7 +1,8 @@
 package com.gomo.app.interest.domain.model;
 
+import static com.gomo.app.common.exception.DomainErrorCode.*;
+
 import com.gomo.app.common.domain.ValueObject;
-import com.gomo.app.common.exception.DomainErrorCode;
 import com.gomo.app.common.exception.PolicyViolationException;
 
 import jakarta.persistence.Embeddable;
@@ -49,19 +50,19 @@ public class Level {
 
 	private void ensurePositive(int increment) {
 		if(increment <= 0) {
-			throw new PolicyViolationException(DomainErrorCode.INVALID_PARAMETER, "Level increment must be positive.");
+			throw new PolicyViolationException(INVALID_PARAMETER, "Level increment must be positive.");
 		}
 	}
 
 	private void ensureNotNegative(int level) {
 		if(level < 0) {
-			throw new PolicyViolationException(DomainErrorCode.INVALID_PARAMETER, "Level must be positive or zero.");
+			throw new PolicyViolationException(INVALID_PARAMETER, "Level must be positive or zero.");
 		}
 	}
 
 	private void ensureNotExceedMaximum(int level) {
 		if(level > MAXIMUM_LEVEL) {
-			throw new PolicyViolationException(DomainErrorCode.INVALID_PARAMETER, "Level cannot exceed the maximum level.");
+			throw new PolicyViolationException(INVALID_PARAMETER, "Level cannot exceed the maximum level.");
 		}
 	}
 
