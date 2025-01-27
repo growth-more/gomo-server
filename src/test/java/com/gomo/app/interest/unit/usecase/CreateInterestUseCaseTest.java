@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 
+import com.gomo.app.common.domain.service.ImageService;
 import com.gomo.app.interest.application.CreateInterestUseCase;
 import com.gomo.app.interest.common.fixture.InterestFixture;
 import com.gomo.app.interest.domain.model.Interest;
@@ -26,6 +27,9 @@ public class CreateInterestUseCaseTest {
 	private CreateInterestUseCase sut;
 
 	@Mock
+	private ImageService imageService;
+
+	@Mock
 	private InterestRepository interestRepository;
 
 	@DisplayName("관심사를 등록한다.")
@@ -33,6 +37,7 @@ public class CreateInterestUseCaseTest {
 	void create_interest() {
 		Interest expected = InterestFixture.interest();
 		CreateInterestResponse response = CreateInterestResponse.of(expected.getId());
+		doReturn(expected.getLogoUrl()).when(imageService).uploadImage(any(MockMultipartFile.class));
 		doReturn(expected).when(interestRepository).save(any(Interest.class));
 
 		CreateInterestResponse actual = sut.create(

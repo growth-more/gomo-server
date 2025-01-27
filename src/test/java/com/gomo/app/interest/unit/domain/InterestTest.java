@@ -22,8 +22,8 @@ public class InterestTest {
 	private static final RegistrantId NOT_REGISTRANT_ID_PARAM = RegistrantId.of(UUID.randomUUID());
 	private static final InterestName NAME_PARAM = InterestName.of("interest name");
 	private static final InterestName UPDATED_NAME_PARAM = InterestName.of("updated interest name");
-	private static final String LOGO_URL_PARAM = "https://mini-cloud/logo-param.png";
-	private static final String DEFAULT_LOGO_URL = "https://mini-cloud/default-logo.png";
+	private static final String LOGO_URL_PARAM = "https://image.nurdykim.me/gomo/logo-param.png";
+	private static final String DEFAULT_LOGO_URL = "https://image.nurdykim.me/gomo/default-logo.png";
 	private static final String UPDATED_LOGO_URL_PARAM = "https://mini-cloud/updated_logo-param.png";
 
 	@DisplayName("관심사를 생성한다.")

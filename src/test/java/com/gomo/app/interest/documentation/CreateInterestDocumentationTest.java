@@ -1,6 +1,6 @@
 package com.gomo.app.interest.documentation;
 
-import static com.gomo.app.interest.exception.InterestErrorCode.*;
+import static com.gomo.app.common.exception.DomainErrorCode.*;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.http.HttpHeaders.*;
@@ -19,7 +19,6 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import org.springframework.util.ResourceUtils;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.exception.DomainErrorCode;
 import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.interest.common.util.InterestDataHelper;
 import com.gomo.app.interest.documentation.snippet.CreateInterestSnippet;
@@ -29,7 +28,7 @@ import com.gomo.app.interest.presentation.request.CreateInterestRequest;
 public class CreateInterestDocumentationTest extends DocumentationTestBase {
 
 	private static final String INTEREST_URL = "/interests";
-	private final static String INVALID_INTEREST_NAME = "# !";
+	private final static String INVALID_INTEREST_NAME = "{}";
 	private final static String NORMAL_IMAGE_NAME = "normal-image.png";
 	private final static String LARGE_IMAGE_NAME = "large-image.png";
 
@@ -77,10 +76,10 @@ public class CreateInterestDocumentationTest extends DocumentationTestBase {
 			.when()
 			.post(INTEREST_URL)
 			.then()
-			.statusCode(UNPROCESSABLE_ENTITY.value())
+			.statusCode(INVALID_PARAMETER.getHttpStatus())
 			.body("timestamp", instanceOf(String.class))
-			.body("httpStatus", equalTo("422"))
-			.body("code", equalTo(DomainErrorCode.INVALID_PARAMETER.name()))
+			.body("httpStatus", equalTo(INVALID_PARAMETER.getHttpStatus()))
+			.body("code", equalTo(INVALID_PARAMETER.name()))
 			.body("message", equalTo("Interest name cannot contain forbidden characters"))
 			.body("path", equalTo(INTEREST_URL));
 	}
@@ -95,11 +94,11 @@ public class CreateInterestDocumentationTest extends DocumentationTestBase {
 			.when()
 			.post(INTEREST_URL)
 			.then()
-			.statusCode(PAYLOAD_TOO_LARGE.value())
+			.statusCode(IMAGE_TOO_LARGE.getHttpStatus())
 			.body("timestamp", instanceOf(String.class))
-			.body("httpStatus", equalTo(LOGO_IMAGE_TOO_LARGE.getHttpStatus()))
-			.body("code", equalTo(LOGO_IMAGE_TOO_LARGE.name()))
-			.body("message", equalTo("Logo image size too large"))
+			.body("httpStatus", equalTo(IMAGE_TOO_LARGE.getHttpStatus()))
+			.body("code", equalTo(IMAGE_TOO_LARGE.name()))
+			.body("message", equalTo("Maximum upload size exceeded"))
 			.body("path", equalTo(INTEREST_URL));
 	}
 

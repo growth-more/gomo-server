@@ -18,6 +18,7 @@ import com.gomo.app.interest.common.dataprovider.InterestDataProvider;
 import com.gomo.app.interest.documentation.snippet.ReadInterestSnippet;
 import com.gomo.app.interest.domain.model.Interest;
 
+@DisplayName("[Presentation documentation]: 관심사 단건 조회 테스트")
 public class ReadInterestDocumentationTest extends DocumentationTestBase {
 
 	private static final String INTEREST_URL = "/interests/{id}";

@@ -16,15 +16,15 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.interest.common.dataprovider.InterestDataProvider;
 import com.gomo.app.interest.common.util.InterestDataHelper;
 import com.gomo.app.interest.documentation.snippet.UpdateInterestSnippet;
-import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.presentation.request.UpdateInterestRequest;
 
+@DisplayName("[Presentation documentation]: 관심사 수정 테스트")
 public class UpdateInterestDocumentationTest extends DocumentationTestBase {
 
 	private static final String INTEREST_URL = "/interests/{id}";
+	private static final String UPDATED_INTEREST_ID = "3bd1b3f7-d7c6-11ef-abb8-a7e09b2a499c";
 
 	private final RestDocumentationFilter filter = UpdateInterestSnippet.create();
 	private final RestDocumentationFilter errorFilter = UpdateInterestSnippet.createError();
@@ -35,14 +35,9 @@ public class UpdateInterestDocumentationTest extends DocumentationTestBase {
 	@Autowired
 	private InterestDataHelper interestDataHelper;
 
-	@Autowired
-	private InterestDataProvider interestDataProvider;
-	private Interest interest;
-
 	@BeforeEach
 	public void setUp() {
 		// sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
-		interest = interestDataProvider.backend();
 	}
 
 	@AfterEach
@@ -57,7 +52,7 @@ public class UpdateInterestDocumentationTest extends DocumentationTestBase {
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.body(UpdateInterestRequest.of("updated interest name"))
 			.when()
-			.put(INTEREST_URL, interest.getId().getId())
+			.put(INTEREST_URL, UPDATED_INTEREST_ID)
 			.then()
 			.statusCode(NO_CONTENT.value());
 	}
@@ -69,7 +64,7 @@ public class UpdateInterestDocumentationTest extends DocumentationTestBase {
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.body(UpdateInterestRequest.of("forbidden{}"))
 			.when()
-			.put(INTEREST_URL, interest.getId().getId())
+			.put(INTEREST_URL, UPDATED_INTEREST_ID)
 			.then()
 			.statusCode(UNPROCESSABLE_ENTITY.value())
 			.body("timestamp", instanceOf(String.class))
