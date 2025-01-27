@@ -1,4 +1,6 @@
-package com.gomo.app.common.domain;
+package com.gomo.app.common.domain.service;
+
+import com.gomo.app.common.domain.ValueObject;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;

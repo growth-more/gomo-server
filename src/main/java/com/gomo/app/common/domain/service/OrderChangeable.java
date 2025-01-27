@@ -1,4 +1,4 @@
-package com.gomo.app.common.domain;
+package com.gomo.app.common.domain.service;
 
 public interface OrderChangeable {
 
