@@ -1,5 +1,7 @@
 package com.gomo.app.interest.presentation;
 
+import java.util.UUID;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -21,7 +23,8 @@ public class InterestLogoApi {
 	private final UpdateInterestLogoUseCase updateInterestLogoUseCase;
 
 	@PutMapping
-	public ResponseEntity<Void> update(@PathVariable("id") InterestId interestId, @RequestPart MultipartFile updatedLogo) {
-		return null;
+	public ResponseEntity<Void> update(@PathVariable("id") UUID interestId, @RequestPart MultipartFile updatedLogo) {
+		updateInterestLogoUseCase.update(InterestId.of(interestId), updatedLogo);
+		return ResponseEntity.noContent().build();
 	}
 }
