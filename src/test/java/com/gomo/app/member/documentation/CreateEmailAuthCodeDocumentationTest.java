@@ -1,5 +1,6 @@
 package com.gomo.app.member.documentation;
 
+import static com.gomo.app.common.exception.DomainErrorCode.INVALID_PARAMETER;
 import static com.gomo.app.member.exception.MemberErrorCode.*;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
@@ -67,7 +68,7 @@ public class CreateEmailAuthCodeDocumentationTest extends DocumentationTestBase 
 			.then()
 			.statusCode(HttpStatus.UNPROCESSABLE_ENTITY.value())
 			.body("timestamp", instanceOf(String.class))
-			.body("httpStatus", equalTo("422"))
+			.body("httpStatus", equalTo(INVALID_PARAMETER.getHttpStatus()))
 			.body("code", equalTo(INVALID_PARAMETER.name()))
 			.body("message", equalTo("Invalid parameter: " + INVALID_EMAIL))
 			.body("path", equalTo(EMAIL_AUTH_URL));

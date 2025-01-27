@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.gomo.app.common.exception.PolicyViolationException;
 import com.gomo.app.interest.domain.model.InterestName;
 
 @DisplayName("[Domain unit]: 관심사 이름 생성 및 수정 테스트")
@@ -31,7 +32,7 @@ public class InterestNameTest {
 	@Test
 	void create_interest_name_with_null() {
 		assertThatThrownBy(() -> InterestName.of(null))
-			.isInstanceOf(IllegalArgumentException.class)
+			.isInstanceOf(PolicyViolationException.class)
 			.hasMessageContaining("Interest name cannot be null");
 	}
 
@@ -39,7 +40,7 @@ public class InterestNameTest {
 	@Test
 	void create_interest_name_with_short_name() {
 		assertThatThrownBy(() -> InterestName.of(TOO_SHORT_NAME))
-			.isInstanceOf(IllegalArgumentException.class)
+			.isInstanceOf(PolicyViolationException.class)
 			.hasMessageContaining("Interest name is too short");
 	}
 
@@ -47,7 +48,7 @@ public class InterestNameTest {
 	@Test
 	void create_interest_name_with_long_name() {
 		assertThatThrownBy(() -> InterestName.of(TOO_LONG_NAME))
-			.isInstanceOf(IllegalArgumentException.class)
+			.isInstanceOf(PolicyViolationException.class)
 			.hasMessageContaining("Interest name is too long");
 	}
 
@@ -55,7 +56,7 @@ public class InterestNameTest {
 	@Test
 	void create_interest_name_with_forbidden_characters() throws Exception {
 		assertThatThrownBy(() -> InterestName.of(FORBIDDEN_NAME))
-			.isInstanceOf(IllegalArgumentException.class)
+			.isInstanceOf(PolicyViolationException.class)
 			.hasMessageContaining("Interest name cannot contain forbidden characters");
 	}
 
@@ -74,7 +75,7 @@ public class InterestNameTest {
 		InterestName interestName = InterestName.of(NAME_PARAM);
 
 		assertThatThrownBy(() -> interestName.update(null))
-			.isInstanceOf(IllegalArgumentException.class)
+			.isInstanceOf(PolicyViolationException.class)
 			.hasMessageContaining("Interest name cannot be null");
 	}
 
@@ -84,7 +85,7 @@ public class InterestNameTest {
 		InterestName interestName = InterestName.of(NAME_PARAM);
 
 		assertThatThrownBy(() -> interestName.update(TOO_SHORT_NAME))
-			.isInstanceOf(IllegalArgumentException.class)
+			.isInstanceOf(PolicyViolationException.class)
 			.hasMessageContaining("Interest name is too short");
 	}
 
@@ -94,7 +95,7 @@ public class InterestNameTest {
 		InterestName interestName = InterestName.of(NAME_PARAM);
 
 		assertThatThrownBy(() -> interestName.update(TOO_LONG_NAME))
-			.isInstanceOf(IllegalArgumentException.class)
+			.isInstanceOf(PolicyViolationException.class)
 			.hasMessageContaining("Interest name is too long");
 	}
 
@@ -104,7 +105,7 @@ public class InterestNameTest {
 		InterestName interestName = InterestName.of(NAME_PARAM);
 
 		assertThatThrownBy(() -> interestName.update(FORBIDDEN_NAME))
-			.isInstanceOf(IllegalArgumentException.class)
+			.isInstanceOf(PolicyViolationException.class)
 			.hasMessageContaining("Interest name cannot contain forbidden characters");
 	}
 }
