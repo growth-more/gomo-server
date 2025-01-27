@@ -50,6 +50,9 @@ dependencies {
     // time-based uuid
     implementation 'com.fasterxml.uuid:java-uuid-generator:5.1.0'
 
+    // minio
+    implementation 'io.minio:minio:8.5.17'
+
     // test
     testRuntimeOnly "org.junit.platform:junit-platform-launcher"
     testImplementation "org.springframework.boot:spring-boot-starter-test"
