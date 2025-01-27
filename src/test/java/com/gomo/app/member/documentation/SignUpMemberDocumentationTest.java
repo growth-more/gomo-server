@@ -1,7 +1,7 @@
 package com.gomo.app.member.documentation;
 
+import static com.gomo.app.common.exception.DomainErrorCode.*;
 import static com.gomo.app.member.common.constant.NonExistMemberField.*;
-import static com.gomo.app.member.exception.MemberErrorCode.*;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.http.HttpStatus.*;
@@ -83,7 +83,7 @@ public class SignUpMemberDocumentationTest extends DocumentationTestBase {
 			.then()
 			.statusCode(UNPROCESSABLE_ENTITY.value())
 			.body("timestamp", instanceOf(String.class))
-			.body("httpStatus", equalTo("422"))
+			.body("httpStatus", equalTo(INVALID_PARAMETER.getHttpStatus()))
 			.body("code", equalTo(INVALID_PARAMETER.name()))
 			.body("message", equalTo("Invalid parameter: " + SHORT_PASSWORD.length()))
 			.body("path", equalTo(MEMBER_URL));

@@ -1,5 +1,6 @@
 package com.gomo.app.member.documentation;
 
+import static com.gomo.app.common.exception.DomainErrorCode.INVALID_PARAMETER;
 import static com.gomo.app.member.exception.MemberErrorCode.*;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
@@ -91,7 +92,7 @@ public class UpdateHandleDocumentationTest extends DocumentationTestBase {
 			.then()
 			.statusCode(UNPROCESSABLE_ENTITY.value())
 			.body("timestamp", instanceOf(String.class))
-			.body("httpStatus", equalTo("422"))
+			.body("httpStatus", equalTo(INVALID_PARAMETER.getHttpStatus()))
 			.body("code", equalTo(INVALID_PARAMETER.name()))
 			.body("message", equalTo("Invalid parameter: " + INVALID_HANDLE))
 			.body("path", equalTo(HANDLE_URL));

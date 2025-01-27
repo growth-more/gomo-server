@@ -1,5 +1,6 @@
 package com.gomo.app.member.documentation;
 
+import static com.gomo.app.common.exception.DomainErrorCode.INVALID_PARAMETER;
 import static com.gomo.app.member.exception.MemberErrorCode.*;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
@@ -15,12 +16,12 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.common.fixture.TestMemberFixture;
+import com.gomo.app.common.util.LoginMemberHelper;
+import com.gomo.app.member.common.constant.NonExistMemberField;
+import com.gomo.app.member.common.util.MemberDBDataHelper;
 import com.gomo.app.member.documentation.snippet.UpdatePasswordSnippet;
 import com.gomo.app.member.presentation.request.UpdatePasswordRequest;
-import com.gomo.app.member.common.util.MemberDBDataHelper;
-import com.gomo.app.member.common.constant.NonExistMemberField;
 
 public class UpdatePasswordDocumentationTest extends DocumentationTestBase {
 
@@ -92,7 +93,7 @@ public class UpdatePasswordDocumentationTest extends DocumentationTestBase {
 			.then()
 			.statusCode(UNPROCESSABLE_ENTITY.value())
 			.body("timestamp", instanceOf(String.class))
-			.body("httpStatus", equalTo("422"))
+			.body("httpStatus", equalTo(INVALID_PARAMETER.getHttpStatus()))
 			.body("code", equalTo(INVALID_PARAMETER.name()))
 			.body("message", equalTo("Invalid parameter: " + INVALID_PASSWORD))
 			.body("path", equalTo(PASSWORD_URL));
