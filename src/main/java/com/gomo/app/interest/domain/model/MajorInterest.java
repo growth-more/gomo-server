@@ -1,11 +1,14 @@
 package com.gomo.app.interest.domain.model;
 
+import static com.gomo.app.interest.exception.MajorInterestErrorCode.*;
+
 import java.util.UUID;
 
 import com.gomo.app.common.domain.Authorizable;
 import com.gomo.app.common.domain.BaseAudit;
 import com.gomo.app.common.domain.service.DisplayOrder;
 import com.gomo.app.common.domain.service.OrderChangeable;
+import com.gomo.app.interest.exception.MajorInterestAccessDeniedException;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
@@ -24,7 +27,7 @@ public class MajorInterest extends BaseAudit implements OrderChangeable, Authori
 
 	@Embedded
 	@AttributeOverrides({
-		@AttributeOverride(name = "id", column = @Column(name = "member_id"))
+		@AttributeOverride(name = "id", column = @Column(name = "registrant_id"))
 	})
 	private RegistrantId registrantId;
 
@@ -63,11 +66,13 @@ public class MajorInterest extends BaseAudit implements OrderChangeable, Authori
 
 	@Override
 	public void changeOrder(DisplayOrder displayOrder) {
-
+		this.displayOrder = displayOrder;
 	}
 
 	@Override
 	public void validateAuthority(UUID accessorId) {
-
+		if(!accessorId.equals(this.registrantId.getId())) {
+			throw new MajorInterestAccessDeniedException(ACCESS_DENIED);
+		}
 	}
 }

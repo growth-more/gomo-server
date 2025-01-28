@@ -1,12 +1,18 @@
 package com.gomo.app.interest.presentation;
 
+import static org.springframework.http.HttpStatus.*;
+
+import java.util.UUID;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import com.gomo.app.common.authentication.MemberContext;
+import com.gomo.app.common.authentication.SessionMember;
 import com.gomo.app.common.presentation.Presentation;
 import com.gomo.app.interest.application.CreateMajorInterestUseCase;
 import com.gomo.app.interest.application.DeleteMajorInterestUseCase;
@@ -28,17 +34,23 @@ public class MajorInterestApi {
 	private final DeleteMajorInterestUseCase deleteMajorInterestUseCase;
 
 	@PostMapping("/{id}/majors")
-	public ResponseEntity<CreateMajorInterestResponse> create(@RequestParam("id") InterestId interestId) {
-		return null;
+	public ResponseEntity<CreateMajorInterestResponse> create(@PathVariable("id") UUID interestId) {
+		SessionMember sessionMember = MemberContext.getSessionMember();
+		CreateMajorInterestResponse response = createMajorInterestUseCase.create(sessionMember.getId(), InterestId.of(interestId));
+		return ResponseEntity.status(CREATED).body(response);
 	}
 
 	@GetMapping("/majors")
 	public ResponseEntity<ListMajorInterestResponse> findAll() {
-		return null;
+		SessionMember sessionMember = MemberContext.getSessionMember();
+		ListMajorInterestResponse response = readMajorInterestUseCase.findAll(sessionMember.getId());
+		return ResponseEntity.ok(response);
 	}
 
 	@DeleteMapping("/majors/{id}")
-	public ResponseEntity<Void> delete(@RequestParam("id") MajorInterestId majorInterestId) {
-		return null;
+	public ResponseEntity<Void> delete(@PathVariable("id") UUID majorInterestId) {
+		SessionMember sessionMember = MemberContext.getSessionMember();
+		deleteMajorInterestUseCase.delete(sessionMember.getId(), MajorInterestId.of(majorInterestId));
+		return ResponseEntity.noContent().build();
 	}
 }
