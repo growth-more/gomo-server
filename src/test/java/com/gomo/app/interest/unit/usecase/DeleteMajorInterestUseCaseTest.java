@@ -1,0 +1,54 @@
+package com.gomo.app.interest.unit.usecase;
+
+import static org.assertj.core.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+import java.util.Optional;
+import java.util.UUID;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.gomo.app.interest.application.DeleteMajorInterestUseCase;
+import com.gomo.app.interest.common.fixture.MajorInterestFixture;
+import com.gomo.app.interest.domain.model.MajorInterest;
+import com.gomo.app.interest.domain.model.MajorInterestId;
+import com.gomo.app.interest.domain.repository.MajorInterestRepository;
+import com.gomo.app.interest.exception.MajorInterestAccessDeniedException;
+
+@DisplayName("[Application unit]: 주요 관심사 삭제 테스트")
+@ExtendWith(MockitoExtension.class)
+public class DeleteMajorInterestUseCaseTest {
+
+	@InjectMocks
+	private DeleteMajorInterestUseCase sut;
+
+	@Mock
+	private MajorInterestRepository majorInterestRepository;
+
+	@DisplayName("주요 관심사를 삭제한다.")
+	@Test
+	void delete_interest() {
+		MajorInterest expected = MajorInterestFixture.majorInterest();
+		doReturn(Optional.of(expected)).when(majorInterestRepository).findById(any(MajorInterestId.class));
+
+		sut.delete(expected.getRegistrantId().getId(), expected.getId());
+
+		verify(majorInterestRepository, times(1)).delete(any(MajorInterest.class));
+	}
+
+	@DisplayName("권한 없는 접근자는 주요 관심사를 삭제할 수 없다.")
+	@Test
+	void delete_interest_by_unauthorized_accessor() {
+		MajorInterest majorInterest = mock(MajorInterest.class);
+		doThrow(MajorInterestAccessDeniedException.class).when(majorInterest).validateAuthority(any(UUID.class));
+		doReturn(Optional.of(majorInterest)).when(majorInterestRepository).findById(any(MajorInterestId.class));
+
+		assertThatThrownBy(() -> sut.delete(UUID.randomUUID(), MajorInterestId.of(UUID.randomUUID())))
+			.isInstanceOf(MajorInterestAccessDeniedException.class);
+	}
+}

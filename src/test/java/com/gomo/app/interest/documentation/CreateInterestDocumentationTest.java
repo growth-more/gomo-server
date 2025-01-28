@@ -27,7 +27,6 @@ import com.gomo.app.interest.presentation.request.CreateInterestRequest;
 @DisplayName("[Presentation documentation]: 관심사 생성 테스트")
 public class CreateInterestDocumentationTest extends DocumentationTestBase {
 
-	private static final String INTEREST_URL = "/interests";
 	private final static String INVALID_INTEREST_NAME = "{}";
 	private final static String NORMAL_IMAGE_NAME = "normal-image.png";
 	private final static String LARGE_IMAGE_NAME = "large-image.png";
@@ -60,7 +59,7 @@ public class CreateInterestDocumentationTest extends DocumentationTestBase {
 			.multiPart("request", CreateInterestRequest.of("interest name"), APPLICATION_JSON_VALUE)
 			.multiPart("logo", getImageFile(NORMAL_IMAGE_NAME))
 			.when()
-			.post(INTEREST_URL)
+			.post("/interests")
 			.then()
 			.statusCode(CREATED.value())
 			.body("id", hasLength(36));
@@ -74,14 +73,14 @@ public class CreateInterestDocumentationTest extends DocumentationTestBase {
 			.multiPart("request", CreateInterestRequest.of(INVALID_INTEREST_NAME), APPLICATION_JSON_VALUE)
 			.multiPart("logo", getImageFile(NORMAL_IMAGE_NAME))
 			.when()
-			.post(INTEREST_URL)
+			.post("/interests")
 			.then()
 			.statusCode(INVALID_PARAMETER.getHttpStatus())
 			.body("timestamp", instanceOf(String.class))
 			.body("httpStatus", equalTo(INVALID_PARAMETER.getHttpStatus()))
 			.body("code", equalTo(INVALID_PARAMETER.name()))
 			.body("message", equalTo("Interest name cannot contain forbidden characters"))
-			.body("path", equalTo(INTEREST_URL));
+			.body("path", equalTo("/interests"));
 	}
 
 	@DisplayName("사용자가 크기가 큰 로고 이미지로 관심사를 등록한다.")
@@ -92,14 +91,14 @@ public class CreateInterestDocumentationTest extends DocumentationTestBase {
 			.multiPart("request", CreateInterestRequest.of("interest name"), APPLICATION_JSON_VALUE)
 			.multiPart("logo", getImageFile(LARGE_IMAGE_NAME))
 			.when()
-			.post(INTEREST_URL)
+			.post("/interests")
 			.then()
 			.statusCode(IMAGE_TOO_LARGE.getHttpStatus())
 			.body("timestamp", instanceOf(String.class))
 			.body("httpStatus", equalTo(IMAGE_TOO_LARGE.getHttpStatus()))
 			.body("code", equalTo(IMAGE_TOO_LARGE.name()))
 			.body("message", equalTo("Maximum upload size exceeded"))
-			.body("path", equalTo(INTEREST_URL));
+			.body("path", equalTo("/interests"));
 	}
 
 	private static File getImageFile(String imageName) throws IOException {
