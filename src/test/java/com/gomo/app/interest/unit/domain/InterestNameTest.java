@@ -15,6 +15,7 @@ import com.gomo.app.interest.domain.model.InterestName;
 public class InterestNameTest {
 
 	private static final String NAME = "interest name";
+	private static final String BLANK = "     ";
 	private static final String TOO_LONG_NAME = Stream.generate(() -> "a").limit(26).collect(Collectors.joining());
 	private static final String FORBIDDEN_NAME = "[<>&';|{}[]()`]--*";
 
@@ -37,7 +38,7 @@ public class InterestNameTest {
 	@DisplayName("공백만 입력하면 관심사 이름을 생성할 수 없다.")
 	@Test
 	void create_interest_name_with_only_blank() {
-		assertThatThrownBy(() -> InterestName.of("     "))
+		assertThatThrownBy(() -> InterestName.of(BLANK))
 			.isInstanceOf(PolicyViolationException.class)
 			.hasMessageContaining("Interest name cannot be blank");
 	}
@@ -82,7 +83,7 @@ public class InterestNameTest {
 	void update_interest_name_with_only_blank() {
 		InterestName interestName = InterestName.of(NAME);
 
-		assertThatThrownBy(() -> interestName.update("     "))
+		assertThatThrownBy(() -> interestName.update(BLANK))
 			.isInstanceOf(PolicyViolationException.class)
 			.hasMessageContaining("Interest name cannot be blank");
 	}
