@@ -33,10 +33,10 @@ public class DeleteInterestUseCaseTest {
 	@DisplayName("관심사를 삭제한다.")
 	@Test
 	void delete_interest() {
-		Interest expected = InterestFixture.interest();
-		doReturn(Optional.of(expected)).when(interestRepository).findById(any(InterestId.class));
+		Interest interest = InterestFixture.interest();
+		doReturn(Optional.of(interest)).when(interestRepository).findById(any(InterestId.class));
 
-		sut.delete(expected.getRegistrantId().getId(), expected.getId());
+		sut.delete(interest.getRegistrantId().getId(), interest.getId());
 
 		verify(interestRepository, times(1)).delete(any(Interest.class));
 	}
@@ -45,8 +45,8 @@ public class DeleteInterestUseCaseTest {
 	@Test
 	void delete_interest_by_unauthorized_accessor() {
 		Interest interest = mock(Interest.class);
-		doThrow(InterestAccessDeniedException.class).when(interest).validateAuthority(any(UUID.class));
 		doReturn(Optional.of(interest)).when(interestRepository).findById(any(InterestId.class));
+		doThrow(InterestAccessDeniedException.class).when(interest).validateAuthority(any(UUID.class));
 
 		assertThatThrownBy(() -> sut.delete(UUID.randomUUID(), InterestId.of(UUID.randomUUID())))
 			.isInstanceOf(InterestAccessDeniedException.class);
