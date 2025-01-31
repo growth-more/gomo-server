@@ -93,7 +93,8 @@ CREATE TABLE interest_relation (
 
 CREATE TABLE major_interest (
     id binary(16) NOT NULL PRIMARY KEY,
-    subject_id binary(16),
+    registrant_id binary(16),
+    interest_id binary(16),
     display_order INT,
     created_at DATETIME(6),
     created_by varchar(255),

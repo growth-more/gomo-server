@@ -2,6 +2,9 @@ package com.gomo.app.interest.presentation.response;
 
 import java.util.UUID;
 
+import com.gomo.app.interest.domain.model.Interest;
+import com.gomo.app.interest.domain.model.MajorInterest;
+
 import lombok.Getter;
 
 @Getter
@@ -30,14 +33,14 @@ public class ReadMajorInterestResponse {
 		this.displayOrder = displayOrder;
 	}
 
-	public static ReadMajorInterestResponse of(
-		UUID id,
-		String name,
-		String logoUrl,
-		int level,
-		int score,
-		int displayOrder
-	) {
-		return new ReadMajorInterestResponse(id, name, logoUrl, level, score, displayOrder);
+	public static ReadMajorInterestResponse of(MajorInterest majorInterest, Interest interest) {
+		return new ReadMajorInterestResponse(
+			majorInterest.getId().getId(),
+			interest.getName().toString(),
+			interest.getLogoUrl(),
+			interest.getProficiency().getLevel().getLevel(),
+			interest.getProficiency().getScore().getScore(),
+			majorInterest.getDisplayOrder().getDisplayOrder()
+		);
 	}
 }

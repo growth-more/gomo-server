@@ -21,8 +21,6 @@ import com.gomo.app.interest.domain.model.Interest;
 @DisplayName("[Presentation documentation]: 관심사 목록 조회 테스트")
 public class ListInterestDocumentationTest extends DocumentationTestBase {
 
-	private static final String LIST_INTEREST_URL = "/interests";
-
 	private final RestDocumentationFilter filter = ListInterestSnippet.create();
 
 	@Autowired
@@ -48,7 +46,7 @@ public class ListInterestDocumentationTest extends DocumentationTestBase {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.when()
-			.get(LIST_INTEREST_URL)
+			.get("/interests")
 			.then()
 			.statusCode(OK.value())
 			.body("interests", hasSize(3))

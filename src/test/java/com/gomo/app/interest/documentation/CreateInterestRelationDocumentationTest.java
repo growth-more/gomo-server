@@ -21,8 +21,6 @@ import com.gomo.app.interest.documentation.snippet.CreateInterestRelationSnippet
 
 public class CreateInterestRelationDocumentationTest extends DocumentationTestBase {
 
-	private static final String CREATE_INTEREST_RELATION_URL = "/interests/networks/relations";
-
 	private final RestDocumentationFilter filter = CreateInterestRelationSnippet.create();
 
 	@Autowired
@@ -48,7 +46,7 @@ public class CreateInterestRelationDocumentationTest extends DocumentationTestBa
 			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 			.sessionId(sessionId)
 			.when()
-			.post(CREATE_INTEREST_RELATION_URL)
+			.post("/interests/networks/relations")
 			.then()
 			.statusCode(CREATED.value())
 			.body("id", hasLength(36));

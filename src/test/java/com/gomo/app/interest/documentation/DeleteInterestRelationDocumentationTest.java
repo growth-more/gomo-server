@@ -21,8 +21,6 @@ import com.gomo.app.interest.documentation.snippet.DeleteInterestRelationSnippet
 
 public class DeleteInterestRelationDocumentationTest extends DocumentationTestBase {
 
-	private static final String DELETE_INTEREST_RELATION_URL = "/interests/networks/relations/{id}";
-
 	private final RestDocumentationFilter filter = DeleteInterestRelationSnippet.create();
 
 	@Autowired
@@ -48,7 +46,7 @@ public class DeleteInterestRelationDocumentationTest extends DocumentationTestBa
 			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 			.sessionId(sessionId)
 			.when()
-			.delete(DELETE_INTEREST_RELATION_URL, SecondToParentInterestRelationFixture.id())
+			.delete("/interests/networks/relations/{id}", SecondToParentInterestRelationFixture.id())
 			.then()
 			.statusCode(NO_CONTENT.value());
 	}

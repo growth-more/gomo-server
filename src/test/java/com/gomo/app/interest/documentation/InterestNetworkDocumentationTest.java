@@ -23,8 +23,6 @@ import com.gomo.app.interest.domain.model.Interest;
 
 public class InterestNetworkDocumentationTest extends DocumentationTestBase {
 
-	private static final String INTEREST_NETWORK_URL = "/interests/networks";
-
 	private final RestDocumentationFilter filter = InterestNetworkSnippet.create();
 
 	@Autowired
@@ -52,7 +50,7 @@ public class InterestNetworkDocumentationTest extends DocumentationTestBase {
 			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 			.sessionId(sessionId)
 			.when()
-			.get(INTEREST_NETWORK_URL)
+			.get("/interests/networks")
 			.then()
 			.statusCode(OK.value())
 			.body("interests", hasSize(3))

@@ -26,7 +26,6 @@ import com.gomo.app.interest.documentation.snippet.UpdateInterestLogoSnippet;
 @DisplayName("[Presentation documentation]: 관심사 로고 수정 테스트")
 public class UpdateInterestLogoDocumentationTest extends DocumentationTestBase {
 
-	private static final String INTEREST_URL = "/interests/{id}/logos";
 	private static final String UPDATED_INTEREST_ID = "3bd1b3f7-d7c6-11ef-abb8-a7e09b2a499c";
 	private final static String NORMAL_IMAGE_NAME = "normal-image.png";
 	private final static String LARGE_IMAGE_NAME = "large-image.png";
@@ -57,7 +56,7 @@ public class UpdateInterestLogoDocumentationTest extends DocumentationTestBase {
 			.header(CONTENT_TYPE, MULTIPART_FORM_DATA_VALUE)
 			.multiPart("updatedLogo", getImageFile(NORMAL_IMAGE_NAME))
 			.when()
-			.put(INTEREST_URL, UPDATED_INTEREST_ID)
+			.put("/interests/{id}/logos", UPDATED_INTEREST_ID)
 			.then()
 			.statusCode(NO_CONTENT.value());
 	}
@@ -69,7 +68,7 @@ public class UpdateInterestLogoDocumentationTest extends DocumentationTestBase {
 			.header(CONTENT_TYPE, MULTIPART_FORM_DATA_VALUE)
 			.multiPart("updatedLogo", getImageFile(LARGE_IMAGE_NAME))
 			.when()
-			.put(INTEREST_URL, UPDATED_INTEREST_ID)
+			.put("/interests/{id}/logos", UPDATED_INTEREST_ID)
 			.then()
 			.statusCode(IMAGE_TOO_LARGE.getHttpStatus())
 			.body("timestamp", instanceOf(String.class))

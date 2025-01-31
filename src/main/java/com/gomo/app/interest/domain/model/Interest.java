@@ -88,7 +88,7 @@ public class Interest extends BaseAudit implements Authorizable {
 
 	@Override
 	public void validateAuthority(UUID accessorId) {
-		if(!accessorId.equals(registrantId.getId())) {
+		if(!accessorId.equals(this.registrantId.getId())) {
 			throw new InterestAccessDeniedException(InterestErrorCode.ACCESS_DENIED);
 		}
 	}

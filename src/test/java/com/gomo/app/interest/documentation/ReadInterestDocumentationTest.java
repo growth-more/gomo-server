@@ -21,8 +21,6 @@ import com.gomo.app.interest.domain.model.Interest;
 @DisplayName("[Presentation documentation]: 관심사 단건 조회 테스트")
 public class ReadInterestDocumentationTest extends DocumentationTestBase {
 
-	private static final String INTEREST_URL = "/interests/{id}";
-
 	private final RestDocumentationFilter filter = ReadInterestSnippet.create();
 
 	@Autowired
@@ -44,7 +42,7 @@ public class ReadInterestDocumentationTest extends DocumentationTestBase {
 		given(this.specification).filter(filter)
 			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 			.when()
-			.get(INTEREST_URL, interest.getId().getId())
+			.get("/interests/{id}", interest.getId().getId())
 			.then()
 			.statusCode(OK.value())
 			.body("id", equalTo(interest.getId().toString()))
