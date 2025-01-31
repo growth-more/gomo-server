@@ -1,5 +1,9 @@
 package com.gomo.app.interest.presentation;
 
+import static org.springframework.http.HttpStatus.*;
+
+import java.util.UUID;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,11 +12,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.gomo.app.common.authentication.MemberContext;
+import com.gomo.app.common.authentication.SessionMember;
 import com.gomo.app.common.presentation.Presentation;
 import com.gomo.app.interest.application.CreateInterestRelationUseCase;
 import com.gomo.app.interest.application.DeleteInterestRelationUseCase;
 import com.gomo.app.interest.application.ReadInterestNetworkUseCase;
 import com.gomo.app.interest.domain.model.InterestRelationId;
+import com.gomo.app.interest.domain.model.RegistrantId;
 import com.gomo.app.interest.presentation.request.CreateInterestRelationRequest;
 import com.gomo.app.interest.presentation.response.CreateInterestRelationResponse;
 import com.gomo.app.interest.presentation.response.InterestNetworkResponse;
@@ -24,22 +31,28 @@ import lombok.RequiredArgsConstructor;
 @Presentation
 public class InterestNetworkApi {
 
-	private final ReadInterestNetworkUseCase readInterestNetworkUseCase;
 	private final CreateInterestRelationUseCase createInterestRelationUseCase;
+	private final ReadInterestNetworkUseCase readInterestNetworkUseCase;
 	private final DeleteInterestRelationUseCase deleteInterestRelationUseCase;
-
-	@GetMapping
-	public ResponseEntity<InterestNetworkResponse> find() {
-		return null;
-	}
 
 	@PostMapping("/relations")
 	public ResponseEntity<CreateInterestRelationResponse> createRelation(@RequestBody CreateInterestRelationRequest request) {
-		return null;
+		SessionMember sessionMember = MemberContext.getSessionMember();
+		CreateInterestRelationResponse response = createInterestRelationUseCase.create(RegistrantId.of(sessionMember.getId()), request);
+		return ResponseEntity.status(CREATED).body(response);
+	}
+
+	@GetMapping
+	public ResponseEntity<InterestNetworkResponse> find() {
+		SessionMember sessionMember = MemberContext.getSessionMember();
+		InterestNetworkResponse response = readInterestNetworkUseCase.find(sessionMember.getId());
+		return ResponseEntity.ok(response);
 	}
 
 	@DeleteMapping("/relations/{id}")
-	public ResponseEntity<Void> deleteRelation(@PathVariable("id") InterestRelationId interestRelationId) {
-		return null;
+	public ResponseEntity<Void> deleteRelation(@PathVariable("id") UUID interestRelationId) {
+		SessionMember sessionMember = MemberContext.getSessionMember();
+		deleteInterestRelationUseCase.delete(sessionMember.getId(), InterestRelationId.of(interestRelationId));
+		return ResponseEntity.noContent().build();
 	}
 }

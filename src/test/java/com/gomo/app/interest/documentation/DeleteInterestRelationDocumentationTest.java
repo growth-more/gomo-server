@@ -1,24 +1,25 @@
 package com.gomo.app.interest.documentation;
 
 import static io.restassured.RestAssured.*;
+import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.MediaType.*;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.interest.common.fixture.interestrelation.SecondToParentInterestRelationFixture;
-import com.gomo.app.interest.common.util.InterestRelationDBDataHelper;
+import com.gomo.app.interest.common.dataprovider.InterestRelationDataProvider;
+import com.gomo.app.interest.common.util.InterestRelationDataHelper;
 import com.gomo.app.interest.documentation.snippet.DeleteInterestRelationSnippet;
+import com.gomo.app.interest.domain.model.InterestRelation;
 
+@DisplayName("[Presentation documentation]: 관심사 관계 삭제 테스트")
 public class DeleteInterestRelationDocumentationTest extends DocumentationTestBase {
 
 	private final RestDocumentationFilter filter = DeleteInterestRelationSnippet.create();
@@ -27,26 +28,30 @@ public class DeleteInterestRelationDocumentationTest extends DocumentationTestBa
 	private LoginMemberHelper loginHelper;
 
 	@Autowired
-	private InterestRelationDBDataHelper interestRelationDBDataHelper;
+	private InterestRelationDataHelper interestRelationDataHelper;
+
+	@Autowired
+	private InterestRelationDataProvider interestRelationDataProvider;
+	private InterestRelation toJava;
 
 	@BeforeEach
 	public void setUp() {
-		sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
+		// sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
+		toJava = interestRelationDataProvider.toJava();
 	}
 
 	@AfterEach
 	public void tearDown() {
-		interestRelationDBDataHelper.cleanUp();
+		interestRelationDataHelper.cleanUp();
 	}
 
 	@DisplayName("사용자가 두 가지 관심사 간의 연결선을 삭제한다.")
 	@Test
 	void delete_interest_relation() {
 		given(this.specification).filter(filter)
-			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-			.sessionId(sessionId)
+			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.when()
-			.delete("/interests/networks/relations/{id}", SecondToParentInterestRelationFixture.id())
+			.delete("/interests/networks/relations/{id}", toJava.getId().getId())
 			.then()
 			.statusCode(NO_CONTENT.value());
 	}

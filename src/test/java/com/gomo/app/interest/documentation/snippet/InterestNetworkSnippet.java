@@ -20,7 +20,7 @@ public class InterestNetworkSnippet {
 
 	private static final Snippet RESPONSE_FIELDS = responseFields(
 		fieldWithPath("interests").type(JsonFieldType.ARRAY).description("관심사 목록"),
-		fieldWithPath("interests[].interestId").type(JsonFieldType.STRING).description("관심사 아이디"),
+		fieldWithPath("interests[].id").type(JsonFieldType.STRING).description("관심사 아이디"),
 		fieldWithPath("interests[].registrantId").type(JsonFieldType.STRING).description("사용자 아이디"),
 		fieldWithPath("interests[].name").type(JsonFieldType.STRING).description("관심사 이름"),
 		fieldWithPath("interests[].logoUrl").type(JsonFieldType.STRING).description("관심사 로고 이미지"),
@@ -30,6 +30,7 @@ public class InterestNetworkSnippet {
 
 		fieldWithPath("relations").type(JsonFieldType.ARRAY).description("관심사 간의 연결 관계 목록"),
 		fieldWithPath("relations[].id").type(JsonFieldType.STRING).description("관심사 간선 아이디"),
+		fieldWithPath("relations[].registrantId").type(JsonFieldType.STRING).description("사용자 아이디"),
 		fieldWithPath("relations[].parentInterestId").type(JsonFieldType.STRING).description("상위 관심사 아이디"),
 		fieldWithPath("relations[].childInterestId").type(JsonFieldType.STRING).description("하위 관심사 아이디")
 	);
