@@ -52,7 +52,7 @@ public class InterestNameTest {
 
 	@DisplayName("금지 문자를 포함한 관심사 이름은 생성할 수 없다.")
 	@Test
-	void create_interest_name_with_forbidden_characters() throws Exception {
+	void create_interest_name_with_forbidden_characters() {
 		assertThatThrownBy(() -> InterestName.of(FORBIDDEN_NAME))
 			.isInstanceOf(PolicyViolationException.class)
 			.hasMessageContaining("Interest name cannot contain forbidden characters");
