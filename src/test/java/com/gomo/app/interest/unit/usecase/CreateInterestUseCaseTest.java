@@ -35,17 +35,17 @@ public class CreateInterestUseCaseTest {
 	@DisplayName("관심사를 등록한다.")
 	@Test
 	void create_interest() {
-		Interest expected = InterestFixture.interest();
-		CreateInterestResponse response = CreateInterestResponse.of(expected.getId());
-		doReturn(expected.getLogoUrl()).when(imageService).uploadImage(any(MockMultipartFile.class));
-		doReturn(expected).when(interestRepository).save(any(Interest.class));
+		Interest interest = InterestFixture.interest();
+		CreateInterestResponse expected = CreateInterestResponse.of(interest.getId());
+		doReturn(interest.getLogoUrl()).when(imageService).uploadImage(any(MockMultipartFile.class));
+		doReturn(interest).when(interestRepository).save(any(Interest.class));
 
 		CreateInterestResponse actual = sut.create(
-			expected.getRegistrantId(),
-			CreateInterestRequest.of(expected.getName().toString()),
+			interest.getRegistrantId(),
+			CreateInterestRequest.of(interest.getName().toString()),
 			new MockMultipartFile("logo", "mock image data".getBytes())
 		);
 
-		assertThat(actual).usingRecursiveComparison().isEqualTo(response);
+		assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
 	}
 }
