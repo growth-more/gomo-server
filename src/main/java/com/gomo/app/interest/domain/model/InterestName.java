@@ -15,7 +15,6 @@ import lombok.Getter;
 @ValueObject
 public class InterestName {
 
-	private static final int MIN_LENGTH = 1;
 	private static final int MAX_LENGTH = 25;
 	private static final Pattern FORBIDDEN_PATTERN = Pattern.compile("[<>&\"';|\\\\{}\\[\\]()`]|(--|/\\*|\\*/)|[\u0000-\u001F\u007F]");
 
@@ -24,7 +23,7 @@ public class InterestName {
 	protected InterestName() {}
 
 	private InterestName(String interestName) {
-		ensureNotNull(interestName);
+		ensureNotBlank(interestName);
 		ensureValidLength(interestName);
 		ensureNoForbiddenName(interestName);
 		this.interestName = interestName;
@@ -38,19 +37,14 @@ public class InterestName {
 		return new InterestName(updatedInterestName);
 	}
 
-	private void ensureNotNull(String interestName) {
-		if(interestName == null) {
-			throw new PolicyViolationException(INVALID_PARAMETER, "Interest name cannot be null");
+	private void ensureNotBlank(String interestName) {
+		if(interestName == null || interestName.isBlank()) {
+			throw new PolicyViolationException(INVALID_PARAMETER, "Interest name cannot be blank");
 		}
 	}
 
 	private void ensureValidLength(String interestName) {
-		int length = interestName.length();
-		if(length < MIN_LENGTH) {
-			throw new PolicyViolationException(INVALID_PARAMETER, "Interest name is too short");
-		}
-
-		if(length > MAX_LENGTH) {
+		if(interestName.length() > MAX_LENGTH) {
 			throw new PolicyViolationException(INVALID_PARAMETER, "Interest name is too long");
 		}
 	}
