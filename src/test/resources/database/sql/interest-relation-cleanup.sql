@@ -18,13 +18,4 @@ INSERT INTO interest_relation(
     '2025-01-21T20:33:14.844656',
     'gomotest@naver.com',
     '2025-01-21T20:33:14.844656',
-    'gomotest@naver.com'),
-    -- spring to backend relation
-    (UNHEX(REPLACE('d08d1d8d-d7eb-11ef-9ea7-ffd9d039bbca', '-', '')),
-    UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
-    UNHEX(REPLACE('3bd1b3f7-d7c6-11ef-abb8-a7e09b2a499c', '-', '')),
-    UNHEX(REPLACE('90a387a7-d7c5-11ef-b4d7-079c7dc41274', '-', '')),
-    '2025-01-21T20:35:28.858434800',
-    'gomotest@naver.com',
-    '2025-01-21T20:35:28.858434800',
     'gomotest@naver.com');
