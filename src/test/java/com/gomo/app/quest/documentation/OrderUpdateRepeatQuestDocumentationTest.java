@@ -19,7 +19,7 @@ import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.quest.common.fixture.repeat.JavaRepeatQuestFixture;
 import com.gomo.app.quest.common.fixture.repeat.SpringRepeatQuestFixture;
-import com.gomo.app.quest.common.util.RepeatQuestDBDataHelper;
+import com.gomo.app.quest.common.util.RepeatQuestDataHelper;
 import com.gomo.app.quest.documentation.snippet.OrderUpdateRepeatQuestSnippet;
 import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.presentation.request.OrderUpdateRepeatQuestRequest;
@@ -34,7 +34,7 @@ public class OrderUpdateRepeatQuestDocumentationTest extends DocumentationTestBa
 	private LoginMemberHelper loginHelper;
 
 	@Autowired
-	private RepeatQuestDBDataHelper repeatQuestDBDataHelper;
+	private RepeatQuestDataHelper repeatQuestDataHelper;
 
 	@BeforeEach
 	public void setUp() {
@@ -43,7 +43,7 @@ public class OrderUpdateRepeatQuestDocumentationTest extends DocumentationTestBa
 
 	@AfterEach
 	void tearDown() {
-		repeatQuestDBDataHelper.cleanUp();
+		repeatQuestDataHelper.cleanUp();
 	}
 
 	@DisplayName("사용자가 반복 퀘스트의 정렬 순서를 변경한다.")

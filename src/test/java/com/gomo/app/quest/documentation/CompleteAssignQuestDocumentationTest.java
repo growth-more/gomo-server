@@ -16,9 +16,9 @@ import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.quest.common.fixture.assign.JavaAssignQuestFixture;
-import com.gomo.app.quest.common.util.AssignQuestDBDataHelper;
-import com.gomo.app.quest.common.util.PointDBDataHelper;
-import com.gomo.app.quest.common.util.StreakDBDataHelper;
+import com.gomo.app.quest.common.util.AssignQuestDataHelper;
+import com.gomo.app.quest.common.util.PointDataHelper;
+import com.gomo.app.quest.common.util.StreakDataHelper;
 import com.gomo.app.quest.documentation.snippet.CompleteAssignQuestSnippet;
 
 public class CompleteAssignQuestDocumentationTest extends DocumentationTestBase {
@@ -31,13 +31,13 @@ public class CompleteAssignQuestDocumentationTest extends DocumentationTestBase 
 	private LoginMemberHelper loginHelper;
 
 	@Autowired
-	private AssignQuestDBDataHelper assignQuestDBDataHelper;
+	private AssignQuestDataHelper assignQuestDataHelper;
 
 	@Autowired
-	private StreakDBDataHelper streakDBDataHelper;
+	private StreakDataHelper streakDataHelper;
 
 	@Autowired
-	private PointDBDataHelper pointDBDataHelper;
+	private PointDataHelper pointDataHelper;
 
 	@BeforeEach
 	public void setUp() {
@@ -46,9 +46,9 @@ public class CompleteAssignQuestDocumentationTest extends DocumentationTestBase 
 
 	@AfterEach
 	void tearDown() {
-		assignQuestDBDataHelper.cleanUp();
-		streakDBDataHelper.cleanUp();
-		pointDBDataHelper.cleanUp();
+		assignQuestDataHelper.cleanUp();
+		streakDataHelper.cleanUp();
+		pointDataHelper.cleanUp();
 	}
 
 	@DisplayName("사용자가 할당 퀘스트를 완료한다.")

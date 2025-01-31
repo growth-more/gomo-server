@@ -16,7 +16,7 @@ import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.quest.common.fixture.assign.JavaAssignQuestFixture;
-import com.gomo.app.quest.common.util.AssignQuestDBDataHelper;
+import com.gomo.app.quest.common.util.AssignQuestDataHelper;
 import com.gomo.app.quest.documentation.snippet.DeleteAssignQuestSnippet;
 
 public class DeleteAssignQuestDocumentationTest extends DocumentationTestBase {
@@ -29,7 +29,7 @@ public class DeleteAssignQuestDocumentationTest extends DocumentationTestBase {
 	private LoginMemberHelper loginHelper;
 
 	@Autowired
-	private AssignQuestDBDataHelper assignQuestDBDataHelper;
+	private AssignQuestDataHelper assignQuestDataHelper;
 
 	@BeforeEach
 	public void setUp() {
@@ -38,7 +38,7 @@ public class DeleteAssignQuestDocumentationTest extends DocumentationTestBase {
 
 	@AfterEach
 	void tearDown() {
-		assignQuestDBDataHelper.cleanUp();
+		assignQuestDataHelper.cleanUp();
 	}
 
 	@DisplayName("사용자가 할당 퀘스트를 삭제한다.")

@@ -16,7 +16,7 @@ import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.quest.common.fixture.repeat.JavaRepeatQuestFixture;
-import com.gomo.app.quest.common.util.RepeatQuestDBDataHelper;
+import com.gomo.app.quest.common.util.RepeatQuestDataHelper;
 import com.gomo.app.quest.documentation.snippet.DeleteRepeatQuestSnippet;
 
 public class DeleteRepeatQuestDocumentationTest extends DocumentationTestBase {
@@ -29,7 +29,7 @@ public class DeleteRepeatQuestDocumentationTest extends DocumentationTestBase {
 	private LoginMemberHelper loginHelper;
 
 	@Autowired
-	private RepeatQuestDBDataHelper repeatQuestDBDataHelper;
+	private RepeatQuestDataHelper repeatQuestDataHelper;
 
 	@BeforeEach
 	public void setUp() {
@@ -38,7 +38,7 @@ public class DeleteRepeatQuestDocumentationTest extends DocumentationTestBase {
 
 	@AfterEach
 	void tearDown() {
-		repeatQuestDBDataHelper.cleanUp();
+		repeatQuestDataHelper.cleanUp();
 	}
 
 	@DisplayName("사용자가 반복 퀘스트를 삭제한다.")

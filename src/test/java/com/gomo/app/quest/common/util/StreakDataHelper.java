@@ -10,13 +10,13 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class PointDBDataHelper {
+public class StreakDataHelper {
 
 	private final DataSource dataSource;
 
 	public void cleanUp() {
 		ResourceDatabasePopulator populator = new ResourceDatabasePopulator(
-			new ClassPathResource("database/sql/point-cleanup.sql")
+			new ClassPathResource("database/sql/streak-cleanup.sql")
 		);
 		populator.execute(dataSource);
 	}

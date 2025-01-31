@@ -20,7 +20,7 @@ import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.interest.presentation.request.OrderUpdateMajorInterestRequest;
 import com.gomo.app.quest.common.fixture.assign.JavaAssignQuestFixture;
 import com.gomo.app.quest.common.fixture.assign.SpringAssignQuestFixture;
-import com.gomo.app.quest.common.util.AssignQuestDBDataHelper;
+import com.gomo.app.quest.common.util.AssignQuestDataHelper;
 import com.gomo.app.quest.documentation.snippet.OrderUpdateAssignQuestSnippet;
 
 public class OrderUpdateAssignQuestDocumentationTest extends DocumentationTestBase {
@@ -33,7 +33,7 @@ public class OrderUpdateAssignQuestDocumentationTest extends DocumentationTestBa
 	private LoginMemberHelper loginHelper;
 
 	@Autowired
-	private AssignQuestDBDataHelper assignQuestDBDataHelper;
+	private AssignQuestDataHelper assignQuestDataHelper;
 
 	@BeforeEach
 	public void setUp() {
@@ -42,7 +42,7 @@ public class OrderUpdateAssignQuestDocumentationTest extends DocumentationTestBa
 
 	@AfterEach
 	void tearDown() {
-		assignQuestDBDataHelper.cleanUp();
+		assignQuestDataHelper.cleanUp();
 	}
 
 	@DisplayName("사용자가 할당 퀘스트의 정렬 순서를 변경한다.")

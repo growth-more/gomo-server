@@ -17,7 +17,7 @@ import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.quest.common.fixture.assign.JavaAssignQuestFixture;
-import com.gomo.app.quest.common.util.AssignQuestDBDataHelper;
+import com.gomo.app.quest.common.util.AssignQuestDataHelper;
 import com.gomo.app.quest.documentation.snippet.CreateAssignQuestSnippet;
 import com.gomo.app.quest.exception.AssignQuestErrorCode;
 import com.gomo.app.quest.presentation.request.CreateAssignQuestRequest;
@@ -34,7 +34,7 @@ public class CreateAssignQuestDocumentationTest extends DocumentationTestBase {
 	private LoginMemberHelper loginHelper;
 
 	@Autowired
-	private AssignQuestDBDataHelper assignQuestDBDataHelper;
+	private AssignQuestDataHelper assignQuestDataHelper;
 
 	@BeforeEach
 	public void setUp() {
@@ -43,7 +43,7 @@ public class CreateAssignQuestDocumentationTest extends DocumentationTestBase {
 
 	@AfterEach
 	void tearDown() {
-		assignQuestDBDataHelper.cleanUp();
+		assignQuestDataHelper.cleanUp();
 	}
 
 	@DisplayName("사용자가 할당 퀘스트를 생성한다.")
