@@ -15,8 +15,6 @@ import com.gomo.app.interest.domain.model.InterestName;
 public class InterestNameTest {
 
 	private static final String NAME = "interest name";
-	private static final String UPDATED_NAME = "updated interest name";
-	private static final String TOO_SHORT_NAME = "a";
 	private static final String TOO_LONG_NAME = Stream.generate(() -> "a").limit(26).collect(Collectors.joining());
 	private static final String FORBIDDEN_NAME = "[<>&';|{}[]()`]--*";
 
@@ -64,9 +62,9 @@ public class InterestNameTest {
 	@Test
 	void update_interest_name() {
 		InterestName interestName = InterestName.of(NAME);
-		InterestName updatedInterestName = interestName.update(UPDATED_NAME);
+		InterestName updatedInterestName = interestName.update("updated interest name");
 
-		assertThat(updatedInterestName.toString()).isEqualTo(UPDATED_NAME);
+		assertThat(updatedInterestName.toString()).isEqualTo("updated interest name");
 	}
 
 	@DisplayName("null을 입력하면 관심사 이름을 수정할 수 없다.")
