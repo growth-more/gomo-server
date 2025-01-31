@@ -1,9 +1,12 @@
 package com.gomo.app.interest.domain.model;
 
+import static com.gomo.app.interest.exception.InterestRelationErrorCode.*;
+
 import java.util.UUID;
 
 import com.gomo.app.common.domain.Authorizable;
 import com.gomo.app.common.domain.BaseAudit;
+import com.gomo.app.interest.exception.InterestRelationAccessDeniedException;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
@@ -63,6 +66,8 @@ public class InterestRelation extends BaseAudit implements Authorizable {
 
 	@Override
 	public void validateAuthority(UUID accessorId) {
-
+		if(!accessorId.equals(registrantId.getId())) {
+			throw new InterestRelationAccessDeniedException(ACCESS_DENIED);
+		}
 	}
 }
