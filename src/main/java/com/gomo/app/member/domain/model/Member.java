@@ -99,4 +99,13 @@ public class Member extends LogicalDeleteBaseAudit {
 			RoleType.ROLE_MEMBER, SubscriptionPlan.FREE, ActivateStatus.ACTIVE, LocalDateTime.now()
 		);
 	}
+
+	public boolean isBelowQuestThreshold(String questType, int questCount) {
+		return switch (questType) {
+			case "DAILY" -> questProperty.getDailyThreshold().getThreshold() > questCount;
+			case "WEEKLY" -> questProperty.getWeeklyThreshold().getThreshold() > questCount;
+			case "MONTHLY" -> questProperty.getMonthlyThreshold().getThreshold() > questCount;
+			default -> throw new IllegalArgumentException("Invalid quest type: " + questType);
+		};
+	}
 }

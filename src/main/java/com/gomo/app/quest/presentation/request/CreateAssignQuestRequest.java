@@ -10,24 +10,28 @@ import lombok.Getter;
 public class CreateAssignQuestRequest {
 
 	private UUID subjectId;
+	private String subjectName;
 	private QuestType questType;
 	private String content;
 
 	private CreateAssignQuestRequest(
 		UUID subjectId,
+		String subjectName,
 		QuestType questType,
 		String content
 	) {
 		this.subjectId = subjectId;
+		this.subjectName = subjectName;
 		this.questType = questType;
 		this.content = content;
 	}
 
 	public static CreateAssignQuestRequest of(
 		UUID subjectId,
+		String subjectName,
 		QuestType questType,
 		String content
 	){
-		return new CreateAssignQuestRequest(subjectId, questType, content);
+		return new CreateAssignQuestRequest(subjectId, subjectName, questType, content);
 	}
 }
