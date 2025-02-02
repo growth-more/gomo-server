@@ -22,11 +22,12 @@ public class SubjectName {
 		return new SubjectName(subjectName);
 	}
 
-	private boolean isValidLength(int min, int max) {
-		return false;
+	public SubjectName update(String subjectName) {
+		return new SubjectName(subjectName);
 	}
 
-	private boolean doesContainProhibitCharacters() {
-		return false;
+	@Override
+	public String toString() {
+		return this.subjectName;
 	}
 }

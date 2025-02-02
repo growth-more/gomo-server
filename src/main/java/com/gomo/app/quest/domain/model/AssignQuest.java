@@ -7,7 +7,10 @@ import com.gomo.app.common.domain.Authorizable;
 import com.gomo.app.common.domain.BaseAudit;
 import com.gomo.app.common.domain.service.DisplayOrder;
 import com.gomo.app.common.domain.service.OrderChangeable;
-import com.gomo.app.interest.domain.model.InterestId;
+import com.gomo.app.common.exception.DomainErrorCode;
+import com.gomo.app.common.exception.PolicyViolationException;
+import com.gomo.app.quest.exception.AssignQuestAccessDeniedException;
+import com.gomo.app.quest.exception.AssignQuestErrorCode;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
@@ -29,9 +32,10 @@ public class AssignQuest extends BaseAudit implements OrderChangeable, Authoriza
 
 	@Embedded
 	@AttributeOverrides({
-		@AttributeOverride(name = "memberId", column = @Column(name = "member_id")),
-		@AttributeOverride(name = "interestId", column = @Column(name = "interest_id")),
-		@AttributeOverride(name = "interestName", column = @Column(name = "interest_name")),
+		@AttributeOverride(name = "participantId", column = @Column(name = "participant_id")),
+		@AttributeOverride(name = "subjectId", column = @Column(name = "subject_id")),
+		@AttributeOverride(name = "subjectName", column = @Column(name = "subject_name")),
+		@AttributeOverride(name = "type", column = @Column(name = "quest_type")),
 		@AttributeOverride(name = "content", column = @Column(name = "content"))
 	})
 	private Quest quest;
@@ -40,16 +44,12 @@ public class AssignQuest extends BaseAudit implements OrderChangeable, Authoriza
 		@AttributeOverride(name = "url", column = @Column(name = "proof")),
 	})
 	private CompletionProof proof;
-
 	private boolean isConfirmed;
-
 	private boolean isCompleted;
 
 	@Embedded
 	private DisplayOrder displayOrder;
-
 	private LocalDateTime startDateTime;
-
 	private LocalDateTime completedDateTime;
 
 	protected AssignQuest() {}
@@ -82,29 +82,39 @@ public class AssignQuest extends BaseAudit implements OrderChangeable, Authoriza
 		LocalDateTime startDateTime
 	) {
 		return new AssignQuest(
-			id, quest, CompletionProof.blank(), isConfirmed, NOT_COMPLETED, displayOrder, startDateTime, BLANK_DATE_TIME
+			id, quest, CompletionProof.createDefault(), isConfirmed, NOT_COMPLETED, displayOrder, startDateTime, BLANK_DATE_TIME
 		);
 	}
 
-	public void updateQuest(InterestId interestId, QuestType questType, QuestContent content) {
-
+	public void updateQuest(SubjectId subjectId, SubjectName subjectName, QuestType questType, QuestContent content) {
+		this.quest = this.quest.update(subjectId, subjectName, questType, content);
 	}
 
 	public void confirm() {
+		this.isConfirmed = true;
 	}
 
-	public void complete(CompletionProof proof, QuestReward questReward) {}
-
-	private boolean isAlreadyConfirm() {
-		return this.isConfirmed;
+	public void complete(CompletionProof proof) {
+		if(!this.isConfirmed) {
+			throw new PolicyViolationException(DomainErrorCode.INVALID_STATE, "AssignQuest must be confirmed before completing");
+		}
+		this.isCompleted = true;
+		this.proof = proof;
+		this.displayOrder = this.displayOrder.increase(1000);
 	}
 
 	@Override
 	public void changeOrder(DisplayOrder displayOrder) {
+		if(this.isCompleted) {
+			throw new PolicyViolationException(DomainErrorCode.INVALID_STATE, "Completed quests cannot have their order changed");
+		}
+		this.displayOrder = displayOrder;
 	}
 
 	@Override
 	public void validateAuthority(UUID accessorId) {
-
+		if(!this.quest.isAccessibleBy(accessorId)) {
+			throw new AssignQuestAccessDeniedException(AssignQuestErrorCode.ACCESS_DENIED);
+		}
 	}
 }

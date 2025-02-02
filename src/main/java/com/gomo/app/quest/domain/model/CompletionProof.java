@@ -1,6 +1,9 @@
 package com.gomo.app.quest.domain.model;
 
+import static com.gomo.app.common.exception.DomainErrorCode.*;
+
 import com.gomo.app.common.domain.ValueObject;
+import com.gomo.app.common.exception.PolicyViolationException;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
@@ -10,26 +13,42 @@ import lombok.Getter;
 @ValueObject
 public class CompletionProof {
 
-	private static final String BLANK_URL = null;
+	private static final int MAX_LENGTH = 512;
+	private static final String NO_PROOF = "no_proof";
 
 	private String url;
 
 	protected CompletionProof() {
 	}
 
-	private CompletionProof(
-		String url
-	) {
+	private CompletionProof(String url) {
+		ensureNotBlank(url);
+		ensureValidLength(url);
 		this.url = url;
 	}
 
-	public static CompletionProof of(
-		String url
-	) {
+	public static CompletionProof createDefault() {
+		return new CompletionProof(NO_PROOF);
+	}
+
+	public CompletionProof update(String url) {
 		return new CompletionProof(url);
 	}
 
-	public static CompletionProof blank() {
-		return new CompletionProof(BLANK_URL);
+	private void ensureNotBlank(String url) {
+		if(url == null || url.isBlank()) {
+			throw new PolicyViolationException(INVALID_PARAMETER, "Completion proof cannot be blank");
+		}
+	}
+
+	private void ensureValidLength(String url) {
+		if(url.length() > MAX_LENGTH) {
+			throw new PolicyViolationException(INVALID_PARAMETER, "Completion proof must not exceed 512 characters");
+		}
+	}
+
+	@Override
+	public String toString() {
+		return this.url;
 	}
 }
