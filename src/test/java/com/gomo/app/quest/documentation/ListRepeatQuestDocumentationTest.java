@@ -15,8 +15,6 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.quest.common.fixture.repeat.JavaRepeatQuestFixture;
-import com.gomo.app.quest.common.fixture.repeat.SpringRepeatQuestFixture;
 import com.gomo.app.quest.documentation.snippet.ListRepeatQuestSnippet;
 import com.gomo.app.quest.domain.model.QuestType;
 
@@ -46,8 +44,8 @@ public class ListRepeatQuestDocumentationTest extends DocumentationTestBase {
 			.statusCode(OK.value())
 			.body("repeatQuests", hasSize(2))
 			.body("repeatQuests.id", hasItems(
-				JavaRepeatQuestFixture.id(),
-				SpringRepeatQuestFixture.id()
+				"",
+				""
 			));
 	}
 }

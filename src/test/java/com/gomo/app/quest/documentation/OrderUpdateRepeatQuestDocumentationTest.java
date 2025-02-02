@@ -17,8 +17,6 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.quest.common.fixture.repeat.JavaRepeatQuestFixture;
-import com.gomo.app.quest.common.fixture.repeat.SpringRepeatQuestFixture;
 import com.gomo.app.quest.common.util.RepeatQuestDataHelper;
 import com.gomo.app.quest.documentation.snippet.OrderUpdateRepeatQuestSnippet;
 import com.gomo.app.quest.domain.model.QuestType;
@@ -53,7 +51,7 @@ public class OrderUpdateRepeatQuestDocumentationTest extends DocumentationTestBa
 			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 			.body(OrderUpdateRepeatQuestRequest.of(
 				QuestType.DAILY,
-				List.of(SpringRepeatQuestFixture.displayOrder(), JavaRepeatQuestFixture.displayOrder())))
+				List.of(1, 2)))
 			.when()
 			.put(ORDER_UPDATE_REPEAT_QUEST_URL)
 			.then()

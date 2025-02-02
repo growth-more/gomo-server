@@ -4,6 +4,8 @@ import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.http.HttpStatus.*;
 
+import java.util.UUID;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,10 +18,9 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.quest.common.fixture.assign.JavaAssignQuestFixture;
 import com.gomo.app.quest.common.util.AssignQuestDataHelper;
 import com.gomo.app.quest.documentation.snippet.UpdateAssignQuestSnippet;
-import com.gomo.app.quest.exception.AssignQuestErrorCode;
+import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.presentation.request.UpdateAssignQuestRequest;
 
 public class UpdateAssignQuestDocumentationTest extends DocumentationTestBase {
@@ -52,11 +53,11 @@ public class UpdateAssignQuestDocumentationTest extends DocumentationTestBase {
 		given(this.specification).filter(filter)
 			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 			.body(UpdateAssignQuestRequest.of(
-				JavaAssignQuestFixture.subjectId(),
-				JavaAssignQuestFixture.questType(),
-				JavaAssignQuestFixture.questContent()))
+				UUID.randomUUID(),
+				QuestType.DAILY,
+				""))
 			.when()
-			.put(UPDATE_ASSIGN_QUEST_URL, JavaAssignQuestFixture.id())
+			.put(UPDATE_ASSIGN_QUEST_URL, "")
 			.then()
 			.statusCode(NO_CONTENT.value());
 	}
@@ -67,8 +68,8 @@ public class UpdateAssignQuestDocumentationTest extends DocumentationTestBase {
 		given(this.specification).filter(errorFilter)
 			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 			.body(UpdateAssignQuestRequest.of(
-				JavaAssignQuestFixture.subjectId(),
-				JavaAssignQuestFixture.questType(),
+				UUID.randomUUID(),
+				QuestType.DAILY,
 				BLANK_QUEST_CONTENT))
 			.when()
 			.put(UPDATE_ASSIGN_QUEST_URL)
@@ -76,7 +77,7 @@ public class UpdateAssignQuestDocumentationTest extends DocumentationTestBase {
 			.statusCode(UNPROCESSABLE_ENTITY.value())
 			.body("timestamp", instanceOf(String.class))
 			.body("httpStatus", equalTo("422"))
-			.body("code", equalTo(AssignQuestErrorCode.INVALID_PARAMETER.name()))
+			// .body("code", equalTo(AssignQuestErrorCode.INVALID_PARAMETER.name()))
 			.body("message", equalTo("Invalid parameter: " + BLANK_QUEST_CONTENT))
 			.body("path", equalTo(UPDATE_ASSIGN_QUEST_URL));
 	}

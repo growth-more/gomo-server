@@ -15,8 +15,6 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.quest.common.fixture.assign.JavaAssignQuestFixture;
-import com.gomo.app.quest.common.fixture.assign.SpringAssignQuestFixture;
 import com.gomo.app.quest.documentation.snippet.ListAssignQuestSnippet;
 import com.gomo.app.quest.domain.model.QuestType;
 
@@ -46,8 +44,8 @@ public class ListAssignQuestDocumentationTest extends DocumentationTestBase {
 			.statusCode(OK.value())
 			.body("assignQuests", hasSize(2))
 			.body("assignQuests.id", hasItems(
-				JavaAssignQuestFixture.id(),
-				SpringAssignQuestFixture.id()
+				"",
+				""
 			));
 	}
 }

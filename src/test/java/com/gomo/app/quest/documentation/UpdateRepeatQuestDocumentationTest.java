@@ -4,6 +4,8 @@ import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.http.HttpStatus.*;
 
+import java.util.UUID;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,9 +19,9 @@ import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.quest.common.constant.NonExistQuestField;
-import com.gomo.app.quest.common.fixture.repeat.JavaRepeatQuestFixture;
 import com.gomo.app.quest.common.util.RepeatQuestDataHelper;
 import com.gomo.app.quest.documentation.snippet.UpdateRepeatQuestSnippet;
+import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.exception.RepeatQuestErrorCode;
 import com.gomo.app.quest.presentation.request.UpdateRepeatQuestRequest;
 
@@ -53,11 +55,11 @@ public class UpdateRepeatQuestDocumentationTest extends DocumentationTestBase {
 		given(this.specification).filter(filter)
 			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 			.body(UpdateRepeatQuestRequest.of(
-				JavaRepeatQuestFixture.interestId(),
-				JavaRepeatQuestFixture.questType(),
+				UUID.randomUUID(),
+				QuestType.DAILY,
 				NonExistQuestField.CONTENT))
 			.when()
-			.put(UPDATE_REPEAT_QUEST_URL, JavaRepeatQuestFixture.id())
+			.put(UPDATE_REPEAT_QUEST_URL, "")
 			.then()
 			.statusCode(NO_CONTENT.value());
 	}
@@ -68,11 +70,11 @@ public class UpdateRepeatQuestDocumentationTest extends DocumentationTestBase {
 		given(this.specification).filter(errorFilter)
 			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 			.body(UpdateRepeatQuestRequest.of(
-				JavaRepeatQuestFixture.interestId(),
-				JavaRepeatQuestFixture.questType(),
+				UUID.randomUUID(),
+				QuestType.DAILY,
 				BLANK_QUEST_CONTENT))
 			.when()
-			.put(UPDATE_REPEAT_QUEST_URL, JavaRepeatQuestFixture.id())
+			.put(UPDATE_REPEAT_QUEST_URL, "")
 			.then()
 			.statusCode(UNPROCESSABLE_ENTITY.value())
 			.body("timestamp", instanceOf(String.class))

@@ -18,8 +18,6 @@ import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.interest.presentation.request.OrderUpdateMajorInterestRequest;
-import com.gomo.app.quest.common.fixture.assign.JavaAssignQuestFixture;
-import com.gomo.app.quest.common.fixture.assign.SpringAssignQuestFixture;
 import com.gomo.app.quest.common.util.AssignQuestDataHelper;
 import com.gomo.app.quest.documentation.snippet.OrderUpdateAssignQuestSnippet;
 
@@ -50,7 +48,7 @@ public class OrderUpdateAssignQuestDocumentationTest extends DocumentationTestBa
 	void update_assign_quest_order() {
 		given(this.specification).filter(filter)
 			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-			.body(OrderUpdateMajorInterestRequest.of(List.of(SpringAssignQuestFixture.displayOrder(), JavaAssignQuestFixture.displayOrder())))
+			.body(OrderUpdateMajorInterestRequest.of(List.of(1, 2)))
 			.when()
 			.put(ORDER_UPDATE_ASSIGN_QUEST_URL)
 			.then()

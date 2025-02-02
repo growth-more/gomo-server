@@ -15,7 +15,6 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.quest.common.fixture.assign.JavaAssignQuestFixture;
 import com.gomo.app.quest.common.util.AssignQuestDataHelper;
 import com.gomo.app.quest.documentation.snippet.ConfirmAssignQuestSnippet;
 
@@ -47,7 +46,7 @@ public class ConfirmAssignQuestDocumentationTest extends DocumentationTestBase {
 		given(this.specification).filter(filter)
 			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 			.when()
-			.put(CONFIRM_ASSIGN_QUEST_URL, JavaAssignQuestFixture.id())
+			.put(CONFIRM_ASSIGN_QUEST_URL, "")
 			.then()
 			.statusCode(NO_CONTENT.value());
 	}

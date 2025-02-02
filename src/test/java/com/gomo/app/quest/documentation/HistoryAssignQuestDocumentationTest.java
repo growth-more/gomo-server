@@ -15,7 +15,6 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.quest.common.fixture.assign.HistoryAssignQuestFixture;
 import com.gomo.app.quest.documentation.snippet.HistoryAssignQuestSnippet;
 import com.gomo.app.quest.domain.model.QuestType;
 
@@ -42,14 +41,14 @@ public class HistoryAssignQuestDocumentationTest extends DocumentationTestBase {
 			.sessionId(sessionId)
 			.param("questType", QuestType.DAILY.name())
 			.param("size", 1)
-			.param("lastElementId", HistoryAssignQuestFixture.history1Id())
+			.param("lastElementId", "")
 			.when()
 			.get(HISTORY_ASSIGN_QUEST_URL)
 			.then()
 			.statusCode(OK.value())
 			.body("histories", hasSize(1))
 			.body("histories.id", hasItems(
-				HistoryAssignQuestFixture.history2Id()
+				""
 			));
 	}
 }
