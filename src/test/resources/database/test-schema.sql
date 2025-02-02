@@ -393,7 +393,7 @@ INSERT INTO assign_quest(
     'gomotest@naver.com',
     '2025-01-21T22:53:22.980610300',
     'gomotest@naver.com'),
-    -- spring daily quest - not confirm, not completed
+    -- spring daily quest - confirm, not completed
     (UNHEX(REPLACE('bf259c7a-d7ff-11ef-ac7f-3bd3057a2c2e', '-', '')),
     UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
     UNHEX(REPLACE('90a387a7-d7c5-11ef-b4d7-079c7dc41274', '-', '')),
@@ -401,7 +401,7 @@ INSERT INTO assign_quest(
     'DAILY',
     'Spring AOP 학습하고 TIL 작성하기',
     null,
-    false,
+     true,
     false,
     2,
     '2025-01-21T22:53:22.980610300',
