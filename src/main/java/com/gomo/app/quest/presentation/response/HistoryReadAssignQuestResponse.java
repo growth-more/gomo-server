@@ -3,6 +3,7 @@ package com.gomo.app.quest.presentation.response;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.QuestType;
 
 import lombok.Getter;
@@ -17,7 +18,6 @@ public class HistoryReadAssignQuestResponse {
 	private String proof;
 	private boolean isCompleted;
 	private LocalDateTime completedDateTime;
-	private int weekOfYear;
 
 	private HistoryReadAssignQuestResponse(
 		UUID id,
@@ -26,8 +26,7 @@ public class HistoryReadAssignQuestResponse {
 		String content,
 		String proof,
 		boolean isCompleted,
-		LocalDateTime completedDateTime,
-		int weekOfYear
+		LocalDateTime completedDateTime
 	) {
 		this.id = id;
 		this.questType = questType;
@@ -36,21 +35,17 @@ public class HistoryReadAssignQuestResponse {
 		this.proof = proof;
 		this.isCompleted = isCompleted;
 		this.completedDateTime = completedDateTime;
-		this.weekOfYear = weekOfYear;
 	}
 
-	public static HistoryReadAssignQuestResponse of(
-		UUID id,
-		QuestType questType,
-		String subjectName,
-		String content,
-		String proof,
-		boolean isCompleted,
-		LocalDateTime completedDateTime,
-		int weekOfYear
-	) {
+	public static HistoryReadAssignQuestResponse of(AssignQuest assignQuest) {
 		return new HistoryReadAssignQuestResponse(
-			id, questType, subjectName, content, proof, isCompleted, completedDateTime, weekOfYear
+			assignQuest.getId().getId(),
+			assignQuest.getQuest().getType(),
+			assignQuest.getQuest().getSubjectName().toString(),
+			assignQuest.getQuest().getContent().toString(),
+			assignQuest.getProof().toString(),
+			assignQuest.isCompleted(),
+			assignQuest.getCompletedDateTime()
 		);
 	}
 }

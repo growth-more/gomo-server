@@ -10,7 +10,7 @@ import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.domain.repository.QuestRewardPolicyRepository;
 
 @Repository
-public class QuestRewardPolicyRepositoryImpl implements QuestRewardPolicyRepository {
+public class MemoryQuestRewardPolicyRepository implements QuestRewardPolicyRepository {
 
 	@Override
 	public List<QuestScorePolicy> findScorePolicies() {

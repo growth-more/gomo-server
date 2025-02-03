@@ -31,7 +31,7 @@ public class CompletionProof {
 		return new CompletionProof(NO_PROOF);
 	}
 
-	public CompletionProof update(String url) {
+	public static CompletionProof of(String url) {
 		return new CompletionProof(url);
 	}
 

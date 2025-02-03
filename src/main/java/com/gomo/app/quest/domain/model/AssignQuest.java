@@ -103,6 +103,10 @@ public class AssignQuest extends BaseAudit implements OrderChangeable, Authoriza
 		this.displayOrder = this.displayOrder.increase(1000);
 	}
 
+	public boolean isSameQuestType(QuestType questType) {
+		return this.quest.getType() == questType;
+	}
+
 	@Override
 	public void changeOrder(DisplayOrder displayOrder) {
 		if(this.isCompleted) {

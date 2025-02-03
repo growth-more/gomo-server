@@ -1,11 +1,15 @@
 package com.gomo.app.quest.presentation;
 
+import java.util.UUID;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.gomo.app.common.authentication.MemberContext;
+import com.gomo.app.common.authentication.SessionMember;
 import com.gomo.app.common.presentation.Presentation;
 import com.gomo.app.quest.application.CompleteAssignQuestUseCase;
 import com.gomo.app.quest.domain.model.AssignQuestId;
@@ -21,7 +25,9 @@ public class CompleteAssignQuestApi {
 	private final CompleteAssignQuestUseCase completeAssignQuestUseCase;
 
 	@PutMapping
-	public ResponseEntity<Void> complete(@PathVariable("id") AssignQuestId assignQuestId, @RequestBody CompleteAssignQuestRequest request) {
-		return null;
+	public ResponseEntity<Void> complete(@PathVariable("id") UUID assignQuestId, @RequestBody CompleteAssignQuestRequest request) {
+		SessionMember sessionMember = MemberContext.getSessionMember();
+		completeAssignQuestUseCase.complete(sessionMember.getId(), AssignQuestId.of(assignQuestId), request);
+		return ResponseEntity.noContent().build();
 	}
 }

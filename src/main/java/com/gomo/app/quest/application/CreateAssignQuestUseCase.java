@@ -78,7 +78,7 @@ public class CreateAssignQuestUseCase {
 		LocalDateTime startDateTime = DateRangeCalculator.startOf(now, questType.name());
 		LocalDateTime endDateTime = DateRangeCalculator.endOf(now, questType.name());
 
-		return (int)assignQuestRepository.countByQuestParticipantIdAndQuestTypeAndStartDateTimeBetween(
+		return (int)assignQuestRepository.countParticipatingQuestByQuestType(
 			participantId,
 			questType,
 			startDateTime,

@@ -1,9 +1,10 @@
 package com.gomo.app.quest.application;
 
+import java.util.UUID;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.application.ApplicationService;
-import com.gomo.app.member.domain.model.MemberId;
 import com.gomo.app.quest.domain.model.RepeatQuestId;
 import com.gomo.app.quest.domain.repository.RepeatQuestRepository;
 import com.gomo.app.quest.presentation.request.UpdateRepeatQuestRequest;
@@ -17,7 +18,7 @@ public class UpdateRepeatQuestUseCase {
 
 	private final RepeatQuestRepository repeatQuestRepository;
 
-	public void update(MemberId memberId, RepeatQuestId repeatQuestId, UpdateRepeatQuestRequest request) {
+	public void update(UUID accessorId, RepeatQuestId repeatQuestId, UpdateRepeatQuestRequest request) {
 
 	}
 }

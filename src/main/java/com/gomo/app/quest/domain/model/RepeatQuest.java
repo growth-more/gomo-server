@@ -25,9 +25,10 @@ public class RepeatQuest extends BaseAudit implements OrderChangeable, Authoriza
 
 	@Embedded
 	@AttributeOverrides({
-		@AttributeOverride(name = "memberId", column = @Column(name = "member_id")),
-		@AttributeOverride(name = "interestId", column = @Column(name = "interest_id")),
-		@AttributeOverride(name = "interestName", column = @Column(name = "interest_name")),
+		@AttributeOverride(name = "participantId", column = @Column(name = "participant_id")),
+		@AttributeOverride(name = "subjectId", column = @Column(name = "subject_id")),
+		@AttributeOverride(name = "subjectName", column = @Column(name = "subject_name")),
+		@AttributeOverride(name = "type", column = @Column(name = "quest_type")),
 		@AttributeOverride(name = "content", column = @Column(name = "content"))
 	})
 	private Quest quest;
