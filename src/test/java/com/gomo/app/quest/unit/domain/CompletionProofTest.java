@@ -26,41 +26,34 @@ public class CompletionProofTest {
 		assertThat(completionProof.getUrl()).isEqualTo("no_proof");
 	}
 
-	@DisplayName("퀘스트 증명을 수정한다.")
+	@DisplayName("퀘스트 증명을 생성한다.")
 	@Test
-	void update_completion_proof() {
-		CompletionProof completionProof = CompletionProof.createDefault();
-		CompletionProof updatedCompletionProof = completionProof.update(URL);
+	void create_completion_proof() {
+		CompletionProof completionProof = CompletionProof.of(URL);
 
-		assertThat(updatedCompletionProof.toString()).isEqualTo(URL);
+		assertThat(completionProof.toString()).isEqualTo(URL);
 	}
 
-	@DisplayName("null 으로 퀘스트 증명을 수정할 수 없다.")
+	@DisplayName("null 으로 퀘스트 증명을 생성할 수 없다.")
 	@Test
-	void update_completion_proof_with_null() {
-		CompletionProof completionProof = CompletionProof.createDefault();
-
-		assertThatThrownBy(() -> completionProof.update(null))
+	void create_completion_proof_with_null() {
+		assertThatThrownBy(() -> CompletionProof.of(null))
 			.isInstanceOf(PolicyViolationException.class)
 			.hasMessageContaining("Completion proof cannot be blank");
 	}
 
-	@DisplayName("공백으로 퀘스트 증명을 수정할 수 없다.")
+	@DisplayName("공백으로 퀘스트 증명을 생성할 수 없다.")
 	@Test
-	void update_completion_proof_with_blank() {
-		CompletionProof completionProof = CompletionProof.createDefault();
-
-		assertThatThrownBy(() -> completionProof.update(BLANK))
+	void create_completion_proof_with_blank() {
+		assertThatThrownBy(() -> CompletionProof.of(BLANK))
 			.isInstanceOf(PolicyViolationException.class)
 			.hasMessageContaining("Completion proof cannot be blank");
 	}
 
-	@DisplayName("최대 길이보다 길게 퀘스트 증명을 수정할 수 없다.")
+	@DisplayName("최대 길이보다 길게 퀘스트 증명을 생성할 수 없다.")
 	@Test
-	void update_completion_proof_with_long_length() {
-		CompletionProof completionProof = CompletionProof.createDefault();
-
-		assertThatThrownBy(() -> completionProof.update(TOO_LONG_URL))
+	void create_completion_proof_with_long_length() {
+		assertThatThrownBy(() -> CompletionProof.of(TOO_LONG_URL))
 			.isInstanceOf(PolicyViolationException.class)
 			.hasMessageContaining("Completion proof must not exceed 512 characters");
 	}

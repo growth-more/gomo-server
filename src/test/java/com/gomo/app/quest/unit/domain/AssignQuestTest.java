@@ -104,7 +104,7 @@ public class AssignQuestTest {
 			LocalDateTime.of(2025, 1, 31, 0, 0, 0, 0)
 		);
 
-		CompletionProof updatedProof = CompletionProof.createDefault().update("updated proof");
+		CompletionProof updatedProof = CompletionProof.createDefault().of("updated proof");
 		assignQuest.complete(updatedProof);
 
 		assertThat(assignQuest.isCompleted()).isTrue();
@@ -122,7 +122,7 @@ public class AssignQuestTest {
 			LocalDateTime.of(2025, 1, 31, 0, 0, 0, 0)
 		);
 
-		CompletionProof updatedProof = CompletionProof.createDefault().update("updated proof");
+		CompletionProof updatedProof = CompletionProof.createDefault().of("updated proof");
 		assignQuest.complete(updatedProof);
 
 		assertThat(assignQuest.getDisplayOrder()).isEqualTo(DisplayOrder.of(1001));
@@ -139,11 +139,43 @@ public class AssignQuestTest {
 			LocalDateTime.of(2025, 1, 31, 0, 0, 0, 0)
 		);
 
-		CompletionProof updatedProof = CompletionProof.createDefault().update("updated proof");
+		CompletionProof updatedProof = CompletionProof.createDefault().of("updated proof");
 
 		assertThatThrownBy(() -> assignQuest.complete(updatedProof))
 			.isInstanceOf(PolicyViolationException.class)
 			.hasMessageContaining("AssignQuest must be confirmed before completing");
+	}
+
+	@DisplayName("할당 퀘스트의 타입이 요청된 파라미터와 같다.")
+	@Test
+	void quest_type_is_same_assign_quest_type() {
+		AssignQuest assignQuest = AssignQuest.of(
+			ID,
+			Quest.of(PARTICIPANT_ID, SUBJECT_ID, SUBJECT_NAME, QuestType.DAILY, QUEST_CONTENT),
+			false,
+			DisplayOrder.of(1),
+			LocalDateTime.of(2025, 1, 31, 0, 0, 0, 0)
+		);
+
+		boolean actual = assignQuest.isSameQuestType(QuestType.DAILY);
+
+		assertThat(actual).isTrue();
+	}
+
+	@DisplayName("할당 퀘스트의 타입이 요청된 파라미터와 다르다.")
+	@Test
+	void quest_type_is_not_same_assign_quest_type() {
+		AssignQuest assignQuest = AssignQuest.of(
+			ID,
+			Quest.of(PARTICIPANT_ID, SUBJECT_ID, SUBJECT_NAME, QuestType.DAILY, QUEST_CONTENT),
+			false,
+			DisplayOrder.of(1),
+			LocalDateTime.of(2025, 1, 31, 0, 0, 0, 0)
+		);
+
+		boolean actual = assignQuest.isSameQuestType(QuestType.WEEKLY);
+
+		assertThat(actual).isFalse();
 	}
 
 	@DisplayName("확정하지 않은 할당 퀘스트의 정렬 순서를 변경한다.")
@@ -189,7 +221,7 @@ public class AssignQuestTest {
 			LocalDateTime.of(2025, 1, 31, 0, 0, 0, 0)
 		);
 
-		CompletionProof updatedProof = CompletionProof.createDefault().update("updated proof");
+		CompletionProof updatedProof = CompletionProof.createDefault().of("updated proof");
 		assignQuest.complete(updatedProof);
 
 		assertThatThrownBy(() -> assignQuest.changeOrder(DisplayOrder.of(2)))

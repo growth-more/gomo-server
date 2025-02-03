@@ -19,7 +19,7 @@ public class OrderUpdateAssignQuestSnippet {
 	private static final String TAG = "Quest";
 
 	private static final Snippet REQUEST_FIELDS = requestFields(
-		fieldWithPath("questType").type(JsonFieldType.ARRAY).description("퀘스트 타입: DAILY / WEEKLY / MONTHLY"),
+		fieldWithPath("questType").type(JsonFieldType.STRING).description("퀘스트 타입: DAILY / WEEKLY / MONTHLY"),
 		fieldWithPath("updatedOrders").type(JsonFieldType.ARRAY).description("변경하려는 정렬 순서")
 	);
 

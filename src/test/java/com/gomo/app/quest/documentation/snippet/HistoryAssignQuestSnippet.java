@@ -19,15 +19,32 @@ public class HistoryAssignQuestSnippet {
 	private static final String TAG = "Quest";
 
 	private static final Snippet RESPONSE_FIELDS = responseFields(
-		fieldWithPath("histories").type(JsonFieldType.ARRAY).description("할당 퀘스트 과거 이력"),
-		fieldWithPath("histories[].id").type(JsonFieldType.STRING).description("할당 퀘스트 아이디"),
-		fieldWithPath("histories[].questType").type(JsonFieldType.STRING).description("퀘스트 타입"),
-		fieldWithPath("histories[].interestName").type(JsonFieldType.STRING).description("관심사 이름"),
-		fieldWithPath("histories[].content").type(JsonFieldType.STRING).description("퀘스트 내용"),
-		fieldWithPath("histories[].proofUrl").type(JsonFieldType.STRING).description("퀘스트 증명"),
-		fieldWithPath("histories[].isCompleted").type(JsonFieldType.STRING).description("완료 여부"),
-		fieldWithPath("histories[].completedDateTime").type(JsonFieldType.STRING).description("완료일"),
-		fieldWithPath("histories[].weekOfYear").type(JsonFieldType.NUMBER).description("퀘스트를 할당받은 주차")
+		fieldWithPath("dailyHistoryQuests").type(JsonFieldType.ARRAY).description("일일 퀘스트 과거 이력"),
+		fieldWithPath("dailyHistoryQuests[].id").type(JsonFieldType.STRING).description("할당 퀘스트 아이디"),
+		fieldWithPath("dailyHistoryQuests[].questType").type(JsonFieldType.STRING).description("퀘스트 타입"),
+		fieldWithPath("dailyHistoryQuests[].subjectName").type(JsonFieldType.STRING).description("주제(관심사) 이름"),
+		fieldWithPath("dailyHistoryQuests[].content").type(JsonFieldType.STRING).description("퀘스트 내용"),
+		fieldWithPath("dailyHistoryQuests[].proof").type(JsonFieldType.STRING).description("퀘스트 증명"),
+		fieldWithPath("dailyHistoryQuests[].completed").type(JsonFieldType.BOOLEAN).description("완료 여부"),
+		fieldWithPath("dailyHistoryQuests[].completedDateTime").type(JsonFieldType.STRING).optional().description("완료일 (없을 경우 null)"),
+
+		fieldWithPath("weeklyHistoryQuests").type(JsonFieldType.ARRAY).description("주간 퀘스트 과거 이력"),
+		fieldWithPath("weeklyHistoryQuests[].id").type(JsonFieldType.STRING).description("할당 퀘스트 아이디"),
+		fieldWithPath("weeklyHistoryQuests[].questType").type(JsonFieldType.STRING).description("퀘스트 타입"),
+		fieldWithPath("weeklyHistoryQuests[].subjectName").type(JsonFieldType.STRING).description("주제(관심사) 이름"),
+		fieldWithPath("weeklyHistoryQuests[].content").type(JsonFieldType.STRING).description("퀘스트 내용"),
+		fieldWithPath("weeklyHistoryQuests[].proof").type(JsonFieldType.STRING).description("퀘스트 증명"),
+		fieldWithPath("weeklyHistoryQuests[].completed").type(JsonFieldType.BOOLEAN).description("완료 여부"),
+		fieldWithPath("weeklyHistoryQuests[].completedDateTime").type(JsonFieldType.STRING).optional().description("완료일 (없을 경우 null)"),
+
+		fieldWithPath("monthlyHistoryQuests").type(JsonFieldType.ARRAY).description("월간 퀘스트 과거 이력"),
+		fieldWithPath("monthlyHistoryQuests[].id").type(JsonFieldType.STRING).description("할당 퀘스트 아이디"),
+		fieldWithPath("monthlyHistoryQuests[].questType").type(JsonFieldType.STRING).description("퀘스트 타입"),
+		fieldWithPath("monthlyHistoryQuests[].subjectName").type(JsonFieldType.STRING).description("주제(관심사) 이름"),
+		fieldWithPath("monthlyHistoryQuests[].content").type(JsonFieldType.STRING).description("퀘스트 내용"),
+		fieldWithPath("monthlyHistoryQuests[].proof").type(JsonFieldType.STRING).description("퀘스트 증명"),
+		fieldWithPath("monthlyHistoryQuests[].completed").type(JsonFieldType.BOOLEAN).description("완료 여부"),
+		fieldWithPath("monthlyHistoryQuests[].completedDateTime").type(JsonFieldType.STRING).optional().description("완료일 (없을 경우 null)")
 	);
 
 	public static RestDocumentationFilter create() {

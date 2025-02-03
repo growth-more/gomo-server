@@ -16,17 +16,15 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.fixture.TestMemberFixture;
+import com.gomo.app.common.exception.DomainErrorCode;
 import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.quest.common.util.AssignQuestDataHelper;
 import com.gomo.app.quest.documentation.snippet.CreateAssignQuestSnippet;
 import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.presentation.request.CreateAssignQuestRequest;
 
+@DisplayName("[Presentation documentation]: 할당 퀘스트 생성 테스트")
 public class CreateAssignQuestDocumentationTest extends DocumentationTestBase {
-
-	private static final String ASSIGN_QUEST_URL = "/quests/assigns";
-	private final static String BLANK_QUEST_CONTENT = "";
 
 	private final RestDocumentationFilter filter = CreateAssignQuestSnippet.create();
 	private final RestDocumentationFilter errorFilter = CreateAssignQuestSnippet.createError();
@@ -39,7 +37,7 @@ public class CreateAssignQuestDocumentationTest extends DocumentationTestBase {
 
 	@BeforeEach
 	public void setUp() {
-		sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
+		// sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
 	}
 
 	@AfterEach
@@ -54,12 +52,12 @@ public class CreateAssignQuestDocumentationTest extends DocumentationTestBase {
 			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 			.body(CreateAssignQuestRequest.of(
 				UUID.randomUUID(),
-				"",
+				"subject name",
 				QuestType.DAILY,
-				""
+				"quest content"
 			))
 			.when()
-			.post(ASSIGN_QUEST_URL)
+			.post("/quests/assigns")
 			.then()
 			.statusCode(CREATED.value())
 			.body("id", hasLength(36));
@@ -74,15 +72,15 @@ public class CreateAssignQuestDocumentationTest extends DocumentationTestBase {
 				UUID.randomUUID(),
 				"",
 				QuestType.DAILY,
-				BLANK_QUEST_CONTENT))
+				""))
 			.when()
-			.post(ASSIGN_QUEST_URL)
+			.post("/quests/assigns")
 			.then()
 			.statusCode(UNPROCESSABLE_ENTITY.value())
 			.body("timestamp", instanceOf(String.class))
-			.body("httpStatus", equalTo("422"))
-			// .body("code", equalTo(AssignQuestErrorCode.INVALID_PARAMETER.name()))
-			.body("message", equalTo("Invalid parameter: " + BLANK_QUEST_CONTENT))
-			.body("path", equalTo(ASSIGN_QUEST_URL));
+			.body("httpStatus", equalTo(DomainErrorCode.INVALID_PARAMETER.getHttpStatus()))
+			.body("code", equalTo(DomainErrorCode.INVALID_PARAMETER.name()))
+			.body("message", equalTo("Quest content cannot be blank"))
+			.body("path", equalTo("/quests/assigns"));
 	}
 }

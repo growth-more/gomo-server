@@ -3,7 +3,6 @@ package com.gomo.app.quest.unit.usecase;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -16,7 +15,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.member.common.fixture.MemberFixture;
-import com.gomo.app.member.domain.model.MemberId;
 import com.gomo.app.member.domain.repository.MemberRepository;
 import com.gomo.app.quest.application.CreateAssignQuestUseCase;
 import com.gomo.app.quest.common.fixture.AssignQuestFixture;
@@ -45,14 +43,9 @@ public class CreateAssignQuestUseCaseTest {
 	@Test
 	void create_assign_quest() {
 		AssignQuest assignQuest = AssignQuestFixture.assignQuest();
-		doReturn(4L).when(assignQuestRepository).countByQuestParticipantIdAndQuestTypeAndStartDateTimeBetween(
-			any(ParticipantId.class),
-			any(QuestType.class),
-			any(LocalDateTime.class),
-			any(LocalDateTime.class)
-		);
-		doReturn(Optional.of(MemberFixture.member(5))).when(memberRepository).findById(any(MemberId.class));
-		doReturn(assignQuest).when(assignQuestRepository).save(any(AssignQuest.class));
+		doReturn(4L).when(assignQuestRepository).countParticipatingQuestByQuestType(any(), any(), any(), any());
+		doReturn(Optional.of(MemberFixture.member(5))).when(memberRepository).findById(any());
+		doReturn(assignQuest).when(assignQuestRepository).save(any());
 
 		CreateAssignQuestResponse actual = sut.create(ParticipantId.of(UUID.randomUUID()), createMockRequest());
 
@@ -62,13 +55,8 @@ public class CreateAssignQuestUseCaseTest {
 	@DisplayName("할당 퀘스트는 사용자가 지정한 개수를 초과해서 생성할 수 없다.")
 	@Test
 	void create_assign_quest_exceeding_quest_property() {
-		doReturn(5L).when(assignQuestRepository).countByQuestParticipantIdAndQuestTypeAndStartDateTimeBetween(
-			any(ParticipantId.class),
-			any(QuestType.class),
-			any(LocalDateTime.class),
-			any(LocalDateTime.class)
-		);
-		doReturn(Optional.of(MemberFixture.member(5))).when(memberRepository).findById(any(MemberId.class));
+		doReturn(5L).when(assignQuestRepository).countParticipatingQuestByQuestType(any(), any(), any(), any());
+		doReturn(Optional.of(MemberFixture.member(5))).when(memberRepository).findById(any());
 
 		assertThatThrownBy(() -> sut.create(ParticipantId.of(UUID.randomUUID()), createMockRequest()))
 			.isInstanceOf(AssignQuestThresholdExceededException.class)
