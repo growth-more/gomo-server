@@ -26,10 +26,20 @@ public class AssignQuestDataProvider {
 	private static final String CONFIRMED_NOT_COMPLETED_SPRING_DAILY_QUEST_ID = "bf259c7a-d7ff-11ef-ac7f-3bd3057a2c2e";
 	private static final String CONFIRMED_COMPLETED_JAVA_DAILY_QUEST_ID = "210891d5-d814-11ef-9cc5-cdb1eaaaac96";
 	private static final String CONFIRMED_COMPLETED_SPRING_DAILY_QUEST_ID = "996604d8-d814-11ef-8d8d-fdccfa1ea3b3";
+	private static final String CONFIRMED_COMPLETED_JAVA_WEEKLY_QUEST_ID = "0194cbcc-1ff6-7ee8-ba6c-994f9ec61a0b";
+	private static final String CONFIRMED_COMPLETED_SPRING_MONTHLY_QUEST_ID = "0194cbcc-79be-78f9-91fa-8a8e53c29010";
+	private static final String PARTICIPATING_DAILY_QUEST_ID = "0194cbd7-8689-74ec-bd46-dc855f493c3b";
+	private static final String PARTICIPATING_WEEKLY_QUEST_ID = "0194cbda-6135-79fc-b659-ebaac3684761";
+	private static final String PARTICIPATING_MONTHLY_QUEST_ID = "0194cbeb-345e-74a6-9199-07bdb402ea36";
 	private AssignQuest notConfirmed;
 	private AssignQuest confirmed;
 	private AssignQuest completedJava;
 	private AssignQuest completedSpring;
+	private AssignQuest weeklyHistoryQuest;
+	private AssignQuest monthlyHistoryQuest;
+	private AssignQuest dailyParticipatingQuest;
+	private AssignQuest weeklyParticipatingQuest;
+	private AssignQuest monthlyParticipatingQuest;
 
 	@Autowired
 	private AssignQuestRepository assignQuestRepository;
@@ -47,6 +57,21 @@ public class AssignQuestDataProvider {
 
 		completedSpring = assignQuestRepository.findById(AssignQuestId.of(UUID.fromString(CONFIRMED_COMPLETED_SPRING_DAILY_QUEST_ID)))
 			.orElseThrow(() -> new IllegalStateException("AssignQuestDataProvider 초기화 실패: 'completedSpring' 에 해당하는 AssignQuest가 없습니다."));
+
+		weeklyHistoryQuest = assignQuestRepository.findById(AssignQuestId.of(UUID.fromString(CONFIRMED_COMPLETED_JAVA_WEEKLY_QUEST_ID)))
+			.orElseThrow(() -> new IllegalStateException("AssignQuestDataProvider 초기화 실패: 'weeklyQuest' 에 해당하는 AssignQuest가 없습니다."));
+
+		monthlyHistoryQuest = assignQuestRepository.findById(AssignQuestId.of(UUID.fromString(CONFIRMED_COMPLETED_SPRING_MONTHLY_QUEST_ID)))
+			.orElseThrow(() -> new IllegalStateException("AssignQuestDataProvider 초기화 실패: 'monthlyQuest' 에 해당하는 AssignQuest가 없습니다."));
+
+		dailyParticipatingQuest = assignQuestRepository.findById(AssignQuestId.of(UUID.fromString(PARTICIPATING_DAILY_QUEST_ID)))
+			.orElseThrow(() -> new IllegalStateException("AssignQuestDataProvider 초기화 실패: 'dailyParticipatingQuest' 에 해당하는 AssignQuest가 없습니다."));
+
+		weeklyParticipatingQuest = assignQuestRepository.findById(AssignQuestId.of(UUID.fromString(PARTICIPATING_WEEKLY_QUEST_ID)))
+			.orElseThrow(() -> new IllegalStateException("AssignQuestDataProvider 초기화 실패: 'weeklyParticipatingQuest' 에 해당하는 AssignQuest가 없습니다."));
+
+		monthlyParticipatingQuest = assignQuestRepository.findById(AssignQuestId.of(UUID.fromString(PARTICIPATING_MONTHLY_QUEST_ID)))
+			.orElseThrow(() -> new IllegalStateException("AssignQuestDataProvider 초기화 실패: 'monthlyParticipatingQuest' 에 해당하는 AssignQuest가 없습니다."));
 	}
 
 	public AssignQuest notConfirmed() {
@@ -63,5 +88,25 @@ public class AssignQuestDataProvider {
 
 	public AssignQuest completedSpring() {
 		return completedSpring;
+	}
+
+	public AssignQuest weeklyHistoryQuest() {
+		return weeklyHistoryQuest;
+	}
+
+	public AssignQuest monthlyHistoryQuest() {
+		return monthlyHistoryQuest;
+	}
+
+	public AssignQuest dailyParticipatingQuest() {
+		return dailyParticipatingQuest;
+	}
+
+	public AssignQuest weeklyParticipatingQuest() {
+		return weeklyParticipatingQuest;
+	}
+
+	public AssignQuest monthlyParticipatingQuest() {
+		return monthlyParticipatingQuest;
 	}
 }
