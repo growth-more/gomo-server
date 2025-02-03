@@ -23,7 +23,7 @@ public class ScoreReward {
 		this.traceId = traceId;
 	}
 
-	static ScoreReward of(
+	public static ScoreReward of(
 		int score,
 		long traceId
 	) {

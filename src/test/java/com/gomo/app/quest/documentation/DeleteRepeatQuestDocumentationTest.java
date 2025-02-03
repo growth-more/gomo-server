@@ -15,8 +15,7 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.quest.common.fixture.repeat.JavaRepeatQuestFixture;
-import com.gomo.app.quest.common.util.RepeatQuestDBDataHelper;
+import com.gomo.app.quest.common.util.RepeatQuestDataHelper;
 import com.gomo.app.quest.documentation.snippet.DeleteRepeatQuestSnippet;
 
 public class DeleteRepeatQuestDocumentationTest extends DocumentationTestBase {
@@ -29,7 +28,7 @@ public class DeleteRepeatQuestDocumentationTest extends DocumentationTestBase {
 	private LoginMemberHelper loginHelper;
 
 	@Autowired
-	private RepeatQuestDBDataHelper repeatQuestDBDataHelper;
+	private RepeatQuestDataHelper repeatQuestDataHelper;
 
 	@BeforeEach
 	public void setUp() {
@@ -38,7 +37,7 @@ public class DeleteRepeatQuestDocumentationTest extends DocumentationTestBase {
 
 	@AfterEach
 	void tearDown() {
-		repeatQuestDBDataHelper.cleanUp();
+		repeatQuestDataHelper.cleanUp();
 	}
 
 	@DisplayName("사용자가 반복 퀘스트를 삭제한다.")
@@ -47,7 +46,7 @@ public class DeleteRepeatQuestDocumentationTest extends DocumentationTestBase {
 		given(this.specification).filter(filter)
 			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 			.when()
-			.delete(DELETE_REPEAT_QUEST_URL, JavaRepeatQuestFixture.id())
+			.delete(DELETE_REPEAT_QUEST_URL, "")
 			.then()
 			.statusCode(NO_CONTENT.value());
 	}

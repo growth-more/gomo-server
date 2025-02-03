@@ -10,13 +10,13 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class StreakDBDataHelper {
+public class RepeatQuestDataHelper {
 
 	private final DataSource dataSource;
 
 	public void cleanUp() {
 		ResourceDatabasePopulator populator = new ResourceDatabasePopulator(
-			new ClassPathResource("database/sql/streak-cleanup.sql")
+			new ClassPathResource("database/sql/repeat-quest-cleanup.sql")
 		);
 		populator.execute(dataSource);
 	}

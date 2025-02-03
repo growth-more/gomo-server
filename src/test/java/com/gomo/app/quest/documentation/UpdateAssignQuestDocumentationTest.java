@@ -2,29 +2,32 @@ package com.gomo.app.quest.documentation;
 
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
+import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.MediaType.*;
+
+import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.fixture.TestMemberFixture;
+import com.gomo.app.common.exception.DomainErrorCode;
 import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.quest.common.fixture.assign.JavaAssignQuestFixture;
-import com.gomo.app.quest.common.util.AssignQuestDBDataHelper;
+import com.gomo.app.quest.common.dataprovider.AssignQuestDataProvider;
+import com.gomo.app.quest.common.util.AssignQuestDataHelper;
 import com.gomo.app.quest.documentation.snippet.UpdateAssignQuestSnippet;
-import com.gomo.app.quest.exception.AssignQuestErrorCode;
+import com.gomo.app.quest.domain.model.AssignQuest;
+import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.presentation.request.UpdateAssignQuestRequest;
 
+@DisplayName("[Presentation documentation]: 참여 중인 퀘스트 수정 테스트")
 public class UpdateAssignQuestDocumentationTest extends DocumentationTestBase {
 
-	private static final String UPDATE_ASSIGN_QUEST_URL = "/quests/assigns/{id}";
 	private final static String BLANK_QUEST_CONTENT = "";
 
 	private final RestDocumentationFilter filter = UpdateAssignQuestSnippet.create();
@@ -34,29 +37,36 @@ public class UpdateAssignQuestDocumentationTest extends DocumentationTestBase {
 	private LoginMemberHelper loginHelper;
 
 	@Autowired
-	private AssignQuestDBDataHelper assignQuestDBDataHelper;
+	private AssignQuestDataHelper assignQuestDataHelper;
+
+	@Autowired
+	private AssignQuestDataProvider assignQuestDataProvider;
+	private AssignQuest assignQuest;
 
 	@BeforeEach
 	public void setUp() {
-		sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
+		// sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
+		assignQuest = assignQuestDataProvider.notConfirmed();
 	}
 
 	@AfterEach
 	void tearDown() {
-		assignQuestDBDataHelper.cleanUp();
+		assignQuestDataHelper.cleanUp();
 	}
 
 	@DisplayName("사용자가 할당 퀘스트를 수정한다.")
 	@Test
 	void update_assign_quest() {
 		given(this.specification).filter(filter)
-			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.body(UpdateAssignQuestRequest.of(
-				JavaAssignQuestFixture.subjectId(),
-				JavaAssignQuestFixture.questType(),
-				JavaAssignQuestFixture.questContent()))
+				UUID.randomUUID(),
+				"updated subject name",
+				QuestType.DAILY,
+				"updated quest content"
+			))
 			.when()
-			.put(UPDATE_ASSIGN_QUEST_URL, JavaAssignQuestFixture.id())
+			.put("/quests/assigns/{id}", assignQuest.getId().getId())
 			.then()
 			.statusCode(NO_CONTENT.value());
 	}
@@ -65,19 +75,20 @@ public class UpdateAssignQuestDocumentationTest extends DocumentationTestBase {
 	@Test
 	void update_assign_quest_invalid_quest_content() {
 		given(this.specification).filter(errorFilter)
-			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.body(UpdateAssignQuestRequest.of(
-				JavaAssignQuestFixture.subjectId(),
-				JavaAssignQuestFixture.questType(),
+				UUID.randomUUID(),
+				"subject name",
+				QuestType.DAILY,
 				BLANK_QUEST_CONTENT))
 			.when()
-			.put(UPDATE_ASSIGN_QUEST_URL)
+			.put("/quests/assigns/{id}", assignQuest.getId().getId())
 			.then()
 			.statusCode(UNPROCESSABLE_ENTITY.value())
 			.body("timestamp", instanceOf(String.class))
-			.body("httpStatus", equalTo("422"))
-			.body("code", equalTo(AssignQuestErrorCode.INVALID_PARAMETER.name()))
-			.body("message", equalTo("Invalid parameter: " + BLANK_QUEST_CONTENT))
-			.body("path", equalTo(UPDATE_ASSIGN_QUEST_URL));
+			.body("httpStatus", equalTo(DomainErrorCode.INVALID_PARAMETER.getHttpStatus()))
+			.body("code", equalTo(DomainErrorCode.INVALID_PARAMETER.name()))
+			.body("message", equalTo("Quest content cannot be blank"))
+			.body("path", equalTo("/quests/assigns/" + assignQuest.getId().getId()));
 	}
 }

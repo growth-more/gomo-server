@@ -1,5 +1,7 @@
 package com.gomo.app.quest.domain.model;
 
+import java.util.UUID;
+
 import com.gomo.app.common.domain.ValueObject;
 
 import jakarta.persistence.AttributeOverride;
@@ -67,11 +69,15 @@ public class Quest {
 		return new Quest(participantId, subjectId, subjectName, type, content);
 	}
 
-	public static Quest copyOf(Quest quest) {
-		return Quest.of(quest.participantId, quest.subjectId, quest.subjectName, quest.type, quest.content);
+	public Quest copy() {
+		return Quest.of(this.participantId, this.subjectId, this.subjectName, this.type, this.content);
 	}
 
 	public Quest update(SubjectId subjectId, SubjectName subjectName, QuestType questType, QuestContent questContent) {
 		return Quest.of(this.participantId, subjectId, subjectName, questType, questContent);
+	}
+
+	public boolean isAccessibleBy(UUID accessorId) {
+		return this.participantId.equals(ParticipantId.of(accessorId));
 	}
 }

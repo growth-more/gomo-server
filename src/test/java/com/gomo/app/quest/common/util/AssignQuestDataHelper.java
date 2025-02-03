@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class AssignQuestDBDataHelper {
+public class AssignQuestDataHelper {
 
 	private final DataSource dataSource;
 

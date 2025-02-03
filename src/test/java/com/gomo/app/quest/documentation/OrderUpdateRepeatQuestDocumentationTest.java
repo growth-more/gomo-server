@@ -17,9 +17,7 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.quest.common.fixture.repeat.JavaRepeatQuestFixture;
-import com.gomo.app.quest.common.fixture.repeat.SpringRepeatQuestFixture;
-import com.gomo.app.quest.common.util.RepeatQuestDBDataHelper;
+import com.gomo.app.quest.common.util.RepeatQuestDataHelper;
 import com.gomo.app.quest.documentation.snippet.OrderUpdateRepeatQuestSnippet;
 import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.presentation.request.OrderUpdateRepeatQuestRequest;
@@ -34,7 +32,7 @@ public class OrderUpdateRepeatQuestDocumentationTest extends DocumentationTestBa
 	private LoginMemberHelper loginHelper;
 
 	@Autowired
-	private RepeatQuestDBDataHelper repeatQuestDBDataHelper;
+	private RepeatQuestDataHelper repeatQuestDataHelper;
 
 	@BeforeEach
 	public void setUp() {
@@ -43,7 +41,7 @@ public class OrderUpdateRepeatQuestDocumentationTest extends DocumentationTestBa
 
 	@AfterEach
 	void tearDown() {
-		repeatQuestDBDataHelper.cleanUp();
+		repeatQuestDataHelper.cleanUp();
 	}
 
 	@DisplayName("사용자가 반복 퀘스트의 정렬 순서를 변경한다.")
@@ -53,7 +51,7 @@ public class OrderUpdateRepeatQuestDocumentationTest extends DocumentationTestBa
 			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 			.body(OrderUpdateRepeatQuestRequest.of(
 				QuestType.DAILY,
-				List.of(SpringRepeatQuestFixture.displayOrder(), JavaRepeatQuestFixture.displayOrder())))
+				List.of(1, 2)))
 			.when()
 			.put(ORDER_UPDATE_REPEAT_QUEST_URL)
 			.then()

@@ -3,6 +3,7 @@ package com.gomo.app.quest.presentation.response;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.QuestType;
 
 import lombok.Getter;
@@ -51,22 +52,20 @@ public class ReadAssignQuestResponse {
 		this.displayOrder = displayOrder;
 	}
 
-	public static ReadAssignQuestResponse of(
-		UUID id,
-		UUID subjectId,
-		QuestType questType,
-		int point,
-		int score,
-		String subjectName,
-		String content,
-		boolean isConfirmed,
-		boolean isCompleted,
-		String proof,
-		LocalDateTime startDateTime,
-		int displayOrder
-	) {
+	public static ReadAssignQuestResponse of(AssignQuest assignQuest, int point, int score) {
 		return new ReadAssignQuestResponse(
-			id, subjectId, questType, point, score, subjectName, content, isConfirmed, isCompleted, proof, startDateTime, displayOrder
+			assignQuest.getId().getId(),
+			assignQuest.getQuest().getSubjectId().getId(),
+			assignQuest.getQuest().getType(),
+			point,
+			score,
+			assignQuest.getQuest().getSubjectName().toString(),
+			assignQuest.getQuest().getContent().getQuestContent(),
+			assignQuest.isConfirmed(),
+			assignQuest.isCompleted(),
+			assignQuest.getProof().getUrl(),
+			assignQuest.getStartDateTime(),
+			assignQuest.getDisplayOrder().getDisplayOrder()
 		);
 	}
 }

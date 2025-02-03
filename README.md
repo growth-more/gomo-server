@@ -24,6 +24,9 @@ dependencies {
 
     // time-based uuid - for entity id
     implementation 'com.fasterxml.uuid:java-uuid-generator:5.1.0'
+    
+    // minio - for image storage
+    implementation 'io.minio:minio:8.5.17'
 
     // test
     testRuntimeOnly "org.junit.platform:junit-platform-launcher"
@@ -121,8 +124,9 @@ dependencies {
 | 수행자       | Participant         | 퀘스트를 등록하고 수행하는 사용자            |
 | 내용        | Content             | 퀘스트 내용                        |
 | 퀘스트 타입    | Quest type          | 일간, 주간, 월간 등의 퀘스트 유형          |
-| 배정 받은 퀘스트 | Assign quest        | 시스템이 배정 한, 혹은 사용자가 직접 생성한 퀘스트 |
-| 퀘스트 증명    | Completion proof    | 배정 받은 퀘스트를 수행 완료했다는 인증     |
+| 할당 퀘스트    | Assign quest        | 시스템이 배정 한, 혹은 사용자가 직접 생성한 퀘스트 |
+| 참여 중인 퀘스트 | Participating quest | 할당 퀘스트 중, 현재 참여 중인 퀘스트        |
+| 퀘스트 증명    | Completion proof    | 할당 퀘스트를 수행 완료했다는 인증           |
 | 반복 퀘스트    | Repeat quest        | 반복적으로 생성되는 퀘스트                |
 | 퀘스트 보상    | Quest reward        | 퀘스트 완료 보상                     |
 | 점수 보상     | Score reward        | 퀘스트 완료로 인해 지급되는 숙련도 점수        |

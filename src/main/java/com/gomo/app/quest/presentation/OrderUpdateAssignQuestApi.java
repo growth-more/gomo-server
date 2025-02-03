@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.gomo.app.common.authentication.MemberContext;
+import com.gomo.app.common.authentication.SessionMember;
 import com.gomo.app.common.presentation.Presentation;
 import com.gomo.app.quest.application.OrderUpdateAssignQuestUseCase;
 import com.gomo.app.quest.presentation.request.OrderUpdateAssignQuestRequest;
@@ -20,6 +22,8 @@ public class OrderUpdateAssignQuestApi {
 
 	@PutMapping
 	public ResponseEntity<Void> update(@RequestBody OrderUpdateAssignQuestRequest request) {
-		return null;
+		SessionMember sessionMember = MemberContext.getSessionMember();
+		orderUpdateAssignQuestUseCase.update(sessionMember.getId(), request);
+		return ResponseEntity.noContent().build();
 	}
 }

@@ -10,24 +10,28 @@ import lombok.Getter;
 public class UpdateAssignQuestRequest {
 
 	private UUID subjectId;
+	private String subjectName;
 	private QuestType questType;
 	private String content;
 
 	private UpdateAssignQuestRequest(
 		UUID subjectId,
+		String subjectName,
 		QuestType questType,
 		String content
 	) {
 		this.subjectId = subjectId;
+		this.subjectName = subjectName;
 		this.questType = questType;
 		this.content = content;
 	}
 
 	public static UpdateAssignQuestRequest of(
 		UUID subjectId,
+		String subjectName,
 		QuestType questType,
 		String content
 	) {
-		return new UpdateAssignQuestRequest(subjectId, questType, content);
+		return new UpdateAssignQuestRequest(subjectId, subjectName, questType, content);
 	}
 }

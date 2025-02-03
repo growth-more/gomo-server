@@ -25,7 +25,7 @@ public class StreakQuestCompletedEvent extends Event {
 		this.questCompletedDateTime = questCompletedDateTime;
 	}
 
-	public static StreakQuestCompletedEvent create(
+	public static StreakQuestCompletedEvent of(
 		ParticipantId participantId,
 		QuestType questType,
 		LocalDateTime questCompletedDateTime

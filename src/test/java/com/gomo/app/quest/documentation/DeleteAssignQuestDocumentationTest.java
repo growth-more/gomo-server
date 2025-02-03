@@ -1,27 +1,26 @@
 package com.gomo.app.quest.documentation;
 
 import static io.restassured.RestAssured.*;
+import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.MediaType.*;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.quest.common.fixture.assign.JavaAssignQuestFixture;
-import com.gomo.app.quest.common.util.AssignQuestDBDataHelper;
+import com.gomo.app.quest.common.dataprovider.AssignQuestDataProvider;
+import com.gomo.app.quest.common.util.AssignQuestDataHelper;
 import com.gomo.app.quest.documentation.snippet.DeleteAssignQuestSnippet;
+import com.gomo.app.quest.domain.model.AssignQuest;
 
+@DisplayName("[Presentation documentation]: 참여 중인 퀘스트 삭제 테스트")
 public class DeleteAssignQuestDocumentationTest extends DocumentationTestBase {
-
-	private static final String DELETE_ASSIGN_QUEST_URL = "/quests/assigns/{id}";
 
 	private final RestDocumentationFilter filter = DeleteAssignQuestSnippet.create();
 
@@ -29,25 +28,30 @@ public class DeleteAssignQuestDocumentationTest extends DocumentationTestBase {
 	private LoginMemberHelper loginHelper;
 
 	@Autowired
-	private AssignQuestDBDataHelper assignQuestDBDataHelper;
+	private AssignQuestDataHelper assignQuestDataHelper;
+
+	@Autowired
+	private AssignQuestDataProvider assignQuestDataProvider;
+	private AssignQuest assignQuest;
 
 	@BeforeEach
 	public void setUp() {
-		sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
+		// sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
+		assignQuest = assignQuestDataProvider.notConfirmed();
 	}
 
 	@AfterEach
 	void tearDown() {
-		assignQuestDBDataHelper.cleanUp();
+		assignQuestDataHelper.cleanUp();
 	}
 
 	@DisplayName("사용자가 할당 퀘스트를 삭제한다.")
 	@Test
 	void delete_assign_quest() {
 		given(this.specification).filter(filter)
-			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.when()
-			.delete(DELETE_ASSIGN_QUEST_URL, JavaAssignQuestFixture.id())
+			.delete("/quests/assigns/{id}", assignQuest.getId().getId())
 			.then()
 			.statusCode(NO_CONTENT.value());
 	}

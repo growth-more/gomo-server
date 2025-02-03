@@ -10,13 +10,13 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class RepeatQuestDBDataHelper {
+public class PointDataHelper {
 
 	private final DataSource dataSource;
 
 	public void cleanUp() {
 		ResourceDatabasePopulator populator = new ResourceDatabasePopulator(
-			new ClassPathResource("database/sql/repeat-quest-cleanup.sql")
+			new ClassPathResource("database/sql/point-cleanup.sql")
 		);
 		populator.execute(dataSource);
 	}
