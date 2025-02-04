@@ -20,6 +20,7 @@ public class CreateRepeatQuestSnippet {
 
 	private static final Snippet REQUEST_FIELDS = requestFields(
 		fieldWithPath("subjectId").type(JsonFieldType.STRING).description("퀘스트 주제(관심사) 아이디"),
+		fieldWithPath("subjectName").type(JsonFieldType.STRING).description("퀘스트 주제(관심사) 이름"),
 		fieldWithPath("questType").type(JsonFieldType.STRING).description("퀘스트 타입: DAILY / WEEKLY / MONTHLY"),
 		fieldWithPath("content").type(JsonFieldType.STRING).description("퀘스트 내용")
 	);
