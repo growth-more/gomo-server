@@ -27,4 +27,32 @@ public class RepeatQuestFixture {
 			DisplayOrder.of(1)
 		);
 	}
+
+	public static RepeatQuest repeatQuest(QuestType type) {
+		return RepeatQuest.of(
+			RepeatQuestId.of(UUID.randomUUID()),
+			Quest.of(
+				ParticipantId.of(UUID.randomUUID()),
+				SubjectId.of(UUID.randomUUID()),
+				SubjectName.of("subject name"),
+				type,
+				QuestContent.of("quest content")
+			),
+			DisplayOrder.of(1)
+		);
+	}
+
+	public static RepeatQuest repeatQuest(int displayOrder) {
+		return RepeatQuest.of(
+			RepeatQuestId.of(UUID.randomUUID()),
+			Quest.of(
+				ParticipantId.of(UUID.randomUUID()),
+				SubjectId.of(UUID.randomUUID()),
+				SubjectName.of("subject name"),
+				QuestType.DAILY,
+				QuestContent.of("quest content")
+			),
+			DisplayOrder.of(displayOrder)
+		);
+	}
 }

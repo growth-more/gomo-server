@@ -1,5 +1,7 @@
 DELETE FROM assign_quest;
 
+-- 현재 참여중인 퀘스트는 테스트 실행 시점의 날짜로 데이터를 생성해야한다.
+-- global_variables 테이블을 활용해 현재 시간을 공통으로 관리하고 세션 변수에 할당해 사용한다.
 SET @current_date_time = (SELECT value FROM global_variables WHERE name = 'current_date_time');
 
 INSERT INTO assign_quest(

@@ -18,28 +18,28 @@ import jakarta.annotation.PostConstruct;
 @Component
 public class RepeatQuestDataProvider {
 
-	private static final String JAVA_DAILY_ID = "3892ced2-d816-11ef-a05f-25caca7d3e8c";
-	private static final String SPRING_DAILY_ID = "a49f544f-d816-11ef-969c-6f84f91c1c7d";
-	private RepeatQuest java;
-	private RepeatQuest spring;
+	private static final String FIRST_ORDER_DAILY_ID = "3892ced2-d816-11ef-a05f-25caca7d3e8c";
+	private static final String SECOND_ORDER_DAILY_ID = "a49f544f-d816-11ef-969c-6f84f91c1c7d";
+	private RepeatQuest firstOrderDailyRepeatQuest;
+	private RepeatQuest secondOrderDailyRepeatQuest;
 
 	@Autowired
 	private RepeatQuestRepository repeatQuestRepository;
 
 	@PostConstruct
 	public void initialize() {
-		java = repeatQuestRepository.findById(RepeatQuestId.of(UUID.fromString(JAVA_DAILY_ID)))
-			.orElseThrow(() -> new IllegalStateException("RepeatQuestDataProvider 초기화 실패: JAVA_DAILY_ID에 해당하는 RepeatQuest가 없습니다."));
+		firstOrderDailyRepeatQuest = repeatQuestRepository.findById(RepeatQuestId.of(UUID.fromString(FIRST_ORDER_DAILY_ID)))
+			.orElseThrow(() -> new IllegalStateException("RepeatQuestDataProvider 초기화 실패: FIRST_ORDER_DAILY_ID에 해당하는 RepeatQuest가 없습니다."));
 
-		spring = repeatQuestRepository.findById(RepeatQuestId.of(UUID.fromString(SPRING_DAILY_ID)))
-			.orElseThrow(() -> new IllegalStateException("RepeatQuestDataProvider 초기화 실패: SPRING_DAILY_ID에 해당하는 RepeatQuest가 없습니다."));
+		secondOrderDailyRepeatQuest = repeatQuestRepository.findById(RepeatQuestId.of(UUID.fromString(SECOND_ORDER_DAILY_ID)))
+			.orElseThrow(() -> new IllegalStateException("RepeatQuestDataProvider 초기화 실패: SECOND_ORDER_DAILY_ID에 해당하는 RepeatQuest가 없습니다."));
 	}
 
-	public RepeatQuest java() {
-		return java;
+	public RepeatQuest firstOrderDaily() {
+		return firstOrderDailyRepeatQuest;
 	}
 
-	public RepeatQuest spring() {
-		return spring;
+	public RepeatQuest secondOrderDaily() {
+		return secondOrderDailyRepeatQuest;
 	}
 }
