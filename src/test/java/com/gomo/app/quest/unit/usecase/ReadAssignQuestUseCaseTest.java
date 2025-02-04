@@ -23,7 +23,7 @@ import com.gomo.app.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.quest.domain.repository.QuestRewardPolicyRepository;
 import com.gomo.app.quest.presentation.response.ListAssignQuestResponse;
 
-@DisplayName("[Application unit]: 할당 퀘스트 조회 테스트")
+@DisplayName("[Application unit]: 현재 참여중인 퀘스트 조회 테스트")
 @ExtendWith(MockitoExtension.class)
 public class ReadAssignQuestUseCaseTest {
 
@@ -36,7 +36,7 @@ public class ReadAssignQuestUseCaseTest {
 	@Mock
 	private QuestRewardPolicyRepository questRewardPolicyRepository;
 
-	@DisplayName("할당 목록을 조회한다.")
+	@DisplayName("현재 참여중인 목록을 조회한다.")
 	@Test
 	void find_All() {
 		List<AssignQuest> dailyQuests = List.of(AssignQuestFixture.assignQuest(QuestType.DAILY), AssignQuestFixture.assignQuest(QuestType.DAILY));

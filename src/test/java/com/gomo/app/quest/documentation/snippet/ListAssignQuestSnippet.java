@@ -46,8 +46,8 @@ public class ListAssignQuestSnippet {
 		fieldWithPath("weeklyQuests[].proof").type(JsonFieldType.STRING).description("퀘스트 증명"),
 		fieldWithPath("weeklyQuests[].startDateTime").type(JsonFieldType.STRING).description("퀘스트 시작일"),
 		fieldWithPath("weeklyQuests[].displayOrder").type(JsonFieldType.NUMBER).description("정렬 순서"),
-		fieldWithPath("monthlyQuests").type(JsonFieldType.ARRAY).description("월간 퀘스트 목록"),
 
+		fieldWithPath("monthlyQuests").type(JsonFieldType.ARRAY).description("월간 퀘스트 목록"),
 		fieldWithPath("monthlyQuests[].id").type(JsonFieldType.STRING).description("할당 퀘스트 아이디"),
 		fieldWithPath("monthlyQuests[].subjectId").type(JsonFieldType.STRING).description("퀘스트 주제(관심사) 아이디"),
 		fieldWithPath("monthlyQuests[].questType").type(JsonFieldType.STRING).description("퀘스트 타입: DAILY / WEEKLY / MONTHLY"),

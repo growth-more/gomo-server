@@ -6,7 +6,6 @@ import static org.mockito.Mockito.*;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,10 +19,8 @@ import com.gomo.app.quest.common.fixture.AssignQuestFixture;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.model.CompletionProof;
-import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.quest.exception.AssignQuestAccessDeniedException;
-import com.gomo.app.quest.presentation.request.UpdateAssignQuestRequest;
 
 @DisplayName("[Application unit]: 할당 퀘스트 삭제 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -80,9 +77,5 @@ public class DeleteAssignQuestUseCaseTest {
 			() -> sut.delete(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID())))
 			.isInstanceOf(PolicyViolationException.class)
 			.hasMessageContaining("Assign quests cannot be removed once completed");
-	}
-
-	private static @NotNull UpdateAssignQuestRequest createMockRequest(QuestType questType) {
-		return UpdateAssignQuestRequest.of(UUID.randomUUID(), "updated subject name", questType, "updated quest content");
 	}
 }
