@@ -2,6 +2,8 @@ package com.gomo.app.quest.domain.model;
 
 import static com.gomo.app.common.exception.DomainErrorCode.*;
 
+import java.util.Objects;
+
 import com.gomo.app.common.domain.ValueObject;
 import com.gomo.app.common.exception.PolicyViolationException;
 
@@ -45,6 +47,21 @@ public class CompletionProof {
 		if(url.length() > MAX_LENGTH) {
 			throw new PolicyViolationException(INVALID_PARAMETER, "Completion proof must not exceed 512 characters");
 		}
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		CompletionProof completionProof = (CompletionProof)o;
+		return Objects.equals(url, completionProof.url);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(url);
 	}
 
 	@Override
