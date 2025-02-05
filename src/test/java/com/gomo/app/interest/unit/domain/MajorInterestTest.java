@@ -1,6 +1,5 @@
 package com.gomo.app.interest.unit.domain;
 
-import static com.gomo.app.interest.common.constant.MajorInterestFieldName.*;
 import static org.assertj.core.api.Assertions.*;
 
 import java.util.UUID;
@@ -30,7 +29,7 @@ public class MajorInterestTest {
 		MajorInterest majorInterest = MajorInterest.of(ID, REGISTRANT_ID, INTEREST_ID, DISPLAY_ORDER);
 
 		assertThat(majorInterest)
-			.extracting(ID_FIELD, REGISTRANT_ID_FIELD, INTEREST_ID_FIELD, DISPLAY_ORDER_FIELD)
+			.extracting("id", "registrantId", "interestId", "displayOrder")
 			.containsExactly(ID, REGISTRANT_ID, INTEREST_ID, DISPLAY_ORDER);
 	}
 
@@ -41,7 +40,7 @@ public class MajorInterestTest {
 		majorInterest.changeOrder(DisplayOrder.of(2));
 
 		assertThat(majorInterest)
-			.extracting(ID_FIELD, REGISTRANT_ID_FIELD, INTEREST_ID_FIELD, DISPLAY_ORDER_FIELD)
+			.extracting("id", "registrantId", "interestId", "displayOrder")
 			.containsExactly(ID, REGISTRANT_ID, INTEREST_ID, DisplayOrder.of(2));
 	}
 
