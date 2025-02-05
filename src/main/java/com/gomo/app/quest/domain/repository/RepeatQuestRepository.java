@@ -1,9 +1,10 @@
 package com.gomo.app.quest.domain.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.gomo.app.quest.domain.model.ParticipantId;
 import com.gomo.app.quest.domain.model.QuestType;
@@ -12,9 +13,22 @@ import com.gomo.app.quest.domain.model.RepeatQuestId;
 
 public interface RepeatQuestRepository extends JpaRepository<RepeatQuest, RepeatQuestId> {
 
-	Optional<RepeatQuest> findById(RepeatQuestId id);
+	long countByQuestParticipantIdAndQuestType(ParticipantId participantId, QuestType questType);
 
-	List<RepeatQuest> findAllByQuestParticipantIdAndQuestType(ParticipantId participantId, QuestType questType);
+	@Query("select COALESCE(MAX(r.displayOrder.displayOrder), 0) from RepeatQuest r " +
+		"where r.quest.participantId = :participantId " +
+		"and r.quest.type = :questType")
+	int findMaxDisplayOrderByRepeatQuest(
+		@Param("participantId") ParticipantId participantId,
+		@Param("questType") QuestType questType
+	);
 
-	Integer findLastOrderByQuestParticipantIdAndQuestType(ParticipantId participantId, QuestType questType);
+	@Query("select r from RepeatQuest r " +
+		"where r.quest.participantId = :participantId " +
+		"and r.quest.type = :questType " +
+		"order by r.displayOrder.displayOrder asc")
+	List<RepeatQuest> findRepeatQuestsByQuestType(
+		@Param("participantId") ParticipantId participantId,
+		@Param("questType") QuestType questType
+	);
 }

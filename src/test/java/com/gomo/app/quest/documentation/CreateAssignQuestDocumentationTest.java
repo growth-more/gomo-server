@@ -2,7 +2,9 @@ package com.gomo.app.quest.documentation;
 
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
+import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.MediaType.*;
 
 import java.util.UUID;
 
@@ -21,6 +23,7 @@ import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.quest.common.util.AssignQuestDataHelper;
 import com.gomo.app.quest.documentation.snippet.CreateAssignQuestSnippet;
 import com.gomo.app.quest.domain.model.QuestType;
+import com.gomo.app.quest.exception.AssignQuestErrorCode;
 import com.gomo.app.quest.presentation.request.CreateAssignQuestRequest;
 
 @DisplayName("[Presentation documentation]: 할당 퀘스트 생성 테스트")
@@ -81,6 +84,28 @@ public class CreateAssignQuestDocumentationTest extends DocumentationTestBase {
 			.body("httpStatus", equalTo(DomainErrorCode.INVALID_PARAMETER.getHttpStatus()))
 			.body("code", equalTo(DomainErrorCode.INVALID_PARAMETER.name()))
 			.body("message", equalTo("Quest content cannot be blank"))
+			.body("path", equalTo("/quests/assigns"));
+	}
+
+	@DisplayName("사용자가 퀘스트 제한 개수를 초과하는 할당 퀘스트를 생성한다.")
+	@Test
+	void create_assign_quest_exceeding_threshold() {
+		given(this.specification).filter(errorFilter)
+			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.body(CreateAssignQuestRequest.of(
+				UUID.randomUUID(),
+				"subject name",
+				QuestType.MONTHLY,
+				"quest content"
+			))
+			.when()
+			.post("/quests/assigns")
+			.then()
+			.statusCode(UNPROCESSABLE_ENTITY.value())
+			.body("timestamp", instanceOf(String.class))
+			.body("httpStatus", equalTo(AssignQuestErrorCode.THRESHOLD_EXCEEDED.getHttpStatus()))
+			.body("code", equalTo(AssignQuestErrorCode.THRESHOLD_EXCEEDED.name()))
+			.body("message", equalTo("Assign quest threshold exceeded"))
 			.body("path", equalTo("/quests/assigns"));
 	}
 }

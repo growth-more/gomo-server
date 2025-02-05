@@ -13,42 +13,43 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.quest.application.ReadAssignQuestUseCase;
-import com.gomo.app.quest.common.fixture.AssignQuestFixture;
+import com.gomo.app.quest.application.ReadRepeatQuestUseCase;
 import com.gomo.app.quest.common.fixture.QuestRewardPolicyFixture;
-import com.gomo.app.quest.domain.model.AssignQuest;
+import com.gomo.app.quest.common.fixture.RepeatQuestFixture;
 import com.gomo.app.quest.domain.model.ParticipantId;
 import com.gomo.app.quest.domain.model.QuestType;
-import com.gomo.app.quest.domain.repository.AssignQuestRepository;
+import com.gomo.app.quest.domain.model.RepeatQuest;
 import com.gomo.app.quest.domain.repository.QuestRewardPolicyRepository;
-import com.gomo.app.quest.presentation.response.ListAssignQuestResponse;
+import com.gomo.app.quest.domain.repository.RepeatQuestRepository;
+import com.gomo.app.quest.presentation.response.ListRepeatQuestResponse;
 
-@DisplayName("[Application unit]: 현재 참여중인 퀘스트 조회 테스트")
+@DisplayName("[Application unit]: 반복 퀘스트 조회 테스트")
 @ExtendWith(MockitoExtension.class)
-public class ReadAssignQuestUseCaseTest {
+public class ReadRepeatQuestUseCaseTest {
 
 	@InjectMocks
-	private ReadAssignQuestUseCase sut;
+	private ReadRepeatQuestUseCase sut;
 
 	@Mock
-	private AssignQuestRepository assignQuestRepository;
+	private RepeatQuestRepository repeatQuestRepository;
 
 	@Mock
 	private QuestRewardPolicyRepository questRewardPolicyRepository;
 
-	@DisplayName("현재 참여중인 목록을 조회한다.")
+	@DisplayName("반복 퀘스트 목록을 조회한다.")
 	@Test
 	void find_All() {
-		List<AssignQuest> dailyQuests = List.of(AssignQuestFixture.assignQuest(QuestType.DAILY), AssignQuestFixture.assignQuest(QuestType.DAILY));
-		List<AssignQuest> weeklyQuests = List.of(AssignQuestFixture.assignQuest(QuestType.WEEKLY));
-		List<AssignQuest> monthlyQuests = List.of();
+		List<RepeatQuest> dailyQuests = List.of(RepeatQuestFixture.repeatQuest(QuestType.DAILY), RepeatQuestFixture.repeatQuest(QuestType.DAILY));
+		List<RepeatQuest> weeklyQuests = List.of(RepeatQuestFixture.repeatQuest(QuestType.WEEKLY));
+		List<RepeatQuest> monthlyQuests = List.of();
+
 		doReturn(QuestRewardPolicyFixture.point()).when(questRewardPolicyRepository).findPointPolicies();
 		doReturn(QuestRewardPolicyFixture.score()).when(questRewardPolicyRepository).findScorePolicies();
-		doReturn(dailyQuests).when(assignQuestRepository).findParticipatingQuestByQuestType(any(), eq(QuestType.DAILY), any(), any());
-		doReturn(weeklyQuests).when(assignQuestRepository).findParticipatingQuestByQuestType(any(), eq(QuestType.WEEKLY), any(), any());
-		doReturn(monthlyQuests).when(assignQuestRepository).findParticipatingQuestByQuestType(any(), eq(QuestType.MONTHLY), any(), any());
+		doReturn(dailyQuests).when(repeatQuestRepository).findRepeatQuestsByQuestType(any(), eq(QuestType.DAILY));
+		doReturn(weeklyQuests).when(repeatQuestRepository).findRepeatQuestsByQuestType(any(), eq(QuestType.WEEKLY));
+		doReturn(monthlyQuests).when(repeatQuestRepository).findRepeatQuestsByQuestType(any(), eq(QuestType.MONTHLY));
 
-		ListAssignQuestResponse actual = sut.findAll(ParticipantId.of(UUID.randomUUID()));
+		ListRepeatQuestResponse actual = sut.findAll(ParticipantId.of(UUID.randomUUID()));
 
 		assertThat(actual.getDailyQuests().size()).isEqualTo(2);
 		assertThat(actual.getWeeklyQuests().size()).isEqualTo(1);

@@ -43,12 +43,43 @@ public class AssignQuestTest {
 		);
 
 		assertThat(assignQuest)
-			.extracting("id", "quest", "displayOrder", "startDateTime")
-			.containsExactly(ID, assignQuest.getQuest(), DisplayOrder.of(1), LocalDateTime.of(2025, 1, 31, 0, 0, 0, 0));
+			.extracting("id", "displayOrder", "startDateTime")
+			.containsExactly(ID, DisplayOrder.of(1), LocalDateTime.of(2025, 1, 31, 0, 0, 0, 0));
 
 		assertThat(assignQuest.getQuest())
 			.extracting("participantId", "subjectId", "subjectName", "type", "content")
 			.containsExactly(PARTICIPANT_ID, SUBJECT_ID, SUBJECT_NAME, QuestType.DAILY, QUEST_CONTENT);
+	}
+
+	@DisplayName("할당 퀘스트는 기본적으로 확정되지 않은 상태로 생성된다.")
+	@Test
+	void create_assign_quest_with_not_confirm() {
+		AssignQuest assignQuest = AssignQuest.of(
+			ID,
+			Quest.of(PARTICIPANT_ID, SUBJECT_ID, SUBJECT_NAME, QuestType.DAILY, QUEST_CONTENT),
+			false,
+			DisplayOrder.of(1),
+			LocalDateTime.of(2025, 1, 31, 0, 0, 0, 0)
+		);
+
+		assertThat(assignQuest.isConfirmed()).isFalse();
+	}
+
+	@DisplayName("할당 퀘스트는 기본적으로 완료되지 않은 상태로 생성된다.")
+	@Test
+	void create_assign_quest_with_not_complete() {
+		AssignQuest assignQuest = AssignQuest.of(
+			ID,
+			Quest.of(PARTICIPANT_ID, SUBJECT_ID, SUBJECT_NAME, QuestType.DAILY, QUEST_CONTENT),
+			false,
+			DisplayOrder.of(1),
+			LocalDateTime.of(2025, 1, 31, 0, 0, 0, 0)
+		);
+		CompletionProof defaultProof = CompletionProof.createDefault();
+
+		assertThat(assignQuest.isCompleted()).isFalse();
+		assertThat(assignQuest.getProof()).isEqualTo(defaultProof);
+		assertThat(assignQuest.getCompletedDateTime()).isNull();
 	}
 
 	@DisplayName("할당 퀘스트를 수정한다.")
@@ -104,7 +135,7 @@ public class AssignQuestTest {
 			LocalDateTime.of(2025, 1, 31, 0, 0, 0, 0)
 		);
 
-		CompletionProof updatedProof = CompletionProof.createDefault().of("updated proof");
+		CompletionProof updatedProof = CompletionProof.of("updated proof");
 		assignQuest.complete(updatedProof);
 
 		assertThat(assignQuest.isCompleted()).isTrue();
@@ -122,7 +153,7 @@ public class AssignQuestTest {
 			LocalDateTime.of(2025, 1, 31, 0, 0, 0, 0)
 		);
 
-		CompletionProof updatedProof = CompletionProof.createDefault().of("updated proof");
+		CompletionProof updatedProof = CompletionProof.of("updated proof");
 		assignQuest.complete(updatedProof);
 
 		assertThat(assignQuest.getDisplayOrder()).isEqualTo(DisplayOrder.of(1001));
@@ -139,14 +170,14 @@ public class AssignQuestTest {
 			LocalDateTime.of(2025, 1, 31, 0, 0, 0, 0)
 		);
 
-		CompletionProof updatedProof = CompletionProof.createDefault().of("updated proof");
+		CompletionProof updatedProof = CompletionProof.of("updated proof");
 
 		assertThatThrownBy(() -> assignQuest.complete(updatedProof))
 			.isInstanceOf(PolicyViolationException.class)
 			.hasMessageContaining("AssignQuest must be confirmed before completing");
 	}
 
-	@DisplayName("할당 퀘스트의 타입이 요청된 파라미터와 같다.")
+	@DisplayName("할당 퀘스트의 타입을 같은 타입과 비교한다.")
 	@Test
 	void quest_type_is_same_assign_quest_type() {
 		AssignQuest assignQuest = AssignQuest.of(
@@ -162,7 +193,7 @@ public class AssignQuestTest {
 		assertThat(actual).isTrue();
 	}
 
-	@DisplayName("할당 퀘스트의 타입이 요청된 파라미터와 다르다.")
+	@DisplayName("할당 퀘스트의 타입을 다른 타입과 비교한다.")
 	@Test
 	void quest_type_is_not_same_assign_quest_type() {
 		AssignQuest assignQuest = AssignQuest.of(
@@ -221,7 +252,7 @@ public class AssignQuestTest {
 			LocalDateTime.of(2025, 1, 31, 0, 0, 0, 0)
 		);
 
-		CompletionProof updatedProof = CompletionProof.createDefault().of("updated proof");
+		CompletionProof updatedProof = CompletionProof.of("updated proof");
 		assignQuest.complete(updatedProof);
 
 		assertThatThrownBy(() -> assignQuest.changeOrder(DisplayOrder.of(2)))

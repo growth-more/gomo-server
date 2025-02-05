@@ -22,6 +22,7 @@ public class DeleteAssignQuestUseCase {
 		AssignQuest assignQuest = assignQuestRepository.findById(assignQuestId)
 			.orElseThrow(() -> new NotFoundException(DomainErrorCode.NOT_FOUND, "Assign quest not found"));
 		assignQuest.validateAuthority(accessorId);
+
 		validateAssignQuestState(assignQuest);
 		assignQuestRepository.delete(assignQuest);
 	}

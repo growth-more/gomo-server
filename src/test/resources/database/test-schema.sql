@@ -178,6 +178,8 @@ CREATE TABLE point (
 );
 
 -- input sample data
+-- 현재 참여중인 퀘스트는 테스트 실행 시점의 날짜로 데이터를 생성해야한다.
+-- global_variables 테이블을 활용해 현재 시간을 공통으로 관리하고 세션 변수에 할당해 사용한다.
 CREATE TABLE global_variables (
     name VARCHAR(255) PRIMARY KEY,
     value DATETIME
@@ -220,7 +222,7 @@ INSERT INTO member (
     'gomotest fighting!',
     10,
     5,
-    3,
+    0, -- 할당, 반복 퀘스트 생성 제한 테스트를 위해 임계치를 0으로 고정한다.
     'ROLE_MEMBER',
     'FREE',
     'ACTIVE',

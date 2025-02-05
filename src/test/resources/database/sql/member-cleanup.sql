@@ -32,7 +32,7 @@ INSERT INTO member (
     'gomotest fighting!',
     10,
     5,
-    3,
+    0, -- 할당, 반복 퀘스트 생성 제한 테스트를 위해 임계치를 0으로 고정한다.
     'ROLE_MEMBER',
     'FREE',
     'ACTIVE',

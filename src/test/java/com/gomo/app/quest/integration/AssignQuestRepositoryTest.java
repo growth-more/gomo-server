@@ -50,6 +50,19 @@ public class AssignQuestRepositoryTest extends IntegrationTestBase {
 		assertThat(actual).isEqualTo(2L);
 	}
 
+	@DisplayName("현재 참여중인 퀘스트의 마지막 정렬 번호를 조회한다.")
+	@Test
+	void find_max_order_participating_quest() {
+		int actual = sut.findMaxDisplayOrderOfParticipatingQuest(
+			notConfirmed.getQuest().getParticipantId(),
+			QuestType.DAILY,
+			LocalDateTime.of(2025, 1, 21, 0, 0, 0),
+			LocalDateTime.of(2025, 1, 21, 23, 59, 59)
+		);
+
+		assertThat(actual).isEqualTo(2);
+	}
+
 	@DisplayName("현재 참여중인 퀘스트 목록을 조회한다.")
 	@Test
 	void find_participating_quests() {

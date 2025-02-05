@@ -1,12 +1,15 @@
 package com.gomo.app.quest.domain.model;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.gomo.app.common.domain.Authorizable;
 import com.gomo.app.common.domain.BaseAudit;
 import com.gomo.app.common.domain.service.DisplayOrder;
 import com.gomo.app.common.domain.service.OrderChangeable;
-import com.gomo.app.interest.domain.model.InterestId;
+import com.gomo.app.common.util.UUIDGenerator;
+import com.gomo.app.quest.exception.RepeatQuestAccessDeniedException;
+import com.gomo.app.quest.exception.RepeatQuestErrorCode;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
@@ -56,18 +59,33 @@ public class RepeatQuest extends BaseAudit implements OrderChangeable, Authoriza
 		return new RepeatQuest(id, quest, displayOrder);
 	}
 
-	public void update(InterestId interestId, QuestType questType, QuestContent questContent) {
+	public void updateQuest(SubjectId subjectId, SubjectName subjectName, QuestType questType, QuestContent content) {
+		this.quest = this.quest.update(subjectId, subjectName, questType, content);
 	}
 
-	public AssignQuest createAssignQuest() {
-		return null;
+	public AssignQuest createAssignQuest(DisplayOrder displayOrder, LocalDateTime startDateTime) {
+		return AssignQuest.of(
+			AssignQuestId.of(UUIDGenerator.generate()),
+			this.quest.copy(),
+			true,
+			displayOrder,
+			startDateTime
+		);
+	}
+
+	public boolean isSameQuestType(QuestType questType) {
+		return this.quest.getType() == questType;
 	}
 
 	@Override
-	public void changeOrder(DisplayOrder displayOrder) {}
+	public void changeOrder(DisplayOrder displayOrder) {
+		this.displayOrder = displayOrder;
+	}
 
 	@Override
 	public void validateAuthority(UUID accessorId) {
-
+		if(!this.quest.isAccessibleBy(accessorId)) {
+			throw new RepeatQuestAccessDeniedException(RepeatQuestErrorCode.ACCESS_DENIED);
+		}
 	}
 }

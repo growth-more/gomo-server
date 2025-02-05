@@ -7,13 +7,25 @@ import lombok.Getter;
 @Getter
 public class ListRepeatQuestResponse {
 
-	private List<ReadRepeatQuestResponse> repeatQuests;
+	private List<ReadRepeatQuestResponse> dailyQuests;
+	private List<ReadRepeatQuestResponse> weeklyQuests;
+	private List<ReadRepeatQuestResponse> monthlyQuests;
 
-	private ListRepeatQuestResponse(List<ReadRepeatQuestResponse> repeatQuests) {
-		this.repeatQuests = repeatQuests;
+	private ListRepeatQuestResponse(
+		List<ReadRepeatQuestResponse> dailyQuests,
+		List<ReadRepeatQuestResponse> weeklyQuests,
+		List<ReadRepeatQuestResponse> monthlyQuests
+	) {
+		this.dailyQuests = dailyQuests;
+		this.weeklyQuests = weeklyQuests;
+		this.monthlyQuests = monthlyQuests;
 	}
 
-	public static ListRepeatQuestResponse of(List<ReadRepeatQuestResponse> repeatQuests) {
-		return new ListRepeatQuestResponse(repeatQuests);
+	public static ListRepeatQuestResponse of(
+		List<ReadRepeatQuestResponse> dailyQuests,
+		List<ReadRepeatQuestResponse> weeklyQuests,
+		List<ReadRepeatQuestResponse> monthlyQuests
+	) {
+		return new ListRepeatQuestResponse(dailyQuests, weeklyQuests, monthlyQuests);
 	}
 }
