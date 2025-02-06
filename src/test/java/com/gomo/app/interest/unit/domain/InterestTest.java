@@ -1,6 +1,5 @@
 package com.gomo.app.interest.unit.domain;
 
-import static com.gomo.app.interest.common.constant.InterestFieldName.*;
 import static org.assertj.core.api.Assertions.*;
 
 import java.util.UUID;
@@ -29,7 +28,7 @@ public class InterestTest {
 		Interest interest = Interest.of(ID, REGISTRANT_ID, NAME, LOGO_URL);
 
 		assertThat(interest)
-			.extracting(ID_FIELD, REGISTRANT_ID_FIELD, NAME_FIELD, LOGO_URL_FIELD)
+			.extracting("id", "registrantId", "name", "logoUrl")
 			.containsExactly(ID, REGISTRANT_ID, NAME, LOGO_URL);
 	}
 
@@ -39,7 +38,7 @@ public class InterestTest {
 		Interest interest = Interest.of(ID, REGISTRANT_ID, NAME, null);
 
 		assertThat(interest)
-			.extracting(ID_FIELD, REGISTRANT_ID_FIELD, NAME_FIELD, LOGO_URL_FIELD)
+			.extracting("id", "registrantId", "name", "logoUrl")
 			.containsExactly(ID, REGISTRANT_ID, NAME, "https://image.nurdykim.me/gomo/default-logo.png");
 	}
 
@@ -51,7 +50,7 @@ public class InterestTest {
 		interest.updateName(updatedName);
 
 		assertThat(interest)
-			.extracting(ID_FIELD, REGISTRANT_ID_FIELD, NAME_FIELD, LOGO_URL_FIELD)
+			.extracting("id", "registrantId", "name", "logoUrl")
 			.containsExactly(ID, REGISTRANT_ID, updatedName, LOGO_URL);
 	}
 
@@ -62,7 +61,7 @@ public class InterestTest {
 		interest.updateLogoUrl("https://mini-cloud/updated_logo-param.png");
 
 		assertThat(interest)
-			.extracting(ID_FIELD, REGISTRANT_ID_FIELD, NAME_FIELD, LOGO_URL_FIELD)
+			.extracting("id", "registrantId", "name", "logoUrl")
 			.containsExactly(ID, REGISTRANT_ID, NAME, "https://mini-cloud/updated_logo-param.png");
 	}
 

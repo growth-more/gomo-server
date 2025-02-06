@@ -13,11 +13,16 @@ import jakarta.annotation.PostConstruct;
 
 /**
  * 실제 데이터베이스에 존재하는 할당 퀘스트 데이터를 제공한다.
- * @ 총 네 가지 데이터가 존재한다.
- * @ 1. not confirm, not completed java daily quest
- * @ 2. confirm, not completed spring daily quest
- * @ 3. confirm, completed java daily quest
- * @ 4. confirm, completed spring daily quest
+ * @ 총 아홉 가지 데이터가 존재한다.
+ * @ 1. dilay not confirm quest
+ * @ 2. daily confirm quest
+ * @ 3. daily completed quest - java
+ * @ 4. daily completed quest - spring
+ * @ 5. weekly history quest - confirm, completed
+ * @ 6. monthly history quest - confirm, completed
+ * @ 7. daily participating quest - not confirm, not completed
+ * @ 8. weekly participating quest - not confirm, not completed
+ * @ 9. monthly participating quest - not confirm, not completed
  */
 @Component
 public class AssignQuestDataProvider {

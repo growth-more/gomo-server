@@ -1,7 +1,10 @@
 package com.gomo.app.streak.presentation.response;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.UUID;
+
+import com.gomo.app.streak.domain.model.Streak;
+import com.gomo.app.streak.domain.model.StreakType;
 
 import lombok.Getter;
 
@@ -9,28 +12,27 @@ import lombok.Getter;
 public class ReadStreakResponse {
 
 	private UUID id;
-	private LocalDateTime filledDateTime;
-	private int weekOfYear;
+	private StreakType streakType;
+	private LocalDate filledDate;
 	private int completedQuestCount;
 
 	private ReadStreakResponse(
 		UUID id,
-		LocalDateTime filledDateTime,
-		int weekOfYear,
+		StreakType streakType,
+		LocalDate filledDate,
 		int completedQuestCount
 	) {
 		this.id = id;
-		this.filledDateTime = filledDateTime;
-		this.weekOfYear = weekOfYear;
+		this.streakType = streakType;
+		this.filledDate = filledDate;
 		this.completedQuestCount = completedQuestCount;
 	}
 
-	public static ReadStreakResponse of(
-		UUID id,
-		LocalDateTime filledDateTime,
-		int weekOfYear,
-		int completedQuestCount
-	) {
-		return new ReadStreakResponse(id, filledDateTime, weekOfYear, completedQuestCount);
+	public static ReadStreakResponse of(Streak streak) {
+		return new ReadStreakResponse(
+			streak.getId().getId(),
+			streak.getStreakType(),
+			streak.getFilledDate(),
+			streak.getCompletedQuestCount());
 	}
 }

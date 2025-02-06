@@ -5,7 +5,6 @@ import lombok.Getter;
 @Getter
 public enum AssignQuestErrorCode {
 
-	NOT_FOUND("Assign quest not found", 404),
 	ACCESS_DENIED("Access denied for the assign quest", 403),
 	THRESHOLD_EXCEEDED("Assign quest threshold exceeded", 422);
 

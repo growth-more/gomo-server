@@ -19,12 +19,19 @@ public class ListStreakSnippet {
 	private static final String TAG = "Streak";
 
 	private static final Snippet RESPONSE_FIELDS = responseFields(
-		fieldWithPath("streakType").type(JsonFieldType.ARRAY).description("스트릭 타입: DAILY / WEEKLY / MONTHLY"),
-		fieldWithPath("streaks").type(JsonFieldType.ARRAY).description("스트릭 목록"),
-		fieldWithPath("streaks[].id").type(JsonFieldType.STRING).description("스트릭 아이디"),
-		fieldWithPath("streaks[].filledDateTime").type(JsonFieldType.STRING).description("스트릭 생성 날짜"),
-		fieldWithPath("streaks[].weekOfYear").type(JsonFieldType.NUMBER).description("스트릭 생성 주차: 주간 스트릭 타입만 해당"),
-		fieldWithPath("streaks[].completedQuestCount").type(JsonFieldType.NUMBER).description("완료한 퀘스트 개수")
+		fieldWithPath("dailyStreaks").type(JsonFieldType.ARRAY).description("일간 스트릭 목록"),
+		fieldWithPath("dailyStreaks[].id").type(JsonFieldType.STRING).description("스트릭 아이디"),
+		fieldWithPath("dailyStreaks[].streakType").type(JsonFieldType.STRING).description("스트릭 타입"),
+		fieldWithPath("dailyStreaks[].filledDate").type(JsonFieldType.STRING).description("스트릭 생성 날짜"),
+		fieldWithPath("dailyStreaks[].completedQuestCount").type(JsonFieldType.NUMBER).description("완료한 퀘스트 개수"),
+
+		fieldWithPath("weeklyStreaks").type(JsonFieldType.ARRAY).description("주간 스트릭 목록"),
+		fieldWithPath("weeklyStreaks[].id").type(JsonFieldType.STRING).description("스트릭 아이디"),
+		fieldWithPath("weeklyStreaks[].streakType").type(JsonFieldType.STRING).description("스트릭 타입"),
+		fieldWithPath("weeklyStreaks[].filledDate").type(JsonFieldType.STRING).description("스트릭 생성 날짜"),
+		fieldWithPath("weeklyStreaks[].completedQuestCount").type(JsonFieldType.NUMBER).description("완료한 퀘스트 개수"),
+
+		fieldWithPath("monthlyStreaks").type(JsonFieldType.ARRAY).description("월간 스트릭 목록")
 	);
 
 	public static RestDocumentationFilter create() {

@@ -2,28 +2,30 @@ package com.gomo.app.streak.presentation.response;
 
 import java.util.List;
 
-import com.gomo.app.streak.domain.model.StreakType;
-
 import lombok.Getter;
 
 @Getter
 public class ListStreakResponse {
 
-	private StreakType streakType;
-	private List<ReadStreakResponse> streaks;
+	private List<ReadStreakResponse> dailyStreaks;
+	private List<ReadStreakResponse> weeklyStreaks;
+	private List<ReadStreakResponse> monthlyStreaks;
 
 	private ListStreakResponse(
-		StreakType streakType,
-		List<ReadStreakResponse> streaks
+		List<ReadStreakResponse> dailyStreaks,
+		List<ReadStreakResponse> weeklyStreaks,
+		List<ReadStreakResponse> monthlyStreaks
 	) {
-		this.streakType = streakType;
-		this.streaks = streaks;
+		this.dailyStreaks = dailyStreaks;
+		this.weeklyStreaks = weeklyStreaks;
+		this.monthlyStreaks = monthlyStreaks;
 	}
 
 	public static ListStreakResponse of(
-		StreakType streakType,
-		List<ReadStreakResponse> streaks
+		List<ReadStreakResponse> dailyStreaks,
+		List<ReadStreakResponse> weeklyStreaks,
+		List<ReadStreakResponse> monthlyStreaks
 	) {
-		return new ListStreakResponse(streakType, streaks);
+		return new ListStreakResponse(dailyStreaks, weeklyStreaks, monthlyStreaks);
 	}
 }
