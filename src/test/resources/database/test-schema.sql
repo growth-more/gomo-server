@@ -12,6 +12,7 @@ drop table if exists assign_quest;
 drop table if exists quest_score_policy;
 drop table if exists quest_point_policy;
 drop table if exists point;
+drop table if exists global_variables;
 
 CREATE TABLE member (
     id binary(16) NOT NULL PRIMARY KEY,
@@ -114,6 +115,7 @@ CREATE TABLE streak (
     streak_type ENUM('DAILY', 'WEEKLY', 'MONTHLY'),
     filled_date DATE,
     completed_quest_count TINYINT,
+    version BIGINT DEFAULT 0 NOT NULL,
     created_at DATETIME(6),
     created_by varchar(255),
     last_modified_at DATETIME(6),
@@ -548,6 +550,7 @@ INSERT INTO streak (
     streak_type,
     filled_date,
     completed_quest_count,
+    version,
     created_at,
     created_by,
     last_modified_at,
@@ -558,16 +561,29 @@ INSERT INTO streak (
     'DAILY',
     '2025-01-18',
     1,
+    0,
     '2025-01-18T22:53:22.980611',
     'gomotest@naver.com',
     '2025-01-18T22:53:22.980611',
     'gomotest@naver.com'),
 
+    (UNHEX(REPLACE('fa1cf1b5-e3d3-11ef-9c0c-5f1ac1d71b42', '-', '')),
+     UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
+     'DAILY',
+     '2025-02-06',
+     1,
+     0,
+     '2025-02-06T00:00:00.000000',
+     'gomotest@naver.com',
+     '2025-02-06T00:00:00.000000',
+     'gomotest@naver.com'),
+
     (UNHEX(REPLACE('febad463-d868-11ef-826f-395aa04e34d3', '-', '')),
     UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
-    'DAILY',
+    'WEEKLY',
     '2025-01-20',
     1,
+    0,
     '2025-01-20T22:53:22.980611',
     'gomotest@naver.com',
     '2025-01-20T22:53:22.980611',
