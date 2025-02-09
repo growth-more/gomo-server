@@ -44,8 +44,7 @@ public class InterestNetworkDocumentationTest extends DocumentationTestBase {
 		backend = interestDataProvider.backend();
 		java = interestDataProvider.java();
 		spring = interestDataProvider.spring();
-
-		toJava = interestRelationDataProvider.toJava();
+		toJava = interestRelationDataProvider.backendToJava();
 	}
 
 	@DisplayName("사용자가 관심사 네트워크를 조회한다.")

@@ -14,16 +14,16 @@ public class ScoreThresholdDataProvider {
 
 	public static List<ScoreThreshold> scoreThresholds() {
 		return List.of(
-			ScoreThreshold.of(ScoreThreshold.LevelRange.of(0, 9), 400),
-			ScoreThreshold.of(ScoreThreshold.LevelRange.of(10, 19), 600),
-			ScoreThreshold.of(ScoreThreshold.LevelRange.of(20, 29), 800),
-			ScoreThreshold.of(ScoreThreshold.LevelRange.of(30, 39), 1000),
-			ScoreThreshold.of(ScoreThreshold.LevelRange.of(40, 49), 1200),
-			ScoreThreshold.of(ScoreThreshold.LevelRange.of(50, 59), 1400),
-			ScoreThreshold.of(ScoreThreshold.LevelRange.of(60, 69), 1600),
-			ScoreThreshold.of(ScoreThreshold.LevelRange.of(70, 79), 1800),
-			ScoreThreshold.of(ScoreThreshold.LevelRange.of(80, 89), 2000),
-			ScoreThreshold.of(ScoreThreshold.LevelRange.of(90, 99), 2200),
+			ScoreThreshold.of(ScoreThreshold.LevelRange.of(0, 9), 40),
+			ScoreThreshold.of(ScoreThreshold.LevelRange.of(10, 19), 60),
+			ScoreThreshold.of(ScoreThreshold.LevelRange.of(20, 29), 80),
+			ScoreThreshold.of(ScoreThreshold.LevelRange.of(30, 39), 100),
+			ScoreThreshold.of(ScoreThreshold.LevelRange.of(40, 49), 120),
+			ScoreThreshold.of(ScoreThreshold.LevelRange.of(50, 59), 140),
+			ScoreThreshold.of(ScoreThreshold.LevelRange.of(60, 69), 160),
+			ScoreThreshold.of(ScoreThreshold.LevelRange.of(70, 79), 180),
+			ScoreThreshold.of(ScoreThreshold.LevelRange.of(80, 89), 200),
+			ScoreThreshold.of(ScoreThreshold.LevelRange.of(90, 99), 220),
 			ScoreThreshold.of(ScoreThreshold.LevelRange.of(100, 100), 10000)
 		);
 	}

@@ -15,6 +15,7 @@ public class ReadInterestResponse {
 	private String logoUrl;
 	private int level;
 	private int score;
+	private int scoreThreshold;
 	private int totalScore;
 
 	private ReadInterestResponse(
@@ -24,6 +25,7 @@ public class ReadInterestResponse {
 		String logoUrl,
 		int level,
 		int score,
+		int scoreThreshold,
 		int totalScore
 	) {
 		this.id = id;
@@ -32,6 +34,7 @@ public class ReadInterestResponse {
 		this.logoUrl = logoUrl;
 		this.level = level;
 		this.score = score;
+		this.scoreThreshold = scoreThreshold;
 		this.totalScore = totalScore;
 	}
 
@@ -43,6 +46,7 @@ public class ReadInterestResponse {
 			interest.getLogoUrl(),
 			interest.getProficiency().getLevel().getLevel(),
 			interest.getProficiency().getScore().getScore(),
+			interest.getProficiency().getScoreThreshold(),
 			interest.getProficiency().getTotalScore());
 	}
 }

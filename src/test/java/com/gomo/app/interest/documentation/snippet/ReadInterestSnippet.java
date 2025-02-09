@@ -25,6 +25,7 @@ public class ReadInterestSnippet {
 		fieldWithPath("logoUrl").type(JsonFieldType.STRING).description("로고 이미지"),
 		fieldWithPath("level").type(JsonFieldType.NUMBER).description("레벨"),
 		fieldWithPath("score").type(JsonFieldType.NUMBER).description("현재 점수"),
+		fieldWithPath("scoreThreshold").type(JsonFieldType.NUMBER).description("현재 레벨의 임계 점수"),
 		fieldWithPath("totalScore").type(JsonFieldType.NUMBER).description("전체 점수")
 	);
 

@@ -28,6 +28,10 @@ public class Score {
 		return new Score(0);
 	}
 
+	public static Score of(int score) {
+		return new Score(score);
+	}
+
 	public Score increase(int increment) {
 		validatePositive(increment);
 		return new Score(this.score + increment);

@@ -27,6 +27,10 @@ public class ChildInterestId implements Serializable {
         return new ChildInterestId(interestId.getId());
     }
 
+    public InterestId toInterestId() {
+        return InterestId.of(id);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

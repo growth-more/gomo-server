@@ -85,8 +85,10 @@ public class InterestTest {
 	@DisplayName("관심사 숙련도를 향상한다.")
 	@Test
 	void enhance_interest_proficiency() {
+		int[] totalScoreForLevel = {0, 40, 80, 120};
+		int[] scoreThresholdsPerLevel = {0, 40, 40, 40};
 		Interest interest = Interest.of(ID, REGISTRANT_ID, NAME, LOGO_URL);
-		interest.enhanceProficiency(10, 400);
+		interest.adjustProficiency(10, totalScoreForLevel, scoreThresholdsPerLevel);
 
 		assertThat(interest.getProficiency().getScore().getScore()).isEqualTo(10);
 	}

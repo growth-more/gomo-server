@@ -17,6 +17,7 @@ import lombok.Getter;
  * 1. 외부 클래스일 때, 객체의 용도를 명확하게 파악하기 힘들다. ScoreThreshold 와 함께 있을 때, 두 객체의 역할을 명확하게 파악할 수 있다.
  * 2. ScoreThreshold 내부 필드로 레벨 구간을 표현하는 것 대신 LevelRange 를 활용하면 '구간' 이라는 의미를 명확하게 표현할 수 있다.
  */
+// TODO <jhl221123>: LevelRange(min, max) 를 제거하고, 레벨 별 제한만 사용하는 것이 더 유리할 수 있을 것 같다.
 @Getter
 @ValueObject
 public class ScoreThreshold {
