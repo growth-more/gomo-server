@@ -32,12 +32,12 @@ public class DeleteInterestRelationDocumentationTest extends DocumentationTestBa
 
 	@Autowired
 	private InterestRelationDataProvider interestRelationDataProvider;
-	private InterestRelation toJava;
+	private InterestRelation backendToJava;
 
 	@BeforeEach
 	public void setUp() {
 		// sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
-		toJava = interestRelationDataProvider.toJava();
+		backendToJava = interestRelationDataProvider.backendToJava();
 	}
 
 	@AfterEach
@@ -51,7 +51,7 @@ public class DeleteInterestRelationDocumentationTest extends DocumentationTestBa
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.when()
-			.delete("/interests/networks/relations/{id}", toJava.getId().getId())
+			.delete("/interests/networks/relations/{id}", backendToJava.getId().getId())
 			.then()
 			.statusCode(NO_CONTENT.value());
 	}

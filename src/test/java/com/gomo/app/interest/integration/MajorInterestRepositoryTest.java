@@ -32,7 +32,7 @@ public class MajorInterestRepositoryTest extends IntegrationTestBase {
 		spring = majorInterestDataProvider.spring();
 	}
 
-	@DisplayName("등록자가 등록한 모든 주요 관심사 목록을 정렬 순서에 맞게 조회한다.")
+	@DisplayName("등록자의 모든 주요 관심사 목록을 정렬 순서에 맞게 조회한다.")
 	@Test
 	void find_all() {
 		List<MajorInterest> expected = List.of(java, spring);
@@ -44,10 +44,10 @@ public class MajorInterestRepositoryTest extends IntegrationTestBase {
 			.containsExactlyElementsOf(expected);
 	}
 
-	@DisplayName("등록자가 등록한 모든 주요 관심사의 개수를 조회한다.")
+	@DisplayName("주요 관심사 목록의 마지막 정렬 순서를 조회한다.")
 	@Test
 	void count_all() {
-		long actual = sut.countAllByRegistrantId(RegistrantId.of(java.getRegistrantId().getId()));
+		long actual = sut.findMaxDisplayOrder(RegistrantId.of(java.getRegistrantId().getId()));
 
 		assertThat(actual).isEqualTo(2);
 	}
