@@ -44,7 +44,7 @@ public class RepeatQuestServiceTest {
 
 		doReturn(4L).when(repeatQuestRepository).countByQuestParticipantIdAndQuestType(any(), any());
 		doReturn(Optional.of(MemberFixture.member(5))).when(memberRepository).findById(any());
-		doReturn(4).when(repeatQuestRepository).findMaxDisplayOrderByRepeatQuest(any(), any());
+		doReturn(4).when(repeatQuestRepository).findMaxDisplayOrderByQuestType(any(), any());
 		doReturn(repeatQuest).when(repeatQuestRepository).save(any());
 
 		RepeatQuest actual = sut.create(ParticipantId.of(UUID.randomUUID()), QuestFixture.quest());
@@ -59,7 +59,7 @@ public class RepeatQuestServiceTest {
 
 		doReturn(4L).when(repeatQuestRepository).countByQuestParticipantIdAndQuestType(any(), any());
 		doReturn(Optional.of(MemberFixture.member(5))).when(memberRepository).findById(any());
-		doReturn(maxDisplayOrder).when(repeatQuestRepository).findMaxDisplayOrderByRepeatQuest(any(), any());
+		doReturn(maxDisplayOrder).when(repeatQuestRepository).findMaxDisplayOrderByQuestType(any(), any());
 		doReturn(RepeatQuestFixture.repeatQuest(maxDisplayOrder + 1)).when(repeatQuestRepository).save(any());
 
 		RepeatQuest actual = sut.create(ParticipantId.of(UUID.randomUUID()), QuestFixture.quest());

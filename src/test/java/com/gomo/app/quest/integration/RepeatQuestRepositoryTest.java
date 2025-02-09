@@ -46,7 +46,7 @@ public class RepeatQuestRepositoryTest extends IntegrationTestBase {
 	@DisplayName("반복 퀘스트의 마지막 정렬 번호를 조회한다.")
 	@Test
 	void find_max_order_repeat_quest() {
-		int actual = sut.findMaxDisplayOrderByRepeatQuest(
+		int actual = sut.findMaxDisplayOrderByQuestType(
 			firstOrderDailyRepeatQuest.getQuest().getParticipantId(),
 			QuestType.DAILY
 		);
