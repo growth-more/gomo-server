@@ -1,13 +1,17 @@
 package com.gomo.app.point.domain.service;
 
-import java.util.List;
+import java.time.LocalDateTime;
+
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.domain.service.DomainService;
-import com.gomo.app.common.dto.PageRequest;
-import com.gomo.app.member.domain.model.MemberId;
+import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.point.domain.model.Point;
+import com.gomo.app.point.domain.model.PointId;
+import com.gomo.app.point.domain.model.SourceType;
+import com.gomo.app.point.domain.model.TransactionType;
+import com.gomo.app.point.domain.model.TransactorId;
 import com.gomo.app.point.domain.repository.PointRepository;
-import com.gomo.app.point.presentation.response.AvailableReadPointResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,13 +19,22 @@ import lombok.RequiredArgsConstructor;
 @DomainService
 public class PointService {
 
+	private final PointWalletService pointWalletService;
 	private final PointRepository pointRepository;
 
-	public AvailableReadPointResponse findAvailablePoints(MemberId memberId) {
-		return null;
-	}
+	@Transactional
+	public void create(TransactorId transactorId, SourceType sourceType, TransactionType transactionType, int amount) {
+		Point point = Point.of(
+			PointId.of(UUIDGenerator.generate()),
+			transactorId,
+			sourceType,
+			transactionType,
+			amount,
+			sourceType.getDescription() + transactionType.getDescription(),
+			LocalDateTime.now()
+		);
 
-	public List<Point> findAll(MemberId memberId, PageRequest request) {
-		return null;
+		pointWalletService.adjustPointBalance(transactorId, transactionType, amount);
+		pointRepository.save(point);
 	}
 }

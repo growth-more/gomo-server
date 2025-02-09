@@ -4,20 +4,21 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.gomo.app.point.domain.model.Point;
 import com.gomo.app.point.domain.model.PointId;
-import com.gomo.app.point.domain.model.TransactorId;
 
 public interface PointRepository extends JpaRepository<Point, PointId> {
 
-	@Query("select p from Point p"
-		+ " where p.transactorId = :memberId and p.id > :lastElementId"
-		+ " order by cast(p.id as long) desc"
-		+ " limit :size")
+	@Query(value = "select p.* from point p " +
+		"where p.transactor_id = UNHEX(REPLACE(:transactorId, '-', '')) " +
+		"and (UNHEX(REPLACE(:lastElementId, '-', '')) is null " +
+		"or p.id > UNHEX(REPLACE(:lastElementId, '-', ''))) " +
+		"limit :size", nativeQuery = true)
 	List<Point> findAllByTransactorId(
-		TransactorId transactorId,
-		PointId lastElementId,
-		int size
+		@Param("transactorId") String transactorId,
+		@Param("lastElementId") String lastElementId,
+		@Param("size") int size
 	);
 }

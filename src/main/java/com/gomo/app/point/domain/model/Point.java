@@ -2,6 +2,10 @@ package com.gomo.app.point.domain.model;
 
 import java.time.LocalDateTime;
 
+import com.gomo.app.common.domain.BaseAudit;
+import com.gomo.app.point.exception.InvalidPointAmountException;
+import com.gomo.app.point.exception.PointErrorCode;
+
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
@@ -14,55 +18,62 @@ import lombok.Getter;
 
 @Getter
 @Entity
-public class Point {
+public class Point extends BaseAudit {
 
 	@EmbeddedId
 	private PointId id;
 
 	@Embedded
 	@AttributeOverrides({
-		@AttributeOverride(name = "id", column = @Column(name = "member_id"))
+		@AttributeOverride(name = "id", column = @Column(name = "transactor_id"))
 	})
 	private TransactorId transactorId;
 
 	@Enumerated(value = EnumType.STRING)
-	private PointType pointType;
+	private SourceType sourceType;
 
 	@Enumerated(value = EnumType.STRING)
 	private TransactionType transactionType;
-	private int points;
+	private int amount;
 	private String description;
-	private LocalDateTime transactionDate;
+	private LocalDateTime transactionDateTime;
 
 	protected Point() {}
 
 	private Point(
 		PointId id,
 		TransactorId transactorId,
-		PointType pointType,
+		SourceType sourceType,
 		TransactionType transactionType,
-		int points,
+		int amount,
 		String description,
-		LocalDateTime transactionDate
+		LocalDateTime transactionDateTime
 	) {
+		ensureAmountNotNegative(amount);
 		this.id = id;
 		this.transactorId = transactorId;
-		this.pointType = pointType;
+		this.sourceType = sourceType;
 		this.transactionType = transactionType;
-		this.points = points;
+		this.amount = amount;
 		this.description = description;
-		this.transactionDate = transactionDate;
+		this.transactionDateTime = transactionDateTime;
 	}
 
 	public static Point of(
 		PointId id,
 		TransactorId transactorId,
-		PointType pointType,
+		SourceType sourceType,
 		TransactionType transactionType,
-		int points,
+		int amount,
 		String description,
-		LocalDateTime transactionDate
+		LocalDateTime transactionDateTime
 	) {
-		return new Point(id, transactorId, pointType, transactionType, points, description, transactionDate);
+		return new Point(id, transactorId, sourceType, transactionType, amount, description, transactionDateTime);
+	}
+
+	private void ensureAmountNotNegative(int amount) {
+		if(amount < 0) {
+			throw new InvalidPointAmountException(PointErrorCode.NEGATIVE_NOT_ALLOWED);
+		}
 	}
 }

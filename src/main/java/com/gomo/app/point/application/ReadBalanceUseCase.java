@@ -1,0 +1,21 @@
+package com.gomo.app.point.application;
+
+import com.gomo.app.common.application.ApplicationService;
+import com.gomo.app.point.domain.model.Balance;
+import com.gomo.app.point.domain.model.TransactorId;
+import com.gomo.app.point.domain.service.PointWalletService;
+import com.gomo.app.point.presentation.response.ReadBalanceResponse;
+
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+@ApplicationService
+public class ReadBalanceUseCase {
+
+	private final PointWalletService pointWalletService;
+
+	public ReadBalanceResponse find(TransactorId transactorId) {
+		Balance balance = pointWalletService.findBalance(transactorId);
+		return ReadBalanceResponse.of(balance);
+	}
+}
