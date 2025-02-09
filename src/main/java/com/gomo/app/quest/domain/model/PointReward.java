@@ -10,23 +10,23 @@ import lombok.Getter;
 @ValueObject
 public class PointReward {
 
-	private int points;
+	private int amount;
 	private long traceId;
 
 	protected PointReward() {}
 
 	private PointReward(
-		int points,
+		int amount,
 		long traceId
 	) {
-		this.points = points;
+		this.amount = amount;
 		this.traceId = traceId;
 	}
 
 	public static PointReward of(
-		int points,
+		int amount,
 		long traceId
 	) {
-		return new PointReward(points, traceId);
+		return new PointReward(amount, traceId);
 	}
 }
