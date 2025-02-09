@@ -1,6 +1,8 @@
 package com.gomo.app.interest.domain.model;
 
 import com.gomo.app.common.domain.ValueObject;
+import com.gomo.app.interest.exception.InterestErrorCode;
+import com.gomo.app.interest.exception.ProficiencyAdjustFailureException;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
@@ -16,6 +18,7 @@ public class Proficiency {
 
 	@Embedded
 	private Score score;
+	private int scoreThreshold;
 	private int totalScore;
 
 	protected Proficiency() {
@@ -24,35 +27,50 @@ public class Proficiency {
 	public Proficiency(
 		Level level,
 		Score score,
+		int scoreThreshold,
 		int totalScore
 	) {
 		this.level = level;
 		this.score = score;
+		this.scoreThreshold = scoreThreshold;
 		this.totalScore = totalScore;
 	}
 
 	public static Proficiency createDefault() {
-		return new Proficiency(Level.createDefault(), Score.createDefault(), 0);
+		return new Proficiency(Level.createDefault(), Score.createDefault(), 40, 0);
 	}
 
-	public Proficiency enhance(
-		int scoreIncrement,
-		int scoreThreshold
-	) {
-		int increasedTotalScore = this.totalScore + scoreIncrement;
-		Score increasedScore = this.score.increase(scoreIncrement);
-		Level increasedLevel = this.level.copy();
+	public static Proficiency of(Level level, Score score, int scoreThreshold, int totalScore) {
+		return new Proficiency(level, score, scoreThreshold, totalScore);
+	}
 
-		int levelIncrement = increasedScore.calculateIncreasedLevel(scoreThreshold);
-		if(possibleLevelUp(levelIncrement)) {
-			increasedLevel = this.level.increase(levelIncrement);
-			increasedScore = increasedScore.trimExcess(scoreThreshold);
+	public Proficiency adjust(int deltaTotalScore, int[] totalScoreForLevel, int[] scoreThresholdsPerLevel) {
+		ensureTotalScoreNotNegative(deltaTotalScore);
+
+		int adjustedTotalScore = this.totalScore + deltaTotalScore;
+		return totalScoreToProficiency(adjustedTotalScore, totalScoreForLevel, scoreThresholdsPerLevel);
+	}
+
+	private void ensureTotalScoreNotNegative(int deltaTotalScore) {
+		if(this.totalScore + deltaTotalScore < 0) {
+			throw new ProficiencyAdjustFailureException(InterestErrorCode.INVALID_DELTA_TOTAL_SCORE);
+		}
+	}
+
+	private Proficiency totalScoreToProficiency(int totalScore, int[] totalScoreForLevel, int[] scoreThresholdForLevel) {
+		for(int level = 1; level < totalScoreForLevel.length; level++) {
+			if(totalScoreForLevel[level] > totalScore) {
+				int matchedLevel = level - 1;
+
+				return new Proficiency(
+					Level.of(matchedLevel),
+					Score.of(totalScore - totalScoreForLevel[matchedLevel]),
+					scoreThresholdForLevel[matchedLevel],
+					totalScore
+				);
+			}
 		}
 
-		return new Proficiency(increasedLevel, increasedScore, increasedTotalScore);
-	}
-
-	private boolean possibleLevelUp(int increasedLevel) {
-		return increasedLevel > 0;
+		throw new ProficiencyAdjustFailureException(InterestErrorCode.TOTAL_SCORE_TOO_LARGE);
 	}
 }

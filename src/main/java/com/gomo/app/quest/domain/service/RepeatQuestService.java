@@ -31,7 +31,7 @@ public class RepeatQuestService {
 		int repeatQuestCount = (int)repeatQuestRepository.countByQuestParticipantIdAndQuestType(participantId, quest.getType());
 		ensureNotExceedQuestThreshold(participantId, quest.getType(), repeatQuestCount);
 
-		int displayOrder = repeatQuestRepository.findMaxDisplayOrderByRepeatQuest(participantId, quest.getType()) + 1;
+		int displayOrder = repeatQuestRepository.findMaxDisplayOrderByQuestType(participantId, quest.getType()) + 1;
 		return repeatQuestRepository.save(createRepeatQuest(quest, displayOrder));
 	}
 

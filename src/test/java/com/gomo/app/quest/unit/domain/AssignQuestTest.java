@@ -30,6 +30,7 @@ public class AssignQuestTest {
 	private static final SubjectId SUBJECT_ID = SubjectId.of(UUID.randomUUID());
 	private static final SubjectName SUBJECT_NAME = SubjectName.of("subject name");
 	private static final QuestContent QUEST_CONTENT = QuestContent.of("quest content");
+	private static final LocalDateTime NOW = LocalDateTime.now();
 
 	@DisplayName("할당 퀘스트를 생성한다.")
 	@Test
@@ -136,7 +137,7 @@ public class AssignQuestTest {
 		);
 
 		CompletionProof updatedProof = CompletionProof.of("updated proof");
-		assignQuest.complete(updatedProof);
+		assignQuest.complete(updatedProof, NOW);
 
 		assertThat(assignQuest.isCompleted()).isTrue();
 		assertThat(assignQuest.getProof()).isEqualTo(updatedProof);
@@ -154,7 +155,7 @@ public class AssignQuestTest {
 		);
 
 		CompletionProof updatedProof = CompletionProof.of("updated proof");
-		assignQuest.complete(updatedProof);
+		assignQuest.complete(updatedProof, NOW);
 
 		assertThat(assignQuest.getDisplayOrder()).isEqualTo(DisplayOrder.of(1001));
 	}
@@ -172,7 +173,7 @@ public class AssignQuestTest {
 
 		CompletionProof updatedProof = CompletionProof.of("updated proof");
 
-		assertThatThrownBy(() -> assignQuest.complete(updatedProof))
+		assertThatThrownBy(() -> assignQuest.complete(updatedProof, NOW))
 			.isInstanceOf(PolicyViolationException.class)
 			.hasMessageContaining("AssignQuest must be confirmed before completing");
 	}
@@ -253,7 +254,7 @@ public class AssignQuestTest {
 		);
 
 		CompletionProof updatedProof = CompletionProof.of("updated proof");
-		assignQuest.complete(updatedProof);
+		assignQuest.complete(updatedProof, NOW);
 
 		assertThatThrownBy(() -> assignQuest.changeOrder(DisplayOrder.of(2)))
 			.isInstanceOf(PolicyViolationException.class)

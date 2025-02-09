@@ -5,7 +5,8 @@ import lombok.Getter;
 @Getter
 public enum InterestRelationErrorCode {
 
-	NOT_FOUND("Interest relation not found", 404),
+	DUPLICATED("Interest relation already exists", 409),
+	CYCLE_OCCUR("Cycle detected in the interest network by adding this relation, which is not allowed", 422),
 	ACCESS_DENIED("Access denied for the interest relation", 403);
 
 	private final String message;

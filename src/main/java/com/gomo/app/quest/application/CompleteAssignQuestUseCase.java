@@ -1,5 +1,6 @@
 package com.gomo.app.quest.application;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +36,7 @@ public class CompleteAssignQuestUseCase {
 			.orElseThrow(() -> new NotFoundException(DomainErrorCode.NOT_FOUND, "Assign quest not found"));
 		assignQuest.validateAuthority(accessorId);
 
-		assignQuest.complete(CompletionProof.of(request.getProof()));
+		assignQuest.complete(CompletionProof.of(request.getProof()), LocalDateTime.now());
 
 		QuestReward questReward = questRewardService.create(assignQuest.getId(), assignQuest.getQuest().getType());
 		Events.raise(ScoreQuestCompletedEvent.of(assignQuest.getQuest().getSubjectId(), questReward.getScoreReward()));

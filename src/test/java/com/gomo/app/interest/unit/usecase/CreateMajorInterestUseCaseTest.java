@@ -20,9 +20,8 @@ import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.MajorInterest;
 import com.gomo.app.interest.domain.repository.InterestRepository;
-import com.gomo.app.interest.domain.repository.MajorInterestRepository;
+import com.gomo.app.interest.domain.service.MajorInterestService;
 import com.gomo.app.interest.exception.InterestAccessDeniedException;
-import com.gomo.app.interest.exception.MajorInterestDuplicatedException;
 import com.gomo.app.interest.presentation.response.CreateMajorInterestResponse;
 
 @DisplayName("[Application unit]: 주요 관심사 등록 테스트")
@@ -36,7 +35,7 @@ public class CreateMajorInterestUseCaseTest {
 	private InterestRepository interestRepository;
 
 	@Mock
-	private MajorInterestRepository majorInterestRepository;
+	private MajorInterestService majorInterestService;
 
 	@DisplayName("주요 관심사를 등록한다.")
 	@Test
@@ -44,7 +43,7 @@ public class CreateMajorInterestUseCaseTest {
 		MajorInterest expected = MajorInterestFixture.majorInterest();
 		CreateMajorInterestResponse response = CreateMajorInterestResponse.of(expected.getId());
 		doReturn(Optional.of(InterestFixture.interest(expected.getRegistrantId()))).when(interestRepository).findById(any(InterestId.class));
-		doReturn(expected).when(majorInterestRepository).save(any(MajorInterest.class));
+		doReturn(expected).when(majorInterestService).create(any(Interest.class));
 
 		CreateMajorInterestResponse actual = sut.create(expected.getRegistrantId().getId(), expected.getInterestId());
 
@@ -60,16 +59,5 @@ public class CreateMajorInterestUseCaseTest {
 
 		assertThatThrownBy(() -> sut.create(UUID.randomUUID(), InterestId.of(UUID.randomUUID())))
 			.isInstanceOf(InterestAccessDeniedException.class);
-	}
-
-	@DisplayName("이미 주요 관심사로 등록된 관심사는 중복해서 등록할 수 없다.")
-	@Test
-	void create_major_interest_with_already_existing_major_interest() {
-		Interest interest = mock(Interest.class);
-		doReturn(Optional.of(interest)).when(interestRepository).findById(any(InterestId.class));
-		doThrow(MajorInterestDuplicatedException.class).when(majorInterestRepository).findByInterestId(any(InterestId.class));
-
-		assertThatThrownBy(() -> sut.create(UUID.randomUUID(), InterestId.of(UUID.randomUUID())))
-			.isInstanceOf(MajorInterestDuplicatedException.class);
 	}
 }

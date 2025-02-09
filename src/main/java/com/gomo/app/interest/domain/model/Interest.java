@@ -13,6 +13,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Version;
 import lombok.Getter;
 
 @Getter
@@ -39,6 +40,9 @@ public class Interest extends BaseAudit implements Authorizable {
 	})
 	private InterestName name;
 	private String logoUrl;
+
+	@Version
+	private Long version;
 
 	protected Interest() {
 	}
@@ -81,9 +85,8 @@ public class Interest extends BaseAudit implements Authorizable {
 		return null;
 	}
 
-	public void enhanceProficiency(int increment, int scoreThreshold) {
-		Proficiency enhancedProficiency = this.proficiency.enhance(increment, scoreThreshold);
-		this.proficiency = enhancedProficiency;
+	public void adjustProficiency(int deltaTotalScore, int[] totalScoreForLevel, int[] scoreThresholdsPerLevel) {
+		this.proficiency = this.proficiency.adjust(deltaTotalScore, totalScoreForLevel, scoreThresholdsPerLevel);
 	}
 
 	@Override

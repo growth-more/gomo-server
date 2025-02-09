@@ -18,7 +18,7 @@ public interface RepeatQuestRepository extends JpaRepository<RepeatQuest, Repeat
 	@Query("select COALESCE(MAX(r.displayOrder.displayOrder), 0) from RepeatQuest r " +
 		"where r.quest.participantId = :participantId " +
 		"and r.quest.type = :questType")
-	int findMaxDisplayOrderByRepeatQuest(
+	int findMaxDisplayOrderByQuestType(
 		@Param("participantId") ParticipantId participantId,
 		@Param("questType") QuestType questType
 	);

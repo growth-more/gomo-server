@@ -26,6 +26,7 @@ public class ListInterestSnippet {
 		fieldWithPath("interests[].logoUrl").type(JsonFieldType.STRING).description("관심사 로고 이미지"),
 		fieldWithPath("interests[].level").type(JsonFieldType.NUMBER).description("레벨"),
 		fieldWithPath("interests[].score").type(JsonFieldType.NUMBER).description("현재 점수"),
+		fieldWithPath("interests[].scoreThreshold").type(JsonFieldType.NUMBER).description("현재 레벨의 임계 점수"),
 		fieldWithPath("interests[].totalScore").type(JsonFieldType.NUMBER).description("전체 점수")
 	);
 
