@@ -102,6 +102,6 @@ public class StreakConflictTest extends IntegrationTestBase {
 
 		assertThat(exception.getCause())
 			.isInstanceOf(StreakUpdateFailureException.class)
-			.hasMessageContaining("Failed to update Streak after multiple attempts");
+			.hasMessageContaining("Failed to update streak after multiple attempts");
 	}
 }
