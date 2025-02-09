@@ -3,6 +3,8 @@ package com.gomo.app.point.event;
 import static com.gomo.app.point.domain.model.SourceType.*;
 import static com.gomo.app.point.domain.model.TransactionType.*;
 
+import java.util.UUID;
+
 import org.springframework.context.event.EventListener;
 
 import com.gomo.app.common.event.EventHandler;
@@ -23,9 +25,10 @@ public class CompletedQuestPointHandler {
 
 	@EventListener(PointQuestCompletedEvent.class)
 	public void handle(PointQuestCompletedEvent event) {
+		UUID participantId = event.getParticipantId().getId();
 		PointReward pointReward = event.getPointReward();
-		pointService.create(TransactorId.of(event.getParticipantId().getId()), QUEST, GAIN, pointReward.getAmount());
+		pointService.create(TransactorId.of(participantId), QUEST, GAIN, pointReward.getAmount());
 
-		log.info("[CompletedQuestPointHandler] point trace id: {}", pointReward.getTraceId());
+		log.info("[CompletedQuestPointHandler] Processing PointQuestCompletedEvent with member id: {}, trace id: {}", participantId, pointReward.getTraceId());
 	}
 }

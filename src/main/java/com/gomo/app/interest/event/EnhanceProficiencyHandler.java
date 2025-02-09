@@ -24,6 +24,6 @@ public class EnhanceProficiencyHandler {
 		ScoreReward scoreReward = event.getScoreReward();
 		proficiencyService.adjust(interestId, scoreReward.getScore());
 
-		log.trace("[EnhanceProficiencyHandler] score trace id: {}", scoreReward.getTraceId());
+		log.info("[EnhanceProficiencyHandler] Processing ScoreQuestCompletedEvent with member id: {}, trace id: {}", event.getMemberId(), scoreReward.getTraceId());
 	}
 }
