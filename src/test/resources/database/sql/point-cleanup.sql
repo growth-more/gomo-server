@@ -1,13 +1,14 @@
 DELETE FROM point;
+DELETE FROM point_wallet;
 
 INSERT INTO point (
     id,
     transactor_id,
-    point_type,
+    source_type,
     transaction_type,
-    points,
+    amount,
     description,
-    transaction_date,
+    transaction_date_time,
     created_at,
     created_by,
     last_modified_at,
@@ -48,3 +49,22 @@ INSERT INTO point (
     'gomotest@naver.com',
     '2025-01-22T22:47:25.429479500',
     'gomotest@naver.com');
+
+INSERT INTO point_wallet (
+    id,
+    transactor_id,
+    balance,
+    version,
+    created_at,
+    created_by,
+    last_modified_at,
+    last_modified_by
+) VALUES
+    (UNHEX(REPLACE('e23db9d3-e6e5-11ef-9f07-0b157ee08b8d', '-', '')),
+     UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
+     '1660',
+     0,
+     '2025-02-09T22:47:25.4294710',
+     'gomotest@naver.com',
+     '2025-02-09T22:47:25.429471',
+     'gomotest@naver.com');

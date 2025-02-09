@@ -170,11 +170,22 @@ CREATE TABLE quest_point_policy (
 CREATE TABLE point (
     id binary(16) NOT NULL PRIMARY KEY,
     transactor_id binary(16),
-    point_type ENUM('QUEST', 'ATTENDANCE', 'STORE', 'EVENT'),
+    source_type ENUM('QUEST', 'ATTENDANCE', 'STORE', 'EVENT'),
     transaction_type ENUM('GAIN', 'SPEND'),
-    points INT,
+    amount INT,
     description VARCHAR(255),
-    transaction_date DATETIME(6),
+    transaction_date_time DATETIME(6),
+    created_at DATETIME(6),
+    created_by varchar(255),
+    last_modified_at DATETIME(6),
+    last_modified_by varchar(255)
+);
+
+CREATE TABLE point_wallet (
+    id binary(16) NOT NULL PRIMARY KEY,
+    transactor_id binary(16),
+    balance INT,
+    version BIGINT DEFAULT 0 NOT NULL,
     created_at DATETIME(6),
     created_by varchar(255),
     last_modified_at DATETIME(6),
@@ -602,11 +613,11 @@ INSERT INTO streak (
 INSERT INTO point (
     id,
     transactor_id,
-    point_type,
+    source_type,
     transaction_type,
-    points,
+    amount,
     description,
-    transaction_date,
+    transaction_date_time,
     created_at,
     created_by,
     last_modified_at,
@@ -618,10 +629,10 @@ INSERT INTO point (
     'GAIN',
     10,
     '일일 퀘스트 완료 포인트 획득',
-    '2025-01-20T22:47:25.429479500',
-    '2025-01-20T22:47:25.429479500',
+    '2025-01-20T22:47:25.429471',
+    '2025-01-20T22:47:25.4294710',
     'gomotest@naver.com',
-    '2025-01-20T22:47:25.429479500',
+    '2025-01-20T22:47:25.429471',
     'gomotest@naver.com'),
 
     (UNHEX(REPLACE('c9f68773-d735-11ef-9d10-57f4db82cd9c', '-', '')),
@@ -630,10 +641,10 @@ INSERT INTO point (
     'GAIN',
     150,
     '주간 퀘스트 완료 포인트 획득',
-    '2025-01-21T22:47:25.429479500',
-    '2025-01-21T22:47:25.429479500',
+    '2025-01-21T22:47:25.429471',
+    '2025-01-21T22:47:25.429471',
     'gomotest@naver.com',
-    '2025-01-21T22:47:25.429479500',
+    '2025-01-21T22:47:25.429471',
     'gomotest@naver.com'),
 
     (UNHEX(REPLACE('ead8cd48-d735-11ef-b568-8745309ead01', '-', '')),
@@ -642,11 +653,30 @@ INSERT INTO point (
     'GAIN',
     1500,
     '월간 퀘스트 완료 포인트 획득',
-    '2025-01-22T22:47:25.429479500',
-    '2025-01-22T22:47:25.429479500',
+    '2025-01-22T22:47:25.429471',
+    '2025-01-22T22:47:25.429471',
     'gomotest@naver.com',
-    '2025-01-22T22:47:25.429479500',
+    '2025-01-22T22:47:25.429471',
     'gomotest@naver.com');
+
+INSERT INTO point_wallet (
+    id,
+    transactor_id,
+    balance,
+    version,
+    created_at,
+    created_by,
+    last_modified_at,
+    last_modified_by
+) VALUES
+      (UNHEX(REPLACE('e23db9d3-e6e5-11ef-9f07-0b157ee08b8d', '-', '')),
+       UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
+       '1660',
+       0,
+       '2025-02-09T22:47:25.4294710',
+       'gomotest@naver.com',
+       '2025-02-09T22:47:25.429471',
+       'gomotest@naver.com');
 
 INSERT INTO survey_question (
     id,
@@ -664,9 +694,9 @@ INSERT INTO survey_question (
     true,
     '직업이 무엇인가요?',
     1,
-    '2025-01-22T12:51:40.869541100',
+    '2025-01-22T12:51:40.869541',
     'admin',
-    '2025-01-22T12:51:40.869541100',
+    '2025-01-22T12:51:40.869541',
     'admin');
 
 INSERT INTO survey_item (
