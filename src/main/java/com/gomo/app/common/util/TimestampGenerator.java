@@ -8,8 +8,7 @@ public class TimestampGenerator {
 
 	public static long generate() {
 		UUID uuid = Generators.timeBasedEpochRandomGenerator().generate();
-		String[] parts = uuid.toString().split("-");
-		String highBitsHex = parts[0] + parts[1].substring(0, 4);
-		return Long.parseLong(highBitsHex, 16);
+		String hex = uuid.toString().replace("-", "").substring(0, 16);
+		return Long.parseUnsignedLong(hex, 16);
 	}
 }
