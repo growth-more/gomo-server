@@ -12,6 +12,7 @@ drop table if exists assign_quest;
 drop table if exists quest_score_policy;
 drop table if exists quest_point_policy;
 drop table if exists point;
+drop table if exists point_wallet;
 drop table if exists global_variables;
 
 CREATE TABLE member (
@@ -200,8 +201,9 @@ CREATE TABLE global_variables (
     value DATETIME
 );
 
-INSERT INTO global_variables (name, value) VALUES ('current_date_time', NOW())
-    ON DUPLICATE KEY UPDATE value = NOW();
+INSERT INTO global_variables (name, value)
+VALUES ('current_date_time', CONVERT_TZ(NOW(), 'UTC', 'Asia/Seoul'))
+    ON DUPLICATE KEY UPDATE value = CONVERT_TZ(NOW(), 'UTC', 'Asia/Seoul');
 
 SET @current_date_time = (SELECT value FROM global_variables WHERE name = 'current_date_time');
 
@@ -524,11 +526,11 @@ INSERT INTO assign_quest(
     false,
     false,
     1,
-     @current_date_time,
+    @current_date_time,
     NULL,
-     @current_date_time,
+    @current_date_time,
     'gomotest@naver.com',
-     @current_date_time,
+    @current_date_time,
     'gomotest@naver.com'),
     -- weekly participating quest
     (UNHEX(REPLACE('0194cbda-6135-79fc-b659-ebaac3684761', '-', '')),
