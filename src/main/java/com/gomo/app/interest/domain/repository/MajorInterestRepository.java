@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.MajorInterest;
@@ -14,7 +16,11 @@ public interface MajorInterestRepository extends JpaRepository<MajorInterest, Ma
 
 	Optional<MajorInterest> findByInterestId(InterestId interestId);
 
-	long countAllByRegistrantId(RegistrantId registrantId);
+	@Query("select COALESCE(MAX(m.displayOrder.displayOrder), 0) from MajorInterest m " +
+		"where m.registrantId = :registrantId ")
+	int findMaxDisplayOrder(
+		@Param("registrantId") RegistrantId registrantId
+	);
 
 	List<MajorInterest> findAllByRegistrantIdOrderByDisplayOrder(RegistrantId registrantId);
 }

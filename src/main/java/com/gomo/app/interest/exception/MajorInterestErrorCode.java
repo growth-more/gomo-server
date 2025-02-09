@@ -5,7 +5,6 @@ import lombok.Getter;
 @Getter
 public enum MajorInterestErrorCode {
 
-	NOT_FOUND("Major interest not found", 404),
 	ACCESS_DENIED("Access denied for the major interest", 403),
 	DUPLICATED("Already registered as a major interest", 409);
 
