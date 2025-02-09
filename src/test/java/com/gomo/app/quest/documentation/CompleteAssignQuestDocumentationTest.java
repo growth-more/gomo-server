@@ -14,6 +14,7 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.util.LoginMemberHelper;
+import com.gomo.app.interest.common.util.InterestDataHelper;
 import com.gomo.app.quest.common.dataprovider.AssignQuestDataProvider;
 import com.gomo.app.quest.common.util.AssignQuestDataHelper;
 import com.gomo.app.quest.common.util.PointDataHelper;
@@ -34,6 +35,9 @@ public class CompleteAssignQuestDocumentationTest extends DocumentationTestBase 
 	private AssignQuestDataHelper assignQuestDataHelper;
 
 	@Autowired
+	private InterestDataHelper interestDataHelper;
+
+	@Autowired
 	private StreakDataHelper streakDataHelper;
 
 	@Autowired
@@ -52,6 +56,7 @@ public class CompleteAssignQuestDocumentationTest extends DocumentationTestBase 
 	@AfterEach
 	void tearDown() {
 		assignQuestDataHelper.cleanUp();
+		interestDataHelper.cleanUp();
 		streakDataHelper.cleanUp();
 		pointDataHelper.cleanUp();
 	}
