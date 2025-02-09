@@ -52,7 +52,13 @@ public class CompleteAssignQuestUseCaseTest {
 		doReturn(Optional.of(assignQuest)).when(assignQuestRepository).findById(any(AssignQuestId.class));
 		doReturn(QuestReward.of(assignQuest.getId(), ScoreReward.of(2, 1L), PointReward.of(10, 1L))).when(questRewardService).create(any(), any());
 
-		sut.complete(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID()), createRequest());
+		try (MockedStatic<Events> mockedEvents = mockStatic(Events.class)) {
+			sut.complete(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID()), createRequest());
+
+			mockedEvents.verify(() -> Events.raise(any(ScoreQuestCompletedEvent.class)), times(1));
+			mockedEvents.verify(() -> Events.raise(any(PointQuestCompletedEvent.class)), times(1));
+			mockedEvents.verify(() -> Events.raise(any(StreakQuestCompletedEvent.class)), times(1));
+		}
 
 		assertThat(assignQuest.isCompleted()).isTrue();
 	}

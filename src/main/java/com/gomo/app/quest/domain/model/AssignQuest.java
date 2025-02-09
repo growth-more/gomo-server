@@ -94,13 +94,14 @@ public class AssignQuest extends BaseAudit implements OrderChangeable, Authoriza
 		this.isConfirmed = true;
 	}
 
-	public void complete(CompletionProof proof) {
+	public void complete(CompletionProof proof, LocalDateTime completedDateTime) {
 		if(!this.isConfirmed) {
 			throw new PolicyViolationException(DomainErrorCode.INVALID_STATE, "AssignQuest must be confirmed before completing");
 		}
 		this.isCompleted = true;
 		this.proof = proof;
 		this.displayOrder = this.displayOrder.increase(1000);
+		this.completedDateTime = completedDateTime;
 	}
 
 	public boolean isSameQuestType(QuestType questType) {
