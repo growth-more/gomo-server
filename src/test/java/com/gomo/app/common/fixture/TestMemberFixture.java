@@ -62,7 +62,8 @@ public class TestMemberFixture {
 			ROLE_TYPE,
 			SUBSCRIPTION_PLAN,
 			ACTIVATE_STATUS,
-			LocalDateTime.parse(SIGN_UP_DATE_TIME)
+			LocalDateTime.parse(SIGN_UP_DATE_TIME),
+			null
 		);
 	}
 

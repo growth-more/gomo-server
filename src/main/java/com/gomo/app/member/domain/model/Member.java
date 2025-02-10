@@ -55,6 +55,7 @@ public class Member extends LogicalDeleteBaseAudit {
 	@Enumerated(EnumType.STRING)
 	private ActivateStatus activateStatus;
 	private LocalDateTime signUpDateTime;
+	private LocalDateTime lastLoginDateTime;
 
 	protected Member() {
 	}
@@ -71,7 +72,8 @@ public class Member extends LogicalDeleteBaseAudit {
 		RoleType roleType,
 		SubscriptionPlan subscriptionPlan,
 		ActivateStatus activateStatus,
-		LocalDateTime signUpDateTime
+		LocalDateTime signUpDateTime,
+		LocalDateTime lastLoginDateTime
 	) {
 		this.id = id;
 		this.email = email;
@@ -85,6 +87,7 @@ public class Member extends LogicalDeleteBaseAudit {
 		this.subscriptionPlan = subscriptionPlan;
 		this.activateStatus = activateStatus;
 		this.signUpDateTime = signUpDateTime;
+		this.lastLoginDateTime = lastLoginDateTime;
 	}
 
 	public static Member of(
@@ -96,7 +99,7 @@ public class Member extends LogicalDeleteBaseAudit {
 		Motto motto
 	) {
 		return new Member(id, email, password, handle, memberName, motto, ProfileImage.createDefault(), QuestProperty.createDefault(),
-			RoleType.ROLE_MEMBER, SubscriptionPlan.FREE, ActivateStatus.ACTIVE, LocalDateTime.now()
+			RoleType.ROLE_MEMBER, SubscriptionPlan.FREE, ActivateStatus.ACTIVE, LocalDateTime.now(), null
 		);
 	}
 
