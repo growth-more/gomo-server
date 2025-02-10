@@ -29,9 +29,12 @@ public class RegistrantId implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass())
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
             return false;
+        }
         RegistrantId registrantId = (RegistrantId)o;
         return Objects.equals(this.id, registrantId.id);
     }

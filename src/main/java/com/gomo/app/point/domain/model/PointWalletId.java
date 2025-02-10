@@ -29,9 +29,12 @@ public class PointWalletId implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass())
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
             return false;
+        }
         PointWalletId pointWalletId = (PointWalletId)o;
         return Objects.equals(id, pointWalletId.id);
     }

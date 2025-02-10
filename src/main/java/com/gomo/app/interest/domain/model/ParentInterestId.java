@@ -33,9 +33,12 @@ public class ParentInterestId implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass())
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
             return false;
+        }
         ParentInterestId parentInterestId = (ParentInterestId)o;
         return Objects.equals(id, parentInterestId.id);
     }

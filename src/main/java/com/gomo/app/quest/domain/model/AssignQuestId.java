@@ -29,9 +29,12 @@ public class AssignQuestId implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass())
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
             return false;
+        }
         AssignQuestId assignQuestId = (AssignQuestId)o;
         return Objects.equals(id, assignQuestId.id);
     }
