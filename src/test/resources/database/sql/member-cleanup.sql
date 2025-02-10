@@ -1,5 +1,9 @@
 DELETE FROM member;
 
+-- 전날 로그인을 한 사용자는 테스트 실행 시점의 날짜로 데이터를 생성해야한다.
+-- global_variables 테이블을 활용해 현재 시간을 공통으로 관리하고 세션 변수에 할당해 사용한다.
+SET @current_date_time = (SELECT value FROM global_variables WHERE name = 'current_date_time');
+
 INSERT INTO member (
     id,
     email,
@@ -22,26 +26,47 @@ INSERT INTO member (
     last_modified_at,
     last_modified_by,
     deleted_at
-) VALUES (
-    UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
-    'gomotest@naver.com',
-    'gomotest1234@',
-    'https://mini-cloud/gomotest-profile',
-    'gomotest-profile.png',
-    '@GOMOTEST',
-    'gomotest',
-    'gomotest fighting!',
-    10,
-    5,
-    0, -- 할당, 반복 퀘스트 생성 제한 테스트를 위해 임계치를 0으로 고정한다.
-    'ROLE_MEMBER',
-    'FREE',
-    'ACTIVE',
-    '2025-01-20T20:36:37.591469',
-    '2025-01-20T20:36:37.591469',
-    '2025-01-20T20:36:37.591469',
-    'gomotest@naver.com',
-    '2025-01-20T20:36:37.591469',
-    'gomotest@naver.com',
-    null
-);
+) VALUES
+      (UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
+       'gomotest@naver.com',
+       'gomotest1234@',
+       'https://mini-cloud/gomotest-profile',
+       'gomotest-profile.png',
+       '@GOMOTEST',
+       'gomotest',
+       'gomotest fighting!',
+       10,
+       5,
+       0, -- create quest document test: 생성 제한 테스트를 위해 임계치를 0으로 고정한다.
+       'ROLE_MEMBER',
+       'FREE',
+       'ACTIVE',
+       '2025-01-20T20:36:37.591469',
+       '2025-01-20T20:36:37.591469',
+       '2025-01-20T20:36:37.591469',
+       'a10581ce-d721-11ef-a8a5-2508e2a6438b',
+       '2025-01-20T20:36:37.591469',
+       'a10581ce-d721-11ef-a8a5-2508e2a6438b',
+       null),
+
+      (UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-250872a6438b', '-', '')),
+       'gomotest2@naver.com',
+       'gomotest1234@',
+       'https://mini-cloud/gomotest-profile',
+       'gomotest-profile.png',
+       '@GOMOTEST2',
+       'gomotest',
+       'gomotest fighting!',
+       7,
+       7,
+       7,
+       'ROLE_MEMBER',
+       'FREE',
+       'ACTIVE',
+       @current_date_time,
+       @current_date_time,
+       @current_date_time,
+       'a10581ce-d721-11ef-a8a5-2508e2a6438b',
+       @current_date_time,
+       'a10581ce-d721-11ef-a8a5-2508e2a6438b',
+       null);

@@ -79,3 +79,32 @@ INSERT INTO quest_point_policy(
     ('DAILY', 10),
     ('WEEKLY', 150),
     ('MONTHLY', 1500);
+
+INSERT INTO interest(
+    id,
+    registrant_id,
+    level,
+    score,
+    score_threshold,
+    total_score,
+    name,
+    logo_url,
+    version,
+    created_at,
+    created_by,
+    last_modified_at,
+    last_modified_by
+) VALUES
+      (UNHEX(REPLACE('3bd1b3f7-d7c6-11ef-abb8-a7e09b2a499c', '-', '')),
+       UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
+       0,
+       0,
+       40,
+       0,
+       "BLANK",
+       'https://mini-cloud/blank.png',
+       0,
+       '2025-01-02T16:04:35.457921900',
+       'a10581ce-d721-11ef-a8a5-2508e2a6438b',
+       '2025-01-02T16:04:35.457921900',
+       'a10581ce-d721-11ef-a8a5-2508e2a6438b'),

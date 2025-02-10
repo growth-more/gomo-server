@@ -16,6 +16,6 @@ INSERT INTO interest_relation(
     UNHEX(REPLACE('3bd1b3f7-d7c6-11ef-abb8-a7e09b2a499c', '-', '')),
     UNHEX(REPLACE('f8c51811-d7c5-11ef-82dc-4322ccc3e338', '-', '')),
     '2025-01-21T20:33:14.844656',
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-21T20:33:14.844656',
-    'gomotest@naver.com');
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b');

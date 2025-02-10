@@ -22,9 +22,9 @@ INSERT INTO repeat_quest (
     'Java 공식 문서 학습하고 TIL 작성하기',
     1,
     '2025-01-22T01:39:02.242078300',
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-22T01:39:02.242078300',
-    'gomotest@naver.com'),
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
     -- repeat quest: spring daily
     (UNHEX(REPLACE('a49f544f-d816-11ef-969c-6f84f91c1c7d', '-', '')),
     UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
@@ -34,6 +34,6 @@ INSERT INTO repeat_quest (
     'Spring 공식 문서 학습하고 TIL 작성하기',
     2,
     '2025-01-22T01:42:03.516094',
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-22T01:42:03.516094',
-    'gomotest@naver.com');
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b');

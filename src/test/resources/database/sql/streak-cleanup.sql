@@ -19,9 +19,9 @@ INSERT INTO streak (
     1,
     0,
     '2025-01-18T22:53:22.980611',
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-18T22:53:22.980611',
-    'gomotest@naver.com'),
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
 
     (UNHEX(REPLACE('fa1cf1b5-e3d3-11ef-9c0c-5f1ac1d71b42', '-', '')),
      UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
@@ -30,9 +30,9 @@ INSERT INTO streak (
      1,
      0,
      '2025-02-06T00:00:00.000000',
-     'gomotest@naver.com',
+     'a10581ce-d721-11ef-a8a5-2508e2a6438b',
      '2025-02-06T00:00:00.000000',
-     'gomotest@naver.com'),
+     'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
 
     (UNHEX(REPLACE('febad463-d868-11ef-826f-395aa04e34d3', '-', '')),
     UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
@@ -41,6 +41,6 @@ INSERT INTO streak (
     1,
     0,
     '2025-01-20T22:53:22.980611',
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-20T22:53:22.980611',
-    'gomotest@naver.com');
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b');

@@ -230,8 +230,8 @@ INSERT INTO member (
     last_modified_at,
     last_modified_by,
     deleted_at
-) VALUES (
-    UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
+) VALUES
+    (UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
     'gomotest@naver.com',
     'gomotest1234@',
     'https://mini-cloud/gomotest-profile',
@@ -241,18 +241,39 @@ INSERT INTO member (
     'gomotest fighting!',
     10,
     5,
-    0, -- 할당, 반복 퀘스트 생성 제한 테스트를 위해 임계치를 0으로 고정한다.
+    0, -- create quest document test: 생성 제한 테스트를 위해 임계치를 0으로 고정한다.
     'ROLE_MEMBER',
     'FREE',
     'ACTIVE',
     '2025-01-20T20:36:37.591469',
     '2025-01-20T20:36:37.591469',
     '2025-01-20T20:36:37.591469',
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-20T20:36:37.591469',
-    'gomotest@naver.com',
-    null
-);
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
+    null),
+
+    (UNHEX(REPLACE('b10581ce-d721-11ef-a8a5-250872a6438b', '-', '')),
+    'gomotest2@naver.com',
+    'gomotest1234@',
+    'https://mini-cloud/gomotest-profile',
+    'gomotest-profile.png',
+    '@GOMOTEST2',
+    'gomotest',
+    'gomotest fighting!',
+    7,
+    7,
+    7,
+    'ROLE_MEMBER',
+    'FREE',
+    'ACTIVE',
+    @current_date_time,
+    @current_date_time,
+    @current_date_time,
+    'b10581ce-d721-11ef-a8a5-250872a6438b',
+    @current_date_time,
+    'b10581ce-d721-11ef-a8a5-250872a6438b',
+    null);
 
 INSERT INTO interest(
     id,
@@ -279,9 +300,9 @@ INSERT INTO interest(
     'https://mini-cloud/backend-logo.png',
     0,
     '2025-01-02T16:04:35.457921900',
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-02T16:04:35.457921900',
-    'gomotest@naver.com'),
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
 
     (UNHEX(REPLACE('f8c51811-d7c5-11ef-82dc-4322ccc3e338', '-', '')),
     UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
@@ -293,9 +314,9 @@ INSERT INTO interest(
     'https://mini-cloud/java-logo.png',
     0,
     '2025-01-10T16:04:35.457921900',
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-10T16:04:35.457921900',
-    'gomotest@naver.com'),
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
 
     (UNHEX(REPLACE('90a387a7-d7c5-11ef-b4d7-079c7dc41274', '-', '')),
     UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
@@ -307,9 +328,9 @@ INSERT INTO interest(
     'https://mini-cloud/spring-logo.png',
     0,
     '2025-01-18T16:04:35.457921900',
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-21T16:04:35.457921900',
-    'gomotest@naver.com');
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b');
 
 INSERT INTO major_interest(
     id,
@@ -327,18 +348,18 @@ INSERT INTO major_interest(
     UNHEX(REPLACE('f8c51811-d7c5-11ef-82dc-4322ccc3e338', '-', '')),
     1,
     '2025-01-21T21:49:02.287884600',
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-21T21:49:02.287884600',
-    'gomotest@naver.com'),
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
     -- interest: spring
     (UNHEX(REPLACE('bec49c34-d7f5-11ef-8497-edeb32532766', '-', '')),
      UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
     UNHEX(REPLACE('90a387a7-d7c5-11ef-b4d7-079c7dc41274', '-', '')),
     2,
     '2025-01-21T21:46:33.988955',
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-21T21:46:33.988955',
-    'gomotest@naver.com');
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b');
 
 INSERT INTO interest_relation(
     id,
@@ -356,9 +377,9 @@ INSERT INTO interest_relation(
     UNHEX(REPLACE('3bd1b3f7-d7c6-11ef-abb8-a7e09b2a499c', '-', '')),
     UNHEX(REPLACE('f8c51811-d7c5-11ef-82dc-4322ccc3e338', '-', '')),
     '2025-01-21T20:33:14.844656',
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-21T20:33:14.844656',
-    'gomotest@naver.com');
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b');
 
 INSERT INTO repeat_quest (
     id,
@@ -382,9 +403,9 @@ INSERT INTO repeat_quest (
     'Java 공식 문서 학습하고 TIL 작성하기',
     1,
     '2025-01-22T01:39:02.242078300',
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-22T01:39:02.242078300',
-    'gomotest@naver.com'),
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
     -- repeat quest: spring daily
     (UNHEX(REPLACE('a49f544f-d816-11ef-969c-6f84f91c1c7d', '-', '')),
     UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
@@ -394,9 +415,9 @@ INSERT INTO repeat_quest (
     'Spring 공식 문서 학습하고 TIL 작성하기',
     2,
     '2025-01-22T01:42:03.516094',
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-22T01:42:03.516094',
-    'gomotest@naver.com');
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b');
 
 INSERT INTO assign_quest(
     id,
@@ -430,9 +451,9 @@ INSERT INTO assign_quest(
     '2025-01-21T22:53:22.980611',
     null,
     '2025-01-21T22:53:22.980611',
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-21T22:53:22.980611',
-    'gomotest@naver.com'),
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
     -- spring daily quest - confirm, not completed
     (UNHEX(REPLACE('bf259c7a-d7ff-11ef-ac7f-3bd3057a2c2e', '-', '')),
     UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
@@ -447,9 +468,9 @@ INSERT INTO assign_quest(
     '2025-01-21T22:53:22.980611',
     null,
     '2025-01-21T22:53:22.980611',
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-21T22:53:22.980611',
-    'gomotest@naver.com'),
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
     -- java daily quest - confirm, completed
     (UNHEX(REPLACE('210891d5-d814-11ef-9cc5-cdb1eaaaac96', '-', '')),
     UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
@@ -464,9 +485,9 @@ INSERT INTO assign_quest(
     '2025-01-18T20:53:22.980611',
     '2025-01-18T22:53:22.980611',
     '2025-01-18T20:53:22.980611',
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-18T22:53:22.980611',
-    'gomotest@naver.com'),
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
     -- spring daily quest - confirm, completed
     (UNHEX(REPLACE('996604d8-d814-11ef-8d8d-fdccfa1ea3b3', '-', '')),
     UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
@@ -481,9 +502,9 @@ INSERT INTO assign_quest(
     '2025-01-20T20:53:22.980611',
     '2025-01-20T22:53:22.980611',
     '2025-01-20T20:53:22.980611',
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-20T22:53:22.980611',
-    'gomotest@naver.com'),
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
     -- java weekly quest - confirm, completed
     (UNHEX(REPLACE('0194cbcc-1ff6-7ee8-ba6c-994f9ec61a0b', '-', '')),
      UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
@@ -498,9 +519,9 @@ INSERT INTO assign_quest(
      '2025-01-27T20:53:22.980611',
      '2025-01-27T22:53:22.980611',
      '2025-01-27T20:53:22.980611',
-     'gomotest@naver.com',
+     'a10581ce-d721-11ef-a8a5-2508e2a6438b',
      '2025-01-27T22:53:22.980611',
-     'gomotest@naver.com'),
+     'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
     -- spring monthly quest - confirm, completed
     (UNHEX(REPLACE('0194cbcc-79be-78f9-91fa-8a8e53c29010', '-', '')),
      UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
@@ -515,9 +536,9 @@ INSERT INTO assign_quest(
      '2025-01-01T20:53:22.980611',
      '2025-01-01T22:53:22.980611',
      '2025-01-01T20:53:22.980611',
-     'gomotest@naver.com',
+     'a10581ce-d721-11ef-a8a5-2508e2a6438b',
      '2025-01-01T22:53:22.980611',
-     'gomotest@naver.com'),
+     'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
     -- daily participating quest
     (UNHEX(REPLACE('0194cbd7-8689-74ec-bd46-dc855f493c3b', '-', '')),
     UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
@@ -532,9 +553,9 @@ INSERT INTO assign_quest(
     @current_date_time,
     NULL,
     @current_date_time,
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     @current_date_time,
-    'gomotest@naver.com'),
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
     -- weekly participating quest
     (UNHEX(REPLACE('0194cbda-6135-79fc-b659-ebaac3684761', '-', '')),
      UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
@@ -549,9 +570,9 @@ INSERT INTO assign_quest(
      @current_date_time,
      NULL,
      @current_date_time,
-     'gomotest@naver.com',
+     'a10581ce-d721-11ef-a8a5-2508e2a6438b',
      @current_date_time,
-     'gomotest@naver.com'),
+     'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
     -- monthly participating quest
     (UNHEX(REPLACE('0194cbeb-345e-74a6-9199-07bdb402ea36', '-', '')),
      UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
@@ -566,9 +587,9 @@ INSERT INTO assign_quest(
      @current_date_time,
      NULL,
      @current_date_time,
-     'gomotest@naver.com',
+     'a10581ce-d721-11ef-a8a5-2508e2a6438b',
      @current_date_time,
-     'gomotest@naver.com');
+     'a10581ce-d721-11ef-a8a5-2508e2a6438b');
 
 INSERT INTO streak (
     id,
@@ -589,9 +610,9 @@ INSERT INTO streak (
     1,
     0,
     '2025-01-18T22:53:22.980611',
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-18T22:53:22.980611',
-    'gomotest@naver.com'),
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
 
     (UNHEX(REPLACE('fa1cf1b5-e3d3-11ef-9c0c-5f1ac1d71b42', '-', '')),
      UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
@@ -600,9 +621,9 @@ INSERT INTO streak (
      1,
      0,
      '2025-02-06T00:00:00.000000',
-     'gomotest@naver.com',
+     'a10581ce-d721-11ef-a8a5-2508e2a6438b',
      '2025-02-06T00:00:00.000000',
-     'gomotest@naver.com'),
+     'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
 
     (UNHEX(REPLACE('febad463-d868-11ef-826f-395aa04e34d3', '-', '')),
     UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
@@ -611,9 +632,9 @@ INSERT INTO streak (
     1,
     0,
     '2025-01-20T22:53:22.980611',
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-20T22:53:22.980611',
-    'gomotest@naver.com');
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b');
 
 INSERT INTO point (
     id,
@@ -636,9 +657,9 @@ INSERT INTO point (
     '일일 퀘스트 완료 포인트 획득',
     '2025-01-20T22:47:25.429471',
     '2025-01-20T22:47:25.4294710',
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-20T22:47:25.429471',
-    'gomotest@naver.com'),
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
 
     (UNHEX(REPLACE('c9f68773-d735-11ef-9d10-57f4db82cd9c', '-', '')),
     UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
@@ -648,9 +669,9 @@ INSERT INTO point (
     '주간 퀘스트 완료 포인트 획득',
     '2025-01-21T22:47:25.429471',
     '2025-01-21T22:47:25.429471',
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-21T22:47:25.429471',
-    'gomotest@naver.com'),
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
 
     (UNHEX(REPLACE('ead8cd48-d735-11ef-b568-8745309ead01', '-', '')),
     UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
@@ -660,9 +681,9 @@ INSERT INTO point (
     '월간 퀘스트 완료 포인트 획득',
     '2025-01-22T22:47:25.429471',
     '2025-01-22T22:47:25.429471',
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-22T22:47:25.429471',
-    'gomotest@naver.com');
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b');
 
 INSERT INTO point_wallet (
     id,
@@ -679,9 +700,9 @@ INSERT INTO point_wallet (
        '1660',
        0,
        '2025-02-09T22:47:25.4294710',
-       'gomotest@naver.com',
+       'a10581ce-d721-11ef-a8a5-2508e2a6438b',
        '2025-02-09T22:47:25.429471',
-       'gomotest@naver.com');
+       'a10581ce-d721-11ef-a8a5-2508e2a6438b');
 
 INSERT INTO survey_question (
     id,
