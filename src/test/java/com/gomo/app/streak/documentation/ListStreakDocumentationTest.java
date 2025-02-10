@@ -19,6 +19,7 @@ import com.gomo.app.streak.documentation.snippet.ListStreakSnippet;
 import com.gomo.app.streak.domain.model.Streak;
 import com.gomo.app.streak.domain.model.StreakType;
 
+@DisplayName("[Presentation documentation]: 스트릭 목록 조회 테스트")
 public class ListStreakDocumentationTest extends DocumentationTestBase {
 
 	private final RestDocumentationFilter filter = ListStreakSnippet.create();

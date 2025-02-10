@@ -16,9 +16,9 @@ INSERT INTO major_interest(
     UNHEX(REPLACE('f8c51811-d7c5-11ef-82dc-4322ccc3e338', '-', '')),
     1,
     '2025-01-21T21:49:02.287884600',
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-21T21:49:02.287884600',
-    'gomotest@naver.com'),
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
 
     -- interest: spring
     (UNHEX(REPLACE('bec49c34-d7f5-11ef-8497-edeb32532766', '-', '')),
@@ -26,6 +26,6 @@ INSERT INTO major_interest(
     UNHEX(REPLACE('90a387a7-d7c5-11ef-b4d7-079c7dc41274', '-', '')),
     2,
     '2025-01-21T21:46:33.988955',
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-21T21:46:33.988955',
-    'gomotest@naver.com');
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b');

@@ -45,7 +45,8 @@ public class MemberFixture {
 			RoleType.ROLE_MEMBER,
 			SubscriptionPlan.FREE,
 			ActivateStatus.ACTIVE,
-			LocalDateTime.now()
+			LocalDateTime.now(),
+			null
 		);
 	}
 }

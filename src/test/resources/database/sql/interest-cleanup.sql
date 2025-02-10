@@ -25,9 +25,9 @@ INSERT INTO interest(
     'https://mini-cloud/backend-logo.png',
     0,
     '2025-01-02T16:04:35.457921900',
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-02T16:04:35.457921900',
-    'gomotest@naver.com'),
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
 
     (UNHEX(REPLACE('f8c51811-d7c5-11ef-82dc-4322ccc3e338', '-', '')),
     UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
@@ -39,9 +39,9 @@ INSERT INTO interest(
     'https://mini-cloud/java-logo.png',
     0,
     '2025-01-10T16:04:35.457921900',
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-10T16:04:35.457921900',
-    'gomotest@naver.com'),
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
 
     (UNHEX(REPLACE('90a387a7-d7c5-11ef-b4d7-079c7dc41274', '-', '')),
     UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
@@ -53,6 +53,6 @@ INSERT INTO interest(
     'https://mini-cloud/spring-logo.png',
     0,
     '2025-01-18T16:04:35.457921900',
-    'gomotest@naver.com',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-21T16:04:35.457921900',
-    'gomotest@naver.com');
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b');
