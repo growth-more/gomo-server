@@ -36,8 +36,7 @@ public class DailyThreshold {
 			return DailyThreshold.of(threshold);
 		}
 
-		throw new IllegalArgumentException(
-			"Threshold limit exceeded. Maximum threshold is " + MAXIMUM_THRESHOLD + ", but: " + threshold);
+		throw new IllegalArgumentException("Threshold limit exceeded. Maximum threshold is " + MAXIMUM_THRESHOLD + ", but: " + threshold);
 	}
 
 	private boolean isValidSize() {
