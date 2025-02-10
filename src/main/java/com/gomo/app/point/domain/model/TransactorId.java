@@ -29,9 +29,12 @@ public class TransactorId implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass())
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
             return false;
+        }
         TransactorId transactorId = (TransactorId)o;
         return Objects.equals(id, transactorId.id);
     }

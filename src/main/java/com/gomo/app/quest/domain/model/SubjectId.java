@@ -29,9 +29,12 @@ public class SubjectId implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass())
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
             return false;
+        }
         SubjectId subjectId = (SubjectId)o;
         return Objects.equals(id, subjectId.id);
     }

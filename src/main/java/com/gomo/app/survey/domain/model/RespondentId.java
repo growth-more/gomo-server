@@ -29,9 +29,12 @@ public class RespondentId implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass())
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
             return false;
+        }
         RespondentId respondentId = (RespondentId)o;
         return Objects.equals(id, respondentId.id);
     }

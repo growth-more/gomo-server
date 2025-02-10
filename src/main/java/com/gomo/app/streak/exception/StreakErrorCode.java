@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum StreakErrorCode {
 
-	UPDATE_CONFLICT("Failed to update Streak after multiple attempts", 409);
+	UPDATE_CONFLICT("Failed to update streak after multiple attempts", 409);
 
 	private final String message;
 	private final int httpStatus;

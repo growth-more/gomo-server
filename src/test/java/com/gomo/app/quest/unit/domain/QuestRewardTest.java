@@ -25,6 +25,6 @@ public class QuestRewardTest {
 		);
 
 		assertThat(questReward.getScoreReward().getScore()).isEqualTo(2);
-		assertThat(questReward.getPointReward().getPoints()).isEqualTo(10);
+		assertThat(questReward.getPointReward().getAmount()).isEqualTo(10);
 	}
 }

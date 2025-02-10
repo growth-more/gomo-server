@@ -29,9 +29,12 @@ public class MajorInterestId implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass())
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
             return false;
+        }
         MajorInterestId majorInterestId = (MajorInterestId)o;
         return Objects.equals(id, majorInterestId.id);
     }
