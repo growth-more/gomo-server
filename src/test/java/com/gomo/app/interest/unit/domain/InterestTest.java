@@ -54,7 +54,7 @@ public class InterestTest {
 			.containsExactly(ID, REGISTRANT_ID, updatedName, LOGO_URL);
 	}
 
-	@DisplayName("관심사 이름을 수정한다.")
+	@DisplayName("관심사 로고 주소를 수정한다.")
 	@Test
 	void update_interest_logo() {
 		Interest interest = Interest.of(ID, REGISTRANT_ID, NAME, LOGO_URL);
