@@ -37,6 +37,9 @@ dependencies {
     // web
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
+    // bcrypt
+	implementation 'org.springframework.security:spring-security-crypto'
+
     // jpa
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
