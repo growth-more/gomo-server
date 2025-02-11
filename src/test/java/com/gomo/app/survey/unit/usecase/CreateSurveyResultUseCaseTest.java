@@ -1,0 +1,50 @@
+package com.gomo.app.survey.unit.usecase;
+
+import static org.mockito.Mockito.*;
+
+import java.util.List;
+import java.util.UUID;
+
+import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.gomo.app.survey.application.CreateSurveyResultUseCase;
+import com.gomo.app.survey.domain.model.RespondentId;
+import com.gomo.app.survey.domain.repository.SurveyResultRepository;
+import com.gomo.app.survey.presentation.request.CreateSurveyResultRequest;
+import com.gomo.app.survey.presentation.request.SelectedSurveyItem;
+
+@DisplayName("[Application unit]: 설문 결과 생성 테스트")
+@ExtendWith(MockitoExtension.class)
+public class CreateSurveyResultUseCaseTest {
+
+	@InjectMocks
+	private CreateSurveyResultUseCase sut;
+
+	@Mock
+	private SurveyResultRepository surveyResultRepository;
+
+	@DisplayName("회원의 설문 결과를 생성한다.")
+	@Test
+	void create_survey_result() {
+		sut.create(RespondentId.of(UUID.randomUUID()), createRequest());
+
+		verify(surveyResultRepository, times(1)).saveAll(anyList());
+	}
+
+	private static @NotNull CreateSurveyResultRequest createRequest() {
+		return CreateSurveyResultRequest.of(List.of(
+			SelectedSurveyItem.of(
+				UUID.randomUUID(),
+				UUID.randomUUID(),
+				"survey item content",
+				null
+				)
+		));
+	}
+}

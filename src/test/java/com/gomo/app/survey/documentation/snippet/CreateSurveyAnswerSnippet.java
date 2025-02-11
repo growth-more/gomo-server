@@ -19,10 +19,11 @@ public class CreateSurveyAnswerSnippet {
 	private static final String TAG = "Survey";
 
 	private static final Snippet REQUEST_FIELDS = requestFields(
-		fieldWithPath("respondentId").type(JsonFieldType.STRING).description("설문 응답자 아이디"),
-		fieldWithPath("surveyResult").type(JsonFieldType.STRING).description("설문 결과 목록"),
+		fieldWithPath("surveyResult").type(JsonFieldType.ARRAY).description("설문 결과 목록"),
 		fieldWithPath("surveyResult[].surveyQuestionId").type(JsonFieldType.STRING).description("설문 문항"),
-		fieldWithPath("surveyResult[].surveyItemId").type(JsonFieldType.STRING).description("선택한 항목")
+		fieldWithPath("surveyResult[].surveyItemId").type(JsonFieldType.STRING).description("선택한 항목"),
+		fieldWithPath("surveyResult[].surveyItemContent").type(JsonFieldType.STRING).description("설문 항목 내용"),
+		fieldWithPath("surveyResult[].customAnswer").type(JsonFieldType.STRING).optional().description("사용자가 입력한 내용")
 	);
 
 	public static RestDocumentationFilter create() {

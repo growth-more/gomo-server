@@ -66,7 +66,8 @@ CREATE TABLE survey_result (
     respondent_id binary(16),
     survey_question_id binary(16),
     survey_item_id binary(16),
-    text TEXT
+    survey_item_content varchar(255),
+    custom_answer varchar(255)
 );
 
 CREATE TABLE interest (
