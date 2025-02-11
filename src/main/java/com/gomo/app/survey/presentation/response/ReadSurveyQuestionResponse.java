@@ -1,42 +1,46 @@
 package com.gomo.app.survey.presentation.response;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.gomo.app.survey.domain.model.QuestionSelectType;
-import com.gomo.app.survey.domain.model.SurveyQuestionId;
+import com.gomo.app.survey.domain.model.SurveyQuestion;
 
 import lombok.Getter;
 
 @Getter
 public class ReadSurveyQuestionResponse {
 
-	private SurveyQuestionId surveyQuestionId;
+	private UUID id;
 	private QuestionSelectType questionSelectType;
 	private boolean isRequired;
 	private String content;
-	private List<ReadSurveyItemResponse> items;
+	private List<ReadSurveyItemResponse> surveyItems;
 
 	private ReadSurveyQuestionResponse(
-		SurveyQuestionId surveyQuestionId,
+		UUID id,
 		QuestionSelectType questionSelectType,
 		boolean isRequired,
 		String content,
-		List<ReadSurveyItemResponse> items
+		List<ReadSurveyItemResponse> surveyItems
 	) {
-		this.surveyQuestionId = surveyQuestionId;
+		this.id = id;
 		this.questionSelectType = questionSelectType;
 		this.isRequired = isRequired;
 		this.content = content;
-		this.items = items;
+		this.surveyItems = surveyItems;
 	}
 
 	public static ReadSurveyQuestionResponse of(
-		SurveyQuestionId surveyQuestionId,
-		QuestionSelectType questionSelectType,
-		boolean isRequired,
-		String content,
-		List<ReadSurveyItemResponse> items
+		SurveyQuestion surveyQuestion,
+		List<ReadSurveyItemResponse> surveyItems
 	) {
-		return new ReadSurveyQuestionResponse(surveyQuestionId, questionSelectType, isRequired, content, items);
+		return new ReadSurveyQuestionResponse(
+			surveyQuestion.getId().getId(),
+			surveyQuestion.getQuestionSelectType(),
+			surveyQuestion.isRequired(),
+			surveyQuestion.getContent(),
+			surveyItems
+		);
 	}
 }

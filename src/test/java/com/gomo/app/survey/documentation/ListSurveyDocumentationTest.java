@@ -13,35 +13,68 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.common.util.LoginMemberHelper;
+import com.gomo.app.survey.common.dataprovider.SurveyItemDataProvider;
+import com.gomo.app.survey.common.dataprovider.SurveyQuestionDataProvider;
+import com.gomo.app.survey.common.util.SurveyResultDataHelper;
 import com.gomo.app.survey.documentation.snippet.ListSurveySnippet;
+import com.gomo.app.survey.domain.model.SurveyItem;
+import com.gomo.app.survey.domain.model.SurveyQuestion;
 
+@DisplayName("[Presentation documentation]: 설문 목록 조회 테스트")
 public class ListSurveyDocumentationTest extends DocumentationTestBase {
-
-	private static final String SURVEY_URL = "/surveys";
 
 	private final RestDocumentationFilter filter = ListSurveySnippet.create();
 
 	@Autowired
 	private LoginMemberHelper loginHelper;
 
+	@Autowired
+	private SurveyQuestionDataProvider surveyQuestionDataProvider;
+	private SurveyQuestion surveyQuestion;
+
+	@Autowired
+	private SurveyItemDataProvider surveyItemDataProvider;
+	private SurveyItem firstSurveyItem;
+	private SurveyItem secondSurveyItem;
+
+	@Autowired
+	private SurveyResultDataHelper surveyResultDataHelper;
+
 	@BeforeEach
 	public void setUp() {
-		sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
+		// sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
+		surveyQuestion = surveyQuestionDataProvider.surveyQuestion();
+		firstSurveyItem = surveyItemDataProvider.firstSurveyItem();
+		secondSurveyItem = surveyItemDataProvider.secondSurveyItem();
 	}
 
-	// TODO <jhl221123>: 개수 외 다른 필드도 검증 필요
 	@DisplayName("사용자가 설문 목록을 조회한다.")
 	@Test
 	void list_survey() {
 		given(this.specification).filter(filter)
 			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 			.when()
-			.get(SURVEY_URL)
+			.get("/surveys")
 			.then()
 			.statusCode(OK.value())
-			.body("questions", hasSize(1))
-			.body("questions[0].items", hasSize(2));
+			.body("surveyQuestions", hasSize(1))
+			.body("surveyQuestions.id", containsInAnyOrder(equalTo(surveyQuestion.getId().toString())))
+			.body("surveyQuestions.questionSelectType", containsInAnyOrder(equalTo(surveyQuestion.getQuestionSelectType().name())))
+			.body("surveyQuestions.required", containsInAnyOrder(equalTo(surveyQuestion.isRequired())))
+			.body("surveyQuestions.content", containsInAnyOrder(equalTo(surveyQuestion.getContent())))
+			.body("surveyQuestions[0].surveyItems", hasSize(2))
+			.body("surveyQuestions[0].surveyItems.id", containsInAnyOrder(
+				firstSurveyItem.getId().toString(),
+				secondSurveyItem.getId().toString()
+			))
+			.body("surveyQuestions[0].surveyItems.content", containsInAnyOrder(
+				firstSurveyItem.getContent(),
+				secondSurveyItem.getContent()
+			))
+			.body("surveyQuestions[0].surveyItems.displayOrder", containsInAnyOrder(
+				firstSurveyItem.getDisplayOrder().getDisplayOrder(),
+				secondSurveyItem.getDisplayOrder().getDisplayOrder()
+			));
 	}
 }

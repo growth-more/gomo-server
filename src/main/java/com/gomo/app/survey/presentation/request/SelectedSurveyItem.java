@@ -1,28 +1,35 @@
 package com.gomo.app.survey.presentation.request;
 
-import com.gomo.app.survey.domain.model.SurveyItemId;
-import com.gomo.app.survey.domain.model.SurveyQuestionId;
+import java.util.UUID;
 
 import lombok.Getter;
 
 @Getter
 public class SelectedSurveyItem {
 
-	private SurveyQuestionId surveyQuestionId;
-	private SurveyItemId surveyItemId;
+	private UUID surveyQuestionId;
+	private UUID surveyItemId;
+	private String surveyItemContent;
+	private String customAnswer;
 
 	private SelectedSurveyItem(
-		SurveyQuestionId surveyQuestionId,
-		SurveyItemId surveyItemId
+		UUID surveyQuestionId,
+		UUID surveyItemId,
+		String surveyItemContent,
+		String customAnswer
 	) {
 		this.surveyQuestionId = surveyQuestionId;
 		this.surveyItemId = surveyItemId;
+		this.surveyItemContent = surveyItemContent;
+		this.customAnswer = customAnswer;
 	}
 
 	public static SelectedSurveyItem of(
-		SurveyQuestionId surveyQuestionId,
-		SurveyItemId surveyItemId
+		UUID surveyQuestionId,
+		UUID surveyItemId,
+		String surveyItemContent,
+		String customAnswer
 	) {
-		return new SelectedSurveyItem(surveyQuestionId, surveyItemId);
+		return new SelectedSurveyItem(surveyQuestionId, surveyItemId, surveyItemContent, customAnswer);
 	}
 }

@@ -1,32 +1,29 @@
 package com.gomo.app.survey.presentation.response;
 
-import com.gomo.app.common.domain.service.DisplayOrder;
-import com.gomo.app.survey.domain.model.SurveyItemId;
+import java.util.UUID;
+
+import com.gomo.app.survey.domain.model.SurveyItem;
 
 import lombok.Getter;
 
 @Getter
 public class ReadSurveyItemResponse {
 
-	private SurveyItemId surveyItemId;
+	private UUID id;
 	private String content;
-	private DisplayOrder displayOrder;
+	private int displayOrder;
 
 	private ReadSurveyItemResponse(
-		SurveyItemId surveyItemId,
+		UUID id,
 		String content,
-		DisplayOrder displayOrder
+		int displayOrder
 	) {
-		this.surveyItemId = surveyItemId;
+		this.id = id;
 		this.content = content;
 		this.displayOrder = displayOrder;
 	}
 
-	public static ReadSurveyItemResponse of(
-		SurveyItemId surveyItemId,
-		String content,
-		DisplayOrder displayOrder
-	) {
-		return new ReadSurveyItemResponse(surveyItemId, content, displayOrder);
+	public static ReadSurveyItemResponse of(SurveyItem surveyItem) {
+		return new ReadSurveyItemResponse(surveyItem.getId().getId(), surveyItem.getContent(), surveyItem.getDisplayOrder().getDisplayOrder());
 	}
 }

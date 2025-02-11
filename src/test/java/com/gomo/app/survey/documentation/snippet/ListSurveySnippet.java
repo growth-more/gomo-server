@@ -19,15 +19,15 @@ public class ListSurveySnippet {
 	private static final String TAG = "Survey";
 
 	private static final Snippet RESPONSE_FIELDS = responseFields(
-		fieldWithPath("questions").type(JsonFieldType.ARRAY).description("문항 목록"),
-		fieldWithPath("questions[].surveyQuestionId").type(JsonFieldType.STRING).description("문항 아이디"),
-		fieldWithPath("questions[].questionSelectType").type(JsonFieldType.STRING).description("선택 타입: SINGLE / MULTIPLE"),
-		fieldWithPath("questions[].isRequired").type(JsonFieldType.STRING).description("필수 여부"),
-		fieldWithPath("questions[].content").type(JsonFieldType.STRING).description("문항 내용"),
-		fieldWithPath("questions[].items").type(JsonFieldType.STRING).description("선택지 목록"),
-		fieldWithPath("questions[].items[].surveyItemId").type(JsonFieldType.STRING).description("선택지 아이디"),
-		fieldWithPath("questions[].items[].content").type(JsonFieldType.STRING).description("선택지 내용"),
-		fieldWithPath("questions[].items[].displayOrder").type(JsonFieldType.NUMBER).description("선택지 정렬 순서")
+		fieldWithPath("surveyQuestions").type(JsonFieldType.ARRAY).description("문항 목록"),
+		fieldWithPath("surveyQuestions[].id").type(JsonFieldType.STRING).description("문항 아이디"),
+		fieldWithPath("surveyQuestions[].questionSelectType").type(JsonFieldType.STRING).description("선택 타입: SINGLE / MULTIPLE"),
+		fieldWithPath("surveyQuestions[].required").type(JsonFieldType.BOOLEAN).description("필수 여부"),
+		fieldWithPath("surveyQuestions[].content").type(JsonFieldType.STRING).description("문항 내용"),
+		fieldWithPath("surveyQuestions[].surveyItems").type(JsonFieldType.ARRAY).description("선택지 목록"),
+		fieldWithPath("surveyQuestions[].surveyItems[].id").type(JsonFieldType.STRING).description("선택지 아이디"),
+		fieldWithPath("surveyQuestions[].surveyItems[].content").type(JsonFieldType.STRING).description("선택지 내용"),
+		fieldWithPath("surveyQuestions[].surveyItems[].displayOrder").type(JsonFieldType.NUMBER).description("선택지 정렬 순서")
 	);
 
 	public static RestDocumentationFilter create() {

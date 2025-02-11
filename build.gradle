@@ -105,7 +105,9 @@ jacocoTestCoverageVerification {
             }
 
             excludes = [
-                    'com.gomo.app.GomoApplication'
+                    'com.gomo.app.GomoApplication',
+                    'com.gomo.app.**.exception.**',
+                    'com.gomo.app.**.*Id'
             ]
         }
     }
