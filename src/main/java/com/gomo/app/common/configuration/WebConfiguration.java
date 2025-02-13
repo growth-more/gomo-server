@@ -14,6 +14,7 @@ import com.gomo.app.common.converter.OctetStreamReadMsgConverter;
 import java.util.List;
 
 @Configuration
+@RequiredArgsConstructor
 public class WebConfiguration implements WebMvcConfigurer {
 
     private final AuthArgumentResolver authArgumentResolver;
