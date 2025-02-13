@@ -90,6 +90,16 @@ public class Member extends LogicalDeleteBaseAudit {
 		this.lastLoginDateTime = lastLoginDateTime;
 	}
 
+	public void updatePassword(Password password){
+		this.password = password;
+	}
+	public void updateHandle(Handle handle){this.handle = handle;}
+	public void delete(){this.activateStatus = ActivateStatus.DELETED;}
+	public void updateMotto(Motto motto){this.motto = motto;}
+	public void updateName(MemberName name){this.name = name;}
+	public void updateProfileImage(ProfileImage profileImage){this.profileImage = profileImage;}
+	public void updateQuestProperty(QuestProperty questProperty){this.questProperty = questProperty;}
+
 	public static Member of(
 		MemberId id,
 		Email email,
