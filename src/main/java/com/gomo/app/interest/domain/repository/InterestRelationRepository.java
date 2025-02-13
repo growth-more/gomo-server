@@ -19,5 +19,10 @@ public interface InterestRelationRepository extends JpaRepository<InterestRelati
 		+ "and ir.childInterestId.id = :secondInterestId) "
 		+ "or (ir.parentInterestId.id = :secondInterestId "
 		+ "and ir.childInterestId.id = :firstInterestId)")
-	boolean existsRelationFor(UUID firstInterestId, UUID secondInterestId );
+	boolean existsRelationFor(UUID firstInterestId, UUID secondInterestId);
+
+	@Query("select ir from InterestRelation ir "
+		+ "where ir.parentInterestId.id = :interestId "
+		+ "or ir.childInterestId.id = :interestId")
+	List<InterestRelation> findByInterestId(UUID interestId);
 }
