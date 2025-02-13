@@ -44,7 +44,6 @@ public class CreateInterestRelationUseCaseTest {
 
 	private static @NotNull CreateInterestRelationRequest createRequest(InterestRelation interestRelation) {
 		return CreateInterestRelationRequest.of(
-			interestRelation.getRegistrantId().getId(),
 			interestRelation.getParentInterestId().getId(),
 			interestRelation.getChildInterestId().getId()
 		);

@@ -15,15 +15,11 @@ public class CreateInterestRequest {
 	private CreateInterestRequest() {
 	}
 
-	public CreateInterestRequest(
-		String name
-	) {
+	public CreateInterestRequest(String name) {
 		this.name = name;
 	}
 
-	public static CreateInterestRequest of(
-		String name
-	) {
+	public static CreateInterestRequest of(String name) {
 		return new CreateInterestRequest(name);
 	}
 
