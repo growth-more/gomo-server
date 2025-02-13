@@ -2,8 +2,10 @@ package com.gomo.app.streak.documentation.snippet;
 
 import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.restdocs.request.ParameterDescriptor;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import org.springframework.restdocs.snippet.Snippet;
 
@@ -17,6 +19,11 @@ public class ListStreakSnippet {
 	private static final String SUMMARY = "스트릭 목록 조회 API";
 	private static final String DESCRIPTION = "사용자의 스트릭 목록을 조회합니다.";
 	private static final String TAG = "Streak";
+
+	private static final ParameterDescriptor[] LIST_STREAK_QUERY_PARAMETERS = {
+		parameterWithName("startDate").description("시작 날짜"),
+		parameterWithName("endDate").description("끝 날짜")
+	};
 
 	private static final Snippet RESPONSE_FIELDS = responseFields(
 		fieldWithPath("dailyStreaks").type(JsonFieldType.ARRAY).description("일간 스트릭 목록"),
@@ -41,8 +48,10 @@ public class ListStreakSnippet {
 				.summary(SUMMARY)
 				.description(DESCRIPTION)
 				.tag(TAG)
+				.queryParameters(LIST_STREAK_QUERY_PARAMETERS)
 				.responseSchema(Schema.schema("ListStreakResponse")),
-			RESPONSE_FIELDS
+			RESPONSE_FIELDS,
+			queryParameters(LIST_STREAK_QUERY_PARAMETERS)
 		);
 	}
 
@@ -53,8 +62,10 @@ public class ListStreakSnippet {
 				.summary(SUMMARY)
 				.description(DESCRIPTION)
 				.tag(TAG)
+				.queryParameters(LIST_STREAK_QUERY_PARAMETERS)
 				.responseSchema(Schema.schema("ErrorResponse")),
-			ErrorResponseFields.RESPONSE_FIELDS
+			ErrorResponseFields.RESPONSE_FIELDS,
+			queryParameters(LIST_STREAK_QUERY_PARAMETERS)
 		);
 	}
 }
