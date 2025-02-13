@@ -35,4 +35,13 @@ public class InterestFixture {
 			"https://image.nurdykim.me/gomo/interest-logo.png"
 		);
 	}
+
+	public static Interest defaultLogo() {
+		return Interest.of(
+			InterestId.of(UUID.randomUUID()),
+			RegistrantId.of(UUID.randomUUID()),
+			InterestName.of("Interest Name"),
+			null
+		);
+	}
 }

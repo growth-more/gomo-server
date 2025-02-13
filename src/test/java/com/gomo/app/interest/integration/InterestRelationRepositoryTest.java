@@ -2,6 +2,8 @@ package com.gomo.app.interest.integration;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,5 +37,13 @@ public class InterestRelationRepositoryTest extends IntegrationTestBase {
 
 		assertThat(parentToChild).isTrue();
 		assertThat(childToParent).isTrue();
+	}
+
+	@DisplayName("관심사와 연결된 모든 관계선을 조회한다.")
+	@Test
+	void find_all_by_interest_id() {
+		List<InterestRelation> interestRelations = sut.findByInterestId(backendToJava.getChildInterestId().getId());
+
+		assertThat(interestRelations.size()).isEqualTo(1);
 	}
 }
