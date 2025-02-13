@@ -1,5 +1,7 @@
 package com.gomo.app.member.presentation;
 
+import com.gomo.app.common.authentication.Auth;
+import com.gomo.app.member.domain.model.MemberId;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +21,8 @@ public class PasswordMemberApi {
 	private final UpdateMemberUseCase updateMemberUseCase;
 
 	@PutMapping
-	public ResponseEntity<Void> update(@RequestBody UpdatePasswordRequest request) {
-		return null;
+	public ResponseEntity<Void> update(@Auth MemberId memberId, @RequestBody UpdatePasswordRequest request) {
+		updateMemberUseCase.updatePassword(memberId, request);
+		return ResponseEntity.ok().build();
 	}
 }
