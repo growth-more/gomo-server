@@ -20,7 +20,6 @@ public class ReadMemberResponse {
 	private String motto;
 	private int availablePoints;
 	private String profileImageUrl;
-	private String profileImageName;
 	private RoleType roleType;
 	private SubscriptionPlan subscriptionPlan;
 	private ActivateStatus activateStatus;
@@ -34,7 +33,6 @@ public class ReadMemberResponse {
 		String motto,
 		int availablePoints,
 		String profileImageUrl,
-		String profileImageName,
 		RoleType roleType,
 		SubscriptionPlan subscriptionPlan,
 		ActivateStatus activateStatus,
@@ -47,7 +45,6 @@ public class ReadMemberResponse {
 		this.motto = motto;
 		this.availablePoints = availablePoints;
 		this.profileImageUrl = profileImageUrl;
-		this.profileImageName = profileImageName;
 		this.roleType = roleType;
 		this.subscriptionPlan = subscriptionPlan;
 		this.activateStatus = activateStatus;
@@ -63,7 +60,6 @@ public class ReadMemberResponse {
 			member.getMotto().toString(),
 			availablePoints,
 			member.getProfileImage().getUrl(),
-			member.getProfileImage().getOriginName(),
 			member.getRoleType(),
 			member.getSubscriptionPlan(),
 			member.getActivateStatus(),

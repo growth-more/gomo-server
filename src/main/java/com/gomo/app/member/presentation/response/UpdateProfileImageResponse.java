@@ -6,20 +6,16 @@ import lombok.Getter;
 public class UpdateProfileImageResponse {
 
 	private String profileImageUrl;
-	private String profileImageName;
 
 	private UpdateProfileImageResponse(
-		String profileImageUrl,
-		String profileImageName
+		String profileImageUrl
 	) {
 		this.profileImageUrl = profileImageUrl;
-		this.profileImageName = profileImageName;
 	}
 
 	public static UpdateProfileImageResponse of(
-		String profileImageUrl,
-		String profileImageName
+		String profileImageUrl
 	) {
-		return new UpdateProfileImageResponse(profileImageUrl, profileImageName);
+		return new UpdateProfileImageResponse(profileImageUrl);
 	}
 }

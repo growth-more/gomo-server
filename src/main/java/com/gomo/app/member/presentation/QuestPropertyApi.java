@@ -1,5 +1,7 @@
 package com.gomo.app.member.presentation;
 
+import com.gomo.app.common.authentication.Auth;
+import com.gomo.app.member.domain.model.MemberId;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -23,12 +25,14 @@ public class QuestPropertyApi {
 	private final UpdateQuestPropertyUseCase updateQuestPropertyUseCase;
 
 	@GetMapping
-	public ResponseEntity<ReadQuestPropertyResponse> find() {
-		return null;
+	public ResponseEntity<ReadQuestPropertyResponse> find(@Auth MemberId memberId) {
+		ReadQuestPropertyResponse response = readQuestPropertyUseCase.find(memberId);
+		return ResponseEntity.ok(response);
 	}
 
 	@PutMapping
-	public ResponseEntity<Void> update(@RequestBody UpdateQuestPropertyRequest request) {
-		return null;
+	public ResponseEntity<Void> update(@Auth MemberId memberId, @RequestBody UpdateQuestPropertyRequest request) {
+		updateQuestPropertyUseCase.update(memberId, request);
+		return ResponseEntity.ok().build();
 	}
 }

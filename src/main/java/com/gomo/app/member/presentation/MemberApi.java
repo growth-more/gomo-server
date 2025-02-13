@@ -1,5 +1,7 @@
 package com.gomo.app.member.presentation;
 
+import com.gomo.app.common.authentication.Auth;
+import com.gomo.app.member.domain.model.MemberId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,22 +35,25 @@ public class MemberApi {
 
     @PostMapping
     public ResponseEntity<CreateMemberResponse> create(@RequestBody CreateMemberRequest request) {
-        CreateMemberResponse member = createMemberUseCase.create(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(member);
+        CreateMemberResponse response = createMemberUseCase.create(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
-    public ResponseEntity<ReadMemberResponse> read() {
-        return null;
+    public ResponseEntity<ReadMemberResponse> read(@Auth MemberId memberId) {
+        ReadMemberResponse response = readMemberUseCase.find(memberId);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping
-    public ResponseEntity<Void> update(@RequestBody UpdateMemberRequest request) {
-        return null;
+    public ResponseEntity<Void> update(@Auth MemberId memberId, @RequestBody UpdateMemberRequest request) {
+        updateMemberUseCase.update(memberId, request);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> delete() {
-        return null;
+    public ResponseEntity<Void> delete(@Auth MemberId memberId) {
+        deleteMemberUseCase.delete(memberId);
+        return ResponseEntity.noContent().build();
     }
 }
