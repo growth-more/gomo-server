@@ -1,13 +1,8 @@
 package com.gomo.app.member.presentation.request;
 
-import com.gomo.app.member.domain.model.Email;
-import com.gomo.app.member.domain.model.Handle;
-import com.gomo.app.member.domain.model.Member;
-import com.gomo.app.member.domain.model.MemberId;
-import com.gomo.app.member.domain.model.MemberName;
-import com.gomo.app.member.domain.model.Motto;
-import com.gomo.app.member.domain.model.Password;
+import com.gomo.app.member.domain.model.*;
 
+import com.gomo.app.member.domain.service.PasswordService;
 import lombok.Getter;
 
 @Getter
@@ -46,7 +41,7 @@ public class CreateMemberRequest {
 		return new CreateMemberRequest(email, password, handle, name, motto);
 	}
 
-	public Member toDomain(MemberId memberId) {
-		return Member.of(memberId, Email.of(email), Password.of(password), Handle.of(handle), MemberName.of(name), Motto.of(motto));
+	public Member toDomain(MemberId memberId, PasswordService passwordService) {
+		return Member.of(memberId, Email.of(email), passwordService.encode(password), Handle.of(handle), MemberName.of(name), Motto.of(motto));
 	}
 }

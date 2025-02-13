@@ -1,5 +1,7 @@
 package com.gomo.app.member.presentation;
 
+import com.gomo.app.common.authentication.Auth;
+import com.gomo.app.member.domain.model.MemberId;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -24,11 +26,13 @@ public class HandleApi {
 
 	@GetMapping("/duplicate")
 	public ResponseEntity<Void> checkDuplicate(@RequestParam String handle) {
-		return null;
+		readMemberUseCase.checkDuplicate(handle);
+		return ResponseEntity.ok().build();
 	}
 
 	@PutMapping
-	public ResponseEntity<Void> update(@RequestBody UpdateHandleRequest request) {
+	public ResponseEntity<Void> update(@Auth MemberId memberId, @RequestBody UpdateHandleRequest request) {
+		updateMemberUseCase.updateHandle(memberId, request);
 		return null;
 	}
 }
