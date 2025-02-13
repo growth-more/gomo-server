@@ -51,22 +51,28 @@ public class ListPointDocumentationTest extends DocumentationTestBase {
 			.then()
 			.statusCode(OK.value())
 			.body("points", hasSize(3))
+			.body("lastElementId", equalTo(dailyQuestPoint.getId().toString()))
+			.body("points.id", contains(
+				monthlyQuestPoint.getId().toString(),
+				weeklyQuestPoint.getId().toString(),
+				dailyQuestPoint.getId().toString()
+			))
 			.body("points.sourceType", everyItem(is(equalTo(dailyQuestPoint.getSourceType().name()))))
 			.body("points.transactionType", everyItem(is(equalTo(dailyQuestPoint.getTransactionType().name()))))
-			.body("points.amount", containsInAnyOrder(
-				dailyQuestPoint.getAmount(),
+			.body("points.amount", contains(
+				monthlyQuestPoint.getAmount(),
 				weeklyQuestPoint.getAmount(),
-				monthlyQuestPoint.getAmount()
-			))
-			.body("points.description", containsInAnyOrder(
-				dailyQuestPoint.getDescription(),
+				dailyQuestPoint.getAmount()
+				))
+			.body("points.description", contains(
+				monthlyQuestPoint.getDescription(),
 				weeklyQuestPoint.getDescription(),
-				monthlyQuestPoint.getDescription()
-			))
-			.body("points.transactionDateTime", containsInAnyOrder(
-				dailyQuestPoint.getTransactionDateTime().toString(),
+				dailyQuestPoint.getDescription()
+				))
+			.body("points.transactionDateTime", contains(
+				monthlyQuestPoint.getTransactionDateTime().toString(),
 				weeklyQuestPoint.getTransactionDateTime().toString(),
-				monthlyQuestPoint.getTransactionDateTime().toString()
+				dailyQuestPoint.getTransactionDateTime().toString()
 			));
 	}
 }

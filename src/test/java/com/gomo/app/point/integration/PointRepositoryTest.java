@@ -45,6 +45,19 @@ public class PointRepositoryTest extends IntegrationTestBase {
 		assertThat(actual.size()).isEqualTo(3);
 	}
 
+	@DisplayName("포인트 목록은 거래일자 기준으로 내림차순 조회한다.")
+	@Test
+	void find_all_point_transaction_date_desc() {
+		List<Point> actual = sut.findAllByTransactorId(
+			dailyQuestPoint.getTransactorId().toString(),
+			null,
+			10
+		);
+
+		assertThat(actual.get(0).getTransactionDateTime()).isAfterOrEqualTo(actual.get(1).getTransactionDateTime());
+		assertThat(actual.get(1).getTransactionDateTime()).isAfterOrEqualTo(actual.get(2).getTransactionDateTime());
+	}
+
 	@DisplayName("마지막 아이디 없이 제한된 개수만큼 포인트 목록을 조회한다.")
 	@Test
 	void find_all_point_with_size() {

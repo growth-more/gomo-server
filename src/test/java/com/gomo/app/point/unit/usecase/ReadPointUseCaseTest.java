@@ -38,5 +38,16 @@ public class ReadPointUseCaseTest {
 		ListPointResponse actual = sut.findAll(TransactorId.of(UUID.randomUUID()), PageRequest.of(10, null));
 
 		assertThat(actual.getPoints().size()).isEqualTo(2);
+		assertThat(actual.getLastElementId()).isNotNull();
+	}
+
+	@DisplayName("포인트 목록이 없다면, 마지막 원소는 null이 된다.")
+	@Test
+	void find_empty_points() {
+		doReturn(List.of()).when(pointRepository).findAllByTransactorId(any(), any(), eq(10));
+
+		ListPointResponse actual = sut.findAll(TransactorId.of(UUID.randomUUID()), PageRequest.of(10, null));
+
+		assertThat(actual.getLastElementId()).isNull();
 	}
 }
