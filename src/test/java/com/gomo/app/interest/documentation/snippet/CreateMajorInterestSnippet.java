@@ -1,11 +1,16 @@
 package com.gomo.app.interest.documentation.snippet;
 
 import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 
+import java.util.Arrays;
+
+import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.restdocs.request.ParameterDescriptor;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
-import org.springframework.restdocs.snippet.Snippet;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
@@ -18,9 +23,13 @@ public class CreateMajorInterestSnippet {
 	private static final String DESCRIPTION = "사용자의 주요 관심사를 등록합니다.";
 	private static final String TAG = "Interest";
 
-	private static final Snippet RESPONSE_FIELDS = responseFields(
+	private static final ParameterDescriptor[] PATH_PARAMETERS = {
+		parameterWithName("id").description("관심사 ID")
+	};
+
+	private static final FieldDescriptor[] RESPONSE_FIELDS2 = {
 		fieldWithPath("id").type(JsonFieldType.STRING).description("주요 관심사 아이디")
-	);
+	};
 
 	public static RestDocumentationFilter create() {
 		return document(
@@ -29,8 +38,12 @@ public class CreateMajorInterestSnippet {
 				.summary(SUMMARY)
 				.description(DESCRIPTION)
 				.tag(TAG)
+				.pathParameters(PATH_PARAMETERS)
 				.responseSchema(Schema.schema("CreateMajorInterestResponse")),
-			RESPONSE_FIELDS
+			preprocessRequest(prettyPrint()),
+			preprocessResponse(prettyPrint()),
+			pathParameters(PATH_PARAMETERS),
+			responseFields(Arrays.stream(RESPONSE_FIELDS2).toList())
 		);
 	}
 
@@ -41,7 +54,9 @@ public class CreateMajorInterestSnippet {
 				.summary(SUMMARY)
 				.description(DESCRIPTION)
 				.tag(TAG)
+				.pathParameters(PATH_PARAMETERS)
 				.responseSchema(Schema.schema("ErrorResponse")),
+			pathParameters(PATH_PARAMETERS),
 			ErrorResponseFields.RESPONSE_FIELDS
 		);
 	}
