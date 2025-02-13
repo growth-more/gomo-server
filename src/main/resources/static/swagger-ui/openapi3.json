@@ -60,7 +60,7 @@
                 },
                 "examples": {
                   "create_interest/error": {
-                    "value": "{\"timestamp\":\"2025-02-13T23:56:34.0956455\",\"httpStatus\":422,\"code\":\"IMAGE_TOO_LARGE\",\"message\":\"Maximum upload size exceeded\",\"path\":\"/interests\"}"
+                    "value": "{\"timestamp\":\"2025-02-14T00:05:56.9169687\",\"httpStatus\":422,\"code\":\"IMAGE_TOO_LARGE\",\"message\":\"Maximum upload size exceeded\",\"path\":\"/interests\"}"
                   }
                 }
               }
@@ -75,7 +75,7 @@
                 },
                 "examples": {
                   "create_interest": {
-                    "value": "{\"id\":\"0194ffcf-c41d-73ce-85e0-3fb960c8ae7d\"}"
+                    "value": "{\"id\":\"0194ffd8-5ad5-70e1-a9a0-21d691e9c42f\"}"
                   }
                 }
               }
@@ -240,7 +240,7 @@
                 },
                 "examples": {
                   "update_interest/error": {
-                    "value": "{\"timestamp\":\"2025-02-13T23:56:35.4231085\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Interest name cannot contain forbidden characters\",\"path\":\"/interests/3bd1b3f7-d7c6-11ef-abb8-a7e09b2a499c\"}"
+                    "value": "{\"timestamp\":\"2025-02-14T00:05:58.1559656\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Interest name cannot contain forbidden characters\",\"path\":\"/interests/3bd1b3f7-d7c6-11ef-abb8-a7e09b2a499c\"}"
                   }
                 }
               }
@@ -383,7 +383,7 @@
                 },
                 "examples": {
                   "create_interest_relation": {
-                    "value": "{\"id\":\"0194ffcf-c616-7685-9064-709884ab287e\"}"
+                    "value": "{\"id\":\"0194ffd8-5c6a-781e-9202-5e98bd65e720\"}"
                   }
                 }
               }
@@ -426,7 +426,7 @@
                 },
                 "examples": {
                   "update_interest_logo/error": {
-                    "value": "{\"timestamp\":\"2025-02-13T23:56:35.7452919\",\"httpStatus\":422,\"code\":\"IMAGE_TOO_LARGE\",\"message\":\"Maximum upload size exceeded\",\"path\":\"/interests/3bd1b3f7-d7c6-11ef-abb8-a7e09b2a499c/logos\"}"
+                    "value": "{\"timestamp\":\"2025-02-14T00:05:58.4559294\",\"httpStatus\":422,\"code\":\"IMAGE_TOO_LARGE\",\"message\":\"Maximum upload size exceeded\",\"path\":\"/interests/3bd1b3f7-d7c6-11ef-abb8-a7e09b2a499c/logos\"}"
                   }
                 }
               }
@@ -472,7 +472,7 @@
                 },
                 "examples": {
                   "create_major_interest/error": {
-                    "value": "{\"timestamp\":\"2025-02-13T23:56:34.5875933\",\"httpStatus\":409,\"code\":\"DUPLICATED\",\"message\":\"Already registered as a major interest\",\"path\":\"/interests/f8c51811-d7c5-11ef-82dc-4322ccc3e338/majors\"}"
+                    "value": "{\"timestamp\":\"2025-02-14T00:05:57.3167832\",\"httpStatus\":409,\"code\":\"DUPLICATED\",\"message\":\"Already registered as a major interest\",\"path\":\"/interests/f8c51811-d7c5-11ef-82dc-4322ccc3e338/majors\"}"
                   }
                 }
               }
@@ -487,7 +487,7 @@
                 },
                 "examples": {
                   "create_major_interest": {
-                    "value": "{\r\n  \"id\" : \"0194ffcf-c6c5-7982-8fcd-c7b7aee9ad23\"\r\n}"
+                    "value": "{\r\n  \"id\" : \"0194ffd8-5cf2-7c9c-8973-503385429383\"\r\n}"
                   }
                 }
               }
@@ -634,7 +634,7 @@
                 },
                 "examples": {
                   "list_assign_quest": {
-                    "value": "{\"dailyQuests\":[{\"id\":\"0194cbd7-8689-74ec-bd46-dc855f493c3b\",\"subjectId\":\"f8c51811-d7c5-11ef-82dc-4322ccc3e338\",\"questType\":\"DAILY\",\"point\":10,\"score\":2,\"subjectName\":\"Java\",\"content\":\"daily participating quest\",\"proof\":\"no_proof\",\"startDateTime\":\"2025-02-13T23:56:22\",\"displayOrder\":1,\"completed\":false,\"confirmed\":false}],\"weeklyQuests\":[{\"id\":\"0194cbda-6135-79fc-b659-ebaac3684761\",\"subjectId\":\"f8c51811-d7c5-11ef-82dc-4322ccc3e338\",\"questType\":\"WEEKLY\",\"point\":150,\"score\":20,\"subjectName\":\"Java\",\"content\":\"weekly participating quest\",\"proof\":\"no_proof\",\"startDateTime\":\"2025-02-13T23:56:22\",\"displayOrder\":1,\"completed\":false,\"confirmed\":false}],\"monthlyQuests\":[{\"id\":\"0194cbeb-345e-74a6-9199-07bdb402ea36\",\"subjectId\":\"f8c51811-d7c5-11ef-82dc-4322ccc3e338\",\"questType\":\"MONTHLY\",\"point\":1500,\"score\":100,\"subjectName\":\"Java\",\"content\":\"monthly participating quest\",\"proof\":\"no_proof\",\"startDateTime\":\"2025-02-13T23:56:22\",\"displayOrder\":1,\"completed\":false,\"confirmed\":false}]}"
+                    "value": "{\"dailyQuests\":[{\"id\":\"0194cbd7-8689-74ec-bd46-dc855f493c3b\",\"subjectId\":\"f8c51811-d7c5-11ef-82dc-4322ccc3e338\",\"questType\":\"DAILY\",\"point\":10,\"score\":2,\"subjectName\":\"Java\",\"content\":\"daily participating quest\",\"proof\":\"no_proof\",\"startDateTime\":\"2025-02-14T00:05:44\",\"displayOrder\":1,\"completed\":false,\"confirmed\":false}],\"weeklyQuests\":[{\"id\":\"0194cbda-6135-79fc-b659-ebaac3684761\",\"subjectId\":\"f8c51811-d7c5-11ef-82dc-4322ccc3e338\",\"questType\":\"WEEKLY\",\"point\":150,\"score\":20,\"subjectName\":\"Java\",\"content\":\"weekly participating quest\",\"proof\":\"no_proof\",\"startDateTime\":\"2025-02-14T00:05:44\",\"displayOrder\":1,\"completed\":false,\"confirmed\":false}],\"monthlyQuests\":[{\"id\":\"0194cbeb-345e-74a6-9199-07bdb402ea36\",\"subjectId\":\"f8c51811-d7c5-11ef-82dc-4322ccc3e338\",\"questType\":\"MONTHLY\",\"point\":1500,\"score\":100,\"subjectName\":\"Java\",\"content\":\"monthly participating quest\",\"proof\":\"no_proof\",\"startDateTime\":\"2025-02-14T00:05:44\",\"displayOrder\":1,\"completed\":false,\"confirmed\":false}]}"
                   }
                 }
               }
@@ -662,10 +662,10 @@
               },
               "examples": {
                 "create_assign_quest/error": {
-                  "value": "{\"subjectId\":\"74667d68-d6fb-4ad4-8f5a-7b6bb1ca1999\",\"subjectName\":\"subject name\",\"questType\":\"MONTHLY\",\"content\":\"quest content\"}"
+                  "value": "{\"subjectId\":\"275b790b-2e64-40de-9a88-3ba28ccb4adf\",\"subjectName\":\"subject name\",\"questType\":\"MONTHLY\",\"content\":\"quest content\"}"
                 },
                 "create_assign_quest": {
-                  "value": "{\"subjectId\":\"d6d44d40-5f07-4349-bc30-8c82d0d39c9a\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\"quest content\"}"
+                  "value": "{\"subjectId\":\"1ce18d88-8025-446a-98bc-238b0962560e\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\"quest content\"}"
                 }
               }
             }
@@ -681,7 +681,7 @@
                 },
                 "examples": {
                   "create_assign_quest/error": {
-                    "value": "{\"timestamp\":\"2025-02-13T23:56:41.5514807\",\"httpStatus\":422,\"code\":\"THRESHOLD_EXCEEDED\",\"message\":\"Assign quest threshold exceeded\",\"path\":\"/quests/assigns\"}"
+                    "value": "{\"timestamp\":\"2025-02-14T00:06:02.9837557\",\"httpStatus\":422,\"code\":\"THRESHOLD_EXCEEDED\",\"message\":\"Assign quest threshold exceeded\",\"path\":\"/quests/assigns\"}"
                   }
                 }
               }
@@ -696,7 +696,7 @@
                 },
                 "examples": {
                   "create_assign_quest": {
-                    "value": "{\"id\":\"0194ffcf-e2bf-756c-8f25-c999d9942088\"}"
+                    "value": "{\"id\":\"0194ffd8-73da-7683-8aa5-e653c1280bcf\"}"
                   }
                 }
               }
@@ -775,7 +775,7 @@
                 },
                 "examples": {
                   "create_repeat_quest/error": {
-                    "value": "{\"timestamp\":\"2025-02-13T23:56:41.8597101\",\"httpStatus\":422,\"code\":\"THRESHOLD_EXCEEDED\",\"message\":\"Repeat quest threshold exceeded\",\"path\":\"/quests/repeats\"}"
+                    "value": "{\"timestamp\":\"2025-02-14T00:06:03.2903608\",\"httpStatus\":422,\"code\":\"THRESHOLD_EXCEEDED\",\"message\":\"Repeat quest threshold exceeded\",\"path\":\"/quests/repeats\"}"
                   }
                 }
               }
@@ -790,7 +790,7 @@
                 },
                 "examples": {
                   "create_repeat_quest": {
-                    "value": "{\"id\":\"0194ffcf-e3eb-7266-90d7-3babac2c45dd\"}"
+                    "value": "{\"id\":\"0194ffd8-74fb-76ee-8219-f4fc75809176\"}"
                   }
                 }
               }
@@ -917,10 +917,10 @@
               },
               "examples": {
                 "update_assign_quest/error": {
-                  "value": "{\"subjectId\":\"7e4d48fd-9132-4a46-8125-3b2e81cf9b6b\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\"\"}"
+                  "value": "{\"subjectId\":\"7137b29e-4bfd-4538-a5a9-8baf573c4bde\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\"\"}"
                 },
                 "update_assign_quest": {
-                  "value": "{\"subjectId\":\"5a6bcea2-4ad8-43ec-8be0-d4c35f7fcd8e\",\"subjectName\":\"updated subject name\",\"questType\":\"DAILY\",\"content\":\"updated quest content\"}"
+                  "value": "{\"subjectId\":\"af61d8da-34ac-4362-8073-d3de3ef152fd\",\"subjectName\":\"updated subject name\",\"questType\":\"DAILY\",\"content\":\"updated quest content\"}"
                 }
               }
             }
@@ -936,7 +936,7 @@
                 },
                 "examples": {
                   "update_assign_quest/error": {
-                    "value": "{\"timestamp\":\"2025-02-13T23:56:42.9083776\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Quest content cannot be blank\",\"path\":\"/quests/assigns/1450177f-d7ff-11ef-830c-233264c36b07\"}"
+                    "value": "{\"timestamp\":\"2025-02-14T00:06:04.2883282\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Quest content cannot be blank\",\"path\":\"/quests/assigns/1450177f-d7ff-11ef-830c-233264c36b07\"}"
                   }
                 }
               }
@@ -1043,10 +1043,10 @@
               },
               "examples": {
                 "update_repeat_quest/error": {
-                  "value": "{\"subjectId\":\"2b576703-efd8-4e41-94c3-64e81550427d\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\" \"}"
+                  "value": "{\"subjectId\":\"9bc76e39-8af5-4243-a3f3-e3d0e251c12f\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\" \"}"
                 },
                 "update_repeat_quest": {
-                  "value": "{\"subjectId\":\"6a6bfae9-fa5d-4a35-bef8-86f6e11e8095\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\"quest content\"}"
+                  "value": "{\"subjectId\":\"9a9328c6-3855-4075-92be-0e4a5dc87ee4\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\"quest content\"}"
                 }
               }
             }
@@ -1062,7 +1062,7 @@
                 },
                 "examples": {
                   "update_repeat_quest/error": {
-                    "value": "{\"timestamp\":\"2025-02-13T23:56:43.2066065\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Quest content cannot be blank\",\"path\":\"/quests/repeats/3892ced2-d816-11ef-a05f-25caca7d3e8c\"}"
+                    "value": "{\"timestamp\":\"2025-02-14T00:06:04.4333881\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Quest content cannot be blank\",\"path\":\"/quests/repeats/3892ced2-d816-11ef-a05f-25caca7d3e8c\"}"
                   }
                 }
               }
