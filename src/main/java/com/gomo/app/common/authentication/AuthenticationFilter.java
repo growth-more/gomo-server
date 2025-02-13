@@ -2,6 +2,11 @@ package com.gomo.app.common.authentication;
 
 import java.io.IOException;
 
+import com.gomo.app.common.configuration.AuthenticationFilterConfiguration;
+import com.gomo.app.common.util.JwtUtil;
+import com.gomo.app.member.domain.model.MemberId;
+import io.jsonwebtoken.JwtException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -13,22 +18,48 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
+@RequiredArgsConstructor
 public class AuthenticationFilter extends OncePerRequestFilter {
+
+	private static final String AUTHORIZATION_HEADER = "Authorization";
+	private static final String BEARER_TOKEN = "Bearer ";
+
+	private final AuthenticationFilterConfiguration config;
+	private final JwtUtil jwtUtil;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-		try {
-			String cookies = request.getHeader("Cookie");
-			Member member = null;
+		String requestURI = request.getRequestURI();
+		String requestMethod = request.getMethod();
 
-			if (member != null) {
-				SessionMember sessionMember = SessionMember.of(null, null, null, null, null);
-				MemberContext.addSessionMember(sessionMember);
-			}
-
-			filterChain.doFilter(request, response);
-		} finally {
-			MemberContext.clear();
+		//preflight setting
+		if(requestMethod.equals("OPTIONS")){
+			filterChain.doFilter(request,response);
+			return;
 		}
+
+		if(config.isExcluded(requestURI, requestMethod)){
+			filterChain.doFilter(request, response);
+			return;
+		}
+
+		String token = request.getHeader(AUTHORIZATION_HEADER);
+
+		if (token == null || !token.startsWith(BEARER_TOKEN)) {
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			response.getWriter().write("Missing or invalid Authorization Header");
+			return;
+		}
+		try{
+			token = token.substring(BEARER_TOKEN.length());
+			String memberId = jwtUtil.extractMemberId(token);
+			request.setAttribute("memberId", memberId);
+		} catch (JwtException e){
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			response.getWriter().write("Invalid or Expired JWT Token");
+			return;
+		}
+
+		filterChain.doFilter(request,response);
 	}
 }
