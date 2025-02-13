@@ -40,6 +40,11 @@ dependencies {
     // bcrypt
 	implementation 'org.springframework.security:spring-security-crypto'
 
+    // jwt
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.6")
+
     // jpa
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
@@ -48,6 +53,9 @@ dependencies {
 
     // mysql
     runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     // lombok
     compileOnly 'org.projectlombok:lombok'
@@ -58,6 +66,9 @@ dependencies {
 
     // minio
     implementation 'io.minio:minio:8.5.17'
+
+    // mail
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
 
     // test
     testRuntimeOnly "org.junit.platform:junit-platform-launcher"
