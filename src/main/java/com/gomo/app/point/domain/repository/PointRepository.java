@@ -14,7 +14,8 @@ public interface PointRepository extends JpaRepository<Point, PointId> {
 	@Query(value = "select p.* from point p " +
 		"where p.transactor_id = UNHEX(REPLACE(:transactorId, '-', '')) " +
 		"and (UNHEX(REPLACE(:lastElementId, '-', '')) is null " +
-		"or p.id > UNHEX(REPLACE(:lastElementId, '-', ''))) " +
+		"or p.id < UNHEX(REPLACE(:lastElementId, '-', ''))) " +
+		"order by p.transaction_date_time desc " +
 		"limit :size", nativeQuery = true)
 	List<Point> findAllByTransactorId(
 		@Param("transactorId") String transactorId,

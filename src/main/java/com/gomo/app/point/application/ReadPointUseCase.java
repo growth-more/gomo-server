@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.jetbrains.annotations.Nullable;
+
 import com.gomo.app.common.application.ApplicationService;
 import com.gomo.app.common.dto.PageRequest;
 import com.gomo.app.point.domain.model.TransactorId;
@@ -27,6 +29,15 @@ public class ReadPointUseCase {
 			.stream()
 			.map(ReadPointResponse::of)
 			.toList();
-		return ListPointResponse.of(responses);
+
+		return ListPointResponse.of(responses, getLastElementId(responses));
+	}
+
+	@Nullable
+	private UUID getLastElementId(List<ReadPointResponse> responses) {
+		if(responses.isEmpty()) {
+			return null;
+		}
+		return responses.getLast().getId();
 	}
 }
