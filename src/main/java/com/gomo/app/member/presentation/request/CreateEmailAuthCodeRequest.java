@@ -1,5 +1,6 @@
 package com.gomo.app.member.presentation.request;
 
+import com.gomo.app.member.domain.model.Email;
 import lombok.Getter;
 
 @Getter

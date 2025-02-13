@@ -1,9 +1,12 @@
 package com.gomo.app.member.presentation;
 
+import com.gomo.app.member.application.VerifyEmailAuthCodeUseCase;
+import com.gomo.app.member.domain.service.MemberValidator;
+import com.gomo.app.member.presentation.request.VerifyEmailAuthCodeRequest;
+import com.gomo.app.member.presentation.response.VerifyEmailAuthCodeResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import com.gomo.app.common.presentation.Presentation;
 import com.gomo.app.member.application.CreateEmailAuthCodeUseCase;
@@ -18,9 +21,17 @@ import lombok.RequiredArgsConstructor;
 public class EmailAuthCodeApi {
 
 	private final CreateEmailAuthCodeUseCase createEmailAuthCodeUseCase;
+	private final VerifyEmailAuthCodeUseCase verifyEmailAuthCodeUseCase;
 
 	@PostMapping
 	public ResponseEntity<CreateEmailAuthCodeResponse> create(@RequestBody CreateEmailAuthCodeRequest request) {
-		return null;
+		CreateEmailAuthCodeResponse response = createEmailAuthCodeUseCase.create(request);
+		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+	}
+
+	@GetMapping
+	public ResponseEntity<VerifyEmailAuthCodeResponse> validate(@ModelAttribute VerifyEmailAuthCodeRequest request){
+		VerifyEmailAuthCodeResponse response = verifyEmailAuthCodeUseCase.verify(request);
+		return ResponseEntity.ok().body(response);
 	}
 }
