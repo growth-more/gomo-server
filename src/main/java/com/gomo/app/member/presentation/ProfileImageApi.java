@@ -1,5 +1,7 @@
 package com.gomo.app.member.presentation;
 
+import com.gomo.app.common.authentication.Auth;
+import com.gomo.app.member.domain.model.MemberId;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +22,8 @@ public class ProfileImageApi {
 	private final UpdateMemberUseCase updateMemberUseCase;
 
 	@PutMapping
-	public ResponseEntity<UpdateProfileImageResponse> update(@RequestBody UpdateProfileImageRequest request) {
-		return null;
+	public ResponseEntity<UpdateProfileImageResponse> update(@Auth MemberId memberId, @RequestBody UpdateProfileImageRequest request) {
+		UpdateProfileImageResponse response = updateMemberUseCase.updateProfileImage(memberId, request);
+		return ResponseEntity.ok(response);
 	}
 }

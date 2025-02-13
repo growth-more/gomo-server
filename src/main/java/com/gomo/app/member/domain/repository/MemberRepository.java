@@ -2,14 +2,20 @@ package com.gomo.app.member.domain.repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
+import com.gomo.app.member.domain.model.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.gomo.app.member.domain.model.ActivateStatus;
-import com.gomo.app.member.domain.model.Member;
-import com.gomo.app.member.domain.model.MemberId;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface MemberRepository extends JpaRepository<Member, MemberId> {
+
+	boolean existsByEmail(Email email);
+	boolean existsByHandle(Handle handle);
+
+	Optional<Member> findByEmail(Email email);
 
 	List<Member> findByActivateStatusAndLastLoginDateTimeGreaterThanEqual(
 		ActivateStatus activateStatus,
