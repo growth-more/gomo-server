@@ -54,7 +54,7 @@ public class CreateInterestRelationDocumentationTest extends DocumentationTestBa
 	void create_interest_relation() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.body(CreateInterestRelationRequest.of(backend.getRegistrantId().getId(), backend.getId().getId(), spring.getId().getId()))
+			.body(CreateInterestRelationRequest.of(backend.getId().getId(), spring.getId().getId()))
 			.when()
 			.post("/interests/networks/relations")
 			.then()

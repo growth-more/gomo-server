@@ -16,6 +16,8 @@ import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.interest.common.dataprovider.InterestDataProvider;
 import com.gomo.app.interest.common.util.InterestDataHelper;
+import com.gomo.app.interest.common.util.InterestRelationDataHelper;
+import com.gomo.app.interest.common.util.MajorInterestDataHelper;
 import com.gomo.app.interest.documentation.snippet.DeleteInterestSnippet;
 import com.gomo.app.interest.domain.model.Interest;
 
@@ -31,18 +33,26 @@ public class DeleteInterestDocumentationTest extends DocumentationTestBase {
 	private InterestDataProvider interestDataProvider;
 	private Interest interest;
 
+	@Autowired
+	private InterestDataHelper interestDataHelper;
+
+	@Autowired
+	private MajorInterestDataHelper majorInterestDataHelper;
+
+	@Autowired
+	private InterestRelationDataHelper interestRelationDataHelper;
+
 	@BeforeEach
 	public void setUp() {
 		// sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
 		interest = interestDataProvider.backend();
 	}
 
-	@Autowired
-	private InterestDataHelper interestDataHelper;
-
 	@AfterEach
 	void tearDown() {
 		interestDataHelper.cleanUp();
+		majorInterestDataHelper.cleanUp();
+		interestRelationDataHelper.cleanUp();
 	}
 
 	@DisplayName("사용자가 관심사를 삭제한다.")

@@ -47,7 +47,7 @@ public class AssignQuestRepositoryTest extends IntegrationTestBase {
 			LocalDateTime.of(2025, 1, 21, 23, 59, 59)
 		);
 
-		assertThat(actual).isEqualTo(2L);
+		assertThat(actual).isEqualTo(3L);
 	}
 
 	@DisplayName("현재 참여중인 퀘스트의 마지막 정렬 번호를 조회한다.")
@@ -73,36 +73,20 @@ public class AssignQuestRepositoryTest extends IntegrationTestBase {
 			LocalDateTime.of(2025, 1, 21, 23, 59, 59)
 		);
 
-		assertThat(actual.size()).isEqualTo(2);
+		assertThat(actual.size()).isEqualTo(3);
 	}
 
-	@DisplayName("마지막 아이디 없이 참여 기간이 지난 퀘스트 목록을 조회한다.")
+	@DisplayName("완료한 퀘스트를 제외하고, 현재 참여중인 퀘스트 목록을 조회한다.")
 	@Test
-	void find_history_quests() {
-		List<AssignQuest> actual = sut.findHistoryQuestByQuestType(
-			notConfirmed.getQuest().getParticipantId().toString(),
-			QuestType.DAILY.name(),
+	void find_participating_quests_without_completed() {
+		List<AssignQuest> actual = sut.findParticipatingQuestByQuestTypeWithoutCompleted(
+			notConfirmed.getQuest().getParticipantId(),
+			QuestType.DAILY,
 			LocalDateTime.of(2025, 1, 21, 0, 0, 0),
-			LocalDateTime.of(2025, 1, 21, 23, 59, 59),
-			null,
-			2
+			LocalDateTime.of(2025, 1, 21, 23, 59, 59)
 		);
 
 		assertThat(actual.size()).isEqualTo(2);
-	}
-
-	@DisplayName("마지막 아이디와 함께 참여 기간이 지난 퀘스트 목록을 조회한다.")
-	@Test
-	void find_history_quests_with_last_element_id() {
-		List<AssignQuest> actual = sut.findHistoryQuestByQuestType(
-			notConfirmed.getQuest().getParticipantId().toString(),
-			QuestType.DAILY.name(),
-			LocalDateTime.of(2025, 1, 21, 0, 0, 0),
-			LocalDateTime.of(2025, 1, 21, 23, 59, 59),
-			completedJava.getId().toString(),
-			2
-		);
-
-		assertThat(actual.size()).isEqualTo(1);
+		assertThat(actual).extracting("isCompleted").containsOnly(false);
 	}
 }

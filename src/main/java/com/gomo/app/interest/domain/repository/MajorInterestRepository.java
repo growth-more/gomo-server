@@ -23,4 +23,6 @@ public interface MajorInterestRepository extends JpaRepository<MajorInterest, Ma
 	);
 
 	List<MajorInterest> findAllByRegistrantIdOrderByDisplayOrder(RegistrantId registrantId);
+
+	void deleteByInterestId(InterestId interestId);
 }

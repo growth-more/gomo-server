@@ -17,7 +17,6 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.interest.common.dataprovider.InterestDataProvider;
-import com.gomo.app.interest.common.util.InterestDataHelper;
 import com.gomo.app.interest.common.util.MajorInterestDataHelper;
 import com.gomo.app.interest.documentation.snippet.CreateMajorInterestSnippet;
 import com.gomo.app.interest.domain.model.Interest;
@@ -35,9 +34,6 @@ public class CreateMajorInterestDocumentationTest extends DocumentationTestBase 
 	private MajorInterestDataHelper majorInterestDataHelper;
 
 	@Autowired
-	private InterestDataHelper interestDataHelper;
-
-	@Autowired
 	private InterestDataProvider interestDataProvider;
 	private Interest backend;
 	private Interest java;
@@ -52,13 +48,13 @@ public class CreateMajorInterestDocumentationTest extends DocumentationTestBase 
 	@AfterEach
 	void tearDown() {
 		majorInterestDataHelper.cleanUp();
-		interestDataHelper.cleanUp();
 	}
 
 	@DisplayName("사용자가 주요 관심사를 등록한다.")
 	@Test
 	void create_major_interest() {
-		given(this.specification).filter(filter)
+		given(this.specification)
+			.filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.when()
 			.post("/interests/{id}/majors", backend.getId().getId())
@@ -70,7 +66,8 @@ public class CreateMajorInterestDocumentationTest extends DocumentationTestBase 
 	@DisplayName("사용자가 이미 주요 관심사로 등록된 관심사로 등록한다.")
 	@Test
 	void create_already_major_interest() {
-		given(this.specification).filter(errorFilter)
+		given(this.specification)
+			.filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.when()
 			.post("/interests/{id}/majors", java.getId().getId())

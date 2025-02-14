@@ -36,12 +36,12 @@ public class OrderUpdateAssignQuestUseCaseTest {
 	@Test
 	void update_participating_quest_display_order() {
 		OrderUpdateAssignQuestRequest request = OrderUpdateAssignQuestRequest.of(QuestType.DAILY, List.of(3, 2, 1));
-		doReturn(getParticipatingQuests()).when(assignQuestRepository).findParticipatingQuestByQuestType(any(), any(), any(), any());
+		doReturn(getParticipatingQuests()).when(assignQuestRepository).findParticipatingQuestByQuestTypeWithoutCompleted(any(), any(), any(), any());
 
 		try (MockedStatic<OrderChanger> mockedOrderChanger = mockStatic(OrderChanger.class)) {
 			sut.update(UUID.randomUUID(), request);
 
-			verify(assignQuestRepository, times(1)).findParticipatingQuestByQuestType(any(), any(), any(), any());
+			verify(assignQuestRepository, times(1)).findParticipatingQuestByQuestTypeWithoutCompleted(any(), any(), any(), any());
 			mockedOrderChanger.verify(() -> OrderChanger.change(any(), any()), times(1));
 		}
 	}

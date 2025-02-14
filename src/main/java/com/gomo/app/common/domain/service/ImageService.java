@@ -49,8 +49,9 @@ public class ImageService {
 		return String.format("%s/%s/%s", endpoint, bucketName, fileName);
 	}
 
-	public void deleteImage(String fileName) {
+	public void deleteImage(String imageUrl) {
 		try {
+			String fileName = extractFileNameFromUrl(imageUrl);
 			minioClient.removeObject(
 				RemoveObjectArgs.builder()
 					.bucket(bucketName)
@@ -58,9 +59,11 @@ public class ImageService {
 					.build()
 			);
 		} catch (Exception e) {
-			throw new ImageProcessingException(IMAGE_PROCESSING_ERROR, "An error occurred while deleting image.", e);
+			throw new ImageProcessingException(IMAGE_PROCESSING_ERROR, "An error occurred while deleting the image.", e);
 		}
 	}
+
+
 
 	@NotNull
 	private static String generateUniqueFileName(MultipartFile file) {
@@ -73,5 +76,10 @@ public class ImageService {
 		}
 
 		return uuid + extension;
+	}
+
+	@NotNull
+	private String extractFileNameFromUrl(String imageUrl) {
+		return imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
 	}
 }

@@ -12,6 +12,7 @@ drop table if exists assign_quest;
 drop table if exists quest_score_policy;
 drop table if exists quest_point_policy;
 drop table if exists point;
+drop table if exists point_wallet;
 
 CREATE TABLE member (
     id binary(16) NOT NULL PRIMARY KEY,
@@ -29,6 +30,7 @@ CREATE TABLE member (
     subscription_plan ENUM('FREE', 'BASIC', 'PREMIUM'),
     activate_status ENUM('ACTIVE', 'INACTIVE', 'BLOCKED', 'DELETED'),
     sign_up_date_time DATETIME(6),
+    last_login_date_time DATETIME(6),
     created_at DATETIME(6),
     created_by varchar(255),
     last_modified_at DATETIME(6),
@@ -63,7 +65,8 @@ CREATE TABLE survey_result (
     respondent_id binary(16),
     survey_question_id binary(16),
     survey_item_id binary(16),
-    text TEXT
+    survey_item_content varchar(255),
+    custom_answer varchar(255)
 );
 
 CREATE TABLE interest (
@@ -71,9 +74,11 @@ CREATE TABLE interest (
     registrant_id binary(16),
     level INT,
     score INT,
+    score_threshold INT,
     total_score INT,
     name VARCHAR(30),
     logo_url VARCHAR(512),
+    version BIGINT DEFAULT 0 NOT NULL,
     created_at DATETIME(6),
     created_by varchar(255),
     last_modified_at DATETIME(6),
@@ -114,6 +119,7 @@ CREATE TABLE streak (
     streak_type ENUM('DAILY', 'WEEKLY', 'MONTHLY'),
     filled_date DATE,
     completed_quest_count TINYINT,
+    version BIGINT DEFAULT 0 NOT NULL,
     created_at DATETIME(6),
     created_by varchar(255),
     last_modified_at DATETIME(6),
@@ -145,7 +151,7 @@ CREATE TABLE assign_quest (
     is_confirmed TINYINT(1),
     is_completed TINYINT(1),
     display_order INT,
-    started_date_time DATETIME(6),
+    start_date_time DATETIME(6),
     completed_date_time DATETIME(6),
     created_at DATETIME(6),
     created_by varchar(255),
@@ -166,11 +172,22 @@ CREATE TABLE quest_point_policy (
 CREATE TABLE point (
     id binary(16) NOT NULL PRIMARY KEY,
     transactor_id binary(16),
-    point_type ENUM('QUEST', 'ATTENDANCE', 'STORE', 'EVENT'),
+    source_type ENUM('QUEST', 'ATTENDANCE', 'STORE', 'EVENT'),
     transaction_type ENUM('GAIN', 'SPEND'),
-    points INT,
+    amount INT,
     description VARCHAR(255),
-    transaction_date DATETIME(6),
+    transaction_date_time DATETIME(6),
+    created_at DATETIME(6),
+    created_by varchar(255),
+    last_modified_at DATETIME(6),
+    last_modified_by varchar(255)
+);
+
+CREATE TABLE point_wallet (
+    id binary(16) NOT NULL PRIMARY KEY,
+    transactor_id binary(16),
+    balance INT,
+    version BIGINT DEFAULT 0 NOT NULL,
     created_at DATETIME(6),
     created_by varchar(255),
     last_modified_at DATETIME(6),

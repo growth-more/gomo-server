@@ -81,8 +81,8 @@ public class Interest extends BaseAudit implements Authorizable {
 		this.logoUrl = logoUrl;
 	}
 
-	public MajorInterest selectMajor() {
-		return null;
+	public boolean hasDefaultLogo() {
+		return DEFAULT_LOGO_URL.equals(this.logoUrl);
 	}
 
 	public void adjustProficiency(int deltaTotalScore, int[] totalScoreForLevel, int[] scoreThresholdsPerLevel) {

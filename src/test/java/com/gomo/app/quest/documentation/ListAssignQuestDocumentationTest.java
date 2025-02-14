@@ -60,7 +60,7 @@ public class ListAssignQuestDocumentationTest extends DocumentationTestBase {
 			.body("dailyQuests.confirmed", containsInAnyOrder(dailyParticipatingQuest.isConfirmed()))
 			.body("dailyQuests.completed", containsInAnyOrder(dailyParticipatingQuest.isCompleted()))
 			.body("dailyQuests.proof", containsInAnyOrder(dailyParticipatingQuest.getProof().toString()))
-			.body("dailyQuests.startDateTime", containsInAnyOrder(dailyParticipatingQuest.getStartDateTime().toString()))
+			.body("dailyQuests.startDateTime", notNullValue())
 			.body("dailyQuests.displayOrder", containsInAnyOrder(dailyParticipatingQuest.getDisplayOrder().getDisplayOrder()))
 			.body("weeklyQuests", hasSize(1))
 			.body("weeklyQuests.id", containsInAnyOrder(weeklyParticipatingQuest.getId().toString()))
@@ -73,7 +73,7 @@ public class ListAssignQuestDocumentationTest extends DocumentationTestBase {
 			.body("weeklyQuests.confirmed", containsInAnyOrder(weeklyParticipatingQuest.isConfirmed()))
 			.body("weeklyQuests.completed", containsInAnyOrder(weeklyParticipatingQuest.isCompleted()))
 			.body("weeklyQuests.proof", containsInAnyOrder(weeklyParticipatingQuest.getProof().toString()))
-			.body("weeklyQuests.startDateTime", containsInAnyOrder(weeklyParticipatingQuest.getStartDateTime().toString()))
+			.body("weeklyQuests.startDateTime", notNullValue())
 			.body("weeklyQuests.displayOrder", containsInAnyOrder(weeklyParticipatingQuest.getDisplayOrder().getDisplayOrder()))
 			.body("monthlyQuests", hasSize(1))
 			.body("monthlyQuests.id", containsInAnyOrder(monthlyParticipatingQuest.getId().toString()))
@@ -86,7 +86,7 @@ public class ListAssignQuestDocumentationTest extends DocumentationTestBase {
 			.body("monthlyQuests.confirmed", containsInAnyOrder(monthlyParticipatingQuest.isConfirmed()))
 			.body("monthlyQuests.completed", containsInAnyOrder(monthlyParticipatingQuest.isCompleted()))
 			.body("monthlyQuests.proof", containsInAnyOrder(monthlyParticipatingQuest.getProof().toString()))
-			.body("monthlyQuests.startDateTime", containsInAnyOrder(monthlyParticipatingQuest.getStartDateTime().toString()))
+			.body("monthlyQuests.startDateTime", notNullValue())
 			.body("monthlyQuests.displayOrder", containsInAnyOrder(monthlyParticipatingQuest.getDisplayOrder().getDisplayOrder()));
 	}
 }

@@ -19,7 +19,6 @@ public class CreateInterestRelationSnippet {
 	private static final String TAG = "Interest";
 
 	private static final Snippet REQUEST_FIELDS = requestFields(
-		fieldWithPath("registrantId").type(JsonFieldType.STRING).description("등록자 아이디"),
 		fieldWithPath("parentInterestId").type(JsonFieldType.STRING).description("상위 관심사 아이디"),
 		fieldWithPath("childInterestId").type(JsonFieldType.STRING).description("하위 관심사 아이디")
 	);

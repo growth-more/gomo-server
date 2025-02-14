@@ -15,6 +15,7 @@ public class ReadMajorInterestResponse {
 	private String logoUrl;
 	private int level;
 	private int score;
+	private int scoreThreshold;
 	private int displayOrder;
 
 	private ReadMajorInterestResponse(
@@ -23,6 +24,7 @@ public class ReadMajorInterestResponse {
 		String logoUrl,
 		int level,
 		int score,
+		int scoreThreshold,
 		int displayOrder
 	) {
 		this.id = id;
@@ -30,6 +32,7 @@ public class ReadMajorInterestResponse {
 		this.logoUrl = logoUrl;
 		this.level = level;
 		this.score = score;
+		this.scoreThreshold = scoreThreshold;
 		this.displayOrder = displayOrder;
 	}
 
@@ -40,6 +43,7 @@ public class ReadMajorInterestResponse {
 			interest.getLogoUrl(),
 			interest.getProficiency().getLevel().getLevel(),
 			interest.getProficiency().getScore().getScore(),
+			interest.getProficiency().getScoreThreshold(),
 			majorInterest.getDisplayOrder().getDisplayOrder()
 		);
 	}

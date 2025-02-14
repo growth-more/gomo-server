@@ -1,6 +1,7 @@
 package com.gomo.app.point.presentation.response;
 
 import java.util.List;
+import java.util.UUID;
 
 import lombok.Getter;
 
@@ -8,12 +9,14 @@ import lombok.Getter;
 public class ListPointResponse {
 
 	private List<ReadPointResponse> points;
+	private UUID lastElementId;
 
-	private ListPointResponse(List<ReadPointResponse> points) {
+	private ListPointResponse(List<ReadPointResponse> points, UUID lastElementId) {
 		this.points = points;
+		this.lastElementId = lastElementId;
 	}
 
-	public static ListPointResponse of(List<ReadPointResponse> points) {
-		return new ListPointResponse(points);
+	public static ListPointResponse of(List<ReadPointResponse> points, UUID lastElementId) {
+		return new ListPointResponse(points, lastElementId);
 	}
 }

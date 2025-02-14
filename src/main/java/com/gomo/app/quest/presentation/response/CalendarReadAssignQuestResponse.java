@@ -9,7 +9,7 @@ import com.gomo.app.quest.domain.model.QuestType;
 import lombok.Getter;
 
 @Getter
-public class HistoryReadAssignQuestResponse {
+public class CalendarReadAssignQuestResponse {
 
 	private UUID id;
 	private QuestType questType;
@@ -19,7 +19,7 @@ public class HistoryReadAssignQuestResponse {
 	private boolean isCompleted;
 	private LocalDateTime completedDateTime;
 
-	private HistoryReadAssignQuestResponse(
+	private CalendarReadAssignQuestResponse(
 		UUID id,
 		QuestType questType,
 		String subjectName,
@@ -37,8 +37,8 @@ public class HistoryReadAssignQuestResponse {
 		this.completedDateTime = completedDateTime;
 	}
 
-	public static HistoryReadAssignQuestResponse of(AssignQuest assignQuest) {
-		return new HistoryReadAssignQuestResponse(
+	public static CalendarReadAssignQuestResponse of(AssignQuest assignQuest) {
+		return new CalendarReadAssignQuestResponse(
 			assignQuest.getId().getId(),
 			assignQuest.getQuest().getType(),
 			assignQuest.getQuest().getSubjectName().toString(),

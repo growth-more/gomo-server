@@ -25,6 +25,7 @@ public class ListMajorInterestSnippet {
 		fieldWithPath("majorInterests[].logoUrl").type(JsonFieldType.STRING).description("관심사 로고 이미지"),
 		fieldWithPath("majorInterests[].level").type(JsonFieldType.NUMBER).description("레벨"),
 		fieldWithPath("majorInterests[].score").type(JsonFieldType.NUMBER).description("현재 점수"),
+		fieldWithPath("majorInterests[].scoreThreshold").type(JsonFieldType.NUMBER).description("현재 레벨의 임계 점수"),
 		fieldWithPath("majorInterests[].displayOrder").type(JsonFieldType.NUMBER).description("정렬 순서")
 	);
 

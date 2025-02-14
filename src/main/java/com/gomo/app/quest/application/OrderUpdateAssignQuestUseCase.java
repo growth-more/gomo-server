@@ -27,7 +27,7 @@ public class OrderUpdateAssignQuestUseCase {
 	public void update(UUID accessorId, OrderUpdateAssignQuestRequest request) {
 		LocalDate now = LocalDate.now();
 
-		List<OrderChangeable> assignQuests = assignQuestRepository.findParticipatingQuestByQuestType(
+		List<OrderChangeable> assignQuests = assignQuestRepository.findParticipatingQuestByQuestTypeWithoutCompleted(
 				ParticipantId.of(accessorId),
 				request.getQuestType(),
 				DateRangeCalculator.startOf(now, request.getQuestType().name()),

@@ -65,6 +65,22 @@ public class InterestTest {
 			.containsExactly(ID, REGISTRANT_ID, NAME, "https://mini-cloud/updated_logo-param.png");
 	}
 
+	@DisplayName("관심사의 로고가 기본 로고인지 확인한다.")
+	@Test
+	void has_default_logo() {
+		Interest interest = Interest.of(ID, REGISTRANT_ID, NAME, null);
+
+		assertThat(interest.hasDefaultLogo()).isTrue();
+	}
+
+	@DisplayName("관심사의 로고가 기본 로고가 아님을 확인한다.")
+	@Test
+	void does_not_have_default_logo() {
+		Interest interest = Interest.of(ID, REGISTRANT_ID, NAME, LOGO_URL);
+
+		assertThat(interest.hasDefaultLogo()).isFalse();
+	}
+
 	@DisplayName("관심사는 등록한 사람만 접근할 수 있다.")
 	@Test
 	void access_interest() {
