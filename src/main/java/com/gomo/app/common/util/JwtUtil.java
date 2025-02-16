@@ -45,6 +45,12 @@ public class JwtUtil {
         }
     }
 
+    public long extractExpirationTime(String token){
+        Claims claims = parseClaims(token);
+        Date expiration = claims.getExpiration();
+        return expiration.getTime() / 1000;
+    }
+
     private String generateToken(MemberId memberId, long expirationTime){
         return Jwts.builder()
                 .subject(memberId.toString())
