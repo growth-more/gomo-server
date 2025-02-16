@@ -27,6 +27,10 @@ public class JwtSessionRedisService {
         return (String) jwtSessionRedisTemplate.opsForValue().get(memberId.toString());
     }
 
+    public void updateRefreshToken(MemberId memberId, String refreshToken){
+        setRefreshToken(memberId, refreshToken);
+    }
+
     public void deleteRefreshToken(MemberId memberId){
         jwtSessionRedisTemplate.delete(memberId.toString());
     }

@@ -43,8 +43,10 @@ public class LoginMemberUseCase {
 		// token 생성
 		String accessToken = jwtUtil.generateAccessToken(member.getId());
 		String refreshToken = jwtUtil.generateRefreshToken(member.getId());
+		long refreshTokenExptime = jwtUtil.extractExpirationTime(refreshToken);
+
 		jwtSessionRedisService.setRefreshToken(member.getId(), refreshToken);
 
-		return LoginMemberResponse.of(member.getId(), accessToken, refreshToken);
+		return LoginMemberResponse.of(member.getId(), accessToken, refreshToken, refreshTokenExptime);
 	}
 }
