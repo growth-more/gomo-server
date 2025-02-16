@@ -10,6 +10,7 @@ import com.gomo.app.member.exception.MemberDuplicatedException;
 import com.gomo.app.member.exception.MemberErrorCode;
 import com.gomo.app.member.exception.MemberNotFoundException;
 import com.gomo.app.member.presentation.response.ReadMemberResponse;
+import com.gomo.app.point.domain.model.Balance;
 import com.gomo.app.point.domain.model.TransactorId;
 import com.gomo.app.point.domain.service.PointService;
 
@@ -23,13 +24,14 @@ import static com.gomo.app.member.exception.MemberErrorCode.HANDLE_DUPLICATED;
 public class ReadMemberUseCase {
 
 	private final MemberRepository memberRepository;
+	private final PointWalletService pointWalletService;
 
 	public ReadMemberResponse find(MemberId memberId) {
 		Member member = memberRepository.findById(memberId)
 				.orElseThrow(() -> new MemberNotFoundException(MemberErrorCode.NOT_FOUND, "member has not found"));
 
-		// todo: Point 구현 확인하고 담아서 보내기
-		return ReadMemberResponse.of(member, 1);
+		Balance balance = pointWalletService.findBalance(TransactorId.of(member.getId().getId()));
+		return ReadMemberResponse.of(member, balance.getAmount());
 	}
 
 	public void checkDuplicate(String handle){
