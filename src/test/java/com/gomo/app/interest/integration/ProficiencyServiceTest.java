@@ -75,6 +75,6 @@ public class ProficiencyServiceTest extends IntegrationTestBase {
 		assertThat(enhancedJava.getProficiency().getScore().getScore()).isEqualTo(20);
 		assertThat(enhancedBackend.getProficiency().getLevel().getLevel()).isEqualTo(9);
 		assertThat(enhancedBackend.getProficiency().getScore().getScore()).isEqualTo(35);
-		assertThat(enhancedBackend.getProficiency().getScoreThreshold()).isEqualTo(40);
+		assertThat(enhancedBackend.getProficiency().getLevel().getScoreThreshold()).isEqualTo(40);
 	}
 }

@@ -7,19 +7,19 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gomo.app.common.IntegrationTestBase;
-import com.gomo.app.interest.domain.service.ScoreThresholdService;
+import com.gomo.app.interest.domain.service.ScoreThresholdPolicyService;
 
 @DisplayName("[Domain integration]: 레벨 구간 별 임계점수 조회 테스트")
-public class ScoreThresholdServiceTest extends IntegrationTestBase {
+public class ScoreThresholdPolicyServiceTest extends IntegrationTestBase {
 
 	private static final int MAXIMUM_LEVEL = 100;
 
 	@Autowired
-	ScoreThresholdService sut;
+	ScoreThresholdPolicyService sut;
 
 	@Test
 	void find_score_threshold_by_level() {
-		int[] scoreThresholdsPerLevel = sut.getScoreThresholdForLevel();
+		int[] scoreThresholdsPerLevel = sut.getScoreThresholdPolicy();
 
 		assertThat(scoreThresholdsPerLevel[MAXIMUM_LEVEL]).isEqualTo(10000);
 	}
