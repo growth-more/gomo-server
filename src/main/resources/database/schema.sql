@@ -26,6 +26,7 @@ CREATE TABLE member (
     daily_quest_threshold TINYINT,
     weekly_quest_threshold TINYINT,
     monthly_quest_threshold TINYINT,
+    login_provider ENUM('EMAIL', 'GOOGLE'),
     role_type ENUM('ROLE_MEMBER', 'ROLE_ADMIN'),
     subscription_plan ENUM('FREE', 'BASIC', 'PREMIUM'),
     activate_status ENUM('ACTIVE', 'INACTIVE', 'BLOCKED', 'DELETED'),

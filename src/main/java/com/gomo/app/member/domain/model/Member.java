@@ -47,6 +47,9 @@ public class Member extends LogicalDeleteBaseAudit {
 	private QuestProperty questProperty;
 
 	@Enumerated(EnumType.STRING)
+	private LoginProvider loginProvider;
+
+	@Enumerated(EnumType.STRING)
 	private RoleType roleType;
 
 	@Enumerated(EnumType.STRING)
@@ -69,6 +72,7 @@ public class Member extends LogicalDeleteBaseAudit {
 		Motto motto,
 		ProfileImage profileImage,
 		QuestProperty questProperty,
+		LoginProvider loginProvider,
 		RoleType roleType,
 		SubscriptionPlan subscriptionPlan,
 		ActivateStatus activateStatus,
@@ -83,6 +87,7 @@ public class Member extends LogicalDeleteBaseAudit {
 		this.motto = motto;
 		this.profileImage = profileImage;
 		this.questProperty = questProperty;
+		this.loginProvider = loginProvider;
 		this.roleType = roleType;
 		this.subscriptionPlan = subscriptionPlan;
 		this.activateStatus = activateStatus;
@@ -99,6 +104,7 @@ public class Member extends LogicalDeleteBaseAudit {
 	public void updateName(MemberName name){this.name = name;}
 	public void updateProfileImage(ProfileImage profileImage){this.profileImage = profileImage;}
 	public void updateQuestProperty(QuestProperty questProperty){this.questProperty = questProperty;}
+	public void updateLastLoginDateTime(LocalDateTime lastLoginDateTime){this.lastLoginDateTime = lastLoginDateTime;}
 
 	public static Member of(
 		MemberId id,
@@ -106,9 +112,10 @@ public class Member extends LogicalDeleteBaseAudit {
 		Password password,
 		Handle handle,
 		MemberName memberName,
-		Motto motto
+		Motto motto,
+		LoginProvider loginProvider
 	) {
-		return new Member(id, email, password, handle, memberName, motto, ProfileImage.createDefault(), QuestProperty.createDefault(),
+		return new Member(id, email, password, handle, memberName, motto, ProfileImage.createDefault(), QuestProperty.createDefault(), loginProvider,
 			RoleType.ROLE_MEMBER, SubscriptionPlan.FREE, ActivateStatus.ACTIVE, LocalDateTime.now(), null
 		);
 	}

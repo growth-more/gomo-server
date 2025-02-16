@@ -15,7 +15,10 @@ import com.gomo.app.member.presentation.request.LoginMemberRequest;
 import com.gomo.app.member.presentation.response.CreateMemberResponse;
 import com.gomo.app.member.presentation.response.LoginMemberResponse;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @ApplicationService
@@ -26,6 +29,7 @@ public class LoginMemberUseCase {
 	private final JwtUtil jwtUtil;
 	private final JwtSessionRedisService jwtSessionRedisService;
 
+	@Transactional
 	public LoginMemberResponse login(LoginMemberRequest request) {
 		Member member = memberRepository.findByEmail(Email.of(request.getEmail()))
 				.orElseThrow(() -> new MemberNotFoundException(MemberErrorCode.NOT_FOUND, "check email or password"));
@@ -46,6 +50,8 @@ public class LoginMemberUseCase {
 		long refreshTokenExptime = jwtUtil.extractExpirationTime(refreshToken);
 
 		jwtSessionRedisService.setRefreshToken(member.getId(), refreshToken);
+
+		member.updateLastLoginDateTime(LocalDateTime.now());
 
 		return LoginMemberResponse.of(member.getId(), accessToken, refreshToken, refreshTokenExptime);
 	}
