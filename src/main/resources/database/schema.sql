@@ -5,7 +5,7 @@ drop table if exists survey_result;
 drop table if exists interest;
 drop table if exists interest_relation;
 drop table if exists major_interest;
-drop table if exists score_threshold;
+drop table if exists score_threshold_policy;
 drop table if exists streak;
 drop table if exists repeat_quest;
 drop table if exists assign_quest;
@@ -107,9 +107,8 @@ CREATE TABLE major_interest (
     last_modified_by varchar(255)
 );
 
-CREATE TABLE score_threshold (
-    min_level SMALLINT,
-    max_level SMALLINT,
+CREATE TABLE score_threshold_policy (
+    level SMALLINT,
     threshold INT
 );
 

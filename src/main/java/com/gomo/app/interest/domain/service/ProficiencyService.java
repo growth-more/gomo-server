@@ -30,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 @DomainService
 public class ProficiencyService {
 
-	private final ScoreThresholdService scoreThresholdService;
+	private final ScoreThresholdPolicyService scoreThresholdPolicyService;
 	private final InterestRepository interestRepository;
 	private final InterestRelationRepository interestRelationRepository;
 
@@ -40,8 +40,8 @@ public class ProficiencyService {
 		backoff = @Backoff(delay = 100)
 	)
 	public void adjust(InterestId interestId, int deltaTotalScore) {
-		int[] totalScoreForLevel = scoreThresholdService.getTotalScoreForLevel();
-		int[] scoreThresholdForLevel = scoreThresholdService.getScoreThresholdForLevel();
+		int[] totalScoreForLevel = scoreThresholdPolicyService.getTotalScoreForLevel();
+		int[] scoreThresholdForLevel = scoreThresholdPolicyService.getScoreThresholdPolicy();
 		Map<InterestId, Set<Interest>> childToParentMap = buildChildToParentMap();
 
 		Set<InterestId> enhancedIds = new HashSet<>();
