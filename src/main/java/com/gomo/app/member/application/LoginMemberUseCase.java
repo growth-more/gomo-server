@@ -35,16 +35,12 @@ public class LoginMemberUseCase {
 				.orElseThrow(() -> new MemberNotFoundException(MemberErrorCode.NOT_FOUND, "check email or password"));
 
 		switch(member.getActivateStatus()){
-			case DELETED:
-				throw new MemberPolicyViolationException(MemberErrorCode.MEMBER_DELETED, "member info has been deleted. check email or password");
-			case BLOCKED:
-				throw new MemberPolicyViolationException(MemberErrorCode.MEMBER_BANNED, "member info has been blocked. check email or password");
+			case DELETED -> throw new MemberPolicyViolationException(MemberErrorCode.MEMBER_DELETED, "member info has been deleted. check email or password");
+			case BLOCKED -> throw new MemberPolicyViolationException(MemberErrorCode.MEMBER_BANNED, "member info has been blocked. check email or password");
 		}
 
-		// 비밀번호 검증
-		member.getPassword().matches(request.getPassword(), passwordService);
+		member.login(request.getPassword(), passwordService);
 
-		// token 생성
 		String accessToken = jwtUtil.generateAccessToken(member.getId());
 		String refreshToken = jwtUtil.generateRefreshToken(member.getId());
 		long refreshTokenExptime = jwtUtil.extractExpirationTime(refreshToken);

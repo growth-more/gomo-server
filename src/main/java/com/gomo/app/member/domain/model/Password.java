@@ -66,7 +66,7 @@ public class Password {
 
     private static void ensureValidPasswordRule(String password){
         if(!PASSWORD_RULE_PATTERN.matcher(password).matches()){
-            throw new PolicyViolationException(INVALID_PARAMETER, "password must not contain forbidden characters");
+            throw new PolicyViolationException(INVALID_PARAMETER, "password must comply with the password rules.");
         }
     }
 }

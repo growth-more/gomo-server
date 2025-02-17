@@ -24,7 +24,6 @@ import org.springframework.util.ResourceUtils;
 
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.member.documentation.snippet.UpdateProfileImageSnippet;
 import com.gomo.app.member.presentation.request.UpdateProfileImageRequest;
 import com.gomo.app.member.common.util.MemberDBDataHelper;

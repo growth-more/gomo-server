@@ -6,6 +6,8 @@ import com.gomo.app.common.util.JwtUtil;
 import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.member.domain.model.*;
 import com.gomo.app.member.domain.repository.MemberRepository;
+import com.gomo.app.member.exception.MemberErrorCode;
+import com.gomo.app.member.exception.MemberPolicyViolationException;
 import com.gomo.app.member.infrastructure.JwtSessionRedisService;
 import com.gomo.app.member.presentation.response.CreateMemberResponse;
 import com.gomo.app.member.presentation.response.LoginMemberResponse;
@@ -48,9 +50,13 @@ public class OAuthUseCase {
         String googleAccessToken = getAccessToken(code);
         JsonNode userInfo = getUserResource(googleAccessToken);
 
-        //check Already Member
         Member member = memberRepository.findByEmail(Email.of(userInfo.get("email").asText()))
                 .orElseGet(() -> createMember(userInfo, code));
+
+        switch(member.getActivateStatus()){
+			case DELETED -> throw new MemberPolicyViolationException(MemberErrorCode.MEMBER_DELETED, "member info has been deleted. check email or password");
+			case BLOCKED -> throw new MemberPolicyViolationException(MemberErrorCode.MEMBER_BANNED, "member info has been blocked. check email or password");
+		}
 
         String accessToken = jwtUtil.generateAccessToken(member.getId());
 		String refreshToken = jwtUtil.generateRefreshToken(member.getId());
@@ -73,7 +79,6 @@ public class OAuthUseCase {
     }
 
     private String getAccessToken(String code){
-
         ResponseEntity<JsonNode> response = restClient.post()
                 .uri(tokenUri)
                 .body(Map.of(
@@ -94,7 +99,6 @@ public class OAuthUseCase {
                 .header("Authorization", "Bearer " + accessToken)
                 .retrieve()
                 .toEntity(JsonNode.class);
-        System.out.println(response.getStatusCode());
         return response.getBody();
     }
 }

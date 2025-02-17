@@ -15,7 +15,6 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @ApplicationService
-@Transactional
 public class CreateMemberUseCase {
 
     private final MemberRepository memberRepository;

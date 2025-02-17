@@ -18,7 +18,6 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.member.documentation.snippet.UpdateQuestPropertySnippet;
 import com.gomo.app.member.presentation.request.UpdateQuestPropertyRequest;
 import com.gomo.app.member.common.util.MemberDBDataHelper;

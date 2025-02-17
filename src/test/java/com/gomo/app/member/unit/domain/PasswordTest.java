@@ -77,7 +77,7 @@ public class PasswordTest {
     void create_password_with_forbidden_characters(){
         assertThatThrownBy(() -> Password.of(FORBIDDEN_PASSWORD, passwordService))
                 .isInstanceOf(PolicyViolationException.class)
-                .hasMessageContaining("password must not contain forbidden characters");
+                .hasMessageContaining("password must comply with the password rules.");
     }
 
     @DisplayName("비밀번호가 올바르면 검증에 성공한다.")
@@ -169,7 +169,7 @@ public class PasswordTest {
 
         assertThatThrownBy(() -> password.update(FORBIDDEN_PASSWORD, PASSWORD, passwordService))
                 .isInstanceOf(PolicyViolationException.class)
-                .hasMessageContaining("password must not contain forbidden characters");
+                .hasMessageContaining("password must comply with the password rules.");
     }
 
     @DisplayName("비밀번호수정 시 기존 비밀번호 검증에 실패하면, 틀리면 검증에 실패한다.")

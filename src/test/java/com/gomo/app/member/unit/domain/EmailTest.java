@@ -23,7 +23,7 @@ public class EmailTest {
         assertThat(email.toString()).isEqualTo(EMAIL);
     }
 
-    @DisplayName("null을 입력하면 이메을은 생성할 수 없다.")
+    @DisplayName("null을 입력하면 이메일은 생성할 수 없다.")
     @Test
     void create_email_with_null(){
         assertThatThrownBy(() -> Email.of(null))

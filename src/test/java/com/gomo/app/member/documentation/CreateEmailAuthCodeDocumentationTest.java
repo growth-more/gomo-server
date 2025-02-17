@@ -14,8 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.fixture.TestMemberFixture;
-import com.gomo.app.member.common.constant.NonExistMemberField;
 import com.gomo.app.member.documentation.snippet.CreateEmailAuthCodeSnippet;
 import com.gomo.app.member.presentation.request.CreateEmailAuthCodeRequest;
 

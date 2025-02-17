@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import com.gomo.app.common.domain.LogicalDeleteBaseAudit;
 
+import com.gomo.app.member.domain.service.PasswordService;
+import com.gomo.app.member.exception.MemberAuthenticationFailedException;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
@@ -13,6 +15,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Getter;
+
+import static com.gomo.app.member.exception.MemberErrorCode.AUTHENTICATION_FAILED;
 
 @Getter
 @Entity
@@ -105,6 +109,10 @@ public class Member extends LogicalDeleteBaseAudit {
 	public void updateProfileImage(ProfileImage profileImage){this.profileImage = profileImage;}
 	public void updateQuestProperty(QuestProperty questProperty){this.questProperty = questProperty;}
 	public void updateLastLoginDateTime(LocalDateTime lastLoginDateTime){this.lastLoginDateTime = lastLoginDateTime;}
+
+	public void login(String inputPassword, PasswordService passwordService){
+		this.password.matches(inputPassword, passwordService);
+	}
 
 	public static Member of(
 		MemberId id,

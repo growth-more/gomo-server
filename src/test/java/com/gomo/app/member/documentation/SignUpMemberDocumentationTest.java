@@ -1,7 +1,6 @@
 package com.gomo.app.member.documentation;
 
 import static com.gomo.app.common.exception.DomainErrorCode.*;
-import static com.gomo.app.member.common.constant.NonExistMemberField.*;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.http.HttpStatus.*;
