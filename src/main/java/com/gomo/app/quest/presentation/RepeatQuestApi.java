@@ -4,6 +4,8 @@ import static org.springframework.http.HttpStatus.*;
 
 import java.util.UUID;
 
+import com.gomo.app.common.authentication.Auth;
+import com.gomo.app.member.domain.model.MemberId;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,30 +42,26 @@ public class RepeatQuestApi {
 	private final DeleteRepeatQuestUseCase deleteRepeatQuestUseCase;
 
 	@PostMapping
-	public ResponseEntity<CreateRepeatQuestResponse> create(@RequestBody CreateRepeatQuestRequest request) {
-		SessionMember sessionMember = MemberContext.getSessionMember();
-		CreateRepeatQuestResponse response = createRepeatQuestUseCase.create(ParticipantId.of(sessionMember.getId()), request);
+	public ResponseEntity<CreateRepeatQuestResponse> create(@Auth MemberId memberId, @RequestBody CreateRepeatQuestRequest request) {
+		CreateRepeatQuestResponse response = createRepeatQuestUseCase.create(ParticipantId.of(memberId.getId()), request);
 		return ResponseEntity.status(CREATED).body(response);
 	}
 
 	@GetMapping
-	public ResponseEntity<ListRepeatQuestResponse> findAll() {
-		SessionMember sessionMember = MemberContext.getSessionMember();
-		ListRepeatQuestResponse response = readRepeatQuestUseCase.findAll(ParticipantId.of(sessionMember.getId()));
+	public ResponseEntity<ListRepeatQuestResponse> findAll(@Auth MemberId memberId) {
+		ListRepeatQuestResponse response = readRepeatQuestUseCase.findAll(ParticipantId.of(memberId.getId()));
 		return ResponseEntity.ok(response);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Void> update(@PathVariable("id") UUID repeatQuestId, @RequestBody UpdateRepeatQuestRequest request) {
-		SessionMember sessionMember = MemberContext.getSessionMember();
-		updateRepeatQuestUseCase.update(sessionMember.getId(), RepeatQuestId.of(repeatQuestId), request);
+	public ResponseEntity<Void> update(@Auth MemberId memberId, @PathVariable("id") UUID repeatQuestId, @RequestBody UpdateRepeatQuestRequest request) {
+		updateRepeatQuestUseCase.update(memberId.getId(), RepeatQuestId.of(repeatQuestId), request);
 		return ResponseEntity.noContent().build();
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> delete(@PathVariable("id") UUID repeatQuestId) {
-		SessionMember sessionMember = MemberContext.getSessionMember();
-		deleteRepeatQuestUseCase.delete(sessionMember.getId(), RepeatQuestId.of(repeatQuestId));
+	public ResponseEntity<Void> delete(@Auth MemberId memberId, @PathVariable("id") UUID repeatQuestId) {
+		deleteRepeatQuestUseCase.delete(memberId.getId(), RepeatQuestId.of(repeatQuestId));
 		return ResponseEntity.noContent().build();
 	}
 }

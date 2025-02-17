@@ -2,6 +2,8 @@ package com.gomo.app.survey.presentation;
 
 import static org.springframework.http.HttpStatus.*;
 
+import com.gomo.app.common.authentication.Auth;
+import com.gomo.app.member.domain.model.MemberId;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,9 +30,8 @@ public class SurveyApi {
 	private final ReadSurveyQuestionUseCase readSurveyQuestionUseCase;
 
 	@PostMapping
-	public ResponseEntity<Void> createSurveyResult(@RequestBody CreateSurveyResultRequest request) {
-		SessionMember sessionMember = MemberContext.getSessionMember();
-		createSurveyResultUseCase.create(RespondentId.of(sessionMember.getId()), request);
+	public ResponseEntity<Void> createSurveyResult(@Auth MemberId memberId, @RequestBody CreateSurveyResultRequest request) {
+		createSurveyResultUseCase.create(RespondentId.of(memberId.getId()), request);
 		return ResponseEntity.status(CREATED).build();
 	}
 

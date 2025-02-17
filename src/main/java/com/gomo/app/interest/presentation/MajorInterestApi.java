@@ -4,6 +4,8 @@ import static org.springframework.http.HttpStatus.*;
 
 import java.util.UUID;
 
+import com.gomo.app.common.authentication.Auth;
+import com.gomo.app.member.domain.model.MemberId;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,23 +36,20 @@ public class MajorInterestApi {
 	private final DeleteMajorInterestUseCase deleteMajorInterestUseCase;
 
 	@PostMapping("/{id}/majors")
-	public ResponseEntity<CreateMajorInterestResponse> create(@PathVariable("id") UUID interestId) {
-		SessionMember sessionMember = MemberContext.getSessionMember();
-		CreateMajorInterestResponse response = createMajorInterestUseCase.create(sessionMember.getId(), InterestId.of(interestId));
+	public ResponseEntity<CreateMajorInterestResponse> create(@Auth MemberId memberId, @PathVariable("id") UUID interestId) {
+		CreateMajorInterestResponse response = createMajorInterestUseCase.create(memberId.getId(), InterestId.of(interestId));
 		return ResponseEntity.status(CREATED).body(response);
 	}
 
 	@GetMapping("/majors")
-	public ResponseEntity<ListMajorInterestResponse> findAll() {
-		SessionMember sessionMember = MemberContext.getSessionMember();
-		ListMajorInterestResponse response = readMajorInterestUseCase.findAll(sessionMember.getId());
+	public ResponseEntity<ListMajorInterestResponse> findAll(@Auth MemberId memberId) {
+		ListMajorInterestResponse response = readMajorInterestUseCase.findAll(memberId.getId());
 		return ResponseEntity.ok(response);
 	}
 
 	@DeleteMapping("/majors/{id}")
-	public ResponseEntity<Void> delete(@PathVariable("id") UUID majorInterestId) {
-		SessionMember sessionMember = MemberContext.getSessionMember();
-		deleteMajorInterestUseCase.delete(sessionMember.getId(), MajorInterestId.of(majorInterestId));
+	public ResponseEntity<Void> delete(@Auth MemberId memberId, @PathVariable("id") UUID majorInterestId) {
+		deleteMajorInterestUseCase.delete(memberId.getId(), MajorInterestId.of(majorInterestId));
 		return ResponseEntity.noContent().build();
 	}
 }
