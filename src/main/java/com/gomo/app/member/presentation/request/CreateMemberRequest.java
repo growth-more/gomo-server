@@ -42,6 +42,6 @@ public class CreateMemberRequest {
 	}
 
 	public Member toDomain(MemberId memberId, PasswordService passwordService) {
-		return Member.of(memberId, Email.of(email), passwordService.encode(password), Handle.of(handle), MemberName.of(name), Motto.of(motto), LoginProvider.EMAIL);
+		return Member.of(memberId, Email.of(email), Password.of(password, passwordService), Handle.of(handle), MemberName.of(name), Motto.of(motto), LoginProvider.EMAIL);
 	}
 }

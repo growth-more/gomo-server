@@ -30,21 +30,22 @@ public class Password {
         this.password = password;
     }
 
-    public static Password fromRaw(String rawPassword) {
+    public static Password of(String rawPassword, PasswordService passwordService) {
         ensureNotBlank(rawPassword);
         ensureValidLength(rawPassword);
         ensureValidPasswordRule(rawPassword);
-        return new Password(rawPassword);
+        return new Password(passwordService.encode(rawPassword));
     }
 
-    public static Password fromEncoded(String encodedPassword) {
-        return new Password(encodedPassword);
-    }
-
-    public void matches(String rawPassword, boolean isMatched){
-        if(!isMatched){
+    public void matches(String rawPassword, PasswordService passwordService) {
+        if(passwordService.matches(rawPassword, this.password)) {
             throw new MemberAuthenticationFailedException(AUTHENTICATION_FAILED, "password incorrect");
         }
+    }
+
+    public Password update(String newPassword, String existPassword, PasswordService passwordService) {
+        matches(existPassword, passwordService);
+        return Password.of(newPassword, passwordService);
     }
 
     private static void ensureNotBlank(String password){

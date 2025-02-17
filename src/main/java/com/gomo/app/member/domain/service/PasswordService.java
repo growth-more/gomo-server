@@ -14,17 +14,11 @@ public class PasswordService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public Password encode(String rawPassword){
-        Password password = Password.fromRaw(rawPassword);
-        return Password.fromEncoded(passwordEncoder.encode(password.getPassword()));
+    public String encode(String rawPassword){
+        return passwordEncoder.encode(rawPassword);
     }
 
-    public Password update(Password originPassword, String originRawPassword, String newRawPassword){
-        boolean isMatched = matches(originRawPassword, originPassword);
-        return encode(newRawPassword);
-    }
-
-    public boolean matches(String rawPassword, Password password){
-        return passwordEncoder.matches(rawPassword, password.getPassword());
+    public boolean matches(String originPassword, String inputPassword){
+        return passwordEncoder.matches(originPassword, inputPassword);
     }
 }
