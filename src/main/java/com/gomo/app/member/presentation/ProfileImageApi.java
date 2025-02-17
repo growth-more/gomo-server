@@ -22,8 +22,8 @@ public class ProfileImageApi {
 	private final UpdateMemberUseCase updateMemberUseCase;
 
 	@PutMapping
-	public ResponseEntity<UpdateProfileImageResponse> update(@Auth MemberId memberId, @RequestBody UpdateProfileImageRequest request) {
-		UpdateProfileImageResponse response = updateMemberUseCase.updateProfileImage(memberId, request);
-		return ResponseEntity.ok(response);
+	public ResponseEntity<Void> update(@Auth MemberId memberId, @RequestBody UpdateProfileImageRequest request) {
+		updateMemberUseCase.updateProfileImage(memberId, request);
+		return ResponseEntity.noContent().build();
 	}
 }

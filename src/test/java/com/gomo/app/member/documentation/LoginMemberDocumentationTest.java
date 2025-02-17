@@ -1,6 +1,5 @@
 package com.gomo.app.member.documentation;
 
-import static com.gomo.app.member.common.constant.NonExistMemberField.*;
 import static com.gomo.app.member.exception.MemberErrorCode.*;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
@@ -13,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.member.documentation.snippet.LoginMemberSnippet;
 import com.gomo.app.member.presentation.request.LoginMemberRequest;
 

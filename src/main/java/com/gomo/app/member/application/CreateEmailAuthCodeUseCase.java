@@ -1,7 +1,6 @@
 package com.gomo.app.member.application;
 
 import com.gomo.app.common.application.ApplicationService;
-import com.gomo.app.member.domain.service.EmailAuthCodeService;
 import com.gomo.app.member.domain.service.MemberValidator;
 import com.gomo.app.member.infrastructure.EmailAuthRedisService;
 import com.gomo.app.member.infrastructure.EmailAuthSenderService;
@@ -22,14 +21,11 @@ public class CreateEmailAuthCodeUseCase {
 
 	public CreateEmailAuthCodeResponse create(CreateEmailAuthCodeRequest request) {
 
-		// Check Email Exist or not
 		memberValidator.checkDuplicatedEmail(request.getEmail());
 
-		String authCode =generateAuthCode();
-		// Redis 저장
+		String authCode = generateAuthCode();
 		emailAuthRedisService.setAuthCode(request.getEmail(), authCode);
 
-		// Send Email
 		// todo: deploy환경에서는 주석해제!
 //		emailAuthSenderService.sendEmailAuthCode(request.getEmail(), authCode);
 

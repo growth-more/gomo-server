@@ -23,6 +23,6 @@ public class PasswordMemberApi {
 	@PutMapping
 	public ResponseEntity<Void> update(@Auth MemberId memberId, @RequestBody UpdatePasswordRequest request) {
 		updateMemberUseCase.updatePassword(memberId, request);
-		return ResponseEntity.ok().build();
+		return ResponseEntity.noContent().build();
 	}
 }

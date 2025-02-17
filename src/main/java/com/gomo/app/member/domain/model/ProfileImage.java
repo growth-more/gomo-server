@@ -16,9 +16,7 @@ public class ProfileImage {
     protected ProfileImage() {
     }
 
-    public ProfileImage(
-        String url
-    ) {
+    public ProfileImage(String url) {
         this.url = url;
     }
 
@@ -26,9 +24,7 @@ public class ProfileImage {
         return new ProfileImage(DEFAULT_IMAGE_URL);
     }
 
-    public ProfileImage updateUrl(
-        String url
-    ) {
+    public ProfileImage updateUrl(String url) {
         return new ProfileImage(url);
     }
 }

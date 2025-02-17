@@ -7,15 +7,11 @@ public class UpdateProfileImageResponse {
 
 	private String profileImageUrl;
 
-	private UpdateProfileImageResponse(
-		String profileImageUrl
-	) {
+	private UpdateProfileImageResponse(String profileImageUrl) {
 		this.profileImageUrl = profileImageUrl;
 	}
 
-	public static UpdateProfileImageResponse of(
-		String profileImageUrl
-	) {
+	public static UpdateProfileImageResponse of(String profileImageUrl) {
 		return new UpdateProfileImageResponse(profileImageUrl);
 	}
 }

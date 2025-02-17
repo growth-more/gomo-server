@@ -33,6 +33,6 @@ public class QuestPropertyApi {
 	@PutMapping
 	public ResponseEntity<Void> update(@Auth MemberId memberId, @RequestBody UpdateQuestPropertyRequest request) {
 		updateQuestPropertyUseCase.update(memberId, request);
-		return ResponseEntity.ok().build();
+		return ResponseEntity.noContent().build();
 	}
 }

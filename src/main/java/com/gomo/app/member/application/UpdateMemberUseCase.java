@@ -4,6 +4,7 @@ import com.gomo.app.common.domain.service.ImageService;
 import com.gomo.app.common.exception.DomainErrorCode;
 import com.gomo.app.common.exception.PolicyViolationException;
 import com.gomo.app.member.domain.model.*;
+import com.gomo.app.member.domain.service.MemberValidator;
 import com.gomo.app.member.domain.service.PasswordService;
 import com.gomo.app.member.exception.MemberAuthenticationFailedException;
 import com.gomo.app.member.exception.MemberDuplicatedException;
@@ -32,6 +33,7 @@ public class UpdateMemberUseCase {
 	private final MemberRepository memberRepository;
 	private final PasswordService passwordService;
 	private final ImageService imageService;
+	private final MemberValidator memberValidator;
 
 	public void update(MemberId memberId, UpdateMemberRequest request) {
 		Member member = memberRepository.findById(memberId)
@@ -50,10 +52,8 @@ public class UpdateMemberUseCase {
 	public UpdateProfileImageResponse updateProfileImage(MemberId memberId, UpdateProfileImageRequest request) {
 		Member member = memberRepository.findById(memberId)
 				.orElseThrow(() -> new MemberNotFoundException(NOT_FOUND, "member id not found: " + memberId));
-		// 기존 이미지 삭제
 		imageService.deleteImage(member.getProfileImage().getUrl());
 
-		// 새 이미지 업로드
 		String profile_url = imageService.uploadImage(request.getProfileImage());
 		member.updateProfileImage(member.getProfileImage().updateUrl(profile_url));
 
@@ -71,14 +71,8 @@ public class UpdateMemberUseCase {
 	public void updateHandle(MemberId memberId, UpdateHandleRequest request) {
 		Member member = memberRepository.findById(memberId)
 				.orElseThrow(() -> new MemberNotFoundException(NOT_FOUND, "member id not found: " + memberId));
-		if(isDuplicatedHandle(request.getHandle())) {
-			throw new MemberDuplicatedException(HANDLE_DUPLICATED, "this handle already exists");
-		}
+		memberValidator.checkDuplicatedHandle(request.getHandle());
 		member.updateHandle(member.getHandle().update(request.getHandle()));
-	}
-
-	private boolean isDuplicatedHandle(String handle) {
-		return memberRepository.existsByHandle(Handle.of(handle));
 	}
 
 	private static void validatePasswordNotSame(UpdatePasswordRequest request){

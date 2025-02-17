@@ -14,8 +14,6 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.fixture.TestMemberFixture;
-import com.gomo.app.member.common.constant.NonExistMemberField;
 import com.gomo.app.member.documentation.snippet.CheckDuplicatedHandleSnippet;
 import com.gomo.app.member.exception.MemberErrorCode;
 

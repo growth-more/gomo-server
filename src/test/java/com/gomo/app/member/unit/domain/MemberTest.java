@@ -32,7 +32,6 @@ public class MemberTest {
 
 	private static final MemberId ID = MemberId.of(UUID.randomUUID());
 	private static final Email EMAIL = Email.of("test@gmail.com");
-//	private static final String ENCRYPTED_PASSWORD = "ENCRYPTED_PASSWORD";
 	private static final Handle HANDLE = Handle.of("@tester");
 	private static final MemberName MEMBER_NAME = MemberName.of("Tester");
 	private static final Motto MOTTO = Motto.of("mottoTest");

@@ -25,12 +25,7 @@ public class UpdateQuestPropertyUseCase {
 		Member member = memberRepository.findById(memberId)
 				.orElseThrow(() -> new MemberNotFoundException(NOT_FOUND, "member id not found: " + memberId));
 
-		DailyThreshold dailyThreshold = member.getQuestProperty().getDailyThreshold().update(request.getDailyThreshold());
-		WeeklyThreshold weeklyThreshold = member.getQuestProperty().getWeeklyThreshold().update(request.getWeeklyThreshold());
-		MonthlyThreshold monthlyThreshold = member.getQuestProperty().getMonthlyThreshold().update(request.getMonthlyThreshold());
-
-		QuestProperty questProperty = member.getQuestProperty().update(dailyThreshold, weeklyThreshold, monthlyThreshold);
-
+		QuestProperty questProperty = request.toDomain();
 		member.updateQuestProperty(questProperty);
 	}
 }

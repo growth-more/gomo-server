@@ -21,9 +21,6 @@ public class EmailAuthRedisService {
     }
 
     public String getAuthCode(String email){
-        System.out.println("@EmailAuthService#getAuthCode");
-        System.out.println(email);
-        System.out.println(emailAuthRedisTemplate.opsForValue().get(email));
         return (String) emailAuthRedisTemplate.opsForValue().get(email);
     }
 

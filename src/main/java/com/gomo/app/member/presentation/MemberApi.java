@@ -48,7 +48,7 @@ public class MemberApi {
     @PutMapping
     public ResponseEntity<Void> update(@Auth MemberId memberId, @RequestBody UpdateMemberRequest request) {
         updateMemberUseCase.update(memberId, request);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping
