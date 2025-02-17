@@ -4,6 +4,8 @@ import static org.springframework.http.HttpStatus.*;
 
 import java.util.UUID;
 
+import com.gomo.app.common.authentication.Auth;
+import com.gomo.app.member.domain.model.MemberId;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,9 +45,8 @@ public class InterestApi {
     private final DeleteInterestUseCase deleteInterestUseCase;
 
     @PostMapping
-    public ResponseEntity<CreateInterestResponse> create(@RequestPart CreateInterestRequest request, @RequestPart MultipartFile logo) {
-        SessionMember sessionMember = MemberContext.getSessionMember();
-        CreateInterestResponse response = createInterestUseCase.create(RegistrantId.of(sessionMember.getId()), request, logo);
+    public ResponseEntity<CreateInterestResponse> create(@Auth MemberId memberId, @RequestPart CreateInterestRequest request, @RequestPart MultipartFile logo) {
+        CreateInterestResponse response = createInterestUseCase.create(RegistrantId.of(memberId.getId()), request, logo);
         return ResponseEntity.status(CREATED).body(response);
     }
 
@@ -56,23 +57,20 @@ public class InterestApi {
     }
 
     @GetMapping
-    public ResponseEntity<ListInterestResponse> list() {
-        SessionMember sessionMember = MemberContext.getSessionMember();
-        ListInterestResponse response = readInterestUseCase.findAll(RegistrantId.of(sessionMember.getId()));
+    public ResponseEntity<ListInterestResponse> list(@Auth MemberId memberId) {
+        ListInterestResponse response = readInterestUseCase.findAll(RegistrantId.of(memberId.getId()));
         return ResponseEntity.status(OK).body(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> update(@PathVariable("id") UUID interestId, @RequestBody UpdateInterestRequest request) {
-        SessionMember sessionMember = MemberContext.getSessionMember();
-        updateInterestUseCase.update(sessionMember.getId(), InterestId.of(interestId), request);
+    public ResponseEntity<Void> update(@Auth MemberId memberId, @PathVariable("id") UUID interestId, @RequestBody UpdateInterestRequest request) {
+        updateInterestUseCase.update(memberId.getId(), InterestId.of(interestId), request);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") UUID interestId) {
-        SessionMember sessionMember = MemberContext.getSessionMember();
-        deleteInterestUseCase.delete(sessionMember.getId(), InterestId.of(interestId));
+    public ResponseEntity<Void> delete(@Auth MemberId memberId, @PathVariable("id") UUID interestId) {
+        deleteInterestUseCase.delete(memberId.getId(), InterestId.of(interestId));
         return ResponseEntity.noContent().build();
     }
 }

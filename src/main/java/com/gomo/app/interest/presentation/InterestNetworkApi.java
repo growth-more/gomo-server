@@ -4,6 +4,8 @@ import static org.springframework.http.HttpStatus.*;
 
 import java.util.UUID;
 
+import com.gomo.app.common.authentication.Auth;
+import com.gomo.app.member.domain.model.MemberId;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,23 +38,20 @@ public class InterestNetworkApi {
 	private final DeleteInterestRelationUseCase deleteInterestRelationUseCase;
 
 	@PostMapping("/relations")
-	public ResponseEntity<CreateInterestRelationResponse> createRelation(@RequestBody CreateInterestRelationRequest request) {
-		SessionMember sessionMember = MemberContext.getSessionMember();
-		CreateInterestRelationResponse response = createInterestRelationUseCase.create(RegistrantId.of(sessionMember.getId()), request);
+	public ResponseEntity<CreateInterestRelationResponse> createRelation(@Auth MemberId memberId, @RequestBody CreateInterestRelationRequest request) {
+		CreateInterestRelationResponse response = createInterestRelationUseCase.create(RegistrantId.of(memberId.getId()), request);
 		return ResponseEntity.status(CREATED).body(response);
 	}
 
 	@GetMapping
-	public ResponseEntity<InterestNetworkResponse> find() {
-		SessionMember sessionMember = MemberContext.getSessionMember();
-		InterestNetworkResponse response = readInterestNetworkUseCase.find(sessionMember.getId());
+	public ResponseEntity<InterestNetworkResponse> find(@Auth MemberId memberId) {
+		InterestNetworkResponse response = readInterestNetworkUseCase.find(memberId.getId());
 		return ResponseEntity.ok(response);
 	}
 
 	@DeleteMapping("/relations/{id}")
-	public ResponseEntity<Void> deleteRelation(@PathVariable("id") UUID interestRelationId) {
-		SessionMember sessionMember = MemberContext.getSessionMember();
-		deleteInterestRelationUseCase.delete(sessionMember.getId(), InterestRelationId.of(interestRelationId));
+	public ResponseEntity<Void> deleteRelation(@Auth MemberId memberId, @PathVariable("id") UUID interestRelationId) {
+		deleteInterestRelationUseCase.delete(memberId.getId(), InterestRelationId.of(interestRelationId));
 		return ResponseEntity.noContent().build();
 	}
 }

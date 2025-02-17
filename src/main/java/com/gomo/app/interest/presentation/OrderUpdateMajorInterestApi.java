@@ -1,5 +1,7 @@
 package com.gomo.app.interest.presentation;
 
+import com.gomo.app.common.authentication.Auth;
+import com.gomo.app.member.domain.model.MemberId;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,9 +23,8 @@ public class OrderUpdateMajorInterestApi {
 	private final OrderUpdateMajorInterestUseCase orderUpdateMajorInterestUseCase;
 
 	@PutMapping
-	public ResponseEntity<Void> update(@RequestBody OrderUpdateMajorInterestRequest request) {
-		SessionMember sessionMember = MemberContext.getSessionMember();
-		orderUpdateMajorInterestUseCase.update(sessionMember.getId(), request);
+	public ResponseEntity<Void> update(@Auth MemberId memberId, @RequestBody OrderUpdateMajorInterestRequest request) {
+		orderUpdateMajorInterestUseCase.update(memberId.getId(), request);
 		return ResponseEntity.noContent().build();
 	}
 }

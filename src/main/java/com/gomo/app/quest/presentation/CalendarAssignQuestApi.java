@@ -1,5 +1,7 @@
 package com.gomo.app.quest.presentation;
 
+import com.gomo.app.common.authentication.Auth;
+import com.gomo.app.member.domain.model.MemberId;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,9 +24,8 @@ public class CalendarAssignQuestApi {
 	private final CalendarReadAssignQuestUseCase calendarReadAssignQuestUseCase;
 
 	@GetMapping
-	public ResponseEntity<CalendarListAssignQuestResponse> findAll(@RequestParam int year, @RequestParam int month) {
-		SessionMember sessionMember = MemberContext.getSessionMember();
-		CalendarListAssignQuestResponse response = calendarReadAssignQuestUseCase.findAll(ParticipantId.of(sessionMember.getId()), year, month);
+	public ResponseEntity<CalendarListAssignQuestResponse> findAll(@Auth MemberId memberId, @RequestParam int year, @RequestParam int month) {
+		CalendarListAssignQuestResponse response = calendarReadAssignQuestUseCase.findAll(ParticipantId.of(memberId.getId()), year, month);
 		return ResponseEntity.ok(response);
 	}
 }

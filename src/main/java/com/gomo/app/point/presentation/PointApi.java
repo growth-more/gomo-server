@@ -1,5 +1,7 @@
 package com.gomo.app.point.presentation;
 
+import com.gomo.app.common.authentication.Auth;
+import com.gomo.app.member.domain.model.MemberId;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -26,16 +28,14 @@ public class PointApi {
 	private final ReadBalanceUseCase readBalanceUseCase;
 
 	@GetMapping
-	public ResponseEntity<ListPointResponse> findAll(@ModelAttribute PageRequest pageRequest) {
-		SessionMember sessionMember = MemberContext.getSessionMember();
-		ListPointResponse response = readPointUseCase.findAll(TransactorId.of(sessionMember.getId()), pageRequest);
+	public ResponseEntity<ListPointResponse> findAll(@Auth MemberId memberId, @ModelAttribute PageRequest pageRequest) {
+		ListPointResponse response = readPointUseCase.findAll(TransactorId.of(memberId.getId()), pageRequest);
 		return ResponseEntity.ok(response);
 	}
 
 	@GetMapping("/balances")
-	public ResponseEntity<ReadBalanceResponse> findAll() {
-		SessionMember sessionMember = MemberContext.getSessionMember();
-		ReadBalanceResponse response = readBalanceUseCase.find(TransactorId.of(sessionMember.getId()));
+	public ResponseEntity<ReadBalanceResponse> findAll(@Auth MemberId memberId) {
+		ReadBalanceResponse response = readBalanceUseCase.find(TransactorId.of(memberId.getId()));
 		return ResponseEntity.ok(response);
 	}
 }
