@@ -11,4 +11,5 @@ public interface NonExistMemberField {
 	String HANDLE = "@NonExistHandle";
 	String NAME = "NonExistName";
 	String MOTTO = "NonExist Motto";
+	String LOGIN_PROVIDER = "EMAIL";
 }

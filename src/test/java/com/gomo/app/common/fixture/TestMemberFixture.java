@@ -3,23 +3,9 @@ package com.gomo.app.common.fixture;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.gomo.app.member.domain.model.*;
+import com.gomo.app.member.domain.service.PasswordService;
 import org.springframework.stereotype.Component;
-
-import com.gomo.app.member.domain.model.ActivateStatus;
-import com.gomo.app.member.domain.model.DailyThreshold;
-import com.gomo.app.member.domain.model.Email;
-import com.gomo.app.member.domain.model.Handle;
-import com.gomo.app.member.domain.model.Member;
-import com.gomo.app.member.domain.model.MemberId;
-import com.gomo.app.member.domain.model.MemberName;
-import com.gomo.app.member.domain.model.MonthlyThreshold;
-import com.gomo.app.member.domain.model.Motto;
-import com.gomo.app.member.domain.model.Password;
-import com.gomo.app.member.domain.model.ProfileImage;
-import com.gomo.app.member.domain.model.QuestProperty;
-import com.gomo.app.member.domain.model.RoleType;
-import com.gomo.app.member.domain.model.SubscriptionPlan;
-import com.gomo.app.member.domain.model.WeeklyThreshold;
 
 /**
  * 테스트 사용자
@@ -40,25 +26,27 @@ public class TestMemberFixture {
 	private static final int DAILY_THRESHOLD = 10;
 	private static final int WEEKLY_THRESHOLD = 5;
 	private static final int MONTHLY_THRESHOLD = 3;
+	private static final LoginProvider LOGIN_PROVIDER = LoginProvider.EMAIL;
 	private static final RoleType ROLE_TYPE = RoleType.ROLE_MEMBER;
 	private static final SubscriptionPlan SUBSCRIPTION_PLAN = SubscriptionPlan.FREE;
 	private static final ActivateStatus ACTIVATE_STATUS = ActivateStatus.ACTIVE;
 	private static final String SIGN_UP_DATE_TIME = "2025-01-20T20:36:37.591469";
 	private static final int AVAILABLE_POINTS = 1660;
 
-	public static Member testMember() {
+	public static Member testMember(PasswordService passwordService) {
 		return new Member(
 			MemberId.of(UUID.fromString(ID)),
 			Email.of(EMAIL),
-			Password.of(PASSWORD),
+			Password.of(PASSWORD, passwordService),
 			Handle.of(HANDLE),
 			MemberName.of(NAME),
 			Motto.of(MOTTO),
-			new ProfileImage(PROFILE_IMAGE_URL, PROFILE_IMAGE_NAME),
+			new ProfileImage(PROFILE_IMAGE_URL),
 			new QuestProperty(
 				DailyThreshold.of(DAILY_THRESHOLD),
 				WeeklyThreshold.of(WEEKLY_THRESHOLD),
 				MonthlyThreshold.of(MONTHLY_THRESHOLD)),
+			LOGIN_PROVIDER,
 			ROLE_TYPE,
 			SUBSCRIPTION_PLAN,
 			ACTIVATE_STATUS,

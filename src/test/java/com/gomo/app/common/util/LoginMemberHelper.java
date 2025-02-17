@@ -1,5 +1,6 @@
 package com.gomo.app.common.util;
 
+import com.gomo.app.member.presentation.response.TokenResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,7 @@ public class LoginMemberHelper {
 	LoginMemberApi loginMemberApi;
 
 	public String getSessionId(String email, String password) {
-		ResponseEntity<LoginMemberResponse> response = loginMemberApi.login(LoginMemberRequest.of(email, password));
+		ResponseEntity<TokenResponse> response = loginMemberApi.login(LoginMemberRequest.of(email, password));
 		return response.getBody().getId().toString();
 	}
 }

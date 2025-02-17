@@ -16,7 +16,7 @@ public class Handle {
 
     private static final int MIN_HANDLE_LENGTH = 3;
     private static final int MAX_HANDLE_LENGTH = 30;
-    private static final Pattern HANDLE_PATTERN = Pattern.compile("^[a-zA-Z0-9._-]+$");
+    private static final Pattern HANDLE_PATTERN = Pattern.compile("^@[a-zA-Z0-9_.]+$");
 
     private String handle;
 

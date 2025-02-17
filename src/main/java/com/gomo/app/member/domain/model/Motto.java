@@ -16,7 +16,7 @@ import static com.gomo.app.common.exception.DomainErrorCode.INVALID_PARAMETER;
 public class Motto {
 
     private static final int MAX_MOTTO_LENGTH = 200;
-    private static final Pattern VALID_MOTTO_PATTERN = Pattern.compile("^[a-zA-Z0-9ㄱ-힣!@#$%^&*()_+=,.?\\\\s]+$");
+    private static final Pattern VALID_MOTTO_PATTERN = Pattern.compile("^[a-zA-Z0-9ㄱ-힣!@#$%^&*()_+=,.?\\s]+$");
 
     private String motto;
 
