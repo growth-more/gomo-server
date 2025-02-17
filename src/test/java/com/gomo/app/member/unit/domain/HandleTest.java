@@ -10,10 +10,10 @@ import com.gomo.app.member.domain.model.Handle;
 
 @DisplayName("[Domain unit]: 핸들 생성 및 수정 테스트")
 public class HandleTest {
-    private static final String HANDLE = "test_handle";
+    private static final String HANDLE = "@test_handle";
     private static final String BLANK = "   ";
-    private static final String TOO_SHORT_HANDLE = "a";
-    private static final String TOO_LONG_HANDLE = "a".repeat(31);
+    private static final String TOO_SHORT_HANDLE = "@a";
+    private static final String TOO_LONG_HANDLE = "@a".repeat(31);
     private static final String INVALID_HANDLE = "test_handle!";
 
     @DisplayName("핸들을 생성한다.")
@@ -67,8 +67,8 @@ public class HandleTest {
     @Test
     void update_handle(){
         Handle handle = Handle.of(HANDLE);
-        Handle updatedHandle = handle.update("updated_handle");
-        assertThat(updatedHandle.toString()).isEqualTo("updated_handle");
+        Handle updatedHandle = handle.update("@updated_handle");
+        assertThat(updatedHandle.toString()).isEqualTo("@updated_handle");
     }
 
     @DisplayName("null을 입력하면 핸들은 수정할 수 없다.")

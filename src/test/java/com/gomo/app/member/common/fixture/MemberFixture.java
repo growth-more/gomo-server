@@ -3,45 +3,34 @@ package com.gomo.app.member.common.fixture;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.gomo.app.member.domain.model.ActivateStatus;
-import com.gomo.app.member.domain.model.DailyThreshold;
-import com.gomo.app.member.domain.model.Email;
-import com.gomo.app.member.domain.model.Handle;
-import com.gomo.app.member.domain.model.Member;
-import com.gomo.app.member.domain.model.MemberId;
-import com.gomo.app.member.domain.model.MemberName;
-import com.gomo.app.member.domain.model.MonthlyThreshold;
-import com.gomo.app.member.domain.model.Motto;
-import com.gomo.app.member.domain.model.Password;
-import com.gomo.app.member.domain.model.ProfileImage;
-import com.gomo.app.member.domain.model.QuestProperty;
-import com.gomo.app.member.domain.model.RoleType;
-import com.gomo.app.member.domain.model.SubscriptionPlan;
-import com.gomo.app.member.domain.model.WeeklyThreshold;
+import com.gomo.app.member.domain.model.*;
+import com.gomo.app.member.domain.service.PasswordService;
 
 public class MemberFixture {
 
-	public static Member member() {
+	public static Member member(PasswordService passwordService) {
 		return Member.of(
 			MemberId.of(UUID.randomUUID()),
 			Email.of("test@naver.com"),
-			Password.of("password"),
+			Password.of("Test123!", passwordService),
 			Handle.of("@gomo"),
-			MemberName.of("test name"),
-			Motto.of("test motto")
+			MemberName.of("testname"),
+			Motto.of("test motto"),
+			LoginProvider.EMAIL
 		);
 	}
 
-	public static Member member(int dailyQuestThreshold) {
+	public static Member member(int dailyQuestThreshold, PasswordService passwordService) {
 		return new Member(
 			MemberId.of(UUID.randomUUID()),
 			Email.of("test@naver.com"),
-			Password.of("password"),
+			Password.of("Test123!", passwordService),
 			Handle.of("@gomo"),
-			MemberName.of("test name"),
+			MemberName.of("testname"),
 			Motto.of("test motto"),
 			ProfileImage.createDefault(),
 			new QuestProperty(DailyThreshold.of(dailyQuestThreshold), WeeklyThreshold.createDefault(), MonthlyThreshold.createDefault()),
+			LoginProvider.EMAIL,
 			RoleType.ROLE_MEMBER,
 			SubscriptionPlan.FREE,
 			ActivateStatus.ACTIVE,

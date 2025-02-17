@@ -7,6 +7,7 @@ import static org.mockito.Mockito.*;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.gomo.app.member.domain.service.PasswordService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,13 +38,16 @@ public class RepeatQuestServiceTest {
 	@Mock
 	RepeatQuestRepository repeatQuestRepository;
 
+	@Mock
+	PasswordService passwordService;
+
 	@DisplayName("반복 퀘스트를 생성한다.")
 	@Test
 	void create_repeat_quest() {
 		RepeatQuest repeatQuest = RepeatQuestFixture.repeatQuest();
 
 		doReturn(4L).when(repeatQuestRepository).countByQuestParticipantIdAndQuestType(any(), any());
-		doReturn(Optional.of(MemberFixture.member(5))).when(memberRepository).findById(any());
+		doReturn(Optional.of(MemberFixture.member(5, passwordService))).when(memberRepository).findById(any());
 		doReturn(4).when(repeatQuestRepository).findMaxDisplayOrderByQuestType(any(), any());
 		doReturn(repeatQuest).when(repeatQuestRepository).save(any());
 
@@ -58,7 +62,7 @@ public class RepeatQuestServiceTest {
 		int maxDisplayOrder = 4;
 
 		doReturn(4L).when(repeatQuestRepository).countByQuestParticipantIdAndQuestType(any(), any());
-		doReturn(Optional.of(MemberFixture.member(5))).when(memberRepository).findById(any());
+		doReturn(Optional.of(MemberFixture.member(5, passwordService))).when(memberRepository).findById(any());
 		doReturn(maxDisplayOrder).when(repeatQuestRepository).findMaxDisplayOrderByQuestType(any(), any());
 		doReturn(RepeatQuestFixture.repeatQuest(maxDisplayOrder + 1)).when(repeatQuestRepository).save(any());
 
@@ -71,7 +75,7 @@ public class RepeatQuestServiceTest {
 	@Test
 	void create_repeat_quest_exceeding_quest_property() {
 		doReturn(5L).when(repeatQuestRepository).countByQuestParticipantIdAndQuestType(any(), any());
-		doReturn(Optional.of(MemberFixture.member(5))).when(memberRepository).findById(any());
+		doReturn(Optional.of(MemberFixture.member(5, passwordService))).when(memberRepository).findById(any());
 
 		assertThatThrownBy(() -> sut.create(ParticipantId.of(UUID.randomUUID()), QuestFixture.quest()))
 			.isInstanceOf(RepeatQuestThresholdExceededException.class)

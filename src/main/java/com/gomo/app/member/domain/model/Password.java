@@ -38,7 +38,7 @@ public class Password {
     }
 
     public void matches(String rawPassword, PasswordService passwordService) {
-        if(passwordService.matches(rawPassword, this.password)) {
+        if(!passwordService.matches(rawPassword, this.password)) {
             throw new MemberAuthenticationFailedException(AUTHENTICATION_FAILED, "password incorrect");
         }
     }
