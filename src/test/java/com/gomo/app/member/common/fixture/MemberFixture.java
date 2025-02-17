@@ -20,6 +20,18 @@ public class MemberFixture {
 		);
 	}
 
+	public static Member memberFromGoogle() {
+		return Member.of(
+			MemberId.of(UUID.randomUUID()),
+			Email.of("test@naver.com"),
+			null,
+			null,
+			null,
+			null,
+			LoginProvider.GOOGLE
+		);
+	}
+
 	public static Member member(int dailyQuestThreshold, PasswordService passwordService) {
 		return new Member(
 			MemberId.of(UUID.randomUUID()),
