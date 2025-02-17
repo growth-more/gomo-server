@@ -43,7 +43,7 @@ public class ReadMajorInterestResponse {
 			interest.getLogoUrl(),
 			interest.getProficiency().getLevel().getLevel(),
 			interest.getProficiency().getScore().getScore(),
-			interest.getProficiency().getScoreThreshold(),
+			interest.getProficiency().getLevel().getScoreThreshold(),
 			majorInterest.getDisplayOrder().getDisplayOrder()
 		);
 	}

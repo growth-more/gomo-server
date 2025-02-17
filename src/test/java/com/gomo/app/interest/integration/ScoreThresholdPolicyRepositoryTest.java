@@ -10,24 +10,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gomo.app.common.IntegrationTestBase;
 import com.gomo.app.interest.common.dataprovider.ScoreThresholdDataProvider;
-import com.gomo.app.interest.domain.model.ScoreThreshold;
-import com.gomo.app.interest.domain.repository.ScoreThresholdRepository;
+import com.gomo.app.interest.domain.model.ScoreThresholdPolicy;
+import com.gomo.app.interest.domain.repository.ScoreThresholdPolicyRepository;
 
 @DisplayName("[Domain integration]: 레벨 구간 별 임계점수 DB 접근 테스트")
-public class ScoreThresholdRepositoryTest extends IntegrationTestBase {
+public class ScoreThresholdPolicyRepositoryTest extends IntegrationTestBase {
 
 	@Autowired
-	ScoreThresholdRepository sut;
+	ScoreThresholdPolicyRepository sut;
+
+	@Autowired
+	ScoreThresholdDataProvider dataProvider;
 
 	@DisplayName("서비스 정책에 따른 레벨 구간 별 임계 점수 목록을 조회한다.")
 	@Test
 	void find_all() {
-		List<ScoreThreshold> actual = sut.findAll();
-		List<ScoreThreshold> fixture = ScoreThresholdDataProvider.scoreThresholds();
+		List<ScoreThresholdPolicy> actual = sut.findAll();
+		List<ScoreThresholdPolicy> expected = dataProvider.scoreThresholds();
 
 		assertThat(actual)
-			.hasSameSizeAs(fixture)
+			.hasSameSizeAs(expected)
 			.usingRecursiveFieldByFieldElementComparator()
-			.containsExactlyElementsOf(fixture);
+			.containsExactlyElementsOf(expected);
 	}
 }

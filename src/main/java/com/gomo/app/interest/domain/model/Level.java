@@ -16,42 +16,29 @@ public class Level {
 	private static final int MAXIMUM_LEVEL = 100;
 
 	private int level;
+	private int scoreThreshold;
 
 	protected Level() {
 	}
 
-	private Level(int level) {
+	private Level(int level, int scoreThreshold) {
 		ensureNotNegative(level);
 		ensureNotExceedMaximum(level);
+
 		this.level = level;
+		this.scoreThreshold = scoreThreshold;
 	}
 
 	public static Level createDefault() {
-		return new Level(0);
+		return new Level(0, 40);
 	}
 
-	public static Level of(int level) {
-		return new Level(level);
+	public static Level of(int level, int scoreThreshold) {
+		return new Level(level, scoreThreshold);
 	}
 
 	public Level copy() {
-		return new Level(this.level);
-	}
-
-	public Level increase(int increment) {
-		ensurePositive(increment);
-
-		int increasedLevel = this.level + increment;
-		if(hasReachedMaximumLevel(increasedLevel)) {
-			return new Level(MAXIMUM_LEVEL);
-		}
-		return new Level(increasedLevel);
-	}
-
-	private void ensurePositive(int increment) {
-		if(increment <= 0) {
-			throw new PolicyViolationException(INVALID_PARAMETER, "Level increment must be positive.");
-		}
+		return new Level(this.level, this.scoreThreshold);
 	}
 
 	private void ensureNotNegative(int level) {
@@ -64,10 +51,6 @@ public class Level {
 		if(level > MAXIMUM_LEVEL) {
 			throw new PolicyViolationException(INVALID_PARAMETER, "Level cannot exceed the maximum level.");
 		}
-	}
-
-	private boolean hasReachedMaximumLevel(int increasedLevel) {
-		return increasedLevel >= MAXIMUM_LEVEL;
 	}
 
 	@Override
