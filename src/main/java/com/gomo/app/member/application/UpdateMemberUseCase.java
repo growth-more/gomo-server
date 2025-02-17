@@ -64,7 +64,8 @@ public class UpdateMemberUseCase {
 		Member member = memberRepository.findById(memberId)
 				.orElseThrow(() -> new MemberNotFoundException(NOT_FOUND, "member id not found: " + memberId));
 		validatePasswordNotSame(request);
-		member.updatePassword(passwordService.update(member.getPassword(), request.getOriginPassword(), request.getUpdatedPassword()));
+		Password password = member.getPassword().update(request.getUpdatedPassword(), request.getOriginPassword(), passwordService);
+		member.updatePassword(password);
 	}
 
 	public void updateHandle(MemberId memberId, UpdateHandleRequest request) {

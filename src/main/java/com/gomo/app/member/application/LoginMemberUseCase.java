@@ -42,7 +42,7 @@ public class LoginMemberUseCase {
 		}
 
 		// 비밀번호 검증
-		passwordService.matches(request.getPassword(), member.getPassword());
+		member.getPassword().matches(request.getPassword(), passwordService);
 
 		// token 생성
 		String accessToken = jwtUtil.generateAccessToken(member.getId());
