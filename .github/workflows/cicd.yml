@@ -1,0 +1,66 @@
+name: CI/CD for Growth More Backend
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create Application.yml
+        run: |
+          echo "${{ secrets.APPLICATION_PROD }}" > ./src/main/resources/application.yml
+          echo "${{ secrets.APPLICATION_TEST }}" > ./src/test/resources/application.yml
+        shell: bash
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew clean build
+
+      - name: Save Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: build/libs/*.jar
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create SSH Key
+        run: |
+          echo "${{ secrets.OCI_PRIVATE_KEY }}" > oci_key.key
+          chmod 600 oci_key.key
+
+      - name: Transfer application, configuration & Docker Compose files to Server
+        run: |
+          scp -i oci_key.key -o StrictHostKeyChecking=no build/libs/*.jar ${{ secrets.OCI_USER }}@${{ secrets.OCI_HOST }}:/home/${{ secrets.OCI_USER }}/gomo-app.jar
+#          scp -i oci_key.key -o StrictHostKeyChecking=no docker-compose.yml ${{ secrets.OCI_USER }}@${{ secrets.OCI_HOST }}:/home/${{ secrets.OCI_USER }}/docker-compose.yml
+
+#      - name: Deploy
+#        run: |
+#          ssh -i oci_key.key -o StrictHostKeyChecking=no ${{ secrets.OCI_USER }}@${{ secrets.OCI_HOST }} << 'EOF'
+#            cd /home/${{ secrets.OCI_USER }}
+#
+#            docker compose down || true
+#
+#            docker compose up --build -d
+#          EOF
