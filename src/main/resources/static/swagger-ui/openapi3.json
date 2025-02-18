@@ -39,7 +39,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       },
@@ -103,7 +103,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -135,7 +135,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -167,7 +167,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -210,7 +210,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       },
@@ -259,7 +259,7 @@
                 },
                 "examples": {
                   "update_interest/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:41:06.4270886\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Interest name cannot contain forbidden characters\",\"path\":\"/interests/3bd1b3f7-d7c6-11ef-abb8-a7e09b2a499c\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T23:43:58.8700812\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Interest name cannot contain forbidden characters\",\"path\":\"/interests/3bd1b3f7-d7c6-11ef-abb8-a7e09b2a499c\"}"
                   }
                 }
               }
@@ -271,7 +271,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       },
@@ -300,7 +300,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -334,7 +334,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -365,7 +365,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -402,7 +402,7 @@
                 },
                 "examples": {
                   "create_interest_relation": {
-                    "value": "{\"id\":\"0195194a-738a-7a7e-881b-2c37a292f411\"}"
+                    "value": "{\"id\":\"01951984-037d-70d0-a25f-6fdd94bf45ce\"}"
                   }
                 }
               }
@@ -411,7 +411,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -473,7 +473,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -507,7 +507,7 @@
                 },
                 "examples": {
                   "create_major_interest/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:41:04.910249\",\"httpStatus\":409,\"code\":\"DUPLICATED\",\"message\":\"Already registered as a major interest\",\"path\":\"/interests/f8c51811-d7c5-11ef-82dc-4322ccc3e338/majors\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T23:43:57.3380109\",\"httpStatus\":409,\"code\":\"DUPLICATED\",\"message\":\"Already registered as a major interest\",\"path\":\"/interests/f8c51811-d7c5-11ef-82dc-4322ccc3e338/majors\"}"
                   }
                 }
               }
@@ -522,7 +522,7 @@
                 },
                 "examples": {
                   "create_major_interest": {
-                    "value": "{\r\n  \"id\" : \"0195194a-746b-7b19-b0cc-c147ed69e80d\"\r\n}"
+                    "value": "{\r\n  \"id\" : \"01951984-0470-7e4e-90f9-d78dead9dccb\"\r\n}"
                   }
                 }
               }
@@ -531,7 +531,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -562,7 +562,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -594,7 +594,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       },
@@ -632,7 +632,7 @@
                 },
                 "examples": {
                   "update_member_info/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:41:13.8307197\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Motto must comply with the motto rules\",\"path\":\"/members\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T23:44:06.3997682\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Motto must comply with the motto rules\",\"path\":\"/members\"}"
                   }
                 }
               }
@@ -644,7 +644,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       },
@@ -682,7 +682,7 @@
                 },
                 "examples": {
                   "sign_up_member/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:41:12.385657\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"password must at least 8 characters\",\"path\":\"/members\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T23:44:04.9891625\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"password must at least 8 characters\",\"path\":\"/members\"}"
                   }
                 }
               }
@@ -697,7 +697,7 @@
                 },
                 "examples": {
                   "sign_up_member": {
-                    "value": "{\"id\":\"0195194a-92ef-71c9-817b-d69e9c8ce28a\"}"
+                    "value": "{\"id\":\"01951984-23a0-7bf2-b5ac-620fd3848219\"}"
                   }
                 }
               }
@@ -706,7 +706,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -746,7 +746,7 @@
                 },
                 "examples": {
                   "update_handle/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:41:13.3461783\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Handle must be at least 3 characters\",\"path\":\"/members/handles\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T23:44:05.9063955\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Handle must be at least 3 characters\",\"path\":\"/members/handles\"}"
                   }
                 }
               }
@@ -758,7 +758,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -798,7 +798,7 @@
                 },
                 "examples": {
                   "login_member/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:41:11.6228771\",\"httpStatus\":404,\"code\":\"NOT_FOUND\",\"message\":\"check email or password\",\"path\":\"/members/login\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T23:44:04.1578321\",\"httpStatus\":404,\"code\":\"NOT_FOUND\",\"message\":\"check email or password\",\"path\":\"/members/login\"}"
                   }
                 }
               }
@@ -813,7 +813,7 @@
                 },
                 "examples": {
                   "login_member": {
-                    "value": "{\"id\":\"a10581ce-d721-11ef-a8a5-2508e2a6438b\",\"token\":\"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhMTA1ODFjZS1kNzIxLTExZWYtYThhNS0yNTA4ZTJhNjQzOGIiLCJpYXQiOjE3Mzk4ODYwNzEsImV4cCI6MTczOTg4Njk3MX0.AdSerdnqfgi6CebYJ4vib9JDkOgiP7NEMV5cU87OH8c\"}"
+                    "value": "{\"id\":\"a10581ce-d721-11ef-a8a5-2508e2a6438b\",\"token\":\"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhMTA1ODFjZS1kNzIxLTExZWYtYThhNS0yNTA4ZTJhNjQzOGIiLCJpYXQiOjE3Mzk4ODk4NDMsImV4cCI6MTczOTg5MDc0M30.51s5omZMIugMjbXg1E01VLm-lGPgyizT2MDKrf74vzc\"}"
                   }
                 }
               }
@@ -822,7 +822,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -862,7 +862,7 @@
                 },
                 "examples": {
                   "update_password/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:41:14.642502\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"password must comply with the password rules.\",\"path\":\"/members/passwords\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T23:44:07.1699949\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"password must comply with the password rules.\",\"path\":\"/members/passwords\"}"
                   }
                 }
               }
@@ -874,7 +874,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -887,6 +887,17 @@
         "summary": "핸들 중복 확인 API",
         "description": "핸들 중복 및 유효성을 체크하고 상태 코드를 반환합니다.",
         "operationId": "check_duplicated_handle",
+        "parameters": [
+          {
+            "name": "handle",
+            "in": "query",
+            "description": "핸들",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "422": {
             "description": "422",
@@ -897,7 +908,7 @@
                 },
                 "examples": {
                   "check_duplicated_handle/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:41:10.2480628\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Handle must be at least 3 characters\",\"path\":\"/members/handles/duplicate\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T23:44:02.8184445\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Handle must be at least 3 characters\",\"path\":\"/members/handles/duplicate\"}"
                   }
                 }
               }
@@ -909,7 +920,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -922,6 +933,22 @@
         "summary": "프로필 이미지 수정 API",
         "description": "사용자의 프로필 이미지를 수정합니다.",
         "operationId": "update_profile_image",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "profileImage": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "422": {
             "description": "422",
@@ -932,7 +959,7 @@
                 },
                 "examples": {
                   "update_profile_image/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:41:15.4686749\",\"httpStatus\":422,\"code\":\"IMAGE_TOO_LARGE\",\"message\":\"Maximum upload size exceeded\",\"path\":\"/members/images/profiles\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T23:44:08.1016892\",\"httpStatus\":422,\"code\":\"IMAGE_TOO_LARGE\",\"message\":\"Maximum upload size exceeded\",\"path\":\"/members/images/profiles\"}"
                   }
                 }
               }
@@ -944,7 +971,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -976,7 +1003,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       },
@@ -1014,7 +1041,7 @@
                 },
                 "examples": {
                   "update_quest_property/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:41:15.9804894\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Invalid threshold range\",\"path\":\"/members/properties/quests\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T23:44:08.5988572\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Invalid threshold range\",\"path\":\"/members/properties/quests\"}"
                   }
                 }
               }
@@ -1026,7 +1053,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -1066,7 +1093,7 @@
                 },
                 "examples": {
                   "create_email_auth_code/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:41:10.8882946\",\"httpStatus\":409,\"code\":\"EMAIL_DUPLICATED\",\"message\":\"email already exists\",\"path\":\"/members/emails/codes/auth\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T23:44:03.4809869\",\"httpStatus\":409,\"code\":\"EMAIL_DUPLICATED\",\"message\":\"email already exists\",\"path\":\"/members/emails/codes/auth\"}"
                   }
                 }
               }
@@ -1090,7 +1117,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -1142,7 +1169,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -1174,7 +1201,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -1197,7 +1224,7 @@
                 },
                 "examples": {
                   "list_assign_quest": {
-                    "value": "{\"dailyQuests\":[{\"id\":\"0194cbd7-8689-74ec-bd46-dc855f493c3b\",\"subjectId\":\"f8c51811-d7c5-11ef-82dc-4322ccc3e338\",\"questType\":\"DAILY\",\"point\":10,\"score\":2,\"subjectName\":\"Java\",\"content\":\"daily participating quest\",\"proof\":\"no_proof\",\"startDateTime\":\"2025-02-18T22:40:52\",\"displayOrder\":1,\"completed\":false,\"confirmed\":false}],\"weeklyQuests\":[{\"id\":\"0194cbda-6135-79fc-b659-ebaac3684761\",\"subjectId\":\"f8c51811-d7c5-11ef-82dc-4322ccc3e338\",\"questType\":\"WEEKLY\",\"point\":150,\"score\":20,\"subjectName\":\"Java\",\"content\":\"weekly participating quest\",\"proof\":\"no_proof\",\"startDateTime\":\"2025-02-18T22:40:52\",\"displayOrder\":1,\"completed\":false,\"confirmed\":false}],\"monthlyQuests\":[{\"id\":\"0194cbeb-345e-74a6-9199-07bdb402ea36\",\"subjectId\":\"f8c51811-d7c5-11ef-82dc-4322ccc3e338\",\"questType\":\"MONTHLY\",\"point\":1500,\"score\":100,\"subjectName\":\"Java\",\"content\":\"monthly participating quest\",\"proof\":\"no_proof\",\"startDateTime\":\"2025-02-18T22:40:52\",\"displayOrder\":1,\"completed\":false,\"confirmed\":false}]}"
+                    "value": "{\"dailyQuests\":[{\"id\":\"0194cbd7-8689-74ec-bd46-dc855f493c3b\",\"subjectId\":\"f8c51811-d7c5-11ef-82dc-4322ccc3e338\",\"questType\":\"DAILY\",\"point\":10,\"score\":2,\"subjectName\":\"Java\",\"content\":\"daily participating quest\",\"proof\":\"no_proof\",\"startDateTime\":\"2025-02-18T23:43:42\",\"displayOrder\":1,\"completed\":false,\"confirmed\":false}],\"weeklyQuests\":[{\"id\":\"0194cbda-6135-79fc-b659-ebaac3684761\",\"subjectId\":\"f8c51811-d7c5-11ef-82dc-4322ccc3e338\",\"questType\":\"WEEKLY\",\"point\":150,\"score\":20,\"subjectName\":\"Java\",\"content\":\"weekly participating quest\",\"proof\":\"no_proof\",\"startDateTime\":\"2025-02-18T23:43:42\",\"displayOrder\":1,\"completed\":false,\"confirmed\":false}],\"monthlyQuests\":[{\"id\":\"0194cbeb-345e-74a6-9199-07bdb402ea36\",\"subjectId\":\"f8c51811-d7c5-11ef-82dc-4322ccc3e338\",\"questType\":\"MONTHLY\",\"point\":1500,\"score\":100,\"subjectName\":\"Java\",\"content\":\"monthly participating quest\",\"proof\":\"no_proof\",\"startDateTime\":\"2025-02-18T23:43:42\",\"displayOrder\":1,\"completed\":false,\"confirmed\":false}]}"
                   }
                 }
               }
@@ -1206,7 +1233,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       },
@@ -1225,10 +1252,10 @@
               },
               "examples": {
                 "create_assign_quest/error": {
-                  "value": "{\"subjectId\":\"03532add-ced8-4f13-93f3-75a6294b4681\",\"subjectName\":\"subject name\",\"questType\":\"MONTHLY\",\"content\":\"quest content\"}"
+                  "value": "{\"subjectId\":\"9b03efa6-7e82-46c5-b1cf-2e15e9c29771\",\"subjectName\":\"subject name\",\"questType\":\"MONTHLY\",\"content\":\"quest content\"}"
                 },
                 "create_assign_quest": {
-                  "value": "{\"subjectId\":\"f2f1ccf1-e6a2-4984-abea-2928ff3a12b5\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\"quest content\"}"
+                  "value": "{\"subjectId\":\"19bafaf6-9650-4c0e-b32a-f058000e660c\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\"quest content\"}"
                 }
               }
             }
@@ -1244,7 +1271,7 @@
                 },
                 "examples": {
                   "create_assign_quest/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:41:19.0045198\",\"httpStatus\":422,\"code\":\"THRESHOLD_EXCEEDED\",\"message\":\"Assign quest threshold exceeded\",\"path\":\"/quests/assigns\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T23:44:11.5129535\",\"httpStatus\":422,\"code\":\"THRESHOLD_EXCEEDED\",\"message\":\"Assign quest threshold exceeded\",\"path\":\"/quests/assigns\"}"
                   }
                 }
               }
@@ -1259,7 +1286,7 @@
                 },
                 "examples": {
                   "create_assign_quest": {
-                    "value": "{\"id\":\"0195194a-acb3-71a2-b26b-2969d45bbac8\"}"
+                    "value": "{\"id\":\"01951984-3d19-7bda-a5db-e7a7cde96941\"}"
                   }
                 }
               }
@@ -1268,7 +1295,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -1300,7 +1327,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       },
@@ -1338,7 +1365,7 @@
                 },
                 "examples": {
                   "create_repeat_quest/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:41:19.511236\",\"httpStatus\":422,\"code\":\"THRESHOLD_EXCEEDED\",\"message\":\"Repeat quest threshold exceeded\",\"path\":\"/quests/repeats\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T23:44:11.9820056\",\"httpStatus\":422,\"code\":\"THRESHOLD_EXCEEDED\",\"message\":\"Repeat quest threshold exceeded\",\"path\":\"/quests/repeats\"}"
                   }
                 }
               }
@@ -1353,7 +1380,7 @@
                 },
                 "examples": {
                   "create_repeat_quest": {
-                    "value": "{\"id\":\"0195194a-aeb5-7e3c-817b-d6e2937474c8\"}"
+                    "value": "{\"id\":\"01951984-3eed-7f8d-8b4a-4150c06097fc\"}"
                   }
                 }
               }
@@ -1362,7 +1389,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -1414,7 +1441,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -1448,7 +1475,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -1480,10 +1507,10 @@
               },
               "examples": {
                 "update_assign_quest/error": {
-                  "value": "{\"subjectId\":\"85858aab-53be-403a-8fbd-b2b0c06011c8\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\"\"}"
+                  "value": "{\"subjectId\":\"99c8fa2d-18e6-4193-8207-109905473215\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\"\"}"
                 },
                 "update_assign_quest": {
-                  "value": "{\"subjectId\":\"91c9a07b-6a1b-4b9f-82fd-7293484915a8\",\"subjectName\":\"updated subject name\",\"questType\":\"DAILY\",\"content\":\"updated quest content\"}"
+                  "value": "{\"subjectId\":\"d1ad4387-7b3e-41ff-a695-be9cc04402bd\",\"subjectName\":\"updated subject name\",\"questType\":\"DAILY\",\"content\":\"updated quest content\"}"
                 }
               }
             }
@@ -1499,7 +1526,7 @@
                 },
                 "examples": {
                   "update_assign_quest/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:41:21.0520695\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Quest content cannot be blank\",\"path\":\"/quests/assigns/1450177f-d7ff-11ef-830c-233264c36b07\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T23:44:13.4974774\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Quest content cannot be blank\",\"path\":\"/quests/assigns/1450177f-d7ff-11ef-830c-233264c36b07\"}"
                   }
                 }
               }
@@ -1511,7 +1538,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       },
@@ -1540,7 +1567,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -1574,7 +1601,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -1606,10 +1633,10 @@
               },
               "examples": {
                 "update_repeat_quest/error": {
-                  "value": "{\"subjectId\":\"2c49ba36-7793-4234-8680-c8b506c84dfe\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\" \"}"
+                  "value": "{\"subjectId\":\"7fd25436-b275-4cbb-9cca-65bac6eb6db9\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\" \"}"
                 },
                 "update_repeat_quest": {
-                  "value": "{\"subjectId\":\"302d7c56-2fff-48f9-b3fb-25dc36e13892\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\"quest content\"}"
+                  "value": "{\"subjectId\":\"a6fb5846-9584-4b84-bb34-853a380c5458\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\"quest content\"}"
                 }
               }
             }
@@ -1625,7 +1652,7 @@
                 },
                 "examples": {
                   "update_repeat_quest/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:41:21.3524706\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Quest content cannot be blank\",\"path\":\"/quests/repeats/3892ced2-d816-11ef-a05f-25caca7d3e8c\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T23:44:13.7668394\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Quest content cannot be blank\",\"path\":\"/quests/repeats/3892ced2-d816-11ef-a05f-25caca7d3e8c\"}"
                   }
                 }
               }
@@ -1637,7 +1664,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       },
@@ -1666,7 +1693,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -1711,7 +1738,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -1742,7 +1769,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -1794,7 +1821,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -1826,7 +1853,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       },
@@ -1858,7 +1885,7 @@
         },
         "security": [
           {
-            "cookieAuth": []
+            "bearerAuth": []
           }
         ]
       }
@@ -2801,8 +2828,8 @@
           }
         }
       },
-      "UpdateAssignQuestRequest": {
-        "title": "UpdateAssignQuestRequest",
+      "UpdateRepeatQuestRequest": {
+        "title": "UpdateRepeatQuestRequest",
         "required": [
           "content",
           "questType",
@@ -2829,8 +2856,8 @@
           }
         }
       },
-      "UpdateRepeatQuestRequest": {
-        "title": "UpdateRepeatQuestRequest",
+      "UpdateAssignQuestRequest": {
+        "title": "UpdateAssignQuestRequest",
         "required": [
           "content",
           "questType",
@@ -2904,34 +2931,6 @@
           }
         }
       },
-      "CreateRepeatQuestRequest": {
-        "title": "CreateRepeatQuestRequest",
-        "required": [
-          "content",
-          "questType",
-          "subjectId",
-          "subjectName"
-        ],
-        "type": "object",
-        "properties": {
-          "questType": {
-            "type": "string",
-            "description": "퀘스트 타입: DAILY / WEEKLY / MONTHLY"
-          },
-          "content": {
-            "type": "string",
-            "description": "퀘스트 내용"
-          },
-          "subjectId": {
-            "type": "string",
-            "description": "퀘스트 주제(관심사) 아이디"
-          },
-          "subjectName": {
-            "type": "string",
-            "description": "퀘스트 주제(관심사) 이름"
-          }
-        }
-      },
       "OrderUpdateAssignQuestRequest": {
         "title": "OrderUpdateAssignQuestRequest",
         "required": [
@@ -2963,6 +2962,34 @@
           "questType": {
             "type": "string",
             "description": "퀘스트 타입: DAILY / WEEKLY / MONTHLY"
+          }
+        }
+      },
+      "CreateRepeatQuestRequest": {
+        "title": "CreateRepeatQuestRequest",
+        "required": [
+          "content",
+          "questType",
+          "subjectId",
+          "subjectName"
+        ],
+        "type": "object",
+        "properties": {
+          "questType": {
+            "type": "string",
+            "description": "퀘스트 타입: DAILY / WEEKLY / MONTHLY"
+          },
+          "content": {
+            "type": "string",
+            "description": "퀘스트 내용"
+          },
+          "subjectId": {
+            "type": "string",
+            "description": "퀘스트 주제(관심사) 아이디"
+          },
+          "subjectName": {
+            "type": "string",
+            "description": "퀘스트 주제(관심사) 이름"
           }
         }
       },
@@ -3247,6 +3274,19 @@
           }
         }
       },
+      "CreateMajorInterestResponse": {
+        "title": "CreateMajorInterestResponse",
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "주요 관심사 아이디"
+          }
+        }
+      },
       "ListMajorInterestResponse": {
         "title": "ListMajorInterestResponse",
         "required": [
@@ -3299,19 +3339,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "CreateMajorInterestResponse": {
-        "title": "CreateMajorInterestResponse",
-        "required": [
-          "id"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "주요 관심사 아이디"
           }
         }
       },
@@ -3442,16 +3469,16 @@
       }
     },
     "securitySchemes": {
-      "cookieAuth": {
-        "type": "apiKey",
-        "in": "cookie",
-        "name": "Access-Token"
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   },
   "security": [
     {
-      "cookieAuth": []
+      "bearerAuth": []
     }
   ]
 }
