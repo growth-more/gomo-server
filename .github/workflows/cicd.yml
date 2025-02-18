@@ -61,6 +61,10 @@ jobs:
           name: build-output
           path: build/libs/
 
+      - name: Check Download Artifact Successfully
+        run: |
+          ls -lh build/libs/
+
       - name: Create SSH Key
         run: |
           echo "${{ secrets.OCI_PRIVATE_KEY }}" > oci_key.key
