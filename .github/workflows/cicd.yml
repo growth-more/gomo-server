@@ -55,6 +55,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output
+          path: build/libs/
+
       - name: Create SSH Key
         run: |
           echo "${{ secrets.OCI_PRIVATE_KEY }}" > oci_key.key
