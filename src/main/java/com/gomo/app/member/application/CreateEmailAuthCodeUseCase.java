@@ -27,7 +27,7 @@ public class CreateEmailAuthCodeUseCase {
 		emailAuthRedisService.setAuthCode(request.getEmail(), authCode);
 
 		// todo: deploy환경에서는 주석해제!
-//		emailAuthSenderService.sendEmailAuthCode(request.getEmail(), authCode);
+		emailAuthSenderService.sendEmailAuthCode(request.getEmail(), authCode);
 
 		return CreateEmailAuthCodeResponse.of(request.getEmail());
 	}
