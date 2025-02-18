@@ -73,14 +73,13 @@ jobs:
       - name: Transfer application, configuration & Docker Compose files to Server
         run: |
           scp -i oci_key.key -o StrictHostKeyChecking=no build/libs/app-0.0.1-SNAPSHOT.jar ${{ secrets.OCI_USER }}@${{ secrets.OCI_HOST }}:/home/ubuntu/project/gomo/app-0.0.1-SNAPSHOT.jar
-#          scp -i oci_key.key -o StrictHostKeyChecking=no docker-compose.yml ${{ secrets.OCI_USER }}@${{ secrets.OCI_HOST }}:/home/${{ secrets.OCI_USER }}/docker-compose.yml
 
-#      - name: Deploy
-#        run: |
-#          ssh -i oci_key.key -o StrictHostKeyChecking=no ${{ secrets.OCI_USER }}@${{ secrets.OCI_HOST }} << 'EOF'
-#            cd /home/${{ secrets.OCI_USER }}
-#
-#            docker compose down || true
-#
-#            docker compose up --build -d
-#          EOF
+      - name: Deploy
+        run: |
+          ssh -i oci_key.key -o StrictHostKeyChecking=no ${{ secrets.OCI_USER }}@${{ secrets.OCI_HOST }} << 'EOF'
+            cd /home/${{ secrets.OCI_USER }}
+
+            docker compose down || true
+
+            docker compose up --build -d
+          EOF
