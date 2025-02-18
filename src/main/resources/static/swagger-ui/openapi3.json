@@ -50,6 +50,25 @@
         "summary": "관심사 등록 API",
         "description": "사용자의 관심사를 등록합니다.",
         "operationId": "create_interest",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "request": {
+                    "$ref": "#/components/schemas/CreateInterestRequest"
+                  },
+                  "logo": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "422": {
             "description": "422",
@@ -60,7 +79,7 @@
                 },
                 "examples": {
                   "create_interest/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:15:40.2444582\",\"httpStatus\":422,\"code\":\"IMAGE_TOO_LARGE\",\"message\":\"Maximum upload size exceeded\",\"path\":\"/interests\"}"
+                    "value": "{\"timestamp\":\"2025-02-12T20:25:27.015343\",\"httpStatus\":422,\"code\":\"IMAGE_TOO_LARGE\",\"message\":\"Maximum upload size exceeded\",\"path\":\"/interests\"}"
                   }
                 }
               }
@@ -75,7 +94,7 @@
                 },
                 "examples": {
                   "create_interest": {
-                    "value": "{\"id\":\"01951933-3058-79e4-8d8d-16f97fcdccfc\"}"
+                    "value": "{\"id\":\"0194f9e8-1f64-7c1c-b976-d22ca959e9f0\"}"
                   }
                 }
               }
@@ -240,7 +259,7 @@
                 },
                 "examples": {
                   "update_interest/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:15:42.3710568\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Interest name cannot contain forbidden characters\",\"path\":\"/interests/3bd1b3f7-d7c6-11ef-abb8-a7e09b2a499c\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:06.4270886\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Interest name cannot contain forbidden characters\",\"path\":\"/interests/3bd1b3f7-d7c6-11ef-abb8-a7e09b2a499c\"}"
                   }
                 }
               }
@@ -383,7 +402,7 @@
                 },
                 "examples": {
                   "create_interest_relation": {
-                    "value": "{\"id\":\"01951933-325a-73f4-b372-411e66bf7ace\"}"
+                    "value": "{\"id\":\"0195194a-738a-7a7e-881b-2c37a292f411\"}"
                   }
                 }
               }
@@ -416,6 +435,22 @@
             }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "updatedLogo": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "422": {
             "description": "422",
@@ -426,7 +461,7 @@
                 },
                 "examples": {
                   "update_interest_logo/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:15:42.8424023\",\"httpStatus\":422,\"code\":\"IMAGE_TOO_LARGE\",\"message\":\"Maximum upload size exceeded\",\"path\":\"/interests/3bd1b3f7-d7c6-11ef-abb8-a7e09b2a499c/logos\"}"
+                    "value": "{\"timestamp\":\"2025-02-12T20:25:28.7527668\",\"httpStatus\":422,\"code\":\"IMAGE_TOO_LARGE\",\"message\":\"Maximum upload size exceeded\",\"path\":\"/interests/3bd1b3f7-d7c6-11ef-abb8-a7e09b2a499c/logos\"}"
                   }
                 }
               }
@@ -472,7 +507,7 @@
                 },
                 "examples": {
                   "create_major_interest/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:15:40.9009478\",\"httpStatus\":409,\"code\":\"DUPLICATED\",\"message\":\"Already registered as a major interest\",\"path\":\"/interests/f8c51811-d7c5-11ef-82dc-4322ccc3e338/majors\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:04.910249\",\"httpStatus\":409,\"code\":\"DUPLICATED\",\"message\":\"Already registered as a major interest\",\"path\":\"/interests/f8c51811-d7c5-11ef-82dc-4322ccc3e338/majors\"}"
                   }
                 }
               }
@@ -487,7 +522,7 @@
                 },
                 "examples": {
                   "create_major_interest": {
-                    "value": "{\r\n  \"id\" : \"01951933-3343-78e5-8d4d-311bfc90a512\"\r\n}"
+                    "value": "{\r\n  \"id\" : \"0195194a-746b-7b19-b0cc-c147ed69e80d\"\r\n}"
                   }
                 }
               }
@@ -597,7 +632,7 @@
                 },
                 "examples": {
                   "update_member_info/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:15:49.4742912\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Motto must comply with the motto rules\",\"path\":\"/members\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:13.8307197\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Motto must comply with the motto rules\",\"path\":\"/members\"}"
                   }
                 }
               }
@@ -647,7 +682,7 @@
                 },
                 "examples": {
                   "sign_up_member/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:15:48.1330804\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"password must at least 8 characters\",\"path\":\"/members\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:12.385657\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"password must at least 8 characters\",\"path\":\"/members\"}"
                   }
                 }
               }
@@ -662,7 +697,7 @@
                 },
                 "examples": {
                   "sign_up_member": {
-                    "value": "{\"id\":\"01951933-50bf-78d9-a478-43c808b76efa\"}"
+                    "value": "{\"id\":\"0195194a-92ef-71c9-817b-d69e9c8ce28a\"}"
                   }
                 }
               }
@@ -711,7 +746,7 @@
                 },
                 "examples": {
                   "update_handle/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:15:49.0101482\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Handle must be at least 3 characters\",\"path\":\"/members/handles\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:13.3461783\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Handle must be at least 3 characters\",\"path\":\"/members/handles\"}"
                   }
                 }
               }
@@ -763,7 +798,7 @@
                 },
                 "examples": {
                   "login_member/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:15:47.3617104\",\"httpStatus\":404,\"code\":\"NOT_FOUND\",\"message\":\"check email or password\",\"path\":\"/members/login\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:11.6228771\",\"httpStatus\":404,\"code\":\"NOT_FOUND\",\"message\":\"check email or password\",\"path\":\"/members/login\"}"
                   }
                 }
               }
@@ -778,7 +813,7 @@
                 },
                 "examples": {
                   "login_member": {
-                    "value": "{\"id\":\"a10581ce-d721-11ef-a8a5-2508e2a6438b\",\"token\":\"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhMTA1ODFjZS1kNzIxLTExZWYtYThhNS0yNTA4ZTJhNjQzOGIiLCJpYXQiOjE3Mzk4ODQ1NDcsImV4cCI6MTczOTg4NTQ0N30.dgBgoXsi2bGMdb6ErLdjAhUdbBE6nT2rSqGLmWF3gl8\"}"
+                    "value": "{\"id\":\"a10581ce-d721-11ef-a8a5-2508e2a6438b\",\"token\":\"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhMTA1ODFjZS1kNzIxLTExZWYtYThhNS0yNTA4ZTJhNjQzOGIiLCJpYXQiOjE3Mzk4ODYwNzEsImV4cCI6MTczOTg4Njk3MX0.AdSerdnqfgi6CebYJ4vib9JDkOgiP7NEMV5cU87OH8c\"}"
                   }
                 }
               }
@@ -827,7 +862,7 @@
                 },
                 "examples": {
                   "update_password/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:15:50.2308473\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"password must comply with the password rules.\",\"path\":\"/members/passwords\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:14.642502\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"password must comply with the password rules.\",\"path\":\"/members/passwords\"}"
                   }
                 }
               }
@@ -862,7 +897,7 @@
                 },
                 "examples": {
                   "check_duplicated_handle/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:15:46.0943947\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Handle must be at least 3 characters\",\"path\":\"/members/handles/duplicate\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:10.2480628\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Handle must be at least 3 characters\",\"path\":\"/members/handles/duplicate\"}"
                   }
                 }
               }
@@ -897,7 +932,7 @@
                 },
                 "examples": {
                   "update_profile_image/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:15:51.0449457\",\"httpStatus\":422,\"code\":\"IMAGE_TOO_LARGE\",\"message\":\"Maximum upload size exceeded\",\"path\":\"/members/images/profiles\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:15.4686749\",\"httpStatus\":422,\"code\":\"IMAGE_TOO_LARGE\",\"message\":\"Maximum upload size exceeded\",\"path\":\"/members/images/profiles\"}"
                   }
                 }
               }
@@ -979,7 +1014,7 @@
                 },
                 "examples": {
                   "update_quest_property/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:15:51.5107362\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Invalid threshold range\",\"path\":\"/members/properties/quests\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:15.9804894\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Invalid threshold range\",\"path\":\"/members/properties/quests\"}"
                   }
                 }
               }
@@ -1031,7 +1066,7 @@
                 },
                 "examples": {
                   "create_email_auth_code/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:15:46.7341326\",\"httpStatus\":409,\"code\":\"EMAIL_DUPLICATED\",\"message\":\"email already exists\",\"path\":\"/members/emails/codes/auth\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:10.8882946\",\"httpStatus\":409,\"code\":\"EMAIL_DUPLICATED\",\"message\":\"email already exists\",\"path\":\"/members/emails/codes/auth\"}"
                   }
                 }
               }
@@ -1162,7 +1197,7 @@
                 },
                 "examples": {
                   "list_assign_quest": {
-                    "value": "{\"dailyQuests\":[{\"id\":\"0194cbd7-8689-74ec-bd46-dc855f493c3b\",\"subjectId\":\"f8c51811-d7c5-11ef-82dc-4322ccc3e338\",\"questType\":\"DAILY\",\"point\":10,\"score\":2,\"subjectName\":\"Java\",\"content\":\"daily participating quest\",\"proof\":\"no_proof\",\"startDateTime\":\"2025-02-18T22:15:28\",\"displayOrder\":1,\"completed\":false,\"confirmed\":false}],\"weeklyQuests\":[{\"id\":\"0194cbda-6135-79fc-b659-ebaac3684761\",\"subjectId\":\"f8c51811-d7c5-11ef-82dc-4322ccc3e338\",\"questType\":\"WEEKLY\",\"point\":150,\"score\":20,\"subjectName\":\"Java\",\"content\":\"weekly participating quest\",\"proof\":\"no_proof\",\"startDateTime\":\"2025-02-18T22:15:28\",\"displayOrder\":1,\"completed\":false,\"confirmed\":false}],\"monthlyQuests\":[{\"id\":\"0194cbeb-345e-74a6-9199-07bdb402ea36\",\"subjectId\":\"f8c51811-d7c5-11ef-82dc-4322ccc3e338\",\"questType\":\"MONTHLY\",\"point\":1500,\"score\":100,\"subjectName\":\"Java\",\"content\":\"monthly participating quest\",\"proof\":\"no_proof\",\"startDateTime\":\"2025-02-18T22:15:28\",\"displayOrder\":1,\"completed\":false,\"confirmed\":false}]}"
+                    "value": "{\"dailyQuests\":[{\"id\":\"0194cbd7-8689-74ec-bd46-dc855f493c3b\",\"subjectId\":\"f8c51811-d7c5-11ef-82dc-4322ccc3e338\",\"questType\":\"DAILY\",\"point\":10,\"score\":2,\"subjectName\":\"Java\",\"content\":\"daily participating quest\",\"proof\":\"no_proof\",\"startDateTime\":\"2025-02-18T22:40:52\",\"displayOrder\":1,\"completed\":false,\"confirmed\":false}],\"weeklyQuests\":[{\"id\":\"0194cbda-6135-79fc-b659-ebaac3684761\",\"subjectId\":\"f8c51811-d7c5-11ef-82dc-4322ccc3e338\",\"questType\":\"WEEKLY\",\"point\":150,\"score\":20,\"subjectName\":\"Java\",\"content\":\"weekly participating quest\",\"proof\":\"no_proof\",\"startDateTime\":\"2025-02-18T22:40:52\",\"displayOrder\":1,\"completed\":false,\"confirmed\":false}],\"monthlyQuests\":[{\"id\":\"0194cbeb-345e-74a6-9199-07bdb402ea36\",\"subjectId\":\"f8c51811-d7c5-11ef-82dc-4322ccc3e338\",\"questType\":\"MONTHLY\",\"point\":1500,\"score\":100,\"subjectName\":\"Java\",\"content\":\"monthly participating quest\",\"proof\":\"no_proof\",\"startDateTime\":\"2025-02-18T22:40:52\",\"displayOrder\":1,\"completed\":false,\"confirmed\":false}]}"
                   }
                 }
               }
@@ -1190,10 +1225,10 @@
               },
               "examples": {
                 "create_assign_quest/error": {
-                  "value": "{\"subjectId\":\"36d5036f-8e25-42af-b68d-a7236925502b\",\"subjectName\":\"subject name\",\"questType\":\"MONTHLY\",\"content\":\"quest content\"}"
+                  "value": "{\"subjectId\":\"03532add-ced8-4f13-93f3-75a6294b4681\",\"subjectName\":\"subject name\",\"questType\":\"MONTHLY\",\"content\":\"quest content\"}"
                 },
                 "create_assign_quest": {
-                  "value": "{\"subjectId\":\"deb40b13-3a13-41c2-93f6-e052b56906ec\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\"quest content\"}"
+                  "value": "{\"subjectId\":\"f2f1ccf1-e6a2-4984-abea-2928ff3a12b5\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\"quest content\"}"
                 }
               }
             }
@@ -1209,7 +1244,7 @@
                 },
                 "examples": {
                   "create_assign_quest/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:15:54.293953\",\"httpStatus\":422,\"code\":\"THRESHOLD_EXCEEDED\",\"message\":\"Assign quest threshold exceeded\",\"path\":\"/quests/assigns\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:19.0045198\",\"httpStatus\":422,\"code\":\"THRESHOLD_EXCEEDED\",\"message\":\"Assign quest threshold exceeded\",\"path\":\"/quests/assigns\"}"
                   }
                 }
               }
@@ -1224,7 +1259,7 @@
                 },
                 "examples": {
                   "create_assign_quest": {
-                    "value": "{\"id\":\"01951933-68cd-7047-bc33-d10ef54a26af\"}"
+                    "value": "{\"id\":\"0195194a-acb3-71a2-b26b-2969d45bbac8\"}"
                   }
                 }
               }
@@ -1303,7 +1338,7 @@
                 },
                 "examples": {
                   "create_repeat_quest/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:15:54.7272743\",\"httpStatus\":422,\"code\":\"THRESHOLD_EXCEEDED\",\"message\":\"Repeat quest threshold exceeded\",\"path\":\"/quests/repeats\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:19.511236\",\"httpStatus\":422,\"code\":\"THRESHOLD_EXCEEDED\",\"message\":\"Repeat quest threshold exceeded\",\"path\":\"/quests/repeats\"}"
                   }
                 }
               }
@@ -1318,7 +1353,7 @@
                 },
                 "examples": {
                   "create_repeat_quest": {
-                    "value": "{\"id\":\"01951933-6aca-7377-b93c-f5abf42aa652\"}"
+                    "value": "{\"id\":\"0195194a-aeb5-7e3c-817b-d6e2937474c8\"}"
                   }
                 }
               }
@@ -1445,10 +1480,10 @@
               },
               "examples": {
                 "update_assign_quest/error": {
-                  "value": "{\"subjectId\":\"c7c8a3c5-8685-4ea3-aa8e-49e245f92e9d\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\"\"}"
+                  "value": "{\"subjectId\":\"85858aab-53be-403a-8fbd-b2b0c06011c8\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\"\"}"
                 },
                 "update_assign_quest": {
-                  "value": "{\"subjectId\":\"f065c40c-2eac-4de7-a8d4-f24a8b4d1908\",\"subjectName\":\"updated subject name\",\"questType\":\"DAILY\",\"content\":\"updated quest content\"}"
+                  "value": "{\"subjectId\":\"91c9a07b-6a1b-4b9f-82fd-7293484915a8\",\"subjectName\":\"updated subject name\",\"questType\":\"DAILY\",\"content\":\"updated quest content\"}"
                 }
               }
             }
@@ -1464,7 +1499,7 @@
                 },
                 "examples": {
                   "update_assign_quest/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:15:56.2627744\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Quest content cannot be blank\",\"path\":\"/quests/assigns/1450177f-d7ff-11ef-830c-233264c36b07\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:21.0520695\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Quest content cannot be blank\",\"path\":\"/quests/assigns/1450177f-d7ff-11ef-830c-233264c36b07\"}"
                   }
                 }
               }
@@ -1571,10 +1606,10 @@
               },
               "examples": {
                 "update_repeat_quest/error": {
-                  "value": "{\"subjectId\":\"c0f851fe-cb5d-4b2e-a4be-1a047cf3737d\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\" \"}"
+                  "value": "{\"subjectId\":\"2c49ba36-7793-4234-8680-c8b506c84dfe\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\" \"}"
                 },
                 "update_repeat_quest": {
-                  "value": "{\"subjectId\":\"035640b1-5779-46f8-8e04-a120e20c24c4\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\"quest content\"}"
+                  "value": "{\"subjectId\":\"302d7c56-2fff-48f9-b3fb-25dc36e13892\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\"quest content\"}"
                 }
               }
             }
@@ -1590,7 +1625,7 @@
                 },
                 "examples": {
                   "update_repeat_quest/error": {
-                    "value": "{\"timestamp\":\"2025-02-18T22:15:56.5278192\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Quest content cannot be blank\",\"path\":\"/quests/repeats/3892ced2-d816-11ef-a05f-25caca7d3e8c\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:21.3524706\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Quest content cannot be blank\",\"path\":\"/quests/repeats/3892ced2-d816-11ef-a05f-25caca7d3e8c\"}"
                   }
                 }
               }
@@ -1862,6 +1897,22 @@
             "type": "string",
             "description": "에러 발생 시간"
           }
+        }
+      },
+      "CreateInterestRequest": {
+        "title": "CreateInterestRequest",
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "관심사 이름"
+          }
+        },
+        "example": {
+          "name": "자바"
         }
       },
       "UpdateInterestRequest": {
@@ -2418,6 +2469,39 @@
           }
         }
       },
+      "CreateMemberRequest": {
+        "title": "CreateMemberRequest",
+        "required": [
+          "email",
+          "handle",
+          "motto",
+          "name",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "description": "비밀번호"
+          },
+          "name": {
+            "type": "string",
+            "description": "이름"
+          },
+          "motto": {
+            "type": "string",
+            "description": "한 줄 다짐"
+          },
+          "handle": {
+            "type": "string",
+            "description": "사용자가 지정한 고유 식별 문자"
+          },
+          "email": {
+            "type": "string",
+            "description": "이메일"
+          }
+        }
+      },
       "ListPointResponse": {
         "title": "ListPointResponse",
         "required": [
@@ -2470,39 +2554,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "CreateMemberRequest": {
-        "title": "CreateMemberRequest",
-        "required": [
-          "email",
-          "handle",
-          "motto",
-          "name",
-          "password"
-        ],
-        "type": "object",
-        "properties": {
-          "password": {
-            "type": "string",
-            "description": "비밀번호"
-          },
-          "name": {
-            "type": "string",
-            "description": "이름"
-          },
-          "motto": {
-            "type": "string",
-            "description": "한 줄 다짐"
-          },
-          "handle": {
-            "type": "string",
-            "description": "사용자가 지정한 고유 식별 문자"
-          },
-          "email": {
-            "type": "string",
-            "description": "이메일"
           }
         }
       },
@@ -3196,19 +3247,6 @@
           }
         }
       },
-      "CreateMajorInterestResponse": {
-        "title": "CreateMajorInterestResponse",
-        "required": [
-          "id"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "주요 관심사 아이디"
-          }
-        }
-      },
       "ListMajorInterestResponse": {
         "title": "ListMajorInterestResponse",
         "required": [
@@ -3261,6 +3299,19 @@
                 }
               }
             }
+          }
+        }
+      },
+      "CreateMajorInterestResponse": {
+        "title": "CreateMajorInterestResponse",
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "주요 관심사 아이디"
           }
         }
       },
