@@ -9,6 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
+    env:
+      TZ: Asia/Seoul
+
     services:
       docker:
         image: docker:dind
@@ -16,6 +19,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Check timezone
+        run: date
 
       - name: Create Application.yml
         run: |
