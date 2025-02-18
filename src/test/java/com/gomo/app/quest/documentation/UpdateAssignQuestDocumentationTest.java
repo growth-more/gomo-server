@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
@@ -34,9 +35,6 @@ public class UpdateAssignQuestDocumentationTest extends DocumentationTestBase {
 	private final RestDocumentationFilter errorFilter = UpdateAssignQuestSnippet.createError();
 
 	@Autowired
-	private LoginMemberHelper loginHelper;
-
-	@Autowired
 	private AssignQuestDataHelper assignQuestDataHelper;
 
 	@Autowired
@@ -45,7 +43,6 @@ public class UpdateAssignQuestDocumentationTest extends DocumentationTestBase {
 
 	@BeforeEach
 	public void setUp() {
-		// sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
 		assignQuest = assignQuestDataProvider.notConfirmed();
 	}
 
@@ -59,6 +56,7 @@ public class UpdateAssignQuestDocumentationTest extends DocumentationTestBase {
 	void update_assign_quest() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
 			.body(UpdateAssignQuestRequest.of(
 				UUID.randomUUID(),
 				"updated subject name",
@@ -76,6 +74,7 @@ public class UpdateAssignQuestDocumentationTest extends DocumentationTestBase {
 	void update_assign_quest_invalid_quest_content() {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
 			.body(UpdateAssignQuestRequest.of(
 				UUID.randomUUID(),
 				"subject name",

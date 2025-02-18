@@ -1,5 +1,9 @@
 package com.gomo.app.member.presentation.request;
 
+import com.gomo.app.member.domain.model.DailyThreshold;
+import com.gomo.app.member.domain.model.MonthlyThreshold;
+import com.gomo.app.member.domain.model.QuestProperty;
+import com.gomo.app.member.domain.model.WeeklyThreshold;
 import lombok.Getter;
 
 @Getter
@@ -25,5 +29,10 @@ public class UpdateQuestPropertyRequest {
 		int monthlyThreshold
 	) {
 		return new UpdateQuestPropertyRequest(dailyThreshold, weeklyThreshold, monthlyThreshold);
+	}
+
+	public QuestProperty toDomain(){
+		QuestProperty property = QuestProperty.createDefault();
+		return QuestProperty.update(property.getDailyThreshold().update(dailyThreshold), property.getWeeklyThreshold().update(weeklyThreshold), property.getMonthlyThreshold().update(monthlyThreshold));
 	}
 }

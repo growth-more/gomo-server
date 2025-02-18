@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
@@ -29,9 +30,6 @@ public class CompleteAssignQuestDocumentationTest extends DocumentationTestBase 
 	private final RestDocumentationFilter filter = CompleteAssignQuestSnippet.create();
 
 	@Autowired
-	private LoginMemberHelper loginHelper;
-
-	@Autowired
 	private AssignQuestDataHelper assignQuestDataHelper;
 
 	@Autowired
@@ -49,7 +47,6 @@ public class CompleteAssignQuestDocumentationTest extends DocumentationTestBase 
 
 	@BeforeEach
 	public void setUp() {
-		// sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
 		confirmed = assignQuestDataProvider.confirmed();
 	}
 
@@ -66,6 +63,7 @@ public class CompleteAssignQuestDocumentationTest extends DocumentationTestBase 
 	void complete_assign_quest() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
 			.body(CompleteAssignQuestRequest.of("https://proof"))
 			.when()
 			.put("/quests/assigns/{id}/complete", confirmed.getId().getId())

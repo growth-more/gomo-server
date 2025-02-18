@@ -4,7 +4,9 @@ import static com.gomo.app.common.exception.DomainErrorCode.INVALID_PARAMETER;
 import static com.gomo.app.member.exception.MemberErrorCode.*;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
+import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.MediaType.*;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,13 +18,12 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.fixture.TestMemberFixture;
 import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.member.common.constant.NonExistMemberField;
 import com.gomo.app.member.common.util.MemberDBDataHelper;
 import com.gomo.app.member.documentation.snippet.UpdatePasswordSnippet;
 import com.gomo.app.member.presentation.request.UpdatePasswordRequest;
 
+@DisplayName("[Presentation documentation]: 비밀번호 변경 테스트")
 public class UpdatePasswordDocumentationTest extends DocumentationTestBase {
 
 	private static final String PASSWORD_URL = "/members/passwords";
@@ -31,7 +32,10 @@ public class UpdatePasswordDocumentationTest extends DocumentationTestBase {
 	private final RestDocumentationFilter filter = UpdatePasswordSnippet.create();
 	private final RestDocumentationFilter errorFilter = UpdatePasswordSnippet.createError();
 
-	private String sessionId;
+	private static final String EMAIL = "gomotest@naver.com";
+	private static final String PASSWORD = "Gomotest1234@";
+
+	private String token;
 
 	@Autowired
 	LoginMemberHelper loginMemberHelper;
@@ -41,7 +45,7 @@ public class UpdatePasswordDocumentationTest extends DocumentationTestBase {
 
 	@BeforeEach
 	public void setUp() {
-		sessionId = loginMemberHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
+		token = loginMemberHelper.getAccessToken(EMAIL, PASSWORD);
 	}
 
 	@AfterEach
@@ -49,18 +53,17 @@ public class UpdatePasswordDocumentationTest extends DocumentationTestBase {
 		memberDBDataHelper.cleanUp();
 	}
 
-	// TODO <jhl221123>: 비밀번호 암호화 기능 추가 후 수정 필요
 	@DisplayName("사용자가 비밀번호를 변경한다.")
 	@Test
 	void update_password() {
 		given(this.specification).filter(filter)
-			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-			.sessionId(sessionId)
-			.body(UpdatePasswordRequest.of(TestMemberFixture.password(), NonExistMemberField.PASSWORD))
+			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
+			.body(UpdatePasswordRequest.of(PASSWORD, "Gomotest1234!"))
 			.when()
 			.put(PASSWORD_URL)
 			.then()
-			.statusCode(OK.value());
+			.statusCode(NO_CONTENT.value());
 	}
 
 	@DisplayName("사용자가 기존 비밀번호를 잘못 입력한 상태로 변경한다.")
@@ -68,16 +71,16 @@ public class UpdatePasswordDocumentationTest extends DocumentationTestBase {
 	void update_password_with_invalid_origin_password() {
 		given(this.specification).filter(errorFilter)
 			.header("Content-type", "application/json")
-			.sessionId(sessionId)
-			.body(UpdatePasswordRequest.of(NonExistMemberField.PASSWORD, NonExistMemberField.PASSWORD))
+			.header(AUTHORIZATION, "Bearer " + token)
+			.body(UpdatePasswordRequest.of("Gomotest123@", "Gomotest1234!"))
 			.when()
 			.put(PASSWORD_URL)
 			.then()
 			.statusCode(UNAUTHORIZED.value())
 			.body("timestamp", instanceOf(String.class))
-			.body("httpStatus", equalTo("401"))
+			.body("httpStatus", equalTo(UNAUTHORIZED.value()))
 			.body("code", equalTo(AUTHENTICATION_FAILED.name()))
-			.body("message", equalTo("Member Authentication fail"))
+			.body("message", equalTo("password incorrect"))
 			.body("path", equalTo(PASSWORD_URL));
 	}
 
@@ -86,8 +89,8 @@ public class UpdatePasswordDocumentationTest extends DocumentationTestBase {
 	void update_password_with_invalid_updated_password() {
 		given(this.specification).filter(errorFilter)
 			.header("Content-type", "application/json")
-			.sessionId(sessionId)
-			.body(UpdatePasswordRequest.of(TestMemberFixture.password(), INVALID_PASSWORD))
+			.header(AUTHORIZATION, "Bearer " + token)
+			.body(UpdatePasswordRequest.of(PASSWORD, INVALID_PASSWORD))
 			.when()
 			.put(PASSWORD_URL)
 			.then()
@@ -95,7 +98,7 @@ public class UpdatePasswordDocumentationTest extends DocumentationTestBase {
 			.body("timestamp", instanceOf(String.class))
 			.body("httpStatus", equalTo(INVALID_PARAMETER.getHttpStatus()))
 			.body("code", equalTo(INVALID_PARAMETER.name()))
-			.body("message", equalTo("Invalid parameter: " + INVALID_PASSWORD))
+			.body("message", equalTo("password must comply with the password rules."))
 			.body("path", equalTo(PASSWORD_URL));
 	}
 }

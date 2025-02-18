@@ -28,6 +28,6 @@ public class MemberRepositoryTest extends IntegrationTestBase {
 			LocalDate.now().minusDays(1).atStartOfDay()
 		);
 
-		assertThat(members.size()).isEqualTo(1);
+		assertThat(members.size()).isEqualTo(2);
 	}
 }

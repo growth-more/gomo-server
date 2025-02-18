@@ -25,7 +25,7 @@ public class ReadMemberSnippet {
 		fieldWithPath("motto").type(JsonFieldType.STRING).description("한 줄 다짐"),
 		fieldWithPath("availablePoints").type(JsonFieldType.NUMBER).description("보유중인 포인트 양"),
 		fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("사용자 프로필 이미지의 경로"),
-		fieldWithPath("profileImageName").type(JsonFieldType.STRING).description("사용자 프로필 이미지의 기존 이름"),
+		fieldWithPath("loginProvider").type(JsonFieldType.STRING).description("회원가입 시 사용한 방식(EMAIL, GOOGLE)"),
 		fieldWithPath("roleType").type(JsonFieldType.STRING).description("사용자 권한"),
 		fieldWithPath("subscriptionPlan").type(JsonFieldType.STRING).description("유료 플랜 등급"),
 		fieldWithPath("activateStatus").type(JsonFieldType.STRING).description("계정 활성화 상태"),

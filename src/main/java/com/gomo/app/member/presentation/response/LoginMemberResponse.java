@@ -13,18 +13,18 @@ import lombok.Getter;
 public class LoginMemberResponse {
 
 	private UUID id;
-	private String email;
-	private String handle;
-	private String name;
+	private String accessToken;
+	private String refreshToken;
+	private long expiresIn;
 
-	private LoginMemberResponse(UUID id, String email, String handle, String name) {
+	private LoginMemberResponse(UUID id, String accessToken, String refreshToken, long expiresIn) {
 		this.id = id;
-		this.email = email;
-		this.handle = handle;
-		this.name = name;
+		this.accessToken = accessToken;
+		this.refreshToken = refreshToken;
+		this.expiresIn = expiresIn;
 	}
 
-	public static LoginMemberResponse of(MemberId memberId, Email email, Handle handle, MemberName name) {
-		return new LoginMemberResponse(memberId.getId(), email.toString(), handle.toString(), name.toString());
+	public static LoginMemberResponse of(MemberId memberId, String  accessToken, String refreshToken, long expiresIn) {
+		return new LoginMemberResponse(memberId.getId(), accessToken, refreshToken, expiresIn);
 	}
 }

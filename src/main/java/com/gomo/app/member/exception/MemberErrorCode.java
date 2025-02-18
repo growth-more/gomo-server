@@ -9,8 +9,9 @@ public enum MemberErrorCode {
 	EMAIL_DUPLICATED("Email already exists: ", 409),
 	HANDLE_DUPLICATED("Handle already exists: ", 409),
 	AUTHENTICATION_FAILED("Member Authentication fail", 401),
-	PROFILE_IMAGE_TOO_LARGE("Profile image size too large", 413),
-	QUEST_PROPERTY_UPDATE_NOT_ALLOWED("Quest property must be within the range, but: ", 422);
+	QUEST_PROPERTY_UPDATE_NOT_ALLOWED("Quest property must be within the range, but: ", 422),
+	MEMBER_BANNED("Member banned", 403),
+	MEMBER_DELETED("Member deleted", 410);
 
 	private final String message;
 	private final int httpStatus;

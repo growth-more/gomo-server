@@ -50,6 +50,25 @@
         "summary": "관심사 등록 API",
         "description": "사용자의 관심사를 등록합니다.",
         "operationId": "create_interest",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "request": {
+                    "$ref": "#/components/schemas/CreateInterestRequest"
+                  },
+                  "logo": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "422": {
             "description": "422",
@@ -60,7 +79,7 @@
                 },
                 "examples": {
                   "create_interest/error": {
-                    "value": "{\"timestamp\":\"2025-02-14T00:05:56.9169687\",\"httpStatus\":422,\"code\":\"IMAGE_TOO_LARGE\",\"message\":\"Maximum upload size exceeded\",\"path\":\"/interests\"}"
+                    "value": "{\"timestamp\":\"2025-02-12T20:25:27.015343\",\"httpStatus\":422,\"code\":\"IMAGE_TOO_LARGE\",\"message\":\"Maximum upload size exceeded\",\"path\":\"/interests\"}"
                   }
                 }
               }
@@ -75,7 +94,7 @@
                 },
                 "examples": {
                   "create_interest": {
-                    "value": "{\"id\":\"0194ffd8-5ad5-70e1-a9a0-21d691e9c42f\"}"
+                    "value": "{\"id\":\"0194f9e8-1f64-7c1c-b976-d22ca959e9f0\"}"
                   }
                 }
               }
@@ -240,7 +259,7 @@
                 },
                 "examples": {
                   "update_interest/error": {
-                    "value": "{\"timestamp\":\"2025-02-14T00:05:58.1559656\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Interest name cannot contain forbidden characters\",\"path\":\"/interests/3bd1b3f7-d7c6-11ef-abb8-a7e09b2a499c\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:06.4270886\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Interest name cannot contain forbidden characters\",\"path\":\"/interests/3bd1b3f7-d7c6-11ef-abb8-a7e09b2a499c\"}"
                   }
                 }
               }
@@ -383,7 +402,7 @@
                 },
                 "examples": {
                   "create_interest_relation": {
-                    "value": "{\"id\":\"0194ffd8-5c6a-781e-9202-5e98bd65e720\"}"
+                    "value": "{\"id\":\"0195194a-738a-7a7e-881b-2c37a292f411\"}"
                   }
                 }
               }
@@ -416,6 +435,22 @@
             }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "updatedLogo": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "422": {
             "description": "422",
@@ -426,7 +461,7 @@
                 },
                 "examples": {
                   "update_interest_logo/error": {
-                    "value": "{\"timestamp\":\"2025-02-14T00:05:58.4559294\",\"httpStatus\":422,\"code\":\"IMAGE_TOO_LARGE\",\"message\":\"Maximum upload size exceeded\",\"path\":\"/interests/3bd1b3f7-d7c6-11ef-abb8-a7e09b2a499c/logos\"}"
+                    "value": "{\"timestamp\":\"2025-02-12T20:25:28.7527668\",\"httpStatus\":422,\"code\":\"IMAGE_TOO_LARGE\",\"message\":\"Maximum upload size exceeded\",\"path\":\"/interests/3bd1b3f7-d7c6-11ef-abb8-a7e09b2a499c/logos\"}"
                   }
                 }
               }
@@ -472,7 +507,7 @@
                 },
                 "examples": {
                   "create_major_interest/error": {
-                    "value": "{\"timestamp\":\"2025-02-14T00:05:57.3167832\",\"httpStatus\":409,\"code\":\"DUPLICATED\",\"message\":\"Already registered as a major interest\",\"path\":\"/interests/f8c51811-d7c5-11ef-82dc-4322ccc3e338/majors\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:04.910249\",\"httpStatus\":409,\"code\":\"DUPLICATED\",\"message\":\"Already registered as a major interest\",\"path\":\"/interests/f8c51811-d7c5-11ef-82dc-4322ccc3e338/majors\"}"
                   }
                 }
               }
@@ -487,7 +522,7 @@
                 },
                 "examples": {
                   "create_major_interest": {
-                    "value": "{\r\n  \"id\" : \"0194ffd8-5cf2-7c9c-8973-503385429383\"\r\n}"
+                    "value": "{\r\n  \"id\" : \"0195194a-746b-7b19-b0cc-c147ed69e80d\"\r\n}"
                   }
                 }
               }
@@ -523,6 +558,534 @@
         "responses": {
           "204": {
             "description": "204"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      }
+    },
+    "/members": {
+      "get": {
+        "tags": [
+          "Member"
+        ],
+        "summary": "사용자 프로필 조회 API",
+        "description": "사용자의 프로필 정보를 조회합니다.",
+        "operationId": "read_member",
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadMemberResponse"
+                },
+                "examples": {
+                  "read_member": {
+                    "value": "{\"id\":\"a10581ce-d721-11ef-a8a5-2508e2a6438b\",\"email\":\"gomotest@naver.com\",\"handle\":\"@GOMOTEST\",\"name\":\"gomotest\",\"motto\":\"gomotest fighting!\",\"availablePoints\":1660,\"profileImageUrl\":\"https://mini-cloud/gomotest-profile\",\"loginProvider\":\"EMAIL\",\"roleType\":\"ROLE_MEMBER\",\"subscriptionPlan\":\"FREE\",\"activateStatus\":\"ACTIVE\",\"signUpDateTime\":\"2025-01-20T20:36:37.591469\"}"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Member"
+        ],
+        "summary": "사용자 개인 정보 변경 API",
+        "description": "사용자 개인 정보를 변경합니다.",
+        "operationId": "update_member_info",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMemberRequest"
+              },
+              "examples": {
+                "update_member_info/error": {
+                  "value": "{\"name\":\"GOMO4\",\"motto\":\"~!@#$\"}"
+                },
+                "update_member_info": {
+                  "value": "{\"name\":\"GOMO4\",\"motto\":\"GOMOTEST..\"}"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "422": {
+            "description": "422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "update_member_info/error": {
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:13.8307197\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Motto must comply with the motto rules\",\"path\":\"/members\"}"
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "204"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Member"
+        ],
+        "summary": "회원가입 API",
+        "description": "사용자 회원가입을 처리합니다.",
+        "operationId": "sign_up_member",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMemberRequest"
+              },
+              "examples": {
+                "sign_up_member/error": {
+                  "value": "{\"email\":\"gomotest3@naver.com\",\"password\":\"gomo123\",\"handle\":\"@GOMOTEST3\",\"name\":\"gomotest3\",\"motto\":\"gomotest fighting!\"}"
+                },
+                "sign_up_member": {
+                  "value": "{\"email\":\"gomotest3@naver.com\",\"password\":\"Gomotest1234@\",\"handle\":\"@GOMOTEST3\",\"name\":\"gomotest3\",\"motto\":\"gomotest fighting!\"}"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "422": {
+            "description": "422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "sign_up_member/error": {
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:12.385657\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"password must at least 8 characters\",\"path\":\"/members\"}"
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "201",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateMemberResponse"
+                },
+                "examples": {
+                  "sign_up_member": {
+                    "value": "{\"id\":\"0195194a-92ef-71c9-817b-d69e9c8ce28a\"}"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      }
+    },
+    "/members/handles": {
+      "put": {
+        "tags": [
+          "Member"
+        ],
+        "summary": "핸들 변경 API",
+        "description": "사용자 핸들을 변경합니다.",
+        "operationId": "update_handle",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateHandleRequest"
+              },
+              "examples": {
+                "update_handle/error": {
+                  "value": "{\"handle\":\"@G\"}"
+                },
+                "update_handle": {
+                  "value": "{\"handle\":\"@UPDATE\"}"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "422": {
+            "description": "422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "update_handle/error": {
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:13.3461783\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Handle must be at least 3 characters\",\"path\":\"/members/handles\"}"
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "204"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      }
+    },
+    "/members/login": {
+      "post": {
+        "tags": [
+          "Member"
+        ],
+        "summary": "로그인 API",
+        "description": "사용자 로그인을 처리합니다.",
+        "operationId": "login_member",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginMemberRequest"
+              },
+              "examples": {
+                "login_member/error": {
+                  "value": "{\"email\":\"test123@google.com\",\"password\":\"Gomotest1234@\"}"
+                },
+                "login_member": {
+                  "value": "{\"email\":\"gomotest@naver.com\",\"password\":\"Gomotest1234@\"}"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "404": {
+            "description": "404",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "login_member/error": {
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:11.6228771\",\"httpStatus\":404,\"code\":\"NOT_FOUND\",\"message\":\"check email or password\",\"path\":\"/members/login\"}"
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginMemberResponse"
+                },
+                "examples": {
+                  "login_member": {
+                    "value": "{\"id\":\"a10581ce-d721-11ef-a8a5-2508e2a6438b\",\"token\":\"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhMTA1ODFjZS1kNzIxLTExZWYtYThhNS0yNTA4ZTJhNjQzOGIiLCJpYXQiOjE3Mzk4ODYwNzEsImV4cCI6MTczOTg4Njk3MX0.AdSerdnqfgi6CebYJ4vib9JDkOgiP7NEMV5cU87OH8c\"}"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      }
+    },
+    "/members/passwords": {
+      "put": {
+        "tags": [
+          "Member"
+        ],
+        "summary": "비밀번호 변경 API",
+        "description": "사용자 비밀번호를 변경합니다.",
+        "operationId": "update_password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePasswordRequest"
+              },
+              "examples": {
+                "update_password/error": {
+                  "value": "{\"originPassword\":\"Gomotest1234@\",\"updatedPassword\":\"~ ! @ # $\"}"
+                },
+                "update_password": {
+                  "value": "{\"originPassword\":\"Gomotest1234@\",\"updatedPassword\":\"Gomotest1234!\"}"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "422": {
+            "description": "422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "update_password/error": {
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:14.642502\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"password must comply with the password rules.\",\"path\":\"/members/passwords\"}"
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "204"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      }
+    },
+    "/members/handles/duplicate": {
+      "get": {
+        "tags": [
+          "Member"
+        ],
+        "summary": "핸들 중복 확인 API",
+        "description": "핸들 중복 및 유효성을 체크하고 상태 코드를 반환합니다.",
+        "operationId": "check_duplicated_handle",
+        "responses": {
+          "422": {
+            "description": "422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/members-handles-duplicate-1426920435"
+                },
+                "examples": {
+                  "check_duplicated_handle/error": {
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:10.2480628\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Handle must be at least 3 characters\",\"path\":\"/members/handles/duplicate\"}"
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "200"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      }
+    },
+    "/members/images/profiles": {
+      "put": {
+        "tags": [
+          "Member"
+        ],
+        "summary": "프로필 이미지 수정 API",
+        "description": "사용자의 프로필 이미지를 수정합니다.",
+        "operationId": "update_profile_image",
+        "responses": {
+          "422": {
+            "description": "422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "update_profile_image/error": {
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:15.4686749\",\"httpStatus\":422,\"code\":\"IMAGE_TOO_LARGE\",\"message\":\"Maximum upload size exceeded\",\"path\":\"/members/images/profiles\"}"
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "204"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      }
+    },
+    "/members/properties/quests": {
+      "get": {
+        "tags": [
+          "Member"
+        ],
+        "summary": "퀘스트 설정값 조회 API",
+        "description": "사용자의 퀘스트 설정값을 조회합니다.",
+        "operationId": "read_quest_property",
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadQuestPropertyResponse"
+                },
+                "examples": {
+                  "read_quest_property": {
+                    "value": "{\"dailyThreshold\":7,\"weeklyThreshold\":7,\"monthlyThreshold\":7}"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "Member"
+        ],
+        "summary": "퀘스트 설정값 수정 API",
+        "description": "사용자의 퀘스트 설정값을 수정합니다.",
+        "operationId": "update_quest_property",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateQuestPropertyRequest"
+              },
+              "examples": {
+                "update_quest_property/error": {
+                  "value": "{\"dailyThreshold\":-1,\"weeklyThreshold\":5,\"monthlyThreshold\":5}"
+                },
+                "update_quest_property": {
+                  "value": "{\"dailyThreshold\":1,\"weeklyThreshold\":1,\"monthlyThreshold\":1}"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "422": {
+            "description": "422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "update_quest_property/error": {
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:15.9804894\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Invalid threshold range\",\"path\":\"/members/properties/quests\"}"
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "204"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
+      }
+    },
+    "/members/emails/codes/auth": {
+      "post": {
+        "tags": [
+          "Member"
+        ],
+        "summary": "이메일 인증 코드 생성 API",
+        "description": "이메일 중복 및 유효성을 체크하고 인증 코드를 생성합니다.",
+        "operationId": "create_email_auth_code",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateEmailAuthCodeRequest"
+              },
+              "examples": {
+                "create_email_auth_code/error": {
+                  "value": "{\"email\":\"gomotest@naver.com\"}"
+                },
+                "create_email_auth_code": {
+                  "value": "{\"email\":\"test@test.com\"}"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "409": {
+            "description": "409",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "create_email_auth_code/error": {
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:10.8882946\",\"httpStatus\":409,\"code\":\"EMAIL_DUPLICATED\",\"message\":\"email already exists\",\"path\":\"/members/emails/codes/auth\"}"
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "201",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateEmailAuthCodeResponse"
+                },
+                "examples": {
+                  "create_email_auth_code": {
+                    "value": "{\"email\":\"test@test.com\"}"
+                  }
+                }
+              }
+            }
           }
         },
         "security": [
@@ -634,7 +1197,7 @@
                 },
                 "examples": {
                   "list_assign_quest": {
-                    "value": "{\"dailyQuests\":[{\"id\":\"0194cbd7-8689-74ec-bd46-dc855f493c3b\",\"subjectId\":\"f8c51811-d7c5-11ef-82dc-4322ccc3e338\",\"questType\":\"DAILY\",\"point\":10,\"score\":2,\"subjectName\":\"Java\",\"content\":\"daily participating quest\",\"proof\":\"no_proof\",\"startDateTime\":\"2025-02-14T00:05:44\",\"displayOrder\":1,\"completed\":false,\"confirmed\":false}],\"weeklyQuests\":[{\"id\":\"0194cbda-6135-79fc-b659-ebaac3684761\",\"subjectId\":\"f8c51811-d7c5-11ef-82dc-4322ccc3e338\",\"questType\":\"WEEKLY\",\"point\":150,\"score\":20,\"subjectName\":\"Java\",\"content\":\"weekly participating quest\",\"proof\":\"no_proof\",\"startDateTime\":\"2025-02-14T00:05:44\",\"displayOrder\":1,\"completed\":false,\"confirmed\":false}],\"monthlyQuests\":[{\"id\":\"0194cbeb-345e-74a6-9199-07bdb402ea36\",\"subjectId\":\"f8c51811-d7c5-11ef-82dc-4322ccc3e338\",\"questType\":\"MONTHLY\",\"point\":1500,\"score\":100,\"subjectName\":\"Java\",\"content\":\"monthly participating quest\",\"proof\":\"no_proof\",\"startDateTime\":\"2025-02-14T00:05:44\",\"displayOrder\":1,\"completed\":false,\"confirmed\":false}]}"
+                    "value": "{\"dailyQuests\":[{\"id\":\"0194cbd7-8689-74ec-bd46-dc855f493c3b\",\"subjectId\":\"f8c51811-d7c5-11ef-82dc-4322ccc3e338\",\"questType\":\"DAILY\",\"point\":10,\"score\":2,\"subjectName\":\"Java\",\"content\":\"daily participating quest\",\"proof\":\"no_proof\",\"startDateTime\":\"2025-02-18T22:40:52\",\"displayOrder\":1,\"completed\":false,\"confirmed\":false}],\"weeklyQuests\":[{\"id\":\"0194cbda-6135-79fc-b659-ebaac3684761\",\"subjectId\":\"f8c51811-d7c5-11ef-82dc-4322ccc3e338\",\"questType\":\"WEEKLY\",\"point\":150,\"score\":20,\"subjectName\":\"Java\",\"content\":\"weekly participating quest\",\"proof\":\"no_proof\",\"startDateTime\":\"2025-02-18T22:40:52\",\"displayOrder\":1,\"completed\":false,\"confirmed\":false}],\"monthlyQuests\":[{\"id\":\"0194cbeb-345e-74a6-9199-07bdb402ea36\",\"subjectId\":\"f8c51811-d7c5-11ef-82dc-4322ccc3e338\",\"questType\":\"MONTHLY\",\"point\":1500,\"score\":100,\"subjectName\":\"Java\",\"content\":\"monthly participating quest\",\"proof\":\"no_proof\",\"startDateTime\":\"2025-02-18T22:40:52\",\"displayOrder\":1,\"completed\":false,\"confirmed\":false}]}"
                   }
                 }
               }
@@ -662,10 +1225,10 @@
               },
               "examples": {
                 "create_assign_quest/error": {
-                  "value": "{\"subjectId\":\"275b790b-2e64-40de-9a88-3ba28ccb4adf\",\"subjectName\":\"subject name\",\"questType\":\"MONTHLY\",\"content\":\"quest content\"}"
+                  "value": "{\"subjectId\":\"03532add-ced8-4f13-93f3-75a6294b4681\",\"subjectName\":\"subject name\",\"questType\":\"MONTHLY\",\"content\":\"quest content\"}"
                 },
                 "create_assign_quest": {
-                  "value": "{\"subjectId\":\"1ce18d88-8025-446a-98bc-238b0962560e\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\"quest content\"}"
+                  "value": "{\"subjectId\":\"f2f1ccf1-e6a2-4984-abea-2928ff3a12b5\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\"quest content\"}"
                 }
               }
             }
@@ -681,7 +1244,7 @@
                 },
                 "examples": {
                   "create_assign_quest/error": {
-                    "value": "{\"timestamp\":\"2025-02-14T00:06:02.9837557\",\"httpStatus\":422,\"code\":\"THRESHOLD_EXCEEDED\",\"message\":\"Assign quest threshold exceeded\",\"path\":\"/quests/assigns\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:19.0045198\",\"httpStatus\":422,\"code\":\"THRESHOLD_EXCEEDED\",\"message\":\"Assign quest threshold exceeded\",\"path\":\"/quests/assigns\"}"
                   }
                 }
               }
@@ -696,7 +1259,7 @@
                 },
                 "examples": {
                   "create_assign_quest": {
-                    "value": "{\"id\":\"0194ffd8-73da-7683-8aa5-e653c1280bcf\"}"
+                    "value": "{\"id\":\"0195194a-acb3-71a2-b26b-2969d45bbac8\"}"
                   }
                 }
               }
@@ -775,7 +1338,7 @@
                 },
                 "examples": {
                   "create_repeat_quest/error": {
-                    "value": "{\"timestamp\":\"2025-02-14T00:06:03.2903608\",\"httpStatus\":422,\"code\":\"THRESHOLD_EXCEEDED\",\"message\":\"Repeat quest threshold exceeded\",\"path\":\"/quests/repeats\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:19.511236\",\"httpStatus\":422,\"code\":\"THRESHOLD_EXCEEDED\",\"message\":\"Repeat quest threshold exceeded\",\"path\":\"/quests/repeats\"}"
                   }
                 }
               }
@@ -790,7 +1353,7 @@
                 },
                 "examples": {
                   "create_repeat_quest": {
-                    "value": "{\"id\":\"0194ffd8-74fb-76ee-8219-f4fc75809176\"}"
+                    "value": "{\"id\":\"0195194a-aeb5-7e3c-817b-d6e2937474c8\"}"
                   }
                 }
               }
@@ -917,10 +1480,10 @@
               },
               "examples": {
                 "update_assign_quest/error": {
-                  "value": "{\"subjectId\":\"7137b29e-4bfd-4538-a5a9-8baf573c4bde\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\"\"}"
+                  "value": "{\"subjectId\":\"85858aab-53be-403a-8fbd-b2b0c06011c8\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\"\"}"
                 },
                 "update_assign_quest": {
-                  "value": "{\"subjectId\":\"af61d8da-34ac-4362-8073-d3de3ef152fd\",\"subjectName\":\"updated subject name\",\"questType\":\"DAILY\",\"content\":\"updated quest content\"}"
+                  "value": "{\"subjectId\":\"91c9a07b-6a1b-4b9f-82fd-7293484915a8\",\"subjectName\":\"updated subject name\",\"questType\":\"DAILY\",\"content\":\"updated quest content\"}"
                 }
               }
             }
@@ -936,7 +1499,7 @@
                 },
                 "examples": {
                   "update_assign_quest/error": {
-                    "value": "{\"timestamp\":\"2025-02-14T00:06:04.2883282\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Quest content cannot be blank\",\"path\":\"/quests/assigns/1450177f-d7ff-11ef-830c-233264c36b07\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:21.0520695\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Quest content cannot be blank\",\"path\":\"/quests/assigns/1450177f-d7ff-11ef-830c-233264c36b07\"}"
                   }
                 }
               }
@@ -1043,10 +1606,10 @@
               },
               "examples": {
                 "update_repeat_quest/error": {
-                  "value": "{\"subjectId\":\"9bc76e39-8af5-4243-a3f3-e3d0e251c12f\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\" \"}"
+                  "value": "{\"subjectId\":\"2c49ba36-7793-4234-8680-c8b506c84dfe\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\" \"}"
                 },
                 "update_repeat_quest": {
-                  "value": "{\"subjectId\":\"9a9328c6-3855-4075-92be-0e4a5dc87ee4\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\"quest content\"}"
+                  "value": "{\"subjectId\":\"302d7c56-2fff-48f9-b3fb-25dc36e13892\",\"subjectName\":\"subject name\",\"questType\":\"DAILY\",\"content\":\"quest content\"}"
                 }
               }
             }
@@ -1062,7 +1625,7 @@
                 },
                 "examples": {
                   "update_repeat_quest/error": {
-                    "value": "{\"timestamp\":\"2025-02-14T00:06:04.4333881\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Quest content cannot be blank\",\"path\":\"/quests/repeats/3892ced2-d816-11ef-a05f-25caca7d3e8c\"}"
+                    "value": "{\"timestamp\":\"2025-02-18T22:41:21.3524706\",\"httpStatus\":422,\"code\":\"INVALID_PARAMETER\",\"message\":\"Quest content cannot be blank\",\"path\":\"/quests/repeats/3892ced2-d816-11ef-a05f-25caca7d3e8c\"}"
                   }
                 }
               }
@@ -1336,6 +1899,22 @@
           }
         }
       },
+      "CreateInterestRequest": {
+        "title": "CreateInterestRequest",
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "관심사 이름"
+          }
+        },
+        "example": {
+          "name": "자바"
+        }
+      },
       "UpdateInterestRequest": {
         "title": "UpdateInterestRequest",
         "required": [
@@ -1406,6 +1985,29 @@
                 }
               }
             }
+          }
+        }
+      },
+      "UpdateQuestPropertyRequest": {
+        "title": "UpdateQuestPropertyRequest",
+        "required": [
+          "dailyThreshold",
+          "monthlyThreshold",
+          "weeklyThreshold"
+        ],
+        "type": "object",
+        "properties": {
+          "monthlyThreshold": {
+            "type": "number",
+            "description": "월간 퀘스트 생성 제한 수치"
+          },
+          "dailyThreshold": {
+            "type": "number",
+            "description": "일일 퀘스트 생성 제한 수치"
+          },
+          "weeklyThreshold": {
+            "type": "number",
+            "description": "주간 퀘스트 생성 제한 수치"
           }
         }
       },
@@ -1831,6 +2433,29 @@
           }
         }
       },
+      "ReadQuestPropertyResponse": {
+        "title": "ReadQuestPropertyResponse",
+        "required": [
+          "dailyThreshold",
+          "monthlyThreshold",
+          "weeklyThreshold"
+        ],
+        "type": "object",
+        "properties": {
+          "monthlyThreshold": {
+            "type": "number",
+            "description": "월간 퀘스트 생성 제한 수치"
+          },
+          "dailyThreshold": {
+            "type": "number",
+            "description": "일일 퀘스트 생성 제한 수치"
+          },
+          "weeklyThreshold": {
+            "type": "number",
+            "description": "주간 퀘스트 생성 제한 수치"
+          }
+        }
+      },
       "CreateInterestResponse": {
         "title": "CreateInterestResponse",
         "required": [
@@ -1841,6 +2466,39 @@
           "id": {
             "type": "string",
             "description": "관심사 아이디: 임의의 고유 식별 문자"
+          }
+        }
+      },
+      "CreateMemberRequest": {
+        "title": "CreateMemberRequest",
+        "required": [
+          "email",
+          "handle",
+          "motto",
+          "name",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "description": "비밀번호"
+          },
+          "name": {
+            "type": "string",
+            "description": "이름"
+          },
+          "motto": {
+            "type": "string",
+            "description": "한 줄 다짐"
+          },
+          "handle": {
+            "type": "string",
+            "description": "사용자가 지정한 고유 식별 문자"
+          },
+          "email": {
+            "type": "string",
+            "description": "이메일"
           }
         }
       },
@@ -1899,6 +2557,24 @@
           }
         }
       },
+      "LoginMemberRequest": {
+        "title": "LoginMemberRequest",
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "description": "비밀번호"
+          },
+          "email": {
+            "type": "string",
+            "description": "이메일"
+          }
+        }
+      },
       "CalendarListAssignQuestResponse": {
         "title": "CalendarListAssignQuestResponse",
         "required": [
@@ -1954,6 +2630,74 @@
           }
         }
       },
+      "ReadMemberResponse": {
+        "title": "ReadMemberResponse",
+        "required": [
+          "activateStatus",
+          "availablePoints",
+          "email",
+          "handle",
+          "id",
+          "loginProvider",
+          "motto",
+          "name",
+          "profileImageUrl",
+          "roleType",
+          "signUpDateTime",
+          "subscriptionPlan"
+        ],
+        "type": "object",
+        "properties": {
+          "signUpDateTime": {
+            "type": "string",
+            "description": "가입 날짜"
+          },
+          "subscriptionPlan": {
+            "type": "string",
+            "description": "유료 플랜 등급"
+          },
+          "name": {
+            "type": "string",
+            "description": "이름"
+          },
+          "motto": {
+            "type": "string",
+            "description": "한 줄 다짐"
+          },
+          "handle": {
+            "type": "string",
+            "description": "사용자가 지정한 고유 식별 문자"
+          },
+          "availablePoints": {
+            "type": "number",
+            "description": "보유중인 포인트 양"
+          },
+          "id": {
+            "type": "string",
+            "description": "임의의 고유 식별 문자"
+          },
+          "activateStatus": {
+            "type": "string",
+            "description": "계정 활성화 상태"
+          },
+          "roleType": {
+            "type": "string",
+            "description": "사용자 권한"
+          },
+          "loginProvider": {
+            "type": "string",
+            "description": "회원가입 시 사용한 방식(EMAIL, GOOGLE)"
+          },
+          "profileImageUrl": {
+            "type": "string",
+            "description": "사용자 프로필 이미지의 경로"
+          },
+          "email": {
+            "type": "string",
+            "description": "이메일"
+          }
+        }
+      },
       "CreateInterestRelationResponse": {
         "title": "CreateInterestRelationResponse",
         "required": [
@@ -1964,6 +2708,68 @@
           "id": {
             "type": "string",
             "description": "관심사 간선 아이디"
+          }
+        }
+      },
+      "UpdateHandleRequest": {
+        "title": "UpdateHandleRequest",
+        "required": [
+          "handle"
+        ],
+        "type": "object",
+        "properties": {
+          "handle": {
+            "type": "string",
+            "description": "사용자가 지정한 고유 식별 문자"
+          }
+        }
+      },
+      "CreateMemberResponse": {
+        "title": "CreateMemberResponse",
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "사용자 아이디: 임의의 고유 식별 문자"
+          }
+        }
+      },
+      "LoginMemberResponse": {
+        "title": "LoginMemberResponse",
+        "required": [
+          "id",
+          "token"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "사용자 아이디: 임의의 고유 식별 문자"
+          },
+          "token": {
+            "type": "string",
+            "description": "ACCESS TOKEN: 인가를 위한 JWT Token"
+          }
+        }
+      },
+      "UpdateMemberRequest": {
+        "title": "UpdateMemberRequest",
+        "required": [
+          "motto",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "이름"
+          },
+          "motto": {
+            "type": "string",
+            "description": "한 줄 다짐"
           }
         }
       },
@@ -2023,19 +2829,6 @@
           }
         }
       },
-      "ReadBalanceResponse": {
-        "title": "ReadBalanceResponse",
-        "required": [
-          "amount"
-        ],
-        "type": "object",
-        "properties": {
-          "amount": {
-            "type": "number",
-            "description": "포인트 잔고"
-          }
-        }
-      },
       "UpdateRepeatQuestRequest": {
         "title": "UpdateRepeatQuestRequest",
         "required": [
@@ -2064,37 +2857,16 @@
           }
         }
       },
-      "OrderUpdateAssignQuestRequest": {
-        "title": "OrderUpdateAssignQuestRequest",
+      "ReadBalanceResponse": {
+        "title": "ReadBalanceResponse",
         "required": [
-          "questType",
-          "updatedOrders"
+          "amount"
         ],
         "type": "object",
         "properties": {
-          "updatedOrders": {
-            "type": "array",
-            "description": "변경하려는 정렬 순서",
-            "items": {
-              "oneOf": [
-                {
-                  "type": "object"
-                },
-                {
-                  "type": "boolean"
-                },
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "number"
-                }
-              ]
-            }
-          },
-          "questType": {
-            "type": "string",
-            "description": "퀘스트 타입: DAILY / WEEKLY / MONTHLY"
+          "amount": {
+            "type": "number",
+            "description": "포인트 잔고"
           }
         }
       },
@@ -2157,6 +2929,40 @@
           "subjectName": {
             "type": "string",
             "description": "퀘스트 주제(관심사) 이름"
+          }
+        }
+      },
+      "OrderUpdateAssignQuestRequest": {
+        "title": "OrderUpdateAssignQuestRequest",
+        "required": [
+          "questType",
+          "updatedOrders"
+        ],
+        "type": "object",
+        "properties": {
+          "updatedOrders": {
+            "type": "array",
+            "description": "변경하려는 정렬 순서",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "object"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "number"
+                }
+              ]
+            }
+          },
+          "questType": {
+            "type": "string",
+            "description": "퀘스트 타입: DAILY / WEEKLY / MONTHLY"
           }
         }
       },
@@ -2234,6 +3040,37 @@
           "logoUrl": {
             "type": "string",
             "description": "로고 이미지"
+          }
+        }
+      },
+      "UpdatePasswordRequest": {
+        "title": "UpdatePasswordRequest",
+        "required": [
+          "originPassword",
+          "updatedPassword"
+        ],
+        "type": "object",
+        "properties": {
+          "updatedPassword": {
+            "type": "string",
+            "description": "새 비밀번호"
+          },
+          "originPassword": {
+            "type": "string",
+            "description": "기존 비밀번호"
+          }
+        }
+      },
+      "CreateEmailAuthCodeRequest": {
+        "title": "CreateEmailAuthCodeRequest",
+        "required": [
+          "email"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "이메일"
           }
         }
       },
@@ -2410,19 +3247,6 @@
           }
         }
       },
-      "CreateMajorInterestResponse": {
-        "title": "CreateMajorInterestResponse",
-        "required": [
-          "id"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "주요 관심사 아이디"
-          }
-        }
-      },
       "ListMajorInterestResponse": {
         "title": "ListMajorInterestResponse",
         "required": [
@@ -2475,6 +3299,19 @@
                 }
               }
             }
+          }
+        }
+      },
+      "CreateMajorInterestResponse": {
+        "title": "CreateMajorInterestResponse",
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "주요 관심사 아이디"
           }
         }
       },
@@ -2555,6 +3392,51 @@
           "id": {
             "type": "string",
             "description": "반복 퀘스트 아이디"
+          }
+        }
+      },
+      "CreateEmailAuthCodeResponse": {
+        "title": "CreateEmailAuthCodeResponse",
+        "required": [
+          "email"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "이메일: 코드 생성 요청자의 EMAIL"
+          }
+        }
+      },
+      "members-handles-duplicate-1426920435": {
+        "required": [
+          "code",
+          "httpStatus",
+          "message",
+          "path",
+          "timestamp"
+        ],
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "요청 url"
+          },
+          "code": {
+            "type": "string",
+            "description": "에러 코드"
+          },
+          "httpStatus": {
+            "type": "number",
+            "description": "http 응답 상태 코드"
+          },
+          "message": {
+            "type": "string",
+            "description": "에러 메시지"
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "에러 발생 시간"
           }
         }
       }

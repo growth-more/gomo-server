@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
@@ -32,9 +33,6 @@ public class UpdateRepeatQuestDocumentationTest extends DocumentationTestBase {
 	private final RestDocumentationFilter errorFilter = UpdateRepeatQuestSnippet.createError();
 
 	@Autowired
-	private LoginMemberHelper loginHelper;
-
-	@Autowired
 	private RepeatQuestDataHelper repeatQuestDataHelper;
 
 	@Autowired
@@ -43,7 +41,6 @@ public class UpdateRepeatQuestDocumentationTest extends DocumentationTestBase {
 
 	@BeforeEach
 	public void setUp() {
-		// sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
 		repeatQuest = repeatQuestDataProvider.firstOrderDaily();
 	}
 
@@ -57,6 +54,7 @@ public class UpdateRepeatQuestDocumentationTest extends DocumentationTestBase {
 	void update_repeat_quest() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
 			.body(UpdateRepeatQuestRequest.of(
 				UUID.randomUUID(),
 				"subject name",
@@ -73,6 +71,7 @@ public class UpdateRepeatQuestDocumentationTest extends DocumentationTestBase {
 	void update_repeat_quest_invalid_quest_content() {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
 			.body(UpdateRepeatQuestRequest.of(
 				UUID.randomUUID(),
 				"subject name",

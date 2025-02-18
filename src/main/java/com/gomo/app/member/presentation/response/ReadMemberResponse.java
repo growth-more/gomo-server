@@ -3,10 +3,7 @@ package com.gomo.app.member.presentation.response;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.gomo.app.member.domain.model.ActivateStatus;
-import com.gomo.app.member.domain.model.Member;
-import com.gomo.app.member.domain.model.RoleType;
-import com.gomo.app.member.domain.model.SubscriptionPlan;
+import com.gomo.app.member.domain.model.*;
 
 import lombok.Getter;
 
@@ -20,7 +17,7 @@ public class ReadMemberResponse {
 	private String motto;
 	private int availablePoints;
 	private String profileImageUrl;
-	private String profileImageName;
+	private LoginProvider loginProvider;
 	private RoleType roleType;
 	private SubscriptionPlan subscriptionPlan;
 	private ActivateStatus activateStatus;
@@ -34,7 +31,7 @@ public class ReadMemberResponse {
 		String motto,
 		int availablePoints,
 		String profileImageUrl,
-		String profileImageName,
+		LoginProvider loginProvider,
 		RoleType roleType,
 		SubscriptionPlan subscriptionPlan,
 		ActivateStatus activateStatus,
@@ -47,7 +44,7 @@ public class ReadMemberResponse {
 		this.motto = motto;
 		this.availablePoints = availablePoints;
 		this.profileImageUrl = profileImageUrl;
-		this.profileImageName = profileImageName;
+		this.loginProvider = loginProvider;
 		this.roleType = roleType;
 		this.subscriptionPlan = subscriptionPlan;
 		this.activateStatus = activateStatus;
@@ -63,7 +60,7 @@ public class ReadMemberResponse {
 			member.getMotto().toString(),
 			availablePoints,
 			member.getProfileImage().getUrl(),
-			member.getProfileImage().getOriginName(),
+			member.getLoginProvider(),
 			member.getRoleType(),
 			member.getSubscriptionPlan(),
 			member.getActivateStatus(),

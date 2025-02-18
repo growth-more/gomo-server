@@ -4,6 +4,10 @@ import java.time.LocalDateTime;
 
 import com.gomo.app.common.domain.LogicalDeleteBaseAudit;
 
+import com.gomo.app.common.exception.DomainErrorCode;
+import com.gomo.app.common.exception.PolicyViolationException;
+import com.gomo.app.member.domain.service.PasswordService;
+import com.gomo.app.member.exception.MemberAuthenticationFailedException;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
@@ -13,6 +17,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Getter;
+
+import static com.gomo.app.member.exception.MemberErrorCode.AUTHENTICATION_FAILED;
 
 @Getter
 @Entity
@@ -47,6 +53,9 @@ public class Member extends LogicalDeleteBaseAudit {
 	private QuestProperty questProperty;
 
 	@Enumerated(EnumType.STRING)
+	private LoginProvider loginProvider;
+
+	@Enumerated(EnumType.STRING)
 	private RoleType roleType;
 
 	@Enumerated(EnumType.STRING)
@@ -69,6 +78,7 @@ public class Member extends LogicalDeleteBaseAudit {
 		Motto motto,
 		ProfileImage profileImage,
 		QuestProperty questProperty,
+		LoginProvider loginProvider,
 		RoleType roleType,
 		SubscriptionPlan subscriptionPlan,
 		ActivateStatus activateStatus,
@@ -83,11 +93,34 @@ public class Member extends LogicalDeleteBaseAudit {
 		this.motto = motto;
 		this.profileImage = profileImage;
 		this.questProperty = questProperty;
+		this.loginProvider = loginProvider;
 		this.roleType = roleType;
 		this.subscriptionPlan = subscriptionPlan;
 		this.activateStatus = activateStatus;
 		this.signUpDateTime = signUpDateTime;
 		this.lastLoginDateTime = lastLoginDateTime;
+	}
+
+	public void updatePassword( String originPassword, String updatedPassword, PasswordService passwordService){
+		if(originPassword.equals(updatedPassword)){
+			throw new PolicyViolationException(DomainErrorCode.INVALID_PARAMETER, "update password must not same as origin password");
+		}
+		this.password = this.password.update(originPassword, updatedPassword, passwordService);
+	}
+	public void updateHandle(String handle){this.handle = this.handle.update(handle);}
+	public void delete(){this.activateStatus = ActivateStatus.DELETED;}
+	public void updateMotto(String motto){this.motto = this.motto.update(motto);}
+	public void updateName(String name){this.name = this.name.update(name);}
+	public void updateMemberInfo(String name, String motto){
+		updateMotto(motto);
+		updateName(name);
+	}
+	public void updateProfileImage(ProfileImage profileImage){this.profileImage = profileImage;}
+	public void updateQuestProperty(QuestProperty questProperty){this.questProperty = questProperty;}
+	public void updateLastLoginDateTime(LocalDateTime lastLoginDateTime){this.lastLoginDateTime = lastLoginDateTime;}
+
+	public void login(String inputPassword, PasswordService passwordService){
+		this.password.matches(inputPassword, passwordService);
 	}
 
 	public static Member of(
@@ -96,9 +129,10 @@ public class Member extends LogicalDeleteBaseAudit {
 		Password password,
 		Handle handle,
 		MemberName memberName,
-		Motto motto
+		Motto motto,
+		LoginProvider loginProvider
 	) {
-		return new Member(id, email, password, handle, memberName, motto, ProfileImage.createDefault(), QuestProperty.createDefault(),
+		return new Member(id, email, password, handle, memberName, motto, ProfileImage.createDefault(), QuestProperty.createDefault(), loginProvider,
 			RoleType.ROLE_MEMBER, SubscriptionPlan.FREE, ActivateStatus.ACTIVE, LocalDateTime.now(), null
 		);
 	}

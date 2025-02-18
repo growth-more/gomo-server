@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
@@ -27,15 +28,7 @@ public class OrderUpdateRepeatQuestDocumentationTest extends DocumentationTestBa
 	private final RestDocumentationFilter filter = OrderUpdateRepeatQuestSnippet.create();
 
 	@Autowired
-	private LoginMemberHelper loginHelper;
-
-	@Autowired
 	private RepeatQuestDataHelper repeatQuestDataHelper;
-
-	@BeforeEach
-	public void setUp() {
-		// sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
-	}
 
 	@AfterEach
 	void tearDown() {
@@ -47,6 +40,7 @@ public class OrderUpdateRepeatQuestDocumentationTest extends DocumentationTestBa
 	void update_repeat_quest_order() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
 			.body(OrderUpdateRepeatQuestRequest.of(
 				QuestType.DAILY,
 				List.of(2, 1)))

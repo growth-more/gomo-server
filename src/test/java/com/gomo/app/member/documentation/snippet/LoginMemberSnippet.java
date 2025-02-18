@@ -25,8 +25,7 @@ public class LoginMemberSnippet {
 
 	private static final Snippet RESPONSE_FIELDS = responseFields(
 		fieldWithPath("id").type(JsonFieldType.STRING).description("사용자 아이디: 임의의 고유 식별 문자"),
-		fieldWithPath("handle").type(JsonFieldType.STRING).description("핸들: 사용자가 지정한 고유 식별 문자"),
-		fieldWithPath("name").type(JsonFieldType.STRING).description("이름")
+		fieldWithPath("token").type(JsonFieldType.STRING).description("ACCESS TOKEN: 인가를 위한 JWT Token")
 	);
 
 	public static RestDocumentationFilter create() {

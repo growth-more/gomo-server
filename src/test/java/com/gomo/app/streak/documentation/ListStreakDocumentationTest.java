@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
@@ -25,9 +26,6 @@ public class ListStreakDocumentationTest extends DocumentationTestBase {
 	private final RestDocumentationFilter filter = ListStreakSnippet.create();
 
 	@Autowired
-	private LoginMemberHelper loginHelper;
-
-	@Autowired
 	StreakDataProvider streakDataProvider;
 	Streak dailyFirstStreak;
 	Streak dailySecondStreak;
@@ -35,7 +33,6 @@ public class ListStreakDocumentationTest extends DocumentationTestBase {
 
 	@BeforeEach
 	public void setUp() {
-		// sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
 		dailyFirstStreak = streakDataProvider.dailyFirstStreak();
 		dailySecondStreak = streakDataProvider.dailySecondStreak();
 		weeklyStreak = streakDataProvider.weeklyStreak();
@@ -46,6 +43,7 @@ public class ListStreakDocumentationTest extends DocumentationTestBase {
 	void list_streak() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
 			.param("startDate", dailyFirstStreak.getFilledDate().toString())
 			.param("endDate", dailySecondStreak.getFilledDate().toString())
 			.when()

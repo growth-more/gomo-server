@@ -7,6 +7,7 @@ import static org.mockito.Mockito.*;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.gomo.app.member.domain.service.PasswordService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,13 +38,16 @@ public class AssignQuestServiceTest {
 	@Mock
 	AssignQuestRepository assignQuestRepository;
 
+	@Mock
+	PasswordService passwordService;
+
 	@DisplayName("할당 퀘스트를 생성한다.")
 	@Test
 	void create_assign_quest() {
 		AssignQuest assignQuest = AssignQuestFixture.assignQuest();
 
 		doReturn(4L).when(assignQuestRepository).countParticipatingQuestByQuestType(any(), any(), any(), any());
-		doReturn(Optional.of(MemberFixture.member(5))).when(memberRepository).findById(any());
+		doReturn(Optional.of(MemberFixture.member(5, passwordService))).when(memberRepository).findById(any());
 		doReturn(4).when(assignQuestRepository).findMaxDisplayOrderOfParticipatingQuest(any(), any(), any(), any());
 		doReturn(assignQuest).when(assignQuestRepository).save(any());
 
@@ -58,7 +62,7 @@ public class AssignQuestServiceTest {
 		int maxDisplayOrder = 4;
 
 		doReturn(4L).when(assignQuestRepository).countParticipatingQuestByQuestType(any(), any(), any(), any());
-		doReturn(Optional.of(MemberFixture.member(5))).when(memberRepository).findById(any());
+		doReturn(Optional.of(MemberFixture.member(5, passwordService))).when(memberRepository).findById(any());
 		doReturn(maxDisplayOrder).when(assignQuestRepository).findMaxDisplayOrderOfParticipatingQuest(any(), any(), any(), any());
 		doReturn(AssignQuestFixture.assignQuest(maxDisplayOrder + 1)).when(assignQuestRepository).save(any());
 
@@ -71,7 +75,7 @@ public class AssignQuestServiceTest {
 	@Test
 	void create_assign_quest_exceeding_quest_property() {
 		doReturn(5L).when(assignQuestRepository).countParticipatingQuestByQuestType(any(), any(), any(), any());
-		doReturn(Optional.of(MemberFixture.member(5))).when(memberRepository).findById(any());
+		doReturn(Optional.of(MemberFixture.member(5, passwordService))).when(memberRepository).findById(any());
 
 		assertThatThrownBy(() -> sut.create(ParticipantId.of(UUID.randomUUID()), QuestFixture.quest()))
 			.isInstanceOf(AssignQuestThresholdExceededException.class)

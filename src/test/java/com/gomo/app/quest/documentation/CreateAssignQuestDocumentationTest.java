@@ -33,15 +33,7 @@ public class CreateAssignQuestDocumentationTest extends DocumentationTestBase {
 	private final RestDocumentationFilter errorFilter = CreateAssignQuestSnippet.createError();
 
 	@Autowired
-	private LoginMemberHelper loginHelper;
-
-	@Autowired
 	private AssignQuestDataHelper assignQuestDataHelper;
-
-	@BeforeEach
-	public void setUp() {
-		// sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
-	}
 
 	@AfterEach
 	void tearDown() {
@@ -52,7 +44,8 @@ public class CreateAssignQuestDocumentationTest extends DocumentationTestBase {
 	@Test
 	void create_assign_quest() {
 		given(this.specification).filter(filter)
-			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
 			.body(CreateAssignQuestRequest.of(
 				UUID.randomUUID(),
 				"subject name",
@@ -70,7 +63,8 @@ public class CreateAssignQuestDocumentationTest extends DocumentationTestBase {
 	@Test
 	void create_assign_quest_invalid_quest_content() {
 		given(this.specification).filter(errorFilter)
-			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
 			.body(CreateAssignQuestRequest.of(
 				UUID.randomUUID(),
 				"",
@@ -92,6 +86,7 @@ public class CreateAssignQuestDocumentationTest extends DocumentationTestBase {
 	void create_assign_quest_exceeding_threshold() {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
 			.body(CreateAssignQuestRequest.of(
 				UUID.randomUUID(),
 				"subject name",

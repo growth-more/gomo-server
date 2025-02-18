@@ -23,7 +23,7 @@ public class CreateEmailAuthCodeSnippet {
 	);
 
 	private static final Snippet RESPONSE_FIELDS = responseFields(
-		fieldWithPath("code").type(JsonFieldType.STRING).description("이메일 인증 코드: 임의의 고유 식별 문자")
+		fieldWithPath("email").type(JsonFieldType.STRING).description("이메일: 코드 생성 요청자의 EMAIL")
 	);
 
 	public static RestDocumentationFilter create() {

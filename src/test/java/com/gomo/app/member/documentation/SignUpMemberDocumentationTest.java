@@ -1,10 +1,11 @@
 package com.gomo.app.member.documentation;
 
 import static com.gomo.app.common.exception.DomainErrorCode.*;
-import static com.gomo.app.member.common.constant.NonExistMemberField.*;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
+import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.MediaType.*;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,6 +21,7 @@ import com.gomo.app.member.common.util.MemberDBDataHelper;
 import com.gomo.app.member.documentation.snippet.SignUpMemberSnippet;
 import com.gomo.app.member.presentation.request.CreateMemberRequest;
 
+@DisplayName("[Presentation documentation]: 회원 가입 테스트")
 public class SignUpMemberDocumentationTest extends DocumentationTestBase {
 
 	private static final String MEMBER_URL = "/members";
@@ -27,6 +29,13 @@ public class SignUpMemberDocumentationTest extends DocumentationTestBase {
 
 	private final RestDocumentationFilter filter = SignUpMemberSnippet.create();
 	private final RestDocumentationFilter errorFilter = SignUpMemberSnippet.createError();
+
+	private static final String EMAIL = "gomotest3@naver.com";
+	private static final String PASSWORD = "Gomotest1234@";
+	private static final String HANDLE = "@GOMOTEST3";
+	private static final String NAME = "gomotest3";
+	private static final String MOTTO = "gomotest fighting!";
+
 
 	@Autowired
 	private MemberDBDataHelper memberDBDataHelper;
@@ -40,7 +49,7 @@ public class SignUpMemberDocumentationTest extends DocumentationTestBase {
 	@Test
 	void sign_up() {
 		given(this.specification).filter(filter)
-			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.body(CreateMemberRequest.of(EMAIL, PASSWORD, HANDLE, NAME, MOTTO))
 			.when()
 			.post(MEMBER_URL)
@@ -49,34 +58,11 @@ public class SignUpMemberDocumentationTest extends DocumentationTestBase {
 			.body("id", hasLength(36));
 	}
 
-	/**
-	 * 테스트 작성 시, 다음 주의사항을 참고한다.
-	 * 1. 성공 케이스는 filter를 사용한다.
-	 * 2. 실패 케이스는 errorFilter를 사용한다.
-	 */
-	@DisplayName("사용자가 OAuth를 통해 회원가입한다.")
-	@Test
-	void sign_up_with_OAuth() throws JsonProcessingException {
-
-	}
-
-	@DisplayName("사용자가 이메일 인증을 하지 않고 회원가입한다.")
-	@Test
-	void sign_up_without_email_validation() throws JsonProcessingException {
-
-	}
-
-	@DisplayName("사용자가 핸들 중복을 확인하지 않고 회원가입한다.")
-	@Test
-	void sign_up_without_check_duplicated_handle() throws JsonProcessingException {
-
-	}
-
 	@DisplayName("사용자가 잘못된 형식의 정보로 회원가입한다.")
 	@Test
 	void sign_up_member_with_short_password() {
 		given(this.specification).filter(errorFilter)
-			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.body(CreateMemberRequest.of(EMAIL, SHORT_PASSWORD, HANDLE, NAME, MOTTO))
 			.when()
 			.post(MEMBER_URL)
@@ -85,7 +71,7 @@ public class SignUpMemberDocumentationTest extends DocumentationTestBase {
 			.body("timestamp", instanceOf(String.class))
 			.body("httpStatus", equalTo(INVALID_PARAMETER.getHttpStatus()))
 			.body("code", equalTo(INVALID_PARAMETER.name()))
-			.body("message", equalTo("Invalid parameter: " + SHORT_PASSWORD.length()))
+			.body("message", equalTo("password must at least 8 characters"))
 			.body("path", equalTo(MEMBER_URL));
 	}
 }
