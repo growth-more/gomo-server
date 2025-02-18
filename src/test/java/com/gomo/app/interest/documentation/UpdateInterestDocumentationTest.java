@@ -1,24 +1,23 @@
 package com.gomo.app.interest.documentation;
 
-import static com.gomo.app.common.exception.DomainErrorCode.*;
-import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.*;
-import static org.springframework.http.HttpHeaders.*;
-import static org.springframework.http.HttpStatus.*;
-import static org.springframework.http.MediaType.*;
-
+import com.gomo.app.common.DocumentationTestBase;
+import com.gomo.app.interest.common.util.InterestDataHelper;
+import com.gomo.app.interest.documentation.snippet.UpdateInterestSnippet;
+import com.gomo.app.interest.presentation.request.UpdateInterestRequest;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.interest.common.util.InterestDataHelper;
-import com.gomo.app.interest.documentation.snippet.UpdateInterestSnippet;
-import com.gomo.app.interest.presentation.request.UpdateInterestRequest;
+import static com.gomo.app.common.exception.DomainErrorCode.INVALID_PARAMETER;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.*;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @DisplayName("[Presentation documentation]: 관심사 수정 테스트")
 public class UpdateInterestDocumentationTest extends DocumentationTestBase {
@@ -29,15 +28,7 @@ public class UpdateInterestDocumentationTest extends DocumentationTestBase {
 	private final RestDocumentationFilter errorFilter = UpdateInterestSnippet.createError();
 
 	@Autowired
-	private LoginMemberHelper loginHelper;
-
-	@Autowired
 	private InterestDataHelper interestDataHelper;
-
-	@BeforeEach
-	public void setUp() {
-		// sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
-	}
 
 	@AfterEach
 	void tearDown() {
@@ -49,6 +40,7 @@ public class UpdateInterestDocumentationTest extends DocumentationTestBase {
 	void update_interest() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
 			.body(UpdateInterestRequest.of("updated interest name"))
 			.when()
 			.put("/interests/{id}", UPDATED_INTEREST_ID)
@@ -61,6 +53,7 @@ public class UpdateInterestDocumentationTest extends DocumentationTestBase {
 	void update_interest_with_invalid_name() {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+            .header(AUTHORIZATION, "Bearer " + token)
 			.body(UpdateInterestRequest.of("forbidden{}"))
 			.when()
 			.put("/interests/{id}", UPDATED_INTEREST_ID)

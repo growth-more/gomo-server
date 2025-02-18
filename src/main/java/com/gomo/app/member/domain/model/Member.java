@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import com.gomo.app.common.domain.LogicalDeleteBaseAudit;
 
+import com.gomo.app.common.exception.DomainErrorCode;
+import com.gomo.app.common.exception.PolicyViolationException;
 import com.gomo.app.member.domain.service.PasswordService;
 import com.gomo.app.member.exception.MemberAuthenticationFailedException;
 import jakarta.persistence.AttributeOverride;
@@ -99,13 +101,20 @@ public class Member extends LogicalDeleteBaseAudit {
 		this.lastLoginDateTime = lastLoginDateTime;
 	}
 
-	public void updatePassword(Password password){
-		this.password = password;
+	public void updatePassword( String originPassword, String updatedPassword, PasswordService passwordService){
+		if(originPassword.equals(updatedPassword)){
+			throw new PolicyViolationException(DomainErrorCode.INVALID_PARAMETER, "update password must not same as origin password");
+		}
+		this.password = this.password.update(originPassword, updatedPassword, passwordService);
 	}
-	public void updateHandle(Handle handle){this.handle = handle;}
+	public void updateHandle(String handle){this.handle = this.handle.update(handle);}
 	public void delete(){this.activateStatus = ActivateStatus.DELETED;}
-	public void updateMotto(Motto motto){this.motto = motto;}
-	public void updateName(MemberName name){this.name = name;}
+	public void updateMotto(String motto){this.motto = this.motto.update(motto);}
+	public void updateName(String name){this.name = this.name.update(name);}
+	public void updateMemberInfo(String name, String motto){
+		updateMotto(motto);
+		updateName(name);
+	}
 	public void updateProfileImage(ProfileImage profileImage){this.profileImage = profileImage;}
 	public void updateQuestProperty(QuestProperty questProperty){this.questProperty = questProperty;}
 	public void updateLastLoginDateTime(LocalDateTime lastLoginDateTime){this.lastLoginDateTime = lastLoginDateTime;}

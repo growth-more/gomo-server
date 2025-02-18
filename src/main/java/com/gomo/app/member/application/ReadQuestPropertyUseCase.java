@@ -23,10 +23,7 @@ public class ReadQuestPropertyUseCase {
 				.orElseThrow(() -> new MemberNotFoundException(NOT_FOUND, "member id not found: " + memberId));
 
 		QuestProperty questProperty = member.getQuestProperty();
-		int dailyThreshold = questProperty.getDailyThreshold().getThreshold();
-		int weeklyThreshold = questProperty.getWeeklyThreshold().getThreshold();
-		int monthlyThreshold = questProperty.getMonthlyThreshold().getThreshold();
 
-		return ReadQuestPropertyResponse.of(dailyThreshold, weeklyThreshold, monthlyThreshold);
+		return ReadQuestPropertyResponse.of(questProperty);
 	}
 }

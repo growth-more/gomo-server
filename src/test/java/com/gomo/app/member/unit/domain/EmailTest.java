@@ -60,6 +60,6 @@ public class EmailTest {
     void create_email_with_invalid_email(){
         assertThatThrownBy(() -> Email.of(INVALID_EMAIL))
                 .isInstanceOf(PolicyViolationException.class)
-                .hasMessageContaining("Email should be in valid format");
+                .hasMessageContaining("Email should be invalid format");
     }
 }

@@ -1,32 +1,28 @@
 package com.gomo.app.interest.documentation;
 
-import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.*;
-import static org.springframework.http.HttpHeaders.*;
-import static org.springframework.http.HttpStatus.*;
-import static org.springframework.http.MediaType.*;
-
+import com.gomo.app.common.DocumentationTestBase;
+import com.gomo.app.interest.common.dataprovider.InterestDataProvider;
+import com.gomo.app.interest.common.dataprovider.InterestRelationDataProvider;
+import com.gomo.app.interest.documentation.snippet.InterestNetworkSnippet;
+import com.gomo.app.interest.domain.model.Interest;
+import com.gomo.app.interest.domain.model.InterestRelation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.interest.common.dataprovider.InterestDataProvider;
-import com.gomo.app.interest.common.dataprovider.InterestRelationDataProvider;
-import com.gomo.app.interest.documentation.snippet.InterestNetworkSnippet;
-import com.gomo.app.interest.domain.model.Interest;
-import com.gomo.app.interest.domain.model.InterestRelation;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.*;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @DisplayName("[Presentation documentation]: 관심사 네트워크 조회 테스트")
 public class InterestNetworkDocumentationTest extends DocumentationTestBase {
 
 	private final RestDocumentationFilter filter = InterestNetworkSnippet.create();
-
-	@Autowired
-	private LoginMemberHelper loginHelper;
 
 	@Autowired
 	private InterestDataProvider interestDataProvider;
@@ -40,7 +36,6 @@ public class InterestNetworkDocumentationTest extends DocumentationTestBase {
 
 	@BeforeEach
 	public void setUp() {
-		// sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
 		backend = interestDataProvider.backend();
 		java = interestDataProvider.java();
 		spring = interestDataProvider.spring();
@@ -52,6 +47,7 @@ public class InterestNetworkDocumentationTest extends DocumentationTestBase {
 	void read_interest_network() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
 			.when()
 			.get("/interests/networks")
 			.then()

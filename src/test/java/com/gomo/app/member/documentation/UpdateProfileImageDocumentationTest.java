@@ -1,9 +1,12 @@
 package com.gomo.app.member.documentation;
 
+import static com.gomo.app.common.exception.DomainErrorCode.IMAGE_TOO_LARGE;
 import static com.gomo.app.member.exception.MemberErrorCode.*;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
+import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.MediaType.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,6 +18,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,6 +33,7 @@ import com.gomo.app.member.documentation.snippet.UpdateProfileImageSnippet;
 import com.gomo.app.member.presentation.request.UpdateProfileImageRequest;
 import com.gomo.app.member.common.util.MemberDBDataHelper;
 
+@DisplayName("[Presentation documentation]: 프로필 이미지 변경 테스트")
 public class UpdateProfileImageDocumentationTest extends DocumentationTestBase {
 
 	private static final String PROFILE_IMAGE_URL = "/members/images/profiles";
@@ -35,7 +41,10 @@ public class UpdateProfileImageDocumentationTest extends DocumentationTestBase {
 	private final RestDocumentationFilter filter = UpdateProfileImageSnippet.create();
 	private final RestDocumentationFilter errorFilter = UpdateProfileImageSnippet.createError();
 
-	private String sessionId;
+	private static final String EMAIL = "gomotest@naver.com";
+	private static final String PASSWORD = "Gomotest1234@";
+
+	private String token;
 
 	@Autowired
 	LoginMemberHelper loginMemberHelper;
@@ -45,7 +54,7 @@ public class UpdateProfileImageDocumentationTest extends DocumentationTestBase {
 
 	@BeforeEach
 	public void setUp() {
-		sessionId = loginMemberHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
+		token = loginMemberHelper.getAccessToken(EMAIL, PASSWORD);
 	}
 
 	@AfterEach
@@ -57,38 +66,34 @@ public class UpdateProfileImageDocumentationTest extends DocumentationTestBase {
 	@Test
 	void update_profile_image() throws IOException {
 		given(this.specification).filter(filter)
-			.header(HttpHeaders.CONTENT_TYPE, MediaType.MULTIPART_FORM_DATA_VALUE)
-			.sessionId(sessionId)
-			.body(UpdateProfileImageRequest.of(getMultipartFile("normal-image.png")))
+			.header(CONTENT_TYPE, MULTIPART_FORM_DATA_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
+			.multiPart("profileImage", getImageFile("normal-image.png"))
 			.when()
 			.put(PROFILE_IMAGE_URL)
 			.then()
-			.statusCode(OK.value())
-			.body("profileImageUrl", equalTo("changedUrl")) // TODO <jhl221123>: 추후 이미지 저장소 경로로 수정 필요
-			.body("profileImageName", equalTo("normal-image"));
+			.statusCode(NO_CONTENT.value());
 	}
 
 	@DisplayName("사용자가 2MB 보다 큰 이미지로 프로필 이미지를 변경한다.")
 	@Test
 	void update_profile_image_with_large_image() throws IOException {
 		given(this.specification).filter(errorFilter)
-			.header(HttpHeaders.CONTENT_TYPE, MediaType.MULTIPART_FORM_DATA_VALUE)
-			.sessionId(sessionId)
-			.body(UpdateProfileImageRequest.of(getMultipartFile("large-image.png")))
+			.header(CONTENT_TYPE, MULTIPART_FORM_DATA_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
+			.multiPart("profileImage", getImageFile("large-image.png"))
 			.when()
 			.put(PROFILE_IMAGE_URL)
 			.then()
-			.statusCode(HttpStatus.PAYLOAD_TOO_LARGE.value())
+			.statusCode(IMAGE_TOO_LARGE.getHttpStatus())
 			.body("timestamp", instanceOf(String.class))
-			.body("httpStatus", equalTo("413"))
-			.body("code", equalTo(PROFILE_IMAGE_TOO_LARGE.name()))
-			.body("message", equalTo("Profile image size too large"))
+			.body("httpStatus", equalTo(IMAGE_TOO_LARGE.getHttpStatus()))
+			.body("code", equalTo(IMAGE_TOO_LARGE.name()))
+			.body("message", equalTo("Maximum upload size exceeded"))
 			.body("path", equalTo(PROFILE_IMAGE_URL));
 	}
 
-	private static @NotNull MockMultipartFile getMultipartFile(String imageName) throws IOException {
-		File file = ResourceUtils.getFile("classpath:resource/image/" + imageName);
-		FileInputStream input = new FileInputStream(file);
-		return new MockMultipartFile(imageName, file.getName(), "image/png", input);
+	private static File getImageFile(String imageName) throws IOException {
+		return ResourceUtils.getFile("classpath:image/" + imageName);
 	}
 }

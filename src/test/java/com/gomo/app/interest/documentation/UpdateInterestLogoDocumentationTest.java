@@ -1,27 +1,26 @@
 package com.gomo.app.interest.documentation;
 
-import static com.gomo.app.common.exception.DomainErrorCode.*;
-import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.*;
-import static org.springframework.http.HttpHeaders.*;
-import static org.springframework.http.HttpStatus.*;
-import static org.springframework.http.MediaType.*;
-
-import java.io.File;
-import java.io.IOException;
-
+import com.gomo.app.common.DocumentationTestBase;
+import com.gomo.app.interest.common.util.InterestDataHelper;
+import com.gomo.app.interest.documentation.snippet.UpdateInterestLogoSnippet;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import org.springframework.util.ResourceUtils;
 
-import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.interest.common.util.InterestDataHelper;
-import com.gomo.app.interest.documentation.snippet.UpdateInterestLogoSnippet;
+import java.io.File;
+import java.io.IOException;
+
+import static com.gomo.app.common.exception.DomainErrorCode.IMAGE_TOO_LARGE;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @DisplayName("[Presentation documentation]: 관심사 로고 수정 테스트")
 public class UpdateInterestLogoDocumentationTest extends DocumentationTestBase {
@@ -34,15 +33,7 @@ public class UpdateInterestLogoDocumentationTest extends DocumentationTestBase {
 	private final RestDocumentationFilter errorFilter = UpdateInterestLogoSnippet.createError();
 
 	@Autowired
-	private LoginMemberHelper loginHelper;
-
-	@Autowired
 	private InterestDataHelper interestDataHelper;
-
-	@BeforeEach
-	public void setUp() {
-		// sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
-	}
 
 	@AfterEach
 	void tearDown() {
@@ -54,6 +45,7 @@ public class UpdateInterestLogoDocumentationTest extends DocumentationTestBase {
 	void update_interest_logo() throws IOException {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, MULTIPART_FORM_DATA_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
 			.multiPart("updatedLogo", getImageFile(NORMAL_IMAGE_NAME))
 			.when()
 			.put("/interests/{id}/logos", UPDATED_INTEREST_ID)
@@ -66,6 +58,7 @@ public class UpdateInterestLogoDocumentationTest extends DocumentationTestBase {
 	void update_interest_logo_with_large_image() throws IOException {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, MULTIPART_FORM_DATA_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
 			.multiPart("updatedLogo", getImageFile(LARGE_IMAGE_NAME))
 			.when()
 			.put("/interests/{id}/logos", UPDATED_INTEREST_ID)

@@ -2,7 +2,9 @@ package com.gomo.app.survey.documentation;
 
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
+import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.MediaType.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -27,9 +29,6 @@ public class ListSurveyDocumentationTest extends DocumentationTestBase {
 	private final RestDocumentationFilter filter = ListSurveySnippet.create();
 
 	@Autowired
-	private LoginMemberHelper loginHelper;
-
-	@Autowired
 	private SurveyQuestionDataProvider surveyQuestionDataProvider;
 	private SurveyQuestion surveyQuestion;
 
@@ -43,7 +42,6 @@ public class ListSurveyDocumentationTest extends DocumentationTestBase {
 
 	@BeforeEach
 	public void setUp() {
-		// sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
 		surveyQuestion = surveyQuestionDataProvider.surveyQuestion();
 		firstSurveyItem = surveyItemDataProvider.firstSurveyItem();
 		secondSurveyItem = surveyItemDataProvider.secondSurveyItem();
@@ -53,7 +51,8 @@ public class ListSurveyDocumentationTest extends DocumentationTestBase {
 	@Test
 	void list_survey() {
 		given(this.specification).filter(filter)
-			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
 			.when()
 			.get("/surveys")
 			.then()

@@ -21,6 +21,7 @@ import com.gomo.app.member.presentation.request.UpdatePasswordRequest;
 import com.gomo.app.member.presentation.request.UpdateProfileImageRequest;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import static com.gomo.app.member.exception.MemberErrorCode.HANDLE_DUPLICATED;
 import static com.gomo.app.member.exception.MemberErrorCode.NOT_FOUND;
@@ -39,22 +40,15 @@ public class UpdateMemberUseCase {
 		Member member = memberRepository.findById(memberId)
 				.orElseThrow(() -> new MemberNotFoundException(NOT_FOUND, "member id not found: " + memberId));
 
-		if (request.getMotto() != null){
-			Motto motto = member.getMotto().update(request.getMotto());
-			member.updateMotto(motto);
-		}
-		if (request.getName() != null){
-			MemberName name = member.getName().update(request.getName());
-			member.updateName(name);
-		}
+		member.updateMemberInfo(request.getName(), request.getMotto());
 	}
 
-	public UpdateProfileImageResponse updateProfileImage(MemberId memberId, UpdateProfileImageRequest request) {
+	public UpdateProfileImageResponse updateProfileImage(MemberId memberId, MultipartFile profileImage) {
 		Member member = memberRepository.findById(memberId)
 				.orElseThrow(() -> new MemberNotFoundException(NOT_FOUND, "member id not found: " + memberId));
 		imageService.deleteImage(member.getProfileImage().getUrl());
 
-		String profile_url = imageService.uploadImage(request.getProfileImage());
+		String profile_url = imageService.uploadImage(profileImage);
 		member.updateProfileImage(member.getProfileImage().updateUrl(profile_url));
 
 		return UpdateProfileImageResponse.of(profile_url);
@@ -63,21 +57,13 @@ public class UpdateMemberUseCase {
 	public void updatePassword(MemberId memberId, UpdatePasswordRequest request) {
 		Member member = memberRepository.findById(memberId)
 				.orElseThrow(() -> new MemberNotFoundException(NOT_FOUND, "member id not found: " + memberId));
-		validatePasswordNotSame(request);
-		Password password = member.getPassword().update(request.getUpdatedPassword(), request.getOriginPassword(), passwordService);
-		member.updatePassword(password);
+		member.updatePassword(request.getOriginPassword(), request.getUpdatedPassword(), passwordService);
 	}
 
 	public void updateHandle(MemberId memberId, UpdateHandleRequest request) {
 		Member member = memberRepository.findById(memberId)
 				.orElseThrow(() -> new MemberNotFoundException(NOT_FOUND, "member id not found: " + memberId));
 		memberValidator.checkDuplicatedHandle(request.getHandle());
-		member.updateHandle(member.getHandle().update(request.getHandle()));
-	}
-
-	private static void validatePasswordNotSame(UpdatePasswordRequest request){
-		if(request.getOriginPassword().equals(request.getUpdatedPassword())){
-			throw new PolicyViolationException(DomainErrorCode.INVALID_PARAMETER, "update password must not same as origin password");
-		}
+		member.updateHandle(request.getHandle());
 	}
 }

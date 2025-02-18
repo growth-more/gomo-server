@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
@@ -25,9 +26,6 @@ public class DeleteMajorInterestDocumentationTest extends DocumentationTestBase 
 	private final RestDocumentationFilter filter = DeleteMajorInterestSnippet.create();
 
 	@Autowired
-	private LoginMemberHelper loginHelper;
-
-	@Autowired
 	private MajorInterestDataHelper majorInterestDataHelper;
 
 	@Autowired
@@ -36,7 +34,6 @@ public class DeleteMajorInterestDocumentationTest extends DocumentationTestBase 
 
 	@BeforeEach
 	public void setUp() {
-		// sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
 		java = majorInterestDataProvider.java();
 	}
 
@@ -50,6 +47,7 @@ public class DeleteMajorInterestDocumentationTest extends DocumentationTestBase 
 	void delete_major_interest() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
 			.when()
 			.delete("/interests/majors/{id}", java.getId().toString())
 			.then()

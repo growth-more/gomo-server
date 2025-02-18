@@ -1,20 +1,21 @@
 package com.gomo.app.interest.documentation.snippet;
 
-import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.*;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.*;
-
-import java.util.Arrays;
-
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
+import com.epages.restdocs.apispec.Schema;
+import com.gomo.app.common.constant.ErrorResponseFields;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.request.ParameterDescriptor;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.epages.restdocs.apispec.ResourceSnippetParameters;
-import com.epages.restdocs.apispec.Schema;
-import com.gomo.app.common.constant.ErrorResponseFields;
+import java.util.Arrays;
+
+import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.document;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 
 public class CreateMajorInterestSnippet {
 

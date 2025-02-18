@@ -43,7 +43,7 @@ public class Password {
         }
     }
 
-    public Password update(String newPassword, String existPassword, PasswordService passwordService) {
+    public Password update(String existPassword, String newPassword, PasswordService passwordService) {
         matches(existPassword, passwordService);
         return Password.of(newPassword, passwordService);
     }

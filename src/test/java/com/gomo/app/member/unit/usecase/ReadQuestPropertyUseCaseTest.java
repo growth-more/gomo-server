@@ -7,6 +7,7 @@ import com.gomo.app.member.application.ReadQuestPropertyUseCase;
 import com.gomo.app.member.common.fixture.MemberFixture;
 import com.gomo.app.member.domain.model.Email;
 import com.gomo.app.member.domain.model.Member;
+import com.gomo.app.member.domain.model.QuestProperty;
 import com.gomo.app.member.domain.repository.MemberRepository;
 import com.gomo.app.member.domain.service.PasswordService;
 import com.gomo.app.member.presentation.response.ReadQuestPropertyResponse;
@@ -42,7 +43,8 @@ public class ReadQuestPropertyUseCaseTest {
     void find_quest_property_successfully(){
 
         Member member = MemberFixture.member(passwordService);
-        ReadQuestPropertyResponse expected = ReadQuestPropertyResponse.of(DAILY_THRESHOLD, WEEKLY_THRESHOLD, MONTHLY_THRESHOLD);
+        QuestProperty request = QuestProperty.createDefault();
+        ReadQuestPropertyResponse expected = ReadQuestPropertyResponse.of(request);
 
         doReturn(Optional.of(member)).when(memberRepository).findById(member.getId());
 

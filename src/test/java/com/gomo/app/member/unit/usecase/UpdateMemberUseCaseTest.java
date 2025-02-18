@@ -3,6 +3,7 @@ package com.gomo.app.member.unit.usecase;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
+import com.gomo.app.member.domain.service.MemberValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,6 +41,9 @@ public class UpdateMemberUseCaseTest {
     @Mock
     private ImageService imageService;
 
+    @Mock
+    private MemberValidator memberValidator;
+
     private static final String NEW_NAME = "NewName";
     private static final String NEW_MOTTO = "NewMotto";
     private static final String NEW_HANDLE = "@update_handle";
@@ -66,7 +70,7 @@ public class UpdateMemberUseCaseTest {
     @Test
     void update_member_profile(){
         Member member = MemberFixture.member(passwordService);
-        UpdateProfileImageRequest request = UpdateProfileImageRequest.of(new MockMultipartFile("profile", "mock image data".getBytes()));
+        MockMultipartFile request = new MockMultipartFile("profile", "mock image data".getBytes());
         UpdateProfileImageResponse expected = UpdateProfileImageResponse.of(NEW_IMAGE_URL);
 
         doReturn(Optional.of(member)).when(memberRepository).findById(member.getId());
@@ -99,6 +103,7 @@ public class UpdateMemberUseCaseTest {
         Member member = MemberFixture.member(passwordService);
         UpdateHandleRequest request = UpdateHandleRequest.of(NEW_HANDLE);
         doReturn(Optional.of(member)).when(memberRepository).findById(member.getId());
+        doNothing().when(memberValidator).checkDuplicatedHandle(request.getHandle());
 
         sut.updateHandle(member.getId(), request);
         assertThat(member.getHandle().getHandle()).isEqualTo(NEW_HANDLE);

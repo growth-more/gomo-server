@@ -13,9 +13,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
-/** TODO <nurdy>
- * 세션 방식의 로그인 구현 후, AuditorAware 를 활용해서 createdBy와 lastModifiedBy에 값이 정상 주입되도록 구현해야 한다.
- */
 @Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)

@@ -1,28 +1,28 @@
 package com.gomo.app.interest.documentation;
 
-import static com.gomo.app.common.exception.DomainErrorCode.*;
-import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.*;
-import static org.springframework.http.HttpHeaders.*;
-import static org.springframework.http.HttpStatus.*;
-import static org.springframework.http.MediaType.*;
-
-import java.io.File;
-import java.io.IOException;
-
+import com.gomo.app.common.DocumentationTestBase;
+import com.gomo.app.interest.common.util.InterestDataHelper;
+import com.gomo.app.interest.documentation.snippet.CreateInterestSnippet;
+import com.gomo.app.interest.presentation.request.CreateInterestRequest;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import org.springframework.util.ResourceUtils;
 
-import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.interest.common.util.InterestDataHelper;
-import com.gomo.app.interest.documentation.snippet.CreateInterestSnippet;
-import com.gomo.app.interest.presentation.request.CreateInterestRequest;
+import java.io.File;
+import java.io.IOException;
+
+import static com.gomo.app.common.exception.DomainErrorCode.IMAGE_TOO_LARGE;
+import static com.gomo.app.common.exception.DomainErrorCode.INVALID_PARAMETER;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.*;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @DisplayName("[Presentation documentation]: 관심사 생성 테스트")
 public class CreateInterestDocumentationTest extends DocumentationTestBase {
@@ -35,16 +35,7 @@ public class CreateInterestDocumentationTest extends DocumentationTestBase {
 	private final RestDocumentationFilter errorFilter = CreateInterestSnippet.createError();
 
 	@Autowired
-	private LoginMemberHelper loginHelper;
-
-	@Autowired
 	private InterestDataHelper interestDataHelper;
-
-	@BeforeEach
-	public void setUp() {
-		// TODO <jhl221123>: 로그인 기능 구현 후, 로그인을 사용하는 문서화 테스트들의 수정이 필요하다.
-		// sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
-	}
 
 	@AfterEach
 	void tearDown() {
@@ -56,6 +47,7 @@ public class CreateInterestDocumentationTest extends DocumentationTestBase {
 	void create_interest() throws IOException {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, MULTIPART_FORM_DATA_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
 			.multiPart("request", CreateInterestRequest.of("interest name"), APPLICATION_JSON_VALUE)
 			.multiPart("logo", getImageFile(NORMAL_IMAGE_NAME))
 			.when()
@@ -70,6 +62,7 @@ public class CreateInterestDocumentationTest extends DocumentationTestBase {
 	void create_interest_with_invalid_name() throws IOException {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, MULTIPART_FORM_DATA_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
 			.multiPart("request", CreateInterestRequest.of(INVALID_INTEREST_NAME), APPLICATION_JSON_VALUE)
 			.multiPart("logo", getImageFile(NORMAL_IMAGE_NAME))
 			.when()
@@ -88,6 +81,7 @@ public class CreateInterestDocumentationTest extends DocumentationTestBase {
 	void create_interest_with_large_image() throws IOException {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, MULTIPART_FORM_DATA_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
 			.multiPart("request", CreateInterestRequest.of("interest name"), APPLICATION_JSON_VALUE)
 			.multiPart("logo", getImageFile(LARGE_IMAGE_NAME))
 			.when()

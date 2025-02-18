@@ -108,7 +108,7 @@ public class PasswordTest {
         Password password = Password.of(PASSWORD, passwordService);
 
         when(passwordService.encode("Updated123!")).thenReturn(ENCRYPTED_PASSWORD);
-        Password updatedPassword = password.update("Updated123!", PASSWORD, passwordService);
+        Password updatedPassword = password.update(PASSWORD,"Updated123!", passwordService);
 
         assertThat(updatedPassword.getPassword()).isEqualTo(ENCRYPTED_PASSWORD);
     }
@@ -120,7 +120,7 @@ public class PasswordTest {
         when(passwordService.matches(PASSWORD, ENCRYPTED_PASSWORD)).thenReturn(true);
         Password password = Password.of(PASSWORD, passwordService);
 
-        assertThatThrownBy(() -> password.update(null, PASSWORD, passwordService))
+        assertThatThrownBy(() -> password.update(PASSWORD, null, passwordService))
                 .isInstanceOf(PolicyViolationException.class)
                 .hasMessageContaining("password must not be blank");
     }
@@ -132,7 +132,7 @@ public class PasswordTest {
         when(passwordService.matches(PASSWORD, ENCRYPTED_PASSWORD)).thenReturn(true);
         Password password = Password.of(PASSWORD, passwordService);
 
-        assertThatThrownBy(() -> password.update(BLANK, PASSWORD, passwordService))
+        assertThatThrownBy(() -> password.update(PASSWORD, BLANK, passwordService))
                 .isInstanceOf(PolicyViolationException.class)
                 .hasMessageContaining("password must not be blank");
     }
@@ -143,7 +143,7 @@ public class PasswordTest {
         when(passwordService.encode(PASSWORD)).thenReturn(ENCRYPTED_PASSWORD);
         when(passwordService.matches(PASSWORD, ENCRYPTED_PASSWORD)).thenReturn(true);
         Password password = Password.of(PASSWORD, passwordService);
-        assertThatThrownBy(() -> password.update(TOO_SHORT_PASSWORD, PASSWORD, passwordService))
+        assertThatThrownBy(() -> password.update(PASSWORD, TOO_SHORT_PASSWORD, passwordService))
                 .isInstanceOf(PolicyViolationException.class)
                 .hasMessageContaining("password must at least 8 characters");
     }
@@ -155,7 +155,7 @@ public class PasswordTest {
         when(passwordService.matches(PASSWORD, ENCRYPTED_PASSWORD)).thenReturn(true);
         Password password = Password.of(PASSWORD, passwordService);
 
-        assertThatThrownBy(() -> password.update(TOO_LONG_PASSWORD, PASSWORD, passwordService))
+        assertThatThrownBy(() -> password.update(PASSWORD,TOO_LONG_PASSWORD, passwordService))
                 .isInstanceOf(PolicyViolationException.class)
                 .hasMessageContaining("password must not exceed 64 characters");
     }
@@ -167,7 +167,7 @@ public class PasswordTest {
         when(passwordService.matches(PASSWORD, ENCRYPTED_PASSWORD)).thenReturn(true);
         Password password = Password.of(PASSWORD, passwordService);
 
-        assertThatThrownBy(() -> password.update(FORBIDDEN_PASSWORD, PASSWORD, passwordService))
+        assertThatThrownBy(() -> password.update(PASSWORD, FORBIDDEN_PASSWORD, passwordService))
                 .isInstanceOf(PolicyViolationException.class)
                 .hasMessageContaining("password must comply with the password rules.");
     }
@@ -178,7 +178,7 @@ public class PasswordTest {
         when(passwordService.encode(PASSWORD)).thenReturn(ENCRYPTED_PASSWORD);
         when(passwordService.matches("WrongPassword!", ENCRYPTED_PASSWORD)).thenReturn(false);
         Password password = Password.of(PASSWORD, passwordService);
-        assertThatThrownBy(() -> password.update("Updated123!","WrongPassword!", passwordService))
+        assertThatThrownBy(() -> password.update("WrongPassword!", "Updated123!", passwordService))
                 .isInstanceOf(MemberAuthenticationFailedException.class)
                 .hasMessageContaining("password incorrect");
     }

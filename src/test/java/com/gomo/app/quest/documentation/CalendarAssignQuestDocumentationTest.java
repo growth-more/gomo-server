@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
@@ -26,9 +27,6 @@ public class CalendarAssignQuestDocumentationTest extends DocumentationTestBase 
 	private final RestDocumentationFilter filter = CalendarAssignQuestSnippet.create();
 
 	@Autowired
-	private LoginMemberHelper loginHelper;
-
-	@Autowired
 	private AssignQuestDataProvider assignQuestDataProvider;
 	private AssignQuest dailyQuest;
 	private AssignQuest weeklyQuest;
@@ -36,7 +34,6 @@ public class CalendarAssignQuestDocumentationTest extends DocumentationTestBase 
 
 	@BeforeEach
 	public void setUp() {
-		// sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
 		dailyQuest = assignQuestDataProvider.dailyParticipatingQuest();
 		weeklyQuest = assignQuestDataProvider.weeklyParticipatingQuest();
 		monthlyQuest = assignQuestDataProvider.monthlyParticipatingQuest();
@@ -47,6 +44,7 @@ public class CalendarAssignQuestDocumentationTest extends DocumentationTestBase 
 	void calendar_assign_quest() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
 			.param("year", LocalDate.now().getYear())
 			.param("month", LocalDate.now().getMonth().getValue())
 			.when()

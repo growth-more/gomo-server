@@ -41,14 +41,13 @@ public class UpdateQuestPropertyUseCaseTest {
     void update_quest_property_successfully(){
         Member member = MemberFixture.member(passwordService);
         UpdateQuestPropertyRequest request = UpdateQuestPropertyRequest.of(DAILY_THRESHOLD, WEEKLY_THRESHOLD, MONTHLY_THRESHOLD);
-
+        QuestProperty expected = request.toDomain();
         doReturn(Optional.of(member)).when(memberRepository).findById(member.getId());
 
         sut.update(member.getId(),request);
 
-        QuestProperty updatedQuestProperty = member.getQuestProperty();
-        assertThat(updatedQuestProperty.getDailyThreshold()).isEqualTo(DAILY_THRESHOLD);
-        assertThat(updatedQuestProperty.getWeeklyThreshold()).isEqualTo(WEEKLY_THRESHOLD);
-        assertThat(updatedQuestProperty.getMonthlyThreshold()).isEqualTo(MONTHLY_THRESHOLD);
+        QuestProperty actual = member.getQuestProperty();
+
+        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 }

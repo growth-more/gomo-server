@@ -1,12 +1,11 @@
 package com.gomo.app.interest.documentation.snippet;
 
-import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.*;
-
-import org.springframework.restdocs.restassured.RestDocumentationFilter;
-
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
 import com.gomo.app.common.constant.ErrorResponseFields;
+import org.springframework.restdocs.restassured.RestDocumentationFilter;
+
+import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.document;
 
 public class DeleteInterestRelationSnippet {
 

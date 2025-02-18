@@ -52,7 +52,7 @@ public class Email {
 
     private void ensureValidEmailRule(String email){
         if (!EMAIL_RULES.matcher(email).matches()){
-            throw new PolicyViolationException(INVALID_PARAMETER,"Email should be in valid format");
+            throw new PolicyViolationException(INVALID_PARAMETER,"Email should be invalid format");
         }
     }
 

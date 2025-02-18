@@ -24,6 +24,6 @@ public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
                                   NativeWebRequest webRequest,
                                   WebDataBinderFactory binderFactory){
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
-        return MemberId.of(UUID.fromString((String)request.getAttribute("memberId")));
+        return AuthInfo.of(UUID.fromString((String)request.getAttribute("memberId")));
     }
 }

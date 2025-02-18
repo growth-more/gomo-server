@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
@@ -25,9 +26,6 @@ public class DeleteRepeatQuestDocumentationTest extends DocumentationTestBase {
 	private final RestDocumentationFilter filter = DeleteRepeatQuestSnippet.create();
 
 	@Autowired
-	private LoginMemberHelper loginHelper;
-
-	@Autowired
 	private RepeatQuestDataHelper repeatQuestDataHelper;
 
 	@Autowired
@@ -36,7 +34,6 @@ public class DeleteRepeatQuestDocumentationTest extends DocumentationTestBase {
 
 	@BeforeEach
 	public void setUp() {
-		// sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
 		repeatQuest = repeatQuestDataProvider.firstOrderDaily();
 	}
 
@@ -50,6 +47,7 @@ public class DeleteRepeatQuestDocumentationTest extends DocumentationTestBase {
 	void delete_repeat_quest() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
 			.when()
 			.delete("/quests/repeats/{id}", repeatQuest.getId().getId())
 			.then()

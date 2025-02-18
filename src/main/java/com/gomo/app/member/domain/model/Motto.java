@@ -49,7 +49,7 @@ public class Motto {
 
     private void ensureValidMottoRules(String motto){
         if(!VALID_MOTTO_PATTERN.matcher(motto).matches()){
-            throw new PolicyViolationException(INVALID_PARAMETER, "Motto must comply with the password rules.");
+            throw new PolicyViolationException(INVALID_PARAMETER, "Motto must comply with the motto rules");
         }
     }
 

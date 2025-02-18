@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
@@ -31,9 +32,6 @@ public class CreateRepeatQuestDocumentationTest extends DocumentationTestBase {
 	private final RestDocumentationFilter errorFilter = CreateRepeatQuestSnippet.createError();
 
 	@Autowired
-	private LoginMemberHelper loginHelper;
-
-	@Autowired
 	private RepeatQuestDataHelper repeatQuestDataHelper;
 
 	@Autowired
@@ -42,7 +40,6 @@ public class CreateRepeatQuestDocumentationTest extends DocumentationTestBase {
 
 	@BeforeEach
 	public void setUp() {
-		// sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
 		subject = interestDataProvider.backend();
 	}
 
@@ -56,6 +53,7 @@ public class CreateRepeatQuestDocumentationTest extends DocumentationTestBase {
 	void create_repeat_quest() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
 			.body(CreateRepeatQuestRequest.of(
 				subject.getId().getId(),
 				"subject name",
@@ -73,6 +71,7 @@ public class CreateRepeatQuestDocumentationTest extends DocumentationTestBase {
 	void create_repeat_quest_invalid_quest_content() {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
 			.body(CreateRepeatQuestRequest.of(
 				subject.getId().getId(),
 				"subject name",
@@ -94,6 +93,7 @@ public class CreateRepeatQuestDocumentationTest extends DocumentationTestBase {
 	void create_repeat_quest_exceeding_threshold() {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
 			.body(CreateRepeatQuestRequest.of(
 				subject.getId().getId(),
 				"subject name",

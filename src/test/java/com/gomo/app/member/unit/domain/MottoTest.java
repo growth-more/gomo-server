@@ -37,7 +37,7 @@ public class MottoTest {
     void create_motto_with_forbidden_characters(){
         assertThatThrownBy(() -> Motto.of(FORBIDDEN_MOTTO))
             .isInstanceOf(PolicyViolationException.class)
-                .hasMessageContaining("Motto must comply with the password rules.");
+                .hasMessageContaining("Motto must comply with the motto rules");
     }
 
     @DisplayName("모토를 수정한다.")
@@ -66,7 +66,7 @@ public class MottoTest {
 
         assertThatThrownBy(() -> motto.update(FORBIDDEN_MOTTO))
                 .isInstanceOf(PolicyViolationException.class)
-                .hasMessageContaining("Motto must comply with the password rules.");
+                .hasMessageContaining("Motto must comply with the motto rules");
     }
 
     @DisplayName("동일한 내용으로 수정할 수 없다.")

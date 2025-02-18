@@ -63,8 +63,6 @@ public class ImageService {
 		}
 	}
 
-
-
 	@NotNull
 	private static String generateUniqueFileName(MultipartFile file) {
 		String uuid = UUID.randomUUID().toString();

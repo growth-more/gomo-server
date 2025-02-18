@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
@@ -24,15 +25,11 @@ public class ReadBalanceDocumentationTest extends DocumentationTestBase {
 	private final RestDocumentationFilter filter = ReadBalanceSnippet.create();
 
 	@Autowired
-	private LoginMemberHelper loginHelper;
-
-	@Autowired
 	private PointWalletDataProvider pointWalletDataProvider;
 	private PointWallet pointWallet;
 
 	@BeforeEach
 	public void setUp() {
-		// sessionId = loginHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
 		pointWallet = pointWalletDataProvider.pointWallet();
 	}
 
@@ -41,6 +38,7 @@ public class ReadBalanceDocumentationTest extends DocumentationTestBase {
 	void history_point() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
 			.when()
 			.get("/points/balances")
 			.then()

@@ -28,7 +28,8 @@ public class RefreshAccessTokenUseCase {
         MemberId memberId = MemberId.of(UUID.fromString(jwtUtil.extractMemberId(refreshToken)));
 
         String storedRefreshToken = jwtSessionRedisService.getRefreshToken(memberId);
-        if(storedRefreshToken.equals(refreshToken)){
+
+        if(!storedRefreshToken.equals(refreshToken)){
             throw new MemberAuthenticationFailedException(AUTHENTICATION_FAILED, "Member Authentication failed");
         }
 

@@ -56,5 +56,4 @@ public class QuestProperty {
 	) {
 		return new QuestProperty(dailyThreshold, weeklyThreshold, monthlyThreshold);
 	}
-
 }

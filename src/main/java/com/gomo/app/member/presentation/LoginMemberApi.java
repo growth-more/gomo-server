@@ -1,24 +1,20 @@
 package com.gomo.app.member.presentation;
 
 import com.gomo.app.common.authentication.Auth;
+import com.gomo.app.common.authentication.AuthInfo;
+import com.gomo.app.common.presentation.Presentation;
+import com.gomo.app.member.application.LoginMemberUseCase;
 import com.gomo.app.member.application.LogoutMemberUseCase;
 import com.gomo.app.member.application.RefreshAccessTokenUseCase;
-import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.model.MemberId;
-import com.gomo.app.member.presentation.request.RefreshAccessTokenRequest;
+import com.gomo.app.member.presentation.request.LoginMemberRequest;
+import com.gomo.app.member.presentation.response.LoginMemberResponse;
 import com.gomo.app.member.presentation.response.TokenResponse;
-import org.antlr.v4.runtime.Token;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import com.gomo.app.common.presentation.Presentation;
-import com.gomo.app.member.application.LoginMemberUseCase;
-import com.gomo.app.member.presentation.request.LoginMemberRequest;
-import com.gomo.app.member.presentation.response.LoginMemberResponse;
-
-import lombok.RequiredArgsConstructor;
 
 import java.time.Duration;
 
@@ -52,8 +48,8 @@ public class LoginMemberApi {
 	}
 
 	@GetMapping("/logout")
-	public ResponseEntity<Void> logout(@Auth MemberId memberId){
-		logoutMemberUseCase.logout(memberId);
+	public ResponseEntity<Void> logout(@Auth AuthInfo authInfo){
+		logoutMemberUseCase.logout(MemberId.of(authInfo.getMemberId()));
 		ResponseCookie cookie = deleteRefreshTokenCookie();
 
 		return ResponseEntity.ok()

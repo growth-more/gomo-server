@@ -2,8 +2,11 @@ package com.gomo.app.member.domain.model;
 
 import com.gomo.app.common.domain.ValueObject;
 
+import com.gomo.app.common.exception.PolicyViolationException;
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
+
+import static com.gomo.app.common.exception.DomainErrorCode.INVALID_PARAMETER;
 
 @Getter
 @Embeddable
@@ -20,6 +23,7 @@ public class DailyThreshold {
 	}
 
 	private DailyThreshold(int threshold) {
+		isValidSize(threshold);
 		this.threshold = threshold;
 	}
 
@@ -32,15 +36,13 @@ public class DailyThreshold {
 	}
 
 	public DailyThreshold update(int threshold) {
-		if (isValidSize()) {
-			return DailyThreshold.of(threshold);
-		}
-
-		throw new IllegalArgumentException("Threshold limit exceeded. Maximum threshold is " + MAXIMUM_THRESHOLD + ", but: " + threshold);
+		return DailyThreshold.of(threshold);
 	}
 
-	private boolean isValidSize() {
-		return threshold >= MINIMUM_THRESHOLD && threshold <= MAXIMUM_THRESHOLD;
+	private void isValidSize(int threshold) {
+		if(threshold < MINIMUM_THRESHOLD || threshold > MAXIMUM_THRESHOLD){
+			throw new PolicyViolationException(INVALID_PARAMETER ,"Invalid threshold range");
+		}
 	}
 
 	@Override

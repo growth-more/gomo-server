@@ -32,6 +32,7 @@ public class UpdateQuestPropertyRequest {
 	}
 
 	public QuestProperty toDomain(){
-		return QuestProperty.update(DailyThreshold.of(dailyThreshold), WeeklyThreshold.of(weeklyThreshold), MonthlyThreshold.of(monthlyThreshold));
+		QuestProperty property = QuestProperty.createDefault();
+		return QuestProperty.update(property.getDailyThreshold().update(dailyThreshold), property.getWeeklyThreshold().update(weeklyThreshold), property.getMonthlyThreshold().update(monthlyThreshold));
 	}
 }

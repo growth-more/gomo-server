@@ -3,7 +3,9 @@ package com.gomo.app.member.documentation;
 import static com.gomo.app.common.exception.DomainErrorCode.*;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
+import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.MediaType.*;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +23,7 @@ import com.gomo.app.member.documentation.snippet.UpdateMemberInfoSnippet;
 import com.gomo.app.member.presentation.request.UpdateMemberRequest;
 import com.gomo.app.member.presentation.request.UpdatePasswordRequest;
 
+@DisplayName("[Presentation documentation]: 회원 기본 정보 수정 테스트")
 public class UpdateMemberInfoDocumentationTest extends DocumentationTestBase {
 
 	private static final String MEMBER_URL = "/members";
@@ -30,7 +33,10 @@ public class UpdateMemberInfoDocumentationTest extends DocumentationTestBase {
 	private final RestDocumentationFilter filter = UpdateMemberInfoSnippet.create();
 	private final RestDocumentationFilter errorFilter = UpdateMemberInfoSnippet.createError();
 
-	private String sessionId;
+	private static final String EMAIL = "gomotest@naver.com";
+	private static final String PASSWORD = "Gomotest1234@";
+
+	private String token;
 
 	@Autowired
 	LoginMemberHelper loginMemberHelper;
@@ -40,7 +46,7 @@ public class UpdateMemberInfoDocumentationTest extends DocumentationTestBase {
 
 	@BeforeEach
 	public void setUp() {
-		sessionId = loginMemberHelper.getSessionId(TestMemberFixture.email(), TestMemberFixture.password());
+		token = loginMemberHelper.getAccessToken(EMAIL, PASSWORD);
 	}
 
 	@AfterEach
@@ -52,22 +58,22 @@ public class UpdateMemberInfoDocumentationTest extends DocumentationTestBase {
 	@Test
 	void update_member_name_and_motto() {
 		given(this.specification).filter(filter)
-			.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-			.sessionId(sessionId)
-			.body(UpdateMemberRequest.of(NonExistMemberField.NAME, NonExistMemberField.MOTTO))
+			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
+			.body(UpdateMemberRequest.of("GOMO4","GOMOTEST.."))
 			.when()
 			.put(MEMBER_URL)
 			.then()
-			.statusCode(OK.value());
+			.statusCode(NO_CONTENT.value());
 	}
 
 	@DisplayName("사용자가 잘못된 이름으로 개인 정보를 변경한다.")
 	@Test
 	void update_member_info_with_invalid_name() {
 		given(this.specification).filter(errorFilter)
-			.header("Content-type", "application/json")
-			.sessionId(sessionId)
-			.body(UpdatePasswordRequest.of(INVALID_NAME, NonExistMemberField.MOTTO))
+			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
+			.body(UpdateMemberRequest.of(INVALID_NAME, "GOMOTEST.."))
 			.when()
 			.put(MEMBER_URL)
 			.then()
@@ -75,7 +81,7 @@ public class UpdateMemberInfoDocumentationTest extends DocumentationTestBase {
 			.body("timestamp", instanceOf(String.class))
 			.body("httpStatus", equalTo(INVALID_PARAMETER.getHttpStatus()))
 			.body("code", equalTo(INVALID_PARAMETER.name()))
-			.body("message", equalTo("Invalid parameter: " + INVALID_NAME))
+			.body("message", equalTo("name must contain only letters and numbers"))
 			.body("path", equalTo(MEMBER_URL));
 	}
 
@@ -83,9 +89,9 @@ public class UpdateMemberInfoDocumentationTest extends DocumentationTestBase {
 	@Test
 	void update_member_info_with_invalid_motto() {
 		given(this.specification).filter(errorFilter)
-			.header("Content-type", "application/json")
-			.sessionId(sessionId)
-			.body(UpdatePasswordRequest.of(NonExistMemberField.NAME, INVALID_MOTTO))
+			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.header(AUTHORIZATION, "Bearer " + token)
+			.body(UpdateMemberRequest.of("GOMO4", INVALID_MOTTO))
 			.when()
 			.put(MEMBER_URL)
 			.then()
@@ -93,7 +99,7 @@ public class UpdateMemberInfoDocumentationTest extends DocumentationTestBase {
 			.body("timestamp", instanceOf(String.class))
 			.body("httpStatus", equalTo(INVALID_PARAMETER.getHttpStatus()))
 			.body("code", equalTo(INVALID_PARAMETER.name()))
-			.body("message", equalTo("Invalid parameter: " + INVALID_MOTTO))
+			.body("message", equalTo("Motto must comply with the motto rules"))
 			.body("path", equalTo(MEMBER_URL));
 	}
 }

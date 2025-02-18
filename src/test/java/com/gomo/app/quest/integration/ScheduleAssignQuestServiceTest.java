@@ -37,6 +37,6 @@ public class ScheduleAssignQuestServiceTest extends IntegrationTestBase {
 		sut.createParticipatingQuestOfAllActiveMember();
 
 		List<AssignQuest> all = assignQuestRepository.findAll();
-		Assertions.assertThat(all.size()).isEqualTo(28);
+		Assertions.assertThat(all.size()).isEqualTo(43);
 	}
 }
