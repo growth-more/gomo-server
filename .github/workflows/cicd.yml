@@ -33,13 +33,13 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew clean build -x test
+        run: ./gradlew clean build
 
-#      - name: Save Build Artifacts
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: build-output
-#          path: build/libs/*.jar
+      - name: Save Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: build/libs/*.jar
 
   deploy:
     needs: build
@@ -56,7 +56,7 @@ jobs:
 
       - name: Transfer application, configuration & Docker Compose files to Server
         run: |
-          scp -i oci_key.key -o StrictHostKeyChecking=no ./build/libs/*.jar ${{ secrets.OCI_USER }}@${{ secrets.OCI_HOST }}:/home/${{ secrets.OCI_USER }}/project/gomo/gomo-app.jar
+          scp -i oci_key.key -o StrictHostKeyChecking=no build/libs/*.jar ${{ secrets.OCI_USER }}@${{ secrets.OCI_HOST }}:/home/${{ secrets.OCI_USER }}/project/gomo/gomo-app.jar
 #          scp -i oci_key.key -o StrictHostKeyChecking=no docker-compose.yml ${{ secrets.OCI_USER }}@${{ secrets.OCI_HOST }}:/home/${{ secrets.OCI_USER }}/docker-compose.yml
 
 #      - name: Deploy
