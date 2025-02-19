@@ -29,7 +29,7 @@ jobs:
                     },
                     {
                       "name": "Reviewers",
-                      "value": "${{ github.event.pull_request.requested_reviewers }}",
+                      "value": "${{ github.event.pull_request.requested_reviewers != '' && github.event.pull_request.requested_reviewers[0].login || '없음' }}${{ github.event.pull_request.requested_reviewers[1] && format(' 외 {0}명', github.event.pull_request.requested_reviewers | length - 1) || '' }}"
                       "inline": true
                     }
                   ]
