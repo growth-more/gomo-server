@@ -35,7 +35,7 @@ public class CreateMemberUseCase {
         UUID pointwallet_uuid = UUIDGenerator.generate();
         PointWalletId pointWalletId = PointWalletId.of(pointwallet_uuid);
         PointWallet pointWallet = PointWallet.createDefault(pointWalletId, TransactorId.of(member.getId().getId()));
-
+        PointWallet savedWallet = pointWalletRepository.save(pointWallet);
 
         return CreateMemberResponse.of(savedMember.getId());
     }
