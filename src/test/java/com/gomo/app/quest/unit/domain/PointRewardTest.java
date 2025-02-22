@@ -13,7 +13,7 @@ public class PointRewardTest {
 	@DisplayName("포인트 보상을 생성한다.")
 	@Test
 	void create_point_reward() {
-		PointReward pointReward = PointReward.of(10, 1L);
+		PointReward pointReward = PointReward.of(10);
 
 		assertThat(pointReward.getAmount()).isEqualTo(10);
 	}

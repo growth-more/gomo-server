@@ -13,7 +13,7 @@ public class ScoreRewardTest {
 	@DisplayName("숙련도 점수 보상을 생성한다.")
 	@Test
 	void create_score_reward() {
-		ScoreReward scoreReward = ScoreReward.of(2, 1L);
+		ScoreReward scoreReward = ScoreReward.of(2);
 
 		assertThat(scoreReward.getScore()).isEqualTo(2);
 	}

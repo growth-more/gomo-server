@@ -20,8 +20,8 @@ public class QuestRewardTest {
 	void create_quest_reward() {
 		QuestReward questReward = QuestReward.of(
 			AssignQuestId.of(UUID.randomUUID()),
-			ScoreReward.of(2, 1L),
-			PointReward.of(10, 1L)
+			ScoreReward.of(2),
+			PointReward.of(10)
 		);
 
 		assertThat(questReward.getScoreReward().getScore()).isEqualTo(2);

@@ -12,11 +12,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.common.event.Events;
+import com.gomo.app.common.event.EventEntryRepository;
 import com.gomo.app.quest.application.CompleteAssignQuestUseCase;
 import com.gomo.app.quest.common.fixture.AssignQuestFixture;
 import com.gomo.app.quest.domain.model.AssignQuest;
@@ -26,9 +24,6 @@ import com.gomo.app.quest.domain.model.QuestReward;
 import com.gomo.app.quest.domain.model.ScoreReward;
 import com.gomo.app.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.quest.domain.service.QuestRewardService;
-import com.gomo.app.quest.event.PointQuestCompletedEvent;
-import com.gomo.app.quest.event.ScoreQuestCompletedEvent;
-import com.gomo.app.quest.event.StreakQuestCompletedEvent;
 import com.gomo.app.quest.exception.AssignQuestAccessDeniedException;
 import com.gomo.app.quest.presentation.request.CompleteAssignQuestRequest;
 
@@ -45,22 +40,20 @@ public class CompleteAssignQuestUseCaseTest {
 	@Mock
 	private AssignQuestRepository assignQuestRepository;
 
+	@Mock
+	private EventEntryRepository eventEntryRepository;
+
 	@DisplayName("할당 퀘스트를 완료한다.")
 	@Test
 	void complete_assign_quest() {
 		AssignQuest assignQuest = AssignQuestFixture.assignQuest(true);
-		doReturn(Optional.of(assignQuest)).when(assignQuestRepository).findById(any(AssignQuestId.class));
-		doReturn(QuestReward.of(assignQuest.getId(), ScoreReward.of(2, 1L), PointReward.of(10, 1L))).when(questRewardService).create(any(), any());
+		doReturn(Optional.of(assignQuest)).when(assignQuestRepository).findById(any());
+		doReturn(QuestReward.of(assignQuest.getId(), ScoreReward.of(2), PointReward.of(10))).when(questRewardService).create(any(), any());
 
-		try (MockedStatic<Events> mockedEvents = mockStatic(Events.class)) {
-			sut.complete(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID()), createRequest());
-
-			mockedEvents.verify(() -> Events.raise(any(ScoreQuestCompletedEvent.class)), times(1));
-			mockedEvents.verify(() -> Events.raise(any(PointQuestCompletedEvent.class)), times(1));
-			mockedEvents.verify(() -> Events.raise(any(StreakQuestCompletedEvent.class)), times(1));
-		}
+		sut.complete(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID()), createRequest());
 
 		assertThat(assignQuest.isCompleted()).isTrue();
+		verify(eventEntryRepository, times(1)).saveAll(any());
 	}
 
 	@DisplayName("퀘스트 참여자가 아니면 할당 퀘스트를 완료할 수 없다.")
@@ -80,15 +73,11 @@ public class CompleteAssignQuestUseCaseTest {
 	void complete_assign_quest_with_event() {
 		AssignQuest assignQuest = AssignQuestFixture.assignQuest(true);
 		doReturn(Optional.of(assignQuest)).when(assignQuestRepository).findById(any());
-		doReturn(QuestReward.of(assignQuest.getId(), ScoreReward.of(2, 1L), PointReward.of(10, 1L))).when(questRewardService).create(any(), any());
+		doReturn(QuestReward.of(assignQuest.getId(), ScoreReward.of(2), PointReward.of(10))).when(questRewardService).create(any(), any());
 
-		try (MockedStatic<Events> mockedEvents = Mockito.mockStatic(Events.class)) {
-			sut.complete(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID()), createRequest());
+		sut.complete(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID()), createRequest());
 
-			mockedEvents.verify(() -> Events.raise(any(ScoreQuestCompletedEvent.class)), times(1));
-			mockedEvents.verify(() -> Events.raise(any(PointQuestCompletedEvent.class)), times(1));
-			mockedEvents.verify(() -> Events.raise(any(StreakQuestCompletedEvent.class)), times(1));
-		}
+		verify(eventEntryRepository, times(1)).saveAll(any());
 	}
 
 	private static @NotNull CompleteAssignQuestRequest createRequest() {
