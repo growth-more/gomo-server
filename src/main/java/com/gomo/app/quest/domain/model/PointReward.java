@@ -11,22 +11,14 @@ import lombok.Getter;
 public class PointReward {
 
 	private int amount;
-	private long traceId;
 
 	protected PointReward() {}
 
-	private PointReward(
-		int amount,
-		long traceId
-	) {
+	private PointReward(int amount) {
 		this.amount = amount;
-		this.traceId = traceId;
 	}
 
-	public static PointReward of(
-		int amount,
-		long traceId
-	) {
-		return new PointReward(amount, traceId);
+	public static PointReward of(int amount) {
+		return new PointReward(amount);
 	}
 }

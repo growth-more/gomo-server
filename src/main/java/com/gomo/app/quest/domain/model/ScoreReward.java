@@ -11,22 +11,14 @@ import lombok.Getter;
 public class ScoreReward {
 
 	private int score;
-	private long traceId;
 
 	protected ScoreReward() {}
 
-	private ScoreReward(
-		int score,
-		long traceId
-	) {
+	private ScoreReward(int score) {
 		this.score = score;
-		this.traceId = traceId;
 	}
 
-	public static ScoreReward of(
-		int score,
-		long traceId
-	) {
-		return new ScoreReward(score, traceId);
+	public static ScoreReward of(int score) {
+		return new ScoreReward(score);
 	}
 }
