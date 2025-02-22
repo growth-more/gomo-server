@@ -7,10 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.springframework.orm.ObjectOptimisticLockingFailureException;
-import org.springframework.retry.annotation.Backoff;
-import org.springframework.retry.annotation.Recover;
-import org.springframework.retry.annotation.Retryable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.domain.service.DomainService;
@@ -21,8 +17,6 @@ import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.InterestRelation;
 import com.gomo.app.interest.domain.repository.InterestRelationRepository;
 import com.gomo.app.interest.domain.repository.InterestRepository;
-import com.gomo.app.interest.exception.InterestErrorCode;
-import com.gomo.app.interest.exception.ProficiencyAdjustFailureException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -35,10 +29,6 @@ public class ProficiencyService {
 	private final InterestRelationRepository interestRelationRepository;
 
 	@Transactional
-	@Retryable(
-		value = ObjectOptimisticLockingFailureException.class,
-		backoff = @Backoff(delay = 100)
-	)
 	public void adjust(InterestId interestId, int deltaTotalScore) {
 		int[] totalScoreForLevel = scoreThresholdPolicyService.getTotalScoreForLevel();
 		int[] scoreThresholdForLevel = scoreThresholdPolicyService.getScoreThresholdPolicy();
@@ -109,10 +99,5 @@ public class ProficiencyService {
 	private Interest findInterest(InterestId interestId) {
 		return interestRepository.findById(interestId)
 			.orElseThrow(() -> new NotFoundException(DomainErrorCode.NOT_FOUND, "Interest not found with id: " + interestId));
-	}
-
-	@Recover
-	protected void handleOptimisticLockingFailure(ObjectOptimisticLockingFailureException e) {
-		throw new ProficiencyAdjustFailureException(InterestErrorCode.PROFICIENCY_ENHANCEMENT_CONFLICT, e);
 	}
 }

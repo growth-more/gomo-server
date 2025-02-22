@@ -3,10 +3,6 @@ package com.gomo.app.streak.domain.service;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.orm.ObjectOptimisticLockingFailureException;
-import org.springframework.retry.annotation.Backoff;
-import org.springframework.retry.annotation.Recover;
-import org.springframework.retry.annotation.Retryable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.domain.service.DomainService;
@@ -14,8 +10,6 @@ import com.gomo.app.streak.domain.model.AchieverId;
 import com.gomo.app.streak.domain.model.Streak;
 import com.gomo.app.streak.domain.model.StreakType;
 import com.gomo.app.streak.domain.repository.StreakRepository;
-import com.gomo.app.streak.exception.StreakErrorCode;
-import com.gomo.app.streak.exception.StreakUpdateFailureException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,10 +22,6 @@ public class StreakService {
 	private final StreakRepository streakRepository;
 
 	@Transactional
-	@Retryable(
-		value = ObjectOptimisticLockingFailureException.class,
-		backoff = @Backoff(delay = 100)
-	)
 	public Streak fill(Streak streak) {
 		return streakRepository.findByAchieverIdAndStreakTypeAndFilledDate(streak.getAchieverId(), streak.getStreakType(), streak.getFilledDate())
 			.map(existingStreak -> {
@@ -47,10 +37,5 @@ public class StreakService {
 
 	private Streak createInitialStreak(Streak streak) {
 		return streakRepository.save(streak);
-	}
-
-	@Recover
-	protected Streak handleOptimisticLockingFailure(ObjectOptimisticLockingFailureException e) {
-		throw new StreakUpdateFailureException(StreakErrorCode.UPDATE_CONFLICT, e);
 	}
 }
