@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://gomo.nurdykim.me"
+      "url": "http://localhost:8080"
     }
   ],
   "tags": [],
