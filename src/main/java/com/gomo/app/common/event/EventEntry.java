@@ -1,7 +1,7 @@
 package com.gomo.app.common.event;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gomo.app.common.util.JsonParser;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -30,9 +30,7 @@ public class EventEntry {
 
 	public EventEntry(String eventEntry) {
 		try {
-			ObjectMapper objectMapper = new ObjectMapper();
-			JsonNode jsonNode = objectMapper.readTree(eventEntry);
-
+			JsonNode jsonNode = JsonParser.parseNode(eventEntry);
 			this.id = jsonNode.has("id") ? jsonNode.get("id").asLong() : null;
 			this.eventType = jsonNode.get("eventType").asText();
 			this.eventStatus = EventStatus.valueOf(jsonNode.get("eventStatus").asText());

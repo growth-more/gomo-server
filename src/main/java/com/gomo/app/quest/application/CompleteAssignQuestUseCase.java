@@ -12,6 +12,7 @@ import com.gomo.app.common.event.EventEntry;
 import com.gomo.app.common.event.EventEntryRepository;
 import com.gomo.app.common.exception.DomainErrorCode;
 import com.gomo.app.common.exception.NotFoundException;
+import com.gomo.app.common.util.JsonParser;
 import com.gomo.app.common.util.TimestampGenerator;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.AssignQuestId;
@@ -66,7 +67,7 @@ public class CompleteAssignQuestUseCase {
 			assignQuest.getCompletedDateTime(),
 			completedTime
 		);
-		return EventEntry.of(streakEvent.getClass().getSimpleName(), streakEvent.toJson(), completedTime);
+		return EventEntry.of(streakEvent.getClass().getSimpleName(), JsonParser.toJson(streakEvent), completedTime);
 	}
 
 	@NotNull
@@ -76,7 +77,7 @@ public class CompleteAssignQuestUseCase {
 			questReward.getPointReward(),
 			completedTime
 		);
-		return EventEntry.of(pointEvent.getClass().getSimpleName(), pointEvent.toJson(), completedTime);
+		return EventEntry.of(pointEvent.getClass().getSimpleName(), JsonParser.toJson(pointEvent), completedTime);
 	}
 
 	@NotNull
@@ -87,6 +88,6 @@ public class CompleteAssignQuestUseCase {
 			questReward.getScoreReward(),
 			completedTime
 		);
-		return EventEntry.of(scoreEvent.getClass().getSimpleName(), scoreEvent.toJson(), completedTime);
+		return EventEntry.of(scoreEvent.getClass().getSimpleName(), JsonParser.toJson(scoreEvent), completedTime);
 	}
 }
