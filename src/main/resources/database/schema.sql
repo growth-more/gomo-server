@@ -208,15 +208,15 @@ CREATE TABLE event_entry (
 
 CREATE TABLE score_quest_completed_success_event (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    event_id BIGINT NOT NULL
+    event_entry_id BIGINT NOT NULL
 );
 
 CREATE TABLE streak_quest_completed_success_event (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    event_id BIGINT NOT NULL
+    event_entry_id BIGINT NOT NULL
 );
 
 CREATE TABLE point_quest_completed_success_event (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    event_id BIGINT NOT NULL
+    event_entry_id BIGINT NOT NULL
 );
