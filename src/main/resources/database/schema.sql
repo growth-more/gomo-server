@@ -1,21 +1,25 @@
-drop table if exists member;
-drop table if exists survey_question;
-drop table if exists survey_item;
-drop table if exists survey_result;
-drop table if exists interest;
-drop table if exists interest_relation;
-drop table if exists major_interest;
-drop table if exists score_threshold_policy;
-drop table if exists streak;
-drop table if exists repeat_quest;
-drop table if exists assign_quest;
-drop table if exists quest_score_policy;
-drop table if exists quest_point_policy;
-drop table if exists point;
-drop table if exists point_wallet;
+DROP TABLE IF EXISTS member;
+DROP TABLE IF EXISTS survey_question;
+DROP TABLE IF EXISTS survey_item;
+DROP TABLE IF EXISTS survey_result;
+DROP TABLE IF EXISTS interest;
+DROP TABLE IF EXISTS interest_relation;
+DROP TABLE IF EXISTS major_interest;
+DROP TABLE IF EXISTS score_threshold_policy;
+DROP TABLE IF EXISTS streak;
+DROP TABLE IF EXISTS repeat_quest;
+DROP TABLE IF EXISTS assign_quest;
+DROP TABLE IF EXISTS quest_score_policy;
+DROP TABLE IF EXISTS quest_point_policy;
+DROP TABLE IF EXISTS point;
+DROP TABLE IF EXISTS point_wallet;
+DROP TABLE IF EXISTS event_entry;
+DROP TABLE IF EXISTS score_quest_completed_success_event;
+DROP TABLE IF EXISTS streak_quest_completed_success_event;
+DROP TABLE IF EXISTS point_quest_completed_success_event;
 
 CREATE TABLE member (
-    id binary(16) NOT NULL PRIMARY KEY,
+    id BINARY(16) NOT NULL PRIMARY KEY,
     email VARCHAR(255) UNIQUE,
     password VARCHAR(255),
     profile_image_url VARCHAR(512),
@@ -33,46 +37,46 @@ CREATE TABLE member (
     sign_up_date_time DATETIME(6),
     last_login_date_time DATETIME(6),
     created_at DATETIME(6),
-    created_by varchar(255),
+    created_by VARCHAR(255),
     last_modified_at DATETIME(6),
-    last_modified_by varchar(255),
+    last_modified_by VARCHAR(255),
     deleted_at DATETIME(6)
 );
 
 CREATE TABLE survey_question (
-    id binary(16) NOT NULL PRIMARY KEY,
+    id BINARY(16) NOT NULL PRIMARY KEY,
     question_select_type VARCHAR(50),
     is_required TINYINT(1),
     content VARCHAR(255),
     display_order INT,
     created_at DATETIME(6),
-    created_by varchar(255),
+    created_by VARCHAR(255),
     last_modified_at DATETIME(6),
-    last_modified_by varchar(255)
+    last_modified_by VARCHAR(255)
 );
 
 CREATE TABLE survey_item (
-    id binary(16) NOT NULL PRIMARY KEY,
-    survey_question_id binary(16),
+    id BINARY(16) NOT NULL PRIMARY KEY,
+    survey_question_id BINARY(16),
     content VARCHAR(255),
     display_order INT,
     created_at DATETIME(6),
-    created_by varchar(255),
+    created_by VARCHAR(255),
     last_modified_at DATETIME(6),
-    last_modified_by varchar(255)
+    last_modified_by VARCHAR(255)
 );
 
 CREATE TABLE survey_result (
-    respondent_id binary(16),
-    survey_question_id binary(16),
-    survey_item_id binary(16),
-    survey_item_content varchar(255),
-    custom_answer varchar(255)
+    respondent_id BINARY(16),
+    survey_question_id BINARY(16),
+    survey_item_id BINARY(16),
+    survey_item_content VARCHAR(255),
+    custom_answer VARCHAR(255)
 );
 
 CREATE TABLE interest (
-    id binary(16) NOT NULL PRIMARY KEY,
-    registrant_id binary(16),
+    id BINARY(16) NOT NULL PRIMARY KEY,
+    registrant_id BINARY(16),
     level INT,
     score INT,
     score_threshold INT,
@@ -81,31 +85,31 @@ CREATE TABLE interest (
     logo_url VARCHAR(512),
     version BIGINT DEFAULT 0 NOT NULL,
     created_at DATETIME(6),
-    created_by varchar(255),
+    created_by VARCHAR(255),
     last_modified_at DATETIME(6),
-    last_modified_by varchar(255)
+    last_modified_by VARCHAR(255)
 );
 
 CREATE TABLE interest_relation (
-    id binary(16) NOT NULL PRIMARY KEY,
-    registrant_id binary(16),
-    parent_interest_id binary(16),
-    child_interest_id binary(16),
+    id BINARY(16) NOT NULL PRIMARY KEY,
+    registrant_id BINARY(16),
+    parent_interest_id BINARY(16),
+    child_interest_id BINARY(16),
     created_at DATETIME(6),
-    created_by varchar(255),
+    created_by VARCHAR(255),
     last_modified_at DATETIME(6),
-    last_modified_by varchar(255)
+    last_modified_by VARCHAR(255)
 );
 
 CREATE TABLE major_interest (
-    id binary(16) NOT NULL PRIMARY KEY,
-    registrant_id binary(16),
-    interest_id binary(16),
+    id BINARY(16) NOT NULL PRIMARY KEY,
+    registrant_id BINARY(16),
+    interest_id BINARY(16),
     display_order INT,
     created_at DATETIME(6),
-    created_by varchar(255),
+    created_by VARCHAR(255),
     last_modified_at DATETIME(6),
-    last_modified_by varchar(255)
+    last_modified_by VARCHAR(255)
 );
 
 CREATE TABLE score_threshold_policy (
@@ -114,36 +118,36 @@ CREATE TABLE score_threshold_policy (
 );
 
 CREATE TABLE streak (
-    id binary(16) NOT NULL PRIMARY KEY,
-    achiever_id binary(16),
+    id BINARY(16) NOT NULL PRIMARY KEY,
+    achiever_id BINARY(16),
     streak_type ENUM('DAILY', 'WEEKLY', 'MONTHLY'),
     filled_date DATE,
     completed_quest_count TINYINT,
     version BIGINT DEFAULT 0 NOT NULL,
     created_at DATETIME(6),
-    created_by varchar(255),
+    created_by VARCHAR(255),
     last_modified_at DATETIME(6),
-    last_modified_by varchar(255)
+    last_modified_by VARCHAR(255)
 );
 
 CREATE TABLE repeat_quest (
-    id binary(16) NOT NULL PRIMARY KEY,
-    participant_id binary(16),
-    subject_id binary(16),
+    id BINARY(16) NOT NULL PRIMARY KEY,
+    participant_id BINARY(16),
+    subject_id BINARY(16),
     subject_name VARCHAR(30),
     quest_type ENUM('DAILY', 'WEEKLY', 'MONTHLY'),
     content VARCHAR(255),
     display_order INT,
     created_at DATETIME(6),
-    created_by varchar(255),
+    created_by VARCHAR(255),
     last_modified_at DATETIME(6),
-    last_modified_by varchar(255)
+    last_modified_by VARCHAR(255)
 );
 
 CREATE TABLE assign_quest (
-    id binary(16) NOT NULL PRIMARY KEY,
-    participant_id binary(16),
-    subject_id binary(16),
+    id BINARY(16) NOT NULL PRIMARY KEY,
+    participant_id BINARY(16),
+    subject_id BINARY(16),
     subject_name VARCHAR(30),
     quest_type ENUM('DAILY', 'WEEKLY', 'MONTHLY'),
     content VARCHAR(255),
@@ -154,9 +158,9 @@ CREATE TABLE assign_quest (
     start_date_time DATETIME(6),
     completed_date_time DATETIME(6),
     created_at DATETIME(6),
-    created_by varchar(255),
+    created_by VARCHAR(255),
     last_modified_at DATETIME(6),
-    last_modified_by varchar(255)
+    last_modified_by VARCHAR(255)
 );
 
 CREATE TABLE quest_score_policy (
@@ -170,26 +174,49 @@ CREATE TABLE quest_point_policy (
 );
 
 CREATE TABLE point (
-    id binary(16) NOT NULL PRIMARY KEY,
-    transactor_id binary(16),
+    id BINARY(16) NOT NULL PRIMARY KEY,
+    transactor_id BINARY(16),
     source_type ENUM('QUEST', 'ATTENDANCE', 'STORE', 'EVENT'),
     transaction_type ENUM('GAIN', 'SPEND'),
     amount INT,
     description VARCHAR(255),
     transaction_date_time DATETIME(6),
     created_at DATETIME(6),
-    created_by varchar(255),
+    created_by VARCHAR(255),
     last_modified_at DATETIME(6),
-    last_modified_by varchar(255)
+    last_modified_by VARCHAR(255)
 );
 
 CREATE TABLE point_wallet (
-    id binary(16) NOT NULL PRIMARY KEY,
-    transactor_id binary(16),
+    id BINARY(16) NOT NULL PRIMARY KEY,
+    transactor_id BINARY(16),
     balance INT,
     version BIGINT DEFAULT 0 NOT NULL,
     created_at DATETIME(6),
-    created_by varchar(255),
+    created_by VARCHAR(255),
     last_modified_at DATETIME(6),
-    last_modified_by varchar(255)
+    last_modified_by VARCHAR(255)
+);
+
+CREATE TABLE event_entry (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    event_type VARCHAR(255) NOT NULL,
+    event_status ENUM('PENDING', 'COMPLETED', 'FAILED') NOT NULL,
+    payload TEXT NOT NULL,
+    timestamp BIGINT NOT NULL
+);
+
+CREATE TABLE score_quest_completed_success_event (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    event_id BIGINT NOT NULL
+);
+
+CREATE TABLE streak_quest_completed_success_event (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    event_id BIGINT NOT NULL
+);
+
+CREATE TABLE point_quest_completed_success_event (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    event_id BIGINT NOT NULL
 );
