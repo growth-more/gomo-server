@@ -12,18 +12,25 @@ public class PointQuestCompletedEvent extends Event {
 	private ParticipantId participantId;
 	private PointReward pointReward;
 
+	private PointQuestCompletedEvent() {
+		super();
+	}
+
 	private PointQuestCompletedEvent(
 		ParticipantId participantId,
-		PointReward pointReward
+		PointReward pointReward,
+		long timestamp
 	) {
+		super(timestamp);
 		this.participantId = participantId;
 		this.pointReward = pointReward;
 	}
 
 	public static PointQuestCompletedEvent of (
 		ParticipantId participantId,
-		PointReward pointReward
+		PointReward pointReward,
+		long timestamp
 	) {
-		return new PointQuestCompletedEvent(participantId, pointReward);
+		return new PointQuestCompletedEvent(participantId, pointReward, timestamp);
 	}
 }

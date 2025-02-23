@@ -15,11 +15,17 @@ public class ScoreQuestCompletedEvent extends Event {
 	private SubjectId subjectId;
 	private ScoreReward scoreReward;
 
+	private ScoreQuestCompletedEvent() {
+		super();
+	}
+
 	private ScoreQuestCompletedEvent(
 		UUID memberId,
 		SubjectId subjectId,
-		ScoreReward scoreReward
+		ScoreReward scoreReward,
+		long timestamp
 	) {
+		super(timestamp);
 		this.memberId = memberId;
 		this.subjectId = subjectId;
 		this.scoreReward = scoreReward;
@@ -28,8 +34,9 @@ public class ScoreQuestCompletedEvent extends Event {
 	public static ScoreQuestCompletedEvent of(
 		UUID memberId,
 		SubjectId subjectId,
-		ScoreReward scoreReward
+		ScoreReward scoreReward,
+		long timestamp
 	) {
-		return new ScoreQuestCompletedEvent(memberId, subjectId, scoreReward);
+		return new ScoreQuestCompletedEvent(memberId, subjectId, scoreReward, timestamp);
 	}
 }

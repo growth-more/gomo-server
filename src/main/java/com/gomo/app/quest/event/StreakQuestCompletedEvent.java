@@ -14,26 +14,29 @@ public class StreakQuestCompletedEvent extends Event {
 	private ParticipantId participantId;
 	private QuestType questType;
 	private LocalDateTime questCompletedDateTime;
-	private long traceId;
+
+	private StreakQuestCompletedEvent() {
+		super();
+	}
 
 	private StreakQuestCompletedEvent(
 		ParticipantId participantId,
 		QuestType questType,
 		LocalDateTime questCompletedDateTime,
-		long traceId
+		long timestamp
 	) {
+		super(timestamp);
 		this.participantId = participantId;
 		this.questType = questType;
 		this.questCompletedDateTime = questCompletedDateTime;
-		this.traceId = traceId;
 	}
 
 	public static StreakQuestCompletedEvent of(
 		ParticipantId participantId,
 		QuestType questType,
 		LocalDateTime questCompletedDateTime,
-		long traceId
+		long timestamp
 	) {
-		return new StreakQuestCompletedEvent(participantId, questType, questCompletedDateTime, traceId);
+		return new StreakQuestCompletedEvent(participantId, questType, questCompletedDateTime, timestamp);
 	}
 }

@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 
 import com.gomo.app.common.domain.service.DomainService;
-import com.gomo.app.common.util.TimestampGenerator;
 import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.model.PointReward;
 import com.gomo.app.quest.domain.model.QuestPointPolicy;
@@ -47,12 +46,12 @@ public class QuestRewardService {
 	@NotNull
 	private PointReward createPointReward(QuestType questType) {
 		int point = questPointPolicyCache.get(questType).getPoints();
-		return PointReward.of(point, TimestampGenerator.generate());
+		return PointReward.of(point);
 	}
 
 	@NotNull
 	private ScoreReward createScoreReward(QuestType questType) {
 		int score = questScorePolicyCache.get(questType).getScore();
-		return ScoreReward.of(score, TimestampGenerator.generate());
+		return ScoreReward.of(score);
 	}
 }
