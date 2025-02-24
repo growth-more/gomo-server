@@ -95,9 +95,9 @@ public class AssignQuest extends BaseAudit implements OrderChangeable, Authoriza
 	}
 
 	public void complete(CompletionProof proof, LocalDateTime completedDateTime) {
-		if(!this.isConfirmed) {
-			throw new PolicyViolationException(DomainErrorCode.INVALID_STATE, "AssignQuest must be confirmed before completing");
-		}
+		ensureConfirmed();
+		ensureNotCompleted();
+
 		this.isCompleted = true;
 		this.proof = proof;
 		this.displayOrder = this.displayOrder.increase(1000);
@@ -120,6 +120,18 @@ public class AssignQuest extends BaseAudit implements OrderChangeable, Authoriza
 	public void validateAuthority(UUID accessorId) {
 		if(!this.quest.isAccessibleBy(accessorId)) {
 			throw new AssignQuestAccessDeniedException(AssignQuestErrorCode.ACCESS_DENIED);
+		}
+	}
+
+	private void ensureConfirmed() {
+		if(!this.isConfirmed) {
+			throw new PolicyViolationException(DomainErrorCode.INVALID_STATE, "AssignQuest must be confirmed before completing");
+		}
+	}
+
+	private void ensureNotCompleted() {
+		if(this.isCompleted) {
+			throw new PolicyViolationException(DomainErrorCode.INVALID_STATE, "AssignQuest has already been completed");
 		}
 	}
 }

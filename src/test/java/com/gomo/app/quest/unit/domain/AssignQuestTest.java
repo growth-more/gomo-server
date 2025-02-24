@@ -178,6 +178,25 @@ public class AssignQuestTest {
 			.hasMessageContaining("AssignQuest must be confirmed before completing");
 	}
 
+	@DisplayName("이미 완료된 퀘스트는 중복해서 완료할 수 없다.")
+	@Test
+	void complete_assign_quest_with_completed_assign_quest() {
+		AssignQuest assignQuest = AssignQuest.of(
+			ID,
+			Quest.of(PARTICIPANT_ID, SUBJECT_ID, SUBJECT_NAME, QuestType.DAILY, QUEST_CONTENT),
+			true,
+			DisplayOrder.of(1),
+			LocalDateTime.of(2025, 1, 31, 0, 0, 0, 0)
+		);
+
+		CompletionProof updatedProof = CompletionProof.of("updated proof");
+		assignQuest.complete(updatedProof, NOW);
+
+		assertThatThrownBy(() -> assignQuest.complete(updatedProof, NOW))
+			.isInstanceOf(PolicyViolationException.class)
+			.hasMessageContaining("AssignQuest has already been completed");
+	}
+
 	@DisplayName("할당 퀘스트의 타입을 같은 타입과 비교한다.")
 	@Test
 	void quest_type_is_same_assign_quest_type() {
