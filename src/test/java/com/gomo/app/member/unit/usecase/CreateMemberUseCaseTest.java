@@ -3,6 +3,12 @@ package com.gomo.app.member.unit.usecase;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import com.gomo.app.common.util.UUIDGenerator;
+import com.gomo.app.member.domain.service.MemberValidator;
+import com.gomo.app.point.domain.model.PointWallet;
+import com.gomo.app.point.domain.model.PointWalletId;
+import com.gomo.app.point.domain.model.TransactorId;
+import com.gomo.app.point.domain.repository.PointWalletRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,6 +25,8 @@ import com.gomo.app.member.domain.service.PasswordService;
 import com.gomo.app.member.presentation.request.CreateMemberRequest;
 import com.gomo.app.member.presentation.response.CreateMemberResponse;
 
+import java.util.UUID;
+
 @DisplayName("[Application Unit]: 멤버 생성 테스트")
 @ExtendWith(MockitoExtension.class)
 public class CreateMemberUseCaseTest {
@@ -30,21 +38,31 @@ public class CreateMemberUseCaseTest {
     private MemberRepository memberRepository;
 
     @Mock
+    private MemberValidator memberValidator;
+
+    @Mock
     private PasswordService passwordService;
+
+    @Mock
+    private PointWalletRepository pointWalletRepository;
 
     @BeforeEach
     void setUp() {
         when(passwordService.encode("Test123!")).thenReturn("Encode123!");
     }
 
-    // TODO <jhl221123 to nurdykim>: 회원 생성 로직 수정 후, 테스트 수정이 안되었던 것 같습니다.
     @DisplayName("회원을 등록한다.")
     @Test
     void create_member(){
         Member member = MemberFixture.member(passwordService);
+        UUID pointwallet_uuid = UUIDGenerator.generate();
+        PointWallet pointWallet = PointWallet.createDefault(PointWalletId.of(pointwallet_uuid), TransactorId.of(member.getId().getId()));
         CreateMemberResponse expected = CreateMemberResponse.of(member.getId());
 
+        doNothing().when(memberValidator).checkDuplicatedEmail(any());
+        doNothing().when(memberValidator).checkDuplicatedHandle(any());
         doReturn(member).when(memberRepository).save(any(Member.class));
+        doReturn(pointWallet).when(pointWalletRepository).save(any(PointWallet.class));
 
         CreateMemberResponse actual = sut.create(
                 CreateMemberRequest.of(
