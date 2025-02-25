@@ -1,4 +1,4 @@
-name: code-review
+name: Discord Notification for GOMO Server
 
 on:
   pull_request:
@@ -18,7 +18,7 @@ jobs:
           DISCORD_EMBEDS: |
             [
               {
-                "title": "새로운 PR 이 왔습니다\n ${{github.event.pull_request.title}}",
+                "title": "[GOMO - SERVER] Pull Request\n ${{github.event.pull_request.title}}",
                 "color": 10478271,
                 "description": "[PR 링크](${{ github.event.pull_request.html_url }})",
                 "fields": [
