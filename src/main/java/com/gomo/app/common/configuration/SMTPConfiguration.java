@@ -11,9 +11,9 @@ import java.util.Properties;
 @Configuration
 public class SMTPConfiguration {
 
-    @Value("{spring.mail.host}") private String HOST;
-    @Value("{spring.mail.username}") private String USERNAME;
-    @Value("{spring.mail.password}") private String PASSWORD;
+    @Value("${spring.mail.host}") private String HOST;
+    @Value("${spring.mail.username}") private String USERNAME;
+    @Value("${spring.mail.password}") private String PASSWORD;
 
     @Bean
     public JavaMailSender mailSender(){
