@@ -1,37 +1,37 @@
-name: code-review
+name: Discord Notification for GOMO Server
 
 on:
-    pull_request:
-        types: [opened, reopened, synchronize]
-    workflow_dispatch:
+  pull_request:
+    types: [opened, reopened, synchronize]
+  workflow_dispatch:
 
 jobs:
-    notification:
-      name: Discord notification
-      runs-on: ubuntu-latest
-      steps:
-        - name: Send Notification
-          uses: Ilshidur/action-discord@0.3.2
-          env:
-            DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-            DISCORD_USERNAME: GOMO_BOT
-            DISCORD_EMBEDS: |
-              [
-                {
-                  "title": "새로운 PR 이 왔습니다\n ${{github.event.pull_request.title}}",
-                  "color": 10478271,
-                  "description": "[PR 링크](${{ github.event.pull_request.html_url }})",
-                  "fields": [
-                    {
-                      "name": "Author",
-                      "value": "${{ github.event.pull_request.user.login }}",
-                      "inline": true
-                    },
-                    {
-                      "name": "Reviewers",
-                      "value": "${{ github.event.pull_request.requested_reviewers != '' && github.event.pull_request.requested_reviewers[0].login || '없음' }}${{ github.event.pull_request.requested_reviewers[1] && format(' 외 {0}명', github.event.pull_request.requested_reviewers | length - 1) || '' }}"
-                      "inline": true
-                    }
-                  ]
-                }
-              ]
+  notification:
+    name: Discord notification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Notification
+        uses: Ilshidur/action-discord@0.3.2
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_USERNAME: GOMO_BOT
+          DISCORD_EMBEDS: |
+            [
+              {
+                "title": "[GOMO - SERVER] Pull Request\n ${{github.event.pull_request.title}}",
+                "color": 10478271,
+                "description": "[PR 링크](${{ github.event.pull_request.html_url }})",
+                "fields": [
+                  {
+                    "name": "Author",
+                    "value": "${{ github.event.pull_request.user.login }}",
+                    "inline": true
+                  },
+                  {
+                    "name": "Reviewers",
+                    "value": "${{ github.event.pull_request.requested_reviewers && github.event.pull_request.requested_reviewers[0] && join(github.event.pull_request.requested_reviewers.*.login, ', ') || '없음' }}",
+                    "inline": true
+                  }
+                ]
+              }
+            ]
