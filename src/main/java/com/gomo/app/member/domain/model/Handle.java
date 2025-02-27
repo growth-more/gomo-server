@@ -38,7 +38,6 @@ public class Handle {
         if(this.handle.equals(handle)){
             throw new PolicyViolationException(INVALID_PARAMETER, "Handle is already same");
         }
-
         return Handle.of(handle);
     }
 
