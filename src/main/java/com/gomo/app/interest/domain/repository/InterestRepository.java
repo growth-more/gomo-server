@@ -8,10 +8,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.RegistrantId;
+import org.springframework.data.jpa.repository.Query;
 
 public interface InterestRepository extends JpaRepository<Interest, InterestId> {
 
 	List<Interest> findAllByRegistrantId(RegistrantId registrantId);
 
 	List<Interest> findAllByIdIsIn(Set<InterestId> interestIds);
+
+	@Query("SELECT i.logoUrl FROM Interest i WHERE i.logoUrl IS NOT NULL")
+	List<String> findAllLogoUrl();
 }

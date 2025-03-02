@@ -3,6 +3,7 @@ package com.gomo.app.member.domain.repository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import com.gomo.app.member.domain.model.*;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,4 +22,7 @@ public interface MemberRepository extends JpaRepository<Member, MemberId> {
 		ActivateStatus activateStatus,
 		LocalDateTime loginDateTime
 	);
+
+	@Query("SELECT m.profileImage FROM Member m WHERE m.profileImage IS NOT NULL")
+	List<String> findAllByProfileImageUrl();
 }
