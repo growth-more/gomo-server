@@ -46,7 +46,6 @@ public class UpdateMemberUseCase {
 	public UpdateProfileImageResponse updateProfileImage(MemberId memberId, MultipartFile profileImage) {
 		Member member = memberRepository.findById(memberId)
 				.orElseThrow(() -> new MemberNotFoundException(NOT_FOUND, "member id not found: " + memberId));
-//		imageService.deleteImage(member.getProfileImage().getUrl());
 
 		String profile_url = imageService.uploadImage(profileImage);
 		member.updateProfileImage(member.getProfileImage().updateUrl(profile_url));

@@ -17,7 +17,7 @@ public class ImageCleanupScheduler {
     private final ProfileImageService profileImageService;
 
     @Scheduled(cron ="0 0 2 ? * SUN")
-    public void clenUnusedImages(){
+    public void cleanUnusedImages(){
         Set<String> allImages = imageService.getAllImages();
 
         Set<String> profileImages = profileImageService.getAllProfileImageUrl();
