@@ -2,17 +2,22 @@ package com.gomo.app.common.domain.service;
 
 import static com.gomo.app.common.exception.DomainErrorCode.*;
 
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
+import io.minio.*;
+import io.minio.errors.MinioException;
+import io.minio.messages.Item;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gomo.app.common.exception.ImageProcessingException;
 
-import io.minio.MinioClient;
-import io.minio.PutObjectArgs;
-import io.minio.RemoveObjectArgs;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -26,6 +31,21 @@ public class ImageService {
 
 	@Value("${minio.bucket-name}")
 	private String bucketName;
+
+	public Set<String> getAllImages(){
+		Set<String> images = new HashSet<>();
+		try {
+			Iterable<Result<Item>> results = minioClient.listObjects(
+					ListObjectsArgs.builder().bucket(bucketName).recursive(true).build()
+			);
+			for (Result<Item> result : results) {
+				images.add(getImageUrl(result.get().objectName()));
+			}
+		}catch (MinioException | IOException | NoSuchAlgorithmException | InvalidKeyException e) {
+				throw new ImageProcessingException(IMAGE_PROCESSING_ERROR, "An error occurred while getting list of Images.", e);
+		}
+		return images;
+	}
 
 	public String uploadImage(MultipartFile file) {
 		if (file == null || file.isEmpty()) {
@@ -74,6 +94,10 @@ public class ImageService {
 		}
 
 		return uuid + extension;
+	}
+
+	private String getImageUrl(String imageName){
+		return endpoint +"/"+bucketName+"/"+imageName;
 	}
 
 	@NotNull

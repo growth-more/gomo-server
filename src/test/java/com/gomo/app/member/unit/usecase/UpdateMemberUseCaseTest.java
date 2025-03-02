@@ -74,7 +74,6 @@ public class UpdateMemberUseCaseTest {
         UpdateProfileImageResponse expected = UpdateProfileImageResponse.of(NEW_IMAGE_URL);
 
         doReturn(Optional.of(member)).when(memberRepository).findById(member.getId());
-        doNothing().when(imageService).deleteImage(anyString());
         doReturn(NEW_IMAGE_URL).when(imageService).uploadImage(any());
 
         UpdateProfileImageResponse actual = sut.updateProfileImage(member.getId(), request);
