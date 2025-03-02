@@ -25,7 +25,7 @@ public class UpdateInterestLogoUseCase {
 	public void update(InterestId interestId, MultipartFile updatedLogo) {
 		Interest interest = interestRepository.findById(interestId)
 			.orElseThrow(() -> new NotFoundException(NOT_FOUND, "Interest not found with id: " + interestId.getId()));
-		imageService.deleteImage(interest.getLogoUrl());
+//		imageService.deleteImage(interest.getLogoUrl());
 
 		String updatedUrl = imageService.uploadImage(updatedLogo);
 		interest.updateLogoUrl(updatedUrl);
