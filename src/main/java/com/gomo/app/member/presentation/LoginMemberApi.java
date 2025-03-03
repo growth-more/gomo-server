@@ -40,7 +40,7 @@ public class LoginMemberApi {
 	@PostMapping("/refresh")
 	public ResponseEntity<TokenResponse> refresh(@CookieValue(name="refreshToken", required=false) String refreshToken){
 		LoginMemberResponse tokens = refreshAccessTokenUseCase.refresh(refreshToken);
-		ResponseCookie cookie = createRefreshTokenCookie(tokens.getAccessToken(), tokens.getExpiresIn());
+		ResponseCookie cookie = createRefreshTokenCookie(tokens.getRefreshToken(), tokens.getExpiresIn());
 
 		return ResponseEntity.ok()
 				.header(HttpHeaders.SET_COOKIE, cookie.toString())
