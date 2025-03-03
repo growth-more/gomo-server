@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 @Configuration
 @RequiredArgsConstructor
-public class FilterRegistrationConfig {
+public class FilterRegistrationConfiguration {
     private final AuthenticationFilter authenticationFilter;
 
     @Bean
