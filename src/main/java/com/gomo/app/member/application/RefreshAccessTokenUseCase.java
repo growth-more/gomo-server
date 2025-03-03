@@ -35,9 +35,9 @@ public class RefreshAccessTokenUseCase {
 
         String newAccessToken = jwtUtil.generateAccessToken(memberId);
         String newRefreshToken = jwtUtil.generateRefreshToken(memberId);
-        long refreshTokenExpiry = jwtUtil.extractExpirationTime(refreshToken);
+        long refreshTokenExpiry = jwtUtil.extractExpirationTime(newRefreshToken);
 
-        jwtSessionRedisService.updateRefreshToken(memberId, refreshToken);
+        jwtSessionRedisService.updateRefreshToken(memberId, newRefreshToken);
 
         return LoginMemberResponse.of(memberId, newAccessToken, newRefreshToken, refreshTokenExpiry);
     }
