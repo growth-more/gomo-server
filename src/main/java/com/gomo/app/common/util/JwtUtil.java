@@ -2,13 +2,10 @@ package com.gomo.app.common.util;
 
 import com.gomo.app.member.domain.model.MemberId;
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
-import java.security.Key;
 import java.util.Date;
 
 @Component
@@ -52,10 +49,12 @@ public class JwtUtil {
     }
 
     private String generateToken(MemberId memberId, long expirationTime){
+        Date exp = new Date(System.currentTimeMillis() + expirationTime);
+
         return Jwts.builder()
                 .subject(memberId.toString())
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + expirationTime))
+                .expiration(exp)
                 .signWith(this.secretKey)
                 .compact();
     }
