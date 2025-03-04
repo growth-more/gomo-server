@@ -31,7 +31,7 @@ public class EventEntry {
 	public EventEntry(String eventEntry) {
 		try {
 			JsonNode jsonNode = JsonParser.parseNode(eventEntry);
-			this.id = jsonNode.has("id") ? jsonNode.get("id").asLong() : null;
+			this.id = jsonNode.get("id").asLong();
 			this.eventType = jsonNode.get("eventType").asText();
 			this.eventStatus = EventStatus.valueOf(jsonNode.get("eventStatus").asText());
 			this.payload = jsonNode.get("payload").asText();

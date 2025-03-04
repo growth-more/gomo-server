@@ -117,6 +117,9 @@ jacocoTestCoverageVerification {
 
             excludes = [
                     'com.gomo.app.GomoApplication',
+                    'com.gomo.app.common.event.Event',
+                    'com.gomo.app.common.domain.AuditorAwareImpl',
+                    'com.gomo.app.common.domain.LogicalDeleteBaseAudit',
                     'com.gomo.app.**.exception.**',
                     'com.gomo.app.**.*Id'
             ]
@@ -156,7 +159,8 @@ tasks.register("authOpenApiSpec", task -> {
 
 // copy open api specification for swagger
 tasks.register('copyOasToSwagger', Copy) {
-    delete 'src/main/resources/static/swagger-ui/openapi3.json'
+    // todo 덮어 쓰여지는지 확인 후 제거
+    //delete 'src/main/resources/static/swagger-ui/openapi3.json'
     from 'build/api-spec/openapi3.json'
     into 'src/main/resources/static/swagger-ui/'
     dependsOn 'authOpenApiSpec'

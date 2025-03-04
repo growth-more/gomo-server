@@ -53,4 +53,21 @@ public class BalanceTest {
 			.isInstanceOf(InsufficientBalanceException.class)
 			.hasMessageContaining("Adjust fail due to insufficient balance");
 	}
+
+	@DisplayName("같은 양의 잔고는 동일하게 취급한다.")
+	@Test
+	void same_balance() {
+		Balance balance = Balance.of(1000);
+
+		assertThat(balance).isEqualTo(balance);
+		assertThat(balance).isEqualTo(Balance.of(1000));
+	}
+
+	@DisplayName("다른 양의 잔고는 다르게 취급한다.")
+	@Test
+	void not_same_balance() {
+		Balance balance = Balance.of(1000);
+
+		assertThat(balance).isNotEqualTo(Balance.of(2000));
+	}
 }

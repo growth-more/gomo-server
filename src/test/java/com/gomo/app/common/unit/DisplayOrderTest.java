@@ -45,4 +45,21 @@ public class DisplayOrderTest {
 			.isInstanceOf(PolicyViolationException.class)
 			.hasMessageContaining("Increment must be positive");
 	}
+
+	@DisplayName("순서가 같다면 동일하게 취급한다.")
+	@Test
+	void same_display_order() {
+		DisplayOrder displayOrder = DisplayOrder.of(1);
+
+		assertThat(displayOrder).isEqualTo(displayOrder);
+		assertThat(displayOrder).isEqualTo(DisplayOrder.of(1));
+	}
+
+	@DisplayName("순서가 다르면 다르게 취급한다.")
+	@Test
+	void not_same_display_order() {
+		DisplayOrder displayOrder = DisplayOrder.of(1);
+
+		assertThat(displayOrder).isNotEqualTo(DisplayOrder.of(2));
+	}
 }
