@@ -126,7 +126,26 @@ jacocoTestCoverageVerification {
         }
     }
 }
+tasks.register('testCoverage') {
+    group = 'verification'
+    description = 'Runs the tests with coverage'
 
+    dependsOn(
+            'test',
+            'jacocoTestReport',
+            'jacocoTestCoverageVerification'
+    )
+
+    doLast {
+        tasks.named('jacocoTestReport').configure {
+            mustRunAfter(tasks.named('test'))
+        }
+
+        tasks.named('jacocoTestCoverageVerification').configure {
+            mustRunAfter(tasks.named('jacocoTestReport'))
+        }
+    }
+}
 // generate open api specification
 openapi3 {
     def env = System.getenv("ENV")
