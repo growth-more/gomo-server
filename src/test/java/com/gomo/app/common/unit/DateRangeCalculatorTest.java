@@ -62,4 +62,20 @@ public class DateRangeCalculatorTest {
 
 		assertThat(endOfMonth).isEqualTo(LocalDateTime.of(2025, 2, 28, 23, 59, 59));
 	}
+
+	@DisplayName("잘못된 형식으로 시작 시점을 계산하지 못한다.")
+	@Test
+	void cannot_calculate_monthly_start() {
+		assertThatThrownBy(() -> DateRangeCalculator.startOf(PIVOT, "INVALID"))
+			.isInstanceOf(IllegalArgumentException.class)
+			.hasMessageContaining("Unknown quest type: INVALID");
+	}
+
+	@DisplayName("잘못된 형식으로 끝 시점을 계산하지 못한다.")
+	@Test
+	void cannot_calculate_monthly_end() {
+		assertThatThrownBy(() -> DateRangeCalculator.startOf(PIVOT, "INVALID"))
+			.isInstanceOf(IllegalArgumentException.class)
+			.hasMessageContaining("Unknown quest type: INVALID");
+	}
 }
