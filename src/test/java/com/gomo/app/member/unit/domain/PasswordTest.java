@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
+import static org.testcontainers.shaded.org.bouncycastle.cms.RecipientId.password;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Domain unit]: 비밀번호 생성 및 수정 테스트")
