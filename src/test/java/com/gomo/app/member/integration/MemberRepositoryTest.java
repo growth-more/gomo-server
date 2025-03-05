@@ -6,12 +6,15 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import com.gomo.app.member.domain.model.*;
+import com.gomo.app.member.domain.model.Email;
+import com.gomo.app.member.domain.model.Handle;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gomo.app.common.IntegrationTestBase;
+import com.gomo.app.member.domain.model.ActivateStatus;
+import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.repository.MemberRepository;
 
 @DisplayName("[Domain integration]: 회원 DB 접근 테스트")
