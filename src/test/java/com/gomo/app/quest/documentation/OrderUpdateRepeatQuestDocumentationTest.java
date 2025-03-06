@@ -8,15 +8,12 @@ import static org.springframework.http.MediaType.*;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.quest.common.util.RepeatQuestDataHelper;
 import com.gomo.app.quest.documentation.snippet.OrderUpdateRepeatQuestSnippet;
 import com.gomo.app.quest.domain.model.QuestType;
@@ -40,7 +37,7 @@ public class OrderUpdateRepeatQuestDocumentationTest extends DocumentationTestBa
 	void update_repeat_quest_order() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.header(AUTHORIZATION, "Bearer " + token)
+			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.body(OrderUpdateRepeatQuestRequest.of(
 				QuestType.DAILY,
 				List.of(2, 1)))

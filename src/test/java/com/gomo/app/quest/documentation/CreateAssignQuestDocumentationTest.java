@@ -9,17 +9,13 @@ import static org.springframework.http.MediaType.*;
 import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.exception.DomainErrorCode;
-import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.quest.common.util.AssignQuestDataHelper;
 import com.gomo.app.quest.documentation.snippet.CreateAssignQuestSnippet;
 import com.gomo.app.quest.domain.model.QuestType;
@@ -45,7 +41,7 @@ public class CreateAssignQuestDocumentationTest extends DocumentationTestBase {
 	void create_assign_quest() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.header(AUTHORIZATION, "Bearer " + token)
+			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.body(CreateAssignQuestRequest.of(
 				UUID.randomUUID(),
 				"subject name",
@@ -64,7 +60,7 @@ public class CreateAssignQuestDocumentationTest extends DocumentationTestBase {
 	void create_assign_quest_invalid_quest_content() {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.header(AUTHORIZATION, "Bearer " + token)
+			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.body(CreateAssignQuestRequest.of(
 				UUID.randomUUID(),
 				"",
@@ -86,7 +82,7 @@ public class CreateAssignQuestDocumentationTest extends DocumentationTestBase {
 	void create_assign_quest_exceeding_threshold() {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.header(AUTHORIZATION, "Bearer " + token)
+			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.body(CreateAssignQuestRequest.of(
 				UUID.randomUUID(),
 				"subject name",

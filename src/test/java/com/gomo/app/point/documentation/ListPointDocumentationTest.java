@@ -14,7 +14,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.point.common.dataprovider.PointDataProvider;
 import com.gomo.app.point.documentation.snippet.ListPointSnippet;
 import com.gomo.app.point.domain.model.Point;
@@ -42,7 +41,7 @@ public class ListPointDocumentationTest extends DocumentationTestBase {
 	void history_point() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+			.header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
 			.param("size", 10)
 			.when()
 			.get("/points")

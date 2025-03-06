@@ -45,7 +45,7 @@ public class UpdateInterestLogoDocumentationTest extends DocumentationTestBase {
 	void update_interest_logo() throws IOException {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, MULTIPART_FORM_DATA_VALUE)
-			.header(AUTHORIZATION, "Bearer " + token)
+			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.multiPart("updatedLogo", getImageFile(NORMAL_IMAGE_NAME))
 			.when()
 			.put("/interests/{id}/logos", UPDATED_INTEREST_ID)
@@ -58,7 +58,7 @@ public class UpdateInterestLogoDocumentationTest extends DocumentationTestBase {
 	void update_interest_logo_with_large_image() throws IOException {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, MULTIPART_FORM_DATA_VALUE)
-			.header(AUTHORIZATION, "Bearer " + token)
+			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.multiPart("updatedLogo", getImageFile(LARGE_IMAGE_NAME))
 			.when()
 			.put("/interests/{id}/logos", UPDATED_INTEREST_ID)

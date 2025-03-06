@@ -1,7 +1,6 @@
 package com.gomo.app.member.documentation;
 
 import static com.gomo.app.common.exception.DomainErrorCode.IMAGE_TOO_LARGE;
-import static com.gomo.app.member.exception.MemberErrorCode.*;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.http.HttpHeaders.*;
@@ -9,28 +8,19 @@ import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.*;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import org.springframework.util.ResourceUtils;
 
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.member.documentation.snippet.UpdateProfileImageSnippet;
-import com.gomo.app.member.presentation.request.UpdateProfileImageRequest;
 import com.gomo.app.member.common.util.MemberDBDataHelper;
 
 @DisplayName("[Presentation documentation]: 프로필 이미지 변경 테스트")

@@ -13,11 +13,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.survey.common.dataprovider.SurveyItemDataProvider;
 import com.gomo.app.survey.common.dataprovider.SurveyQuestionDataProvider;
 import com.gomo.app.survey.common.util.SurveyResultDataHelper;
@@ -61,7 +59,7 @@ public class CreateSurveyAnswerDocumentationTest extends DocumentationTestBase {
 	void create_survey_answer() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.header(AUTHORIZATION, "Bearer " + token)
+			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.body(createRequest())
 			.when()
 			.post("/surveys")

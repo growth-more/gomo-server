@@ -36,7 +36,7 @@ public class ReadInterestDocumentationTest extends DocumentationTestBase {
 	void read_interest() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.header(AUTHORIZATION, "Bearer " + token)
+			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.when()
 			.get("/interests/{id}", interest.getId().getId())
 			.then()

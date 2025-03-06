@@ -1,11 +1,7 @@
 package com.gomo.app.member.documentation.snippet;
 
 import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-
-import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
-import org.springframework.restdocs.snippet.Snippet;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;

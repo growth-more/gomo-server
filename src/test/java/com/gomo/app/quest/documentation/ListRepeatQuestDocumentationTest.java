@@ -10,11 +10,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.quest.common.dataprovider.RepeatQuestDataProvider;
 import com.gomo.app.quest.documentation.snippet.ListRepeatQuestSnippet;
 import com.gomo.app.quest.domain.model.RepeatQuest;
@@ -40,7 +38,7 @@ public class ListRepeatQuestDocumentationTest extends DocumentationTestBase {
 	void list_assign_quest() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.header(AUTHORIZATION, "Bearer " + token)
+			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.param("questType")
 			.when()
 			.get("/quests/repeats")

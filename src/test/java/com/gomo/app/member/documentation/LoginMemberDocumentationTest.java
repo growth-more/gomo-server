@@ -8,12 +8,12 @@ import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.MediaType.*;
 
+import com.gomo.app.member.common.util.MemberDBDataHelper;
 import com.gomo.app.member.exception.MemberErrorCode;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
@@ -30,6 +30,14 @@ public class LoginMemberDocumentationTest extends DocumentationTestBase {
 
 	private static final String EMAIL = "gomotest@naver.com";
 	private static final String PASSWORD = "Gomotest1234@";
+
+	@Autowired
+	private MemberDBDataHelper memberDBDataHelper;
+
+	@AfterEach
+	void tearDown() {
+		memberDBDataHelper.cleanUp();
+	}
 
 	@DisplayName("사용자가 로그인한다.")
 	@Test

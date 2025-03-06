@@ -39,7 +39,7 @@ public class ListMajorInterestDocumentationTest extends DocumentationTestBase {
 	void list_major_interest() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.header(AUTHORIZATION, "Bearer " + token)
+			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.when()
 			.get("/interests/majors")
 			.then()

@@ -47,7 +47,7 @@ public class InterestNetworkDocumentationTest extends DocumentationTestBase {
 	void read_interest_network() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.header(AUTHORIZATION, "Bearer " + token)
+			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.when()
 			.get("/interests/networks")
 			.then()

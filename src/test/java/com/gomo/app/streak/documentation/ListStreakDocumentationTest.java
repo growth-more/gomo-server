@@ -10,11 +10,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.streak.common.dataprovider.StreakDataProvider;
 import com.gomo.app.streak.documentation.snippet.ListStreakSnippet;
 import com.gomo.app.streak.domain.model.Streak;
@@ -43,7 +41,7 @@ public class ListStreakDocumentationTest extends DocumentationTestBase {
 	void list_streak() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.header(AUTHORIZATION, "Bearer " + token)
+			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.param("startDate", dailyFirstStreak.getFilledDate().toString())
 			.param("endDate", dailySecondStreak.getFilledDate().toString())
 			.when()
