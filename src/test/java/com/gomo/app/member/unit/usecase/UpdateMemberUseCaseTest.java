@@ -23,7 +23,6 @@ import com.gomo.app.member.domain.service.PasswordService;
 import com.gomo.app.member.presentation.request.UpdateHandleRequest;
 import com.gomo.app.member.presentation.request.UpdateMemberRequest;
 import com.gomo.app.member.presentation.request.UpdatePasswordRequest;
-import com.gomo.app.member.presentation.request.UpdateProfileImageRequest;
 import com.gomo.app.member.presentation.response.UpdateProfileImageResponse;
 
 @DisplayName("[Application Unit]: 멤버 수정 기능 테스트")
