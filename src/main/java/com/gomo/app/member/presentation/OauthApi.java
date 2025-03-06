@@ -38,13 +38,4 @@ public class OauthApi {
 				.maxAge(Duration.ofSeconds(expiry))
 				.build();
 	}
-
-	private ResponseCookie deleteRefreshTokenCookie(){
-		return ResponseCookie.from("refreshToken", "")
-				.httpOnly(true)
-				.secure(true)
-				.path("/members/refresh")
-				.maxAge(0)
-				.build();
-	}
 }
