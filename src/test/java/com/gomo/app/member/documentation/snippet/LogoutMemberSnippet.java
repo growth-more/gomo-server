@@ -1,6 +1,5 @@
 package com.gomo.app.member.documentation.snippet;
 
-
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
 import com.gomo.app.common.constant.ErrorResponseFields;

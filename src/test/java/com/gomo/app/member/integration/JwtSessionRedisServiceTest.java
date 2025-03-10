@@ -1,19 +1,13 @@
 package com.gomo.app.member.integration;
 
 import com.gomo.app.common.IntegrationTestBase;
-import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.member.domain.model.*;
-import com.gomo.app.member.domain.repository.MemberRepository;
 import com.gomo.app.member.infrastructure.JwtSessionRedisService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
