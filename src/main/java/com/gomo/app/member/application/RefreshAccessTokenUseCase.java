@@ -5,7 +5,6 @@ import com.gomo.app.common.util.JwtUtil;
 import com.gomo.app.member.domain.model.MemberId;
 import com.gomo.app.member.exception.MemberAuthenticationFailedException;
 import com.gomo.app.member.infrastructure.JwtSessionRedisService;
-import com.gomo.app.member.presentation.request.RefreshAccessTokenRequest;
 import com.gomo.app.member.presentation.response.LoginMemberResponse;
 import lombok.RequiredArgsConstructor;
 

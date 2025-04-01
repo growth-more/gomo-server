@@ -18,7 +18,6 @@ import com.gomo.app.member.domain.repository.MemberRepository;
 import com.gomo.app.member.presentation.request.UpdateHandleRequest;
 import com.gomo.app.member.presentation.request.UpdateMemberRequest;
 import com.gomo.app.member.presentation.request.UpdatePasswordRequest;
-import com.gomo.app.member.presentation.request.UpdateProfileImageRequest;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
