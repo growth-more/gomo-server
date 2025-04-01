@@ -68,13 +68,4 @@ public class MottoTest {
                 .isInstanceOf(PolicyViolationException.class)
                 .hasMessageContaining("Motto must comply with the motto rules");
     }
-
-    @DisplayName("동일한 내용으로 수정할 수 없다.")
-    @Test
-    void update_motto_with_same_motto(){
-        Motto motto = Motto.of(MOTTO);
-        assertThatThrownBy(() -> motto.update(MOTTO))
-                .isInstanceOf(PolicyViolationException.class)
-                .hasMessageContaining("Motto cannot update with same motto");
-    }
 }

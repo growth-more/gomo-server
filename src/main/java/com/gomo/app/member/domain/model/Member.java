@@ -112,15 +112,8 @@ public class Member extends LogicalDeleteBaseAudit {
 	public void updateMotto(String motto){this.motto = this.motto.update(motto);}
 	public void updateName(String name){this.name = this.name.update(name);}
 	public void updateMemberInfo(String name, String motto){
-		if (name == null && motto == null){
-			throw new PolicyViolationException(DomainErrorCode.INVALID_PARAMETER, "update name and motto must not be null");
-		}
-		if (motto != null){
-			updateMotto(motto);
-		}
-		if (name != null){
-			updateName(name);
-		}
+		updateMotto(motto);
+		updateName(name);
 	}
 	public void updateProfileImage(ProfileImage profileImage){this.profileImage = profileImage;}
 	public void updateQuestProperty(QuestProperty questProperty){this.questProperty = questProperty;}
