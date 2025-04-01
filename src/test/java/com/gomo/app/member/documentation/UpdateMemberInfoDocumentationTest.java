@@ -12,8 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
@@ -21,7 +19,6 @@ import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.member.common.util.MemberDBDataHelper;
 import com.gomo.app.member.documentation.snippet.UpdateMemberInfoSnippet;
 import com.gomo.app.member.presentation.request.UpdateMemberRequest;
-import com.gomo.app.member.presentation.request.UpdatePasswordRequest;
 
 @DisplayName("[Presentation documentation]: 회원 기본 정보 수정 테스트")
 public class UpdateMemberInfoDocumentationTest extends DocumentationTestBase {

@@ -5,13 +5,12 @@ import static org.mockito.Mockito.*;
 
 import com.gomo.app.member.application.ReadQuestPropertyUseCase;
 import com.gomo.app.member.common.fixture.MemberFixture;
-import com.gomo.app.member.domain.model.Email;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.model.QuestProperty;
 import com.gomo.app.member.domain.repository.MemberRepository;
 import com.gomo.app.member.domain.service.PasswordService;
 import com.gomo.app.member.presentation.response.ReadQuestPropertyResponse;
-import org.jetbrains.annotations.NotNull;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

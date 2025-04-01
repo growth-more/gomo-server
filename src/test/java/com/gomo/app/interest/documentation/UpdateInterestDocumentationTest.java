@@ -40,7 +40,7 @@ public class UpdateInterestDocumentationTest extends DocumentationTestBase {
 	void update_interest() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.header(AUTHORIZATION, "Bearer " + token)
+			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.body(UpdateInterestRequest.of("updated interest name"))
 			.when()
 			.put("/interests/{id}", UPDATED_INTEREST_ID)
@@ -53,7 +53,7 @@ public class UpdateInterestDocumentationTest extends DocumentationTestBase {
 	void update_interest_with_invalid_name() {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-            .header(AUTHORIZATION, "Bearer " + token)
+            .header(AUTHORIZATION, "Bearer " + accessToken)
 			.body(UpdateInterestRequest.of("forbidden{}"))
 			.when()
 			.put("/interests/{id}", UPDATED_INTEREST_ID)

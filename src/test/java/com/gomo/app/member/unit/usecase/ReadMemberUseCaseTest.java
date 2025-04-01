@@ -5,14 +5,16 @@ import static org.mockito.Mockito.*;
 
 import com.gomo.app.member.application.ReadMemberUseCase;
 import com.gomo.app.member.common.fixture.MemberFixture;
-import com.gomo.app.member.domain.model.Email;
 import com.gomo.app.member.domain.model.Member;
+import com.gomo.app.member.domain.model.MemberId;
 import com.gomo.app.member.domain.repository.MemberRepository;
 import com.gomo.app.member.domain.service.PasswordService;
+import com.gomo.app.member.exception.MemberNotFoundException;
 import com.gomo.app.member.presentation.response.ReadMemberResponse;
 import com.gomo.app.point.domain.model.Balance;
 import com.gomo.app.point.domain.model.TransactorId;
 import com.gomo.app.point.domain.service.PointWalletService;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,6 +23,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @DisplayName("[Application Unit]: 멤버 조회 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -52,6 +55,15 @@ public class ReadMemberUseCaseTest {
         ReadMemberResponse actual = sut.find(member.getId());
 
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+
+    }
+
+    @DisplayName("존재하지 않는 멤버를 조회하여 실패한다.")
+    @Test
+    void read_not_exist_member(){
+        assertThatThrownBy(() -> sut.find(MemberId.of(UUID.randomUUID())))
+                .isInstanceOf(MemberNotFoundException.class)
+                .hasMessageContaining("member has not found");
 
     }
 }

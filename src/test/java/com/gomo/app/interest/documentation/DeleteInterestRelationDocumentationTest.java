@@ -45,7 +45,7 @@ public class DeleteInterestRelationDocumentationTest extends DocumentationTestBa
 	void delete_interest_relation() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.header(AUTHORIZATION, "Bearer " + token)
+			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.when()
 			.delete("/interests/networks/relations/{id}", backendToJava.getId().getId())
 			.then()

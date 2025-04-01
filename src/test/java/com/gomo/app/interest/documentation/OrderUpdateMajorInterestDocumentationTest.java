@@ -36,7 +36,7 @@ public class OrderUpdateMajorInterestDocumentationTest extends DocumentationTest
 	void update_major_interest_order() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.header(AUTHORIZATION, "Bearer " + token)
+			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.body(OrderUpdateMajorInterestRequest.of(List.of(2, 1)))
 			.when()
 			.put("/interests/majors/orders")

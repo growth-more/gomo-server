@@ -12,11 +12,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.quest.common.dataprovider.AssignQuestDataProvider;
 import com.gomo.app.quest.documentation.snippet.CalendarAssignQuestSnippet;
 import com.gomo.app.quest.domain.model.AssignQuest;
@@ -44,7 +42,7 @@ public class CalendarAssignQuestDocumentationTest extends DocumentationTestBase 
 	void calendar_assign_quest() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.header(AUTHORIZATION, "Bearer " + token)
+			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.param("year", LocalDate.now().getYear())
 			.param("month", LocalDate.now().getMonth().getValue())
 			.when()

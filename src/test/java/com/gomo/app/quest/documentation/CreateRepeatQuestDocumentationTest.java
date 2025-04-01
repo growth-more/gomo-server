@@ -12,12 +12,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.exception.DomainErrorCode;
-import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.interest.common.dataprovider.InterestDataProvider;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.quest.common.util.RepeatQuestDataHelper;
@@ -53,7 +51,7 @@ public class CreateRepeatQuestDocumentationTest extends DocumentationTestBase {
 	void create_repeat_quest() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.header(AUTHORIZATION, "Bearer " + token)
+			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.body(CreateRepeatQuestRequest.of(
 				subject.getId().getId(),
 				"subject name",
@@ -71,7 +69,7 @@ public class CreateRepeatQuestDocumentationTest extends DocumentationTestBase {
 	void create_repeat_quest_invalid_quest_content() {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.header(AUTHORIZATION, "Bearer " + token)
+			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.body(CreateRepeatQuestRequest.of(
 				subject.getId().getId(),
 				"subject name",
@@ -93,7 +91,7 @@ public class CreateRepeatQuestDocumentationTest extends DocumentationTestBase {
 	void create_repeat_quest_exceeding_threshold() {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.header(AUTHORIZATION, "Bearer " + token)
+			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.body(CreateRepeatQuestRequest.of(
 				subject.getId().getId(),
 				"subject name",

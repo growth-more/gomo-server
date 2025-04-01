@@ -50,4 +50,23 @@ public class MemberFixture {
 			null
 		);
 	}
+
+	public static Member member(ActivateStatus status, PasswordService passwordService) {
+		return new Member(
+			MemberId.of(UUID.randomUUID()),
+			Email.of("test@naver.com"),
+			Password.of("Test123!", passwordService),
+			Handle.of("@gomo"),
+			MemberName.of("testname"),
+			Motto.of("test motto"),
+			ProfileImage.createDefault(),
+			QuestProperty.createDefault(),
+			LoginProvider.EMAIL,
+			RoleType.ROLE_MEMBER,
+			SubscriptionPlan.FREE,
+			status,
+			LocalDateTime.now(),
+			null
+		);
+	}
 }

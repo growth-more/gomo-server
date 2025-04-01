@@ -3,6 +3,7 @@ package com.gomo.app.member.unit.domain;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+import com.gomo.app.common.exception.PolicyViolationException;
 import com.gomo.app.member.domain.model.*;
 import com.gomo.app.member.domain.service.PasswordService;
 import org.junit.jupiter.api.BeforeEach;
@@ -56,9 +57,9 @@ public class MemberTest {
 				.isEqualTo("https://image.nurdykim.me/gomo/default-image.png");
 	}
 
-	@DisplayName("퀘스트 개수가 퀘스트 제한에 도달하지 않는다.")
+	@DisplayName("일일 퀘스트 개수가 퀘스트 제한에 도달하지 않는다.")
 	@Test
-	void not_exceed_quest_threshold() {
+	void not_exceed_daily_quest_threshold() {
 
 		Member member = MemberFixture.member(3, passwordService);
 
@@ -67,13 +68,75 @@ public class MemberTest {
 		assertThat(actual).isFalse();
 	}
 
-	@DisplayName("퀘스트 개수가 퀘스트 제한에 도달한다.")
+	@DisplayName("일일 퀘스트 개수가 퀘스트 제한에 도달한다.")
 	@Test
-	void exceed_quest_threshold() {
+	void exceed_daily_quest_threshold() {
 		Member member = MemberFixture.member(3, passwordService);
 
 		boolean actual = member.hasReachedQuestThreshold(QuestType.DAILY.name(), 3);
 
 		assertThat(actual).isTrue();
 	}
+
+	@DisplayName("주간 퀘스트 개수가 퀘스트 제한에 도달하지 않는다.")
+	@Test
+	void not_exceed_weekly_quest_threshold() {
+
+		Member member = MemberFixture.member(3, passwordService);
+
+		boolean actual = member.hasReachedQuestThreshold(QuestType.WEEKLY.name(), 2);
+
+		assertThat(actual).isFalse();
+	}
+
+	@DisplayName("주간 퀘스트 개수가 퀘스트 제한에 도달한다.")
+	@Test
+	void exceed_weekly_quest_threshold() {
+		Member member = MemberFixture.member(3, passwordService);
+
+		boolean actual = member.hasReachedQuestThreshold(QuestType.WEEKLY.name(), 3);
+
+		assertThat(actual).isTrue();
+	}
+
+	@DisplayName("월간 퀘스트 개수가 퀘스트 제한에 도달하지 않는다.")
+	@Test
+	void not_exceed_monthly_quest_threshold() {
+
+		Member member = MemberFixture.member(3, passwordService);
+
+		boolean actual = member.hasReachedQuestThreshold(QuestType.MONTHLY.name(), 2);
+
+		assertThat(actual).isFalse();
+	}
+
+	@DisplayName("월간 퀘스트 개수가 퀘스트 제한에 도달한다.")
+	@Test
+	void exceed_monthly_quest_threshold() {
+		Member member = MemberFixture.member(3, passwordService);
+
+		boolean actual = member.hasReachedQuestThreshold(QuestType.MONTHLY.name(), 3);
+
+		assertThat(actual).isTrue();
+	}
+
+	@DisplayName("잘못된 퀘스트 타입을 제공한다.")
+	@Test
+	void exceed_quest_threshold() {
+		Member member = MemberFixture.member(3, passwordService);
+
+		assertThatThrownBy(() -> member.hasReachedQuestThreshold("NONE", 3))
+				.isInstanceOf(IllegalArgumentException.class)
+				.hasMessageContaining("Invalid quest type: NONE");
+	}
+
+	@DisplayName("비밀번호수정 시 기존 비밀번호와 동일한 비밀번호로 수정할 수 없다.")
+    @Test
+    void update_password_with_same_exist_password(){
+        Member member = MemberFixture.member(passwordService);
+
+        assertThatThrownBy(() -> member.updatePassword("Test1234!", "Test1234!", passwordService))
+                .isInstanceOf(PolicyViolationException.class)
+                .hasMessageContaining("update password must not same as origin password");
+    }
 }

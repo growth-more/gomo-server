@@ -6,10 +6,12 @@ import static org.mockito.Mockito.*;
 import com.gomo.app.common.util.JwtUtil;
 import com.gomo.app.member.application.LoginMemberUseCase;
 import com.gomo.app.member.common.fixture.MemberFixture;
+import com.gomo.app.member.domain.model.ActivateStatus;
 import com.gomo.app.member.domain.model.Email;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.repository.MemberRepository;
 import com.gomo.app.member.domain.service.PasswordService;
+import com.gomo.app.member.exception.MemberPolicyViolationException;
 import com.gomo.app.member.infrastructure.JwtSessionRedisService;
 import com.gomo.app.member.presentation.request.LoginMemberRequest;
 import com.gomo.app.member.presentation.response.LoginMemberResponse;
@@ -21,7 +23,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
-
 
 @DisplayName("[Application Unit]: 이메일 로그인 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -65,5 +66,31 @@ public class LoginMemberUseCaseTest {
         LoginMemberResponse actual = sut.login(request);
 
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @DisplayName("탈퇴한 이메일 계정으로 로그인 시, 로그인에 실패한다.")
+    @Test
+    void email_login_with_deleted_email(){
+        Member member = MemberFixture.member(ActivateStatus.DELETED, passwordService);
+        LoginMemberRequest request = LoginMemberRequest.of(EMAIL, PASSWORD);
+
+        doReturn(Optional.of(member)).when(memberRepository).findByEmail(any(Email.class));
+
+        assertThatThrownBy(() -> sut.login(request))
+                .isInstanceOf(MemberPolicyViolationException.class)
+                .hasMessageContaining("member info has been deleted. check email or password");
+    }
+
+    @DisplayName("정지된 이메일 계정으로 로그인 시, 로그인에 실패한다.")
+    @Test
+    void email_login_with_blocked_email(){
+        Member member = MemberFixture.member(ActivateStatus.BLOCKED,passwordService);
+        LoginMemberRequest request = LoginMemberRequest.of(EMAIL, PASSWORD);
+
+        doReturn(Optional.of(member)).when(memberRepository).findByEmail(any(Email.class));
+
+        assertThatThrownBy(() -> sut.login(request))
+                .isInstanceOf(MemberPolicyViolationException.class)
+                .hasMessageContaining("member info has been blocked. check email or password");
     }
 }

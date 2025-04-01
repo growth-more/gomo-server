@@ -14,7 +14,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.point.common.dataprovider.PointWalletDataProvider;
 import com.gomo.app.point.documentation.snippet.ReadBalanceSnippet;
 import com.gomo.app.point.domain.model.PointWallet;
@@ -38,7 +37,7 @@ public class ReadBalanceDocumentationTest extends DocumentationTestBase {
 	void history_point() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+			.header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
 			.when()
 			.get("/points/balances")
 			.then()
