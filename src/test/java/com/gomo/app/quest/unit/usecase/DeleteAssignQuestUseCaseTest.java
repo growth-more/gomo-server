@@ -64,18 +64,18 @@ public class DeleteAssignQuestUseCaseTest {
 		assertThatThrownBy(
 			() -> sut.delete(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID())))
 			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("AssignQuest has already been confirmed");
+			.hasMessageContaining("Assign quest has already been confirmed");
 	}
 
 	@DisplayName("이미 완료한 할당 퀘스트는 삭제할 수 없다.")
 	@Test
 	void delete_completed_assign_quest() {
-		AssignQuest assignQuest = AssignQuestFixture.assignQuest(true, CompletionProof.createDefault());
+		AssignQuest assignQuest = AssignQuestFixture.assignQuest(true, true, CompletionProof.createDefault());
 		doReturn(Optional.of(assignQuest)).when(assignQuestRepository).findById(any());
 
 		assertThatThrownBy(
 			() -> sut.delete(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID())))
 			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("AssignQuest has already been confirmed");
+			.hasMessageContaining("Assign quest has already been confirmed");
 	}
 }
