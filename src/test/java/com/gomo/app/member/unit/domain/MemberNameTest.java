@@ -118,13 +118,4 @@ public class MemberNameTest {
                 .isInstanceOf(PolicyViolationException.class)
                 .hasMessageContaining("name must contain only letters and numbers");
     }
-
-    @DisplayName("수정하는 이름이 원본과 같으면 안된다.")
-    @Test
-    void update_member_name_with_same_name(){
-        MemberName name = MemberName.of(NAME);
-        assertThatThrownBy(() -> name.update(NAME))
-                .isInstanceOf(PolicyViolationException.class)
-                .hasMessageContaining("name must not be same with origin name");
-    }
 }

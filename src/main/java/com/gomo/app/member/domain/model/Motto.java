@@ -34,11 +34,7 @@ public class Motto {
     }
 
     public Motto update(String motto) {
-        if(this.motto.equals(motto)){
-            throw new PolicyViolationException(INVALID_PARAMETER, "Motto cannot update with same motto");
-        }
-
-        return Motto.of(motto);
+       return Motto.of(motto);
     }
 
     private void ensureValidMottoLength(String motto){

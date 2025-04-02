@@ -37,9 +37,6 @@ public class MemberName {
     }
 
     public MemberName update(String name) {
-        if (this.name.equals(name)){
-            throw new PolicyViolationException(INVALID_PARAMETER, "name must not be same with origin name");
-        }
         return MemberName.of(name);
     }
 
