@@ -64,7 +64,7 @@ public class AssignQuestFixture {
 		);
 	}
 
-	public static AssignQuest assignQuest(boolean isCompleted, CompletionProof proof) {
+	public static AssignQuest assignQuest(boolean isConfirmed, boolean isCompleted, CompletionProof proof) {
 		return new AssignQuest(
 			AssignQuestId.of(UUID.randomUUID()),
 			Quest.of(
@@ -75,7 +75,7 @@ public class AssignQuestFixture {
 				QuestContent.of("quest content")
 			),
 			proof,
-			true,
+			isConfirmed,
 			isCompleted,
 			DisplayOrder.of(1),
 			LocalDateTime.of(2025, 2, 2, 12, 51, 0),

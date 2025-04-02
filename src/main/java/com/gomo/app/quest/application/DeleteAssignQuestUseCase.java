@@ -5,7 +5,6 @@ import java.util.UUID;
 import com.gomo.app.common.application.ApplicationService;
 import com.gomo.app.common.exception.DomainErrorCode;
 import com.gomo.app.common.exception.NotFoundException;
-import com.gomo.app.common.exception.PolicyViolationException;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.repository.AssignQuestRepository;
@@ -23,17 +22,8 @@ public class DeleteAssignQuestUseCase {
 			.orElseThrow(() -> new NotFoundException(DomainErrorCode.NOT_FOUND, "Assign quest not found"));
 		assignQuest.validateAuthority(accessorId);
 
-		validateAssignQuestState(assignQuest);
+		assignQuest.ensureNotConfirmed();
+		assignQuest.ensureNotCompleted();
 		assignQuestRepository.delete(assignQuest);
-	}
-
-	private static void validateAssignQuestState(AssignQuest assignQuest) {
-		if(assignQuest.isCompleted()) {
-			throw new PolicyViolationException(DomainErrorCode.INVALID_STATE, "Assign quests cannot be removed once completed");
-		}
-
-		if(assignQuest.isConfirmed()) {
-			throw new PolicyViolationException(DomainErrorCode.INVALID_STATE, "Assign quests cannot be removed once confirmed");
-		}
 	}
 }

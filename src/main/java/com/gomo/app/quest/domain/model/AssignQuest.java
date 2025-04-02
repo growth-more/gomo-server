@@ -104,8 +104,10 @@ public class AssignQuest extends BaseAudit implements OrderChangeable, Authoriza
 		this.completedDateTime = completedDateTime;
 	}
 
-	public boolean isSameQuestType(QuestType questType) {
-		return this.quest.getType() == questType;
+	public void ensureSameQuestType(QuestType questType) {
+		if(!this.quest.getType().equals(questType)) {
+			throw new PolicyViolationException(DomainErrorCode.INVALID_STATE, "Assigned quest type does not match the requested quest type");
+		}
 	}
 
 	@Override
@@ -125,13 +127,19 @@ public class AssignQuest extends BaseAudit implements OrderChangeable, Authoriza
 
 	private void ensureConfirmed() {
 		if(!this.isConfirmed) {
-			throw new PolicyViolationException(DomainErrorCode.INVALID_STATE, "AssignQuest must be confirmed before completing");
+			throw new PolicyViolationException(DomainErrorCode.INVALID_STATE, "Assign quest has not been confirmed");
 		}
 	}
 
-	private void ensureNotCompleted() {
+	public void ensureNotConfirmed() {
+		if(this.isConfirmed) {
+			throw new PolicyViolationException(DomainErrorCode.INVALID_STATE, "Assign quest has already been confirmed");
+		}
+	}
+
+	public void ensureNotCompleted() {
 		if(this.isCompleted) {
-			throw new PolicyViolationException(DomainErrorCode.INVALID_STATE, "AssignQuest has already been completed");
+			throw new PolicyViolationException(DomainErrorCode.INVALID_STATE, "Assign quest has already been completed");
 		}
 	}
 }

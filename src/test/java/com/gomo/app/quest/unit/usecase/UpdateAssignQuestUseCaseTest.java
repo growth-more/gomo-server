@@ -67,7 +67,7 @@ public class UpdateAssignQuestUseCaseTest {
 		assertThatThrownBy(
 			() -> sut.update(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID()), createMockRequest(QuestType.WEEKLY)))
 			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("Assign quest can only be modified within the same type");
+			.hasMessageContaining("Assigned quest type does not match the requested quest type");
 	}
 
 	@DisplayName("이미 확정한 할당 퀘스트는 수정할 수 없다.")
@@ -79,19 +79,19 @@ public class UpdateAssignQuestUseCaseTest {
 		assertThatThrownBy(
 			() -> sut.update(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID()), createMockRequest(QuestType.DAILY)))
 			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("Assign quests cannot be modified once confirmed");
+			.hasMessageContaining("Assign quest has already been confirmed");
 	}
 
 	@DisplayName("이미 완료한 할당 퀘스트는 수정할 수 없다.")
 	@Test
 	void update_completed_assign_quest() {
-		AssignQuest assignQuest = AssignQuestFixture.assignQuest(true, CompletionProof.createDefault());
+		AssignQuest assignQuest = AssignQuestFixture.assignQuest(false, true, CompletionProof.createDefault());
 		doReturn(Optional.of(assignQuest)).when(assignQuestRepository).findById(any());
 
 		assertThatThrownBy(
 			() -> sut.update(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID()), createMockRequest(QuestType.DAILY)))
 			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("Assign quests cannot be modified once completed");
+			.hasMessageContaining("Assign quest has already been completed");
 	}
 
 	private static @NotNull UpdateAssignQuestRequest createMockRequest(QuestType questType) {
