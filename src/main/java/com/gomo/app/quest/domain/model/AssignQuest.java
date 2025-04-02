@@ -125,11 +125,17 @@ public class AssignQuest extends BaseAudit implements OrderChangeable, Authoriza
 
 	private void ensureConfirmed() {
 		if(!this.isConfirmed) {
-			throw new PolicyViolationException(DomainErrorCode.INVALID_STATE, "AssignQuest must be confirmed before completing");
+			throw new PolicyViolationException(DomainErrorCode.INVALID_STATE, "AssignQuest has not been confirmed");
 		}
 	}
 
-	private void ensureNotCompleted() {
+	public void ensureNotConfirmed() {
+		if(this.isConfirmed) {
+			throw new PolicyViolationException(DomainErrorCode.INVALID_STATE, "AssignQuest has already been confirmed");
+		}
+	}
+
+	public void ensureNotCompleted() {
 		if(this.isCompleted) {
 			throw new PolicyViolationException(DomainErrorCode.INVALID_STATE, "AssignQuest has already been completed");
 		}
