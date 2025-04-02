@@ -175,7 +175,7 @@ public class AssignQuestTest {
 
 		assertThatThrownBy(() -> assignQuest.complete(updatedProof, NOW))
 			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("AssignQuest must be confirmed before completing");
+			.hasMessageContaining("AssignQuest has not been confirmed");
 	}
 
 	@DisplayName("이미 완료된 퀘스트는 중복해서 완료할 수 없다.")
@@ -308,5 +308,71 @@ public class AssignQuestTest {
 		assertThatThrownBy(() -> assignQuest.validateAuthority(UUID.randomUUID()))
 			.isInstanceOf(AssignQuestAccessDeniedException.class)
 			.hasMessageContaining("Access denied for the assign quest");
+	}
+
+	@DisplayName("확정 여부 확인 결과, 아직 확정되지 않은 퀘스트임을 확인한다.")
+	@Test
+	void ensure_not_confirmed_assign_quest() {
+		AssignQuest assignQuest = AssignQuest.of(
+			ID,
+			Quest.of(PARTICIPANT_ID, SUBJECT_ID, SUBJECT_NAME, QuestType.DAILY, QUEST_CONTENT),
+			false,
+			DisplayOrder.of(1),
+			LocalDateTime.of(2025, 1, 31, 0, 0, 0, 0)
+		);
+
+		assertDoesNotThrow(assignQuest::ensureNotConfirmed);
+	}
+
+	@DisplayName("확정 여부 확인 결과, 이미 확정된 퀘스트임을 확인한다.")
+	@Test
+	void already_confirmed_assign_quest() {
+		AssignQuest assignQuest = AssignQuest.of(
+			ID,
+			Quest.of(PARTICIPANT_ID, SUBJECT_ID, SUBJECT_NAME, QuestType.DAILY, QUEST_CONTENT),
+			true,
+			DisplayOrder.of(1),
+			LocalDateTime.of(2025, 1, 31, 0, 0, 0, 0)
+		);
+
+		assertThatThrownBy(assignQuest::ensureNotConfirmed)
+			.isInstanceOf(PolicyViolationException.class)
+			.hasMessageContaining("AssignQuest has already been confirmed");
+	}
+
+	@DisplayName("완료 여부 확인 결과, 아직 완료되지 않은 퀘스트임을 확인한다.")
+	@Test
+	void ensure_not_completed_assign_quest() {
+		AssignQuest assignQuest = new AssignQuest(
+			ID,
+			Quest.of(PARTICIPANT_ID, SUBJECT_ID, SUBJECT_NAME, QuestType.DAILY, QUEST_CONTENT),
+			CompletionProof.createDefault(),
+			false,
+			false,
+			DisplayOrder.of(1),
+			LocalDateTime.of(2025, 1, 31, 0, 0, 0, 0),
+			LocalDateTime.of(2025, 1, 31, 0, 0, 0, 0)
+		);
+
+		assertDoesNotThrow(assignQuest::ensureNotCompleted);
+	}
+
+	@DisplayName("완료 여부 확인 결과, 이미 완료된 퀘스트임을 확인한다.")
+	@Test
+	void already_completed_assign_quest() {
+		AssignQuest assignQuest = new AssignQuest(
+			ID,
+			Quest.of(PARTICIPANT_ID, SUBJECT_ID, SUBJECT_NAME, QuestType.DAILY, QUEST_CONTENT),
+			CompletionProof.createDefault(),
+			true,
+			true,
+			DisplayOrder.of(1),
+			LocalDateTime.of(2025, 1, 31, 0, 0, 0, 0),
+			LocalDateTime.of(2025, 1, 31, 0, 0, 0, 0)
+		);
+
+		assertThatThrownBy(assignQuest::ensureNotCompleted)
+			.isInstanceOf(PolicyViolationException.class)
+			.hasMessageContaining("AssignQuest has already been completed");
 	}
 }
