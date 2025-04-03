@@ -1,15 +1,15 @@
 package com.gomo.app.interest.documentation.snippet;
 
-import com.epages.restdocs.apispec.ResourceSnippetParameters;
-import com.epages.restdocs.apispec.Schema;
-import com.gomo.app.common.constant.ErrorResponseFields;
+import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import org.springframework.restdocs.snippet.Snippet;
 
-import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
+import com.epages.restdocs.apispec.Schema;
+import com.gomo.app.common.constant.ErrorResponseFields;
 
 public class ListInterestSnippet {
 
@@ -27,7 +27,8 @@ public class ListInterestSnippet {
 		fieldWithPath("interests[].level").type(JsonFieldType.NUMBER).description("레벨"),
 		fieldWithPath("interests[].score").type(JsonFieldType.NUMBER).description("현재 점수"),
 		fieldWithPath("interests[].scoreThreshold").type(JsonFieldType.NUMBER).description("현재 레벨의 임계 점수"),
-		fieldWithPath("interests[].totalScore").type(JsonFieldType.NUMBER).description("전체 점수")
+		fieldWithPath("interests[].totalScore").type(JsonFieldType.NUMBER).description("전체 점수"),
+		fieldWithPath("interests[].majorInterest").type(JsonFieldType.BOOLEAN).description("주요 관심사 여부")
 	);
 
 	public static RestDocumentationFilter create() {

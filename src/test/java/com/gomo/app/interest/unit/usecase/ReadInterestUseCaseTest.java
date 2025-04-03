@@ -21,6 +21,7 @@ import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.RegistrantId;
 import com.gomo.app.interest.domain.repository.InterestRepository;
+import com.gomo.app.interest.domain.repository.MajorInterestRepository;
 import com.gomo.app.interest.presentation.response.ListInterestResponse;
 import com.gomo.app.interest.presentation.response.ReadInterestResponse;
 
@@ -34,16 +35,20 @@ public class ReadInterestUseCaseTest {
 	@Mock
 	private InterestRepository interestRepository;
 
+	@Mock
+	private MajorInterestRepository majorInterestRepository;
+
 	@DisplayName("관심사를 하나 조회한다.")
 	@Test
 	void find_interest() {
 		Interest expected = InterestFixture.interest();
 		doReturn(Optional.of(expected)).when(interestRepository).findById(any(InterestId.class));
+		doReturn(false).when(majorInterestRepository).existsMajorInterestByInterestId(any(InterestId.class));
 
 		ReadInterestResponse actual = sut.find(expected.getId());
 
 		assertThat(actual)
-			.extracting("id", "registrantId", "name", "logoUrl", "level", "score", "totalScore")
+			.extracting("id", "registrantId", "name", "logoUrl", "level", "score", "totalScore", "isMajorInterest")
 			.containsExactly(
 				expected.getId().getId(),
 				expected.getRegistrantId().getId(),
@@ -51,7 +56,8 @@ public class ReadInterestUseCaseTest {
 				expected.getLogoUrl(),
 				expected.getProficiency().getLevel().getLevel(),
 				expected.getProficiency().getScore().getScore(),
-				expected.getProficiency().getTotalScore()
+				expected.getProficiency().getTotalScore(),
+				false
 			);
 	}
 
@@ -60,17 +66,20 @@ public class ReadInterestUseCaseTest {
 	void find_interest_list() {
 		Interest expected1 = InterestFixture.interest();
 		Interest expected2 = InterestFixture.interest();
+		long isNotMajorInterest = 0L;
+		long isMajorInterest = 1L;
 		doReturn(List.of(expected1, expected2)).when(interestRepository).findAllByRegistrantId(any(RegistrantId.class));
+		doReturn(List.of(isNotMajorInterest, isMajorInterest)).when(majorInterestRepository).existsAsMajorInterests(anyString());
 
 		ListInterestResponse actual = sut.findAll(RegistrantId.of(expected1.getRegistrantId().getId()));
 
 		assertThat(actual.getInterests())
 			.hasSize(2)
-			.extracting("id", "registrantId", "name", "logoUrl", "level", "score", "totalScore")
-			.containsExactly(createTuple(expected1), createTuple(expected2));
+			.extracting("id", "registrantId", "name", "logoUrl", "level", "score", "totalScore", "isMajorInterest")
+			.containsExactly(createTuple(expected1, isNotMajorInterest), createTuple(expected2, isMajorInterest));
 	}
 
-	private static @NotNull Tuple createTuple(Interest interest) {
+	private static @NotNull Tuple createTuple(Interest interest, long isMajorInterest) {
 		return tuple(
 			interest.getId().getId(),
 			interest.getRegistrantId().getId(),
@@ -78,7 +87,8 @@ public class ReadInterestUseCaseTest {
 			interest.getLogoUrl(),
 			interest.getProficiency().getLevel().getLevel(),
 			interest.getProficiency().getScore().getScore(),
-			interest.getProficiency().getTotalScore()
+			interest.getProficiency().getTotalScore(),
+			isMajorInterest != 0
 		);
 	}
 }

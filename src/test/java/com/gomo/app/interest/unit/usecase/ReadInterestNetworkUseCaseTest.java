@@ -22,6 +22,7 @@ import com.gomo.app.interest.domain.model.InterestRelation;
 import com.gomo.app.interest.domain.model.RegistrantId;
 import com.gomo.app.interest.domain.repository.InterestRelationRepository;
 import com.gomo.app.interest.domain.repository.InterestRepository;
+import com.gomo.app.interest.domain.repository.MajorInterestRepository;
 import com.gomo.app.interest.presentation.response.InterestNetworkResponse;
 
 @DisplayName("[Application unit]: 관심사 네트워크 조회 테스트")
@@ -35,6 +36,9 @@ public class ReadInterestNetworkUseCaseTest {
 	private InterestRepository interestRepository;
 
 	@Mock
+	private MajorInterestRepository majorInterestRepository;
+
+	@Mock
 	private InterestRelationRepository interestRelationRepository;
 
 	@DisplayName("관심사 네트워크를 조회한다.")
@@ -42,7 +46,10 @@ public class ReadInterestNetworkUseCaseTest {
 	void find_interest_network() {
 		Interest interest1 = InterestFixture.interest();
 		Interest interest2 = InterestFixture.interest();
+		long isNotMajorInterest = 0L;
+		long isMajorInterest = 1L;
 		doReturn(List.of(interest1, interest2)).when(interestRepository).findAllByRegistrantId(any(RegistrantId.class));
+		doReturn(List.of(isNotMajorInterest, isMajorInterest)).when(majorInterestRepository).existsAsMajorInterests(anyString());
 
 		InterestRelation relation = InterestRelationFixture.relation();
 		doReturn(List.of(relation)).when(interestRelationRepository).findAllByRegistrantId(any(RegistrantId.class));
@@ -51,8 +58,8 @@ public class ReadInterestNetworkUseCaseTest {
 
 		assertThat(actual.getInterests())
 			.hasSize(2)
-			.extracting("id", "registrantId", "name", "logoUrl", "level", "score", "totalScore")
-			.containsExactly(createInterestTuple(interest1), createInterestTuple(interest2));
+			.extracting("id", "registrantId", "name", "logoUrl", "level", "score", "totalScore", "isMajorInterest")
+			.containsExactly(createInterestTuple(interest1, isNotMajorInterest), createInterestTuple(interest2, isMajorInterest));
 
 		assertThat(actual.getRelations())
 			.hasSize(1)
@@ -65,7 +72,7 @@ public class ReadInterestNetworkUseCaseTest {
 			relation.getChildInterestId().getId());
 	}
 
-	private static @NotNull Tuple createInterestTuple(Interest interest) {
+	private static @NotNull Tuple createInterestTuple(Interest interest, long isMajorInterest) {
 		return tuple(
 			interest.getId().getId(),
 			interest.getRegistrantId().getId(),
@@ -73,7 +80,8 @@ public class ReadInterestNetworkUseCaseTest {
 			interest.getLogoUrl(),
 			interest.getProficiency().getLevel().getLevel(),
 			interest.getProficiency().getScore().getScore(),
-			interest.getProficiency().getTotalScore()
+			interest.getProficiency().getTotalScore(),
+			isMajorInterest != 0
 		);
 	}
 }
