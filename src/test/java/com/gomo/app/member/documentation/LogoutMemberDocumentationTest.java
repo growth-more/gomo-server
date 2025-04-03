@@ -17,7 +17,7 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-@DisplayName("[Presentation documentation]: 핸들 변경 테스트")
+@DisplayName("[Presentation documentation]: 로그아웃 테스트")
 public class LogoutMemberDocumentationTest extends DocumentationTestBase {
 
 	private static final String LOGOUT_MEMBER_URL = "/members/logout";
