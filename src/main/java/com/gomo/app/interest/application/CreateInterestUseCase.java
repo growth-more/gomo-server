@@ -23,11 +23,10 @@ public class CreateInterestUseCase {
     private final ImageService imageService;
     private final InterestRepository interestRepository;
 
-    public CreateInterestResponse create(RegistrantId registrantId, CreateInterestRequest request, MultipartFile logo) {
+    public CreateInterestResponse create(RegistrantId registrantId, CreateInterestRequest request) {
         InterestId interestId = InterestId.of(UUIDGenerator.generate());
-        String logoImageName = imageService.uploadImage(logo);
 
-        Interest interest = request.toDomain(interestId, registrantId, logoImageName);
+        Interest interest = request.toDomain(interestId, registrantId, null);
         Interest savedInterest = interestRepository.save(interest);
         return CreateInterestResponse.of(savedInterest.getId());
     }
