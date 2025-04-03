@@ -18,9 +18,17 @@ public interface MajorInterestRepository extends JpaRepository<MajorInterest, Ma
 
 	@Query("select COALESCE(MAX(m.displayOrder.displayOrder), 0) from MajorInterest m " +
 		"where m.registrantId = :registrantId ")
-	int findMaxDisplayOrder(
-		@Param("registrantId") RegistrantId registrantId
-	);
+	int findMaxDisplayOrder(@Param("registrantId") RegistrantId registrantId);
+
+	boolean existsMajorInterestByInterestId(InterestId interestId);
+
+	@Query(value = """
+    SELECT EXISTS (
+        SELECT 1 FROM major_interest m WHERE m.interest_id = UNHEX(REPLACE(i.id, '-', ''))
+    )
+    FROM JSON_TABLE(:interestIds, '$[*]' COLUMNS (id CHAR(36) PATH '$')) AS i
+    """, nativeQuery = true)
+	List<Long> existsAsMajorInterests(@Param("interestIds") String interestIdsJson);
 
 	List<MajorInterest> findAllByRegistrantIdOrderByDisplayOrder(RegistrantId registrantId);
 

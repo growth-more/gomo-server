@@ -17,6 +17,7 @@ public class ReadInterestResponse {
 	private int score;
 	private int scoreThreshold;
 	private int totalScore;
+	private boolean isMajorInterest;
 
 	private ReadInterestResponse(
 		UUID id,
@@ -48,5 +49,9 @@ public class ReadInterestResponse {
 			interest.getProficiency().getScore().getScore(),
 			interest.getProficiency().getLevel().getScoreThreshold(),
 			interest.getProficiency().getTotalScore());
+	}
+
+	public void updateMajorInterest() {
+		this.isMajorInterest = true;
 	}
 }
