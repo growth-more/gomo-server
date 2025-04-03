@@ -109,6 +109,7 @@ public class Member extends LogicalDeleteBaseAudit {
 	}
 	public void updateHandle(String handle){this.handle = this.handle.update(handle);}
 	public void delete(){this.activateStatus = ActivateStatus.DELETED;}
+	public void deleteProfile(){this.profileImage  = this.profileImage.delete();}
 	public void updateMotto(String motto){this.motto = this.motto.update(motto);}
 	public void updateName(String name){this.name = this.name.update(name);}
 	public void updateMemberInfo(String name, String motto){
