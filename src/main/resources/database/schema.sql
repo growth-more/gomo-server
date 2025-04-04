@@ -22,6 +22,7 @@ CREATE TABLE member (
     id BINARY(16) NOT NULL PRIMARY KEY,
     email VARCHAR(255) UNIQUE,
     password VARCHAR(255),
+    profile_banner_url VARCHAR(512),
     profile_image_url VARCHAR(512),
     profile_image_origin_name VARCHAR(255),
     handle VARCHAR(50) UNIQUE,
