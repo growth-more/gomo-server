@@ -11,6 +11,7 @@ import lombok.Getter;
 public class ReadMajorInterestResponse {
 
 	private UUID id;
+	private UUID interestId;
 	private String name;
 	private String logoUrl;
 	private int level;
@@ -20,6 +21,7 @@ public class ReadMajorInterestResponse {
 
 	private ReadMajorInterestResponse(
 		UUID id,
+		UUID interestId,
 		String name,
 		String logoUrl,
 		int level,
@@ -28,6 +30,7 @@ public class ReadMajorInterestResponse {
 		int displayOrder
 	) {
 		this.id = id;
+		this.interestId = interestId;
 		this.name = name;
 		this.logoUrl = logoUrl;
 		this.level = level;
@@ -39,6 +42,7 @@ public class ReadMajorInterestResponse {
 	public static ReadMajorInterestResponse of(MajorInterest majorInterest, Interest interest) {
 		return new ReadMajorInterestResponse(
 			majorInterest.getId().getId(),
+			interest.getId().getId(),
 			interest.getName().toString(),
 			interest.getLogoUrl(),
 			interest.getProficiency().getLevel().getLevel(),
