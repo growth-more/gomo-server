@@ -9,6 +9,7 @@ import com.gomo.app.member.domain.service.PasswordService;
 import com.gomo.app.member.exception.MemberAuthenticationFailedException;
 import com.gomo.app.member.exception.MemberDuplicatedException;
 import com.gomo.app.member.exception.MemberNotFoundException;
+import com.gomo.app.member.presentation.response.UpdateProfileBannerResponse;
 import com.gomo.app.member.presentation.response.UpdateProfileImageResponse;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,6 +51,16 @@ public class UpdateMemberUseCase {
 		member.updateProfileImage(member.getProfileImage().updateUrl(profile_url));
 
 		return UpdateProfileImageResponse.of(profile_url);
+	}
+
+	public UpdateProfileBannerResponse updateProfileBanner(MemberId memberId, MultipartFile profileBanner) {
+		Member member = memberRepository.findById(memberId)
+				.orElseThrow(() -> new MemberNotFoundException(NOT_FOUND, "member id not found: " + memberId));
+
+		String banner_url = imageService.uploadImage(profileBanner);
+		member.updateProfileBanner(member.getProfileBanner().updateUrl(banner_url));
+
+		return UpdateProfileBannerResponse.of(banner_url);
 	}
 
 	public void updatePassword(MemberId memberId, UpdatePasswordRequest request) {
