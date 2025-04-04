@@ -26,10 +26,17 @@ public class DeleteMemberUseCase {
 		member.delete();
 	}
 
-	public void deleteProfileResponse(MemberId memberId){
+	public void deleteProfile(MemberId memberId){
 		Member member = memberRepository.findById(memberId)
 				.orElseThrow(() -> new MemberNotFoundException(NOT_FOUND, "member is not found: " + memberId));
 
 		member.deleteProfile();
+	}
+
+	public void deleteBanner(MemberId memberId){
+		Member member = memberRepository.findById(memberId)
+				.orElseThrow(() -> new MemberNotFoundException(NOT_FOUND, "member is not found: " + memberId));
+
+		member.deleteBanner();
 	}
 }

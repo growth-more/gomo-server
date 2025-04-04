@@ -25,8 +25,6 @@ public class CreateEmailAuthCodeUseCase {
 
 		String authCode = generateAuthCode();
 		emailAuthRedisService.setAuthCode(request.getEmail(), authCode);
-
-		// TODO <jhl221123 to nurdykim>: 운영 환경과 테스트 환경을 분리하면 좋을 것 같습니다.
 		emailAuthSenderService.sendEmailAuthCode(request.getEmail(), authCode);
 
 		return CreateEmailAuthCodeResponse.of(request.getEmail());

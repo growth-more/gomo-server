@@ -50,6 +50,12 @@ public class Member extends LogicalDeleteBaseAudit {
 	private ProfileImage profileImage;
 
 	@Embedded
+	@AttributeOverrides({
+		@AttributeOverride(name = "url", column = @Column(name = "profile_banner_url")),
+	})
+	private ProfileBanner profileBanner;
+
+	@Embedded
 	private QuestProperty questProperty;
 
 	@Enumerated(EnumType.STRING)
@@ -77,6 +83,7 @@ public class Member extends LogicalDeleteBaseAudit {
 		MemberName name,
 		Motto motto,
 		ProfileImage profileImage,
+		ProfileBanner profileBanner,
 		QuestProperty questProperty,
 		LoginProvider loginProvider,
 		RoleType roleType,
@@ -92,6 +99,7 @@ public class Member extends LogicalDeleteBaseAudit {
 		this.name = name;
 		this.motto = motto;
 		this.profileImage = profileImage;
+		this.profileBanner = profileBanner;
 		this.questProperty = questProperty;
 		this.loginProvider = loginProvider;
 		this.roleType = roleType;
@@ -110,6 +118,7 @@ public class Member extends LogicalDeleteBaseAudit {
 	public void updateHandle(String handle){this.handle = this.handle.update(handle);}
 	public void delete(){this.activateStatus = ActivateStatus.DELETED;}
 	public void deleteProfile(){this.profileImage  = this.profileImage.delete();}
+	public void deleteBanner(){this.profileBanner  = this.profileBanner.delete();}
 	public void updateMotto(String motto){this.motto = this.motto.update(motto);}
 	public void updateName(String name){this.name = this.name.update(name);}
 	public void updateMemberInfo(String name, String motto){
@@ -117,6 +126,7 @@ public class Member extends LogicalDeleteBaseAudit {
 		updateName(name);
 	}
 	public void updateProfileImage(ProfileImage profileImage){this.profileImage = profileImage;}
+	public void updateProfileBanner(ProfileBanner profileBanner){this.profileBanner = profileBanner;}
 	public void updateQuestProperty(QuestProperty questProperty){this.questProperty = questProperty;}
 	public void updateLastLoginDateTime(LocalDateTime lastLoginDateTime){this.lastLoginDateTime = lastLoginDateTime;}
 
@@ -133,7 +143,7 @@ public class Member extends LogicalDeleteBaseAudit {
 		Motto motto,
 		LoginProvider loginProvider
 	) {
-		return new Member(id, email, password, handle, memberName, motto, ProfileImage.createDefault(), QuestProperty.createDefault(), loginProvider,
+		return new Member(id, email, password, handle, memberName, motto, ProfileImage.createDefault(), ProfileBanner.createDefault(), QuestProperty.createDefault(), loginProvider,
 			RoleType.ROLE_MEMBER, SubscriptionPlan.FREE, ActivateStatus.ACTIVE, LocalDateTime.now(), null
 		);
 	}

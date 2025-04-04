@@ -30,7 +30,7 @@ public class ProfileImageApi {
 
 	@DeleteMapping
 	public ResponseEntity<Void> delete(@Auth AuthInfo authInfo){
-		deleteMemberUseCase.delete(MemberId.of(authInfo.getMemberId()));
+		deleteMemberUseCase.deleteProfile(MemberId.of(authInfo.getMemberId()));
 		return ResponseEntity.ok().build();
 	}
 }
