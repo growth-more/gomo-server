@@ -48,10 +48,10 @@ public class ReadMajorInterestUseCaseTest {
 
 		assertThat(response.getMajorInterests())
 			.hasSize(2)
-			.extracting("id", "name")
+			.extracting("id", "interestId", "name")
 			.containsExactly(
-				tuple(expected1.getId().getId(), "interest1"),
-				tuple(expected2.getId().getId(), "interest2")
+				tuple(expected1.getId().getId(), expected1.getInterestId().getId(), "interest1"),
+				tuple(expected2.getId().getId(), expected2.getInterestId().getId(), "interest2")
 			);
 	}
 

@@ -1,15 +1,15 @@
 package com.gomo.app.interest.documentation.snippet;
 
-import com.epages.restdocs.apispec.ResourceSnippetParameters;
-import com.epages.restdocs.apispec.Schema;
-import com.gomo.app.common.constant.ErrorResponseFields;
+import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import org.springframework.restdocs.snippet.Snippet;
 
-import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
+import com.epages.restdocs.apispec.Schema;
+import com.gomo.app.common.constant.ErrorResponseFields;
 
 public class ListMajorInterestSnippet {
 
@@ -21,6 +21,7 @@ public class ListMajorInterestSnippet {
 	private static final Snippet RESPONSE_FIELDS = responseFields(
 		fieldWithPath("majorInterests").type(JsonFieldType.ARRAY).description("주요 관심사 목록"),
 		fieldWithPath("majorInterests[].id").type(JsonFieldType.STRING).description("주요 관심사 아이디"),
+		fieldWithPath("majorInterests[].interestId").type(JsonFieldType.STRING).description("관심사 아이디"),
 		fieldWithPath("majorInterests[].name").type(JsonFieldType.STRING).description("관심사 이름"),
 		fieldWithPath("majorInterests[].logoUrl").type(JsonFieldType.STRING).description("관심사 로고 이미지"),
 		fieldWithPath("majorInterests[].level").type(JsonFieldType.NUMBER).description("레벨"),
