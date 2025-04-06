@@ -19,7 +19,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @DisplayName("[Presentation documentation]: 회원 프로필배너 삭제 테스트")
 public class DeleteProfileBannerDocumentationTest extends DocumentationTestBase {
 
-    private static final String MEMBER_BANNER_DELETE_URL = "/members/images/banner";
+    private static final String MEMBER_BANNER_DELETE_URL = "/members/images/banners";
 
     private final RestDocumentationFilter filter = DeleteMemberBannerSnippet.create();
     private final RestDocumentationFilter errorFilter = DeleteMemberBannerSnippet.createError();
