@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
-@RequestMapping("/members/images/banner")
+@RequestMapping("/members/images/banners")
 @Presentation
 public class ProfileBannerApi {
 
@@ -23,8 +23,8 @@ public class ProfileBannerApi {
 	private final DeleteMemberUseCase deleteMemberUseCase;
 
 	@PutMapping
-	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @RequestPart MultipartFile profileImage) {
-		updateMemberUseCase.updateProfileBanner(MemberId.of(authInfo.getMemberId()), profileImage);
+	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @RequestPart MultipartFile profileBanner) {
+		updateMemberUseCase.updateProfileBanner(MemberId.of(authInfo.getMemberId()), profileBanner);
 		return ResponseEntity.noContent().build();
 	}
 
