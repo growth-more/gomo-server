@@ -2,6 +2,7 @@ package com.gomo.app.member.documentation;
 
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.member.common.util.MemberDBDataHelper;
+import com.gomo.app.member.documentation.snippet.DeleteMemberBannerSnippet;
 import com.gomo.app.member.documentation.snippet.DeleteMemberSnippet;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,17 +13,16 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import static io.restassured.RestAssured.given;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
-import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-@DisplayName("[Presentation documentation]: 회원 프로필이미지 삭제 테스트")
-public class DeleteProfileImageDocumentationTest extends DocumentationTestBase {
+@DisplayName("[Presentation documentation]: 회원 프로필배너 삭제 테스트")
+public class DeleteProfileBannerDocumentationTest extends DocumentationTestBase {
 
-    private static final String MEMBER_PROFILE_DELETE_URL = "/members/images/profiles";
+    private static final String MEMBER_BANNER_DELETE_URL = "/members/images/banner";
 
-    private final RestDocumentationFilter filter = DeleteMemberSnippet.create();
-    private final RestDocumentationFilter errorFilter = DeleteMemberSnippet.createError();
+    private final RestDocumentationFilter filter = DeleteMemberBannerSnippet.create();
+    private final RestDocumentationFilter errorFilter = DeleteMemberBannerSnippet.createError();
 
     @Autowired
 	private MemberDBDataHelper memberDBDataHelper;
@@ -32,14 +32,14 @@ public class DeleteProfileImageDocumentationTest extends DocumentationTestBase {
 		memberDBDataHelper.cleanUp();
 	}
 
-    @DisplayName("사용자가 프로필 삭제를 요청한다.")
+    @DisplayName("사용자가 배너 삭제를 요청한다.")
     @Test
     void delete_member(){
         given(this.specification).filter(filter)
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                 .header(AUTHORIZATION, "Bearer " + accessToken)
                 .when()
-                .delete(MEMBER_PROFILE_DELETE_URL)
+                .delete(MEMBER_BANNER_DELETE_URL)
                 .then()
                 .statusCode(OK.value());
     }

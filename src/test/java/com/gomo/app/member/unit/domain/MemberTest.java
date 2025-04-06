@@ -57,6 +57,55 @@ public class MemberTest {
 				.isEqualTo("https://image.nurdykim.me/gomo/default-image.png");
 	}
 
+	@DisplayName("프로필 이미지를 업데이트 한다.")
+	@Test
+	void update_member_profile(){
+		Member member = Member.of(ID, EMAIL, PASSWORD, HANDLE, MEMBER_NAME, MOTTO, LOGIN_PROVIDER);
+		member.updateProfileImage(member.getProfileImage().updateUrl("https://mini-io/updated_profile.png"));
+
+		assertThat(member.getProfileImage().getUrl())
+				.isEqualTo("https://mini-io/updated_profile.png");
+	}
+
+	@DisplayName("프로필 이미지를 삭제하면 기본 이미지로 수정된다.")
+	@Test
+	void delete_member_profile(){
+		Member member = Member.of(ID, EMAIL, PASSWORD, HANDLE, MEMBER_NAME, MOTTO, LOGIN_PROVIDER);
+		member.delete();
+
+		assertThat(member.getProfileImage().getUrl())
+				.isEqualTo("https://image.nurdykim.me/gomo/default-image.png");
+	}
+
+	@DisplayName("프로필 배너를 등록하지 않으면 기본 이미지가 등록된다.")
+	@Test
+	void create_member_with_default_banner(){
+		Member member = Member.of(ID, EMAIL, PASSWORD, HANDLE, MEMBER_NAME, MOTTO, LOGIN_PROVIDER);
+
+		assertThat(member.getProfileBanner().getUrl())
+				.isEqualTo("https://image.nurdykim.me/gomo/default-banner.png");
+	}
+
+	@DisplayName("프로필 배너를 업데이트 한다.")
+	@Test
+	void update_member_banner(){
+		Member member = Member.of(ID, EMAIL, PASSWORD, HANDLE, MEMBER_NAME, MOTTO, LOGIN_PROVIDER);
+		member.updateProfileBanner(member.getProfileBanner().updateUrl("https://mini-io/updated_banner.png"));
+
+		assertThat(member.getProfileBanner().getUrl())
+				.isEqualTo("https://mini-io/updated_banner.png");
+	}
+
+	@DisplayName("프로필 배너를 삭제하면 기본 이미지로 수정된다.")
+	@Test
+	void delete_member_banner(){
+		Member member = Member.of(ID, EMAIL, PASSWORD, HANDLE, MEMBER_NAME, MOTTO, LOGIN_PROVIDER);
+		member.delete();
+
+		assertThat(member.getProfileImage().getUrl())
+				.isEqualTo("https://image.nurdykim.me/gomo/default-image.png");
+	}
+
 	@DisplayName("일일 퀘스트 개수가 퀘스트 제한에 도달하지 않는다.")
 	@Test
 	void not_exceed_daily_quest_threshold() {

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 import com.gomo.app.member.domain.service.MemberValidator;
+import com.gomo.app.member.presentation.response.UpdateProfileBannerResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -76,6 +77,21 @@ public class UpdateMemberUseCaseTest {
         doReturn(NEW_IMAGE_URL).when(imageService).uploadImage(any());
 
         UpdateProfileImageResponse actual = sut.updateProfileImage(member.getId(), request);
+
+        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @DisplayName("프로필 배너 업데이트 한다.")
+    @Test
+    void update_member_banner(){
+        Member member = MemberFixture.member(passwordService);
+        MockMultipartFile request = new MockMultipartFile("banner", "mock image data".getBytes());
+        UpdateProfileBannerResponse expected = UpdateProfileBannerResponse.of(NEW_IMAGE_URL);
+
+        doReturn(Optional.of(member)).when(memberRepository).findById(member.getId());
+        doReturn(NEW_IMAGE_URL).when(imageService).uploadImage(any());
+
+        UpdateProfileBannerResponse actual = sut.updateProfileBanner(member.getId(), request);
 
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }

@@ -2,7 +2,9 @@ package com.gomo.app.member.domain.model;
 
 import com.gomo.app.common.domain.ValueObject;
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
 
+@Getter
 @Embeddable
 @ValueObject
 public class ProfileBanner {
