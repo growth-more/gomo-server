@@ -11,6 +11,8 @@ import com.gomo.app.member.domain.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 
+import static com.gomo.app.member.exception.MemberErrorCode.NOT_FOUND;
+
 @RequiredArgsConstructor
 @ApplicationService
 @Transactional
@@ -22,5 +24,19 @@ public class DeleteMemberUseCase {
 		Member member = memberRepository.findById(memberId)
 				.orElseThrow(() -> new MemberNotFoundException(MemberErrorCode.NOT_FOUND, "member has not found"));
 		member.delete();
+	}
+
+	public void deleteProfile(MemberId memberId){
+		Member member = memberRepository.findById(memberId)
+				.orElseThrow(() -> new MemberNotFoundException(NOT_FOUND, "member is not found: " + memberId));
+
+		member.deleteProfile();
+	}
+
+	public void deleteBanner(MemberId memberId){
+		Member member = memberRepository.findById(memberId)
+				.orElseThrow(() -> new MemberNotFoundException(NOT_FOUND, "member is not found: " + memberId));
+
+		member.deleteBanner();
 	}
 }

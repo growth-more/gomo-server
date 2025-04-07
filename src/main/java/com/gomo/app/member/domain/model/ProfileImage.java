@@ -27,4 +27,7 @@ public class ProfileImage {
     public ProfileImage updateUrl(String url) {
         return new ProfileImage(url);
     }
+    public ProfileImage delete() {
+        return new ProfileImage(DEFAULT_IMAGE_URL);
+    }
 }

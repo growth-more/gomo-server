@@ -35,8 +35,8 @@ public class InterestApi {
     private final DeleteInterestUseCase deleteInterestUseCase;
 
     @PostMapping
-    public ResponseEntity<CreateInterestResponse> create(@Auth AuthInfo authInfo, @RequestPart CreateInterestRequest request, @RequestPart MultipartFile logo) {
-        CreateInterestResponse response = createInterestUseCase.create(RegistrantId.of(authInfo.getMemberId()), request, logo);
+    public ResponseEntity<CreateInterestResponse> create(@Auth AuthInfo authInfo, @RequestPart CreateInterestRequest request) {
+        CreateInterestResponse response = createInterestUseCase.create(RegistrantId.of(authInfo.getMemberId()), request);
         return ResponseEntity.status(CREATED).body(response);
     }
 
