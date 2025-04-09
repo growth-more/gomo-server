@@ -9,6 +9,8 @@ import com.gomo.app.member.domain.repository.MemberRepository;
 import com.gomo.app.member.exception.MemberErrorCode;
 import com.gomo.app.member.exception.MemberPolicyViolationException;
 import com.gomo.app.member.infrastructure.JwtSessionRedisService;
+import com.gomo.app.member.infrastructure.oauth.OAuthProvider;
+import com.gomo.app.member.infrastructure.oauth.OAuthProviderFactory;
 import com.gomo.app.member.presentation.response.CreateMemberResponse;
 import com.gomo.app.member.presentation.response.LoginMemberResponse;
 import jakarta.transaction.Transactional;
@@ -25,33 +27,18 @@ import java.util.UUID;
 @ApplicationService
 public class OAuthUseCase {
 
-    private final RestClient restClient;
+    private final OAuthProviderFactory providerFactory;
     private final MemberRepository memberRepository;
     private final JwtSessionRedisService jwtSessionRedisService;
     private final JwtUtil jwtUtil;
 
-    @Value("${oauth.google.client-id}")
-    private String clientId;
-
-    @Value("${oauth.google.client-secret}")
-    private String clientSecret;
-
-    @Value("${oauth.google.redirect-uri}")
-    private String redirectUri;
-
-    @Value("${oauth.google.token-uri}")
-    private String tokenUri;
-
-    @Value("${oauth.google.user-info-uri}")
-    private String userInfoUri;
-
     @Transactional
-    public LoginMemberResponse login(String code){
-        String googleAccessToken = getAccessToken(code);
-        JsonNode userInfo = getUserResource(googleAccessToken);
+    public LoginMemberResponse login(String providerName, String code){
+        OAuthProvider provider = providerFactory.getProvider(providerName);
+        OAuthUserInfo userInfo = provider.authenticate(code);
 
-        Member member = memberRepository.findByEmail(Email.of(userInfo.get("email").asText()))
-                .orElseGet(() -> createMember(userInfo, code));
+        Member member = memberRepository.findByEmail(Email.of(userInfo.getEmail()))
+                .orElseGet(() -> createMember(userInfo, providerName));
 
         switch(member.getActivateStatus()){
 			case DELETED -> throw new MemberPolicyViolationException(MemberErrorCode.MEMBER_DELETED, "member info has been deleted. check email or password");
@@ -69,36 +56,17 @@ public class OAuthUseCase {
 		return LoginMemberResponse.of(member.getId(), accessToken, refreshToken, refreshTokenExptime);
     }
 
-    private Member createMember(JsonNode userInfo, String code){
+    private Member createMember(OAuthUserInfo userInfo, String providerName){
         UUID uuid = UUIDGenerator.generate();
         MemberId memberId = MemberId.of(uuid);
-        String email = userInfo.get("email").asText();
-        String name = userInfo.get("name").asText();
-        Member member = Member.of(memberId, Email.of(email), null, null, MemberName.of(name), null, LoginProvider.GOOGLE);
+        Member member = Member.of(
+                memberId,
+                Email.of(userInfo.getEmail()),
+                null,
+                null,
+                MemberName.of(userInfo.getName()),
+                null,
+                LoginProvider.valueOf(providerName.toUpperCase()));
         return memberRepository.save(member);
-    }
-
-    private String getAccessToken(String code){
-        ResponseEntity<JsonNode> response = restClient.post()
-                .uri(tokenUri)
-                .body(Map.of(
-                        "code", code,
-                        "client_id", clientId,
-                        "client_secret", clientSecret,
-                        "redirect_uri", redirectUri,
-                        "grant_type", "authorization_code"
-                )).retrieve()
-                .toEntity(JsonNode.class);
-        JsonNode accessToken = response.getBody();
-        return accessToken.get("access_token").asText();
-    }
-
-    private JsonNode getUserResource(String accessToken){
-        ResponseEntity<JsonNode> response = restClient.get()
-                .uri(userInfoUri)
-                .header("Authorization", "Bearer " + accessToken)
-                .retrieve()
-                .toEntity(JsonNode.class);
-        return response.getBody();
     }
 }

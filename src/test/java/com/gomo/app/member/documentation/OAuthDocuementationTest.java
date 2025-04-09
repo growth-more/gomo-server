@@ -45,7 +45,7 @@ public class OAuthDocuementationTest extends DocumentationTestBase {
                 expectedRefreshToken,
                 expiresIn
         );
-        doReturn(expected).when(oAuthUseCase).login(anyString());
+        doReturn(expected).when(oAuthUseCase).login(anyString(), anyString());
 
         given(this.specification).filter(filter)
                 .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)

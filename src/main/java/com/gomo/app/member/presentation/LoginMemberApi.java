@@ -62,7 +62,7 @@ public class LoginMemberApi {
 				.httpOnly(true)
 				.secure(true)
 				.path("/members/refresh")
-				.maxAge(Duration.ofSeconds(expiry))
+				.maxAge(Duration.ofMillis(expiry))
 				.build();
 	}
 
