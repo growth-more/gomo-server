@@ -39,7 +39,7 @@ public class GoogleOAuthProvider implements OAuthProvider {
         return OAuthUserInfo.builder()
                 .email(userInfo.get("email").asText())
                 .name(userInfo.get("name").asText())
-                .providerId(userInfo.get("sub").asText())
+                .providerId("google")
                 .build();
     }
 
