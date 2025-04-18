@@ -20,8 +20,6 @@ import lombok.Getter;
 @Entity
 public class Interest extends BaseAudit implements Authorizable {
 
-	private static final String DEFAULT_LOGO_URL = "https://image.nurdykim.me/gomo/default-logo.png";
-
 	@EmbeddedId
 	private InterestId id;
 
@@ -40,6 +38,7 @@ public class Interest extends BaseAudit implements Authorizable {
 	})
 	private InterestName name;
 	private String logoUrl;
+	private String colorCode;
 
 	@Version
 	private Long version;
@@ -52,25 +51,25 @@ public class Interest extends BaseAudit implements Authorizable {
 		RegistrantId registrantId,
 		Proficiency proficiency,
 		InterestName name,
-		String logoUrl
+		String logoUrl,
+		String colorCode
 	) {
 		this.id = id;
 		this.registrantId = registrantId;
 		this.proficiency = proficiency;
 		this.name = name;
 		this.logoUrl = logoUrl;
+		this.colorCode = colorCode;
 	}
 
 	public static Interest of(
 		InterestId id,
 		RegistrantId registrantId,
 		InterestName name,
-		String logoUrl
+		String logoUrl,
+		String colorCode
 	) {
-		if(logoUrl == null) {
-			logoUrl = DEFAULT_LOGO_URL;
-		}
-		return new Interest(id, registrantId, Proficiency.createDefault(), name, logoUrl);
+		return new Interest(id, registrantId, Proficiency.createDefault(), name, logoUrl, colorCode);
 	}
 
 	public void updateName(InterestName updatedName) {
@@ -81,8 +80,12 @@ public class Interest extends BaseAudit implements Authorizable {
 		this.logoUrl = logoUrl;
 	}
 
+	public void updateColorCode(String colorCode) {
+		this.colorCode = colorCode;
+	}
+
 	public boolean hasDefaultLogo() {
-		return DEFAULT_LOGO_URL.equals(this.logoUrl);
+		return this.logoUrl == null;
 	}
 
 	public void adjustProficiency(int deltaTotalScore, int[] totalScoreForLevel, int[] scoreThresholdsPerLevel) {
