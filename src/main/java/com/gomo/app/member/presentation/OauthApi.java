@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -21,9 +22,9 @@ public class OauthApi {
 
     private final OAuthUseCase oAuthUseCase;
 
-    @GetMapping("/google")
-    public ResponseEntity<TokenResponse> googleLogin(@RequestParam String code){
-        LoginMemberResponse tokens = oAuthUseCase.login(code);
+    @GetMapping("/{provider}")
+    public ResponseEntity<TokenResponse> oauthLogin(@PathVariable String provider, @RequestParam String code){
+        LoginMemberResponse tokens = oAuthUseCase.login(provider, code);
         ResponseCookie cookie = createRefreshTokenCookie(tokens.getRefreshToken(), tokens.getExpiresIn());
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
@@ -35,7 +36,7 @@ public class OauthApi {
 				.httpOnly(true)
 				.secure(true)
 				.path("/members/refresh")
-				.maxAge(Duration.ofSeconds(expiry))
+				.maxAge(Duration.ofMillis(expiry))
 				.build();
 	}
 }
