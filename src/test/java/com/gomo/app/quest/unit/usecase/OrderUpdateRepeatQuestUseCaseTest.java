@@ -15,6 +15,7 @@ import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.common.domain.service.OrderChanger;
+import com.gomo.app.interest.presentation.request.UpdateOrderRequest;
 import com.gomo.app.quest.application.OrderUpdateRepeatQuestUseCase;
 import com.gomo.app.quest.common.fixture.RepeatQuestFixture;
 import com.gomo.app.quest.domain.model.QuestType;
@@ -35,7 +36,7 @@ public class OrderUpdateRepeatQuestUseCaseTest {
 	@DisplayName("반복 퀘스트의 정렬 순서를 변경한다.")
 	@Test
 	void update_repeat_quest_display_order() {
-		OrderUpdateRepeatQuestRequest request = OrderUpdateRepeatQuestRequest.of(QuestType.DAILY, List.of(3, 2, 1));
+		OrderUpdateRepeatQuestRequest request = getRequest();
 		doReturn(getRepeatQuests()).when(repeatQuestRepository).findRepeatQuestsByQuestType(any(), any());
 
 		try (MockedStatic<OrderChanger> mockedOrderChanger = mockStatic(OrderChanger.class)) {
@@ -44,6 +45,17 @@ public class OrderUpdateRepeatQuestUseCaseTest {
 			verify(repeatQuestRepository, times(1)).findRepeatQuestsByQuestType(any(), any());
 			mockedOrderChanger.verify(() -> OrderChanger.change(any(), any()), times(1));
 		}
+	}
+
+	private @NotNull OrderUpdateRepeatQuestRequest getRequest() {
+		return OrderUpdateRepeatQuestRequest.of(
+			QuestType.DAILY,
+			List.of(
+				UpdateOrderRequest.of(UUID.randomUUID(), 1),
+				UpdateOrderRequest.of(UUID.randomUUID(), 2),
+				UpdateOrderRequest.of(UUID.randomUUID(), 3)
+			)
+		);
 	}
 
 	private static @NotNull List<RepeatQuest> getRepeatQuests() {

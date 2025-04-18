@@ -15,6 +15,7 @@ import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.common.domain.service.OrderChanger;
+import com.gomo.app.interest.presentation.request.UpdateOrderRequest;
 import com.gomo.app.quest.application.OrderUpdateAssignQuestUseCase;
 import com.gomo.app.quest.common.fixture.AssignQuestFixture;
 import com.gomo.app.quest.domain.model.AssignQuest;
@@ -35,7 +36,7 @@ public class OrderUpdateAssignQuestUseCaseTest {
 	@DisplayName("참여 중인 퀘스트의 정렬 순서를 변경한다.")
 	@Test
 	void update_participating_quest_display_order() {
-		OrderUpdateAssignQuestRequest request = OrderUpdateAssignQuestRequest.of(QuestType.DAILY, List.of(3, 2, 1));
+		OrderUpdateAssignQuestRequest request = getRequest();
 		doReturn(getParticipatingQuests()).when(assignQuestRepository).findParticipatingQuestByQuestTypeWithoutCompleted(any(), any(), any(), any());
 
 		try (MockedStatic<OrderChanger> mockedOrderChanger = mockStatic(OrderChanger.class)) {
@@ -46,7 +47,18 @@ public class OrderUpdateAssignQuestUseCaseTest {
 		}
 	}
 
-	private static @NotNull List<AssignQuest> getParticipatingQuests() {
+	private @NotNull OrderUpdateAssignQuestRequest getRequest() {
+		return OrderUpdateAssignQuestRequest.of(
+			QuestType.DAILY,
+			List.of(
+				UpdateOrderRequest.of(UUID.randomUUID(), 1),
+				UpdateOrderRequest.of(UUID.randomUUID(), 2),
+				UpdateOrderRequest.of(UUID.randomUUID(), 3)
+			)
+		);
+	}
+
+	private @NotNull List<AssignQuest> getParticipatingQuests() {
 		return List.of(
 			AssignQuestFixture.assignQuest(1),
 			AssignQuestFixture.assignQuest(2),
