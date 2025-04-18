@@ -11,19 +11,21 @@ import lombok.Getter;
 public class CreateInterestRequest {
 
 	private String name;
+	private String colorCode;
 
 	private CreateInterestRequest() {
 	}
 
-	public CreateInterestRequest(String name) {
+	public CreateInterestRequest(String name, String colorCode) {
 		this.name = name;
+		this.colorCode = colorCode;
 	}
 
-	public static CreateInterestRequest of(String name) {
-		return new CreateInterestRequest(name);
+	public static CreateInterestRequest of(String name, String colorCode) {
+		return new CreateInterestRequest(name, colorCode);
 	}
 
 	public Interest toDomain(InterestId interestId, RegistrantId registrantId, String logoUrl) {
-		return Interest.of(interestId, registrantId, InterestName.of(this.name), logoUrl);
+		return Interest.of(interestId, registrantId, InterestName.of(this.name), logoUrl, this.colorCode);
 	}
 }

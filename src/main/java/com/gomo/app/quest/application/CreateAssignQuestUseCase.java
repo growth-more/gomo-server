@@ -21,6 +21,7 @@ public class CreateAssignQuestUseCase {
 
 	private final AssignQuestService assignQuestService;
 
+	// TODO <jhl221123>: 여기서 MemberService를 사용해 Member를 조회하고, Participant로 변경해서 전달해야 좋은 설계이다.
 	public CreateAssignQuestResponse create(ParticipantId participantId, CreateAssignQuestRequest request) {
 		Quest quest = createQuest(participantId, request);
 		AssignQuest savedAssignQuest = assignQuestService.create(participantId, quest);

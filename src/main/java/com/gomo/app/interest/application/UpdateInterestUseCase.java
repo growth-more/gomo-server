@@ -27,5 +27,6 @@ public class UpdateInterestUseCase {
 			.orElseThrow(() -> new NotFoundException(DomainErrorCode.NOT_FOUND, "Interest not found with id: " + interestId));
 		interest.validateAuthority(registrantId);
 		interest.updateName(InterestName.of(request.getName()));
+		interest.updateColorCode(request.getColorCode());
 	}
 }

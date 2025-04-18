@@ -53,6 +53,7 @@ public class AssignQuestService {
 	}
 
 	private void ensureNotExceedQuestThreshold(ParticipantId participantId, QuestType questType, int currentCount) {
+		// TODO <jhl221123>: 여기서 회원을 조회하면 안 되고, 회원 서비스에서 공통 처리되어야 한다.
 		Member member = memberRepository.findById(MemberId.of(participantId.getId()))
 			.orElseThrow(() -> new IllegalArgumentException("Member not found"));
 
