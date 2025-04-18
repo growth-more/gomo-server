@@ -14,7 +14,8 @@ public class InterestFixture {
 			InterestId.of(UUID.randomUUID()),
 			RegistrantId.of(UUID.randomUUID()),
 			InterestName.of("Interest Name"),
-			"https://image.nurdykim.me/gomo/interest-logo.png"
+			"https://image.nurdykim.me/gomo/interest-logo.png",
+			"000000"
 		);
 	}
 
@@ -23,7 +24,8 @@ public class InterestFixture {
 			InterestId.of(UUID.randomUUID()),
 			registrantId,
 			InterestName.of("Interest Name"),
-			"https://image.nurdykim.me/gomo/interest-logo.png"
+			"https://image.nurdykim.me/gomo/interest-logo.png",
+			"000000"
 		);
 	}
 
@@ -32,7 +34,8 @@ public class InterestFixture {
 			id,
 			RegistrantId.of(UUID.randomUUID()),
 			InterestName.of(name),
-			"https://image.nurdykim.me/gomo/interest-logo.png"
+			"https://image.nurdykim.me/gomo/interest-logo.png",
+			"000000"
 		);
 	}
 
@@ -41,7 +44,8 @@ public class InterestFixture {
 			InterestId.of(UUID.randomUUID()),
 			RegistrantId.of(UUID.randomUUID()),
 			InterestName.of("Interest Name"),
-			null
+			null,
+			"000000"
 		);
 	}
 }

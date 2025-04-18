@@ -37,7 +37,7 @@ public class UpdateInterestUseCaseTest {
 		Interest expected = InterestFixture.interest();
 		doReturn(Optional.of(expected)).when(interestRepository).findById(any(InterestId.class));
 
-		sut.update(expected.getRegistrantId().getId(), expected.getId(), UpdateInterestRequest.of("updated interest name"));
+		sut.update(expected.getRegistrantId().getId(), expected.getId(), UpdateInterestRequest.of("name", "#FF0000"));
 
 		verify(interestRepository, times(1)).findById(any(InterestId.class));
 	}
@@ -49,7 +49,7 @@ public class UpdateInterestUseCaseTest {
 		doThrow(InterestAccessDeniedException.class).when(interest).validateAuthority(any(UUID.class));
 		doReturn(Optional.of(interest)).when(interestRepository).findById(any(InterestId.class));
 
-		assertThatThrownBy(() -> sut.update(UUID.randomUUID(), InterestId.of(UUID.randomUUID()), UpdateInterestRequest.of("updated interest name")))
+		assertThatThrownBy(() -> sut.update(UUID.randomUUID(), InterestId.of(UUID.randomUUID()), UpdateInterestRequest.of("name", "#FF0000")))
 			.isInstanceOf(InterestAccessDeniedException.class);
 	}
 }

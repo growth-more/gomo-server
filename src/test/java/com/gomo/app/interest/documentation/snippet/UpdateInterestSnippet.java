@@ -1,15 +1,15 @@
 package com.gomo.app.interest.documentation.snippet;
 
-import com.epages.restdocs.apispec.ResourceSnippetParameters;
-import com.epages.restdocs.apispec.Schema;
-import com.gomo.app.common.constant.ErrorResponseFields;
+import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import org.springframework.restdocs.snippet.Snippet;
 
-import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
+import com.epages.restdocs.apispec.Schema;
+import com.gomo.app.common.constant.ErrorResponseFields;
 
 public class UpdateInterestSnippet {
 
@@ -19,7 +19,8 @@ public class UpdateInterestSnippet {
 	private static final String TAG = "Interest";
 
 	private static final Snippet REQUEST_FIELDS = requestFields(
-		fieldWithPath("name").type(JsonFieldType.STRING).description("관심사 이름")
+		fieldWithPath("name").type(JsonFieldType.STRING).description("관심사 이름"),
+		fieldWithPath("colorCode").type(JsonFieldType.STRING).description("관심사 색상 코드")
 	);
 
 	public static RestDocumentationFilter create() {
