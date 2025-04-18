@@ -7,13 +7,13 @@ import lombok.Getter;
 @Getter
 public class OrderUpdateMajorInterestRequest {
 
-	private List<Integer> updatedOrders;
+	private List<UpdateOrderRequest> updateOrderRequests;
 
-	private OrderUpdateMajorInterestRequest(List<Integer> updatedOrders) {
-		this.updatedOrders = updatedOrders;
+	private OrderUpdateMajorInterestRequest(List<UpdateOrderRequest> updateOrderRequests) {
+		this.updateOrderRequests = updateOrderRequests;
 	}
 
-	public static OrderUpdateMajorInterestRequest of(List<Integer> updatedOrders) {
+	public static OrderUpdateMajorInterestRequest of(List<UpdateOrderRequest> updatedOrders) {
 		return new OrderUpdateMajorInterestRequest(updatedOrders);
 	}
 }

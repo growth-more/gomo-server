@@ -2,6 +2,7 @@ package com.gomo.app.quest.presentation.request;
 
 import java.util.List;
 
+import com.gomo.app.interest.presentation.request.UpdateOrderRequest;
 import com.gomo.app.quest.domain.model.QuestType;
 
 import lombok.Getter;
@@ -10,19 +11,19 @@ import lombok.Getter;
 public class OrderUpdateAssignQuestRequest {
 
 	private QuestType questType;
-	private List<Integer> updatedOrders;
+	private List<UpdateOrderRequest> updateOrderRequests;
 
 	private OrderUpdateAssignQuestRequest(
 		QuestType questType,
-		List<Integer> updatedOrders
+		List<UpdateOrderRequest> updateOrderRequests
 	) {
 		this.questType = questType;
-		this.updatedOrders = updatedOrders;
+		this.updateOrderRequests = updateOrderRequests;
 	}
 
 	public static OrderUpdateAssignQuestRequest of(
 		QuestType questType,
-		List<Integer> updatedOrders
+		List<UpdateOrderRequest> updatedOrders
 	) {
 		return new OrderUpdateAssignQuestRequest(questType, updatedOrders);
 	}
