@@ -1,23 +1,22 @@
 package com.gomo.app.interest.documentation;
 
-import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.interest.common.util.InterestDataHelper;
-import com.gomo.app.interest.documentation.snippet.UpdateInterestSnippet;
-import com.gomo.app.interest.presentation.request.UpdateInterestRequest;
+import static com.gomo.app.common.exception.DomainErrorCode.*;
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
+import static org.springframework.http.HttpHeaders.*;
+import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.MediaType.*;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import static com.gomo.app.common.exception.DomainErrorCode.INVALID_PARAMETER;
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
-import static org.springframework.http.HttpStatus.NO_CONTENT;
-import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import com.gomo.app.common.DocumentationTestBase;
+import com.gomo.app.interest.common.util.InterestDataHelper;
+import com.gomo.app.interest.documentation.snippet.UpdateInterestSnippet;
+import com.gomo.app.interest.presentation.request.UpdateInterestRequest;
 
 @DisplayName("[Presentation documentation]: 관심사 수정 테스트")
 public class UpdateInterestDocumentationTest extends DocumentationTestBase {
@@ -35,13 +34,13 @@ public class UpdateInterestDocumentationTest extends DocumentationTestBase {
 		interestDataHelper.cleanUp();
 	}
 
-	@DisplayName("사용자가 관심사 이름을 수정한다.")
+	@DisplayName("사용자가 관심사를 수정한다.")
 	@Test
 	void update_interest() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.header(AUTHORIZATION, "Bearer " + accessToken)
-			.body(UpdateInterestRequest.of("updated interest name"))
+			.body(UpdateInterestRequest.of("name", "#FF0000"))
 			.when()
 			.put("/interests/{id}", UPDATED_INTEREST_ID)
 			.then()
@@ -54,7 +53,7 @@ public class UpdateInterestDocumentationTest extends DocumentationTestBase {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
             .header(AUTHORIZATION, "Bearer " + accessToken)
-			.body(UpdateInterestRequest.of("forbidden{}"))
+			.body(UpdateInterestRequest.of("forbidden{}", "#FF0000"))
 			.when()
 			.put("/interests/{id}", UPDATED_INTEREST_ID)
 			.then()
