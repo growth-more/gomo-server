@@ -37,13 +37,12 @@ public class CreateInterestUseCaseTest {
 	void create_interest() {
 		Interest interest = InterestFixture.interest();
 		CreateInterestResponse expected = CreateInterestResponse.of(interest.getId());
-		doReturn(interest.getLogoUrl()).when(imageService).uploadImage(any(MockMultipartFile.class));
+		doReturn(interest.getLogo().getUrl()).when(imageService).uploadImage(any(MockMultipartFile.class));
 		doReturn(interest).when(interestRepository).save(any(Interest.class));
 
 		CreateInterestResponse actual = sut.create(
 			interest.getRegistrantId(),
-			CreateInterestRequest.of(interest.getName().toString(), "000000"),
-			new MockMultipartFile("logo", "mock image data".getBytes())
+			CreateInterestRequest.of(interest.getName().toString(), "000000", new MockMultipartFile("logo", "mock image data".getBytes()))
 		);
 
 		assertThat(actual).usingRecursiveComparison().isEqualTo(expected);

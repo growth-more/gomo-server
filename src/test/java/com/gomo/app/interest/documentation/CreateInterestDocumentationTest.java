@@ -20,7 +20,6 @@ import org.springframework.util.ResourceUtils;
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.interest.common.util.InterestDataHelper;
 import com.gomo.app.interest.documentation.snippet.CreateInterestSnippet;
-import com.gomo.app.interest.presentation.request.CreateInterestRequest;
 
 @DisplayName("[Presentation documentation]: 관심사 생성 테스트")
 public class CreateInterestDocumentationTest extends DocumentationTestBase {
@@ -46,7 +45,8 @@ public class CreateInterestDocumentationTest extends DocumentationTestBase {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, MULTIPART_FORM_DATA_VALUE)
 			.header(AUTHORIZATION, "Bearer " + accessToken)
-			.multiPart("request", CreateInterestRequest.of("interest name", "000000"), APPLICATION_JSON_VALUE)
+			.multiPart("name", "interest name")
+			.multiPart("colorCode", "#0000FF")
 			.multiPart("logo", getImageFile(NORMAL_IMAGE_NAME))
 			.when()
 			.post("/interests")
@@ -61,7 +61,8 @@ public class CreateInterestDocumentationTest extends DocumentationTestBase {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, MULTIPART_FORM_DATA_VALUE)
 			.header(AUTHORIZATION, "Bearer " + accessToken)
-			.multiPart("request", CreateInterestRequest.of(INVALID_INTEREST_NAME, "000000"), APPLICATION_JSON_VALUE)
+			.multiPart("name", INVALID_INTEREST_NAME)
+			.multiPart("colorCode", "#0000FF")
 			.multiPart("logo", getImageFile(NORMAL_IMAGE_NAME))
 			.when()
 			.post("/interests")
@@ -80,7 +81,8 @@ public class CreateInterestDocumentationTest extends DocumentationTestBase {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, MULTIPART_FORM_DATA_VALUE)
 			.header(AUTHORIZATION, "Bearer " + accessToken)
-			.multiPart("request", CreateInterestRequest.of("interest name", "000000"), APPLICATION_JSON_VALUE)
+			.multiPart("name", "interest name")
+			.multiPart("colorCode", "#0000FF")
 			.multiPart("logo", getImageFile(LARGE_IMAGE_NAME))
 			.when()
 			.post("/interests")
