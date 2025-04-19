@@ -10,6 +10,7 @@ import com.gomo.app.common.domain.service.ImageService;
 import com.gomo.app.common.exception.NotFoundException;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestId;
+import com.gomo.app.interest.domain.model.Logo;
 import com.gomo.app.interest.domain.repository.InterestRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @ApplicationService
 @Transactional
-public class UpdateInterestLogoUseCase {
+public class UpdateLogoUseCase {
 
 	private final ImageService imageService;
 	private final InterestRepository interestRepository;
@@ -26,7 +27,14 @@ public class UpdateInterestLogoUseCase {
 		Interest interest = interestRepository.findById(interestId)
 			.orElseThrow(() -> new NotFoundException(NOT_FOUND, "Interest not found with id: " + interestId.getId()));
 
+		deletePriorLogo(interest);
 		String updatedUrl = imageService.uploadImage(updatedLogo);
-		interest.updateLogoUrl(updatedUrl);
+		interest.updateLogo(Logo.of(updatedUrl));
+	}
+
+	private void deletePriorLogo(Interest interest) {
+		if(!interest.hasDefaultLogo()) {
+			imageService.deleteImage(interest.getLogo().getUrl());
+		}
 	}
 }

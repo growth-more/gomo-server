@@ -1,30 +1,33 @@
 package com.gomo.app.member.presentation;
 
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.gomo.app.common.authentication.Auth;
 import com.gomo.app.common.authentication.AuthInfo;
 import com.gomo.app.common.presentation.Presentation;
 import com.gomo.app.member.application.DeleteMemberUseCase;
-import com.gomo.app.member.application.UpdateMemberUseCase;
+import com.gomo.app.member.application.UpdateProfileBannerUseCase;
 import com.gomo.app.member.domain.model.MemberId;
+import com.gomo.app.member.presentation.request.UpdateProfileBannerRequest;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @RequestMapping("/members/images/banners")
 @Presentation
 public class ProfileBannerApi {
 
-	private final UpdateMemberUseCase updateMemberUseCase;
+	private final UpdateProfileBannerUseCase updateProfileBannerUseCase;
 	private final DeleteMemberUseCase deleteMemberUseCase;
 
-	@PutMapping
-	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @RequestPart MultipartFile profileBanner) {
-		updateMemberUseCase.updateProfileBanner(MemberId.of(authInfo.getMemberId()), profileBanner);
+	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @ModelAttribute UpdateProfileBannerRequest request) {
+		updateProfileBannerUseCase.update(MemberId.of(authInfo.getMemberId()), request.getProfileBanner());
 		return ResponseEntity.noContent().build();
 	}
 

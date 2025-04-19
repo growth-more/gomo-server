@@ -13,7 +13,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Version;
 import lombok.Getter;
 
 @Getter
@@ -37,11 +36,15 @@ public class Interest extends BaseAudit implements Authorizable {
 		@AttributeOverride(name = "interestName", column = @Column(name = "name"))
 	})
 	private InterestName name;
-	private String logoUrl;
-	private String colorCode;
 
-	@Version
-	private Long version;
+	@Embedded
+	@AttributeOverrides({
+		@AttributeOverride(name = "url", column = @Column(name = "logo_url")),
+	})
+	private Logo logo;
+
+
+	private String colorCode;
 
 	protected Interest() {
 	}
@@ -51,14 +54,14 @@ public class Interest extends BaseAudit implements Authorizable {
 		RegistrantId registrantId,
 		Proficiency proficiency,
 		InterestName name,
-		String logoUrl,
+		Logo logo,
 		String colorCode
 	) {
 		this.id = id;
 		this.registrantId = registrantId;
 		this.proficiency = proficiency;
 		this.name = name;
-		this.logoUrl = logoUrl;
+		this.logo = logo;
 		this.colorCode = colorCode;
 	}
 
@@ -66,18 +69,18 @@ public class Interest extends BaseAudit implements Authorizable {
 		InterestId id,
 		RegistrantId registrantId,
 		InterestName name,
-		String logoUrl,
+		Logo logo,
 		String colorCode
 	) {
-		return new Interest(id, registrantId, Proficiency.createDefault(), name, logoUrl, colorCode);
+		return new Interest(id, registrantId, Proficiency.createDefault(), name, logo, colorCode);
 	}
 
 	public void updateName(InterestName updatedName) {
 		this.name = updatedName;
 	}
 
-	public void updateLogoUrl(String logoUrl) {
-		this.logoUrl = logoUrl;
+	public void updateLogo(Logo logo) {
+		this.logo = logo;
 	}
 
 	public void updateColorCode(String colorCode) {
@@ -85,7 +88,7 @@ public class Interest extends BaseAudit implements Authorizable {
 	}
 
 	public boolean hasDefaultLogo() {
-		return this.logoUrl == null;
+		return this.logo.isDefault();
 	}
 
 	public void adjustProficiency(int deltaTotalScore, int[] totalScoreForLevel, int[] scoreThresholdsPerLevel) {

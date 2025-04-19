@@ -1,30 +1,33 @@
 package com.gomo.app.member.presentation;
 
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.gomo.app.common.authentication.Auth;
 import com.gomo.app.common.authentication.AuthInfo;
 import com.gomo.app.common.presentation.Presentation;
-import com.gomo.app.member.application.UpdateMemberUseCase;
 import com.gomo.app.member.application.DeleteMemberUseCase;
+import com.gomo.app.member.application.UpdateProfileImageUseCase;
 import com.gomo.app.member.domain.model.MemberId;
+import com.gomo.app.member.presentation.request.UpdateProfileImageRequest;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @RequestMapping("/members/images/profiles")
 @Presentation
 public class ProfileImageApi {
 
-	private final UpdateMemberUseCase updateMemberUseCase;
+	private final UpdateProfileImageUseCase updateProfileImageUseCase;
 	private final DeleteMemberUseCase deleteMemberUseCase;
 
-	@PutMapping
-	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @RequestPart MultipartFile profileImage) {
-		updateMemberUseCase.updateProfileImage(MemberId.of(authInfo.getMemberId()), profileImage);
+	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @ModelAttribute UpdateProfileImageRequest request) {
+		updateProfileImageUseCase.update(MemberId.of(authInfo.getMemberId()), request.getProfileImage());
 		return ResponseEntity.noContent().build();
 	}
 
