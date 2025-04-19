@@ -1,13 +1,13 @@
 package com.gomo.app.quest.application;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.application.ApplicationService;
-import com.gomo.app.common.domain.service.DisplayOrder;
 import com.gomo.app.common.domain.service.OrderChangeable;
 import com.gomo.app.common.domain.service.OrderChanger;
 import com.gomo.app.common.util.DateRangeCalculator;
@@ -27,20 +27,17 @@ public class OrderUpdateAssignQuestUseCase {
 	public void update(UUID accessorId, OrderUpdateAssignQuestRequest request) {
 		LocalDate now = LocalDate.now();
 
-		List<OrderChangeable> assignQuests = assignQuestRepository.findParticipatingQuestByQuestTypeWithoutCompleted(
+		Map<UUID, OrderChangeable> assignQuestMap = assignQuestRepository.findParticipatingQuestByQuestTypeWithoutCompleted(
 				ParticipantId.of(accessorId),
 				request.getQuestType(),
 				DateRangeCalculator.startOf(now, request.getQuestType().name()),
 				DateRangeCalculator.endOf(now, request.getQuestType().name())
-			)
-			.stream()
-			.map(assignQuest -> (OrderChangeable)assignQuest)
-			.toList();
+			).stream()
+			.collect(Collectors.toMap(
+				assignQuest -> assignQuest.getId().getId(),
+				assignQuest -> assignQuest
+			));
 
-		List<DisplayOrder> changedOrders = request.getUpdatedOrders().stream()
-			.map(DisplayOrder::of)
-			.toList();
-
-		OrderChanger.change(assignQuests, changedOrders);
+		OrderChanger.change(assignQuestMap, request.getUpdateOrderRequests());
 	}
 }

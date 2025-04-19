@@ -1,12 +1,12 @@
 package com.gomo.app.interest.application;
 
-import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.application.ApplicationService;
-import com.gomo.app.common.domain.service.DisplayOrder;
 import com.gomo.app.common.domain.service.OrderChangeable;
 import com.gomo.app.common.domain.service.OrderChanger;
 import com.gomo.app.interest.domain.model.RegistrantId;
@@ -23,13 +23,12 @@ public class OrderUpdateMajorInterestUseCase {
 	private final MajorInterestRepository majorInterestRepository;
 
 	public void update(UUID accessorId, OrderUpdateMajorInterestRequest request) {
-		List<OrderChangeable> majorInterests = majorInterestRepository.findAllByRegistrantIdOrderByDisplayOrder(RegistrantId.of(accessorId)).stream()
-			.map(majorInterest -> (OrderChangeable) majorInterest)
-			.toList();
-		List<DisplayOrder> changedOrders = request.getUpdatedOrders().stream()
-			.map(DisplayOrder::of)
-			.toList();
+		Map<UUID, OrderChangeable> majorInterestMap = majorInterestRepository.findAllByRegistrantIdOrderByDisplayOrder(RegistrantId.of(accessorId)).stream()
+			.collect(Collectors.toMap(
+					majorInterest -> majorInterest.getId().getId(),
+					majorInterest -> majorInterest
+			));
 
-		OrderChanger.change(majorInterests, changedOrders);
+		OrderChanger.change(majorInterestMap, request.getUpdateOrderRequests());
 	}
 }

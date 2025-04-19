@@ -20,7 +20,9 @@ public class OrderUpdateRepeatQuestSnippet {
 
 	private static final Snippet REQUEST_FIELDS = requestFields(
 		fieldWithPath("questType").type(JsonFieldType.STRING).description("퀘스트 타입: DAILY / WEEKLY / MONTHLY"),
-		fieldWithPath("updatedOrders").type(JsonFieldType.ARRAY).description("변경하려는 정렬 순서")
+		fieldWithPath("updateOrderRequests").type(JsonFieldType.ARRAY).description("변경 대상 정보"),
+		fieldWithPath("updateOrderRequests[].id").type(JsonFieldType.STRING).description("변경 대상 반복 퀘스트 아이디"),
+		fieldWithPath("updateOrderRequests[].displayOrder").type(JsonFieldType.NUMBER).description("변경하려는 정렬 순서")
 	);
 
 	public static RestDocumentationFilter create() {

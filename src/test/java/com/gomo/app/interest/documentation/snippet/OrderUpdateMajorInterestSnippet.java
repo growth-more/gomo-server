@@ -1,15 +1,15 @@
 package com.gomo.app.interest.documentation.snippet;
 
-import com.epages.restdocs.apispec.ResourceSnippetParameters;
-import com.epages.restdocs.apispec.Schema;
-import com.gomo.app.common.constant.ErrorResponseFields;
+import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import org.springframework.restdocs.snippet.Snippet;
 
-import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import com.epages.restdocs.apispec.ResourceSnippetParameters;
+import com.epages.restdocs.apispec.Schema;
+import com.gomo.app.common.constant.ErrorResponseFields;
 
 public class OrderUpdateMajorInterestSnippet {
 
@@ -19,7 +19,9 @@ public class OrderUpdateMajorInterestSnippet {
 	private static final String TAG = "Interest";
 
 	private static final Snippet REQUEST_FIELDS = requestFields(
-		fieldWithPath("updatedOrders").type(JsonFieldType.ARRAY).description("변경하려는 정렬 순서")
+		fieldWithPath("updateOrderRequests").type(JsonFieldType.ARRAY).description("변경 대상 정보"),
+		fieldWithPath("updateOrderRequests[].id").type(JsonFieldType.STRING).description("변경 대상 주요 관심사 아이디"),
+		fieldWithPath("updateOrderRequests[].displayOrder").type(JsonFieldType.NUMBER).description("변경하려는 정렬 순서")
 	);
 
 	public static RestDocumentationFilter create() {
