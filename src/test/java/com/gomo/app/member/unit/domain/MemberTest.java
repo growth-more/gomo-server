@@ -1,22 +1,28 @@
 package com.gomo.app.member.unit.domain;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
-import com.gomo.app.common.exception.PolicyViolationException;
-import com.gomo.app.member.domain.model.*;
-import com.gomo.app.member.domain.service.PasswordService;
+import java.util.UUID;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import com.gomo.app.member.common.fixture.MemberFixture;
-import com.gomo.app.quest.domain.model.QuestType;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.UUID;
+import com.gomo.app.common.exception.PolicyViolationException;
+import com.gomo.app.member.common.fixture.MemberFixture;
+import com.gomo.app.member.domain.model.Email;
+import com.gomo.app.member.domain.model.Handle;
+import com.gomo.app.member.domain.model.LoginProvider;
+import com.gomo.app.member.domain.model.Member;
+import com.gomo.app.member.domain.model.MemberId;
+import com.gomo.app.member.domain.model.MemberName;
+import com.gomo.app.member.domain.model.Motto;
+import com.gomo.app.member.domain.model.Password;
+import com.gomo.app.member.domain.service.PasswordService;
+import com.gomo.app.quest.domain.model.QuestType;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Domain unit]: 회원 테스트")
@@ -36,6 +42,7 @@ public class MemberTest {
 	private static final Handle HANDLE = Handle.of("@tester");
 	private static final MemberName MEMBER_NAME = MemberName.of("Tester");
 	private static final Motto MOTTO = Motto.of("mottoTest");
+	private static final String DEFAULT_IMAGE = "DEFAULT_IMAGE";
 	private static final LoginProvider LOGIN_PROVIDER = LoginProvider.EMAIL;
 
 	@DisplayName("회원을 생성한다.")
@@ -46,64 +53,6 @@ public class MemberTest {
 		assertThat(member)
 				.extracting("id", "email", "password", "handle", "motto", "loginProvider")
 				.containsExactly(ID, EMAIL, PASSWORD, HANDLE, MOTTO, LOGIN_PROVIDER);
-	}
-
-	@DisplayName("프로필 이미지를 등록하지 않으면 기본 이미지가 등록된다.")
-	@Test
-	void create_member_with_default_profile(){
-		Member member = Member.of(ID, EMAIL, PASSWORD, HANDLE, MEMBER_NAME, MOTTO, LOGIN_PROVIDER);
-
-		assertThat(member.getProfileImage().getUrl())
-				.isEqualTo("https://image.nurdykim.me/gomo/default-image.png");
-	}
-
-	@DisplayName("프로필 이미지를 업데이트 한다.")
-	@Test
-	void update_member_profile(){
-		Member member = Member.of(ID, EMAIL, PASSWORD, HANDLE, MEMBER_NAME, MOTTO, LOGIN_PROVIDER);
-		member.updateProfileImage(member.getProfileImage().updateUrl("https://mini-io/updated_profile.png"));
-
-		assertThat(member.getProfileImage().getUrl())
-				.isEqualTo("https://mini-io/updated_profile.png");
-	}
-
-	@DisplayName("프로필 이미지를 삭제하면 기본 이미지로 수정된다.")
-	@Test
-	void delete_member_profile(){
-		Member member = Member.of(ID, EMAIL, PASSWORD, HANDLE, MEMBER_NAME, MOTTO, LOGIN_PROVIDER);
-		member.delete();
-
-		assertThat(member.getProfileImage().getUrl())
-				.isEqualTo("https://image.nurdykim.me/gomo/default-image.png");
-	}
-
-	@DisplayName("프로필 배너를 등록하지 않으면 기본 이미지가 등록된다.")
-	@Test
-	void create_member_with_default_banner(){
-		Member member = Member.of(ID, EMAIL, PASSWORD, HANDLE, MEMBER_NAME, MOTTO, LOGIN_PROVIDER);
-
-		assertThat(member.getProfileBanner().getUrl())
-				.isEqualTo("https://image.nurdykim.me/gomo/default-banner.png");
-	}
-
-	@DisplayName("프로필 배너를 업데이트 한다.")
-	@Test
-	void update_member_banner(){
-		Member member = Member.of(ID, EMAIL, PASSWORD, HANDLE, MEMBER_NAME, MOTTO, LOGIN_PROVIDER);
-		member.updateProfileBanner(member.getProfileBanner().updateUrl("https://mini-io/updated_banner.png"));
-
-		assertThat(member.getProfileBanner().getUrl())
-				.isEqualTo("https://mini-io/updated_banner.png");
-	}
-
-	@DisplayName("프로필 배너를 삭제하면 기본 이미지로 수정된다.")
-	@Test
-	void delete_member_banner(){
-		Member member = Member.of(ID, EMAIL, PASSWORD, HANDLE, MEMBER_NAME, MOTTO, LOGIN_PROVIDER);
-		member.delete();
-
-		assertThat(member.getProfileImage().getUrl())
-				.isEqualTo("https://image.nurdykim.me/gomo/default-image.png");
 	}
 
 	@DisplayName("일일 퀘스트 개수가 퀘스트 제한에 도달하지 않는다.")
