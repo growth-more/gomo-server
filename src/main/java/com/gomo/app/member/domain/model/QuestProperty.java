@@ -49,6 +49,15 @@ public class QuestProperty {
 		return new QuestProperty(DailyThreshold.of(0), WeeklyThreshold.of(0), MonthlyThreshold.of(0));
 	}
 
+	public boolean hasReachedQuestThreshold(String questType, int questCount) {
+		return switch (questType) {
+			case "DAILY" -> this.dailyThreshold.getThreshold() <= questCount;
+			case "WEEKLY" -> this.weeklyThreshold.getThreshold() <= questCount;
+			case "MONTHLY" -> this.monthlyThreshold.getThreshold() <= questCount;
+			default -> throw new IllegalArgumentException("Invalid quest type: " + questType);
+		};
+	}
+
 	public static QuestProperty update(
 		DailyThreshold dailyThreshold,
 		WeeklyThreshold weeklyThreshold,
