@@ -44,7 +44,7 @@ public class ReadMajorInterestResponse {
 			majorInterest.getId().getId(),
 			interest.getId().getId(),
 			interest.getName().toString(),
-			interest.getLogoUrl(),
+			interest.getLogo().getUrl(),
 			interest.getProficiency().getLevel().getLevel(),
 			interest.getProficiency().getScore().getScore(),
 			interest.getProficiency().getLevel().getScoreThreshold(),

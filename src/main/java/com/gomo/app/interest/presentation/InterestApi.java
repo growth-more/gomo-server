@@ -4,16 +4,16 @@ import static org.springframework.http.HttpStatus.*;
 
 import java.util.UUID;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.gomo.app.common.authentication.Auth;
 import com.gomo.app.common.authentication.AuthInfo;
@@ -42,9 +42,9 @@ public class InterestApi {
     private final UpdateInterestUseCase updateInterestUseCase;
     private final DeleteInterestUseCase deleteInterestUseCase;
 
-    @PostMapping
-    public ResponseEntity<CreateInterestResponse> create(@Auth AuthInfo authInfo, @RequestPart CreateInterestRequest request, @RequestPart MultipartFile logo) {
-        CreateInterestResponse response = createInterestUseCase.create(RegistrantId.of(authInfo.getMemberId()), request, logo);
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<CreateInterestResponse> create(@Auth AuthInfo authInfo, @ModelAttribute CreateInterestRequest request) {
+        CreateInterestResponse response = createInterestUseCase.create(RegistrantId.of(authInfo.getMemberId()), request);
         return ResponseEntity.status(CREATED).body(response);
     }
 

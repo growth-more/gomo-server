@@ -57,7 +57,7 @@ public class DeleteInterestUseCase {
 
 	private void deleteLogoUrl(Interest interest) {
 		if(!interest.hasDefaultLogo()) {
-			imageService.deleteImage(interest.getLogoUrl());
+			imageService.deleteImage(interest.getLogo().getUrl());
 		}
 	}
 }

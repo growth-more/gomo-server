@@ -44,7 +44,7 @@ public class ReadInterestResponse {
 			interest.getId().getId(),
 			interest.getRegistrantId().getId(),
 			interest.getName().toString(),
-			interest.getLogoUrl(),
+			interest.getLogo().getUrl(),
 			interest.getProficiency().getLevel().getLevel(),
 			interest.getProficiency().getScore().getScore(),
 			interest.getProficiency().getLevel().getScoreThreshold(),
