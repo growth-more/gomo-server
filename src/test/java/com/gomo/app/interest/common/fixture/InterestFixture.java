@@ -5,6 +5,7 @@ import java.util.UUID;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.InterestName;
+import com.gomo.app.interest.domain.model.Logo;
 import com.gomo.app.interest.domain.model.RegistrantId;
 
 public class InterestFixture {
@@ -14,7 +15,7 @@ public class InterestFixture {
 			InterestId.of(UUID.randomUUID()),
 			RegistrantId.of(UUID.randomUUID()),
 			InterestName.of("Interest Name"),
-			"https://image.nurdykim.me/gomo/interest-logo.png",
+			Logo.of("https://image.nurdykim.me/gomo/interest-logo.png"),
 			"000000"
 		);
 	}
@@ -24,7 +25,7 @@ public class InterestFixture {
 			InterestId.of(UUID.randomUUID()),
 			registrantId,
 			InterestName.of("Interest Name"),
-			"https://image.nurdykim.me/gomo/interest-logo.png",
+			Logo.of("https://image.nurdykim.me/gomo/interest-logo.png"),
 			"000000"
 		);
 	}
@@ -34,7 +35,7 @@ public class InterestFixture {
 			id,
 			RegistrantId.of(UUID.randomUUID()),
 			InterestName.of(name),
-			"https://image.nurdykim.me/gomo/interest-logo.png",
+			Logo.of("https://image.nurdykim.me/gomo/interest-logo.png"),
 			"000000"
 		);
 	}
@@ -44,7 +45,7 @@ public class InterestFixture {
 			InterestId.of(UUID.randomUUID()),
 			RegistrantId.of(UUID.randomUUID()),
 			InterestName.of("Interest Name"),
-			null,
+			Logo.of(null),
 			"000000"
 		);
 	}
