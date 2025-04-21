@@ -3,11 +3,10 @@ package com.gomo.app.member.domain.model;
 import java.time.LocalDateTime;
 
 import com.gomo.app.common.domain.LogicalDeleteBaseAudit;
-
 import com.gomo.app.common.exception.DomainErrorCode;
 import com.gomo.app.common.exception.PolicyViolationException;
 import com.gomo.app.member.domain.service.PasswordService;
-import com.gomo.app.member.exception.MemberAuthenticationFailedException;
+
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
@@ -17,8 +16,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Getter;
-
-import static com.gomo.app.member.exception.MemberErrorCode.AUTHENTICATION_FAILED;
 
 @Getter
 @Entity
@@ -149,11 +146,6 @@ public class Member extends LogicalDeleteBaseAudit {
 	}
 
 	public boolean hasReachedQuestThreshold(String questType, int questCount) {
-		return switch (questType) {
-			case "DAILY" -> questProperty.getDailyThreshold().getThreshold() <= questCount;
-			case "WEEKLY" -> questProperty.getWeeklyThreshold().getThreshold() <= questCount;
-			case "MONTHLY" -> questProperty.getMonthlyThreshold().getThreshold() <= questCount;
-			default -> throw new IllegalArgumentException("Invalid quest type: " + questType);
-		};
+		return this.questProperty.hasReachedQuestThreshold(questType, questCount);
 	}
 }
