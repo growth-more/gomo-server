@@ -18,4 +18,6 @@ public interface InterestRepository extends JpaRepository<Interest, InterestId> 
 
 	@Query("SELECT i.logo FROM Interest i WHERE i.logo IS NOT NULL")
 	List<String> findAllLogoUrl();
+
+	long countAllByRegistrantId(RegistrantId registrantId);
 }
