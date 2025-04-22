@@ -46,7 +46,7 @@ public class Proficiency {
 
 	private void ensureTotalScoreNotNegative(int deltaTotalScore) {
 		if(this.totalScore + deltaTotalScore < 0) {
-			throw new ProficiencyAdjustFailureException(InterestErrorCode.INVALID_DELTA_TOTAL_SCORE);
+			throw new ProficiencyAdjustFailureException(InterestErrorCode.TOTAL_SCORE_NEGATIVE);
 		}
 	}
 

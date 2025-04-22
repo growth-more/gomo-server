@@ -3,7 +3,25 @@ package com.gomo.app.member.common.fixture;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.gomo.app.member.domain.model.*;
+import org.mockito.Mockito;
+
+import com.gomo.app.member.domain.model.ActivateStatus;
+import com.gomo.app.member.domain.model.DailyThreshold;
+import com.gomo.app.member.domain.model.Email;
+import com.gomo.app.member.domain.model.Handle;
+import com.gomo.app.member.domain.model.LoginProvider;
+import com.gomo.app.member.domain.model.Member;
+import com.gomo.app.member.domain.model.MemberId;
+import com.gomo.app.member.domain.model.MemberName;
+import com.gomo.app.member.domain.model.MonthlyThreshold;
+import com.gomo.app.member.domain.model.Motto;
+import com.gomo.app.member.domain.model.Password;
+import com.gomo.app.member.domain.model.ProfileBanner;
+import com.gomo.app.member.domain.model.ProfileImage;
+import com.gomo.app.member.domain.model.QuestProperty;
+import com.gomo.app.member.domain.model.RoleType;
+import com.gomo.app.member.domain.model.SubscriptionPlan;
+import com.gomo.app.member.domain.model.WeeklyThreshold;
 import com.gomo.app.member.domain.service.PasswordService;
 
 public class MemberFixture {
@@ -46,6 +64,26 @@ public class MemberFixture {
 			LoginProvider.EMAIL,
 			RoleType.ROLE_MEMBER,
 			SubscriptionPlan.FREE,
+			ActivateStatus.ACTIVE,
+			LocalDateTime.now(),
+			null
+		);
+	}
+
+	public static Member member(SubscriptionPlan subscriptionPlan) {
+		return new Member(
+			MemberId.of(UUID.randomUUID()),
+			Email.of("test@naver.com"),
+			Password.of("Test123!", Mockito.mock(PasswordService.class)),
+			Handle.of("@gomo"),
+			MemberName.of("testname"),
+			Motto.of("test motto"),
+			ProfileImage.createDefault(),
+			ProfileBanner.createDefault(),
+			QuestProperty.createDefault(),
+			LoginProvider.EMAIL,
+			RoleType.ROLE_MEMBER,
+			subscriptionPlan,
 			ActivateStatus.ACTIVE,
 			LocalDateTime.now(),
 			null

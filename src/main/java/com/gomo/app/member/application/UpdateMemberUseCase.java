@@ -33,6 +33,7 @@ public class UpdateMemberUseCase {
 		member.updateMemberInfo(request.getName(), request.getMotto());
 	}
 
+	// TODO <jhl221123>: 유스케이스이기 때문에 비밀번호, 핸들 각각 분리하는 것을 고려해보자.
 	public void updatePassword(MemberId memberId, UpdatePasswordRequest request) {
 		Member member = memberRepository.findById(memberId)
 				.orElseThrow(() -> new MemberNotFoundException(NOT_FOUND, "member id not found: " + memberId));
