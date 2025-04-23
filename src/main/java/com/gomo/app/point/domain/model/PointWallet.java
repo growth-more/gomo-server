@@ -8,7 +8,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Version;
 import lombok.Getter;
 
 @Getter
@@ -29,9 +28,6 @@ public class PointWallet extends BaseAudit {
 		@AttributeOverride(name = "amount", column = @Column(name = "balance"))
 	})
 	private Balance balance;
-
-	@Version
-	private Long version;
 
 	protected PointWallet() {}
 

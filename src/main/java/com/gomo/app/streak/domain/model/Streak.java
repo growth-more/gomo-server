@@ -14,7 +14,6 @@ import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.Version;
 import lombok.Getter;
 
 @Getter
@@ -34,9 +33,6 @@ public class Streak {
 	private StreakType streakType;
 	private LocalDate filledDate;
 	private int completedQuestCount;
-
-	@Version
-	private Long version;
 
 	protected Streak() {}
 
