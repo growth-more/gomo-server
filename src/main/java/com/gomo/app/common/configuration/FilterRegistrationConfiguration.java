@@ -20,7 +20,7 @@ public class FilterRegistrationConfiguration {
     @Bean
     public FilterRegistrationBean<CorsFilter> corsFilterFilterRegistrationBean(){
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:63342", "http://localhost:5173", "https://gomo.nurdykim.me/", "https://gomo.ai.kr"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:63342", "http://localhost:5173", "https://gomo.nurdykim.me/", "https://gomo.ai.kr", "https://dev.gomo.ai.kr"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
