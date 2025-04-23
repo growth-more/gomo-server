@@ -4,16 +4,13 @@ on:
   push:
     branches:
       - develop
+      - main
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     env:
       TZ: Asia/Seoul
-
-    services:
-      docker:
-        image: docker:dind
 
     steps:
       - name: Checkout repository
@@ -48,7 +45,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout repository
@@ -64,6 +61,14 @@ jobs:
         run: |
           ls -lh build/libs/
 
+      - name: Setting Env Variable
+        run: |
+          if [[ "${{github.ref_name}}" == "main" ]]; then
+            echo "PROFILE=prod" >> $GITHUB_ENV
+          else
+            echo "PROFILE=dev" >> $GITHUB_ENV
+          fi
+
       - name: Create SSH Key
         run: |
           echo "${{ secrets.OCI_PRIVATE_KEY }}" > oci_key.key
@@ -71,12 +76,12 @@ jobs:
 
       - name: Transfer application, configuration & Docker Compose files to Server
         run: |
-          scp -i oci_key.key -o StrictHostKeyChecking=no build/libs/app-0.0.1-SNAPSHOT.jar ${{ secrets.OCI_USER }}@${{ secrets.OCI_HOST }}:/home/ubuntu/project/gomo/api/app-0.0.1-SNAPSHOT.jar
+          scp -i oci_key.key -o StrictHostKeyChecking=no build/libs/app-0.0.1-SNAPSHOT.jar ${{ secrets.OCI_USER }}@${{ secrets.OCI_HOST }}:/home/ubuntu/project/gomo/api/${{ env.PROFILE }}/app-0.0.1-SNAPSHOT.jar
 
       - name: Deploy
         run: |
           ssh -i oci_key.key -o StrictHostKeyChecking=no ${{ secrets.OCI_USER }}@${{ secrets.OCI_HOST }} << 'EOF'
-            cd /home/ubuntu/project/gomo/api/
-            docker compose down || true
-            docker compose up --build -d
+            cd /home/ubuntu/project/gomo/api/${{ env.PROFILE }}
+            docker compose -f docker-compose.${{ env.PROFILE }}.yml down || true
+            docker compose -f docker-compose.${{ env.PROFILE }}.yml up --build -d
           EOF
