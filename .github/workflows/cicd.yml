@@ -81,7 +81,7 @@ jobs:
       - name: Deploy
         run: |
           ssh -i oci_key.key -o StrictHostKeyChecking=no ${{ secrets.OCI_USER }}@${{ secrets.OCI_HOST }} << 'EOF'
-            cd /home/ubuntu/project/gomo/api/${{ env.PROFILE }}
+            cd /home/ubuntu/project/gomo/api/
             docker compose -f docker-compose.${{ env.PROFILE }}.yml down || true
             docker compose -f docker-compose.${{ env.PROFILE }}.yml up --build -d
           EOF
