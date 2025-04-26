@@ -2,7 +2,7 @@ package com.gomo.app.interest.presentation;
 
 import com.gomo.app.common.authentication.Auth;
 import com.gomo.app.common.authentication.AuthInfo;
-import com.gomo.app.common.presentation.Presentation;
+import com.gomo.app.common.Presentation;
 import com.gomo.app.interest.application.OrderUpdateMajorInterestUseCase;
 import com.gomo.app.interest.presentation.request.OrderUpdateMajorInterestRequest;
 import lombok.RequiredArgsConstructor;

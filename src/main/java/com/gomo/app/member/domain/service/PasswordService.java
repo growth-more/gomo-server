@@ -1,12 +1,9 @@
 package com.gomo.app.member.domain.service;
 
-import com.gomo.app.common.domain.service.DomainService;
-import com.gomo.app.member.domain.model.Password;
-import com.gomo.app.member.exception.MemberAuthenticationFailedException;
+import com.gomo.app.common.DomainService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import static com.gomo.app.member.exception.MemberErrorCode.AUTHENTICATION_FAILED;
 
 @DomainService
 @RequiredArgsConstructor

@@ -1,6 +1,6 @@
 package com.gomo.app.interest.domain.service;
 
-import com.gomo.app.common.domain.service.DomainService;
+import com.gomo.app.common.DomainService;
 import com.gomo.app.interest.domain.repository.InterestRepository;
 import lombok.RequiredArgsConstructor;
 

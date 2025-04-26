@@ -2,8 +2,8 @@ package com.gomo.app.interest.application;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gomo.app.common.application.ApplicationService;
-import com.gomo.app.common.domain.service.ImageService;
+import com.gomo.app.common.ApplicationService;
+import com.gomo.app.image.ImageService;
 import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.interest.application.translator.InterestQuotaTranslator;
 import com.gomo.app.interest.domain.model.Interest;

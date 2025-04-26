@@ -1,12 +1,11 @@
 package com.gomo.app.member.domain.model;
 
-import com.gomo.app.common.domain.ValueObject;
+import com.gomo.app.common.ValueObject;
+import com.gomo.app.member.exception.QuestPropertyConstraintViolationException;
+import com.gomo.app.member.exception.code.QuestPropertyErrorCode;
 
-import com.gomo.app.common.exception.PolicyViolationException;
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
-
-import static com.gomo.app.common.exception.DomainErrorCode.INVALID_PARAMETER;
 
 @Getter
 @Embeddable
@@ -40,8 +39,12 @@ public class DailyThreshold {
 	}
 
 	private void isValidSize(int threshold) {
-		if(threshold < MINIMUM_THRESHOLD || threshold > MAXIMUM_THRESHOLD){
-			throw new PolicyViolationException(INVALID_PARAMETER ,"Invalid threshold range");
+		if(threshold < MINIMUM_THRESHOLD) {
+			throw new QuestPropertyConstraintViolationException(QuestPropertyErrorCode.TOO_SMALL);
+		}
+
+		if(threshold > MAXIMUM_THRESHOLD) {
+			throw new QuestPropertyConstraintViolationException(QuestPropertyErrorCode.TOO_LARGE);
 		}
 	}
 

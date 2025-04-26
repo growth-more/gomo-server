@@ -2,7 +2,7 @@ package com.gomo.app.quest.domain.model;
 
 import java.util.UUID;
 
-import com.gomo.app.common.domain.ValueObject;
+import com.gomo.app.common.ValueObject;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;

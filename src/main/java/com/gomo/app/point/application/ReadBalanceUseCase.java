@@ -1,6 +1,6 @@
 package com.gomo.app.point.application;
 
-import com.gomo.app.common.application.ApplicationService;
+import com.gomo.app.common.ApplicationService;
 import com.gomo.app.point.domain.model.Balance;
 import com.gomo.app.point.domain.model.TransactorId;
 import com.gomo.app.point.domain.service.PointWalletService;

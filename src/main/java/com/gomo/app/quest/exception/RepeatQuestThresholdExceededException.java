@@ -1,14 +1,15 @@
 package com.gomo.app.quest.exception;
 
-import com.gomo.app.common.exception.DomainException;
+import com.gomo.app.common.exception.ApplicationException;
+import com.gomo.app.quest.exception.code.RepeatQuestErrorCode;
 
-public class RepeatQuestThresholdExceededException extends DomainException {
+public class RepeatQuestThresholdExceededException extends ApplicationException {
 
 	public RepeatQuestThresholdExceededException(RepeatQuestErrorCode errorCode) {
-		super(errorCode.getHttpStatus(), errorCode.name(), errorCode.getMessage());
+		super(errorCode.getHttpStatus(), errorCode.getErrorCode(), errorCode.getMessage());
 	}
 
 	public RepeatQuestThresholdExceededException(RepeatQuestErrorCode errorCode, Throwable cause) {
-		super(errorCode.getHttpStatus(), errorCode.name(), errorCode.getMessage(), cause);
+		super(errorCode.getHttpStatus(), errorCode.getErrorCode(), errorCode.getMessage(), cause);
 	}
 }

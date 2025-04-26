@@ -2,7 +2,7 @@ package com.gomo.app.quest.event;
 
 import java.util.UUID;
 
-import com.gomo.app.common.event.Event;
+import com.gomo.app.event.Event;
 import com.gomo.app.quest.domain.model.ScoreReward;
 import com.gomo.app.quest.domain.model.SubjectId;
 

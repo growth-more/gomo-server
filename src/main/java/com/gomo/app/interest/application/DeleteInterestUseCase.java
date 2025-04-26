@@ -5,10 +5,8 @@ import java.util.UUID;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gomo.app.common.application.ApplicationService;
-import com.gomo.app.common.domain.service.ImageService;
-import com.gomo.app.common.exception.DomainErrorCode;
-import com.gomo.app.common.exception.NotFoundException;
+import com.gomo.app.common.ApplicationService;
+import com.gomo.app.image.ImageService;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.InterestRelation;
@@ -16,6 +14,8 @@ import com.gomo.app.interest.domain.repository.InterestRelationRepository;
 import com.gomo.app.interest.domain.repository.InterestRepository;
 import com.gomo.app.interest.domain.repository.MajorInterestRepository;
 import com.gomo.app.interest.domain.service.InterestRelationService;
+import com.gomo.app.interest.exception.InterestNotFoundException;
+import com.gomo.app.interest.exception.code.InterestErrorCode;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,7 +32,7 @@ public class DeleteInterestUseCase {
 
 	public void delete(UUID registrantId, InterestId interestId) {
 		Interest interest = interestRepository.findById(interestId)
-			.orElseThrow(() -> new NotFoundException(DomainErrorCode.NOT_FOUND, "Interest not found with id: " + interestId));
+			.orElseThrow(() -> new InterestNotFoundException(InterestErrorCode.NOT_FOUND));
 		interest.validateAuthority(registrantId);
 
 		deleteLogoUrl(interest);

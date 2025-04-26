@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gomo.app.common.application.ApplicationService;
-import com.gomo.app.common.domain.service.OrderChangeable;
-import com.gomo.app.common.domain.service.OrderChanger;
+import com.gomo.app.common.ApplicationService;
+import com.gomo.app.displayorder.OrderChangeable;
+import com.gomo.app.displayorder.OrderChanger;
 import com.gomo.app.interest.domain.model.RegistrantId;
 import com.gomo.app.interest.domain.repository.MajorInterestRepository;
 import com.gomo.app.interest.presentation.request.OrderUpdateMajorInterestRequest;

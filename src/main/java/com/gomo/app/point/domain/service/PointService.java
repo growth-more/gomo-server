@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gomo.app.common.domain.service.DomainService;
+import com.gomo.app.common.DomainService;
 import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.point.domain.model.Point;
 import com.gomo.app.point.domain.model.PointId;

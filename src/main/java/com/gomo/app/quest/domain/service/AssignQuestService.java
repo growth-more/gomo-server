@@ -1,26 +1,27 @@
 package com.gomo.app.quest.domain.service;
 
-import static com.gomo.app.quest.exception.AssignQuestErrorCode.*;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.gomo.app.common.domain.service.DisplayOrder;
-import com.gomo.app.common.domain.service.DomainService;
+import com.gomo.app.common.DomainService;
 import com.gomo.app.common.util.DateRangeCalculator;
 import com.gomo.app.common.util.UUIDGenerator;
+import com.gomo.app.displayorder.DisplayOrder;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.model.MemberId;
 import com.gomo.app.member.domain.repository.MemberRepository;
+import com.gomo.app.member.exception.MemberNotFoundException;
+import com.gomo.app.member.exception.code.MemberErrorCode;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.model.ParticipantId;
 import com.gomo.app.quest.domain.model.Quest;
 import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.domain.repository.AssignQuestRepository;
-import com.gomo.app.quest.exception.AssignQuestThresholdExceededException;
+import com.gomo.app.quest.exception.AssignQuestConstraintViolationException;
+import com.gomo.app.quest.exception.code.AssignQuestErrorCode;
 
 import lombok.RequiredArgsConstructor;
 
@@ -55,10 +56,10 @@ public class AssignQuestService {
 	private void ensureNotExceedQuestThreshold(ParticipantId participantId, QuestType questType, int currentCount) {
 		// TODO <jhl221123>: 여기서 회원을 조회하면 안 되고, 회원 서비스에서 공통 처리되어야 한다.
 		Member member = memberRepository.findById(MemberId.of(participantId.getId()))
-			.orElseThrow(() -> new IllegalArgumentException("Member not found"));
+			.orElseThrow(() -> new MemberNotFoundException(MemberErrorCode.NOT_FOUND));
 
 		if(member.hasReachedQuestThreshold(questType.name(), currentCount)) {
-			throw new AssignQuestThresholdExceededException(THRESHOLD_EXCEEDED);
+			throw new AssignQuestConstraintViolationException(AssignQuestErrorCode.THRESHOLD_EXCEEDED);
 		}
 	}
 

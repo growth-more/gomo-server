@@ -1,6 +1,6 @@
 package com.gomo.app.point.domain.model;
 
-import com.gomo.app.common.domain.BaseAudit;
+import com.gomo.app.common.BaseAudit;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;

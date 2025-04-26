@@ -2,7 +2,7 @@ package com.gomo.app.quest.event;
 
 import java.time.LocalDateTime;
 
-import com.gomo.app.common.event.Event;
+import com.gomo.app.event.Event;
 import com.gomo.app.quest.domain.model.ParticipantId;
 import com.gomo.app.quest.domain.model.QuestType;
 

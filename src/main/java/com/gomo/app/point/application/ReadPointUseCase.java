@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.gomo.app.common.application.ApplicationService;
+import com.gomo.app.common.ApplicationService;
 import com.gomo.app.common.dto.PageRequest;
 import com.gomo.app.point.domain.model.TransactorId;
 import com.gomo.app.point.domain.repository.PointRepository;

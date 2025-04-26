@@ -2,7 +2,7 @@ package com.gomo.app.survey.presentation;
 
 import com.gomo.app.common.authentication.Auth;
 import com.gomo.app.common.authentication.AuthInfo;
-import com.gomo.app.common.presentation.Presentation;
+import com.gomo.app.common.Presentation;
 import com.gomo.app.survey.application.CreateSurveyResultUseCase;
 import com.gomo.app.survey.application.ReadSurveyQuestionUseCase;
 import com.gomo.app.survey.domain.model.RespondentId;

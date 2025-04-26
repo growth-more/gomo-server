@@ -2,15 +2,15 @@ package com.gomo.app.interest.domain.service;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.gomo.app.common.domain.service.DisplayOrder;
-import com.gomo.app.common.domain.service.DomainService;
+import com.gomo.app.common.DomainService;
 import com.gomo.app.common.util.UUIDGenerator;
+import com.gomo.app.displayorder.DisplayOrder;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.MajorInterest;
 import com.gomo.app.interest.domain.model.MajorInterestId;
 import com.gomo.app.interest.domain.repository.MajorInterestRepository;
 import com.gomo.app.interest.exception.MajorInterestDuplicatedException;
-import com.gomo.app.interest.exception.MajorInterestErrorCode;
+import com.gomo.app.interest.exception.code.MajorInterestErrorCode;
 
 import lombok.RequiredArgsConstructor;
 

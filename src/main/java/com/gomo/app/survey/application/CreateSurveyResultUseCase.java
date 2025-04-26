@@ -6,7 +6,7 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gomo.app.common.application.ApplicationService;
+import com.gomo.app.common.ApplicationService;
 import com.gomo.app.survey.domain.model.RespondentId;
 import com.gomo.app.survey.domain.model.SurveyItemId;
 import com.gomo.app.survey.domain.model.SurveyQuestionId;
@@ -34,7 +34,7 @@ public class CreateSurveyResultUseCase {
     }
 
     @NotNull
-    private static SurveyResult createSurveyResult(RespondentId respondentId, SelectedSurveyItem selectedItem) {
+    private SurveyResult createSurveyResult(RespondentId respondentId, SelectedSurveyItem selectedItem) {
 		return SurveyResult.of(
 			respondentId,
 			SurveyQuestionId.of(selectedItem.getSurveyQuestionId()),

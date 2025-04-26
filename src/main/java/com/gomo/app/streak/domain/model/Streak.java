@@ -1,10 +1,6 @@
 package com.gomo.app.streak.domain.model;
 
 import java.time.LocalDate;
-import java.time.temporal.IsoFields;
-
-import com.gomo.app.common.exception.DomainErrorCode;
-import com.gomo.app.common.exception.PolicyViolationException;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
@@ -62,16 +58,5 @@ public class Streak {
 
 	public void increaseCompletedQuestCount() {
 		this.completedQuestCount++;
-	}
-
-	public int extractWeekOfYear() {
-		ensureWeeklyType();
-		return filledDate.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
-	}
-
-	private void ensureWeeklyType() {
-		if(this.streakType != StreakType.WEEKLY) {
-			throw new PolicyViolationException(DomainErrorCode.INVALID_STATE, "Only the WEEKLY type supports extracting the week from a date");
-		}
 	}
 }

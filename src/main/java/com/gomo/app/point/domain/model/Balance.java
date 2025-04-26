@@ -1,8 +1,8 @@
 package com.gomo.app.point.domain.model;
 
-import com.gomo.app.common.domain.ValueObject;
+import com.gomo.app.common.ValueObject;
 import com.gomo.app.point.exception.InsufficientBalanceException;
-import com.gomo.app.point.exception.PointWalletErrorCode;
+import com.gomo.app.point.exception.code.BalanceErrorCode;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
@@ -33,7 +33,7 @@ public class Balance {
 
 	private void ensureAmountNotNegative(int amount) {
 		if(amount < 0) {
-			throw new InsufficientBalanceException(PointWalletErrorCode.INSUFFICIENT_BALANCE);
+			throw new InsufficientBalanceException(BalanceErrorCode.INSUFFICIENT_BALANCE);
 		}
 	}
 

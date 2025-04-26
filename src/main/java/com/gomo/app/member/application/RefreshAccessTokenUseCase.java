@@ -1,16 +1,16 @@
 package com.gomo.app.member.application;
 
-import com.gomo.app.common.application.ApplicationService;
+import java.util.UUID;
+
+import com.gomo.app.common.ApplicationService;
 import com.gomo.app.common.util.JwtUtil;
 import com.gomo.app.member.domain.model.MemberId;
 import com.gomo.app.member.exception.MemberAuthenticationFailedException;
+import com.gomo.app.member.exception.code.MemberErrorCode;
 import com.gomo.app.member.infrastructure.JwtSessionRedisService;
 import com.gomo.app.member.presentation.response.LoginMemberResponse;
+
 import lombok.RequiredArgsConstructor;
-
-import java.util.UUID;
-
-import static com.gomo.app.member.exception.MemberErrorCode.AUTHENTICATION_FAILED;
 
 @RequiredArgsConstructor
 @ApplicationService
@@ -21,7 +21,7 @@ public class RefreshAccessTokenUseCase {
 
     public LoginMemberResponse refresh(String refreshToken){
         if (refreshToken == null){
-            throw new MemberAuthenticationFailedException(AUTHENTICATION_FAILED, "Member Authentication fail");
+            throw new MemberAuthenticationFailedException(MemberErrorCode.AUTHENTICATION_FAILED);
         }
 
         MemberId memberId = MemberId.of(UUID.fromString(jwtUtil.extractMemberId(refreshToken)));
@@ -29,7 +29,7 @@ public class RefreshAccessTokenUseCase {
         String storedRefreshToken = jwtSessionRedisService.getRefreshToken(memberId);
 
         if(!storedRefreshToken.equals(refreshToken)){
-            throw new MemberAuthenticationFailedException(AUTHENTICATION_FAILED, "Member Authentication failed");
+            throw new MemberAuthenticationFailedException(MemberErrorCode.AUTHENTICATION_FAILED);
         }
 
         String newAccessToken = jwtUtil.generateAccessToken(memberId);

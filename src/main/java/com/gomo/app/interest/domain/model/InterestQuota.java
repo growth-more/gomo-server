@@ -1,7 +1,7 @@
 package com.gomo.app.interest.domain.model;
 
-import com.gomo.app.interest.exception.InterestErrorCode;
-import com.gomo.app.interest.exception.InterestQuotaExceededException;
+import com.gomo.app.interest.exception.InterestConstraintViolationException;
+import com.gomo.app.interest.exception.code.InterestErrorCode;
 
 import lombok.Getter;
 
@@ -18,7 +18,7 @@ public enum InterestQuota {
 
 	public void validateCount(long currentCount) {
 		if (currentCount >= maxCount) {
-			throw new InterestQuotaExceededException(InterestErrorCode.INTEREST_QUOTA_EXCEEDED);
+			throw new InterestConstraintViolationException(InterestErrorCode.EXCEED_QUOTA);
 		}
 	}
 }

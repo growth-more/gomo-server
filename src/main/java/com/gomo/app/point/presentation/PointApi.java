@@ -3,7 +3,7 @@ package com.gomo.app.point.presentation;
 import com.gomo.app.common.authentication.Auth;
 import com.gomo.app.common.authentication.AuthInfo;
 import com.gomo.app.common.dto.PageRequest;
-import com.gomo.app.common.presentation.Presentation;
+import com.gomo.app.common.Presentation;
 import com.gomo.app.point.application.ReadBalanceUseCase;
 import com.gomo.app.point.application.ReadPointUseCase;
 import com.gomo.app.point.domain.model.TransactorId;

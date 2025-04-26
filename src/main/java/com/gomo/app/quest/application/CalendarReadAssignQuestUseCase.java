@@ -3,7 +3,7 @@ package com.gomo.app.quest.application;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.gomo.app.common.application.ApplicationService;
+import com.gomo.app.common.ApplicationService;
 import com.gomo.app.quest.domain.model.ParticipantId;
 import com.gomo.app.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.quest.presentation.response.CalendarListAssignQuestResponse;

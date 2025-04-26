@@ -1,14 +1,15 @@
 package com.gomo.app.interest.exception;
 
-import com.gomo.app.common.exception.DomainException;
+import com.gomo.app.common.exception.ApplicationException;
+import com.gomo.app.interest.exception.code.InterestRelationErrorCode;
 
-public class InterestRelationAccessDeniedException extends DomainException {
+public class InterestRelationAccessDeniedException extends ApplicationException {
 
 	public InterestRelationAccessDeniedException(InterestRelationErrorCode errorCode) {
-		super(errorCode.getHttpStatus(), errorCode.name(), errorCode.getMessage());
+		super(errorCode.getHttpStatus(), errorCode.getErrorCode(), errorCode.getMessage());
 	}
 
 	public InterestRelationAccessDeniedException(InterestRelationErrorCode errorCode, Throwable cause) {
-		super(errorCode.getHttpStatus(), errorCode.name(), errorCode.getMessage(), cause);
+		super(errorCode.getHttpStatus(), errorCode.getErrorCode(), errorCode.getMessage(), cause);
 	}
 }

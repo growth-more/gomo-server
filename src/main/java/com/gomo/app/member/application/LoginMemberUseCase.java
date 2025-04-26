@@ -1,24 +1,23 @@
 package com.gomo.app.member.application;
 
-import com.gomo.app.common.application.ApplicationService;
+import java.time.LocalDateTime;
+
+import com.gomo.app.common.ApplicationService;
 import com.gomo.app.common.util.JwtUtil;
-import com.gomo.app.member.domain.model.ActivateStatus;
 import com.gomo.app.member.domain.model.Email;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.repository.MemberRepository;
 import com.gomo.app.member.domain.service.PasswordService;
-import com.gomo.app.member.exception.MemberErrorCode;
+import com.gomo.app.member.exception.ActivateStatusException;
 import com.gomo.app.member.exception.MemberNotFoundException;
-import com.gomo.app.member.exception.MemberPolicyViolationException;
+import com.gomo.app.member.exception.code.ActivateStatusErrorCode;
+import com.gomo.app.member.exception.code.MemberErrorCode;
 import com.gomo.app.member.infrastructure.JwtSessionRedisService;
 import com.gomo.app.member.presentation.request.LoginMemberRequest;
-import com.gomo.app.member.presentation.response.CreateMemberResponse;
 import com.gomo.app.member.presentation.response.LoginMemberResponse;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @ApplicationService
@@ -32,23 +31,23 @@ public class LoginMemberUseCase {
 	@Transactional
 	public LoginMemberResponse login(LoginMemberRequest request) {
 		Member member = memberRepository.findByEmail(Email.of(request.getEmail()))
-				.orElseThrow(() -> new MemberNotFoundException(MemberErrorCode.NOT_FOUND, "check email or password"));
+				.orElseThrow(() -> new MemberNotFoundException(MemberErrorCode.NOT_FOUND));
 
 		switch(member.getActivateStatus()){
-			case DELETED -> throw new MemberPolicyViolationException(MemberErrorCode.MEMBER_DELETED, "member info has been deleted. check email or password");
-			case BLOCKED -> throw new MemberPolicyViolationException(MemberErrorCode.MEMBER_BANNED, "member info has been blocked. check email or password");
+			case DELETED -> throw new ActivateStatusException(ActivateStatusErrorCode.DELETED);
+			case BLOCKED -> throw new ActivateStatusException(ActivateStatusErrorCode.BLOCKED);
 		}
 
 		member.login(request.getPassword(), passwordService);
 
 		String accessToken = jwtUtil.generateAccessToken(member.getId());
 		String refreshToken = jwtUtil.generateRefreshToken(member.getId());
-		long refreshTokenExptime = jwtUtil.extractExpirationTime(refreshToken);
+		long refreshTokenExpirationTime = jwtUtil.extractExpirationTime(refreshToken);
 
 		jwtSessionRedisService.setRefreshToken(member.getId(), refreshToken);
 
 		member.updateLastLoginDateTime(LocalDateTime.now());
 
-		return LoginMemberResponse.of(member.getId(), accessToken, refreshToken, refreshTokenExptime);
+		return LoginMemberResponse.of(member.getId(), accessToken, refreshToken, refreshTokenExpirationTime);
 	}
 }

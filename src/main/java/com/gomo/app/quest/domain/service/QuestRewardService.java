@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.gomo.app.common.domain.service.DomainService;
+import com.gomo.app.common.DomainService;
 import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.model.PointReward;
 import com.gomo.app.quest.domain.model.QuestPointPolicy;

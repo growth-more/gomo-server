@@ -1,6 +1,6 @@
 package com.gomo.app.interest.application;
 
-import com.gomo.app.common.application.ApplicationService;
+import com.gomo.app.common.ApplicationService;
 import com.gomo.app.interest.domain.model.ChildInterestId;
 import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.InterestRelation;

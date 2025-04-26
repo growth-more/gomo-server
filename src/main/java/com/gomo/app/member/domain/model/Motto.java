@@ -1,14 +1,13 @@
 package com.gomo.app.member.domain.model;
 
-import com.gomo.app.common.domain.ValueObject;
-
-import com.gomo.app.common.exception.PolicyViolationException;
-import jakarta.persistence.Embeddable;
-import lombok.Getter;
-
 import java.util.regex.Pattern;
 
-import static com.gomo.app.common.exception.DomainErrorCode.INVALID_PARAMETER;
+import com.gomo.app.common.ValueObject;
+import com.gomo.app.member.exception.MottoConstraintViolationException;
+import com.gomo.app.member.exception.code.MottoErrorCode;
+
+import jakarta.persistence.Embeddable;
+import lombok.Getter;
 
 @Getter
 @Embeddable
@@ -39,13 +38,13 @@ public class Motto {
 
     private void ensureValidMottoLength(String motto){
         if(motto.length() > MAX_MOTTO_LENGTH){
-            throw new PolicyViolationException(INVALID_PARAMETER, "Motto must not exceed 200 characters");
+            throw new MottoConstraintViolationException(MottoErrorCode.TOO_LONG);
         }
     }
 
     private void ensureValidMottoRules(String motto){
         if(!VALID_MOTTO_PATTERN.matcher(motto).matches()){
-            throw new PolicyViolationException(INVALID_PARAMETER, "Motto must comply with the motto rules");
+            throw new MottoConstraintViolationException(MottoErrorCode.FORBIDDEN);
         }
     }
 

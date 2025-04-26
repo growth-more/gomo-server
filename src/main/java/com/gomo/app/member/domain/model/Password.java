@@ -1,16 +1,17 @@
 package com.gomo.app.member.domain.model;
 
-import com.gomo.app.common.domain.ValueObject;
-import com.gomo.app.common.exception.PolicyViolationException;
-import com.gomo.app.member.domain.service.PasswordService;
-import com.gomo.app.member.exception.MemberAuthenticationFailedException;
-import jakarta.persistence.Embeddable;
-import lombok.Getter;
+import static com.gomo.app.member.exception.code.MemberErrorCode.*;
 
 import java.util.regex.Pattern;
 
-import static com.gomo.app.common.exception.DomainErrorCode.INVALID_PARAMETER;
-import static com.gomo.app.member.exception.MemberErrorCode.AUTHENTICATION_FAILED;
+import com.gomo.app.common.ValueObject;
+import com.gomo.app.member.domain.service.PasswordService;
+import com.gomo.app.member.exception.MemberAuthenticationFailedException;
+import com.gomo.app.member.exception.PasswordConstraintViolationException;
+import com.gomo.app.member.exception.code.PasswordErrorCode;
+
+import jakarta.persistence.Embeddable;
+import lombok.Getter;
 
 @Getter
 @Embeddable
@@ -39,7 +40,7 @@ public class Password {
 
     public void matches(String rawPassword, PasswordService passwordService) {
         if(!passwordService.matches(rawPassword, this.password)) {
-            throw new MemberAuthenticationFailedException(AUTHENTICATION_FAILED, "password incorrect");
+            throw new MemberAuthenticationFailedException(AUTHENTICATION_FAILED);
         }
     }
 
@@ -50,23 +51,23 @@ public class Password {
 
     private static void ensureNotBlank(String password){
         if(password == null || password.isBlank()){
-            throw new PolicyViolationException(INVALID_PARAMETER, "password must not be blank");
+            throw new PasswordConstraintViolationException(PasswordErrorCode.BLANK);
         }
     }
 
     private static void ensureValidLength(String password){
-        if (password.length() > MAX_PASSWORD_LENGTH) {
-            throw new PolicyViolationException(INVALID_PARAMETER, "password must not exceed 64 characters");
+        if (password.length() < MIN_PASSWORD_LENGTH){
+            throw new PasswordConstraintViolationException(PasswordErrorCode.TOO_SHORT);
         }
 
-        if (password.length() < MIN_PASSWORD_LENGTH){
-            throw new PolicyViolationException(INVALID_PARAMETER, "password must at least 8 characters");
+        if (password.length() > MAX_PASSWORD_LENGTH) {
+            throw new PasswordConstraintViolationException(PasswordErrorCode.TOO_LONG);
         }
     }
 
     private static void ensureValidPasswordRule(String password){
         if(!PASSWORD_RULE_PATTERN.matcher(password).matches()){
-            throw new PolicyViolationException(INVALID_PARAMETER, "password must comply with the password rules.");
+            throw new PasswordConstraintViolationException(PasswordErrorCode.FORBIDDEN);
         }
     }
 }

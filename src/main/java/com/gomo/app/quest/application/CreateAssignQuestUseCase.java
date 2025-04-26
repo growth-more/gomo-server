@@ -2,7 +2,7 @@ package com.gomo.app.quest.application;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.gomo.app.common.application.ApplicationService;
+import com.gomo.app.common.ApplicationService;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.ParticipantId;
 import com.gomo.app.quest.domain.model.Quest;

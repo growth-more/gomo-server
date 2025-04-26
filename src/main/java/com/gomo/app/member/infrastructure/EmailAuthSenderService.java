@@ -1,16 +1,13 @@
 package com.gomo.app.member.infrastructure;
 
-import com.gomo.app.member.exception.MemberAuthenticationFailedException;
-import com.gomo.app.member.exception.MemberErrorCode;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import static com.gomo.app.member.exception.MemberErrorCode.AUTHENTICATION_FAILED;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +26,7 @@ public class EmailAuthSenderService {
             helper.setText("인증코드는 : " + authCode + "입니다.");
             mailSender.send(mimeMessage);
         } catch (MessagingException e){
-            throw new MemberAuthenticationFailedException(AUTHENTICATION_FAILED,"Failed to Send Auth Code. Try this at later");
+            throw new IllegalStateException("Failed to Send Auth Code. Try this at later");
         }
     }
 }

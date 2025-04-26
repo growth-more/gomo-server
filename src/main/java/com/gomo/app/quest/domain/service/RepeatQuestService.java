@@ -1,12 +1,10 @@
 package com.gomo.app.quest.domain.service;
 
-import static com.gomo.app.quest.exception.RepeatQuestErrorCode.*;
-
 import org.jetbrains.annotations.NotNull;
 
-import com.gomo.app.common.domain.service.DisplayOrder;
-import com.gomo.app.common.domain.service.DomainService;
+import com.gomo.app.common.DomainService;
 import com.gomo.app.common.util.UUIDGenerator;
+import com.gomo.app.displayorder.DisplayOrder;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.model.MemberId;
 import com.gomo.app.member.domain.repository.MemberRepository;
@@ -17,6 +15,7 @@ import com.gomo.app.quest.domain.model.RepeatQuest;
 import com.gomo.app.quest.domain.model.RepeatQuestId;
 import com.gomo.app.quest.domain.repository.RepeatQuestRepository;
 import com.gomo.app.quest.exception.RepeatQuestThresholdExceededException;
+import com.gomo.app.quest.exception.code.RepeatQuestErrorCode;
 
 import lombok.RequiredArgsConstructor;
 
@@ -41,7 +40,7 @@ public class RepeatQuestService {
 			.orElseThrow(() -> new IllegalArgumentException("Member not found"));
 
 		if(member.hasReachedQuestThreshold(questType.name(), currentCount)) {
-			throw new RepeatQuestThresholdExceededException(THRESHOLD_EXCEEDED);
+			throw new RepeatQuestThresholdExceededException(RepeatQuestErrorCode.THRESHOLD_EXCEEDED);
 		}
 	}
 

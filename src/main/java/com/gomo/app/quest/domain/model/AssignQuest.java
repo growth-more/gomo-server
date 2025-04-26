@@ -3,14 +3,15 @@ package com.gomo.app.quest.domain.model;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.gomo.app.common.domain.Authorizable;
-import com.gomo.app.common.domain.BaseAudit;
-import com.gomo.app.common.domain.service.DisplayOrder;
-import com.gomo.app.common.domain.service.OrderChangeable;
-import com.gomo.app.common.exception.DomainErrorCode;
-import com.gomo.app.common.exception.PolicyViolationException;
+import com.gomo.app.common.Authorizable;
+import com.gomo.app.common.BaseAudit;
+import com.gomo.app.displayorder.DisplayOrder;
+import com.gomo.app.displayorder.OrderChangeable;
 import com.gomo.app.quest.exception.AssignQuestAccessDeniedException;
-import com.gomo.app.quest.exception.AssignQuestErrorCode;
+import com.gomo.app.quest.exception.AssignQuestConstraintViolationException;
+import com.gomo.app.quest.exception.QuestTypeConstraintViolationException;
+import com.gomo.app.quest.exception.code.AssignQuestErrorCode;
+import com.gomo.app.quest.exception.code.QuestTypeErrorCode;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
@@ -106,14 +107,14 @@ public class AssignQuest extends BaseAudit implements OrderChangeable, Authoriza
 
 	public void ensureSameQuestType(QuestType questType) {
 		if(!this.quest.getType().equals(questType)) {
-			throw new PolicyViolationException(DomainErrorCode.INVALID_STATE, "Assigned quest type does not match the requested quest type");
+			throw new QuestTypeConstraintViolationException(QuestTypeErrorCode.MISMATCHED);
 		}
 	}
 
 	@Override
 	public void changeOrder(DisplayOrder displayOrder) {
 		if(this.isCompleted) {
-			throw new PolicyViolationException(DomainErrorCode.INVALID_STATE, "Completed quests cannot have their order changed");
+			throw new AssignQuestConstraintViolationException(AssignQuestErrorCode.NOT_ALLOWED_ORDER_CHANGE);
 		}
 		this.displayOrder = displayOrder;
 	}
@@ -127,19 +128,19 @@ public class AssignQuest extends BaseAudit implements OrderChangeable, Authoriza
 
 	private void ensureConfirmed() {
 		if(!this.isConfirmed) {
-			throw new PolicyViolationException(DomainErrorCode.INVALID_STATE, "Assign quest has not been confirmed");
+			throw new AssignQuestConstraintViolationException(AssignQuestErrorCode.NOT_CONFIRMED);
 		}
 	}
 
 	public void ensureNotConfirmed() {
 		if(this.isConfirmed) {
-			throw new PolicyViolationException(DomainErrorCode.INVALID_STATE, "Assign quest has already been confirmed");
+			throw new AssignQuestConstraintViolationException(AssignQuestErrorCode.ALREADY_CONFIRMED);
 		}
 	}
 
 	public void ensureNotCompleted() {
 		if(this.isCompleted) {
-			throw new PolicyViolationException(DomainErrorCode.INVALID_STATE, "Assign quest has already been completed");
+			throw new AssignQuestConstraintViolationException(AssignQuestErrorCode.ALREADY_COMPLETED);
 		}
 	}
 }

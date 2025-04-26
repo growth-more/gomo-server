@@ -1,13 +1,13 @@
 package com.gomo.app.member.domain.model;
 
-import com.gomo.app.common.domain.ValueObject;
-import com.gomo.app.common.exception.PolicyViolationException;
-import jakarta.persistence.Embeddable;
-import lombok.Getter;
-
 import java.util.regex.Pattern;
 
-import static com.gomo.app.common.exception.DomainErrorCode.INVALID_PARAMETER;
+import com.gomo.app.common.ValueObject;
+import com.gomo.app.member.exception.HandleConstraintViolationException;
+import com.gomo.app.member.exception.code.HandleErrorCode;
+
+import jakarta.persistence.Embeddable;
+import lombok.Getter;
 
 @Getter
 @Embeddable
@@ -36,30 +36,30 @@ public class Handle {
 
     public Handle update(String handle) {
         if(this.handle.equals(handle)){
-            throw new PolicyViolationException(INVALID_PARAMETER, "Handle is already same");
+            throw new HandleConstraintViolationException(HandleErrorCode.DUPLICATED);
         }
         return Handle.of(handle);
     }
 
     private void ensureNotBlank(String handle){
         if (handle == null || handle.isBlank()) {
-            throw new PolicyViolationException(INVALID_PARAMETER,"Handle must not be blank");
+            throw new HandleConstraintViolationException(HandleErrorCode.BLANK);
         }
     }
 
     private void ensureValidHandleLength(String handle) {
         if(handle.length() < MIN_HANDLE_LENGTH){
-            throw new PolicyViolationException(INVALID_PARAMETER, "Handle must be at least 3 characters");
+            throw new HandleConstraintViolationException(HandleErrorCode.TOO_SHORT);
         }
 
         if(handle.length() > MAX_HANDLE_LENGTH){
-            throw new PolicyViolationException(INVALID_PARAMETER, "Handle must not exceed 30 characters");
+            throw new HandleConstraintViolationException(HandleErrorCode.TOO_LONG);
         }
     }
 
     private void ensureValidHandleRule(String handle){
         if(!HANDLE_PATTERN.matcher(handle).matches()){
-            throw new PolicyViolationException(INVALID_PARAMETER, "Handle must contain only alphabets, numbers, and special characters: . _ -");
+            throw new HandleConstraintViolationException(HandleErrorCode.FORBIDDEN);
         }
     }
 

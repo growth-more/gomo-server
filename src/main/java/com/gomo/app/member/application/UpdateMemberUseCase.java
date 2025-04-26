@@ -1,16 +1,15 @@
 package com.gomo.app.member.application;
 
-import static com.gomo.app.member.exception.MemberErrorCode.*;
-
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gomo.app.common.application.ApplicationService;
+import com.gomo.app.common.ApplicationService;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.model.MemberId;
 import com.gomo.app.member.domain.repository.MemberRepository;
 import com.gomo.app.member.domain.service.MemberValidator;
 import com.gomo.app.member.domain.service.PasswordService;
 import com.gomo.app.member.exception.MemberNotFoundException;
+import com.gomo.app.member.exception.code.MemberErrorCode;
 import com.gomo.app.member.presentation.request.UpdateHandleRequest;
 import com.gomo.app.member.presentation.request.UpdateMemberRequest;
 import com.gomo.app.member.presentation.request.UpdatePasswordRequest;
@@ -28,7 +27,7 @@ public class UpdateMemberUseCase {
 
 	public void update(MemberId memberId, UpdateMemberRequest request) {
 		Member member = memberRepository.findById(memberId)
-				.orElseThrow(() -> new MemberNotFoundException(NOT_FOUND, "member id not found: " + memberId));
+				.orElseThrow(() -> new MemberNotFoundException(MemberErrorCode.NOT_FOUND));
 
 		member.updateMemberInfo(request.getName(), request.getMotto());
 	}
@@ -36,13 +35,13 @@ public class UpdateMemberUseCase {
 	// TODO <jhl221123>: 유스케이스이기 때문에 비밀번호, 핸들 각각 분리하는 것을 고려해보자.
 	public void updatePassword(MemberId memberId, UpdatePasswordRequest request) {
 		Member member = memberRepository.findById(memberId)
-				.orElseThrow(() -> new MemberNotFoundException(NOT_FOUND, "member id not found: " + memberId));
+				.orElseThrow(() -> new MemberNotFoundException(MemberErrorCode.NOT_FOUND));
 		member.updatePassword(request.getOriginPassword(), request.getUpdatedPassword(), passwordService);
 	}
 
 	public void updateHandle(MemberId memberId, UpdateHandleRequest request) {
 		Member member = memberRepository.findById(memberId)
-				.orElseThrow(() -> new MemberNotFoundException(NOT_FOUND, "member id not found: " + memberId));
+				.orElseThrow(() -> new MemberNotFoundException(MemberErrorCode.NOT_FOUND));
 		memberValidator.checkDuplicatedHandle(request.getHandle());
 		member.updateHandle(request.getHandle());
 	}

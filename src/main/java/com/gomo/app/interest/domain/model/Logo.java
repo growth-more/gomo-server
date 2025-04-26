@@ -2,7 +2,7 @@ package com.gomo.app.interest.domain.model;
 
 import java.util.Objects;
 
-import com.gomo.app.common.domain.ValueObject;
+import com.gomo.app.common.ValueObject;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;

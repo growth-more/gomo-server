@@ -2,10 +2,10 @@ package com.gomo.app.interest.domain.model;
 
 import java.util.UUID;
 
-import com.gomo.app.common.domain.Authorizable;
-import com.gomo.app.common.domain.BaseAudit;
+import com.gomo.app.common.Authorizable;
+import com.gomo.app.common.BaseAudit;
 import com.gomo.app.interest.exception.InterestAccessDeniedException;
-import com.gomo.app.interest.exception.InterestErrorCode;
+import com.gomo.app.interest.exception.code.InterestErrorCode;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;

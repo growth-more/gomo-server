@@ -9,14 +9,14 @@ import java.util.Set;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gomo.app.common.domain.service.DomainService;
-import com.gomo.app.common.exception.DomainErrorCode;
-import com.gomo.app.common.exception.NotFoundException;
+import com.gomo.app.common.DomainService;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.InterestRelation;
 import com.gomo.app.interest.domain.repository.InterestRelationRepository;
 import com.gomo.app.interest.domain.repository.InterestRepository;
+import com.gomo.app.interest.exception.InterestNotFoundException;
+import com.gomo.app.interest.exception.code.InterestErrorCode;
 
 import lombok.RequiredArgsConstructor;
 
@@ -98,6 +98,6 @@ public class ProficiencyService {
 
 	private Interest findInterest(InterestId interestId) {
 		return interestRepository.findById(interestId)
-			.orElseThrow(() -> new NotFoundException(DomainErrorCode.NOT_FOUND, "Interest not found with id: " + interestId));
+			.orElseThrow(() -> new InterestNotFoundException(InterestErrorCode.NOT_FOUND));
 	}
 }
