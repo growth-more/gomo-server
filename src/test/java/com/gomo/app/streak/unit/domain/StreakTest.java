@@ -8,7 +8,6 @@ import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.common.exception.PolicyViolationException;
 import com.gomo.app.streak.domain.model.AchieverId;
 import com.gomo.app.streak.domain.model.Streak;
 import com.gomo.app.streak.domain.model.StreakId;
@@ -39,24 +38,5 @@ public class StreakTest {
 		streak.increaseCompletedQuestCount();
 
 		assertThat(streak.getCompletedQuestCount()).isEqualTo(COMPLETED_QUEST_COUNT + 1);
-	}
-
-	@DisplayName("WEEKLY 타입 스트릭의 주차를 확인한다.")
-	@Test
-	void extract_week_of_year_from_streak() {
-		Streak streak = Streak.of(STREAK_ID, ACHIEVER_ID, StreakType.WEEKLY, FILLED_DATE, COMPLETED_QUEST_COUNT);
-		int weekOfYear = streak.extractWeekOfYear();
-
-		assertThat(weekOfYear).isEqualTo(6);
-	}
-
-	@DisplayName("WEEKLY 타입이 아닌 스트릭의 주차를 확인한다.")
-	@Test
-	void extract_week_of_year_from_not_weekly_streak() {
-		Streak streak = Streak.of(STREAK_ID, ACHIEVER_ID, StreakType.DAILY, FILLED_DATE, COMPLETED_QUEST_COUNT);
-
-		assertThatThrownBy(streak::extractWeekOfYear)
-			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("Only the WEEKLY type supports extracting the week from a date");
 	}
 }

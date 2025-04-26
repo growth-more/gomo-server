@@ -2,7 +2,7 @@ package com.gomo.app.quest.presentation;
 
 import com.gomo.app.common.authentication.Auth;
 import com.gomo.app.common.authentication.AuthInfo;
-import com.gomo.app.common.presentation.Presentation;
+import com.gomo.app.common.Presentation;
 import com.gomo.app.quest.application.CompleteAssignQuestUseCase;
 import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.presentation.request.CompleteAssignQuestRequest;

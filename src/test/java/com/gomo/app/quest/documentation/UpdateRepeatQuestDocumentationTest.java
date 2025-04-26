@@ -16,12 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.exception.DomainErrorCode;
 import com.gomo.app.quest.common.dataprovider.RepeatQuestDataProvider;
 import com.gomo.app.quest.common.util.RepeatQuestDataHelper;
 import com.gomo.app.quest.documentation.snippet.UpdateRepeatQuestSnippet;
 import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.domain.model.RepeatQuest;
+import com.gomo.app.quest.exception.code.QuestContentErrorCode;
 import com.gomo.app.quest.presentation.request.UpdateRepeatQuestRequest;
 
 @DisplayName("[Presentation documentation]: 반복 퀘스트 수정 테스트")
@@ -78,11 +78,11 @@ public class UpdateRepeatQuestDocumentationTest extends DocumentationTestBase {
 			.when()
 			.put("/quests/repeats/{id}", repeatQuest.getId().getId())
 			.then()
-			.statusCode(UNPROCESSABLE_ENTITY.value())
+			.statusCode(QuestContentErrorCode.BLANK.getHttpStatus())
 			.body("timestamp", instanceOf(String.class))
-			.body("httpStatus", equalTo(DomainErrorCode.INVALID_PARAMETER.getHttpStatus()))
-			.body("code", equalTo(DomainErrorCode.INVALID_PARAMETER.name()))
-			.body("message", equalTo("Quest content cannot be blank"))
-			.body("path", equalTo("/quests/repeats/" + repeatQuest.getId().getId()));
+			.body("path", equalTo("/quests/repeats/" + repeatQuest.getId().getId()))
+			.body("httpStatus", equalTo(QuestContentErrorCode.BLANK.getHttpStatus()))
+			.body("code", equalTo(QuestContentErrorCode.BLANK.getErrorCode()))
+			.body("message", equalTo(QuestContentErrorCode.BLANK.getMessage()));
 	}
 }

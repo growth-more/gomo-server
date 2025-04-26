@@ -14,7 +14,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.common.exception.PolicyViolationException;
 import com.gomo.app.quest.application.UpdateAssignQuestUseCase;
 import com.gomo.app.quest.common.fixture.AssignQuestFixture;
 import com.gomo.app.quest.domain.model.AssignQuest;
@@ -23,6 +22,10 @@ import com.gomo.app.quest.domain.model.CompletionProof;
 import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.quest.exception.AssignQuestAccessDeniedException;
+import com.gomo.app.quest.exception.AssignQuestConstraintViolationException;
+import com.gomo.app.quest.exception.QuestTypeConstraintViolationException;
+import com.gomo.app.quest.exception.code.AssignQuestErrorCode;
+import com.gomo.app.quest.exception.code.QuestTypeErrorCode;
 import com.gomo.app.quest.presentation.request.UpdateAssignQuestRequest;
 
 @DisplayName("[Application unit]: 할당 퀘스트 수정 테스트")
@@ -66,8 +69,8 @@ public class UpdateAssignQuestUseCaseTest {
 
 		assertThatThrownBy(
 			() -> sut.update(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID()), createMockRequest(QuestType.WEEKLY)))
-			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("Assigned quest type does not match the requested quest type");
+			.isInstanceOf(QuestTypeConstraintViolationException.class)
+			.hasMessageContaining(QuestTypeErrorCode.MISMATCHED.getMessage());
 	}
 
 	@DisplayName("이미 확정한 할당 퀘스트는 수정할 수 없다.")
@@ -78,8 +81,8 @@ public class UpdateAssignQuestUseCaseTest {
 
 		assertThatThrownBy(
 			() -> sut.update(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID()), createMockRequest(QuestType.DAILY)))
-			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("Assign quest has already been confirmed");
+			.isInstanceOf(AssignQuestConstraintViolationException.class)
+			.hasMessageContaining(AssignQuestErrorCode.ALREADY_CONFIRMED.getMessage());
 	}
 
 	@DisplayName("이미 완료한 할당 퀘스트는 수정할 수 없다.")
@@ -90,8 +93,8 @@ public class UpdateAssignQuestUseCaseTest {
 
 		assertThatThrownBy(
 			() -> sut.update(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID()), createMockRequest(QuestType.DAILY)))
-			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("Assign quest has already been completed");
+			.isInstanceOf(AssignQuestConstraintViolationException.class)
+			.hasMessageContaining(AssignQuestErrorCode.ALREADY_COMPLETED.getMessage());
 	}
 
 	private static @NotNull UpdateAssignQuestRequest createMockRequest(QuestType questType) {

@@ -2,7 +2,7 @@ package com.gomo.app.streak.presentation;
 
 import com.gomo.app.common.authentication.Auth;
 import com.gomo.app.common.authentication.AuthInfo;
-import com.gomo.app.common.presentation.Presentation;
+import com.gomo.app.common.Presentation;
 import com.gomo.app.streak.application.ReadStreakUseCase;
 import com.gomo.app.streak.domain.model.AchieverId;
 import com.gomo.app.streak.presentation.response.ListStreakResponse;

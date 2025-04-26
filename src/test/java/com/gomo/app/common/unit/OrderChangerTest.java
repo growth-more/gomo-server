@@ -12,9 +12,9 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.common.domain.service.DisplayOrder;
-import com.gomo.app.common.domain.service.OrderChangeable;
-import com.gomo.app.common.domain.service.OrderChanger;
+import com.gomo.app.displayorder.DisplayOrder;
+import com.gomo.app.displayorder.OrderChangeable;
+import com.gomo.app.displayorder.OrderChanger;
 import com.gomo.app.interest.presentation.request.UpdateOrderRequest;
 
 import lombok.Getter;

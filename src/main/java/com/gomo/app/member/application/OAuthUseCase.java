@@ -1,27 +1,27 @@
 package com.gomo.app.member.application;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.gomo.app.common.application.ApplicationService;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+import com.gomo.app.common.ApplicationService;
 import com.gomo.app.common.util.JwtUtil;
 import com.gomo.app.common.util.UUIDGenerator;
-import com.gomo.app.member.domain.model.*;
+import com.gomo.app.member.domain.model.Email;
+import com.gomo.app.member.domain.model.LoginProvider;
+import com.gomo.app.member.domain.model.Member;
+import com.gomo.app.member.domain.model.MemberId;
+import com.gomo.app.member.domain.model.MemberName;
+import com.gomo.app.member.domain.model.OAuthUserInfo;
 import com.gomo.app.member.domain.repository.MemberRepository;
-import com.gomo.app.member.exception.MemberErrorCode;
-import com.gomo.app.member.exception.MemberPolicyViolationException;
+import com.gomo.app.member.exception.ActivateStatusException;
+import com.gomo.app.member.exception.code.ActivateStatusErrorCode;
 import com.gomo.app.member.infrastructure.JwtSessionRedisService;
 import com.gomo.app.member.infrastructure.oauth.OAuthProvider;
 import com.gomo.app.member.infrastructure.oauth.OAuthProviderFactory;
-import com.gomo.app.member.presentation.response.CreateMemberResponse;
 import com.gomo.app.member.presentation.response.LoginMemberResponse;
+
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestClient;
-
-import java.time.LocalDateTime;
-import java.util.Map;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @ApplicationService
@@ -41,8 +41,8 @@ public class OAuthUseCase {
                 .orElseGet(() -> createMember(userInfo, providerName));
 
         switch(member.getActivateStatus()){
-			case DELETED -> throw new MemberPolicyViolationException(MemberErrorCode.MEMBER_DELETED, "member info has been deleted. check email or password");
-			case BLOCKED -> throw new MemberPolicyViolationException(MemberErrorCode.MEMBER_BANNED, "member info has been blocked. check email or password");
+			case DELETED -> throw new ActivateStatusException(ActivateStatusErrorCode.DELETED);
+			case BLOCKED -> throw new ActivateStatusException(ActivateStatusErrorCode.BLOCKED);
 		}
 
         String accessToken = jwtUtil.generateAccessToken(member.getId());

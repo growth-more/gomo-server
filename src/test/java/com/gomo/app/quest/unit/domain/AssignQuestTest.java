@@ -9,8 +9,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.common.domain.service.DisplayOrder;
-import com.gomo.app.common.exception.PolicyViolationException;
+import com.gomo.app.displayorder.DisplayOrder;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.model.CompletionProof;
@@ -21,6 +20,10 @@ import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.domain.model.SubjectId;
 import com.gomo.app.quest.domain.model.SubjectName;
 import com.gomo.app.quest.exception.AssignQuestAccessDeniedException;
+import com.gomo.app.quest.exception.AssignQuestConstraintViolationException;
+import com.gomo.app.quest.exception.QuestTypeConstraintViolationException;
+import com.gomo.app.quest.exception.code.AssignQuestErrorCode;
+import com.gomo.app.quest.exception.code.QuestTypeErrorCode;
 
 @DisplayName("[Domain unit]: 할당 퀘스트 생성 및 수정 테스트")
 public class AssignQuestTest {
@@ -174,8 +177,8 @@ public class AssignQuestTest {
 		CompletionProof updatedProof = CompletionProof.of("updated proof");
 
 		assertThatThrownBy(() -> assignQuest.complete(updatedProof, NOW))
-			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("Assign quest has not been confirmed");
+			.isInstanceOf(AssignQuestConstraintViolationException.class)
+			.hasMessageContaining(AssignQuestErrorCode.NOT_CONFIRMED.getMessage());
 	}
 
 	@DisplayName("이미 완료된 퀘스트는 중복해서 완료할 수 없다.")
@@ -193,8 +196,8 @@ public class AssignQuestTest {
 		assignQuest.complete(updatedProof, NOW);
 
 		assertThatThrownBy(() -> assignQuest.complete(updatedProof, NOW))
-			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("Assign quest has already been completed");
+			.isInstanceOf(AssignQuestConstraintViolationException.class)
+			.hasMessageContaining(AssignQuestErrorCode.ALREADY_COMPLETED.getMessage());
 	}
 
 	@DisplayName("퀘스트 타입 확인 결과, 할당 퀘스트와 같은 타입이다.")
@@ -223,8 +226,8 @@ public class AssignQuestTest {
 		);
 
 		assertThatThrownBy(() -> assignQuest.ensureSameQuestType(QuestType.WEEKLY))
-			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("Assigned quest type does not match the requested quest type");
+			.isInstanceOf(QuestTypeConstraintViolationException.class)
+			.hasMessageContaining(QuestTypeErrorCode.MISMATCHED.getMessage());
 	}
 
 	@DisplayName("확정하지 않은 할당 퀘스트의 정렬 순서를 변경한다.")
@@ -274,8 +277,8 @@ public class AssignQuestTest {
 		assignQuest.complete(updatedProof, NOW);
 
 		assertThatThrownBy(() -> assignQuest.changeOrder(DisplayOrder.of(2)))
-			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("Completed quests cannot have their order changed");
+			.isInstanceOf(AssignQuestConstraintViolationException.class)
+			.hasMessageContaining(AssignQuestErrorCode.NOT_ALLOWED_ORDER_CHANGE.getMessage());
 	}
 
 	@DisplayName("할당 퀘스트는 등록한 사람만 접근할 수 있다.")
@@ -305,7 +308,7 @@ public class AssignQuestTest {
 
 		assertThatThrownBy(() -> assignQuest.validateAuthority(UUID.randomUUID()))
 			.isInstanceOf(AssignQuestAccessDeniedException.class)
-			.hasMessageContaining("Access denied for the assign quest");
+			.hasMessageContaining(AssignQuestErrorCode.ACCESS_DENIED.getMessage());
 	}
 
 	@DisplayName("확정 여부 확인 결과, 아직 확정되지 않은 퀘스트임을 확인한다.")
@@ -334,8 +337,8 @@ public class AssignQuestTest {
 		);
 
 		assertThatThrownBy(assignQuest::ensureNotConfirmed)
-			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("Assign quest has already been confirmed");
+			.isInstanceOf(AssignQuestConstraintViolationException.class)
+			.hasMessageContaining(AssignQuestErrorCode.ALREADY_CONFIRMED.getMessage());
 	}
 
 	@DisplayName("완료 여부 확인 결과, 아직 완료되지 않은 퀘스트임을 확인한다.")
@@ -370,7 +373,7 @@ public class AssignQuestTest {
 		);
 
 		assertThatThrownBy(assignQuest::ensureNotCompleted)
-			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("Assign quest has already been completed");
+			.isInstanceOf(AssignQuestConstraintViolationException.class)
+			.hasMessageContaining(AssignQuestErrorCode.ALREADY_COMPLETED.getMessage());
 	}
 }

@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gomo.app.common.application.ApplicationService;
-import com.gomo.app.common.domain.service.OrderChangeable;
-import com.gomo.app.common.domain.service.OrderChanger;
+import com.gomo.app.common.ApplicationService;
+import com.gomo.app.displayorder.OrderChangeable;
+import com.gomo.app.displayorder.OrderChanger;
 import com.gomo.app.common.util.DateRangeCalculator;
 import com.gomo.app.quest.domain.model.ParticipantId;
 import com.gomo.app.quest.domain.repository.AssignQuestRepository;

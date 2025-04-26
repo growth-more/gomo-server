@@ -2,7 +2,7 @@ package com.gomo.app.member.presentation;
 
 import com.gomo.app.common.authentication.Auth;
 import com.gomo.app.common.authentication.AuthInfo;
-import com.gomo.app.common.presentation.Presentation;
+import com.gomo.app.common.Presentation;
 import com.gomo.app.member.application.CreateMemberUseCase;
 import com.gomo.app.member.application.DeleteMemberUseCase;
 import com.gomo.app.member.application.ReadMemberUseCase;

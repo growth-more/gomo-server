@@ -1,13 +1,13 @@
 package com.gomo.app.interest.domain.model;
 
-import static com.gomo.app.interest.exception.MajorInterestErrorCode.*;
+import static com.gomo.app.interest.exception.code.MajorInterestErrorCode.*;
 
 import java.util.UUID;
 
-import com.gomo.app.common.domain.Authorizable;
-import com.gomo.app.common.domain.BaseAudit;
-import com.gomo.app.common.domain.service.DisplayOrder;
-import com.gomo.app.common.domain.service.OrderChangeable;
+import com.gomo.app.common.Authorizable;
+import com.gomo.app.common.BaseAudit;
+import com.gomo.app.displayorder.DisplayOrder;
+import com.gomo.app.displayorder.OrderChangeable;
 import com.gomo.app.interest.exception.MajorInterestAccessDeniedException;
 
 import jakarta.persistence.AttributeOverride;

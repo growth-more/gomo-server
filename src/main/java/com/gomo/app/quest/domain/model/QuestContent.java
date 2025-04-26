@@ -1,12 +1,10 @@
 package com.gomo.app.quest.domain.model;
 
-import static com.gomo.app.common.exception.DomainErrorCode.*;
-
 import java.util.regex.Pattern;
 
-import com.gomo.app.common.domain.ValueObject;
-import com.gomo.app.common.exception.DomainErrorCode;
-import com.gomo.app.common.exception.PolicyViolationException;
+import com.gomo.app.common.ValueObject;
+import com.gomo.app.quest.exception.QuestContentConstraintViolationException;
+import com.gomo.app.quest.exception.code.QuestContentErrorCode;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
@@ -42,23 +40,23 @@ public class QuestContent {
 
 	private void ensureNotBlank(String questContent) {
 		if(questContent == null || questContent.isBlank()) {
-			throw new PolicyViolationException(INVALID_PARAMETER, "Quest content cannot be blank");
+			throw new QuestContentConstraintViolationException(QuestContentErrorCode.BLANK);
 		}
 	}
 
 	private void ensureValidLength(String questContent) {
 		if(questContent.length() < MINIMUM_CONTENT_LENGTH) {
-			throw new PolicyViolationException(DomainErrorCode.INVALID_PARAMETER, "Quest content must have at least three characters");
+			throw new QuestContentConstraintViolationException(QuestContentErrorCode.TOO_SHORT);
 		}
 
 		if(questContent.length() > MAXIMUM_CONTENT_LENGTH) {
-			throw new PolicyViolationException(DomainErrorCode.INVALID_PARAMETER, "Quest content must not exceed 30 characters");
+			throw new QuestContentConstraintViolationException(QuestContentErrorCode.TOO_LONG);
 		}
 	}
 
 	private void ensureNoForbiddenName(String questContent) {
 		if(FORBIDDEN_PATTERN.matcher(questContent).find()) {
-			throw new PolicyViolationException(INVALID_PARAMETER, "Quest content cannot contain forbidden characters");
+			throw new QuestContentConstraintViolationException(QuestContentErrorCode.FORBIDDEN);
 		}
 	}
 

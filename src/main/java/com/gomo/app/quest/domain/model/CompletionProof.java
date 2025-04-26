@@ -1,11 +1,10 @@
 package com.gomo.app.quest.domain.model;
 
-import static com.gomo.app.common.exception.DomainErrorCode.*;
-
 import java.util.Objects;
 
-import com.gomo.app.common.domain.ValueObject;
-import com.gomo.app.common.exception.PolicyViolationException;
+import com.gomo.app.common.ValueObject;
+import com.gomo.app.quest.exception.CompletionProofConstraintViolationException;
+import com.gomo.app.quest.exception.code.CompletionProofErrorCode;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
@@ -39,13 +38,13 @@ public class CompletionProof {
 
 	private void ensureNotBlank(String url) {
 		if(url == null || url.isBlank()) {
-			throw new PolicyViolationException(INVALID_PARAMETER, "Completion proof cannot be blank");
+			throw new CompletionProofConstraintViolationException(CompletionProofErrorCode.BLANK);
 		}
 	}
 
 	private void ensureValidLength(String url) {
 		if(url.length() > MAX_LENGTH) {
-			throw new PolicyViolationException(INVALID_PARAMETER, "Completion proof must not exceed 512 characters");
+			throw new CompletionProofConstraintViolationException(CompletionProofErrorCode.TOO_LONG);
 		}
 	}
 

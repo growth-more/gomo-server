@@ -2,9 +2,9 @@ package com.gomo.app.point.domain.model;
 
 import java.time.LocalDateTime;
 
-import com.gomo.app.common.domain.BaseAudit;
-import com.gomo.app.point.exception.InvalidPointAmountException;
-import com.gomo.app.point.exception.PointErrorCode;
+import com.gomo.app.common.BaseAudit;
+import com.gomo.app.point.exception.PointConstraintViolationException;
+import com.gomo.app.point.exception.code.PointErrorCode;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
@@ -73,7 +73,7 @@ public class Point extends BaseAudit {
 
 	private void ensureAmountNotNegative(int amount) {
 		if(amount < 0) {
-			throw new InvalidPointAmountException(PointErrorCode.NEGATIVE_NOT_ALLOWED);
+			throw new PointConstraintViolationException(PointErrorCode.NEGATIVE);
 		}
 	}
 }

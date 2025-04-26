@@ -2,7 +2,7 @@ package com.gomo.app.quest.presentation;
 
 import com.gomo.app.common.authentication.Auth;
 import com.gomo.app.common.authentication.AuthInfo;
-import com.gomo.app.common.presentation.Presentation;
+import com.gomo.app.common.Presentation;
 import com.gomo.app.quest.application.CreateAssignQuestUseCase;
 import com.gomo.app.quest.application.DeleteAssignQuestUseCase;
 import com.gomo.app.quest.application.ReadAssignQuestUseCase;

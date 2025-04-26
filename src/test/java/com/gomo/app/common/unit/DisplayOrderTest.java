@@ -5,8 +5,9 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.common.domain.service.DisplayOrder;
-import com.gomo.app.common.exception.PolicyViolationException;
+import com.gomo.app.displayorder.DisplayOrder;
+import com.gomo.app.displayorder.DisplayOrderConstraintViolationException;
+import com.gomo.app.displayorder.DisplayOrderErrorCode;
 
 @DisplayName("[Domain unit]: 정렬 순서 생성 및 수정 테스트")
 public class DisplayOrderTest {
@@ -23,8 +24,8 @@ public class DisplayOrderTest {
 	@Test
 	void create_display_order_with_negative() {
 		assertThatThrownBy(() -> DisplayOrder.of(-1))
-			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("DisplayOrder must be positive");
+			.isInstanceOf(DisplayOrderConstraintViolationException.class)
+			.hasMessageContaining(DisplayOrderErrorCode.NON_POSITIVE.getMessage());
 	}
 
 	@DisplayName("정렬 순서를 증가시킨다.")
@@ -42,8 +43,8 @@ public class DisplayOrderTest {
 		DisplayOrder displayOrder = DisplayOrder.of(1);
 
 		assertThatThrownBy(() -> displayOrder.increase(-1))
-			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("Increment must be positive");
+			.isInstanceOf(DisplayOrderConstraintViolationException.class)
+			.hasMessageContaining(DisplayOrderErrorCode.NON_POSITIVE_INCREMENT.getMessage());
 	}
 
 	@DisplayName("순서가 같다면 동일하게 취급한다.")

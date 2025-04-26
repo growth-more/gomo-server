@@ -11,9 +11,7 @@ import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gomo.app.common.domain.service.DomainService;
-import com.gomo.app.common.exception.DomainErrorCode;
-import com.gomo.app.common.exception.NotFoundException;
+import com.gomo.app.common.DomainService;
 import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.interest.domain.model.ChildInterestId;
 import com.gomo.app.interest.domain.model.Interest;
@@ -24,9 +22,12 @@ import com.gomo.app.interest.domain.model.ParentInterestId;
 import com.gomo.app.interest.domain.model.RegistrantId;
 import com.gomo.app.interest.domain.repository.InterestRelationRepository;
 import com.gomo.app.interest.domain.repository.InterestRepository;
+import com.gomo.app.interest.exception.InterestNotFoundException;
 import com.gomo.app.interest.exception.InterestRelationCycleException;
 import com.gomo.app.interest.exception.InterestRelationDuplicatedException;
-import com.gomo.app.interest.exception.InterestRelationErrorCode;
+import com.gomo.app.interest.exception.InterestRelationNotFoundException;
+import com.gomo.app.interest.exception.code.InterestErrorCode;
+import com.gomo.app.interest.exception.code.InterestRelationErrorCode;
 
 import lombok.RequiredArgsConstructor;
 
@@ -57,7 +58,7 @@ public class InterestRelationService {
 	@Transactional
 	public void delete(UUID accessorId, InterestRelationId interestRelationId) {
 		InterestRelation interestRelation = interestRelationRepository.findById(interestRelationId)
-			.orElseThrow(() -> new NotFoundException(DomainErrorCode.NOT_FOUND, "Interest relation not found with id " + interestRelationId));
+			.orElseThrow(() -> new InterestRelationNotFoundException(InterestRelationErrorCode.NOT_FOUND));
 		interestRelation.validateAuthority(accessorId);
 
 		reduceProficiencyOfParentInterests(interestRelation.getParentInterestId(), interestRelation.getChildInterestId());
@@ -108,7 +109,7 @@ public class InterestRelationService {
 			if (neighbors != null) {
 				for (InterestId neighbor : neighbors) {
 					if (isCycleReturningToStart(neighbor, startNode)) {
-						throw new InterestRelationCycleException(InterestRelationErrorCode.CYCLE_OCCUR);
+						throw new InterestRelationCycleException(InterestRelationErrorCode.UNEXPECTED_CYCLE);
 					}
 
 					if (isAlreadyVisited(visitedNodes, neighbor)) {
@@ -140,6 +141,6 @@ public class InterestRelationService {
 
 	private Interest findInterest(ChildInterestId childInterestId) {
 		return interestRepository.findById(childInterestId.toInterestId())
-			.orElseThrow(() -> new NotFoundException(DomainErrorCode.NOT_FOUND, "Interest not found with id: " + childInterestId.toInterestId()));
+			.orElseThrow(() -> new InterestNotFoundException(InterestErrorCode.NOT_FOUND));
 	}
 }

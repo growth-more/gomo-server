@@ -1,6 +1,5 @@
 package com.gomo.app.member.documentation;
 
-import static com.gomo.app.common.exception.DomainErrorCode.*;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.http.HttpHeaders.*;
@@ -18,14 +17,15 @@ import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.member.common.util.MemberDBDataHelper;
 import com.gomo.app.member.documentation.snippet.UpdateMemberInfoSnippet;
+import com.gomo.app.member.exception.code.MemberNameErrorCode;
+import com.gomo.app.member.exception.code.MottoErrorCode;
 import com.gomo.app.member.presentation.request.UpdateMemberRequest;
 
 @DisplayName("[Presentation documentation]: 회원 기본 정보 수정 테스트")
 public class UpdateMemberInfoDocumentationTest extends DocumentationTestBase {
 
-	private static final String MEMBER_URL = "/members";
+	private static final String URL = "/members";
 	private static final String INVALID_NAME = "~ ! @ # $";
-	private static final String INVALID_MOTTO = "~!@#$";
 
 	private final RestDocumentationFilter filter = UpdateMemberInfoSnippet.create();
 	private final RestDocumentationFilter errorFilter = UpdateMemberInfoSnippet.createError();
@@ -51,7 +51,7 @@ public class UpdateMemberInfoDocumentationTest extends DocumentationTestBase {
 		memberDBDataHelper.cleanUp();
 	}
 
-	@DisplayName("사용자가 이름과 한 줄 다짐을 변경한다.")
+	@DisplayName("이름과 한 줄 다짐을 변경한다.")
 	@Test
 	void update_member_name_and_motto() {
 		given(this.specification).filter(filter)
@@ -59,12 +59,12 @@ public class UpdateMemberInfoDocumentationTest extends DocumentationTestBase {
 			.header(AUTHORIZATION, "Bearer " + token)
 			.body(UpdateMemberRequest.of("GOMO4","GOMOTEST.."))
 			.when()
-			.put(MEMBER_URL)
+			.put(URL)
 			.then()
 			.statusCode(NO_CONTENT.value());
 	}
 
-	@DisplayName("사용자가 잘못된 이름으로 개인 정보를 변경한다.")
+	@DisplayName("금지 문자가 포함된 이름으로 개인 정보를 변경한다.")
 	@Test
 	void update_member_info_with_invalid_name() {
 		given(this.specification).filter(errorFilter)
@@ -72,31 +72,31 @@ public class UpdateMemberInfoDocumentationTest extends DocumentationTestBase {
 			.header(AUTHORIZATION, "Bearer " + token)
 			.body(UpdateMemberRequest.of(INVALID_NAME, "GOMOTEST.."))
 			.when()
-			.put(MEMBER_URL)
+			.put(URL)
 			.then()
-			.statusCode(UNPROCESSABLE_ENTITY.value())
+			.statusCode(MemberNameErrorCode.FORBIDDEN.getHttpStatus())
 			.body("timestamp", instanceOf(String.class))
-			.body("httpStatus", equalTo(INVALID_PARAMETER.getHttpStatus()))
-			.body("code", equalTo(INVALID_PARAMETER.name()))
-			.body("message", equalTo("name must contain only letters and numbers"))
-			.body("path", equalTo(MEMBER_URL));
+			.body("path", equalTo(URL))
+			.body("httpStatus", equalTo(MemberNameErrorCode.FORBIDDEN.getHttpStatus()))
+			.body("code", equalTo(MemberNameErrorCode.FORBIDDEN.getErrorCode()))
+			.body("message", equalTo(MemberNameErrorCode.FORBIDDEN.getMessage()));
 	}
 
-	@DisplayName("사용자가 잘못된 모토로 개인 정보를 변경한다.")
+	@DisplayName("금지 문자가 포함된 모토로 개인 정보를 변경한다.")
 	@Test
-	void update_member_info_with_invalid_motto() {
+	void update_member_info_with_forbidden_motto() {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.header(AUTHORIZATION, "Bearer " + token)
-			.body(UpdateMemberRequest.of("GOMO4", INVALID_MOTTO))
+			.body(UpdateMemberRequest.of("GOMO4", "~!@#$"))
 			.when()
-			.put(MEMBER_URL)
+			.put(URL)
 			.then()
-			.statusCode(UNPROCESSABLE_ENTITY.value())
+			.statusCode(MottoErrorCode.FORBIDDEN.getHttpStatus())
 			.body("timestamp", instanceOf(String.class))
-			.body("httpStatus", equalTo(INVALID_PARAMETER.getHttpStatus()))
-			.body("code", equalTo(INVALID_PARAMETER.name()))
-			.body("message", equalTo("Motto must comply with the motto rules"))
-			.body("path", equalTo(MEMBER_URL));
+			.body("path", equalTo(URL))
+			.body("httpStatus", equalTo(MottoErrorCode.FORBIDDEN.getHttpStatus()))
+			.body("code", equalTo(MottoErrorCode.FORBIDDEN.getErrorCode()))
+			.body("message", equalTo(MottoErrorCode.FORBIDDEN.getMessage()));
 	}
 }

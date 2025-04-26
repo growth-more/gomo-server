@@ -3,13 +3,13 @@ package com.gomo.app.quest.domain.model;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.gomo.app.common.domain.Authorizable;
-import com.gomo.app.common.domain.BaseAudit;
-import com.gomo.app.common.domain.service.DisplayOrder;
-import com.gomo.app.common.domain.service.OrderChangeable;
+import com.gomo.app.common.Authorizable;
+import com.gomo.app.common.BaseAudit;
 import com.gomo.app.common.util.UUIDGenerator;
+import com.gomo.app.displayorder.DisplayOrder;
+import com.gomo.app.displayorder.OrderChangeable;
 import com.gomo.app.quest.exception.RepeatQuestAccessDeniedException;
-import com.gomo.app.quest.exception.RepeatQuestErrorCode;
+import com.gomo.app.quest.exception.code.RepeatQuestErrorCode;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;

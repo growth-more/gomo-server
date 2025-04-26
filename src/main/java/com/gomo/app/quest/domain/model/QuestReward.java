@@ -1,6 +1,6 @@
 package com.gomo.app.quest.domain.model;
 
-import com.gomo.app.common.domain.ValueObject;
+import com.gomo.app.common.ValueObject;
 
 import jakarta.persistence.Embedded;
 import lombok.Getter;

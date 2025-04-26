@@ -14,7 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.common.domain.service.ImageService;
+import com.gomo.app.image.ImageService;
 import com.gomo.app.interest.application.DeleteInterestUseCase;
 import com.gomo.app.interest.common.fixture.InterestFixture;
 import com.gomo.app.interest.common.fixture.InterestRelationFixture;

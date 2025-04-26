@@ -1,6 +1,6 @@
 package com.gomo.app.member.presentation;
 
-import com.gomo.app.common.presentation.Presentation;
+import com.gomo.app.common.Presentation;
 import com.gomo.app.member.application.OAuthUseCase;
 import com.gomo.app.member.presentation.response.LoginMemberResponse;
 import com.gomo.app.member.presentation.response.TokenResponse;

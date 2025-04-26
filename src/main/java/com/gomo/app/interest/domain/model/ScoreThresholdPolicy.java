@@ -1,6 +1,6 @@
 package com.gomo.app.interest.domain.model;
 
-import com.gomo.app.common.domain.ValueObject;
+import com.gomo.app.common.ValueObject;
 
 import lombok.Getter;
 

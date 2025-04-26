@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.gomo.app.common.event.EventEntry;
-import com.gomo.app.common.event.EventStatus;
 import com.gomo.app.common.util.JsonParser;
+import com.gomo.app.event.EventEntry;
+import com.gomo.app.event.EventStatus;
 
 @DisplayName("[Domain unit]: 이벤트 엔트리 생성 및 수정 테스트")
 class EventEntryTest {

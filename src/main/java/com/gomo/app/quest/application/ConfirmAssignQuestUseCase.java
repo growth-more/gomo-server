@@ -4,12 +4,12 @@ import java.util.UUID;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gomo.app.common.application.ApplicationService;
-import com.gomo.app.common.exception.DomainErrorCode;
-import com.gomo.app.common.exception.NotFoundException;
+import com.gomo.app.common.ApplicationService;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.repository.AssignQuestRepository;
+import com.gomo.app.quest.exception.AssignQuestNotFoundException;
+import com.gomo.app.quest.exception.code.AssignQuestErrorCode;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,7 +22,7 @@ public class ConfirmAssignQuestUseCase {
 
 	public void confirm(UUID accessorId, AssignQuestId assignQuestId) {
 		AssignQuest assignQuest = assignQuestRepository.findById(assignQuestId)
-			.orElseThrow(() -> new NotFoundException(DomainErrorCode.NOT_FOUND, "Assign quest not found"));
+			.orElseThrow(() -> new AssignQuestNotFoundException(AssignQuestErrorCode.NOT_FOUND));
 		assignQuest.validateAuthority(accessorId);
 
 		assignQuest.confirm();

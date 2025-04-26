@@ -1,15 +1,13 @@
 package com.gomo.app.member.domain.model;
 
-import com.gomo.app.common.domain.ValueObject;
-
-import com.gomo.app.common.exception.DomainErrorCode;
-import com.gomo.app.common.exception.PolicyViolationException;
-import jakarta.persistence.Embeddable;
-import lombok.Getter;
-
 import java.util.regex.Pattern;
 
-import static com.gomo.app.common.exception.DomainErrorCode.INVALID_PARAMETER;
+import com.gomo.app.common.ValueObject;
+import com.gomo.app.member.exception.MemberNameConstraintViolationException;
+import com.gomo.app.member.exception.code.MemberNameErrorCode;
+
+import jakarta.persistence.Embeddable;
+import lombok.Getter;
 
 @Getter
 @Embeddable
@@ -42,23 +40,23 @@ public class MemberName {
 
     private void ensureNotBlank(String name){
         if(name == null || name.isBlank()){
-            throw new PolicyViolationException(INVALID_PARAMETER, "name must not be blank");
+            throw new MemberNameConstraintViolationException(MemberNameErrorCode.BLANK);
         }
     }
 
     private void ensureNameLength(String name){
         if(name.length() < MIN_NAME_LENGTH){
-            throw new PolicyViolationException(INVALID_PARAMETER, "name must not be less than 2 characters");
+            throw new MemberNameConstraintViolationException(MemberNameErrorCode.TOO_SHORT);
         }
 
         if(name.length() > MAX_NAME_LENGTH){
-            throw new PolicyViolationException(INVALID_PARAMETER, "name must not be more than 20 characters");
+            throw new MemberNameConstraintViolationException(MemberNameErrorCode.TOO_LONG);
         }
     }
 
     private void ensureNameRule(String name){
         if(!NAME_RULE.matcher(name).matches()){
-            throw new PolicyViolationException(INVALID_PARAMETER, "name must contain only letters and numbers");
+            throw new MemberNameConstraintViolationException(MemberNameErrorCode.FORBIDDEN);
         }
     }
 

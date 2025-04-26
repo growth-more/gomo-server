@@ -4,9 +4,7 @@ import java.util.UUID;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gomo.app.common.application.ApplicationService;
-import com.gomo.app.common.exception.DomainErrorCode;
-import com.gomo.app.common.exception.NotFoundException;
+import com.gomo.app.common.ApplicationService;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.model.QuestContent;
@@ -14,6 +12,8 @@ import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.domain.model.SubjectId;
 import com.gomo.app.quest.domain.model.SubjectName;
 import com.gomo.app.quest.domain.repository.AssignQuestRepository;
+import com.gomo.app.quest.exception.AssignQuestNotFoundException;
+import com.gomo.app.quest.exception.code.AssignQuestErrorCode;
 import com.gomo.app.quest.presentation.request.UpdateAssignQuestRequest;
 
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class UpdateAssignQuestUseCase {
 
 	public void update(UUID accessorId, AssignQuestId assignQuestId, UpdateAssignQuestRequest request) {
 		AssignQuest assignQuest = assignQuestRepository.findById(assignQuestId)
-			.orElseThrow(() -> new NotFoundException(DomainErrorCode.NOT_FOUND, "Assign quest not found"));
+			.orElseThrow(() -> new AssignQuestNotFoundException(AssignQuestErrorCode.NOT_FOUND));
 		assignQuest.validateAuthority(accessorId);
 
 		QuestType requestedQuestType = request.getQuestType();

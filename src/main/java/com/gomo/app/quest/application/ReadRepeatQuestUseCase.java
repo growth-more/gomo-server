@@ -2,13 +2,15 @@ package com.gomo.app.quest.application;
 
 import java.util.List;
 
-import com.gomo.app.common.application.ApplicationService;
+import com.gomo.app.common.ApplicationService;
 import com.gomo.app.quest.domain.model.ParticipantId;
 import com.gomo.app.quest.domain.model.QuestPointPolicy;
 import com.gomo.app.quest.domain.model.QuestScorePolicy;
 import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.domain.repository.QuestRewardPolicyRepository;
 import com.gomo.app.quest.domain.repository.RepeatQuestRepository;
+import com.gomo.app.quest.exception.QuestTypeConstraintViolationException;
+import com.gomo.app.quest.exception.code.QuestTypeErrorCode;
 import com.gomo.app.quest.presentation.response.ListRepeatQuestResponse;
 import com.gomo.app.quest.presentation.response.ReadRepeatQuestResponse;
 
@@ -55,7 +57,7 @@ public class ReadRepeatQuestUseCase {
 			.filter(policy -> policy.getQuestType() == questType)
 			.map(QuestPointPolicy::getPoints)
 			.findFirst()
-			.orElseThrow(() -> new IllegalArgumentException("No point policy found for quest type " + questType));
+			.orElseThrow(() -> new QuestTypeConstraintViolationException(QuestTypeErrorCode.UNEXPECTED));
 	}
 
 	private int findScoreByQuestType(List<QuestScorePolicy> scorePolicies, QuestType questType) {
@@ -63,6 +65,6 @@ public class ReadRepeatQuestUseCase {
 			.filter(policy -> policy.getQuestType() == questType)
 			.map(QuestScorePolicy::getScore)
 			.findFirst()
-			.orElseThrow(() -> new IllegalArgumentException("No score policy found for quest type " + questType));
+			.orElseThrow(() -> new QuestTypeConstraintViolationException(QuestTypeErrorCode.UNEXPECTED));
 	}
 }

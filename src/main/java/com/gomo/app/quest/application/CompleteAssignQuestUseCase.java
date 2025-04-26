@@ -7,13 +7,11 @@ import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gomo.app.common.application.ApplicationService;
-import com.gomo.app.common.event.EventEntry;
-import com.gomo.app.common.event.EventEntryRepository;
-import com.gomo.app.common.exception.DomainErrorCode;
-import com.gomo.app.common.exception.NotFoundException;
+import com.gomo.app.common.ApplicationService;
 import com.gomo.app.common.util.JsonParser;
 import com.gomo.app.common.util.TimestampGenerator;
+import com.gomo.app.event.EventEntry;
+import com.gomo.app.event.EventEntryRepository;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.model.CompletionProof;
@@ -24,6 +22,8 @@ import com.gomo.app.quest.domain.service.QuestRewardService;
 import com.gomo.app.quest.event.PointQuestCompletedEvent;
 import com.gomo.app.quest.event.ScoreQuestCompletedEvent;
 import com.gomo.app.quest.event.StreakQuestCompletedEvent;
+import com.gomo.app.quest.exception.AssignQuestNotFoundException;
+import com.gomo.app.quest.exception.code.AssignQuestErrorCode;
 import com.gomo.app.quest.presentation.request.CompleteAssignQuestRequest;
 
 import lombok.RequiredArgsConstructor;
@@ -39,7 +39,7 @@ public class CompleteAssignQuestUseCase {
 
 	public void complete(UUID accessorId, AssignQuestId assignQuestId, CompleteAssignQuestRequest request) {
 		AssignQuest assignQuest = assignQuestRepository.findById(assignQuestId)
-			.orElseThrow(() -> new NotFoundException(DomainErrorCode.NOT_FOUND, "Assign quest not found"));
+			.orElseThrow(() -> new AssignQuestNotFoundException(AssignQuestErrorCode.NOT_FOUND));
 		assignQuest.validateAuthority(accessorId);
 
 		assignQuest.complete(CompletionProof.of(request.getProof()), LocalDateTime.now());

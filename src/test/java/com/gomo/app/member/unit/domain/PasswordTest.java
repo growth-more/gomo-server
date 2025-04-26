@@ -1,22 +1,23 @@
 package com.gomo.app.member.unit.domain;
 
-import com.gomo.app.common.exception.PolicyViolationException;
-import com.gomo.app.member.domain.model.Password;
-import com.gomo.app.member.domain.service.PasswordService;
-import com.gomo.app.member.exception.MemberAuthenticationFailedException;
+import static org.assertj.core.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.when;
-import static org.testcontainers.shaded.org.bouncycastle.cms.RecipientId.password;
+import com.gomo.app.member.domain.model.Password;
+import com.gomo.app.member.domain.service.PasswordService;
+import com.gomo.app.member.exception.MemberAuthenticationFailedException;
+import com.gomo.app.member.exception.PasswordConstraintViolationException;
+import com.gomo.app.member.exception.code.MemberErrorCode;
+import com.gomo.app.member.exception.code.PasswordErrorCode;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Domain unit]: 비밀번호 생성 및 수정 테스트")
@@ -45,40 +46,40 @@ public class PasswordTest {
     @Test
     void create_password_with_null(){
         assertThatThrownBy(() -> Password.of(null, passwordService))
-                .isInstanceOf(PolicyViolationException.class)
-                .hasMessageContaining("password must not be blank");
+                .isInstanceOf(PasswordConstraintViolationException.class)
+                .hasMessageContaining(PasswordErrorCode.BLANK.getMessage());
     }
 
     @DisplayName("빈칸을 입력하면 비밀번호는 생성할 수 없다.")
     @Test
     void crate_password_with_blank(){
         assertThatThrownBy(() -> Password.of(BLANK, passwordService))
-                .isInstanceOf(PolicyViolationException.class)
-                .hasMessageContaining("password must not be blank");
+                .isInstanceOf(PasswordConstraintViolationException.class)
+                .hasMessageContaining(PasswordErrorCode.BLANK.getMessage());
     }
 
     @DisplayName("최소 길이보다 짧은 비밀번호는 생성할 수 없다.")
     @Test
     void create_password_with_too_short_password(){
         assertThatThrownBy(() -> Password.of(TOO_SHORT_PASSWORD, passwordService))
-                .isInstanceOf(PolicyViolationException.class)
-                .hasMessageContaining("password must at least 8 characters");
+                .isInstanceOf(PasswordConstraintViolationException.class)
+                .hasMessageContaining(PasswordErrorCode.TOO_SHORT.getMessage());
     }
 
     @DisplayName("최대 길이보다 긴 비밀번호는 생성할 수 없다.")
     @Test
     void crate_password_with_too_long_password(){
         assertThatThrownBy(() -> Password.of(TOO_LONG_PASSWORD, passwordService))
-                .isInstanceOf(PolicyViolationException.class)
-                .hasMessageContaining("password must not exceed 64 characters");
+                .isInstanceOf(PasswordConstraintViolationException.class)
+                .hasMessageContaining(PasswordErrorCode.TOO_LONG.getMessage());
     }
 
     @DisplayName("규칙을 위배한 비밀번호는 생성할 수 없다.")
     @Test
     void create_password_with_forbidden_characters(){
         assertThatThrownBy(() -> Password.of(FORBIDDEN_PASSWORD, passwordService))
-                .isInstanceOf(PolicyViolationException.class)
-                .hasMessageContaining("password must comply with the password rules.");
+                .isInstanceOf(PasswordConstraintViolationException.class)
+                .hasMessageContaining(PasswordErrorCode.FORBIDDEN.getMessage());
     }
 
     @DisplayName("비밀번호가 올바르면 검증에 성공한다.")
@@ -96,9 +97,10 @@ public class PasswordTest {
         when(passwordService.encode(PASSWORD)).thenReturn(ENCRYPTED_PASSWORD);
         when(passwordService.matches("WrongPassword!", ENCRYPTED_PASSWORD)).thenReturn(false);
         Password password = Password.of(PASSWORD, passwordService);
+
         assertThatThrownBy(() -> password.matches("WrongPassword!", passwordService))
                 .isInstanceOf(MemberAuthenticationFailedException.class)
-                .hasMessageContaining("password incorrect");
+                .hasMessageContaining(MemberErrorCode.AUTHENTICATION_FAILED.getMessage());
     }
 
     @DisplayName("비밀번호를 업데이트한다.")
@@ -122,8 +124,8 @@ public class PasswordTest {
         Password password = Password.of(PASSWORD, passwordService);
 
         assertThatThrownBy(() -> password.update(PASSWORD, null, passwordService))
-                .isInstanceOf(PolicyViolationException.class)
-                .hasMessageContaining("password must not be blank");
+                .isInstanceOf(PasswordConstraintViolationException.class)
+                .hasMessageContaining(PasswordErrorCode.BLANK.getMessage());
     }
 
     @DisplayName("빈칸을 입력하면 비밀번호는 수정할 수 없다.")
@@ -134,8 +136,8 @@ public class PasswordTest {
         Password password = Password.of(PASSWORD, passwordService);
 
         assertThatThrownBy(() -> password.update(PASSWORD, BLANK, passwordService))
-                .isInstanceOf(PolicyViolationException.class)
-                .hasMessageContaining("password must not be blank");
+                .isInstanceOf(PasswordConstraintViolationException.class)
+                .hasMessageContaining(PasswordErrorCode.BLANK.getMessage());
     }
 
     @DisplayName("최소 길이보다 짧은 비밀번호로 수정할 수 없다.")
@@ -145,8 +147,8 @@ public class PasswordTest {
         when(passwordService.matches(PASSWORD, ENCRYPTED_PASSWORD)).thenReturn(true);
         Password password = Password.of(PASSWORD, passwordService);
         assertThatThrownBy(() -> password.update(PASSWORD, TOO_SHORT_PASSWORD, passwordService))
-                .isInstanceOf(PolicyViolationException.class)
-                .hasMessageContaining("password must at least 8 characters");
+                .isInstanceOf(PasswordConstraintViolationException.class)
+                .hasMessageContaining(PasswordErrorCode.TOO_SHORT.getMessage());
     }
 
     @DisplayName("최대 길이보다 긴 비밀번호로 수정할 수 없다.")
@@ -157,8 +159,8 @@ public class PasswordTest {
         Password password = Password.of(PASSWORD, passwordService);
 
         assertThatThrownBy(() -> password.update(PASSWORD,TOO_LONG_PASSWORD, passwordService))
-                .isInstanceOf(PolicyViolationException.class)
-                .hasMessageContaining("password must not exceed 64 characters");
+                .isInstanceOf(PasswordConstraintViolationException.class)
+                .hasMessageContaining(PasswordErrorCode.TOO_LONG.getMessage());
     }
 
     @DisplayName("비밀번호 규칙에 위배되는 비밀번호로 수정할 수 없다.")
@@ -169,8 +171,8 @@ public class PasswordTest {
         Password password = Password.of(PASSWORD, passwordService);
 
         assertThatThrownBy(() -> password.update(PASSWORD, FORBIDDEN_PASSWORD, passwordService))
-                .isInstanceOf(PolicyViolationException.class)
-                .hasMessageContaining("password must comply with the password rules.");
+                .isInstanceOf(PasswordConstraintViolationException.class)
+                .hasMessageContaining(PasswordErrorCode.FORBIDDEN.getMessage());
     }
 
     @DisplayName("비밀번호수정 시 기존 비밀번호 검증에 실패하면, 틀리면 검증에 실패한다.")
@@ -179,8 +181,9 @@ public class PasswordTest {
         when(passwordService.encode(PASSWORD)).thenReturn(ENCRYPTED_PASSWORD);
         when(passwordService.matches("WrongPassword!", ENCRYPTED_PASSWORD)).thenReturn(false);
         Password password = Password.of(PASSWORD, passwordService);
+
         assertThatThrownBy(() -> password.update("WrongPassword!", "Updated123!", passwordService))
                 .isInstanceOf(MemberAuthenticationFailedException.class)
-                .hasMessageContaining("password incorrect");
+                .hasMessageContaining(MemberErrorCode.AUTHENTICATION_FAILED.getMessage());
     }
 }

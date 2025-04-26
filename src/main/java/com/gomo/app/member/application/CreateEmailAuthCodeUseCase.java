@@ -2,7 +2,7 @@ package com.gomo.app.member.application;
 
 import java.util.Random;
 
-import com.gomo.app.common.application.ApplicationService;
+import com.gomo.app.common.ApplicationService;
 import com.gomo.app.member.domain.service.MemberValidator;
 import com.gomo.app.member.infrastructure.EmailAuthRedisService;
 import com.gomo.app.member.infrastructure.EmailAuthSenderService;

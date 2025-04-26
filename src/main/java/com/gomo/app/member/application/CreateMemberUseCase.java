@@ -1,6 +1,6 @@
 package com.gomo.app.member.application;
 
-import com.gomo.app.common.application.ApplicationService;
+import com.gomo.app.common.ApplicationService;
 import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.model.MemberId;
@@ -13,7 +13,7 @@ import com.gomo.app.point.domain.model.PointWallet;
 import com.gomo.app.point.domain.model.PointWalletId;
 import com.gomo.app.point.domain.model.TransactorId;
 import com.gomo.app.point.domain.repository.PointWalletRepository;
-import com.gomo.app.point.domain.service.PointWalletService;
+
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 

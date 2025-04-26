@@ -2,7 +2,7 @@ package com.gomo.app.survey.common.fixture;
 
 import java.util.UUID;
 
-import com.gomo.app.common.domain.service.DisplayOrder;
+import com.gomo.app.displayorder.DisplayOrder;
 import com.gomo.app.survey.domain.model.SurveyItem;
 import com.gomo.app.survey.domain.model.SurveyItemId;
 import com.gomo.app.survey.domain.model.SurveyQuestionId;

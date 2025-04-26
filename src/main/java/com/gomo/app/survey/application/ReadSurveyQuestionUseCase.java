@@ -2,7 +2,7 @@ package com.gomo.app.survey.application;
 
 import java.util.List;
 
-import com.gomo.app.common.application.ApplicationService;
+import com.gomo.app.common.ApplicationService;
 import com.gomo.app.survey.domain.model.SurveyItem;
 import com.gomo.app.survey.domain.model.SurveyQuestion;
 import com.gomo.app.survey.domain.repository.SurveyItemRepository;

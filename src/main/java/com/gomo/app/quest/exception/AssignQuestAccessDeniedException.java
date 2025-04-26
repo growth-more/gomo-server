@@ -1,14 +1,15 @@
 package com.gomo.app.quest.exception;
 
-import com.gomo.app.common.exception.DomainException;
+import com.gomo.app.common.exception.ApplicationException;
+import com.gomo.app.quest.exception.code.AssignQuestErrorCode;
 
-public class AssignQuestAccessDeniedException extends DomainException {
+public class AssignQuestAccessDeniedException extends ApplicationException {
 
 	public AssignQuestAccessDeniedException(AssignQuestErrorCode errorCode) {
-		super(errorCode.getHttpStatus(), errorCode.name(), errorCode.getMessage());
+		super(errorCode.getHttpStatus(), errorCode.getErrorCode(), errorCode.getMessage());
 	}
 
 	public AssignQuestAccessDeniedException(AssignQuestErrorCode errorCode, Throwable cause) {
-		super(errorCode.getHttpStatus(), errorCode.name(), errorCode.getMessage(), cause);
+		super(errorCode.getHttpStatus(), errorCode.getErrorCode(), errorCode.getMessage(), cause);
 	}
 }

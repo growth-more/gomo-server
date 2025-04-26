@@ -1,8 +1,8 @@
 package com.gomo.app.interest.domain.model;
 
-import com.gomo.app.common.domain.ValueObject;
-import com.gomo.app.interest.exception.InterestErrorCode;
+import com.gomo.app.common.ValueObject;
 import com.gomo.app.interest.exception.ProficiencyAdjustFailureException;
+import com.gomo.app.interest.exception.code.ProficiencyErrorCode;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
@@ -46,7 +46,7 @@ public class Proficiency {
 
 	private void ensureTotalScoreNotNegative(int deltaTotalScore) {
 		if(this.totalScore + deltaTotalScore < 0) {
-			throw new ProficiencyAdjustFailureException(InterestErrorCode.TOTAL_SCORE_NEGATIVE);
+			throw new ProficiencyAdjustFailureException(ProficiencyErrorCode.NEGATIVE_TOTAL_SCORE);
 		}
 	}
 
@@ -63,6 +63,6 @@ public class Proficiency {
 			}
 		}
 
-		throw new ProficiencyAdjustFailureException(InterestErrorCode.TOTAL_SCORE_TOO_LARGE);
+		throw new ProficiencyAdjustFailureException(ProficiencyErrorCode.EXCEED_MAXIMUM_TOTAL_SCORE);
 	}
 }

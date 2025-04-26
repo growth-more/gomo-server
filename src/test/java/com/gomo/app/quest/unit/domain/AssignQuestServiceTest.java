@@ -7,7 +7,6 @@ import static org.mockito.Mockito.*;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.gomo.app.member.domain.service.PasswordService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,13 +16,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.member.common.fixture.MemberFixture;
 import com.gomo.app.member.domain.repository.MemberRepository;
+import com.gomo.app.member.domain.service.PasswordService;
 import com.gomo.app.quest.common.fixture.AssignQuestFixture;
 import com.gomo.app.quest.common.fixture.QuestFixture;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.ParticipantId;
 import com.gomo.app.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.quest.domain.service.AssignQuestService;
-import com.gomo.app.quest.exception.AssignQuestThresholdExceededException;
+import com.gomo.app.quest.exception.AssignQuestConstraintViolationException;
+import com.gomo.app.quest.exception.code.AssignQuestErrorCode;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Domain unit]: 할당 퀘스트 생성 테스트")
@@ -78,7 +79,7 @@ public class AssignQuestServiceTest {
 		doReturn(Optional.of(MemberFixture.member(5, passwordService))).when(memberRepository).findById(any());
 
 		assertThatThrownBy(() -> sut.create(ParticipantId.of(UUID.randomUUID()), QuestFixture.quest()))
-			.isInstanceOf(AssignQuestThresholdExceededException.class)
-			.hasMessageContaining("Assign quest threshold exceeded");
+			.isInstanceOf(AssignQuestConstraintViolationException.class)
+			.hasMessageContaining(AssignQuestErrorCode.THRESHOLD_EXCEEDED.getMessage());
 	}
 }

@@ -2,7 +2,7 @@ package com.gomo.app.interest.domain.service;
 
 import java.util.List;
 
-import com.gomo.app.common.domain.service.DomainService;
+import com.gomo.app.common.DomainService;
 import com.gomo.app.interest.domain.model.ScoreThresholdPolicy;
 import com.gomo.app.interest.domain.repository.ScoreThresholdPolicyRepository;
 

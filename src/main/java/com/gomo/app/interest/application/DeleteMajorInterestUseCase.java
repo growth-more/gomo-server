@@ -2,12 +2,12 @@ package com.gomo.app.interest.application;
 
 import java.util.UUID;
 
-import com.gomo.app.common.application.ApplicationService;
-import com.gomo.app.common.exception.DomainErrorCode;
-import com.gomo.app.common.exception.NotFoundException;
+import com.gomo.app.common.ApplicationService;
 import com.gomo.app.interest.domain.model.MajorInterest;
 import com.gomo.app.interest.domain.model.MajorInterestId;
 import com.gomo.app.interest.domain.repository.MajorInterestRepository;
+import com.gomo.app.interest.exception.MajorInterestNotFoundException;
+import com.gomo.app.interest.exception.code.MajorInterestErrorCode;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,7 +19,7 @@ public class DeleteMajorInterestUseCase {
 
 	public void delete(UUID accessorId, MajorInterestId majorInterestId) {
 		MajorInterest majorInterest = majorInterestRepository.findById(majorInterestId)
-			.orElseThrow(() -> new NotFoundException(DomainErrorCode.NOT_FOUND, "Major interest not found"));
+			.orElseThrow(() -> new MajorInterestNotFoundException(MajorInterestErrorCode.NOT_FOUND));
 		majorInterest.validateAuthority(accessorId);
 		majorInterestRepository.delete(majorInterest);
 	}

@@ -8,32 +8,32 @@ import lombok.Getter;
 public class ErrorResponse {
 
 	private LocalDateTime timestamp;
+	private String path;
 	private int httpStatus;
 	private String code;
 	private String message;
-	private String path;
 
 	private ErrorResponse(
 		LocalDateTime timestamp,
+		String path,
 		int httpStatus,
 		String code,
-		String message,
-		String path
+		String message
 	) {
 		this.timestamp = timestamp;
+		this.path = path;
 		this.httpStatus = httpStatus;
 		this.code = code;
 		this.message = message;
-		this.path = path;
 	}
 
 	public static ErrorResponse of(
 		LocalDateTime timestamp,
+		String path,
 		int httpStatus,
 		String code,
-		String message,
-		String path
+		String message
 	) {
-		return new ErrorResponse(timestamp, httpStatus, code, message, path);
+		return new ErrorResponse(timestamp, path, httpStatus, code, message);
 	}
 }

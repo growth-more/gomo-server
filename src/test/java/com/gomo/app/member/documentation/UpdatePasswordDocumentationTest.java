@@ -1,7 +1,5 @@
 package com.gomo.app.member.documentation;
 
-import static com.gomo.app.common.exception.DomainErrorCode.INVALID_PARAMETER;
-import static com.gomo.app.member.exception.MemberErrorCode.*;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.http.HttpHeaders.*;
@@ -19,13 +17,14 @@ import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.util.LoginMemberHelper;
 import com.gomo.app.member.common.util.MemberDBDataHelper;
 import com.gomo.app.member.documentation.snippet.UpdatePasswordSnippet;
+import com.gomo.app.member.exception.code.MemberErrorCode;
+import com.gomo.app.member.exception.code.PasswordErrorCode;
 import com.gomo.app.member.presentation.request.UpdatePasswordRequest;
 
 @DisplayName("[Presentation documentation]: 비밀번호 변경 테스트")
 public class UpdatePasswordDocumentationTest extends DocumentationTestBase {
 
-	private static final String PASSWORD_URL = "/members/passwords";
-	private static final String INVALID_PASSWORD = "~ ! @ # $";
+	private static final String URL = "/members/passwords";
 
 	private final RestDocumentationFilter filter = UpdatePasswordSnippet.create();
 	private final RestDocumentationFilter errorFilter = UpdatePasswordSnippet.createError();
@@ -51,7 +50,7 @@ public class UpdatePasswordDocumentationTest extends DocumentationTestBase {
 		memberDBDataHelper.cleanUp();
 	}
 
-	@DisplayName("사용자가 비밀번호를 변경한다.")
+	@DisplayName("비밀번호를 변경한다.")
 	@Test
 	void update_password() {
 		given(this.specification).filter(filter)
@@ -59,44 +58,44 @@ public class UpdatePasswordDocumentationTest extends DocumentationTestBase {
 			.header(AUTHORIZATION, "Bearer " + token)
 			.body(UpdatePasswordRequest.of(PASSWORD, "Gomotest1234!"))
 			.when()
-			.put(PASSWORD_URL)
+			.put(URL)
 			.then()
 			.statusCode(NO_CONTENT.value());
 	}
 
-	@DisplayName("사용자가 기존 비밀번호를 잘못 입력한 상태로 변경한다.")
+	@DisplayName("기존 비밀번호를 잘못 입력한 상태로 변경한다.")
 	@Test
-	void update_password_with_invalid_origin_password() {
+	void update_password_with_incorrect_origin_password() {
 		given(this.specification).filter(errorFilter)
 			.header("Content-type", "application/json")
 			.header(AUTHORIZATION, "Bearer " + token)
-			.body(UpdatePasswordRequest.of("Gomotest123@", "Gomotest1234!"))
+			.body(UpdatePasswordRequest.of("incorrect1234!", "Gomotest1234!"))
 			.when()
-			.put(PASSWORD_URL)
+			.put(URL)
 			.then()
-			.statusCode(UNAUTHORIZED.value())
+			.statusCode(MemberErrorCode.AUTHENTICATION_FAILED.getHttpStatus())
 			.body("timestamp", instanceOf(String.class))
-			.body("httpStatus", equalTo(UNAUTHORIZED.value()))
-			.body("code", equalTo(AUTHENTICATION_FAILED.name()))
-			.body("message", equalTo("password incorrect"))
-			.body("path", equalTo(PASSWORD_URL));
+			.body("path", equalTo(URL))
+			.body("httpStatus", equalTo(MemberErrorCode.AUTHENTICATION_FAILED.getHttpStatus()))
+			.body("code", equalTo(MemberErrorCode.AUTHENTICATION_FAILED.getErrorCode()))
+			.body("message", equalTo(MemberErrorCode.AUTHENTICATION_FAILED.getMessage()));
 	}
 
-	@DisplayName("사용자가 잘못된 새 비밀번호로 변경한다.")
+	@DisplayName("금지 문자가 포함된 새 비밀번호로 변경한다.")
 	@Test
-	void update_password_with_invalid_updated_password() {
+	void update_password_with_forbidden_updated_password() {
 		given(this.specification).filter(errorFilter)
 			.header("Content-type", "application/json")
 			.header(AUTHORIZATION, "Bearer " + token)
-			.body(UpdatePasswordRequest.of(PASSWORD, INVALID_PASSWORD))
+			.body(UpdatePasswordRequest.of(PASSWORD, "! @ ~ # *"))
 			.when()
-			.put(PASSWORD_URL)
+			.put(URL)
 			.then()
-			.statusCode(UNPROCESSABLE_ENTITY.value())
+			.statusCode(PasswordErrorCode.FORBIDDEN.getHttpStatus())
 			.body("timestamp", instanceOf(String.class))
-			.body("httpStatus", equalTo(INVALID_PARAMETER.getHttpStatus()))
-			.body("code", equalTo(INVALID_PARAMETER.name()))
-			.body("message", equalTo("password must comply with the password rules."))
-			.body("path", equalTo(PASSWORD_URL));
+			.body("path", equalTo(URL))
+			.body("httpStatus", equalTo(PasswordErrorCode.FORBIDDEN.getHttpStatus()))
+			.body("code", equalTo(PasswordErrorCode.FORBIDDEN.getErrorCode()))
+			.body("message", equalTo(PasswordErrorCode.FORBIDDEN.getMessage()));
 	}
 }

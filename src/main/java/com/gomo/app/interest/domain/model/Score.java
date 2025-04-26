@@ -1,9 +1,8 @@
 package com.gomo.app.interest.domain.model;
 
-import static com.gomo.app.common.exception.DomainErrorCode.*;
-
-import com.gomo.app.common.domain.ValueObject;
-import com.gomo.app.common.exception.PolicyViolationException;
+import com.gomo.app.common.ValueObject;
+import com.gomo.app.interest.exception.ScoreConstraintViolationException;
+import com.gomo.app.interest.exception.code.ScoreErrorCode;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
@@ -58,7 +57,7 @@ public class Score {
 
 	private void validatePositive(int increment) {
 		if(increment <= 0) {
-			throw new PolicyViolationException(INVALID_PARAMETER, "Score increment must be positive.");
+			throw new ScoreConstraintViolationException(ScoreErrorCode.NON_POSITIVE_INCREMENT);
 		}
 	}
 

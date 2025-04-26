@@ -1,6 +1,6 @@
 package com.gomo.app.member.presentation;
 
-import com.gomo.app.common.presentation.Presentation;
+import com.gomo.app.common.Presentation;
 import com.gomo.app.member.application.CreateEmailAuthCodeUseCase;
 import com.gomo.app.member.application.VerifyEmailAuthCodeUseCase;
 import com.gomo.app.member.presentation.request.CreateEmailAuthCodeRequest;

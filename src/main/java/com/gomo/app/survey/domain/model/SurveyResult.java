@@ -1,12 +1,9 @@
 package com.gomo.app.survey.domain.model;
 
-import static com.gomo.app.common.exception.DomainErrorCode.*;
-
 import java.util.regex.Pattern;
 
-import com.gomo.app.common.domain.ValueObject;
-import com.gomo.app.common.exception.PolicyViolationException;
-import com.gomo.app.survey.exception.InvalidSurveyResultException;
+import com.gomo.app.common.ValueObject;
+import com.gomo.app.survey.exception.SurveyResultConstraintViolationException;
 import com.gomo.app.survey.exception.SurveyResultErrorCode;
 
 import jakarta.persistence.AttributeOverride;
@@ -77,7 +74,7 @@ public class SurveyResult {
 
 	private void ensureNoExistCustomAnswerIfOtherNotSelected(String surveyItemContent, String customAnswer) {
 		if(!OTHER.equals(surveyItemContent) && customAnswer != null) {
-			throw new InvalidSurveyResultException(SurveyResultErrorCode.UNEXPECTED_CUSTOM_INPUT);
+			throw new SurveyResultConstraintViolationException(SurveyResultErrorCode.UNEXPECTED_CUSTOM_ANSWER);
 		}
 	}
 
@@ -91,19 +88,19 @@ public class SurveyResult {
 
 	private static void ensureNotBlank(String customAnswer) {
 		if (customAnswer == null || customAnswer.isBlank()) {
-			throw new InvalidSurveyResultException(SurveyResultErrorCode.MISSING_CUSTOM_INPUT);
+			throw new SurveyResultConstraintViolationException(SurveyResultErrorCode.MISSING_CUSTOM_ANSWER);
 		}
 	}
 
 	private void ensureValidLength(String customAnswer) {
 		if(customAnswer.length() > MAX_LENGTH) {
-			throw new PolicyViolationException(INVALID_PARAMETER, "Custom answer is too long");
+			throw new SurveyResultConstraintViolationException(SurveyResultErrorCode.TOO_LONG);
 		}
 	}
 
 	private void ensureNoForbiddenName(String customAnswer) {
 		if(FORBIDDEN_PATTERN.matcher(customAnswer).find()) {
-			throw new PolicyViolationException(INVALID_PARAMETER, "Custom answer cannot contain forbidden characters");
+			throw new SurveyResultConstraintViolationException(SurveyResultErrorCode.FORBIDDEN);
 		}
 	}
 }

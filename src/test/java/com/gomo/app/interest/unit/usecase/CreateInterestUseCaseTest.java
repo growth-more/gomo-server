@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 
-import com.gomo.app.common.domain.service.ImageService;
+import com.gomo.app.image.ImageService;
 import com.gomo.app.interest.application.CreateInterestUseCase;
 import com.gomo.app.interest.common.fixture.InterestFixture;
 import com.gomo.app.interest.domain.model.Interest;

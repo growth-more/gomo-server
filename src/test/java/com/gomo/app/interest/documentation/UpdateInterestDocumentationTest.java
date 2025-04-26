@@ -1,6 +1,5 @@
 package com.gomo.app.interest.documentation;
 
-import static com.gomo.app.common.exception.DomainErrorCode.*;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.http.HttpHeaders.*;
@@ -16,6 +15,7 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.interest.common.util.InterestDataHelper;
 import com.gomo.app.interest.documentation.snippet.UpdateInterestSnippet;
+import com.gomo.app.interest.exception.code.InterestNameErrorCode;
 import com.gomo.app.interest.presentation.request.UpdateInterestRequest;
 
 @DisplayName("[Presentation documentation]: 관심사 수정 테스트")
@@ -34,7 +34,7 @@ public class UpdateInterestDocumentationTest extends DocumentationTestBase {
 		interestDataHelper.cleanUp();
 	}
 
-	@DisplayName("사용자가 관심사를 수정한다.")
+	@DisplayName("관심사를 수정한다.")
 	@Test
 	void update_interest() {
 		given(this.specification).filter(filter)
@@ -47,9 +47,9 @@ public class UpdateInterestDocumentationTest extends DocumentationTestBase {
 			.statusCode(NO_CONTENT.value());
 	}
 
-	@DisplayName("사용자가 잘못된 이름으로 관심사를 수정한다.")
+	@DisplayName("금지된 문자가 포함된 관심사 이름으로 수정한다.")
 	@Test
-	void update_interest_with_invalid_name() {
+	void update_interest_with_forbidden_name() {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
             .header(AUTHORIZATION, "Bearer " + accessToken)
@@ -57,11 +57,11 @@ public class UpdateInterestDocumentationTest extends DocumentationTestBase {
 			.when()
 			.put("/interests/{id}", UPDATED_INTEREST_ID)
 			.then()
-			.statusCode(UNPROCESSABLE_ENTITY.value())
+			.statusCode(InterestNameErrorCode.FORBIDDEN.getHttpStatus())
 			.body("timestamp", instanceOf(String.class))
-			.body("httpStatus", equalTo(INVALID_PARAMETER.getHttpStatus()))
-			.body("code", equalTo(INVALID_PARAMETER.name()))
-			.body("message", equalTo("Interest name cannot contain forbidden characters"))
-			.body("path", matchesRegex("/interests/[a-f0-9\\-]{36}"));
+			.body("path", matchesRegex("/interests/[a-f0-9\\-]{36}"))
+			.body("httpStatus", equalTo(InterestNameErrorCode.FORBIDDEN.getHttpStatus()))
+			.body("code", equalTo(InterestNameErrorCode.FORBIDDEN.getErrorCode()))
+			.body("message", equalTo(InterestNameErrorCode.FORBIDDEN.getMessage()));
 	}
 }

@@ -8,8 +8,9 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.common.exception.PolicyViolationException;
 import com.gomo.app.interest.domain.model.InterestName;
+import com.gomo.app.interest.exception.InterestNameConstraintViolationException;
+import com.gomo.app.interest.exception.code.InterestNameErrorCode;
 
 @DisplayName("[Domain unit]: 관심사 이름 생성 및 수정 테스트")
 public class InterestNameTest {
@@ -31,32 +32,32 @@ public class InterestNameTest {
 	@Test
 	void create_interest_name_with_null() {
 		assertThatThrownBy(() -> InterestName.of(null))
-			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("Interest name cannot be blank");
+			.isInstanceOf(InterestNameConstraintViolationException.class)
+			.hasMessageContaining(InterestNameErrorCode.BLANK.getMessage());
 	}
 
 	@DisplayName("공백만 입력하면 관심사 이름을 생성할 수 없다.")
 	@Test
 	void create_interest_name_with_only_blank() {
 		assertThatThrownBy(() -> InterestName.of(BLANK))
-			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("Interest name cannot be blank");
+			.isInstanceOf(InterestNameConstraintViolationException.class)
+			.hasMessageContaining(InterestNameErrorCode.BLANK.getMessage());
 	}
 
 	@DisplayName("최대 길이보다 긴 관심사 이름은 생성할 수 없다.")
 	@Test
 	void create_interest_name_with_long_name() {
 		assertThatThrownBy(() -> InterestName.of(TOO_LONG_NAME))
-			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("Interest name is too long");
+			.isInstanceOf(InterestNameConstraintViolationException.class)
+			.hasMessageContaining(InterestNameErrorCode.TOO_LONG.getMessage());
 	}
 
 	@DisplayName("금지 문자를 포함한 관심사 이름은 생성할 수 없다.")
 	@Test
 	void create_interest_name_with_forbidden_characters() {
 		assertThatThrownBy(() -> InterestName.of(FORBIDDEN_NAME))
-			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("Interest name cannot contain forbidden characters");
+			.isInstanceOf(InterestNameConstraintViolationException.class)
+			.hasMessageContaining(InterestNameErrorCode.FORBIDDEN.getMessage());
 	}
 
 	@DisplayName("관심사 이름을 수정한다.")
@@ -74,8 +75,8 @@ public class InterestNameTest {
 		InterestName interestName = InterestName.of(NAME);
 
 		assertThatThrownBy(() -> interestName.update(null))
-			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("Interest name cannot be blank");
+			.isInstanceOf(InterestNameConstraintViolationException.class)
+			.hasMessageContaining(InterestNameErrorCode.BLANK.getMessage());
 	}
 
 	@DisplayName("공백만 입력하면 관심사 이름을 수정할 수 없다.")
@@ -84,8 +85,8 @@ public class InterestNameTest {
 		InterestName interestName = InterestName.of(NAME);
 
 		assertThatThrownBy(() -> interestName.update(BLANK))
-			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("Interest name cannot be blank");
+			.isInstanceOf(InterestNameConstraintViolationException.class)
+			.hasMessageContaining(InterestNameErrorCode.BLANK.getMessage());
 	}
 
 	@DisplayName("최대 길이보다 긴 관심사 이름은 수정할 수 없다.")
@@ -94,8 +95,8 @@ public class InterestNameTest {
 		InterestName interestName = InterestName.of(NAME);
 
 		assertThatThrownBy(() -> interestName.update(TOO_LONG_NAME))
-			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("Interest name is too long");
+			.isInstanceOf(InterestNameConstraintViolationException.class)
+			.hasMessageContaining(InterestNameErrorCode.TOO_LONG.getMessage());
 	}
 
 	@DisplayName("금지 문자를 포함한 관심사 이름은 수정할 수 없다.")
@@ -104,7 +105,7 @@ public class InterestNameTest {
 		InterestName interestName = InterestName.of(NAME);
 
 		assertThatThrownBy(() -> interestName.update(FORBIDDEN_NAME))
-			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("Interest name cannot contain forbidden characters");
+			.isInstanceOf(InterestNameConstraintViolationException.class)
+			.hasMessageContaining(InterestNameErrorCode.FORBIDDEN.getMessage());
 	}
 }

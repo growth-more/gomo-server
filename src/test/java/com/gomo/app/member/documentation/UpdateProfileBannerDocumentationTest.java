@@ -1,10 +1,14 @@
 package com.gomo.app.member.documentation;
 
-import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.member.common.util.MemberDBDataHelper;
-import com.gomo.app.member.documentation.snippet.UpdateProfileBannerSnippet;
-import com.gomo.app.member.documentation.snippet.UpdateProfileImageSnippet;
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
+import static org.springframework.http.HttpHeaders.*;
+import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.MediaType.*;
+
+import java.io.File;
+import java.io.IOException;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,22 +17,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import org.springframework.util.ResourceUtils;
 
-import java.io.File;
-import java.io.IOException;
-
-import static com.gomo.app.common.exception.DomainErrorCode.IMAGE_TOO_LARGE;
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
-import static org.springframework.http.HttpStatus.NO_CONTENT;
-import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
+import com.gomo.app.common.DocumentationTestBase;
+import com.gomo.app.common.util.LoginMemberHelper;
+import com.gomo.app.member.common.util.MemberDBDataHelper;
+import com.gomo.app.member.documentation.snippet.UpdateProfileBannerSnippet;
 
 @DisplayName("[Presentation documentation]: 프로필 배너 변경 테스트")
 public class UpdateProfileBannerDocumentationTest extends DocumentationTestBase {
 
-	private static final String PROFILE_BANNER_URL = "/members/images/banners";
+	private static final String URL = "/members/images/banners";
 
 	private final RestDocumentationFilter filter = UpdateProfileBannerSnippet.create();
 	private final RestDocumentationFilter errorFilter = UpdateProfileBannerSnippet.createError();
@@ -62,7 +59,7 @@ public class UpdateProfileBannerDocumentationTest extends DocumentationTestBase 
 			.header(AUTHORIZATION, "Bearer " + token)
 			.multiPart("profileBanner", getImageFile("normal-image.png"))
 			.when()
-			.put(PROFILE_BANNER_URL)
+			.put(URL)
 			.then()
 			.statusCode(NO_CONTENT.value());
 	}
@@ -75,14 +72,14 @@ public class UpdateProfileBannerDocumentationTest extends DocumentationTestBase 
 			.header(AUTHORIZATION, "Bearer " + token)
 			.multiPart("profileBanner", getImageFile("large-image.png"))
 			.when()
-			.put(PROFILE_BANNER_URL)
+			.put(URL)
 			.then()
-			.statusCode(IMAGE_TOO_LARGE.getHttpStatus())
+			.statusCode(PAYLOAD_TOO_LARGE.value())
 			.body("timestamp", instanceOf(String.class))
-			.body("httpStatus", equalTo(IMAGE_TOO_LARGE.getHttpStatus()))
-			.body("code", equalTo(IMAGE_TOO_LARGE.name()))
-			.body("message", equalTo("Maximum upload size exceeded"))
-			.body("path", equalTo(PROFILE_BANNER_URL));
+			.body("path", equalTo(URL))
+			.body("httpStatus", equalTo(PAYLOAD_TOO_LARGE.value()))
+			.body("code", equalTo("IMA_ROO_001"))
+			.body("message", equalTo("Maximum upload size exceeded"));
 	}
 
 	private static File getImageFile(String imageName) throws IOException {

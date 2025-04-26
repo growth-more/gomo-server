@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import com.gomo.app.common.domain.service.DisplayOrder;
-import com.gomo.app.common.domain.service.DomainService;
+import com.gomo.app.displayorder.DisplayOrder;
+import com.gomo.app.common.DomainService;
 import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.member.domain.model.ActivateStatus;
 import com.gomo.app.member.domain.model.Member;

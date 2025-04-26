@@ -2,7 +2,7 @@ package com.gomo.app.quest.common.fixture;
 
 import java.util.UUID;
 
-import com.gomo.app.common.domain.service.DisplayOrder;
+import com.gomo.app.displayorder.DisplayOrder;
 import com.gomo.app.quest.domain.model.ParticipantId;
 import com.gomo.app.quest.domain.model.Quest;
 import com.gomo.app.quest.domain.model.QuestContent;

@@ -1,13 +1,13 @@
 package com.gomo.app.member.domain.model;
 
-import com.gomo.app.common.domain.ValueObject;
-import com.gomo.app.common.exception.PolicyViolationException;
-import jakarta.persistence.Embeddable;
-import lombok.Getter;
-
 import java.util.regex.Pattern;
 
-import static com.gomo.app.common.exception.DomainErrorCode.INVALID_PARAMETER;
+import com.gomo.app.common.ValueObject;
+import com.gomo.app.member.exception.EmailConstraintViolationException;
+import com.gomo.app.member.exception.code.EmailErrorCode;
+
+import jakarta.persistence.Embeddable;
+import lombok.Getter;
 
 @Getter
 @Embeddable
@@ -36,23 +36,23 @@ public class Email {
 
     private void ensureNotBlank(String email){
         if (email == null || email.isBlank()) {
-            throw new PolicyViolationException(INVALID_PARAMETER,"Email should not be blank");
+            throw new EmailConstraintViolationException(EmailErrorCode.BLANK);
         }
     }
 
     private void ensureValidEmailLength(String email){
         if (email.length() < MIN_EMAIL_LENGTH){
-            throw new PolicyViolationException(INVALID_PARAMETER,"Email should be at least 10 characters");
+            throw new EmailConstraintViolationException(EmailErrorCode.TOO_SHORT);
         }
 
         if (email.length() > MAX_EMAIL_LENGTH){
-            throw new PolicyViolationException(INVALID_PARAMETER,"Email should be at most 254 characters");
+            throw new EmailConstraintViolationException(EmailErrorCode.TOO_LONG);
         }
     }
 
     private void ensureValidEmailRule(String email){
         if (!EMAIL_RULES.matcher(email).matches()){
-            throw new PolicyViolationException(INVALID_PARAMETER,"Email should be invalid format");
+            throw new EmailConstraintViolationException(EmailErrorCode.INVALID_FORMAT);
         }
     }
 

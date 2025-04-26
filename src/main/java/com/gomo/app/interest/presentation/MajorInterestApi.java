@@ -2,7 +2,7 @@ package com.gomo.app.interest.presentation;
 
 import com.gomo.app.common.authentication.Auth;
 import com.gomo.app.common.authentication.AuthInfo;
-import com.gomo.app.common.presentation.Presentation;
+import com.gomo.app.common.Presentation;
 import com.gomo.app.interest.application.CreateMajorInterestUseCase;
 import com.gomo.app.interest.application.DeleteMajorInterestUseCase;
 import com.gomo.app.interest.application.ReadMajorInterestUseCase;

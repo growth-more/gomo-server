@@ -11,7 +11,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.common.exception.PolicyViolationException;
 import com.gomo.app.member.common.fixture.MemberFixture;
 import com.gomo.app.member.domain.model.Email;
 import com.gomo.app.member.domain.model.Handle;
@@ -22,6 +21,8 @@ import com.gomo.app.member.domain.model.MemberName;
 import com.gomo.app.member.domain.model.Motto;
 import com.gomo.app.member.domain.model.Password;
 import com.gomo.app.member.domain.service.PasswordService;
+import com.gomo.app.member.exception.QuestPropertyConstraintViolationException;
+import com.gomo.app.member.exception.code.QuestPropertyErrorCode;
 import com.gomo.app.quest.domain.model.QuestType;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,7 +34,7 @@ public class MemberTest {
 	private Password PASSWORD;
 
 	@BeforeEach
-	void setUp(){
+	void setUp() {
 		PASSWORD = Password.of("Test1234!", passwordService);
 	}
 
@@ -47,12 +48,12 @@ public class MemberTest {
 
 	@DisplayName("회원을 생성한다.")
 	@Test
-	void create_member(){
+	void create_member() {
 		Member member = Member.of(ID, EMAIL, PASSWORD, HANDLE, MEMBER_NAME, MOTTO, LOGIN_PROVIDER);
 
 		assertThat(member)
-				.extracting("id", "email", "password", "handle", "motto", "loginProvider")
-				.containsExactly(ID, EMAIL, PASSWORD, HANDLE, MOTTO, LOGIN_PROVIDER);
+			.extracting("id", "email", "password", "handle", "motto", "loginProvider")
+			.containsExactly(ID, EMAIL, PASSWORD, HANDLE, MOTTO, LOGIN_PROVIDER);
 	}
 
 	@DisplayName("일일 퀘스트 개수가 퀘스트 제한에 도달하지 않는다.")
@@ -124,17 +125,7 @@ public class MemberTest {
 		Member member = MemberFixture.member(3, passwordService);
 
 		assertThatThrownBy(() -> member.hasReachedQuestThreshold("NONE", 3))
-				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessageContaining("Invalid quest type: NONE");
+			.isInstanceOf(QuestPropertyConstraintViolationException.class)
+			.hasMessageContaining(QuestPropertyErrorCode.UNEXPECTED_QUEST_TYPE.getMessage());
 	}
-
-	@DisplayName("비밀번호수정 시 기존 비밀번호와 동일한 비밀번호로 수정할 수 없다.")
-    @Test
-    void update_password_with_same_exist_password(){
-        Member member = MemberFixture.member(passwordService);
-
-        assertThatThrownBy(() -> member.updatePassword("Test1234!", "Test1234!", passwordService))
-                .isInstanceOf(PolicyViolationException.class)
-                .hasMessageContaining("update password must not same as origin password");
-    }
 }

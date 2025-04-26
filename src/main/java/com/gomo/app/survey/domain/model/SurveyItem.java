@@ -1,8 +1,8 @@
 package com.gomo.app.survey.domain.model;
 
-import com.gomo.app.common.domain.BaseAudit;
-import com.gomo.app.common.domain.service.DisplayOrder;
-import com.gomo.app.common.domain.service.OrderChangeable;
+import com.gomo.app.common.BaseAudit;
+import com.gomo.app.displayorder.DisplayOrder;
+import com.gomo.app.displayorder.OrderChangeable;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;

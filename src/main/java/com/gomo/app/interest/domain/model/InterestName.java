@@ -1,11 +1,10 @@
 package com.gomo.app.interest.domain.model;
 
-import static com.gomo.app.common.exception.DomainErrorCode.*;
-
 import java.util.regex.Pattern;
 
-import com.gomo.app.common.domain.ValueObject;
-import com.gomo.app.common.exception.PolicyViolationException;
+import com.gomo.app.common.ValueObject;
+import com.gomo.app.interest.exception.InterestNameConstraintViolationException;
+import com.gomo.app.interest.exception.code.InterestNameErrorCode;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
@@ -39,19 +38,19 @@ public class InterestName {
 
 	private void ensureNotBlank(String interestName) {
 		if(interestName == null || interestName.isBlank()) {
-			throw new PolicyViolationException(INVALID_PARAMETER, "Interest name cannot be blank");
+			throw new InterestNameConstraintViolationException(InterestNameErrorCode.BLANK);
 		}
 	}
 
 	private void ensureValidLength(String interestName) {
 		if(interestName.length() > MAX_LENGTH) {
-			throw new PolicyViolationException(INVALID_PARAMETER, "Interest name is too long");
+			throw new InterestNameConstraintViolationException(InterestNameErrorCode.TOO_LONG);
 		}
 	}
 
 	private void ensureNoForbiddenName(String interestName) {
 		if(FORBIDDEN_PATTERN.matcher(interestName).find()) {
-			throw new PolicyViolationException(INVALID_PARAMETER, "Interest name cannot contain forbidden characters");
+			throw new InterestNameConstraintViolationException(InterestNameErrorCode.FORBIDDEN);
 		}
 	}
 
