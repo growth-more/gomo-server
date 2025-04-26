@@ -14,14 +14,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.common.exception.PolicyViolationException;
 import com.gomo.app.quest.application.UpdateRepeatQuestUseCase;
 import com.gomo.app.quest.common.fixture.RepeatQuestFixture;
 import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.domain.model.RepeatQuest;
 import com.gomo.app.quest.domain.model.RepeatQuestId;
 import com.gomo.app.quest.domain.repository.RepeatQuestRepository;
+import com.gomo.app.quest.exception.QuestTypeConstraintViolationException;
 import com.gomo.app.quest.exception.RepeatQuestAccessDeniedException;
+import com.gomo.app.quest.exception.code.QuestTypeErrorCode;
 import com.gomo.app.quest.presentation.request.UpdateRepeatQuestRequest;
 
 @DisplayName("[Application unit]: 반복 퀘스트 수정 테스트")
@@ -57,7 +58,7 @@ public class UpdateRepeatQuestUseCaseTest {
 			.hasMessageContaining("Access denied for the repeat quest");
 	}
 
-	@DisplayName("할당 퀘스트를 다른 퀘스트 타입으로 수정할 수 없다.")
+	@DisplayName("반복 퀘스트를 다른 퀘스트 타입으로 수정할 수 없다.")
 	@Test
 	void update_repeat_quest_with_different_type() {
 		RepeatQuest repeatQuest = RepeatQuestFixture.repeatQuest(QuestType.DAILY);
@@ -65,8 +66,8 @@ public class UpdateRepeatQuestUseCaseTest {
 
 		assertThatThrownBy(
 			() -> sut.update(repeatQuest.getQuest().getParticipantId().getId(), RepeatQuestId.of(UUID.randomUUID()), createMockRequest(QuestType.WEEKLY)))
-			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("Repeat quest can only be modified within the same type");
+			.isInstanceOf(QuestTypeConstraintViolationException.class)
+			.hasMessageContaining(QuestTypeErrorCode.MISMATCHED.getMessage());
 	}
 
 	private static @NotNull UpdateRepeatQuestRequest createMockRequest(QuestType questType) {

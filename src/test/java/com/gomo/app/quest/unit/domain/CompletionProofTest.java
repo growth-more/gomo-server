@@ -8,8 +8,9 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.common.exception.PolicyViolationException;
 import com.gomo.app.quest.domain.model.CompletionProof;
+import com.gomo.app.quest.exception.CompletionProofConstraintViolationException;
+import com.gomo.app.quest.exception.code.CompletionProofErrorCode;
 
 @DisplayName("[Domain unit]: 퀘스트 증명 생성 및 수정 테스트")
 public class CompletionProofTest {
@@ -38,23 +39,23 @@ public class CompletionProofTest {
 	@Test
 	void create_completion_proof_with_null() {
 		assertThatThrownBy(() -> CompletionProof.of(null))
-			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("Completion proof cannot be blank");
+			.isInstanceOf(CompletionProofConstraintViolationException.class)
+			.hasMessageContaining(CompletionProofErrorCode.BLANK.getMessage());
 	}
 
 	@DisplayName("공백으로 퀘스트 증명을 생성할 수 없다.")
 	@Test
 	void create_completion_proof_with_blank() {
 		assertThatThrownBy(() -> CompletionProof.of(BLANK))
-			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("Completion proof cannot be blank");
+			.isInstanceOf(CompletionProofConstraintViolationException.class)
+			.hasMessageContaining(CompletionProofErrorCode.BLANK.getMessage());
 	}
 
 	@DisplayName("최대 길이보다 길게 퀘스트 증명을 생성할 수 없다.")
 	@Test
 	void create_completion_proof_with_long_length() {
 		assertThatThrownBy(() -> CompletionProof.of(TOO_LONG_URL))
-			.isInstanceOf(PolicyViolationException.class)
-			.hasMessageContaining("Completion proof must not exceed 512 characters");
+			.isInstanceOf(CompletionProofConstraintViolationException.class)
+			.hasMessageContaining(CompletionProofErrorCode.TOO_LONG.getMessage());
 	}
 }

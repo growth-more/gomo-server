@@ -14,7 +14,7 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.common.domain.service.OrderChanger;
+import com.gomo.app.displayorder.OrderChanger;
 import com.gomo.app.interest.presentation.request.UpdateOrderRequest;
 import com.gomo.app.quest.application.OrderUpdateRepeatQuestUseCase;
 import com.gomo.app.quest.common.fixture.RepeatQuestFixture;

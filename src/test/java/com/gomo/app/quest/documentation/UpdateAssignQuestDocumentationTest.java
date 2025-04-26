@@ -16,12 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.exception.DomainErrorCode;
 import com.gomo.app.quest.common.dataprovider.AssignQuestDataProvider;
 import com.gomo.app.quest.common.util.AssignQuestDataHelper;
 import com.gomo.app.quest.documentation.snippet.UpdateAssignQuestSnippet;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.QuestType;
+import com.gomo.app.quest.exception.code.QuestContentErrorCode;
 import com.gomo.app.quest.presentation.request.UpdateAssignQuestRequest;
 
 @DisplayName("[Presentation documentation]: 참여 중인 퀘스트 수정 테스트")
@@ -81,11 +81,11 @@ public class UpdateAssignQuestDocumentationTest extends DocumentationTestBase {
 			.when()
 			.put("/quests/assigns/{id}", assignQuest.getId().getId())
 			.then()
-			.statusCode(UNPROCESSABLE_ENTITY.value())
+			.statusCode(QuestContentErrorCode.BLANK.getHttpStatus())
 			.body("timestamp", instanceOf(String.class))
-			.body("httpStatus", equalTo(DomainErrorCode.INVALID_PARAMETER.getHttpStatus()))
-			.body("code", equalTo(DomainErrorCode.INVALID_PARAMETER.name()))
-			.body("message", equalTo("Quest content cannot be blank"))
-			.body("path", equalTo("/quests/assigns/" + assignQuest.getId().getId()));
+			.body("path", equalTo("/quests/assigns/" + assignQuest.getId().getId()))
+			.body("httpStatus", equalTo(QuestContentErrorCode.BLANK.getHttpStatus()))
+			.body("code", equalTo(QuestContentErrorCode.BLANK.getErrorCode()))
+			.body("message", equalTo(QuestContentErrorCode.BLANK.getMessage()));
 	}
 }

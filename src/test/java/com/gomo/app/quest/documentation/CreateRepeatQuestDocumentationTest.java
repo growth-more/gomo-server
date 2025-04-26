@@ -1,6 +1,5 @@
 package com.gomo.app.quest.documentation;
 
-import static com.gomo.app.quest.exception.RepeatQuestErrorCode.*;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.http.HttpHeaders.*;
@@ -15,12 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.exception.DomainErrorCode;
 import com.gomo.app.interest.common.dataprovider.InterestDataProvider;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.quest.common.util.RepeatQuestDataHelper;
 import com.gomo.app.quest.documentation.snippet.CreateRepeatQuestSnippet;
 import com.gomo.app.quest.domain.model.QuestType;
+import com.gomo.app.quest.exception.code.QuestContentErrorCode;
+import com.gomo.app.quest.exception.code.RepeatQuestErrorCode;
 import com.gomo.app.quest.presentation.request.CreateRepeatQuestRequest;
 
 @DisplayName("[Presentation documentation]: 반복 퀘스트 생성 테스트")
@@ -78,12 +78,12 @@ public class CreateRepeatQuestDocumentationTest extends DocumentationTestBase {
 			.when()
 			.post("/quests/repeats")
 			.then()
-			.statusCode(UNPROCESSABLE_ENTITY.value())
+			.statusCode(QuestContentErrorCode.BLANK.getHttpStatus())
 			.body("timestamp", instanceOf(String.class))
-			.body("httpStatus", equalTo(DomainErrorCode.INVALID_PARAMETER.getHttpStatus()))
-			.body("code", equalTo(DomainErrorCode.INVALID_PARAMETER.name()))
-			.body("message", equalTo("Quest content cannot be blank"))
-			.body("path", equalTo("/quests/repeats"));
+			.body("path", equalTo("/quests/repeats"))
+			.body("httpStatus", equalTo(QuestContentErrorCode.BLANK.getHttpStatus()))
+			.body("code", equalTo(QuestContentErrorCode.BLANK.getErrorCode()))
+			.body("message", equalTo(QuestContentErrorCode.BLANK.getMessage()));
 	}
 
 	@DisplayName("사용자가 퀘스트 제한 개수를 초과하는 반복 퀘스트를 생성한다.")
@@ -100,11 +100,11 @@ public class CreateRepeatQuestDocumentationTest extends DocumentationTestBase {
 			.when()
 			.post("/quests/repeats")
 			.then()
-			.statusCode(UNPROCESSABLE_ENTITY.value())
+			.statusCode(RepeatQuestErrorCode.THRESHOLD_EXCEEDED.getHttpStatus())
 			.body("timestamp", instanceOf(String.class))
-			.body("httpStatus", equalTo(THRESHOLD_EXCEEDED.getHttpStatus()))
-			.body("code", equalTo(THRESHOLD_EXCEEDED.name()))
-			.body("message", equalTo("Repeat quest threshold exceeded"))
+			.body("httpStatus", equalTo(RepeatQuestErrorCode.THRESHOLD_EXCEEDED.getHttpStatus()))
+			.body("code", equalTo(RepeatQuestErrorCode.THRESHOLD_EXCEEDED.getErrorCode()))
+			.body("message", equalTo(RepeatQuestErrorCode.THRESHOLD_EXCEEDED.getMessage()))
 			.body("path", equalTo("/quests/repeats"));
 	}
 }

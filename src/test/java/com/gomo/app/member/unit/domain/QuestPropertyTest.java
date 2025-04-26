@@ -11,6 +11,8 @@ import com.gomo.app.member.domain.model.DailyThreshold;
 import com.gomo.app.member.domain.model.MonthlyThreshold;
 import com.gomo.app.member.domain.model.QuestProperty;
 import com.gomo.app.member.domain.model.WeeklyThreshold;
+import com.gomo.app.member.exception.QuestPropertyConstraintViolationException;
+import com.gomo.app.member.exception.code.QuestPropertyErrorCode;
 import com.gomo.app.quest.domain.model.QuestType;
 
 @ExtendWith(MockitoExtension.class)
@@ -112,7 +114,9 @@ public class QuestPropertyTest {
 	@Test
 	void validate_threshold_with_invalid_quest_type() {
 		QuestProperty questProperty = new QuestProperty(DailyThreshold.of(5), WeeklyThreshold.of(5), MonthlyThreshold.of(5));
+
 		assertThatThrownBy(() -> questProperty.hasReachedQuestThreshold("invalid quest type", 5))
-			.isInstanceOf(IllegalArgumentException.class);
+			.isInstanceOf(QuestPropertyConstraintViolationException.class)
+			.hasMessageContaining(QuestPropertyErrorCode.UNEXPECTED_QUEST_TYPE.getMessage());
 	}
 }

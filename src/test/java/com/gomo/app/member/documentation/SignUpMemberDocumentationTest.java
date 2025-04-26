@@ -1,6 +1,5 @@
 package com.gomo.app.member.documentation;
 
-import static com.gomo.app.common.exception.DomainErrorCode.*;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.http.HttpHeaders.*;
@@ -16,13 +15,13 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.member.common.util.MemberDBDataHelper;
 import com.gomo.app.member.documentation.snippet.SignUpMemberSnippet;
+import com.gomo.app.member.exception.code.PasswordErrorCode;
 import com.gomo.app.member.presentation.request.CreateMemberRequest;
 
 @DisplayName("[Presentation documentation]: 회원 가입 테스트")
 public class SignUpMemberDocumentationTest extends DocumentationTestBase {
 
 	private static final String MEMBER_URL = "/members";
-	private final static String SHORT_PASSWORD = "gomo123";
 
 	private final RestDocumentationFilter filter = SignUpMemberSnippet.create();
 	private final RestDocumentationFilter errorFilter = SignUpMemberSnippet.createError();
@@ -42,7 +41,7 @@ public class SignUpMemberDocumentationTest extends DocumentationTestBase {
 		memberDBDataHelper.cleanUp();
 	}
 
-	@DisplayName("사용자가 회원가입한다.")
+	@DisplayName("회원 가입한다.")
 	@Test
 	void sign_up() {
 		given(this.specification).filter(filter)
@@ -55,20 +54,20 @@ public class SignUpMemberDocumentationTest extends DocumentationTestBase {
 			.body("id", hasLength(36));
 	}
 
-	@DisplayName("사용자가 잘못된 형식의 정보로 회원가입한다.")
+	@DisplayName("최소 길이보다 짧은 비밀번호로 회원가입한다.")
 	@Test
 	void sign_up_member_with_short_password() {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.body(CreateMemberRequest.of(EMAIL, SHORT_PASSWORD, HANDLE, NAME, MOTTO))
+			.body(CreateMemberRequest.of(EMAIL, "gomo123", HANDLE, NAME, MOTTO))
 			.when()
 			.post(MEMBER_URL)
 			.then()
-			.statusCode(UNPROCESSABLE_ENTITY.value())
+			.statusCode(PasswordErrorCode.TOO_SHORT.getHttpStatus())
 			.body("timestamp", instanceOf(String.class))
-			.body("httpStatus", equalTo(INVALID_PARAMETER.getHttpStatus()))
-			.body("code", equalTo(INVALID_PARAMETER.name()))
-			.body("message", equalTo("password must at least 8 characters"))
-			.body("path", equalTo(MEMBER_URL));
+			.body("path", equalTo(MEMBER_URL))
+			.body("httpStatus", equalTo(PasswordErrorCode.TOO_SHORT.getHttpStatus()))
+			.body("code", equalTo(PasswordErrorCode.TOO_SHORT.getErrorCode()))
+			.body("message", equalTo(PasswordErrorCode.TOO_SHORT.getMessage()));
 	}
 }

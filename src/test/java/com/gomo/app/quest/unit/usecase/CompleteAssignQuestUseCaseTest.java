@@ -14,7 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.common.event.EventEntryRepository;
+import com.gomo.app.event.EventEntryRepository;
 import com.gomo.app.quest.application.CompleteAssignQuestUseCase;
 import com.gomo.app.quest.common.fixture.AssignQuestFixture;
 import com.gomo.app.quest.domain.model.AssignQuest;

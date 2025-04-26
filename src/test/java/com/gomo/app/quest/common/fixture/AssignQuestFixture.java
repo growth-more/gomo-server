@@ -3,7 +3,7 @@ package com.gomo.app.quest.common.fixture;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.gomo.app.common.domain.service.DisplayOrder;
+import com.gomo.app.displayorder.DisplayOrder;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.model.CompletionProof;

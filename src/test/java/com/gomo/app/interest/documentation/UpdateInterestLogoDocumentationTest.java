@@ -1,26 +1,25 @@
 package com.gomo.app.interest.documentation;
 
-import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.interest.common.util.InterestDataHelper;
-import com.gomo.app.interest.documentation.snippet.UpdateInterestLogoSnippet;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.restdocs.restassured.RestDocumentationFilter;
-import org.springframework.util.ResourceUtils;
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
+import static org.springframework.http.HttpHeaders.*;
+import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.MediaType.*;
 
 import java.io.File;
 import java.io.IOException;
 
-import static com.gomo.app.common.exception.DomainErrorCode.IMAGE_TOO_LARGE;
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
-import static org.springframework.http.HttpStatus.NO_CONTENT;
-import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.restdocs.restassured.RestDocumentationFilter;
+import org.springframework.util.ResourceUtils;
+
+import com.gomo.app.common.DocumentationTestBase;
+import com.gomo.app.interest.common.util.InterestDataHelper;
+import com.gomo.app.interest.documentation.snippet.UpdateInterestLogoSnippet;
 
 @DisplayName("[Presentation documentation]: 관심사 로고 수정 테스트")
 public class UpdateInterestLogoDocumentationTest extends DocumentationTestBase {
@@ -63,12 +62,12 @@ public class UpdateInterestLogoDocumentationTest extends DocumentationTestBase {
 			.when()
 			.put("/interests/{id}/logos", UPDATED_INTEREST_ID)
 			.then()
-			.statusCode(IMAGE_TOO_LARGE.getHttpStatus())
+			.statusCode(HttpStatus.PAYLOAD_TOO_LARGE.value())
 			.body("timestamp", instanceOf(String.class))
-			.body("httpStatus", equalTo(IMAGE_TOO_LARGE.getHttpStatus()))
-			.body("code", equalTo(IMAGE_TOO_LARGE.name()))
-			.body("message", equalTo("Maximum upload size exceeded"))
-			.body("path", equalTo("/interests/" + UPDATED_INTEREST_ID + "/logos"));
+			.body("path", equalTo("/interests/" + UPDATED_INTEREST_ID + "/logos"))
+			.body("httpStatus", equalTo(HttpStatus.PAYLOAD_TOO_LARGE.value()))
+			.body("code", equalTo("IMA_ROO_001"))
+			.body("message", equalTo("Maximum upload size exceeded"));
 	}
 
 	private static File getImageFile(String imageName) throws IOException {

@@ -15,11 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.common.exception.DomainErrorCode;
 import com.gomo.app.quest.common.util.AssignQuestDataHelper;
 import com.gomo.app.quest.documentation.snippet.CreateAssignQuestSnippet;
 import com.gomo.app.quest.domain.model.QuestType;
-import com.gomo.app.quest.exception.AssignQuestErrorCode;
+import com.gomo.app.quest.exception.code.AssignQuestErrorCode;
+import com.gomo.app.quest.exception.code.QuestContentErrorCode;
 import com.gomo.app.quest.presentation.request.CreateAssignQuestRequest;
 
 @DisplayName("[Presentation documentation]: 할당 퀘스트 생성 테스트")
@@ -69,12 +69,12 @@ public class CreateAssignQuestDocumentationTest extends DocumentationTestBase {
 			.when()
 			.post("/quests/assigns")
 			.then()
-			.statusCode(UNPROCESSABLE_ENTITY.value())
+			.statusCode(QuestContentErrorCode.BLANK.getHttpStatus())
 			.body("timestamp", instanceOf(String.class))
-			.body("httpStatus", equalTo(DomainErrorCode.INVALID_PARAMETER.getHttpStatus()))
-			.body("code", equalTo(DomainErrorCode.INVALID_PARAMETER.name()))
-			.body("message", equalTo("Quest content cannot be blank"))
-			.body("path", equalTo("/quests/assigns"));
+			.body("path", equalTo("/quests/assigns"))
+			.body("httpStatus", equalTo(QuestContentErrorCode.BLANK.getHttpStatus()))
+			.body("code", equalTo(QuestContentErrorCode.BLANK.getErrorCode()))
+			.body("message", equalTo(QuestContentErrorCode.BLANK.getMessage()));
 	}
 
 	@DisplayName("사용자가 퀘스트 제한 개수를 초과하는 할당 퀘스트를 생성한다.")
@@ -92,11 +92,11 @@ public class CreateAssignQuestDocumentationTest extends DocumentationTestBase {
 			.when()
 			.post("/quests/assigns")
 			.then()
-			.statusCode(UNPROCESSABLE_ENTITY.value())
+			.statusCode(AssignQuestErrorCode.THRESHOLD_EXCEEDED.getHttpStatus())
 			.body("timestamp", instanceOf(String.class))
+			.body("path", equalTo("/quests/assigns"))
 			.body("httpStatus", equalTo(AssignQuestErrorCode.THRESHOLD_EXCEEDED.getHttpStatus()))
-			.body("code", equalTo(AssignQuestErrorCode.THRESHOLD_EXCEEDED.name()))
-			.body("message", equalTo("Assign quest threshold exceeded"))
-			.body("path", equalTo("/quests/assigns"));
+			.body("code", equalTo(AssignQuestErrorCode.THRESHOLD_EXCEEDED.getErrorCode()))
+			.body("message", equalTo(AssignQuestErrorCode.THRESHOLD_EXCEEDED.getMessage()));
 	}
 }

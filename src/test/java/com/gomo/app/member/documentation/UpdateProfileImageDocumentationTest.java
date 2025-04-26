@@ -1,6 +1,5 @@
 package com.gomo.app.member.documentation;
 
-import static com.gomo.app.common.exception.DomainErrorCode.IMAGE_TOO_LARGE;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.http.HttpHeaders.*;
@@ -20,13 +19,13 @@ import org.springframework.util.ResourceUtils;
 
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.util.LoginMemberHelper;
-import com.gomo.app.member.documentation.snippet.UpdateProfileImageSnippet;
 import com.gomo.app.member.common.util.MemberDBDataHelper;
+import com.gomo.app.member.documentation.snippet.UpdateProfileImageSnippet;
 
 @DisplayName("[Presentation documentation]: 프로필 이미지 변경 테스트")
 public class UpdateProfileImageDocumentationTest extends DocumentationTestBase {
 
-	private static final String PROFILE_IMAGE_URL = "/members/images/profiles";
+	private static final String URL = "/members/images/profiles";
 
 	private final RestDocumentationFilter filter = UpdateProfileImageSnippet.create();
 	private final RestDocumentationFilter errorFilter = UpdateProfileImageSnippet.createError();
@@ -60,7 +59,7 @@ public class UpdateProfileImageDocumentationTest extends DocumentationTestBase {
 			.header(AUTHORIZATION, "Bearer " + token)
 			.multiPart("profileImage", getImageFile("normal-image.png"))
 			.when()
-			.put(PROFILE_IMAGE_URL)
+			.put(URL)
 			.then()
 			.statusCode(NO_CONTENT.value());
 	}
@@ -73,14 +72,14 @@ public class UpdateProfileImageDocumentationTest extends DocumentationTestBase {
 			.header(AUTHORIZATION, "Bearer " + token)
 			.multiPart("profileImage", getImageFile("large-image.png"))
 			.when()
-			.put(PROFILE_IMAGE_URL)
+			.put(URL)
 			.then()
-			.statusCode(IMAGE_TOO_LARGE.getHttpStatus())
+			.statusCode(PAYLOAD_TOO_LARGE.value())
 			.body("timestamp", instanceOf(String.class))
-			.body("httpStatus", equalTo(IMAGE_TOO_LARGE.getHttpStatus()))
-			.body("code", equalTo(IMAGE_TOO_LARGE.name()))
-			.body("message", equalTo("Maximum upload size exceeded"))
-			.body("path", equalTo(PROFILE_IMAGE_URL));
+			.body("path", equalTo(URL))
+			.body("httpStatus", equalTo(PAYLOAD_TOO_LARGE.value()))
+			.body("code", equalTo("IMA_ROO_001"))
+			.body("message", equalTo("Maximum upload size exceeded"));
 	}
 
 	private static File getImageFile(String imageName) throws IOException {

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.gomo.app.interest.domain.model.InterestQuota;
-import com.gomo.app.interest.exception.InterestQuotaExceededException;
+import com.gomo.app.interest.exception.InterestConstraintViolationException;
 
 @DisplayName("[Domain unit]: 관심사 할당량 검증 기능 테스트")
 public class InterestQuotaTest {
@@ -26,7 +26,7 @@ public class InterestQuotaTest {
 		InterestQuota quota = InterestQuota.FREE;
 
 		assertThatThrownBy(() -> quota.validateCount(InterestQuota.FREE.getMaxCount()))
-			.isInstanceOf(InterestQuotaExceededException.class);
+			.isInstanceOf(InterestConstraintViolationException.class);
 	}
 
 	@DisplayName("BASIC 플랜 할당량을 초과하지 않는다.")
@@ -44,7 +44,7 @@ public class InterestQuotaTest {
 		InterestQuota quota = InterestQuota.BASIC;
 
 		assertThatThrownBy(() -> quota.validateCount(InterestQuota.BASIC.getMaxCount()))
-			.isInstanceOf(InterestQuotaExceededException.class);
+			.isInstanceOf(InterestConstraintViolationException.class);
 	}
 
 	@DisplayName("PREMIUM 플랜 할당량을 초과하지 않는다.")
@@ -62,6 +62,6 @@ public class InterestQuotaTest {
 		InterestQuota quota = InterestQuota.PREMIUM;
 
 		assertThatThrownBy(() -> quota.validateCount(InterestQuota.PREMIUM.getMaxCount()))
-			.isInstanceOf(InterestQuotaExceededException.class);
+			.isInstanceOf(InterestConstraintViolationException.class);
 	}
 }

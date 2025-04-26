@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import com.gomo.app.point.domain.model.Point;
 import com.gomo.app.point.domain.model.PointId;
 import com.gomo.app.point.domain.model.TransactorId;
-import com.gomo.app.point.exception.InvalidPointAmountException;
+import com.gomo.app.point.exception.PointConstraintViolationException;
 
 @DisplayName("[Domain unit]: 포인트 생성 테스트")
 public class PointTest {
@@ -36,7 +36,7 @@ public class PointTest {
 	@Test
 	void create_negative_point() {
 		assertThatThrownBy(() -> Point.of(POINT_ID, TRANSACTOR_ID, QUEST, GAIN, -10, QUEST.getDescription() + GAIN.getDescription(), LocalDateTime.now()))
-			.isInstanceOf(InvalidPointAmountException.class)
+			.isInstanceOf(PointConstraintViolationException.class)
 			.hasMessageContaining("Point amount not allowed negative value");
 	}
 }
