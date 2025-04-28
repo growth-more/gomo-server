@@ -1,12 +1,14 @@
 package com.gomo.app.member.domain.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.gomo.app.common.DomainService;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
-@DomainService
+// TODO <jhl221123> to <nurdy>: 해당 클래스 테스트를 작성해야합니다.
 @RequiredArgsConstructor
+@DomainService
 public class PasswordService {
 
     private final PasswordEncoder passwordEncoder;

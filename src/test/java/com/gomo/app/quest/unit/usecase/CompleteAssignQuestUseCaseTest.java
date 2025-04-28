@@ -3,7 +3,6 @@ package com.gomo.app.quest.unit.usecase;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +21,7 @@ import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.model.PointReward;
 import com.gomo.app.quest.domain.model.QuestReward;
 import com.gomo.app.quest.domain.model.ScoreReward;
-import com.gomo.app.quest.domain.repository.AssignQuestRepository;
+import com.gomo.app.quest.domain.service.AssignQuestService;
 import com.gomo.app.quest.domain.service.QuestRewardService;
 import com.gomo.app.quest.exception.AssignQuestAccessDeniedException;
 import com.gomo.app.quest.presentation.request.CompleteAssignQuestRequest;
@@ -35,10 +34,10 @@ public class CompleteAssignQuestUseCaseTest {
 	private CompleteAssignQuestUseCase sut;
 
 	@Mock
-	private QuestRewardService questRewardService;
+	private AssignQuestService assignQuestService;
 
 	@Mock
-	private AssignQuestRepository assignQuestRepository;
+	private QuestRewardService questRewardService;
 
 	@Mock
 	private EventEntryRepository eventEntryRepository;
@@ -47,7 +46,7 @@ public class CompleteAssignQuestUseCaseTest {
 	@Test
 	void complete_assign_quest() {
 		AssignQuest assignQuest = AssignQuestFixture.assignQuest(true);
-		doReturn(Optional.of(assignQuest)).when(assignQuestRepository).findById(any());
+		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 		doReturn(QuestReward.of(assignQuest.getId(), ScoreReward.of(2), PointReward.of(10))).when(questRewardService).create(any(), any());
 
 		sut.complete(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID()), createRequest());
@@ -60,7 +59,7 @@ public class CompleteAssignQuestUseCaseTest {
 	@Test
 	void complete_assign_quest_with_not_participant() {
 		AssignQuest assignQuest = AssignQuestFixture.assignQuest(true);
-		doReturn(Optional.of(assignQuest)).when(assignQuestRepository).findById(any());
+		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 
 		assertThatThrownBy(
 			() -> sut.complete(UUID.randomUUID(), AssignQuestId.of(UUID.randomUUID()), createRequest()))
@@ -72,7 +71,7 @@ public class CompleteAssignQuestUseCaseTest {
 	@Test
 	void complete_assign_quest_with_event() {
 		AssignQuest assignQuest = AssignQuestFixture.assignQuest(true);
-		doReturn(Optional.of(assignQuest)).when(assignQuestRepository).findById(any());
+		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 		doReturn(QuestReward.of(assignQuest.getId(), ScoreReward.of(2), PointReward.of(10))).when(questRewardService).create(any(), any());
 
 		sut.complete(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID()), createRequest());

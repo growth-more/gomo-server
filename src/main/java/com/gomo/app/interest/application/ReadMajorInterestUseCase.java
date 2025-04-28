@@ -34,6 +34,7 @@ public class ReadMajorInterestUseCase {
 		List<ReadMajorInterestResponse> readResponses = interests.stream()
 			.map(interest -> ReadMajorInterestResponse.of(majorInterestMap.get(interest.getId()), interest))
 			.toList();
+
 		return ListMajorInterestResponse.of(readResponses);
 	}
 }

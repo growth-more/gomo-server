@@ -3,8 +3,6 @@ package com.gomo.app.member.common.fixture;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import org.mockito.Mockito;
-
 import com.gomo.app.member.domain.model.ActivateStatus;
 import com.gomo.app.member.domain.model.DailyThreshold;
 import com.gomo.app.member.domain.model.Email;
@@ -22,15 +20,14 @@ import com.gomo.app.member.domain.model.QuestProperty;
 import com.gomo.app.member.domain.model.RoleType;
 import com.gomo.app.member.domain.model.SubscriptionPlan;
 import com.gomo.app.member.domain.model.WeeklyThreshold;
-import com.gomo.app.member.domain.service.PasswordService;
 
 public class MemberFixture {
 
-	public static Member member(PasswordService passwordService) {
+	public static Member member() {
 		return Member.of(
 			MemberId.of(UUID.randomUUID()),
 			Email.of("test@naver.com"),
-			Password.of("Test123!", passwordService),
+			new Password("Test123!"),
 			Handle.of("@gomo"),
 			MemberName.of("testname"),
 			Motto.of("test motto"),
@@ -50,11 +47,11 @@ public class MemberFixture {
 		);
 	}
 
-	public static Member member(int dailyQuestThreshold, PasswordService passwordService) {
+	public static Member member(int dailyQuestThreshold) {
 		return new Member(
 			MemberId.of(UUID.randomUUID()),
 			Email.of("test@naver.com"),
-			Password.of("Test123!", passwordService),
+			new Password("Test123!"),
 			Handle.of("@gomo"),
 			MemberName.of("testname"),
 			Motto.of("test motto"),
@@ -74,7 +71,7 @@ public class MemberFixture {
 		return new Member(
 			MemberId.of(UUID.randomUUID()),
 			Email.of("test@naver.com"),
-			Password.of("Test123!", Mockito.mock(PasswordService.class)),
+			new Password("Test123!"),
 			Handle.of("@gomo"),
 			MemberName.of("testname"),
 			Motto.of("test motto"),
@@ -90,11 +87,11 @@ public class MemberFixture {
 		);
 	}
 
-	public static Member member(ActivateStatus status, PasswordService passwordService) {
+	public static Member member(ActivateStatus status) {
 		return new Member(
 			MemberId.of(UUID.randomUUID()),
 			Email.of("test@naver.com"),
-			Password.of("Test123!", passwordService),
+			new Password("Test123!"),
 			Handle.of("@gomo"),
 			MemberName.of("testname"),
 			Motto.of("test motto"),

@@ -7,9 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gomo.app.common.ApplicationService;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.AssignQuestId;
-import com.gomo.app.quest.domain.repository.AssignQuestRepository;
-import com.gomo.app.quest.exception.AssignQuestNotFoundException;
-import com.gomo.app.quest.exception.code.AssignQuestErrorCode;
+import com.gomo.app.quest.domain.service.AssignQuestService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,11 +16,10 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class ConfirmAssignQuestUseCase {
 
-	private final AssignQuestRepository assignQuestRepository;
+	private final AssignQuestService assignQuestService;
 
-	public void confirm(UUID accessorId, AssignQuestId assignQuestId) {
-		AssignQuest assignQuest = assignQuestRepository.findById(assignQuestId)
-			.orElseThrow(() -> new AssignQuestNotFoundException(AssignQuestErrorCode.NOT_FOUND));
+	public void confirm(UUID accessorId, UUID assignQuestId) {
+		AssignQuest assignQuest = assignQuestService.find(AssignQuestId.of(assignQuestId));
 		assignQuest.validateAuthority(accessorId);
 
 		assignQuest.confirm();

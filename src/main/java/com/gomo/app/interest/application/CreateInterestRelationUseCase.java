@@ -1,5 +1,7 @@
 package com.gomo.app.interest.application;
 
+import java.util.UUID;
+
 import com.gomo.app.common.ApplicationService;
 import com.gomo.app.interest.domain.model.ChildInterestId;
 import com.gomo.app.interest.domain.model.InterestId;
@@ -18,9 +20,9 @@ public class CreateInterestRelationUseCase {
 
 	private final InterestRelationService interestRelationService;
 
-	public CreateInterestRelationResponse create(RegistrantId registrantId, CreateInterestRelationRequest request) {
+	public CreateInterestRelationResponse create(UUID registrantId, CreateInterestRelationRequest request) {
 		InterestRelation interestRelation = interestRelationService.create(
-			registrantId,
+			RegistrantId.of(registrantId),
 			ParentInterestId.of(InterestId.of(request.getParentInterestId())),
 			ChildInterestId.of(InterestId.of(request.getChildInterestId()))
 		);

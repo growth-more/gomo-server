@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.gomo.app.common.IntegrationTestBase;
 import com.gomo.app.member.domain.model.ActivateStatus;
 import com.gomo.app.member.domain.model.Email;
-import com.gomo.app.member.domain.model.Handle;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.repository.MemberRepository;
 
@@ -37,20 +36,6 @@ public class MemberRepositoryTest extends IntegrationTestBase {
 		assertThat(members.size()).isEqualTo(2);
 	}
 
-	@DisplayName("이메일이 존재하는지 확인한다.")
-	@Test
-	void check_exist_email(){
-		boolean actual = sut.existsByEmail(Email.of(EMAIL));
-		assertThat(actual).isTrue();
-	}
-
-	@DisplayName("핸들이 이미 사용중인지 확인한다.")
-	@Test
-	void check_exist_handle(){
-		boolean actual = sut.existsByHandle(Handle.of(HANDLE));
-		assertThat(actual).isTrue();
-	}
-
 	@DisplayName("이메일을 이용하여 유저의 정보를 확인한다.")
 	@Test
 	void check_member_info_using_email(){
@@ -64,5 +49,4 @@ public class MemberRepositoryTest extends IntegrationTestBase {
 		List<String> actual = sut.findAllByProfileImageUrl();
 		assertThat(actual).isNotNull();
 	}
-
 }

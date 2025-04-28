@@ -3,7 +3,6 @@ package com.gomo.app.interest.unit.usecase;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +18,7 @@ import com.gomo.app.interest.common.fixture.MajorInterestFixture;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.MajorInterest;
-import com.gomo.app.interest.domain.repository.InterestRepository;
+import com.gomo.app.interest.domain.service.InterestService;
 import com.gomo.app.interest.domain.service.MajorInterestService;
 import com.gomo.app.interest.exception.InterestAccessDeniedException;
 import com.gomo.app.interest.presentation.response.CreateMajorInterestResponse;
@@ -32,7 +31,7 @@ public class CreateMajorInterestUseCaseTest {
 	private CreateMajorInterestUseCase sut;
 
 	@Mock
-	private InterestRepository interestRepository;
+	private InterestService interestService;
 
 	@Mock
 	private MajorInterestService majorInterestService;
@@ -40,12 +39,12 @@ public class CreateMajorInterestUseCaseTest {
 	@DisplayName("주요 관심사를 등록한다.")
 	@Test
 	void create_major_interest() {
-		MajorInterest expected = MajorInterestFixture.majorInterest();
-		CreateMajorInterestResponse response = CreateMajorInterestResponse.of(expected.getId());
-		doReturn(Optional.of(InterestFixture.interest(expected.getRegistrantId()))).when(interestRepository).findById(any(InterestId.class));
-		doReturn(expected).when(majorInterestService).create(any(Interest.class));
+		MajorInterest majorInterest = MajorInterestFixture.majorInterest();
+		CreateMajorInterestResponse response = CreateMajorInterestResponse.of(majorInterest.uuid());
+		doReturn(InterestFixture.interest(majorInterest.getRegistrantId())).when(interestService).find(any(InterestId.class));
+		doReturn(majorInterest).when(majorInterestService).create(any(Interest.class));
 
-		CreateMajorInterestResponse actual = sut.create(expected.getRegistrantId().getId(), expected.getInterestId());
+		CreateMajorInterestResponse actual = sut.create(majorInterest.registrantUuid(), majorInterest.interestUuid());
 
 		assertThat(actual).usingRecursiveComparison().isEqualTo(response);
 	}
@@ -54,10 +53,10 @@ public class CreateMajorInterestUseCaseTest {
 	@Test
 	void create_major_interest_by_unauthorized_accessor() {
 		Interest interest = mock(Interest.class);
-		doReturn(Optional.of(interest)).when(interestRepository).findById(any(InterestId.class));
+		doReturn(interest).when(interestService).find(any(InterestId.class));
 		doThrow(InterestAccessDeniedException.class).when(interest).validateAuthority(any(UUID.class));
 
-		assertThatThrownBy(() -> sut.create(UUID.randomUUID(), InterestId.of(UUID.randomUUID())))
+		assertThatThrownBy(() -> sut.create(UUID.randomUUID(), UUID.randomUUID()))
 			.isInstanceOf(InterestAccessDeniedException.class);
 	}
 }

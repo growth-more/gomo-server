@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import com.gomo.app.common.ApplicationService;
 import com.gomo.app.common.util.JwtUtil;
-import com.gomo.app.member.domain.model.MemberId;
 import com.gomo.app.member.exception.MemberAuthenticationFailedException;
 import com.gomo.app.member.exception.code.MemberErrorCode;
 import com.gomo.app.member.infrastructure.JwtSessionRedisService;
@@ -24,7 +23,7 @@ public class RefreshAccessTokenUseCase {
             throw new MemberAuthenticationFailedException(MemberErrorCode.AUTHENTICATION_FAILED);
         }
 
-        MemberId memberId = MemberId.of(UUID.fromString(jwtUtil.extractMemberId(refreshToken)));
+        UUID memberId = UUID.fromString(jwtUtil.extractMemberId(refreshToken));
 
         String storedRefreshToken = jwtSessionRedisService.getRefreshToken(memberId);
 

@@ -1,12 +1,16 @@
 package com.gomo.app.common.util;
 
-import com.gomo.app.member.domain.model.MemberId;
-import io.jsonwebtoken.*;
+import java.util.Date;
+import java.util.UUID;
+
+import javax.crypto.SecretKey;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.SecretKey;
-import java.util.Date;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
 
 @Component
 public class JwtUtil {
@@ -21,11 +25,11 @@ public class JwtUtil {
     }
 
 
-    public String generateAccessToken(MemberId memberId){
+    public String generateAccessToken(UUID memberId){
         return generateToken(memberId, accessExpirationTime);
     }
 
-    public String generateRefreshToken(MemberId memberId){
+    public String generateRefreshToken(UUID memberId){
         return generateToken(memberId, refreshExpirationTime);
     }
 
@@ -48,7 +52,7 @@ public class JwtUtil {
         return expiration.getTime() / 1000;
     }
 
-    private String generateToken(MemberId memberId, long expirationTime){
+    private String generateToken(UUID memberId, long expirationTime){
         Date exp = new Date(System.currentTimeMillis() + expirationTime);
 
         return Jwts.builder()

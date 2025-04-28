@@ -1,9 +1,7 @@
 package com.gomo.app.interest.unit.usecase;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.DisplayName;
@@ -11,14 +9,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.interest.application.UpdateInterestUseCase;
 import com.gomo.app.interest.common.fixture.InterestFixture;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestId;
-import com.gomo.app.interest.domain.repository.InterestRepository;
-import com.gomo.app.interest.exception.InterestAccessDeniedException;
+import com.gomo.app.interest.domain.service.InterestService;
 import com.gomo.app.interest.presentation.request.UpdateInterestRequest;
 
 @DisplayName("[Application unit]: 관심사 수정 테스트")
@@ -29,27 +27,27 @@ public class UpdateInterestUseCaseTest {
 	private UpdateInterestUseCase sut;
 
 	@Mock
-	private InterestRepository interestRepository;
+	private InterestService interestService;
 
 	@DisplayName("관심사를 수정한다.")
 	@Test
 	void update_interest() {
-		Interest expected = InterestFixture.interest();
-		doReturn(Optional.of(expected)).when(interestRepository).findById(any(InterestId.class));
+		Interest interest = InterestFixture.interest();
+		doReturn(interest).when(interestService).find(any(InterestId.class));
 
-		sut.update(expected.getRegistrantId().getId(), expected.getId(), UpdateInterestRequest.of("name", "#FF0000"));
+		sut.update(interest.getRegistrantId().getId(), interest.uuid(), UpdateInterestRequest.of("name", "#FF0000"));
 
-		verify(interestRepository, times(1)).findById(any(InterestId.class));
+		verify(interestService, times(1)).find(any(InterestId.class));
 	}
 
-	@DisplayName("권한 없는 접근자는 관심사를 수정할 수 없다.")
+	@DisplayName("관심사를 수정하기 전, 권한 검사를 한다.")
 	@Test
 	void update_interest_by_unauthorized_accessor() {
-		Interest interest = mock(Interest.class);
-		doThrow(InterestAccessDeniedException.class).when(interest).validateAuthority(any(UUID.class));
-		doReturn(Optional.of(interest)).when(interestRepository).findById(any(InterestId.class));
+		Interest interest = Mockito.mock(Interest.class);
+		doReturn(interest).when(interestService).find(any(InterestId.class));
 
-		assertThatThrownBy(() -> sut.update(UUID.randomUUID(), InterestId.of(UUID.randomUUID()), UpdateInterestRequest.of("name", "#FF0000")))
-			.isInstanceOf(InterestAccessDeniedException.class);
+		sut.update(UUID.randomUUID(), UUID.randomUUID(), UpdateInterestRequest.of("name", "#FF0000"));
+
+		verify(interest, times(1)).validateAuthority(any(UUID.class));
 	}
 }

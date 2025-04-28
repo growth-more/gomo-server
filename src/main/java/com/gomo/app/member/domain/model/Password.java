@@ -27,10 +27,11 @@ public class Password {
     protected Password() {
     }
 
-    private Password(String password) {
+    public Password(String password) {
         this.password = password;
     }
 
+    // TODO <jhl221123>: encode 하는 부분을 분리하는 것도 좋을 것 같습니다.
     public static Password of(String rawPassword, PasswordService passwordService) {
         ensureNotBlank(rawPassword);
         ensureValidLength(rawPassword);

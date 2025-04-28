@@ -2,11 +2,6 @@ package com.gomo.app.member.presentation.response;
 
 import java.util.UUID;
 
-import com.gomo.app.member.domain.model.Email;
-import com.gomo.app.member.domain.model.Handle;
-import com.gomo.app.member.domain.model.MemberId;
-import com.gomo.app.member.domain.model.MemberName;
-
 import lombok.Getter;
 
 @Getter
@@ -24,7 +19,7 @@ public class LoginMemberResponse {
 		this.expiresIn = expiresIn;
 	}
 
-	public static LoginMemberResponse of(MemberId memberId, String  accessToken, String refreshToken, long expiresIn) {
-		return new LoginMemberResponse(memberId.getId(), accessToken, refreshToken, expiresIn);
+	public static LoginMemberResponse of(UUID memberId, String  accessToken, String refreshToken, long expiresIn) {
+		return new LoginMemberResponse(memberId, accessToken, refreshToken, expiresIn);
 	}
 }

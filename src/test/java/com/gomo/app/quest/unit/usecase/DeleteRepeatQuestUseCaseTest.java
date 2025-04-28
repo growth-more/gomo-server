@@ -3,7 +3,6 @@ package com.gomo.app.quest.unit.usecase;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.DisplayName;
@@ -18,7 +17,9 @@ import com.gomo.app.quest.common.fixture.RepeatQuestFixture;
 import com.gomo.app.quest.domain.model.RepeatQuest;
 import com.gomo.app.quest.domain.model.RepeatQuestId;
 import com.gomo.app.quest.domain.repository.RepeatQuestRepository;
+import com.gomo.app.quest.domain.service.RepeatQuestService;
 import com.gomo.app.quest.exception.RepeatQuestAccessDeniedException;
+import com.gomo.app.quest.exception.code.RepeatQuestErrorCode;
 
 @DisplayName("[Application unit]: 반복 퀘스트 삭제 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -28,13 +29,16 @@ public class DeleteRepeatQuestUseCaseTest {
 	private DeleteRepeatQuestUseCase sut;
 
 	@Mock
+	private RepeatQuestService repeatQuestService;
+
+	@Mock
 	private RepeatQuestRepository repeatQuestRepository;
 
 	@DisplayName("반복 퀘스트를 삭제한다.")
 	@Test
 	void delete_repeat_quest() {
 		RepeatQuest repeatQuest = RepeatQuestFixture.repeatQuest();
-		doReturn(Optional.of(repeatQuest)).when(repeatQuestRepository).findById(any());
+		doReturn(repeatQuest).when(repeatQuestService).find(any(RepeatQuestId.class));
 
 		sut.delete(repeatQuest.getQuest().getParticipantId().getId(), RepeatQuestId.of(UUID.randomUUID()));
 
@@ -45,11 +49,11 @@ public class DeleteRepeatQuestUseCaseTest {
 	@Test
 	void delete_repeat_quest_by_not_participant() {
 		RepeatQuest repeatQuest = RepeatQuestFixture.repeatQuest();
-		doReturn(Optional.of(repeatQuest)).when(repeatQuestRepository).findById(any());
+		doReturn(repeatQuest).when(repeatQuestService).find(any(RepeatQuestId.class));
 
 		assertThatThrownBy(
 			() -> sut.delete(UUID.randomUUID(), RepeatQuestId.of(UUID.randomUUID())))
 			.isInstanceOf(RepeatQuestAccessDeniedException.class)
-			.hasMessageContaining("Access denied for the repeat quest");
+			.hasMessageContaining(RepeatQuestErrorCode.ACCESS_DENIED.getMessage());
 	}
 }

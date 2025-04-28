@@ -3,7 +3,6 @@ package com.gomo.app.quest.unit.usecase;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.DisplayName;
@@ -18,8 +17,9 @@ import com.gomo.app.quest.common.fixture.AssignQuestFixture;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.model.QuestType;
-import com.gomo.app.quest.domain.repository.AssignQuestRepository;
+import com.gomo.app.quest.domain.service.AssignQuestService;
 import com.gomo.app.quest.exception.AssignQuestAccessDeniedException;
+import com.gomo.app.quest.exception.code.AssignQuestErrorCode;
 
 @DisplayName("[Application unit]: 할당 퀘스트 확정 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -29,15 +29,15 @@ public class ConfirmAssignQuestUseCaseTest {
 	private ConfirmAssignQuestUseCase sut;
 
 	@Mock
-	private AssignQuestRepository assignQuestRepository;
+	private AssignQuestService assignQuestService;
 
 	@DisplayName("할당 퀘스트를 확정한다.")
 	@Test
 	void confirm_assign_quest() {
 		AssignQuest assignQuest = AssignQuestFixture.assignQuest(QuestType.DAILY);
-		doReturn(Optional.of(assignQuest)).when(assignQuestRepository).findById(any(AssignQuestId.class));
+		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 
-		sut.confirm(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID()));
+		sut.confirm(assignQuest.getQuest().getParticipantId().getId(), UUID.randomUUID());
 
 		assertThat(assignQuest.isConfirmed()).isTrue();
 	}
@@ -46,11 +46,11 @@ public class ConfirmAssignQuestUseCaseTest {
 	@Test
 	void confirm_assign_quest_with_not_participant() {
 		AssignQuest assignQuest = AssignQuestFixture.assignQuest(QuestType.DAILY);
-		doReturn(Optional.of(assignQuest)).when(assignQuestRepository).findById(any(AssignQuestId.class));
+		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 
 		assertThatThrownBy(
-			() -> sut.confirm(UUID.randomUUID(), AssignQuestId.of(UUID.randomUUID())))
+			() -> sut.confirm(UUID.randomUUID(), UUID.randomUUID()))
 			.isInstanceOf(AssignQuestAccessDeniedException.class)
-			.hasMessageContaining("Access denied for the assign quest");
+			.hasMessageContaining(AssignQuestErrorCode.ACCESS_DENIED.getMessage());
 	}
 }

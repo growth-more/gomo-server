@@ -22,6 +22,7 @@ import com.gomo.app.interest.domain.service.InterestRelationService;
 import com.gomo.app.interest.exception.InterestRelationCycleException;
 import com.gomo.app.interest.exception.InterestRelationDuplicatedException;
 
+// TODO <jhl221123>: 사이클 검증 및 숙련도 향상 로직을 분리한 후, Mockito 단위 테스트로 전환합니다. 전환 후 조회 테스트를 마저 작성해야 합니다.
 @DisplayName("[Domain integration]: 관심사 관계선 생성 테스트")
 public class InterestRelationServiceTest extends IntegrationTestBase {
 
@@ -99,13 +100,31 @@ public class InterestRelationServiceTest extends IntegrationTestBase {
 			.hasMessageContaining("Cycle detected in the interest network by adding this relation, which is not allowed");
 	}
 
+	@DisplayName("관심사 관계선을 조회한다.")
+	@Test
+	void find_relation() {
+
+	}
+
+	@DisplayName("존재하지 않는 관심사 관계선을 조회한다.")
+	@Test
+	void find_nonexistent_relation() {
+
+	}
+
+	@DisplayName("관심사 관계선 목록을 조회한다.")
+	@Test
+	void find_all_relation_by_interest() {
+
+	}
+
 	@DisplayName("관심사 관계선을 삭제하면 상위 관심사의 총 점수가 하위 관심사의 총 점수 만큼 감소한다.")
 	@Test
 	void delete_relation() {
 		int totalScore = backend.getProficiency().getTotalScore();
 		int decrement = java.getProficiency().getTotalScore();
 
-		interestRelationService.delete(backend.getRegistrantId().getId(), backendToJava.getId());
+		interestRelationService.delete(backendToJava);
 
 		Interest updatedInterest = interestRepository.findById(backend.getId()).get();
 		assertThat(updatedInterest.getProficiency().getTotalScore()).isEqualTo(totalScore - decrement);

@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.assertj.core.groups.Tuple;
 import org.jetbrains.annotations.NotNull;
@@ -22,6 +21,7 @@ import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.RegistrantId;
 import com.gomo.app.interest.domain.repository.InterestRepository;
 import com.gomo.app.interest.domain.repository.MajorInterestRepository;
+import com.gomo.app.interest.domain.service.InterestService;
 import com.gomo.app.interest.presentation.response.ListInterestResponse;
 import com.gomo.app.interest.presentation.response.ReadInterestResponse;
 
@@ -33,16 +33,19 @@ public class ReadInterestUseCaseTest {
 	private ReadInterestUseCase sut;
 
 	@Mock
+	private InterestService interestService;
+
+	@Mock
 	private InterestRepository interestRepository;
 
 	@Mock
 	private MajorInterestRepository majorInterestRepository;
 
-	@DisplayName("관심사를 하나 조회한다.")
+	@DisplayName("관심사를 단건 조회한다.")
 	@Test
 	void find_interest() {
 		Interest expected = InterestFixture.interest();
-		doReturn(Optional.of(expected)).when(interestRepository).findById(any(InterestId.class));
+		doReturn(expected).when(interestService).find(any(InterestId.class));
 		doReturn(false).when(majorInterestRepository).existsMajorInterestByInterestId(any(InterestId.class));
 
 		ReadInterestResponse actual = sut.find(expected.getId());

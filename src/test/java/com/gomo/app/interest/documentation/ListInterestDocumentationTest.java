@@ -47,9 +47,9 @@ public class ListInterestDocumentationTest extends DocumentationTestBase {
 			.statusCode(OK.value())
 			.body("interests", hasSize(3))
 			.body("interests.id", hasItems(
-				backend.getId().toString(),
-				spring.getId().toString(),
-				java.getId().toString()
+				backend.uuid().toString(),
+				spring.uuid().toString(),
+				java.uuid().toString()
 			))
 			.body("interests.registrantId", everyItem(equalTo(backend.getRegistrantId().toString())))
 			.body("interests.name", hasItems(

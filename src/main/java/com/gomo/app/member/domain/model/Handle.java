@@ -1,5 +1,6 @@
 package com.gomo.app.member.domain.model;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import com.gomo.app.common.ValueObject;
@@ -61,6 +62,23 @@ public class Handle {
         if(!HANDLE_PATTERN.matcher(handle).matches()){
             throw new HandleConstraintViolationException(HandleErrorCode.FORBIDDEN);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Handle handle = (Handle)o;
+        return Objects.equals(this.handle, handle.handle);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(handle);
     }
 
     @Override

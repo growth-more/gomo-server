@@ -53,6 +53,25 @@ public class Level {
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		Level level = (Level)o;
+		return this.level == level.level && scoreThreshold == level.scoreThreshold;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = level;
+		result = 31 * result + scoreThreshold;
+		return result;
+	}
+
+	@Override
 	public String toString() {
 		return String.valueOf(this.level);
 	}

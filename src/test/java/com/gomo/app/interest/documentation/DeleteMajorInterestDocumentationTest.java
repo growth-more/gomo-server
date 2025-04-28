@@ -47,7 +47,7 @@ public class DeleteMajorInterestDocumentationTest extends DocumentationTestBase 
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.when()
-			.delete("/interests/majors/{id}", java.getId().toString())
+			.delete("/interests/majors/{id}", java.uuid())
 			.then()
 			.statusCode(NO_CONTENT.value());
 	}

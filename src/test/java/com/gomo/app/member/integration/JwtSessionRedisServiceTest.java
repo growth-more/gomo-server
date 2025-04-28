@@ -1,16 +1,16 @@
 package com.gomo.app.member.integration;
 
-import com.gomo.app.common.IntegrationTestBase;
-import com.gomo.app.member.domain.model.*;
-import com.gomo.app.member.infrastructure.JwtSessionRedisService;
+import static org.assertj.core.api.Assertions.*;
+
+import java.util.UUID;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.UUID;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import com.gomo.app.common.IntegrationTestBase;
+import com.gomo.app.member.infrastructure.JwtSessionRedisService;
 
 @DisplayName("[Domain integration]: 세션관리 Redis DB 테스트")
 public class JwtSessionRedisServiceTest extends IntegrationTestBase {
@@ -19,7 +19,7 @@ public class JwtSessionRedisServiceTest extends IntegrationTestBase {
 	JwtSessionRedisService sut;
 
 	private static final String REFRESH_TOKEN = "refreshToken";
-	private static final MemberId MEMBER_ID = MemberId.of(UUID.randomUUID());
+	private static final UUID MEMBER_ID = UUID.randomUUID();
 
 	@BeforeEach
 	void setup(){

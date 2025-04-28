@@ -58,7 +58,7 @@ public class InterestNetworkDocumentationTest extends DocumentationTestBase {
 				spring.getId().toString(),
 				java.getId().toString()
 			))
-			.body("interests.registrantId", everyItem(equalTo(backend.getRegistrantId().toString())))
+			.body("interests.registrantId", everyItem(equalTo(backend.registrantUuid().toString())))
 			.body("interests.name", hasItems(
 				backend.getName().toString(),
 				spring.getName().toString(),
@@ -86,7 +86,7 @@ public class InterestNetworkDocumentationTest extends DocumentationTestBase {
 			))
 			.body("relations", hasSize(1))
 			.body("relations.id", hasItems(toJava.getId().toString()))
-			.body("relations.registrantId", everyItem(equalTo(backend.getRegistrantId().toString())))
+			.body("relations.registrantId", everyItem(equalTo(backend.registrantUuid().toString())))
 			.body("relations.parentInterestId", hasItems(toJava.getParentInterestId().toString()))
 			.body("relations.childInterestId", hasItems(toJava.getChildInterestId().toString()));
 	}

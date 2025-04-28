@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.gomo.app.common.Presentation;
 import com.gomo.app.common.authentication.Auth;
 import com.gomo.app.common.authentication.AuthInfo;
-import com.gomo.app.common.Presentation;
 import com.gomo.app.interest.application.CreateInterestUseCase;
 import com.gomo.app.interest.application.DeleteInterestUseCase;
 import com.gomo.app.interest.application.ReadInterestUseCase;
@@ -44,7 +44,7 @@ public class InterestApi {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<CreateInterestResponse> create(@Auth AuthInfo authInfo, @ModelAttribute CreateInterestRequest request) {
-        CreateInterestResponse response = createInterestUseCase.create(RegistrantId.of(authInfo.getMemberId()), request);
+        CreateInterestResponse response = createInterestUseCase.create(authInfo.getMemberId(), request);
         return ResponseEntity.status(CREATED).body(response);
     }
 
@@ -62,13 +62,13 @@ public class InterestApi {
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @PathVariable("id") UUID interestId, @RequestBody UpdateInterestRequest request) {
-        updateInterestUseCase.update(authInfo.getMemberId(), InterestId.of(interestId), request);
+        updateInterestUseCase.update(authInfo.getMemberId(), interestId, request);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@Auth AuthInfo authInfo, @PathVariable("id") UUID interestId) {
-        deleteInterestUseCase.delete(authInfo.getMemberId(), InterestId.of(interestId));
+        deleteInterestUseCase.delete(authInfo.getMemberId(), interestId);
         return ResponseEntity.noContent().build();
     }
 }

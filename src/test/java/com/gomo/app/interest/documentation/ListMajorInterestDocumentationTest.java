@@ -1,22 +1,21 @@
 package com.gomo.app.interest.documentation;
 
-import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.interest.common.dataprovider.MajorInterestDataProvider;
-import com.gomo.app.interest.documentation.snippet.ListMajorInterestSnippet;
-import com.gomo.app.interest.domain.model.MajorInterest;
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
+import static org.springframework.http.HttpHeaders.*;
+import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.MediaType.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
-import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import com.gomo.app.common.DocumentationTestBase;
+import com.gomo.app.interest.common.dataprovider.MajorInterestDataProvider;
+import com.gomo.app.interest.documentation.snippet.ListMajorInterestSnippet;
+import com.gomo.app.interest.domain.model.MajorInterest;
 
 @DisplayName("[Presentation documentation]: 주요 관심사 목록 조회 테스트")
 public class ListMajorInterestDocumentationTest extends DocumentationTestBase {
@@ -45,6 +44,6 @@ public class ListMajorInterestDocumentationTest extends DocumentationTestBase {
 			.then()
 			.statusCode(OK.value())
 			.body("majorInterests", hasSize(2))
-			.body("majorInterests.id", hasItems(java.getId().toString(), spring.getId().toString()));
+			.body("majorInterests.id", hasItems(java.uuid().toString(), spring.uuid().toString()));
 	}
 }

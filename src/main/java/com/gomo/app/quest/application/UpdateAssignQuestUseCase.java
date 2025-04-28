@@ -11,9 +11,7 @@ import com.gomo.app.quest.domain.model.QuestContent;
 import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.domain.model.SubjectId;
 import com.gomo.app.quest.domain.model.SubjectName;
-import com.gomo.app.quest.domain.repository.AssignQuestRepository;
-import com.gomo.app.quest.exception.AssignQuestNotFoundException;
-import com.gomo.app.quest.exception.code.AssignQuestErrorCode;
+import com.gomo.app.quest.domain.service.AssignQuestService;
 import com.gomo.app.quest.presentation.request.UpdateAssignQuestRequest;
 
 import lombok.RequiredArgsConstructor;
@@ -23,11 +21,10 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class UpdateAssignQuestUseCase {
 
-	private final AssignQuestRepository assignQuestRepository;
+	private final AssignQuestService assignQuestService;
 
 	public void update(UUID accessorId, AssignQuestId assignQuestId, UpdateAssignQuestRequest request) {
-		AssignQuest assignQuest = assignQuestRepository.findById(assignQuestId)
-			.orElseThrow(() -> new AssignQuestNotFoundException(AssignQuestErrorCode.NOT_FOUND));
+		AssignQuest assignQuest = assignQuestService.find(assignQuestId);
 		assignQuest.validateAuthority(accessorId);
 
 		QuestType requestedQuestType = request.getQuestType();

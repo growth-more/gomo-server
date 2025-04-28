@@ -1,22 +1,27 @@
 package com.gomo.app.member.presentation;
 
-import com.gomo.app.common.authentication.Auth;
-import com.gomo.app.common.authentication.AuthInfo;
-import com.gomo.app.common.Presentation;
-import com.gomo.app.member.application.LoginMemberUseCase;
-import com.gomo.app.member.application.LogoutMemberUseCase;
-import com.gomo.app.member.application.RefreshAccessTokenUseCase;
-import com.gomo.app.member.domain.model.MemberId;
-import com.gomo.app.member.presentation.request.LoginMemberRequest;
-import com.gomo.app.member.presentation.response.LoginMemberResponse;
-import com.gomo.app.member.presentation.response.TokenResponse;
-import lombok.RequiredArgsConstructor;
+import java.time.Duration;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.time.Duration;
+import com.gomo.app.common.Presentation;
+import com.gomo.app.common.authentication.Auth;
+import com.gomo.app.common.authentication.AuthInfo;
+import com.gomo.app.member.application.LoginMemberUseCase;
+import com.gomo.app.member.application.LogoutMemberUseCase;
+import com.gomo.app.member.application.RefreshAccessTokenUseCase;
+import com.gomo.app.member.presentation.request.LoginMemberRequest;
+import com.gomo.app.member.presentation.response.LoginMemberResponse;
+import com.gomo.app.member.presentation.response.TokenResponse;
+
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RequestMapping("/members")
@@ -28,8 +33,8 @@ public class LoginMemberApi {
 	private final RefreshAccessTokenUseCase refreshAccessTokenUseCase;
 
 	@PostMapping("/login")
-	public ResponseEntity<TokenResponse> login(@RequestBody LoginMemberRequest loginMemberRequest) {
-		LoginMemberResponse tokens = loginMemberUseCase.login(loginMemberRequest);
+	public ResponseEntity<TokenResponse> login(@RequestBody LoginMemberRequest request) {
+		LoginMemberResponse tokens = loginMemberUseCase.login(request.getEmail(), request.getPassword());
 		ResponseCookie cookie = createRefreshTokenCookie(tokens.getRefreshToken(), tokens.getExpiresIn());
 
 		return ResponseEntity.ok()
@@ -49,7 +54,7 @@ public class LoginMemberApi {
 
 	@GetMapping("/logout")
 	public ResponseEntity<Void> logout(@Auth AuthInfo authInfo){
-		logoutMemberUseCase.logout(MemberId.of(authInfo.getMemberId()));
+		logoutMemberUseCase.logout(authInfo.getMemberId());
 		ResponseCookie cookie = deleteRefreshTokenCookie();
 
 		return ResponseEntity.ok()

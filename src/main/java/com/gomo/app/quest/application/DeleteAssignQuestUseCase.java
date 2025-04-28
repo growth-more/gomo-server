@@ -6,8 +6,7 @@ import com.gomo.app.common.ApplicationService;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.repository.AssignQuestRepository;
-import com.gomo.app.quest.exception.AssignQuestNotFoundException;
-import com.gomo.app.quest.exception.code.AssignQuestErrorCode;
+import com.gomo.app.quest.domain.service.AssignQuestService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,11 +14,11 @@ import lombok.RequiredArgsConstructor;
 @ApplicationService
 public class DeleteAssignQuestUseCase {
 
+	private final AssignQuestService assignQuestService;
 	private final AssignQuestRepository assignQuestRepository;
 
 	public void delete(UUID accessorId, AssignQuestId assignQuestId) {
-		AssignQuest assignQuest = assignQuestRepository.findById(assignQuestId)
-			.orElseThrow(() -> new AssignQuestNotFoundException(AssignQuestErrorCode.NOT_FOUND));
+		AssignQuest assignQuest = assignQuestService.find(assignQuestId);
 		assignQuest.validateAuthority(accessorId);
 
 		assignQuest.ensureNotConfirmed();

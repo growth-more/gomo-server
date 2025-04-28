@@ -3,7 +3,6 @@ package com.gomo.app.quest.unit.usecase;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +19,7 @@ import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.model.CompletionProof;
 import com.gomo.app.quest.domain.model.QuestType;
-import com.gomo.app.quest.domain.repository.AssignQuestRepository;
+import com.gomo.app.quest.domain.service.AssignQuestService;
 import com.gomo.app.quest.exception.AssignQuestAccessDeniedException;
 import com.gomo.app.quest.exception.AssignQuestConstraintViolationException;
 import com.gomo.app.quest.exception.QuestTypeConstraintViolationException;
@@ -36,13 +35,13 @@ public class UpdateAssignQuestUseCaseTest {
 	private UpdateAssignQuestUseCase sut;
 
 	@Mock
-	private AssignQuestRepository assignQuestRepository;
+	private AssignQuestService assignQuestService;
 
 	@DisplayName("할당 퀘스트를 수정한다.")
 	@Test
 	void update_assign_quest() {
 		AssignQuest assignQuest = AssignQuestFixture.assignQuest(QuestType.DAILY);
-		doReturn(Optional.of(assignQuest)).when(assignQuestRepository).findById(any());
+		doReturn(assignQuest).when(assignQuestService).find(any());
 
 		sut.update(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID()), createMockRequest(QuestType.DAILY));
 
@@ -53,7 +52,7 @@ public class UpdateAssignQuestUseCaseTest {
 	@Test
 	void update_assign_quest_with_not_participant() {
 		AssignQuest assignQuest = AssignQuestFixture.assignQuest(QuestType.DAILY);
-		doReturn(Optional.of(assignQuest)).when(assignQuestRepository).findById(any());
+		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 
 		assertThatThrownBy(
 			() -> sut.update(UUID.randomUUID(), AssignQuestId.of(UUID.randomUUID()), createMockRequest(QuestType.WEEKLY)))
@@ -65,7 +64,7 @@ public class UpdateAssignQuestUseCaseTest {
 	@Test
 	void update_assign_quest_with_different_type() {
 		AssignQuest assignQuest = AssignQuestFixture.assignQuest(QuestType.DAILY);
-		doReturn(Optional.of(assignQuest)).when(assignQuestRepository).findById(any());
+		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 
 		assertThatThrownBy(
 			() -> sut.update(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID()), createMockRequest(QuestType.WEEKLY)))
@@ -77,7 +76,7 @@ public class UpdateAssignQuestUseCaseTest {
 	@Test
 	void update_confirmed_assign_quest() {
 		AssignQuest assignQuest = AssignQuestFixture.assignQuest(true);
-		doReturn(Optional.of(assignQuest)).when(assignQuestRepository).findById(any());
+		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 
 		assertThatThrownBy(
 			() -> sut.update(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID()), createMockRequest(QuestType.DAILY)))
@@ -89,7 +88,7 @@ public class UpdateAssignQuestUseCaseTest {
 	@Test
 	void update_completed_assign_quest() {
 		AssignQuest assignQuest = AssignQuestFixture.assignQuest(false, true, CompletionProof.createDefault());
-		doReturn(Optional.of(assignQuest)).when(assignQuestRepository).findById(any());
+		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 
 		assertThatThrownBy(
 			() -> sut.update(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID()), createMockRequest(QuestType.DAILY)))

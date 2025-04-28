@@ -8,9 +8,7 @@ import com.gomo.app.image.ImageService;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.Logo;
-import com.gomo.app.interest.domain.repository.InterestRepository;
-import com.gomo.app.interest.exception.InterestNotFoundException;
-import com.gomo.app.interest.exception.code.InterestErrorCode;
+import com.gomo.app.interest.domain.service.InterestService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,19 +17,17 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class UpdateLogoUseCase {
 
+	private final InterestService interestService;
 	private final ImageService imageService;
-	private final InterestRepository interestRepository;
 
 	public void update(InterestId interestId, MultipartFile updatedLogo) {
-		Interest interest = interestRepository.findById(interestId)
-			.orElseThrow(() -> new InterestNotFoundException(InterestErrorCode.NOT_FOUND));
-
-		deletePriorLogo(interest);
+		Interest interest = interestService.find(interestId);
+		deletePreviousLogo(interest);
 		String updatedUrl = imageService.uploadImage(updatedLogo);
 		interest.updateLogo(Logo.of(updatedUrl));
 	}
 
-	private void deletePriorLogo(Interest interest) {
+	private void deletePreviousLogo(Interest interest) {
 		if(!interest.hasDefaultLogo()) {
 			imageService.deleteImage(interest.getLogo().getUrl());
 		}

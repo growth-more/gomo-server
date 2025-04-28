@@ -1,15 +1,8 @@
 package com.gomo.app.member.unit.usecase;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import com.gomo.app.member.application.UpdateQuestPropertyUseCase;
-import com.gomo.app.member.common.fixture.MemberFixture;
-import com.gomo.app.member.domain.model.Member;
-import com.gomo.app.member.domain.model.QuestProperty;
-import com.gomo.app.member.domain.repository.MemberRepository;
-import com.gomo.app.member.domain.service.PasswordService;
-import com.gomo.app.member.presentation.request.UpdateQuestPropertyRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,36 +10,35 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Optional;
+import com.gomo.app.member.application.UpdateQuestPropertyUseCase;
+import com.gomo.app.member.common.fixture.MemberFixture;
+import com.gomo.app.member.domain.model.Member;
+import com.gomo.app.member.domain.model.MemberId;
+import com.gomo.app.member.domain.model.QuestProperty;
+import com.gomo.app.member.domain.service.MemberService;
+import com.gomo.app.member.presentation.request.UpdateQuestPropertyRequest;
 
 @DisplayName("[Application Unit]: 퀘스트 설정 수정 테스트")
 @ExtendWith(MockitoExtension.class)
 public class UpdateQuestPropertyUseCaseTest {
+
     @InjectMocks
     private UpdateQuestPropertyUseCase sut;
 
     @Mock
-    private PasswordService passwordService;
-
-    @Mock
-    private MemberRepository memberRepository;
-
-    private static final int DAILY_THRESHOLD = 1;
-    private static final int WEEKLY_THRESHOLD = 3;
-    private static final int MONTHLY_THRESHOLD = 5;
+    private MemberService memberService;
 
     @DisplayName("퀘스트 설정을 수정한다.")
     @Test
     void update_quest_property_successfully(){
-        Member member = MemberFixture.member(passwordService);
-        UpdateQuestPropertyRequest request = UpdateQuestPropertyRequest.of(DAILY_THRESHOLD, WEEKLY_THRESHOLD, MONTHLY_THRESHOLD);
+        Member member = MemberFixture.member();
+        UpdateQuestPropertyRequest request = UpdateQuestPropertyRequest.of(1, 3, 5);
         QuestProperty expected = request.toDomain();
-        doReturn(Optional.of(member)).when(memberRepository).findById(member.getId());
 
-        sut.update(member.getId(),request);
+        doReturn(member).when(memberService).find(MemberId.of(member.uuid()));
 
-        QuestProperty actual = member.getQuestProperty();
+        sut.update(member.uuid(),request);
 
-        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+		assertThat(member.getQuestProperty()).usingRecursiveComparison().isEqualTo(expected);
     }
 }

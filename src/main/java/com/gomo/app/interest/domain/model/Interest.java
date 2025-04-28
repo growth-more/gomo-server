@@ -75,6 +75,14 @@ public class Interest extends BaseAudit implements Authorizable {
 		return new Interest(id, registrantId, Proficiency.createDefault(), name, logo, colorCode);
 	}
 
+	public UUID uuid() {
+		return this.id.getId();
+	}
+
+	public UUID registrantUuid() {
+		return this.registrantId.getId();
+	}
+
 	public void updateName(InterestName updatedName) {
 		this.name = updatedName;
 	}

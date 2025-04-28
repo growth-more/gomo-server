@@ -3,7 +3,6 @@ package com.gomo.app.quest.unit.usecase;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.DisplayName;
@@ -19,6 +18,7 @@ import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.model.CompletionProof;
 import com.gomo.app.quest.domain.repository.AssignQuestRepository;
+import com.gomo.app.quest.domain.service.AssignQuestService;
 import com.gomo.app.quest.exception.AssignQuestAccessDeniedException;
 import com.gomo.app.quest.exception.AssignQuestConstraintViolationException;
 import com.gomo.app.quest.exception.code.AssignQuestErrorCode;
@@ -31,36 +31,39 @@ public class DeleteAssignQuestUseCaseTest {
 	private DeleteAssignQuestUseCase sut;
 
 	@Mock
+	private AssignQuestService assignQuestService;
+
+	@Mock
 	private AssignQuestRepository assignQuestRepository;
 
 	@DisplayName("할당 퀘스트를 삭제한다.")
 	@Test
 	void delete_assign_quest() {
 		AssignQuest assignQuest = AssignQuestFixture.assignQuest();
-		doReturn(Optional.of(assignQuest)).when(assignQuestRepository).findById(any());
+		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 
 		sut.delete(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID()));
 
-		verify(assignQuestRepository, times(1)).delete(any());
+		verify(assignQuestRepository, times(1)).delete(any(AssignQuest.class));
 	}
 
 	@DisplayName("퀘스트 참여자가 아니면 할당 퀘스트를 삭제할 수 없다.")
 	@Test
 	void delete_assign_quest_by_not_participant() {
 		AssignQuest assignQuest = AssignQuestFixture.assignQuest();
-		doReturn(Optional.of(assignQuest)).when(assignQuestRepository).findById(any());
+		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 
 		assertThatThrownBy(
 			() -> sut.delete(UUID.randomUUID(), AssignQuestId.of(UUID.randomUUID())))
 			.isInstanceOf(AssignQuestAccessDeniedException.class)
-			.hasMessageContaining("Access denied for the assign quest");
+			.hasMessageContaining(AssignQuestErrorCode.ACCESS_DENIED.getMessage());
 	}
 
 	@DisplayName("이미 확정한 할당 퀘스트는 삭제할 수 없다.")
 	@Test
 	void delete_confirmed_assign_quest() {
 		AssignQuest assignQuest = AssignQuestFixture.assignQuest(true);
-		doReturn(Optional.of(assignQuest)).when(assignQuestRepository).findById(any());
+		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 
 		assertThatThrownBy(
 			() -> sut.delete(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID())))
@@ -72,7 +75,7 @@ public class DeleteAssignQuestUseCaseTest {
 	@Test
 	void delete_completed_assign_quest() {
 		AssignQuest assignQuest = AssignQuestFixture.assignQuest(false, true, CompletionProof.createDefault());
-		doReturn(Optional.of(assignQuest)).when(assignQuestRepository).findById(any());
+		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 
 		assertThatThrownBy(
 			() -> sut.delete(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID())))
