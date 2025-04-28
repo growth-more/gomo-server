@@ -66,6 +66,23 @@ public class Score {
 	}
 
 	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		Score score = (Score)o;
+		return this.score == score.score;
+	}
+
+	@Override
+	public int hashCode() {
+		return score;
+	}
+
+	@Override
 	public String toString() {
 		return String.valueOf(this.score);
 	}

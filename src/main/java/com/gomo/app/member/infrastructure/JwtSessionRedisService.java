@@ -1,13 +1,14 @@
 package com.gomo.app.member.infrastructure;
 
-import com.gomo.app.member.domain.model.MemberId;
-import lombok.RequiredArgsConstructor;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.TimeUnit;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -19,19 +20,19 @@ public class JwtSessionRedisService {
     @Value("${jwt.expiration.refresh}")
     private long EXP_TIME;
 
-    public void setRefreshToken(MemberId memberId, String refreshToken){
+    public void setRefreshToken(UUID memberId, String refreshToken){
         jwtSessionRedisTemplate.opsForValue().set(memberId.toString(), refreshToken, EXP_TIME, TimeUnit.MILLISECONDS);
     }
 
-    public String getRefreshToken(MemberId memberId){
+    public String getRefreshToken(UUID memberId){
         return (String) jwtSessionRedisTemplate.opsForValue().get(memberId.toString());
     }
 
-    public void updateRefreshToken(MemberId memberId, String refreshToken){
+    public void updateRefreshToken(UUID memberId, String refreshToken){
         setRefreshToken(memberId, refreshToken);
     }
 
-    public void deleteRefreshToken(MemberId memberId){
+    public void deleteRefreshToken(UUID memberId){
         jwtSessionRedisTemplate.delete(memberId.toString());
     }
 }

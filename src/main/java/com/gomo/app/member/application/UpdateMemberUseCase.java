@@ -1,15 +1,15 @@
 package com.gomo.app.member.application;
 
+import java.util.UUID;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.ApplicationService;
+import com.gomo.app.member.domain.model.Handle;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.model.MemberId;
-import com.gomo.app.member.domain.repository.MemberRepository;
-import com.gomo.app.member.domain.service.MemberValidator;
+import com.gomo.app.member.domain.service.MemberService;
 import com.gomo.app.member.domain.service.PasswordService;
-import com.gomo.app.member.exception.MemberNotFoundException;
-import com.gomo.app.member.exception.code.MemberErrorCode;
 import com.gomo.app.member.presentation.request.UpdateHandleRequest;
 import com.gomo.app.member.presentation.request.UpdateMemberRequest;
 import com.gomo.app.member.presentation.request.UpdatePasswordRequest;
@@ -21,28 +21,23 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class UpdateMemberUseCase {
 
-	private final MemberRepository memberRepository;
+	private final MemberService memberService;
 	private final PasswordService passwordService;
-	private final MemberValidator memberValidator;
 
-	public void update(MemberId memberId, UpdateMemberRequest request) {
-		Member member = memberRepository.findById(memberId)
-				.orElseThrow(() -> new MemberNotFoundException(MemberErrorCode.NOT_FOUND));
-
+	public void update(UUID memberId, UpdateMemberRequest request) {
+		Member member = memberService.find(MemberId.of(memberId));
 		member.updateMemberInfo(request.getName(), request.getMotto());
 	}
 
-	// TODO <jhl221123>: 유스케이스이기 때문에 비밀번호, 핸들 각각 분리하는 것을 고려해보자.
-	public void updatePassword(MemberId memberId, UpdatePasswordRequest request) {
-		Member member = memberRepository.findById(memberId)
-				.orElseThrow(() -> new MemberNotFoundException(MemberErrorCode.NOT_FOUND));
+	// TODO <jhl221123> to <nurdy>: 유스케이스이기 때문에 비밀번호, 핸들 각각 분리하면 좋을 것 같습니다.
+	public void updatePassword(UUID memberId, UpdatePasswordRequest request) {
+		Member member = memberService.find(MemberId.of(memberId));
 		member.updatePassword(request.getOriginPassword(), request.getUpdatedPassword(), passwordService);
 	}
 
-	public void updateHandle(MemberId memberId, UpdateHandleRequest request) {
-		Member member = memberRepository.findById(memberId)
-				.orElseThrow(() -> new MemberNotFoundException(MemberErrorCode.NOT_FOUND));
-		memberValidator.checkDuplicatedHandle(request.getHandle());
+	public void updateHandle(UUID memberId, UpdateHandleRequest request) {
+		Member member = memberService.find(MemberId.of(memberId));
+		memberService.checkHandleDuplicated(Handle.of(request.getHandle()));
 		member.updateHandle(request.getHandle());
 	}
 }

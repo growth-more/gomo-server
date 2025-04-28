@@ -11,11 +11,9 @@ import com.gomo.app.quest.domain.model.RepeatQuest;
 import com.gomo.app.quest.domain.model.RepeatQuestId;
 import com.gomo.app.quest.domain.model.SubjectId;
 import com.gomo.app.quest.domain.model.SubjectName;
-import com.gomo.app.quest.domain.repository.RepeatQuestRepository;
+import com.gomo.app.quest.domain.service.RepeatQuestService;
 import com.gomo.app.quest.exception.QuestTypeConstraintViolationException;
-import com.gomo.app.quest.exception.RepeatQuestNotFoundException;
 import com.gomo.app.quest.exception.code.QuestTypeErrorCode;
-import com.gomo.app.quest.exception.code.RepeatQuestErrorCode;
 import com.gomo.app.quest.presentation.request.UpdateRepeatQuestRequest;
 
 import lombok.RequiredArgsConstructor;
@@ -25,14 +23,13 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class UpdateRepeatQuestUseCase {
 
-	private final RepeatQuestRepository repeatQuestRepository;
+	private final RepeatQuestService repeatQuestService;
 
 	public void update(UUID accessorId, RepeatQuestId repeatQuestId, UpdateRepeatQuestRequest request) {
-		RepeatQuest repeatQuest = repeatQuestRepository.findById(repeatQuestId)
-			.orElseThrow(() -> new RepeatQuestNotFoundException(RepeatQuestErrorCode.NOT_FOUND));
+		RepeatQuest repeatQuest = repeatQuestService.find(repeatQuestId);
 		repeatQuest.validateAuthority(accessorId);
+		ensureSameQuestType(repeatQuest, request.getQuestType());
 
-		validateQuestType(request.getQuestType(), repeatQuest);
 		repeatQuest.updateQuest(
 			SubjectId.of(request.getSubjectId()),
 			SubjectName.of(request.getSubjectName()),
@@ -41,7 +38,7 @@ public class UpdateRepeatQuestUseCase {
 		);
 	}
 
-	private static void validateQuestType(QuestType questType, RepeatQuest repeatQuest) {
+	private void ensureSameQuestType(RepeatQuest repeatQuest, QuestType questType) {
 		if(!repeatQuest.isSameQuestType(questType)) {
 			throw new QuestTypeConstraintViolationException(QuestTypeErrorCode.MISMATCHED);
 		}

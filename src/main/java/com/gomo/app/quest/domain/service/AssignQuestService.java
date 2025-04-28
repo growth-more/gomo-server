@@ -11,9 +11,7 @@ import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.displayorder.DisplayOrder;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.model.MemberId;
-import com.gomo.app.member.domain.repository.MemberRepository;
-import com.gomo.app.member.exception.MemberNotFoundException;
-import com.gomo.app.member.exception.code.MemberErrorCode;
+import com.gomo.app.member.domain.service.MemberService;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.model.ParticipantId;
@@ -21,6 +19,7 @@ import com.gomo.app.quest.domain.model.Quest;
 import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.quest.exception.AssignQuestConstraintViolationException;
+import com.gomo.app.quest.exception.AssignQuestNotFoundException;
 import com.gomo.app.quest.exception.code.AssignQuestErrorCode;
 
 import lombok.RequiredArgsConstructor;
@@ -29,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 @DomainService
 public class AssignQuestService {
 
-	private final MemberRepository memberRepository;
+	private final MemberService memberService;
 	private final AssignQuestRepository assignQuestRepository;
 
 	public AssignQuest create(ParticipantId participantId, Quest quest) {
@@ -38,6 +37,11 @@ public class AssignQuestService {
 
 		int displayOrder = findMaxDisplayOrderOfParticipatingQuest(participantId, quest.getType()) + 1;
 		return assignQuestRepository.save(createAssignQuest(quest, displayOrder));
+	}
+
+	public AssignQuest find(AssignQuestId assignQuestId) {
+		return assignQuestRepository.findById(assignQuestId)
+			.orElseThrow(() -> new AssignQuestNotFoundException(AssignQuestErrorCode.NOT_FOUND));
 	}
 
 	private int countParticipatingQuest(ParticipantId participantId, QuestType questType) {
@@ -54,11 +58,9 @@ public class AssignQuestService {
 	}
 
 	private void ensureNotExceedQuestThreshold(ParticipantId participantId, QuestType questType, int currentCount) {
-		// TODO <jhl221123>: 여기서 회원을 조회하면 안 되고, 회원 서비스에서 공통 처리되어야 한다.
-		Member member = memberRepository.findById(MemberId.of(participantId.getId()))
-			.orElseThrow(() -> new MemberNotFoundException(MemberErrorCode.NOT_FOUND));
-
-		if(member.hasReachedQuestThreshold(questType.name(), currentCount)) {
+		// TODO <jhl221123>: 응용 서비스에서 회원 조회 -> Participant 전환 -> 퀘스트 도메인 영역으로 전달 하도록 수정이 필요합니다.
+		Member member = memberService.find(MemberId.of(participantId.getId()));
+		if (member.hasReachedQuestThreshold(questType.name(), currentCount)) {
 			throw new AssignQuestConstraintViolationException(AssignQuestErrorCode.THRESHOLD_EXCEEDED);
 		}
 	}

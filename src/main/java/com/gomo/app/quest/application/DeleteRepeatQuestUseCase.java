@@ -6,8 +6,7 @@ import com.gomo.app.common.ApplicationService;
 import com.gomo.app.quest.domain.model.RepeatQuest;
 import com.gomo.app.quest.domain.model.RepeatQuestId;
 import com.gomo.app.quest.domain.repository.RepeatQuestRepository;
-import com.gomo.app.quest.exception.RepeatQuestNotFoundException;
-import com.gomo.app.quest.exception.code.RepeatQuestErrorCode;
+import com.gomo.app.quest.domain.service.RepeatQuestService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,11 +14,11 @@ import lombok.RequiredArgsConstructor;
 @ApplicationService
 public class DeleteRepeatQuestUseCase {
 
+	private final RepeatQuestService repeatQuestService;
 	private final RepeatQuestRepository repeatQuestRepository;
 
 	public void delete(UUID accessorId, RepeatQuestId repeatQuestId) {
-		RepeatQuest repeatQuest = repeatQuestRepository.findById(repeatQuestId)
-			.orElseThrow(() -> new RepeatQuestNotFoundException(RepeatQuestErrorCode.NOT_FOUND));
+		RepeatQuest repeatQuest = repeatQuestService.find(repeatQuestId);
 		repeatQuest.validateAuthority(accessorId);
 
 		repeatQuestRepository.delete(repeatQuest);

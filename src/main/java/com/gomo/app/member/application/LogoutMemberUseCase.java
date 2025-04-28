@@ -1,8 +1,10 @@
 package com.gomo.app.member.application;
 
+import java.util.UUID;
+
 import com.gomo.app.common.ApplicationService;
-import com.gomo.app.member.domain.model.MemberId;
 import com.gomo.app.member.infrastructure.JwtSessionRedisService;
+
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -11,7 +13,7 @@ public class LogoutMemberUseCase {
 
 	private final JwtSessionRedisService jwtSessionRedisService;
 
-    public void logout(MemberId memberId){
+    public void logout(UUID memberId){
         jwtSessionRedisService.deleteRefreshToken(memberId);
     }
 }

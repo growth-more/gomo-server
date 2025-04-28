@@ -1,13 +1,14 @@
 package com.gomo.app.member.infrastructure;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.TimeUnit;
+import lombok.RequiredArgsConstructor;
 
+// TODO <jhl221123> to <nurdy>: 레디스 접근하는 로직이라면 Repository 가 더 적합하지 않을까요?
 @Service
 @RequiredArgsConstructor
 public class EmailAuthRedisService {

@@ -1,6 +1,7 @@
 package com.gomo.app.member.domain.model;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import com.gomo.app.common.LogicalDeleteBaseAudit;
 import com.gomo.app.member.domain.service.PasswordService;
@@ -102,6 +103,10 @@ public class Member extends LogicalDeleteBaseAudit {
 		this.activateStatus = activateStatus;
 		this.signUpDateTime = signUpDateTime;
 		this.lastLoginDateTime = lastLoginDateTime;
+	}
+
+	public UUID uuid() {
+		return this.id.getId();
 	}
 
 	public void updatePassword(String originPassword, String updatedPassword, PasswordService passwordService) {

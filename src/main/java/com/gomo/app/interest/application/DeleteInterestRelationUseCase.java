@@ -5,9 +5,7 @@ import java.util.UUID;
 import com.gomo.app.common.ApplicationService;
 import com.gomo.app.interest.domain.model.InterestRelation;
 import com.gomo.app.interest.domain.model.InterestRelationId;
-import com.gomo.app.interest.domain.repository.InterestRelationRepository;
-import com.gomo.app.interest.exception.InterestRelationNotFoundException;
-import com.gomo.app.interest.exception.code.InterestRelationErrorCode;
+import com.gomo.app.interest.domain.service.InterestRelationService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,12 +13,11 @@ import lombok.RequiredArgsConstructor;
 @ApplicationService
 public class DeleteInterestRelationUseCase {
 
-	private final InterestRelationRepository interestRelationRepository;
+	private final InterestRelationService interestRelationService;
 
-	public void delete(UUID accessorId, InterestRelationId interestRelationId) {
-		InterestRelation interestRelation = interestRelationRepository.findById(interestRelationId)
-			.orElseThrow(() -> new InterestRelationNotFoundException(InterestRelationErrorCode.NOT_FOUND));
+	public void delete(UUID accessorId, UUID interestRelationId) {
+		InterestRelation interestRelation = interestRelationService.find(InterestRelationId.of(interestRelationId));
 		interestRelation.validateAuthority(accessorId);
-		interestRelationRepository.delete(interestRelation);
+		interestRelationService.delete(interestRelation);
 	}
 }

@@ -1,5 +1,7 @@
 package com.gomo.app.member.application;
 
+import java.util.UUID;
+
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -7,9 +9,7 @@ import com.gomo.app.common.ApplicationService;
 import com.gomo.app.image.ImageService;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.model.MemberId;
-import com.gomo.app.member.domain.repository.MemberRepository;
-import com.gomo.app.member.exception.MemberNotFoundException;
-import com.gomo.app.member.exception.code.MemberErrorCode;
+import com.gomo.app.member.domain.service.MemberService;
 import com.gomo.app.member.presentation.response.UpdateProfileImageResponse;
 
 import lombok.RequiredArgsConstructor;
@@ -19,14 +19,13 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class UpdateProfileImageUseCase {
 
-	private final MemberRepository memberRepository;
+	private final MemberService memberService;
 	private final ImageService imageService;
 
-	public UpdateProfileImageResponse update(MemberId memberId, MultipartFile profileImage) {
-		Member member = memberRepository.findById(memberId)
-				.orElseThrow(() -> new MemberNotFoundException(MemberErrorCode.NOT_FOUND));
-
+	public UpdateProfileImageResponse update(UUID memberId, MultipartFile profileImage) {
+		Member member = memberService.find(MemberId.of(memberId));
 		String profile_url = imageService.uploadImage(profileImage);
+		// TODO <jhl221123> to <nurdy>: 루트 애그리거트에서 수정하도록 개선이 필요합니다. ※ 변수 형식도 수정해야 합니다.
 		member.updateProfileImage(member.getProfileImage().updateUrl(profile_url));
 
 		return UpdateProfileImageResponse.of(profile_url);

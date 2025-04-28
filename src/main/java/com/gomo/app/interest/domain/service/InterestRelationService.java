@@ -21,12 +21,9 @@ import com.gomo.app.interest.domain.model.InterestRelationId;
 import com.gomo.app.interest.domain.model.ParentInterestId;
 import com.gomo.app.interest.domain.model.RegistrantId;
 import com.gomo.app.interest.domain.repository.InterestRelationRepository;
-import com.gomo.app.interest.domain.repository.InterestRepository;
-import com.gomo.app.interest.exception.InterestNotFoundException;
 import com.gomo.app.interest.exception.InterestRelationCycleException;
 import com.gomo.app.interest.exception.InterestRelationDuplicatedException;
 import com.gomo.app.interest.exception.InterestRelationNotFoundException;
-import com.gomo.app.interest.exception.code.InterestErrorCode;
 import com.gomo.app.interest.exception.code.InterestRelationErrorCode;
 
 import lombok.RequiredArgsConstructor;
@@ -36,8 +33,8 @@ import lombok.RequiredArgsConstructor;
 public class InterestRelationService {
 
 	private final ProficiencyService proficiencyService;
+	private final InterestService interestService;
 	private final InterestRelationRepository interestRelationRepository;
-	private final InterestRepository interestRepository;
 
 	@Transactional
 	public InterestRelation create(RegistrantId registrantId, ParentInterestId parentInterestId, ChildInterestId childInterestId) {
@@ -55,12 +52,17 @@ public class InterestRelationService {
 		return interestRelationRepository.save(interestRelation);
 	}
 
-	@Transactional
-	public void delete(UUID accessorId, InterestRelationId interestRelationId) {
-		InterestRelation interestRelation = interestRelationRepository.findById(interestRelationId)
-			.orElseThrow(() -> new InterestRelationNotFoundException(InterestRelationErrorCode.NOT_FOUND));
-		interestRelation.validateAuthority(accessorId);
+	public InterestRelation find(InterestRelationId interestRelationId) {
+		return interestRelationRepository.findById(interestRelationId)
+				.orElseThrow(()  -> new InterestRelationNotFoundException(InterestRelationErrorCode.NOT_FOUND));
+	}
 
+	public List<InterestRelation> findAllByInterestId(UUID interestId) {
+		return interestRelationRepository.findByInterestId(interestId);
+	}
+
+	@Transactional
+	public void delete(InterestRelation interestRelation) {
 		reduceProficiencyOfParentInterests(interestRelation.getParentInterestId(), interestRelation.getChildInterestId());
 		interestRelationRepository.delete(interestRelation);
 	}
@@ -130,17 +132,12 @@ public class InterestRelationService {
 	}
 
 	private void enhanceProficiencyOfParentInterests(ParentInterestId parentInterestId, ChildInterestId childInterestId) {
-		Interest childInterest = findInterest(childInterestId);
+		Interest childInterest = interestService.find(childInterestId.toInterestId());
 		proficiencyService.adjust(parentInterestId.toInterestId(), childInterest.getProficiency().getTotalScore());
 	}
 
 	private void reduceProficiencyOfParentInterests(ParentInterestId parentInterestId, ChildInterestId childInterestId) {
-		Interest childInterest = findInterest(childInterestId);
+		Interest childInterest = interestService.find(childInterestId.toInterestId());
 		proficiencyService.adjust(parentInterestId.toInterestId(), -1 * childInterest.getProficiency().getTotalScore());
-	}
-
-	private Interest findInterest(ChildInterestId childInterestId) {
-		return interestRepository.findById(childInterestId.toInterestId())
-			.orElseThrow(() -> new InterestNotFoundException(InterestErrorCode.NOT_FOUND));
 	}
 }

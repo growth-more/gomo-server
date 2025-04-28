@@ -15,7 +15,7 @@ public class CreateMajorInterestResponse {
 		this.id = id;
 	}
 
-	public static CreateMajorInterestResponse of(MajorInterestId majorInterestId) {
-		return new CreateMajorInterestResponse(majorInterestId.getId());
+	public static CreateMajorInterestResponse of(UUID majorInterestId) {
+		return new CreateMajorInterestResponse(majorInterestId);
 	}
 }

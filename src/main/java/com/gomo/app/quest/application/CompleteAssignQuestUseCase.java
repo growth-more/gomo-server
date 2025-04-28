@@ -17,13 +17,11 @@ import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.model.CompletionProof;
 import com.gomo.app.quest.domain.model.ParticipantId;
 import com.gomo.app.quest.domain.model.QuestReward;
-import com.gomo.app.quest.domain.repository.AssignQuestRepository;
+import com.gomo.app.quest.domain.service.AssignQuestService;
 import com.gomo.app.quest.domain.service.QuestRewardService;
 import com.gomo.app.quest.event.PointQuestCompletedEvent;
 import com.gomo.app.quest.event.ScoreQuestCompletedEvent;
 import com.gomo.app.quest.event.StreakQuestCompletedEvent;
-import com.gomo.app.quest.exception.AssignQuestNotFoundException;
-import com.gomo.app.quest.exception.code.AssignQuestErrorCode;
 import com.gomo.app.quest.presentation.request.CompleteAssignQuestRequest;
 
 import lombok.RequiredArgsConstructor;
@@ -33,13 +31,12 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class CompleteAssignQuestUseCase {
 
+	private final AssignQuestService assignQuestService;
 	private final QuestRewardService questRewardService;
-	private final AssignQuestRepository assignQuestRepository;
 	private final EventEntryRepository eventEntryRepository;
 
 	public void complete(UUID accessorId, AssignQuestId assignQuestId, CompleteAssignQuestRequest request) {
-		AssignQuest assignQuest = assignQuestRepository.findById(assignQuestId)
-			.orElseThrow(() -> new AssignQuestNotFoundException(AssignQuestErrorCode.NOT_FOUND));
+		AssignQuest assignQuest = assignQuestService.find(assignQuestId);
 		assignQuest.validateAuthority(accessorId);
 
 		assignQuest.complete(CompletionProof.of(request.getProof()), LocalDateTime.now());

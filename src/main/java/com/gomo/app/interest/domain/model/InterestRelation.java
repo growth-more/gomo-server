@@ -64,6 +64,14 @@ public class InterestRelation extends BaseAudit implements Authorizable {
 		return new InterestRelation(id, registrantId, parentInterestId, childInterestId);
 	}
 
+	public UUID uuid() {
+		return this.id.getId();
+	}
+
+	public UUID registrantUuid() {
+		return this.registrantId.getId();
+	}
+
 	@Override
 	public void validateAuthority(UUID accessorId) {
 		if(!accessorId.equals(registrantId.getId())) {

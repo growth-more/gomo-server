@@ -29,7 +29,7 @@ public class MajorInterestApi {
 
 	@PostMapping("/{id}/majors")
 	public ResponseEntity<CreateMajorInterestResponse> create(@Auth AuthInfo authInfo, @PathVariable("id") UUID interestId) {
-		CreateMajorInterestResponse response = createMajorInterestUseCase.create(authInfo.getMemberId(), InterestId.of(interestId));
+		CreateMajorInterestResponse response = createMajorInterestUseCase.create(authInfo.getMemberId(), interestId);
 		return ResponseEntity.status(CREATED).body(response);
 	}
 

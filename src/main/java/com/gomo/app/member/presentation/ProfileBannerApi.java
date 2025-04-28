@@ -7,12 +7,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.gomo.app.common.Presentation;
 import com.gomo.app.common.authentication.Auth;
 import com.gomo.app.common.authentication.AuthInfo;
-import com.gomo.app.common.Presentation;
 import com.gomo.app.member.application.DeleteMemberUseCase;
 import com.gomo.app.member.application.UpdateProfileBannerUseCase;
-import com.gomo.app.member.domain.model.MemberId;
 import com.gomo.app.member.presentation.request.UpdateProfileBannerRequest;
 
 import lombok.RequiredArgsConstructor;
@@ -27,13 +26,13 @@ public class ProfileBannerApi {
 
 	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @ModelAttribute UpdateProfileBannerRequest request) {
-		updateProfileBannerUseCase.update(MemberId.of(authInfo.getMemberId()), request.getProfileBanner());
+		updateProfileBannerUseCase.update(authInfo.getMemberId(), request.getProfileBanner());
 		return ResponseEntity.noContent().build();
 	}
 
 	@DeleteMapping
 	public ResponseEntity<Void> delete(@Auth AuthInfo authInfo){
-		deleteMemberUseCase.deleteBanner(MemberId.of(authInfo.getMemberId()));
+		deleteMemberUseCase.deleteBanner(authInfo.getMemberId());
 		return ResponseEntity.ok().build();
 	}
 }

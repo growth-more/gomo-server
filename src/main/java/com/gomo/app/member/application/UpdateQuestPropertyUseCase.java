@@ -1,14 +1,14 @@
 package com.gomo.app.member.application;
 
+import java.util.UUID;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.ApplicationService;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.model.MemberId;
 import com.gomo.app.member.domain.model.QuestProperty;
-import com.gomo.app.member.domain.repository.MemberRepository;
-import com.gomo.app.member.exception.MemberNotFoundException;
-import com.gomo.app.member.exception.code.MemberErrorCode;
+import com.gomo.app.member.domain.service.MemberService;
 import com.gomo.app.member.presentation.request.UpdateQuestPropertyRequest;
 
 import lombok.RequiredArgsConstructor;
@@ -18,12 +18,10 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class UpdateQuestPropertyUseCase {
 
-	private final MemberRepository memberRepository;
+	private final MemberService memberService;
 
-	public void update(MemberId memberId, UpdateQuestPropertyRequest request) {
-		Member member = memberRepository.findById(memberId)
-				.orElseThrow(() -> new MemberNotFoundException(MemberErrorCode.NOT_FOUND));
-
+	public void update(UUID memberId, UpdateQuestPropertyRequest request) {
+		Member member = memberService.find(MemberId.of(memberId));
 		QuestProperty questProperty = request.toDomain();
 		member.updateQuestProperty(questProperty);
 	}

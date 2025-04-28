@@ -25,8 +25,8 @@ public class OrderUpdateMajorInterestUseCase {
 	public void update(UUID accessorId, OrderUpdateMajorInterestRequest request) {
 		Map<UUID, OrderChangeable> majorInterestMap = majorInterestRepository.findAllByRegistrantIdOrderByDisplayOrder(RegistrantId.of(accessorId)).stream()
 			.collect(Collectors.toMap(
-					majorInterest -> majorInterest.getId().getId(),
-					majorInterest -> majorInterest
+				majorInterest -> majorInterest.uuid(),
+				majorInterest -> majorInterest
 			));
 
 		OrderChanger.change(majorInterestMap, request.getUpdateOrderRequests());

@@ -1,14 +1,12 @@
 package com.gomo.app.member.application;
 
+import java.util.UUID;
+
 import com.gomo.app.common.ApplicationService;
 import com.gomo.app.member.domain.model.Handle;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.model.MemberId;
-import com.gomo.app.member.domain.repository.MemberRepository;
-import com.gomo.app.member.exception.HandleDuplicatedException;
-import com.gomo.app.member.exception.MemberNotFoundException;
-import com.gomo.app.member.exception.code.HandleErrorCode;
-import com.gomo.app.member.exception.code.MemberErrorCode;
+import com.gomo.app.member.domain.service.MemberService;
 import com.gomo.app.member.presentation.response.ReadMemberResponse;
 import com.gomo.app.point.domain.model.Balance;
 import com.gomo.app.point.domain.model.TransactorId;
@@ -20,22 +18,17 @@ import lombok.RequiredArgsConstructor;
 @ApplicationService
 public class ReadMemberUseCase {
 
-	private final MemberRepository memberRepository;
+	private final MemberService memberService;
 	private final PointWalletService pointWalletService;
 
-	public ReadMemberResponse find(MemberId memberId) {
-		Member member = memberRepository.findById(memberId)
-				.orElseThrow(() -> new MemberNotFoundException(MemberErrorCode.NOT_FOUND));
-
+	public ReadMemberResponse find(UUID memberId) {
+		Member member = memberService.find(MemberId.of(memberId));
 		Balance balance = pointWalletService.findBalance(TransactorId.of(member.getId().getId()));
 		return ReadMemberResponse.of(member, balance.getAmount());
 	}
 
-	public void checkDuplicate(String handle){
-		if (memberRepository.existsByHandle(Handle.of(handle))){
-			throw new HandleDuplicatedException(HandleErrorCode.DUPLICATED);
-		}
+	// TODO <jhl221123> to <nurdy>: check 전용 유스케이스로 분리하면 좋을 것 같습니다.
+	public void checkHandleDuplicated(String handle){
+		memberService.checkHandleDuplicated(Handle.of(handle));
 	}
-
-
 }
