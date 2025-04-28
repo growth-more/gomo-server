@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.DisplayName;
@@ -15,8 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.member.common.fixture.MemberFixture;
-import com.gomo.app.member.domain.repository.MemberRepository;
-import com.gomo.app.member.domain.service.PasswordService;
+import com.gomo.app.member.domain.service.MemberService;
 import com.gomo.app.quest.common.fixture.AssignQuestFixture;
 import com.gomo.app.quest.common.fixture.QuestFixture;
 import com.gomo.app.quest.domain.model.AssignQuest;
@@ -34,13 +32,10 @@ public class AssignQuestServiceTest {
 	AssignQuestService sut;
 
 	@Mock
-	MemberRepository memberRepository;
+	MemberService memberService;
 
 	@Mock
 	AssignQuestRepository assignQuestRepository;
-
-	@Mock
-	PasswordService passwordService;
 
 	@DisplayName("할당 퀘스트를 생성한다.")
 	@Test
@@ -48,7 +43,7 @@ public class AssignQuestServiceTest {
 		AssignQuest assignQuest = AssignQuestFixture.assignQuest();
 
 		doReturn(4L).when(assignQuestRepository).countParticipatingQuestByQuestType(any(), any(), any(), any());
-		doReturn(Optional.of(MemberFixture.member(5, passwordService))).when(memberRepository).findById(any());
+		doReturn(MemberFixture.member(5)).when(memberService).find(any());
 		doReturn(4).when(assignQuestRepository).findMaxDisplayOrderOfParticipatingQuest(any(), any(), any(), any());
 		doReturn(assignQuest).when(assignQuestRepository).save(any());
 
@@ -63,7 +58,7 @@ public class AssignQuestServiceTest {
 		int maxDisplayOrder = 4;
 
 		doReturn(4L).when(assignQuestRepository).countParticipatingQuestByQuestType(any(), any(), any(), any());
-		doReturn(Optional.of(MemberFixture.member(5, passwordService))).when(memberRepository).findById(any());
+		doReturn(MemberFixture.member(5)).when(memberService).find(any());
 		doReturn(maxDisplayOrder).when(assignQuestRepository).findMaxDisplayOrderOfParticipatingQuest(any(), any(), any(), any());
 		doReturn(AssignQuestFixture.assignQuest(maxDisplayOrder + 1)).when(assignQuestRepository).save(any());
 
@@ -76,7 +71,7 @@ public class AssignQuestServiceTest {
 	@Test
 	void create_assign_quest_exceeding_quest_property() {
 		doReturn(5L).when(assignQuestRepository).countParticipatingQuestByQuestType(any(), any(), any(), any());
-		doReturn(Optional.of(MemberFixture.member(5, passwordService))).when(memberRepository).findById(any());
+		doReturn(MemberFixture.member(5)).when(memberService).find(any());
 
 		assertThatThrownBy(() -> sut.create(ParticipantId.of(UUID.randomUUID()), QuestFixture.quest()))
 			.isInstanceOf(AssignQuestConstraintViolationException.class)

@@ -3,7 +3,6 @@ package com.gomo.app.interest.unit.usecase;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +17,7 @@ import com.gomo.app.interest.common.fixture.MajorInterestFixture;
 import com.gomo.app.interest.domain.model.MajorInterest;
 import com.gomo.app.interest.domain.model.MajorInterestId;
 import com.gomo.app.interest.domain.repository.MajorInterestRepository;
+import com.gomo.app.interest.domain.service.MajorInterestService;
 import com.gomo.app.interest.exception.MajorInterestAccessDeniedException;
 
 @DisplayName("[Application unit]: 주요 관심사 삭제 테스트")
@@ -28,15 +28,18 @@ public class DeleteMajorInterestUseCaseTest {
 	private DeleteMajorInterestUseCase sut;
 
 	@Mock
+	private MajorInterestService majorInterestService;
+
+	@Mock
 	private MajorInterestRepository majorInterestRepository;
 
 	@DisplayName("주요 관심사를 삭제한다.")
 	@Test
 	void delete_interest() {
-		MajorInterest expected = MajorInterestFixture.majorInterest();
-		doReturn(Optional.of(expected)).when(majorInterestRepository).findById(any(MajorInterestId.class));
+		MajorInterest majorInterest = MajorInterestFixture.majorInterest();
+		doReturn(majorInterest).when(majorInterestService).find(any(MajorInterestId.class));
 
-		sut.delete(expected.getRegistrantId().getId(), expected.getId());
+		sut.delete(majorInterest.getRegistrantId().getId(), majorInterest.getId());
 
 		verify(majorInterestRepository, times(1)).delete(any(MajorInterest.class));
 	}
@@ -46,7 +49,7 @@ public class DeleteMajorInterestUseCaseTest {
 	void delete_interest_by_unauthorized_accessor() {
 		MajorInterest majorInterest = mock(MajorInterest.class);
 		doThrow(MajorInterestAccessDeniedException.class).when(majorInterest).validateAuthority(any(UUID.class));
-		doReturn(Optional.of(majorInterest)).when(majorInterestRepository).findById(any(MajorInterestId.class));
+		doReturn(majorInterest).when(majorInterestService).find(any(MajorInterestId.class));
 
 		assertThatThrownBy(() -> sut.delete(UUID.randomUUID(), MajorInterestId.of(UUID.randomUUID())))
 			.isInstanceOf(MajorInterestAccessDeniedException.class);

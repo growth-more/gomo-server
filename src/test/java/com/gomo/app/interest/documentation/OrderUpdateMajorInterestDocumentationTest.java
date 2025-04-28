@@ -63,8 +63,8 @@ public class OrderUpdateMajorInterestDocumentationTest extends DocumentationTest
 	private @NotNull OrderUpdateMajorInterestRequest getRequest() {
 		return OrderUpdateMajorInterestRequest.of(
 			List.of(
-				UpdateOrderRequest.of(majorInterestA.getId().getId(), 2),
-				UpdateOrderRequest.of(majorInterestB.getId().getId(), 1)
+				UpdateOrderRequest.of(majorInterestA.uuid(), 2),
+				UpdateOrderRequest.of(majorInterestB.uuid(), 1)
 			)
 		);
 	}

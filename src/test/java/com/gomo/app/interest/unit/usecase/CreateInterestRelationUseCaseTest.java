@@ -35,7 +35,7 @@ public class CreateInterestRelationUseCaseTest {
 		doReturn(interestRelation).when(interestRelationService).create(any(), any(), any());
 
 		CreateInterestRelationResponse actual = sut.create(
-			interestRelation.getRegistrantId(),
+			interestRelation.registrantUuid(),
 			createRequest(interestRelation)
 		);
 

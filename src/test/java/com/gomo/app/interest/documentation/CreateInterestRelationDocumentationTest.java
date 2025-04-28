@@ -1,12 +1,11 @@
 package com.gomo.app.interest.documentation;
 
-import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.interest.common.dataprovider.InterestDataProvider;
-import com.gomo.app.interest.common.util.InterestDataHelper;
-import com.gomo.app.interest.common.util.InterestRelationDataHelper;
-import com.gomo.app.interest.documentation.snippet.CreateInterestRelationSnippet;
-import com.gomo.app.interest.domain.model.Interest;
-import com.gomo.app.interest.presentation.request.CreateInterestRelationRequest;
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
+import static org.springframework.http.HttpHeaders.*;
+import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.MediaType.*;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,12 +13,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.hasLength;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import com.gomo.app.common.DocumentationTestBase;
+import com.gomo.app.interest.common.dataprovider.InterestDataProvider;
+import com.gomo.app.interest.common.util.InterestDataHelper;
+import com.gomo.app.interest.common.util.InterestRelationDataHelper;
+import com.gomo.app.interest.documentation.snippet.CreateInterestRelationSnippet;
+import com.gomo.app.interest.domain.model.Interest;
+import com.gomo.app.interest.presentation.request.CreateInterestRelationRequest;
 
 @DisplayName("[Presentation documentation]: 관심사 관계 생성 테스트")
 public class CreateInterestRelationDocumentationTest extends DocumentationTestBase {
@@ -55,7 +55,7 @@ public class CreateInterestRelationDocumentationTest extends DocumentationTestBa
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.header(AUTHORIZATION, "Bearer " + accessToken)
-			.body(CreateInterestRelationRequest.of(backend.getId().getId(), spring.getId().getId()))
+			.body(CreateInterestRelationRequest.of(backend.uuid(), spring.uuid()))
 			.when()
 			.post("/interests/networks/relations")
 			.then()

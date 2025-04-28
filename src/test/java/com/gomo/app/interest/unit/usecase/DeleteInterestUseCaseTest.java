@@ -1,10 +1,8 @@
 package com.gomo.app.interest.unit.usecase;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.DisplayName;
@@ -12,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.image.ImageService;
@@ -21,11 +20,11 @@ import com.gomo.app.interest.common.fixture.InterestRelationFixture;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.InterestRelation;
-import com.gomo.app.interest.domain.repository.InterestRelationRepository;
+import com.gomo.app.interest.domain.model.Logo;
 import com.gomo.app.interest.domain.repository.InterestRepository;
 import com.gomo.app.interest.domain.repository.MajorInterestRepository;
 import com.gomo.app.interest.domain.service.InterestRelationService;
-import com.gomo.app.interest.exception.InterestAccessDeniedException;
+import com.gomo.app.interest.domain.service.InterestService;
 
 @DisplayName("[Application unit]: 관심사 삭제 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -33,6 +32,9 @@ public class DeleteInterestUseCaseTest {
 
 	@InjectMocks
 	private DeleteInterestUseCase sut;
+
+	@Mock
+	private InterestService interestService;
 
 	@Mock
 	private ImageService imageService;
@@ -46,40 +48,39 @@ public class DeleteInterestUseCaseTest {
 	@Mock
 	private MajorInterestRepository majorInterestRepository;
 
-	@Mock
-	private InterestRelationRepository interestRelationRepository;
-
 	@DisplayName("관심사를 삭제한다.")
 	@Test
 	void delete_interest() {
 		Interest interest = InterestFixture.interest();
-		doReturn(Optional.of(interest)).when(interestRepository).findById(any());
-		doReturn(List.of(InterestRelationFixture.relation())).when(interestRelationRepository).findByInterestId(any());
+		doReturn(interest).when(interestService).find(any(InterestId.class));
+		doReturn(List.of(InterestRelationFixture.relation())).when(interestRelationService).findAllByInterestId(any(UUID.class));
 
-		sut.delete(interest.getRegistrantId().getId(), interest.getId());
+		sut.delete(interest.getRegistrantId().getId(), interest.uuid());
 
 		verify(interestRepository, times(1)).delete(any());
 	}
 
-	@DisplayName("권한 없는 접근자는 관심사를 삭제할 수 없다.")
+	@DisplayName("관심사를 삭제하기 전, 권한 검사를 한다.")
 	@Test
 	void delete_interest_by_unauthorized_accessor() {
-		Interest interest = mock(Interest.class);
-		doReturn(Optional.of(interest)).when(interestRepository).findById(any(InterestId.class));
-		doThrow(InterestAccessDeniedException.class).when(interest).validateAuthority(any(UUID.class));
+		Interest interest = Mockito.mock(Interest.class);
+		doReturn(interest).when(interestService).find(any(InterestId.class));
+		doReturn(Logo.of("logo")).when(interest).getLogo();
+		doReturn(List.of(InterestRelationFixture.relation())).when(interestRelationService).findAllByInterestId(any(UUID.class));
 
-		assertThatThrownBy(() -> sut.delete(UUID.randomUUID(), InterestId.of(UUID.randomUUID())))
-			.isInstanceOf(InterestAccessDeniedException.class);
+		sut.delete(UUID.randomUUID(), UUID.randomUUID());
+
+		verify(interest, times(1)).validateAuthority(any(UUID.class));
 	}
 
 	@DisplayName("관심사의 로고가 기본 로고라면 이미지는 삭제되지 않는다.")
 	@Test
 	void does_not_delete_interest_logo() {
 		Interest interest = InterestFixture.defaultLogo();
-		doReturn(Optional.of(interest)).when(interestRepository).findById(any());
-		doReturn(List.of(InterestRelationFixture.relation())).when(interestRelationRepository).findByInterestId(any());
+		doReturn(interest).when(interestService).find(any(InterestId.class));
+		doReturn(List.of(InterestRelationFixture.relation())).when(interestRelationService).findAllByInterestId(any(UUID.class));
 
-		sut.delete(interest.getRegistrantId().getId(), interest.getId());
+		sut.delete(interest.getRegistrantId().getId(), interest.uuid());
 
 		verify(imageService, times(0)).deleteImage(any());
 	}
@@ -88,10 +89,10 @@ public class DeleteInterestUseCaseTest {
 	@Test
 	void delete_interest_logo() {
 		Interest interest = InterestFixture.interest();
-		doReturn(Optional.of(interest)).when(interestRepository).findById(any());
-		doReturn(List.of(InterestRelationFixture.relation())).when(interestRelationRepository).findByInterestId(any());
+		doReturn(interest).when(interestService).find(any(InterestId.class));
+		doReturn(List.of(InterestRelationFixture.relation())).when(interestRelationService).findAllByInterestId(any(UUID.class));
 
-		sut.delete(interest.getRegistrantId().getId(), interest.getId());
+		sut.delete(interest.getRegistrantId().getId(), interest.uuid());
 
 		verify(imageService, times(1)).deleteImage(any());
 	}
@@ -100,10 +101,10 @@ public class DeleteInterestUseCaseTest {
 	@Test
 	void delete_major_interest() {
 		Interest interest = InterestFixture.interest();
-		doReturn(Optional.of(interest)).when(interestRepository).findById(any());
-		doReturn(List.of(InterestRelationFixture.relation())).when(interestRelationRepository).findByInterestId(any());
+		doReturn(interest).when(interestService).find(any(InterestId.class));
+		doReturn(List.of(InterestRelationFixture.relation())).when(interestRelationService).findAllByInterestId(any(UUID.class));
 
-		sut.delete(interest.getRegistrantId().getId(), interest.getId());
+		sut.delete(interest.getRegistrantId().getId(), interest.uuid());
 
 		verify(majorInterestRepository, times(1)).deleteByInterestId(any());
 	}
@@ -113,23 +114,23 @@ public class DeleteInterestUseCaseTest {
 	void delete_major_interest_relation() {
 		Interest interest = InterestFixture.interest();
 		List<InterestRelation> interestRelations = List.of(InterestRelationFixture.relation());
-		doReturn(Optional.of(interest)).when(interestRepository).findById(any());
-		doReturn(interestRelations).when(interestRelationRepository).findByInterestId(any());
+		doReturn(interest).when(interestService).find(any(InterestId.class));
+		doReturn(interestRelations).when(interestRelationService).findAllByInterestId(any(UUID.class));
 
-		sut.delete(interest.getRegistrantId().getId(), interest.getId());
+		sut.delete(interest.getRegistrantId().getId(), interest.uuid());
 
-		verify(interestRelationService, times(interestRelations.size())).delete(any(), any());
+		verify(interestRelationService, times(interestRelations.size())).delete(any());
 	}
 
 	@DisplayName("관심사를 삭제할 때, 관심사와 연결된 관계선이 없다면 관계선은 삭제하지 않는다.")
 	@Test
 	void does_not_delete_major_interest_relation() {
 		Interest interest = InterestFixture.interest();
-		doReturn(Optional.of(interest)).when(interestRepository).findById(any());
-		doReturn(List.of()).when(interestRelationRepository).findByInterestId(any());
+		doReturn(interest).when(interestService).find(any(InterestId.class));
+		doReturn(List.of()).when(interestRelationService).findAllByInterestId(any(UUID.class));
 
-		sut.delete(interest.getRegistrantId().getId(), interest.getId());
+		sut.delete(interest.getRegistrantId().getId(), interest.uuid());
 
-		verify(interestRelationService, times(0)).delete(any(), any());
+		verify(interestRelationService, times(0)).delete(any());
 	}
 }

@@ -3,9 +3,6 @@ package com.gomo.app.member.unit.usecase;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.util.Optional;
-import java.util.UUID;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,10 +14,7 @@ import com.gomo.app.member.application.ReadMemberUseCase;
 import com.gomo.app.member.common.fixture.MemberFixture;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.model.MemberId;
-import com.gomo.app.member.domain.repository.MemberRepository;
-import com.gomo.app.member.domain.service.PasswordService;
-import com.gomo.app.member.exception.MemberNotFoundException;
-import com.gomo.app.member.exception.code.MemberErrorCode;
+import com.gomo.app.member.domain.service.MemberService;
 import com.gomo.app.member.presentation.response.ReadMemberResponse;
 import com.gomo.app.point.domain.model.Balance;
 import com.gomo.app.point.domain.model.TransactorId;
@@ -33,38 +27,26 @@ public class ReadMemberUseCaseTest {
 	private ReadMemberUseCase sut;
 
 	@Mock
-	private MemberRepository memberRepository;
+	private MemberService memberService;
 
 	@Mock
 	private PointWalletService pointWalletService;
-
-	@Mock
-	private PasswordService passwordService;
 
 	private static final int BALANCE_AMOUNT = 5000;
 
 	@DisplayName("멤버 조회에 성공한다.")
 	@Test
 	void read_member_successfully() {
-		Member member = MemberFixture.member(passwordService);
+		Member member = MemberFixture.member();
 		Balance balance = Balance.of(BALANCE_AMOUNT);
 		ReadMemberResponse expected = ReadMemberResponse.of(member, BALANCE_AMOUNT);
 
-		doReturn(Optional.of(member)).when(memberRepository).findById(member.getId());
+		doReturn(member).when(memberService).find(MemberId.of(member.uuid()));
 		doReturn(balance).when(pointWalletService).findBalance(TransactorId.of(member.getId().getId()));
 
-		ReadMemberResponse actual = sut.find(member.getId());
+		ReadMemberResponse actual = sut.find(member.uuid());
 
 		assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
-
-	}
-
-	@DisplayName("존재하지 않는 멤버를 조회하여 실패한다.")
-	@Test
-	void read_not_exist_member() {
-		assertThatThrownBy(() -> sut.find(MemberId.of(UUID.randomUUID())))
-			.isInstanceOf(MemberNotFoundException.class)
-			.hasMessageContaining(MemberErrorCode.NOT_FOUND.getMessage());
 
 	}
 }

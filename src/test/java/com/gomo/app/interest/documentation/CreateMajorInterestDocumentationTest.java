@@ -53,7 +53,7 @@ public class CreateMajorInterestDocumentationTest extends DocumentationTestBase 
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.when()
-			.post("/interests/{id}/majors", backend.getId().getId())
+			.post("/interests/{id}/majors", backend.uuid())
 			.then()
 			.statusCode(CREATED.value())
 			.body("id", hasLength(36));
@@ -67,11 +67,11 @@ public class CreateMajorInterestDocumentationTest extends DocumentationTestBase 
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.when()
-			.post("/interests/{id}/majors", java.getId().getId())
+			.post("/interests/{id}/majors", java.uuid())
 			.then()
 			.statusCode(MajorInterestErrorCode.DUPLICATED.getHttpStatus())
 			.body("timestamp", instanceOf(String.class))
-			.body("path", equalTo("/interests/" + java.getId().getId() + "/majors"))
+			.body("path", equalTo("/interests/" + java.uuid() + "/majors"))
 			.body("httpStatus", equalTo(MajorInterestErrorCode.DUPLICATED.getHttpStatus()))
 			.body("code", equalTo(MajorInterestErrorCode.DUPLICATED.getErrorCode()))
 			.body("message", equalTo(MajorInterestErrorCode.DUPLICATED.getMessage()));

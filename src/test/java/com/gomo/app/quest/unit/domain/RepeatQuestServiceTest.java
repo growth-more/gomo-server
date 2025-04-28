@@ -4,10 +4,8 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-import java.util.Optional;
 import java.util.UUID;
 
-import com.gomo.app.member.domain.service.PasswordService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.member.common.fixture.MemberFixture;
-import com.gomo.app.member.domain.repository.MemberRepository;
+import com.gomo.app.member.domain.service.MemberService;
 import com.gomo.app.quest.common.fixture.QuestFixture;
 import com.gomo.app.quest.common.fixture.RepeatQuestFixture;
 import com.gomo.app.quest.domain.model.ParticipantId;
@@ -24,6 +22,7 @@ import com.gomo.app.quest.domain.model.RepeatQuest;
 import com.gomo.app.quest.domain.repository.RepeatQuestRepository;
 import com.gomo.app.quest.domain.service.RepeatQuestService;
 import com.gomo.app.quest.exception.RepeatQuestThresholdExceededException;
+import com.gomo.app.quest.exception.code.RepeatQuestErrorCode;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Domain unit]: 반복 퀘스트 생성 테스트")
@@ -33,13 +32,10 @@ public class RepeatQuestServiceTest {
 	RepeatQuestService sut;
 
 	@Mock
-	MemberRepository memberRepository;
+	MemberService memberService;
 
 	@Mock
 	RepeatQuestRepository repeatQuestRepository;
-
-	@Mock
-	PasswordService passwordService;
 
 	@DisplayName("반복 퀘스트를 생성한다.")
 	@Test
@@ -47,7 +43,7 @@ public class RepeatQuestServiceTest {
 		RepeatQuest repeatQuest = RepeatQuestFixture.repeatQuest();
 
 		doReturn(4L).when(repeatQuestRepository).countByQuestParticipantIdAndQuestType(any(), any());
-		doReturn(Optional.of(MemberFixture.member(5, passwordService))).when(memberRepository).findById(any());
+		doReturn(MemberFixture.member(5)).when(memberService).find(any());
 		doReturn(4).when(repeatQuestRepository).findMaxDisplayOrderByQuestType(any(), any());
 		doReturn(repeatQuest).when(repeatQuestRepository).save(any());
 
@@ -62,7 +58,7 @@ public class RepeatQuestServiceTest {
 		int maxDisplayOrder = 4;
 
 		doReturn(4L).when(repeatQuestRepository).countByQuestParticipantIdAndQuestType(any(), any());
-		doReturn(Optional.of(MemberFixture.member(5, passwordService))).when(memberRepository).findById(any());
+		doReturn(MemberFixture.member(5)).when(memberService).find(any());
 		doReturn(maxDisplayOrder).when(repeatQuestRepository).findMaxDisplayOrderByQuestType(any(), any());
 		doReturn(RepeatQuestFixture.repeatQuest(maxDisplayOrder + 1)).when(repeatQuestRepository).save(any());
 
@@ -75,10 +71,10 @@ public class RepeatQuestServiceTest {
 	@Test
 	void create_repeat_quest_exceeding_quest_property() {
 		doReturn(5L).when(repeatQuestRepository).countByQuestParticipantIdAndQuestType(any(), any());
-		doReturn(Optional.of(MemberFixture.member(5, passwordService))).when(memberRepository).findById(any());
+		doReturn(MemberFixture.member(5)).when(memberService).find(any());
 
 		assertThatThrownBy(() -> sut.create(ParticipantId.of(UUID.randomUUID()), QuestFixture.quest()))
 			.isInstanceOf(RepeatQuestThresholdExceededException.class)
-			.hasMessageContaining("Repeat quest threshold exceeded");
+			.hasMessageContaining(RepeatQuestErrorCode.THRESHOLD_EXCEEDED.getMessage());
 	}
 }
