@@ -1,14 +1,20 @@
 package com.gomo.app.quest.application;
 
-import org.jetbrains.annotations.NotNull;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 import com.gomo.app.common.ApplicationService;
+import com.gomo.app.common.util.DateRangeCalculator;
+import com.gomo.app.member.domain.model.MemberId;
+import com.gomo.app.member.domain.service.MemberService;
+import com.gomo.app.quest.application.translator.ParticipantTranslator;
 import com.gomo.app.quest.domain.model.AssignQuest;
+import com.gomo.app.quest.domain.model.Participant;
 import com.gomo.app.quest.domain.model.ParticipantId;
 import com.gomo.app.quest.domain.model.Quest;
-import com.gomo.app.quest.domain.model.QuestContent;
-import com.gomo.app.quest.domain.model.SubjectId;
-import com.gomo.app.quest.domain.model.SubjectName;
+import com.gomo.app.quest.domain.model.QuestType;
+import com.gomo.app.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.quest.domain.service.AssignQuestService;
 import com.gomo.app.quest.presentation.request.CreateAssignQuestRequest;
 import com.gomo.app.quest.presentation.response.CreateAssignQuestResponse;
@@ -19,23 +25,33 @@ import lombok.RequiredArgsConstructor;
 @ApplicationService
 public class CreateAssignQuestUseCase {
 
+	private final MemberService memberService;
 	private final AssignQuestService assignQuestService;
+	private final AssignQuestRepository assignQuestRepository;
 
-	// TODO <jhl221123>: 응용 영역에서 MemberService를 사용해 Member를 조회하고, Participant로 변경해 도메인 영역으로 전달해야 좋은 설계입니다.
-	public CreateAssignQuestResponse create(ParticipantId participantId, CreateAssignQuestRequest request) {
-		Quest quest = createQuest(participantId, request);
-		AssignQuest savedAssignQuest = assignQuestService.create(participantId, quest);
+	public CreateAssignQuestResponse create(UUID participantId, CreateAssignQuestRequest request) {
+		ensureNotExceedQuestQuota(participantId, request.getQuestType());
+		Quest quest = request.toQuest(participantId);
+		AssignQuest savedAssignQuest = assignQuestService.create(ParticipantId.of(participantId), quest);
 		return CreateAssignQuestResponse.of(savedAssignQuest.getId());
 	}
 
-	@NotNull
-	private Quest createQuest(ParticipantId participantId, CreateAssignQuestRequest request) {
-		return Quest.of(
+	private void ensureNotExceedQuestQuota(UUID participantId, QuestType questType) {
+		Participant participant = ParticipantTranslator.from(memberService.find(MemberId.of(participantId)));
+		int participatingQuestCount = countParticipatingQuest(participant.getId(), questType);
+		participant.validateQuestQuota(questType, participatingQuestCount);
+	}
+
+	private int countParticipatingQuest(ParticipantId participantId, QuestType questType) {
+		LocalDate now = LocalDate.now();
+		LocalDateTime startDateTime = DateRangeCalculator.startOf(now, questType.name());
+		LocalDateTime endDateTime = DateRangeCalculator.endOf(now, questType.name());
+
+		return (int) assignQuestRepository.countParticipatingQuestByQuestType(
 			participantId,
-			SubjectId.of(request.getSubjectId()),
-			SubjectName.of(request.getSubjectName()),
-			request.getQuestType(),
-			QuestContent.of(request.getContent())
+			questType,
+			startDateTime,
+			endDateTime
 		);
 	}
 }
