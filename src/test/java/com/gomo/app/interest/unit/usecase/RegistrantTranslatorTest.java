@@ -7,35 +7,41 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.interest.application.translator.InterestQuotaTranslator;
+import com.gomo.app.interest.application.translator.RegistrantTranslator;
 import com.gomo.app.interest.domain.model.InterestQuota;
+import com.gomo.app.interest.domain.model.Registrant;
+import com.gomo.app.member.common.fixture.MemberFixture;
+import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.model.SubscriptionPlan;
 
-@DisplayName("[Application unit]: SubscriptionPlan -> InterestQuota 전환 테스트")
+@DisplayName("[Application unit]: Member -> Registrant 전환 테스트")
 @ExtendWith(MockitoExtension.class)
-public class InterestQuotaTranslatorTest {
+public class RegistrantTranslatorTest {
 
 	@DisplayName("SubscriptionPlan.FREE는 InterestQuota.FREE로 전환된다.")
 	@Test
 	void free_to_free() {
-		InterestQuota interestQuota = InterestQuotaTranslator.from(SubscriptionPlan.FREE);
+		Member member = MemberFixture.member(SubscriptionPlan.FREE);
+		Registrant registrant = RegistrantTranslator.from(member);
 
-		assertThat(interestQuota).isEqualTo(InterestQuota.FREE);
+		assertThat(registrant.getInterestQuota()).isEqualTo(InterestQuota.FREE);
 	}
 
 	@DisplayName("SubscriptionPlan.BASIC은 InterestQuota.BASIC으로 전환된다.")
 	@Test
 	void basic_to_basic() {
-		InterestQuota interestQuota = InterestQuotaTranslator.from(SubscriptionPlan.BASIC);
+		Member member = MemberFixture.member(SubscriptionPlan.BASIC);
+		Registrant registrant = RegistrantTranslator.from(member);
 
-		assertThat(interestQuota).isEqualTo(InterestQuota.BASIC);
+		assertThat(registrant.getInterestQuota()).isEqualTo(InterestQuota.BASIC);
 	}
 
 	@DisplayName("SubscriptionPlan.PREMIUM은 InterestQuota.PREMIUM으로 전환된다.")
 	@Test
 	void premium_to_premium() {
-		InterestQuota interestQuota = InterestQuotaTranslator.from(SubscriptionPlan.PREMIUM);
+		Member member = MemberFixture.member(SubscriptionPlan.PREMIUM);
+		Registrant registrant = RegistrantTranslator.from(member);
 
-		assertThat(interestQuota).isEqualTo(InterestQuota.PREMIUM);
+		assertThat(registrant.getInterestQuota()).isEqualTo(InterestQuota.PREMIUM);
 	}
 }

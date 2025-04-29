@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.DisplayName;
@@ -13,15 +14,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.member.common.fixture.MemberFixture;
-import com.gomo.app.member.domain.service.MemberService;
 import com.gomo.app.quest.common.fixture.AssignQuestFixture;
 import com.gomo.app.quest.common.fixture.QuestFixture;
 import com.gomo.app.quest.domain.model.AssignQuest;
+import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.model.ParticipantId;
 import com.gomo.app.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.quest.domain.service.AssignQuestService;
-import com.gomo.app.quest.exception.AssignQuestConstraintViolationException;
+import com.gomo.app.quest.exception.AssignQuestNotFoundException;
 import com.gomo.app.quest.exception.code.AssignQuestErrorCode;
 
 @ExtendWith(MockitoExtension.class)
@@ -32,9 +32,6 @@ public class AssignQuestServiceTest {
 	AssignQuestService sut;
 
 	@Mock
-	MemberService memberService;
-
-	@Mock
 	AssignQuestRepository assignQuestRepository;
 
 	@DisplayName("할당 퀘스트를 생성한다.")
@@ -42,8 +39,6 @@ public class AssignQuestServiceTest {
 	void create_assign_quest() {
 		AssignQuest assignQuest = AssignQuestFixture.assignQuest();
 
-		doReturn(4L).when(assignQuestRepository).countParticipatingQuestByQuestType(any(), any(), any(), any());
-		doReturn(MemberFixture.member(5)).when(memberService).find(any());
 		doReturn(4).when(assignQuestRepository).findMaxDisplayOrderOfParticipatingQuest(any(), any(), any(), any());
 		doReturn(assignQuest).when(assignQuestRepository).save(any());
 
@@ -55,26 +50,32 @@ public class AssignQuestServiceTest {
 	@DisplayName("새로 생성된 할당 퀘스트의 정렬 순서는 현재 참여중인 퀘스트의 마지막 번호 + 1이다.")
 	@Test
 	void create_assign_quest_with_display_order() {
-		int maxDisplayOrder = 4;
-
-		doReturn(4L).when(assignQuestRepository).countParticipatingQuestByQuestType(any(), any(), any(), any());
-		doReturn(MemberFixture.member(5)).when(memberService).find(any());
-		doReturn(maxDisplayOrder).when(assignQuestRepository).findMaxDisplayOrderOfParticipatingQuest(any(), any(), any(), any());
-		doReturn(AssignQuestFixture.assignQuest(maxDisplayOrder + 1)).when(assignQuestRepository).save(any());
+		doReturn(4).when(assignQuestRepository).findMaxDisplayOrderOfParticipatingQuest(any(), any(), any(), any());
+		doReturn(AssignQuestFixture.assignQuest(4 + 1)).when(assignQuestRepository).save(any());
 
 		AssignQuest actual = sut.create(ParticipantId.of(UUID.randomUUID()), QuestFixture.quest());
 
-		assertThat(actual.getDisplayOrder().getDisplayOrder()).isEqualTo(maxDisplayOrder + 1);
+		assertThat(actual.getDisplayOrder().getDisplayOrder()).isEqualTo(4 + 1);
 	}
 
-	@DisplayName("할당 퀘스트는 사용자가 지정한 개수를 초과해서 생성할 수 없다.")
+	@DisplayName("할당 퀘스트를 조회한다.")
 	@Test
-	void create_assign_quest_exceeding_quest_property() {
-		doReturn(5L).when(assignQuestRepository).countParticipatingQuestByQuestType(any(), any(), any(), any());
-		doReturn(MemberFixture.member(5)).when(memberService).find(any());
+	void find_assign_quest() {
+		AssignQuest assignQuest = AssignQuestFixture.assignQuest();
+		doReturn(Optional.of(assignQuest)).when(assignQuestRepository).findById(any());
 
-		assertThatThrownBy(() -> sut.create(ParticipantId.of(UUID.randomUUID()), QuestFixture.quest()))
-			.isInstanceOf(AssignQuestConstraintViolationException.class)
-			.hasMessageContaining(AssignQuestErrorCode.THRESHOLD_EXCEEDED.getMessage());
+		AssignQuest actual = sut.find(assignQuest.getId());
+
+		assertThat(actual).isEqualTo(assignQuest);
+	}
+
+	@DisplayName("존재하지 않는 할당 퀘스트를 조회한다.")
+	@Test
+	void find_nonexistent_assign_quest() {
+		doReturn(Optional.empty()).when(assignQuestRepository).findById(any());
+
+		assertThatThrownBy(() -> sut.find(AssignQuestId.of(UUID.randomUUID())))
+			.isInstanceOf(AssignQuestNotFoundException.class)
+			.hasMessageContaining(AssignQuestErrorCode.NOT_FOUND.getMessage());
 	}
 }

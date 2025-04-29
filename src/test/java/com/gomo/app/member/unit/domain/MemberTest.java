@@ -10,7 +10,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.member.common.fixture.MemberFixture;
 import com.gomo.app.member.domain.model.Email;
 import com.gomo.app.member.domain.model.Handle;
 import com.gomo.app.member.domain.model.LoginProvider;
@@ -19,9 +18,6 @@ import com.gomo.app.member.domain.model.MemberId;
 import com.gomo.app.member.domain.model.MemberName;
 import com.gomo.app.member.domain.model.Motto;
 import com.gomo.app.member.domain.model.Password;
-import com.gomo.app.member.exception.QuestPropertyConstraintViolationException;
-import com.gomo.app.member.exception.code.QuestPropertyErrorCode;
-import com.gomo.app.quest.domain.model.QuestType;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Domain unit]: 회원 테스트")
@@ -42,76 +38,5 @@ public class MemberTest {
 		assertThat(member)
 			.extracting("id", "email", "handle", "motto", "loginProvider")
 			.containsExactly(ID, EMAIL, HANDLE, MOTTO, LOGIN_PROVIDER);
-	}
-
-	@DisplayName("일일 퀘스트 개수가 퀘스트 제한에 도달하지 않는다.")
-	@Test
-	void not_exceed_daily_quest_threshold() {
-		Member member = MemberFixture.member(3);
-
-		boolean actual = member.hasReachedQuestThreshold(QuestType.DAILY.name(), 2);
-
-		assertThat(actual).isFalse();
-	}
-
-	@DisplayName("일일 퀘스트 개수가 퀘스트 제한에 도달한다.")
-	@Test
-	void exceed_daily_quest_threshold() {
-		Member member = MemberFixture.member(3);
-
-		boolean actual = member.hasReachedQuestThreshold(QuestType.DAILY.name(), 3);
-
-		assertThat(actual).isTrue();
-	}
-
-	@DisplayName("주간 퀘스트 개수가 퀘스트 제한에 도달하지 않는다.")
-	@Test
-	void not_exceed_weekly_quest_threshold() {
-
-		Member member = MemberFixture.member(3);
-
-		boolean actual = member.hasReachedQuestThreshold(QuestType.WEEKLY.name(), 2);
-
-		assertThat(actual).isFalse();
-	}
-
-	@DisplayName("주간 퀘스트 개수가 퀘스트 제한에 도달한다.")
-	@Test
-	void exceed_weekly_quest_threshold() {
-		Member member = MemberFixture.member(3);
-
-		boolean actual = member.hasReachedQuestThreshold(QuestType.WEEKLY.name(), 3);
-
-		assertThat(actual).isTrue();
-	}
-
-	@DisplayName("월간 퀘스트 개수가 퀘스트 제한에 도달하지 않는다.")
-	@Test
-	void not_exceed_monthly_quest_threshold() {
-		Member member = MemberFixture.member(3);
-
-		boolean actual = member.hasReachedQuestThreshold(QuestType.MONTHLY.name(), 2);
-
-		assertThat(actual).isFalse();
-	}
-
-	@DisplayName("월간 퀘스트 개수가 퀘스트 제한에 도달한다.")
-	@Test
-	void exceed_monthly_quest_threshold() {
-		Member member = MemberFixture.member(3);
-
-		boolean actual = member.hasReachedQuestThreshold(QuestType.MONTHLY.name(), 3);
-
-		assertThat(actual).isTrue();
-	}
-
-	@DisplayName("잘못된 퀘스트 타입을 제공한다.")
-	@Test
-	void exceed_quest_threshold() {
-		Member member = MemberFixture.member(3);
-
-		assertThatThrownBy(() -> member.hasReachedQuestThreshold("NONE", 3))
-			.isInstanceOf(QuestPropertyConstraintViolationException.class)
-			.hasMessageContaining(QuestPropertyErrorCode.UNEXPECTED_QUEST_TYPE.getMessage());
 	}
 }
