@@ -18,7 +18,7 @@ public class ParticipantTranslatorTest {
 
 	@DisplayName("회원의 퀘스트 설정에 따라 퀘스트 할당량이 결정된다.")
 	@Test
-	void free_to_free() {
+	void member_to_participant() {
 		Member member = MemberFixture.member(5, 5, 5);
 		Participant participant = ParticipantTranslator.from(member);
 
