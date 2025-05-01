@@ -24,10 +24,9 @@ public class UpdateProfileBannerUseCase {
 
 	public UpdateProfileBannerResponse update(UUID memberId, MultipartFile profileBanner) {
 		Member member = memberService.find(MemberId.of(memberId));
-		String banner_url = imageService.uploadImage(profileBanner);
-		// TODO <jhl221123> to <nurdy>: 루트 애그리거트에서 수정하도록 개선이 필요합니다. ※ 변수 형식도 수정해야 합니다.
-		member.updateProfileBanner(member.getProfileBanner().updateUrl(banner_url));
+		String updatedUrl = imageService.uploadImage(profileBanner);
+		member.updateProfileBanner(updatedUrl);
 
-		return UpdateProfileBannerResponse.of(banner_url);
+		return UpdateProfileBannerResponse.of(updatedUrl);
 	}
 }
