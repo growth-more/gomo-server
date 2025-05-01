@@ -150,8 +150,8 @@ public class Member extends LogicalDeleteBaseAudit {
 		this.profileImage = profileImage;
 	}
 
-	public void updateProfileBanner(ProfileBanner profileBanner) {
-		this.profileBanner = profileBanner;
+	public void updateProfileBanner(String updatedUrl) {
+		this.profileBanner = this.profileBanner.updateUrl(updatedUrl);
 	}
 
 	public void updateQuestProperty(QuestProperty questProperty) {
