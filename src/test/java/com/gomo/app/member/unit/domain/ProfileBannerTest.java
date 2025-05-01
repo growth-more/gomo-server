@@ -55,7 +55,7 @@ public class ProfileBannerTest {
 	@Test
 	void update_member_banner(){
 		Member member = Member.of(ID, EMAIL, PASSWORD, HANDLE, MEMBER_NAME, MOTTO, LOGIN_PROVIDER);
-		member.updateProfileBanner(member.getProfileBanner().updateUrl("https://mini-io/updated_banner.png"));
+		member.updateProfileBanner("https://mini-io/updated_banner.png");
 
 		assertThat(member.getProfileBanner().getUrl())
 				.isEqualTo("https://mini-io/updated_banner.png");
