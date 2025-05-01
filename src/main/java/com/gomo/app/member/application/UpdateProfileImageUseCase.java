@@ -24,10 +24,9 @@ public class UpdateProfileImageUseCase {
 
 	public UpdateProfileImageResponse update(UUID memberId, MultipartFile profileImage) {
 		Member member = memberService.find(MemberId.of(memberId));
-		String profile_url = imageService.uploadImage(profileImage);
-		// TODO <jhl221123> to <nurdy>: 루트 애그리거트에서 수정하도록 개선이 필요합니다. ※ 변수 형식도 수정해야 합니다.
-		member.updateProfileImage(member.getProfileImage().updateUrl(profile_url));
+		String updatedUrl = imageService.uploadImage(profileImage);
+		member.updateProfileImage(updatedUrl);
 
-		return UpdateProfileImageResponse.of(profile_url);
+		return UpdateProfileImageResponse.of(updatedUrl);
 	}
 }
