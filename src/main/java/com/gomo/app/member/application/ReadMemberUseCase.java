@@ -26,9 +26,4 @@ public class ReadMemberUseCase {
 		Balance balance = pointWalletService.findBalance(TransactorId.of(member.getId().getId()));
 		return ReadMemberResponse.of(member, balance.getAmount());
 	}
-
-	// TODO <jhl221123> to <nurdy>: check 전용 유스케이스로 분리하면 좋을 것 같습니다.
-	public void checkHandleDuplicated(String handle){
-		memberService.checkHandleDuplicated(Handle.of(handle));
-	}
 }
