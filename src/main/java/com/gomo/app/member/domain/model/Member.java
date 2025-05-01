@@ -147,8 +147,8 @@ public class Member extends LogicalDeleteBaseAudit {
 		updateName(name);
 	}
 
-	public void updateProfileImage(ProfileImage profileImage) {
-		this.profileImage = profileImage;
+	public void updateProfileImage(String updatedUrl) {
+		this.profileImage = this.profileImage.updateUrl(updatedUrl);
 	}
 
 	public void updateProfileBanner(String updatedUrl) {

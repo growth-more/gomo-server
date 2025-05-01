@@ -54,7 +54,7 @@ public class ProfileImageTest {
 	@Test
 	void update_member_profile(){
 		Member member = Member.of(ID, EMAIL, PASSWORD, HANDLE, MEMBER_NAME, MOTTO, LOGIN_PROVIDER);
-		member.updateProfileImage(member.getProfileImage().updateUrl("https://mini-io/updated_profile.png"));
+		member.updateProfileImage("https://mini-io/updated_profile.png");
 
 		assertThat(member.getProfileImage().getUrl()).isEqualTo("https://mini-io/updated_profile.png");
 	}
