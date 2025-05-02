@@ -1,6 +1,7 @@
 package com.gomo.app.member.presentation;
 
 import com.gomo.app.member.application.CheckHandleUseCase;
+import com.gomo.app.member.application.UpdateHandleUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -23,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class HandleApi {
 
 	private final CheckHandleUseCase checkHandleUseCase;
-	private final UpdateMemberUseCase updateMemberUseCase;
+	private final UpdateHandleUseCase updateHandleUseCase;
 
 	@GetMapping("/duplicate")
 	public ResponseEntity<Void> checkHandleDuplicated(@RequestParam String handle) {
@@ -33,7 +34,7 @@ public class HandleApi {
 
 	@PutMapping
 	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @RequestBody UpdateHandleRequest request) {
-		updateMemberUseCase.updateHandle(authInfo.getMemberId(), request);
+		updateHandleUseCase.update(authInfo.getMemberId(), request);
 		return ResponseEntity.noContent().build();
 	}
 }
