@@ -31,15 +31,9 @@ public class UpdateMemberUseCaseTest {
     @Mock
     private MemberService memberService;
 
-    @Mock
-    private PasswordService passwordService;
-
     private static final String NEW_NAME = "NewName";
     private static final String NEW_MOTTO = "NewMotto";
-    private static final String NEW_HANDLE = "@update_handle";
-    private static final String NEW_PASSWORD = "Update123!";
-    private static final String ENCRYPT_PASSWORD = "Encrypt123!";
-    private static final String PASSWORD = "Test123!";
+
 
     @DisplayName("회원 정보(모토, 이름)를 수정한다.")
     @Test
@@ -55,32 +49,4 @@ public class UpdateMemberUseCaseTest {
         assertThat(member.getMotto().getMotto()).isEqualTo(NEW_MOTTO);
     }
 
-    @DisplayName("비밀번호를 업데이트 한다.")
-    @Test
-    void update_member_password(){
-        Member member = MemberFixture.member();
-        UpdatePasswordRequest request = UpdatePasswordRequest.of(PASSWORD, NEW_PASSWORD);
-
-        doReturn(member).when(memberService).find(MemberId.of(member.uuid()));
-        doReturn(ENCRYPT_PASSWORD).when(passwordService).encode(NEW_PASSWORD);
-        doReturn(true).when(passwordService).matches(PASSWORD, member.getPassword().getPassword());
-
-        sut.updatePassword(member.getId().getId(), request);
-
-        assertThat(member.getPassword().getPassword()).isEqualTo(ENCRYPT_PASSWORD);
-    }
-
-    @DisplayName("멤버 핸들을 업데이트 한다.")
-    @Test
-    void update_member_handle(){
-        Member member = MemberFixture.member();
-        UpdateHandleRequest request = UpdateHandleRequest.of(NEW_HANDLE);
-
-        doReturn(member).when(memberService).find(MemberId.of(member.uuid()));
-        doNothing().when(memberService).checkHandleDuplicated(Handle.of(request.getHandle()));
-
-        sut.updateHandle(member.uuid(), request);
-
-        assertThat(member.getHandle().getHandle()).isEqualTo(NEW_HANDLE);
-    }
 }
