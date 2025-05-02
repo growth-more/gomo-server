@@ -1,8 +1,6 @@
 package com.gomo.app.member.domain.model;
 
 import com.gomo.app.common.ValueObject;
-import com.gomo.app.member.exception.QuestPropertyConstraintViolationException;
-import com.gomo.app.member.exception.code.QuestPropertyErrorCode;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
@@ -49,15 +47,6 @@ public class QuestProperty {
 
 	public static QuestProperty createDefault() {
 		return new QuestProperty(DailyThreshold.of(0), WeeklyThreshold.of(0), MonthlyThreshold.of(0));
-	}
-
-	public boolean hasReachedQuestThreshold(String questType, int questCount) {
-		return switch (questType) {
-			case "DAILY" -> this.dailyThreshold.getThreshold() <= questCount;
-			case "WEEKLY" -> this.weeklyThreshold.getThreshold() <= questCount;
-			case "MONTHLY" -> this.monthlyThreshold.getThreshold() <= questCount;
-			default -> throw new QuestPropertyConstraintViolationException(QuestPropertyErrorCode.UNEXPECTED_QUEST_TYPE);
-		};
 	}
 
 	public static QuestProperty update(

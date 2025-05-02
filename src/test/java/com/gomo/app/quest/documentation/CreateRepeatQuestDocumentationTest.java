@@ -20,7 +20,7 @@ import com.gomo.app.quest.common.util.RepeatQuestDataHelper;
 import com.gomo.app.quest.documentation.snippet.CreateRepeatQuestSnippet;
 import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.exception.code.QuestContentErrorCode;
-import com.gomo.app.quest.exception.code.RepeatQuestErrorCode;
+import com.gomo.app.quest.exception.code.QuestErrorCode;
 import com.gomo.app.quest.presentation.request.CreateRepeatQuestRequest;
 
 @DisplayName("[Presentation documentation]: 반복 퀘스트 생성 테스트")
@@ -100,11 +100,11 @@ public class CreateRepeatQuestDocumentationTest extends DocumentationTestBase {
 			.when()
 			.post("/quests/repeats")
 			.then()
-			.statusCode(RepeatQuestErrorCode.THRESHOLD_EXCEEDED.getHttpStatus())
+			.statusCode(QuestErrorCode.EXCEED_QUOTA.getHttpStatus())
 			.body("timestamp", instanceOf(String.class))
-			.body("httpStatus", equalTo(RepeatQuestErrorCode.THRESHOLD_EXCEEDED.getHttpStatus()))
-			.body("code", equalTo(RepeatQuestErrorCode.THRESHOLD_EXCEEDED.getErrorCode()))
-			.body("message", equalTo(RepeatQuestErrorCode.THRESHOLD_EXCEEDED.getMessage()))
+			.body("httpStatus", equalTo(QuestErrorCode.EXCEED_QUOTA.getHttpStatus()))
+			.body("code", equalTo(QuestErrorCode.EXCEED_QUOTA.getErrorCode()))
+			.body("message", equalTo(QuestErrorCode.EXCEED_QUOTA.getMessage()))
 			.body("path", equalTo("/quests/repeats"));
 	}
 }

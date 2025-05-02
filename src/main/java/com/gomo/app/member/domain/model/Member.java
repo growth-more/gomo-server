@@ -51,6 +51,7 @@ public class Member extends LogicalDeleteBaseAudit {
 	})
 	private ProfileBanner profileBanner;
 
+	// TODO <jhl221123>: 자동 생성되는 퀘스트와 수동 생성하는 퀘스트 수 제한을 분리해야 합니다. 구독 플랜을 활용해 시스템 제한을 정하고 제한 내에서 자동 생성을 조정하도록 해야합니다.
 	@Embedded
 	private QuestProperty questProperty;
 
@@ -179,9 +180,5 @@ public class Member extends LogicalDeleteBaseAudit {
 			loginProvider,
 			RoleType.ROLE_MEMBER, SubscriptionPlan.FREE, ActivateStatus.ACTIVE, LocalDateTime.now(), null
 		);
-	}
-
-	public boolean hasReachedQuestThreshold(String questType, int questCount) {
-		return this.questProperty.hasReachedQuestThreshold(questType, questCount);
 	}
 }

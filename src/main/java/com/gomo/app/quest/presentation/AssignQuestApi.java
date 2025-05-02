@@ -1,8 +1,21 @@
 package com.gomo.app.quest.presentation;
 
+import static org.springframework.http.HttpStatus.*;
+
+import java.util.UUID;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.gomo.app.common.Presentation;
 import com.gomo.app.common.authentication.Auth;
 import com.gomo.app.common.authentication.AuthInfo;
-import com.gomo.app.common.Presentation;
 import com.gomo.app.quest.application.CreateAssignQuestUseCase;
 import com.gomo.app.quest.application.DeleteAssignQuestUseCase;
 import com.gomo.app.quest.application.ReadAssignQuestUseCase;
@@ -13,13 +26,8 @@ import com.gomo.app.quest.presentation.request.CreateAssignQuestRequest;
 import com.gomo.app.quest.presentation.request.UpdateAssignQuestRequest;
 import com.gomo.app.quest.presentation.response.CreateAssignQuestResponse;
 import com.gomo.app.quest.presentation.response.ListAssignQuestResponse;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
-
-import static org.springframework.http.HttpStatus.CREATED;
 
 @RequiredArgsConstructor
 @RequestMapping("/quests/assigns")
@@ -33,7 +41,7 @@ public class AssignQuestApi {
 
 	@PostMapping
 	public ResponseEntity<CreateAssignQuestResponse> create(@Auth AuthInfo authInfo, @RequestBody CreateAssignQuestRequest request) {
-		CreateAssignQuestResponse response = createAssignQuestUseCase.create(ParticipantId.of(authInfo.getMemberId()), request);
+		CreateAssignQuestResponse response = createAssignQuestUseCase.create(authInfo.getMemberId(), request);
 		return ResponseEntity.status(CREATED).body(response);
 	}
 

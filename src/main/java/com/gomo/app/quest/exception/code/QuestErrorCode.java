@@ -3,16 +3,15 @@ package com.gomo.app.quest.exception.code;
 import lombok.Getter;
 
 @Getter
-public enum RepeatQuestErrorCode {
+public enum QuestErrorCode {
 
-	NOT_FOUND(404, "REP-ROO-001", "Repeat quest not found"),
-	ACCESS_DENIED(403, "REP-ROO-002", "Access denied for the repeat quest");
+	EXCEED_QUOTA(422, "QUE-ROO-001", "Quest quota exceeded");
 
 	private final int httpStatus;
 	private final String errorCode;
 	private final String message;
 
-	RepeatQuestErrorCode(int httpStatus, String errorCode, String message) {
+	QuestErrorCode(int httpStatus, String errorCode, String message) {
 		this.httpStatus = httpStatus;
 		this.errorCode = errorCode;
 		this.message = message;
