@@ -1,9 +1,9 @@
 package com.gomo.app.member.application;
 
 import com.gomo.app.common.ApplicationService;
-import com.gomo.app.member.domain.service.EmailAuthCodeService;
 import com.gomo.app.member.exception.MemberAuthenticationFailedException;
 import com.gomo.app.member.exception.code.MemberErrorCode;
+import com.gomo.app.member.infrastructure.repository.EmailAuthRedisRepository;
 import com.gomo.app.member.presentation.request.VerifyEmailAuthCodeRequest;
 import com.gomo.app.member.presentation.response.VerifyEmailAuthCodeResponse;
 
@@ -13,14 +13,14 @@ import lombok.RequiredArgsConstructor;
 @ApplicationService
 public class VerifyEmailAuthCodeUseCase {
 
-	private final EmailAuthCodeService emailAuthCodeService;
+	private final EmailAuthRedisRepository emailAuthRedisRepository;
 
 	public VerifyEmailAuthCodeResponse verify(VerifyEmailAuthCodeRequest request) {
-		String storedCode = emailAuthCodeService.find(request.getEmail());
-		if (!storedCode.equals(request.getCode()) || request.getEmail() == null) {
+		String storedCode = emailAuthRedisRepository.getAuthCode(request.getEmail());
+		if (request.getCode() == null || !storedCode.equals(request.getCode())) {
 			throw new MemberAuthenticationFailedException(MemberErrorCode.AUTHENTICATION_FAILED);
 		}
-		emailAuthCodeService.remove(request.getEmail());
+		emailAuthRedisRepository.deleteAuthCode(request.getEmail());
 		return VerifyEmailAuthCodeResponse.of(request.getEmail());
 	}
 }
