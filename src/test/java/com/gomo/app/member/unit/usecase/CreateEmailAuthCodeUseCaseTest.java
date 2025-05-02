@@ -12,8 +12,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.member.application.CreateEmailAuthCodeUseCase;
 import com.gomo.app.member.domain.service.MemberService;
-import com.gomo.app.member.infrastructure.EmailAuthRedisService;
 import com.gomo.app.member.infrastructure.EmailAuthSenderService;
+import com.gomo.app.member.infrastructure.repository.EmailAuthRedisRepository;
 import com.gomo.app.member.presentation.request.CreateEmailAuthCodeRequest;
 import com.gomo.app.member.presentation.response.CreateEmailAuthCodeResponse;
 
@@ -27,7 +27,7 @@ public class CreateEmailAuthCodeUseCaseTest {
 	MemberService memberService;
 
 	@Mock
-	EmailAuthRedisService emailAuthRedisService;
+	EmailAuthRedisRepository emailAuthRedisRepository;
 
 	@Mock
 	EmailAuthSenderService emailAuthSenderService;
