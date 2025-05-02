@@ -13,7 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.gomo.app.member.application.VerifyEmailAuthCodeUseCase;
 import com.gomo.app.member.exception.MemberAuthenticationFailedException;
 import com.gomo.app.member.exception.code.MemberErrorCode;
-import com.gomo.app.member.infrastructure.EmailAuthRedisService;
+import com.gomo.app.member.infrastructure.repository.EmailAuthRedisRepository;
 import com.gomo.app.member.presentation.request.VerifyEmailAuthCodeRequest;
 import com.gomo.app.member.presentation.response.VerifyEmailAuthCodeResponse;
 
@@ -24,7 +24,7 @@ public class VerifyEmailAuthCodeUseCaseTest {
 	VerifyEmailAuthCodeUseCase sut;
 
 	@Mock
-	EmailAuthRedisService emailAuthRedisService;
+	EmailAuthRedisRepository emailAuthRedisRepository;
 
 	private static final String AUTH_CODE = "111111";
 	private static final String EMAIL = "test@gmail.com";
@@ -33,8 +33,8 @@ public class VerifyEmailAuthCodeUseCaseTest {
 	@Test
 	void verify_email_auth_successfully() {
 		VerifyEmailAuthCodeRequest request = VerifyEmailAuthCodeRequest.of(EMAIL, AUTH_CODE);
-		doReturn(AUTH_CODE).when(emailAuthRedisService).getAuthCode(anyString());
-		doNothing().when(emailAuthRedisService).deleteAuthCode(anyString());
+		doReturn(AUTH_CODE).when(emailAuthRedisRepository).getAuthCode(anyString());
+		doNothing().when(emailAuthRedisRepository).deleteAuthCode(anyString());
 
 		VerifyEmailAuthCodeResponse expected = VerifyEmailAuthCodeResponse.of(EMAIL);
 		VerifyEmailAuthCodeResponse actual = sut.verify(request);
@@ -56,7 +56,7 @@ public class VerifyEmailAuthCodeUseCaseTest {
 	@Test
 	void verify_email_auth_with_wrong_auth_code() {
 		VerifyEmailAuthCodeRequest request = VerifyEmailAuthCodeRequest.of(EMAIL, "222222");
-		doReturn(AUTH_CODE).when(emailAuthRedisService).getAuthCode(anyString());
+		doReturn(AUTH_CODE).when(emailAuthRedisRepository).getAuthCode(anyString());
 
 		assertThatThrownBy(() -> sut.verify(request))
 			.isInstanceOf(MemberAuthenticationFailedException.class)
