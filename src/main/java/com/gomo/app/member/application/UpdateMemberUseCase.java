@@ -28,16 +28,4 @@ public class UpdateMemberUseCase {
 		Member member = memberService.find(MemberId.of(memberId));
 		member.updateMemberInfo(request.getName(), request.getMotto());
 	}
-
-	// TODO <jhl221123> to <nurdy>: 유스케이스이기 때문에 비밀번호, 핸들 각각 분리하면 좋을 것 같습니다.
-	public void updatePassword(UUID memberId, UpdatePasswordRequest request) {
-		Member member = memberService.find(MemberId.of(memberId));
-		member.updatePassword(request.getOriginPassword(), request.getUpdatedPassword(), passwordService);
-	}
-
-	public void updateHandle(UUID memberId, UpdateHandleRequest request) {
-		Member member = memberService.find(MemberId.of(memberId));
-		memberService.checkHandleDuplicated(Handle.of(request.getHandle()));
-		member.updateHandle(request.getHandle());
-	}
 }
