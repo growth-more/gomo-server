@@ -1,8 +1,12 @@
 package com.gomo.app.member.unit.usecase;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
+import com.gomo.app.member.application.UpdateHandleUseCase;
+import com.gomo.app.member.common.fixture.MemberFixture;
+import com.gomo.app.member.domain.model.Handle;
+import com.gomo.app.member.domain.model.Member;
+import com.gomo.app.member.domain.model.MemberId;
+import com.gomo.app.member.domain.service.MemberService;
+import com.gomo.app.member.presentation.request.UpdateHandleRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,34 +14,33 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.member.application.UpdateHandleUseCase;
-import com.gomo.app.member.common.fixture.MemberFixture;
-import com.gomo.app.member.domain.model.Member;
-import com.gomo.app.member.domain.service.MemberService;
-import com.gomo.app.member.presentation.request.UpdateHandleRequest;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
 
+@DisplayName("[Application Unit]: 멤버 핸들 수정 기능 테스트")
 @ExtendWith(MockitoExtension.class)
-@DisplayName("[Application unit]: 핸들 업데이트 테스트")
 public class UpdateHandleUseCaseTest {
 
-	@InjectMocks
-	UpdateHandleUseCase sut;
+    @InjectMocks
+    private UpdateHandleUseCase sut;
 
-	@Mock
-	private MemberService memberService;
+    @Mock
+    private MemberService memberService;
 
-	private final static String UPDATED_HANDLE = "@updatedhandle";
+    private static final String NEW_HANDLE = "@update_handle";
 
-	@DisplayName("핸들 업데이트를 성공한다")
-	@Test
-	void update_handle_success() {
-		Member member = MemberFixture.member();
-		UpdateHandleRequest request = UpdateHandleRequest.of(UPDATED_HANDLE);
-		doReturn(member).when(memberService).find(member.getId());
+    @DisplayName("멤버 핸들을 업데이트 한다.")
+    @Test
+    void update_member_handle(){
+        Member member = MemberFixture.member();
+        UpdateHandleRequest request = UpdateHandleRequest.of(NEW_HANDLE);
 
-		sut.update(member.uuid(), request);
+        doReturn(member).when(memberService).find(MemberId.of(member.uuid()));
+        doNothing().when(memberService).checkHandleDuplicated(Handle.of(request.getHandle()));
 
-		assertThat(member.getHandle().getHandle()).isEqualTo(UPDATED_HANDLE);
-	}
+        sut.update(member.uuid(), request);
 
+        assertThat(member.getHandle().getHandle()).isEqualTo(NEW_HANDLE);
+    }
 }
