@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @ApplicationService
 public class RefreshTokenUseCase {
 
-	private final AuthTokenGenerator authTokenGenerator;
+	private final AuthTokenIssuer authTokenIssuer;
 	private final JwtUtil jwtUtil;
 	private final AuthTokenRepository authTokenRepository;
 
@@ -31,8 +31,8 @@ public class RefreshTokenUseCase {
 			throw new MemberAuthenticationFailedException(MemberErrorCode.AUTHENTICATION_FAILED);
 		}
 
-		AuthToken authToken = authTokenGenerator.generate(memberId);
-		long refreshTokenExpirationTime = authTokenGenerator.getRefreshTokenExpirationTime(authToken.getRefreshToken());
+		AuthToken authToken = authTokenIssuer.issue(memberId);
+		long refreshTokenExpirationTime = authTokenIssuer.getRefreshTokenExpirationTime(authToken.getRefreshToken());
 
 		return AuthTokenResponse.of(memberId, authToken, refreshTokenExpirationTime);
 	}

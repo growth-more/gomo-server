@@ -1,4 +1,4 @@
-package com.gomo.app.member.infrastructure;
+package com.gomo.app.auth.infrastructure;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
