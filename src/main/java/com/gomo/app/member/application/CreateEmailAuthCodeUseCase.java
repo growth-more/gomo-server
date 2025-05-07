@@ -1,9 +1,9 @@
-package com.gomo.app.auth.application;
+package com.gomo.app.member.application;
 
-import com.gomo.app.auth.domain.repository.EmailAuthCodeRepository;
-import com.gomo.app.auth.domain.service.AuthCodeGenerator;
-import com.gomo.app.auth.infrastructure.EmailAuthSenderService;
-import com.gomo.app.auth.presentation.request.CreateEmailAuthCodeRequest;
+import com.gomo.app.member.domain.repository.EmailAuthCodeRepository;
+import com.gomo.app.member.domain.service.AuthCodeGenerator;
+import com.gomo.app.member.infrastructure.EmailAuthSenderService;
+import com.gomo.app.member.presentation.request.CreateEmailAuthCodeRequest;
 import com.gomo.app.common.ApplicationService;
 import com.gomo.app.member.domain.model.Email;
 import com.gomo.app.member.domain.service.MemberService;
