@@ -109,12 +109,15 @@ public class Member extends LogicalDeleteBaseAudit {
 		return this.id.getId();
 	}
 
-	public void updatePassword(String originPassword, String updatedPassword, PasswordService passwordService) {
-		// TODO <jhl221123>: 사용자가 직접 수정, 비밀번호 분실 후 수정 등을 나눠서 구현할 필요가 있습니다.
-		if (originPassword.equals(updatedPassword)) {
+	public void updatePassword(Password rawOld, Password rawNew, PasswordService passwordService) {
+		if (rawOld.getPassword().equals(rawNew.getPassword())) {
 			throw new RuntimeException("update password must not same as origin password");
 		}
-		this.password = this.password.update(originPassword, updatedPassword, passwordService);
+		this.password = rawNew.encodedWith(passwordService);
+	}
+
+	public void resetPassword(PasswordService passwordService, Password newPassword) {
+		this.password = newPassword.encodedWith(passwordService);
 	}
 
 	public void updateHandle(String handle) {
@@ -162,8 +165,8 @@ public class Member extends LogicalDeleteBaseAudit {
 		this.lastLoginDateTime = lastLoginDateTime;
 	}
 
-	public void login(String inputPassword, PasswordService passwordService) {
-		this.password.matches(inputPassword, passwordService);
+	public void login(PasswordService passwordService, Password inputPassword) {
+		this.password.verifyWith(passwordService, inputPassword);
 	}
 
 	public static Member of(
@@ -175,7 +178,8 @@ public class Member extends LogicalDeleteBaseAudit {
 		Motto motto,
 		LoginProvider loginProvider
 	) {
-		return new Member(id, email, password, handle, memberName, motto, ProfileImage.createDefault(), ProfileBanner.createDefault(), QuestProperty.createDefault(),
+		return new Member(id, email, password, handle, memberName, motto, ProfileImage.createDefault(),
+			ProfileBanner.createDefault(), QuestProperty.createDefault(),
 			loginProvider,
 			RoleType.ROLE_MEMBER, SubscriptionPlan.FREE, ActivateStatus.ACTIVE, LocalDateTime.now(), null
 		);
