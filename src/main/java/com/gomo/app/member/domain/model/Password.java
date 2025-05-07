@@ -8,6 +8,7 @@ import com.gomo.app.common.ValueObject;
 import com.gomo.app.member.domain.service.PasswordService;
 import com.gomo.app.member.exception.MemberAuthenticationFailedException;
 import com.gomo.app.member.exception.PasswordConstraintViolationException;
+import com.gomo.app.member.exception.code.MemberErrorCode;
 import com.gomo.app.member.exception.code.PasswordErrorCode;
 
 import jakarta.persistence.Embeddable;
@@ -27,27 +28,32 @@ public class Password {
     protected Password() {
     }
 
-    public Password(String password) {
+    public Password(String password, boolean isRaw) {
+        if (isRaw) {
+            ensureNotBlank(password);
+            ensureValidLength(password);
+            ensureValidPasswordRule(password);
+        }
         this.password = password;
     }
 
-    // TODO <jhl221123>: encode 하는 부분을 분리하는 것도 좋을 것 같습니다.
-    public static Password of(String rawPassword, PasswordService passwordService) {
-        ensureNotBlank(rawPassword);
-        ensureValidLength(rawPassword);
-        ensureValidPasswordRule(rawPassword);
-        return new Password(passwordService.encode(rawPassword));
+    public static Password ofRaw(String rawPassword) {
+        return new Password(rawPassword, true);
     }
 
-    public void matches(String rawPassword, PasswordService passwordService) {
-        if(!passwordService.matches(rawPassword, this.password)) {
+    public Password ofEncoded(String encodedPassword){
+        return new Password(encodedPassword, false);
+    }
+
+    public Password encodedWith(PasswordService passwordService) {
+        String encodedPassword = passwordService.encode(this.password);
+        return ofEncoded(encodedPassword);
+    }
+
+    public void verifyWith(PasswordService passwordService, Password inputPassword) {
+        if (!passwordService.matches(this.password, inputPassword.getPassword())) {
             throw new MemberAuthenticationFailedException(AUTHENTICATION_FAILED);
         }
-    }
-
-    public Password update(String existPassword, String newPassword, PasswordService passwordService) {
-        matches(existPassword, passwordService);
-        return Password.of(newPassword, passwordService);
     }
 
     private static void ensureNotBlank(String password){
