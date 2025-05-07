@@ -1,4 +1,4 @@
-package com.gomo.app.auth.domain.repository;
+package com.gomo.app.member.domain.repository;
 
 import java.util.Optional;
 

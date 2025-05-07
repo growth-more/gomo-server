@@ -1,8 +1,8 @@
-package com.gomo.app.auth.application;
+package com.gomo.app.member.application;
 
-import com.gomo.app.auth.domain.service.EmailAuthCodeService;
-import com.gomo.app.auth.presentation.request.VerifyEmailAuthCodeRequest;
-import com.gomo.app.auth.presentation.response.VerifyEmailAuthCodeResponse;
+import com.gomo.app.member.domain.service.EmailAuthCodeService;
+import com.gomo.app.member.presentation.request.VerifyEmailAuthCodeRequest;
+import com.gomo.app.member.presentation.response.VerifyEmailAuthCodeResponse;
 import com.gomo.app.common.ApplicationService;
 import com.gomo.app.member.exception.MemberAuthenticationFailedException;
 import com.gomo.app.member.exception.code.MemberErrorCode;
