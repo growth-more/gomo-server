@@ -1,4 +1,4 @@
-package com.gomo.app.auth.infrastructure.repository;
+package com.gomo.app.member.infrastructure.repository;
 
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.gomo.app.auth.domain.repository.EmailAuthCodeRepository;
+import com.gomo.app.member.domain.repository.EmailAuthCodeRepository;
 
 import lombok.RequiredArgsConstructor;
 

@@ -1,6 +1,6 @@
-package com.gomo.app.auth.domain.service;
+package com.gomo.app.member.domain.service;
 
-import com.gomo.app.auth.domain.repository.EmailAuthCodeRepository;
+import com.gomo.app.member.domain.repository.EmailAuthCodeRepository;
 import com.gomo.app.common.DomainService;
 import com.gomo.app.member.exception.MemberAuthenticationFailedException;
 import com.gomo.app.member.exception.code.MemberErrorCode;

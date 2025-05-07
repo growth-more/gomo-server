@@ -1,4 +1,4 @@
-package com.gomo.app.auth.presentation;
+package com.gomo.app.member.presentation;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.gomo.app.auth.application.CreateEmailAuthCodeUseCase;
-import com.gomo.app.auth.application.VerifyEmailAuthCodeUseCase;
-import com.gomo.app.auth.presentation.request.CreateEmailAuthCodeRequest;
-import com.gomo.app.auth.presentation.request.VerifyEmailAuthCodeRequest;
+import com.gomo.app.member.application.CreateEmailAuthCodeUseCase;
+import com.gomo.app.member.application.VerifyEmailAuthCodeUseCase;
+import com.gomo.app.member.presentation.request.CreateEmailAuthCodeRequest;
+import com.gomo.app.member.presentation.request.VerifyEmailAuthCodeRequest;
 import com.gomo.app.common.Presentation;
 
 import lombok.RequiredArgsConstructor;
