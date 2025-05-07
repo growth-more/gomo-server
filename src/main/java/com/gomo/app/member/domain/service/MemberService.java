@@ -1,10 +1,8 @@
 package com.gomo.app.member.domain.service;
 
 import com.gomo.app.common.DomainService;
-import com.gomo.app.member.domain.model.Email;
-import com.gomo.app.member.domain.model.Handle;
-import com.gomo.app.member.domain.model.Member;
-import com.gomo.app.member.domain.model.MemberId;
+import com.gomo.app.common.util.UUIDGenerator;
+import com.gomo.app.member.domain.model.*;
 import com.gomo.app.member.domain.repository.MemberRepository;
 import com.gomo.app.member.exception.ActivateStatusException;
 import com.gomo.app.member.exception.EmailDuplicatedException;
@@ -15,7 +13,10 @@ import com.gomo.app.member.exception.code.EmailErrorCode;
 import com.gomo.app.member.exception.code.HandleErrorCode;
 import com.gomo.app.member.exception.code.MemberErrorCode;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @DomainService
@@ -32,6 +33,23 @@ public class MemberService {
 		return memberRepository.findByEmail(email)
 			.orElseThrow(() -> new MemberNotFoundException(MemberErrorCode.NOT_FOUND));
 	}
+
+	@Transactional
+    public Member oauthCreateMember(OAuthUserInfo userInfo, String provider) {
+        UUID uuid = UUIDGenerator.generate();
+
+        Member member = Member.of(
+                MemberId.of(uuid),
+                Email.of(userInfo.getEmail()),
+                null,
+                null,
+                MemberName.of(userInfo.getName()),
+                null,
+                LoginProvider.valueOf(provider.toUpperCase())
+        );
+
+        return memberRepository.save(member);
+    }
 
 	public void checkEmailDuplicated(Email email) {
 		memberRepository.findByEmail(email)
