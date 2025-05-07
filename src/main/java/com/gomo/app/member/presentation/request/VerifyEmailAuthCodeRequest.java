@@ -1,4 +1,4 @@
-package com.gomo.app.auth.presentation.request;
+package com.gomo.app.member.presentation.request;
 
 import lombok.Getter;
 

@@ -1,4 +1,4 @@
-package com.gomo.app.auth.domain.service;
+package com.gomo.app.member.domain.service;
 
 import java.util.Random;
 
