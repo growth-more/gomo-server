@@ -7,6 +7,7 @@ import com.gomo.app.auth.presentation.response.AuthTokenResponse;
 import com.gomo.app.common.ApplicationService;
 import com.gomo.app.member.domain.model.Email;
 import com.gomo.app.member.domain.model.Member;
+import com.gomo.app.member.domain.model.Password;
 import com.gomo.app.member.domain.service.MemberService;
 import com.gomo.app.member.domain.service.PasswordService;
 
@@ -23,7 +24,10 @@ public class LoginMemberUseCase {
 	public AuthTokenResponse login(String email, String password) {
 		Member member = memberService.findByEmail(Email.of(email));
 		memberService.checkActivated(member);
-		member.login(password, passwordService);
+
+		Password inputPassword = Password.ofRaw(password);
+
+		member.login(passwordService, inputPassword);
 		member.updateLastLoginDateTime(LocalDateTime.now());
 
 		AuthToken authToken = authTokenIssuer.issue(member.uuid());
