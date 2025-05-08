@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.interest.application.DeleteMajorInterestUseCase;
-import com.gomo.app.interest.common.fixture.MajorInterestFixture;
+import com.gomo.app.interest.fixture.MajorInterestFixture;
 import com.gomo.app.interest.domain.model.MajorInterest;
 import com.gomo.app.interest.domain.model.MajorInterestId;
 import com.gomo.app.interest.domain.repository.MajorInterestRepository;

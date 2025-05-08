@@ -20,59 +20,28 @@ DROP TABLE IF EXISTS streak_quest_completed_success_event;
 DROP TABLE IF EXISTS point_quest_completed_success_event;
 
 CREATE TABLE member (
-    id BINARY(16) NOT NULL PRIMARY KEY,
-    email VARCHAR(255) UNIQUE,
-    password VARCHAR(255),
+    id BINARY(16) PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(128) NOT NULL,
     profile_banner_url VARCHAR(512),
     profile_image_url VARCHAR(512),
-    handle VARCHAR(50) UNIQUE,
-    name VARCHAR(30),
+    handle VARCHAR(50) NOT NULL UNIQUE,
+    name VARCHAR(30) NOT NULL,
     motto VARCHAR(255),
-    daily_quest_threshold TINYINT,
-    weekly_quest_threshold TINYINT,
-    monthly_quest_threshold TINYINT,
-    login_provider ENUM('EMAIL', 'GOOGLE', 'KAKAO', 'NAVER'),
-    role_type ENUM('ROLE_MEMBER', 'ROLE_ADMIN'),
-    subscription_plan ENUM('FREE', 'BASIC', 'PREMIUM'),
-    activate_status ENUM('ACTIVE', 'INACTIVE', 'BLOCKED', 'DELETED'),
+    daily_quest_threshold TINYINT DEFAULT 1,
+    weekly_quest_threshold TINYINT DEFAULT 1,
+    monthly_quest_threshold TINYINT DEFAULT 1,
+    login_provider ENUM('EMAIL', 'GOOGLE', 'KAKAO', 'NAVER') NOT NULL,
+    role_type ENUM('ROLE_MEMBER', 'ROLE_ADMIN') NOT NULL,
+    subscription_plan ENUM('FREE', 'BASIC', 'PREMIUM') NOT NULL,
+    activate_status ENUM('ACTIVE', 'INACTIVE', 'BLOCKED', 'DELETED') NOT NULL,
     sign_up_date_time DATETIME(6),
     last_login_date_time DATETIME(6),
     created_at DATETIME(6),
-    created_by varchar(255),
+    created_by VARCHAR(255),
     last_modified_at DATETIME(6),
-    last_modified_by varchar(255),
+    last_modified_by VARCHAR(255),
     deleted_at DATETIME(6)
-);
-
-CREATE TABLE survey_question (
-    id BINARY(16) NOT NULL PRIMARY KEY,
-    question_select_type VARCHAR(50),
-    is_required TINYINT(1),
-    content VARCHAR(255),
-    display_order INT,
-    created_at DATETIME(6),
-    created_by varchar(255),
-    last_modified_at DATETIME(6),
-    last_modified_by varchar(255)
-);
-
-CREATE TABLE survey_item (
-    id BINARY(16) NOT NULL PRIMARY KEY,
-    survey_question_id BINARY(16),
-    content VARCHAR(255),
-    display_order INT,
-    created_at DATETIME(6),
-    created_by varchar(255),
-    last_modified_at DATETIME(6),
-    last_modified_by varchar(255)
-);
-
-CREATE TABLE survey_result (
-    respondent_id BINARY(16),
-    survey_question_id BINARY(16),
-    survey_item_id BINARY(16),
-    survey_item_content varchar(255),
-    custom_answer varchar(255)
 );
 
 CREATE TABLE interest (
@@ -85,7 +54,6 @@ CREATE TABLE interest (
     name VARCHAR(30),
     logo_url VARCHAR(512),
     color_code VARCHAR(10),
-    version BIGINT DEFAULT 0 NOT NULL,
     created_at DATETIME(6),
     created_by varchar(255),
     last_modified_at DATETIME(6),
@@ -104,14 +72,14 @@ CREATE TABLE interest_relation (
 );
 
 CREATE TABLE major_interest (
-    id BINARY(16) NOT NULL PRIMARY KEY,
-    registrant_id BINARY(16),
-    interest_id BINARY(16),
-    display_order INT,
+    id BINARY(16) PRIMARY KEY,
+    registrant_id BINARY(16) NOT NULL,
+    interest_id BINARY(16) NOT NULL,
+    display_order INT NOT NULL,
     created_at DATETIME(6),
-    created_by varchar(255),
+    created_by VARCHAR(255),
     last_modified_at DATETIME(6),
-    last_modified_by varchar(255)
+    last_modified_by VARCHAR(255)
 );
 
 CREATE TABLE score_threshold_policy (
@@ -125,7 +93,6 @@ CREATE TABLE streak (
     streak_type ENUM('DAILY', 'WEEKLY', 'MONTHLY'),
     filled_date DATE,
     completed_quest_count TINYINT,
-    version BIGINT DEFAULT 0 NOT NULL,
     created_at DATETIME(6),
     created_by varchar(255),
     last_modified_at DATETIME(6),
@@ -193,7 +160,6 @@ CREATE TABLE point_wallet (
     id BINARY(16) NOT NULL PRIMARY KEY,
     transactor_id BINARY(16),
     balance INT,
-    version BIGINT DEFAULT 0 NOT NULL,
     created_at DATETIME(6),
     created_by varchar(255),
     last_modified_at DATETIME(6),
@@ -221,6 +187,37 @@ CREATE TABLE streak_quest_completed_success_event (
 CREATE TABLE point_quest_completed_success_event (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     event_entry_id BIGINT NOT NULL
+);
+
+CREATE TABLE survey_question (
+    id BINARY(16) NOT NULL PRIMARY KEY,
+    question_select_type VARCHAR(50),
+    is_required TINYINT(1),
+    content VARCHAR(255),
+    display_order INT,
+    created_at DATETIME(6),
+    created_by varchar(255),
+    last_modified_at DATETIME(6),
+    last_modified_by varchar(255)
+);
+
+CREATE TABLE survey_item (
+    id BINARY(16) NOT NULL PRIMARY KEY,
+    survey_question_id BINARY(16),
+    content VARCHAR(255),
+    display_order INT,
+    created_at DATETIME(6),
+    created_by varchar(255),
+    last_modified_at DATETIME(6),
+    last_modified_by varchar(255)
+);
+
+CREATE TABLE survey_result (
+    respondent_id BINARY(16),
+    survey_question_id BINARY(16),
+    survey_item_id BINARY(16),
+    survey_item_content varchar(255),
+    custom_answer varchar(255)
 );
 
 -- input sample data
@@ -317,7 +314,6 @@ INSERT INTO interest(
     name,
     logo_url,
     color_code,
-    version,
     created_at,
     created_by,
     last_modified_at,
@@ -332,7 +328,6 @@ INSERT INTO interest(
     "Backend",
     'https://mini-cloud/backend-logo.png',
     "000000",
-    0,
     '2025-01-02T16:04:35.457921',
     'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-02T16:04:35.457921',
@@ -347,7 +342,6 @@ INSERT INTO interest(
     "Java",
     'https://mini-cloud/java-logo.png',
     "000000",
-    0,
     '2025-01-10T16:04:35.457921',
     'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-10T16:04:35.457921',
@@ -362,7 +356,6 @@ INSERT INTO interest(
     "Spring",
     'https://mini-cloud/spring-logo.png',
     "000000",
-    0,
     '2025-01-18T16:04:35.457921',
     'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-21T16:04:35.457921',
@@ -599,7 +592,6 @@ INSERT INTO streak (
     streak_type,
     filled_date,
     completed_quest_count,
-    version,
     created_at,
     created_by,
     last_modified_at,
@@ -610,7 +602,6 @@ INSERT INTO streak (
     'DAILY',
     '2025-01-18',
     1,
-    0,
     '2025-01-18T22:53:22.980611',
     'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-18T22:53:22.980611',
@@ -621,7 +612,6 @@ INSERT INTO streak (
      'DAILY',
      '2025-02-06',
      1,
-     0,
      '2025-02-06T00:00:00.000000',
      'a10581ce-d721-11ef-a8a5-2508e2a6438b',
      '2025-02-06T00:00:00.000000',
@@ -632,7 +622,6 @@ INSERT INTO streak (
     'WEEKLY',
     '2025-01-20',
     1,
-    0,
     '2025-01-20T22:53:22.980611',
     'a10581ce-d721-11ef-a8a5-2508e2a6438b',
     '2025-01-20T22:53:22.980611',
@@ -691,7 +680,6 @@ INSERT INTO point_wallet (
     id,
     transactor_id,
     balance,
-    version,
     created_at,
     created_by,
     last_modified_at,
@@ -700,7 +688,6 @@ INSERT INTO point_wallet (
       (UNHEX(REPLACE('e23db9d3-e6e5-11ef-9f07-0b157ee08b8d', '-', '')),
        UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
        '1660',
-       0,
        '2025-02-09T22:47:25.429471',
        'a10581ce-d721-11ef-a8a5-2508e2a6438b',
        '2025-02-09T22:47:25.429471',

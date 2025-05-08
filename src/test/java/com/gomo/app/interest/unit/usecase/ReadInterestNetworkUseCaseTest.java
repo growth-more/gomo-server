@@ -15,8 +15,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.interest.application.ReadInterestNetworkUseCase;
-import com.gomo.app.interest.common.fixture.InterestFixture;
-import com.gomo.app.interest.common.fixture.InterestRelationFixture;
+import com.gomo.app.interest.fixture.InterestFixture;
+import com.gomo.app.interest.fixture.InterestRelationFixture;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestRelation;
 import com.gomo.app.interest.domain.model.RegistrantId;
@@ -44,14 +44,14 @@ public class ReadInterestNetworkUseCaseTest {
 	@DisplayName("관심사 네트워크를 조회한다.")
 	@Test
 	void find_interest_network() {
-		Interest interest1 = InterestFixture.interest();
-		Interest interest2 = InterestFixture.interest();
+		Interest interest1 = InterestFixture.create();
+		Interest interest2 = InterestFixture.create();
 		long isNotMajorInterest = 0L;
 		long isMajorInterest = 1L;
 		doReturn(List.of(interest1, interest2)).when(interestRepository).findAllByRegistrantId(any(RegistrantId.class));
 		doReturn(List.of(isNotMajorInterest, isMajorInterest)).when(majorInterestRepository).existsAsMajorInterests(anyString());
 
-		InterestRelation relation = InterestRelationFixture.relation();
+		InterestRelation relation = InterestRelationFixture.create();
 		doReturn(List.of(relation)).when(interestRelationRepository).findAllByRegistrantId(any(RegistrantId.class));
 
 		InterestNetworkResponse actual = sut.find(relation.getRegistrantId().getId());
@@ -63,16 +63,16 @@ public class ReadInterestNetworkUseCaseTest {
 
 		assertThat(actual.getRelations())
 			.hasSize(1)
-			.extracting("id", "registrantId",  "parentInterestId", "childInterestId")
+			.extracting("id", "registrantId", "parentInterestId", "childInterestId")
 			.containsExactly(createRelationTuple(relation));
 	}
 
-	private static @NotNull Tuple createRelationTuple(InterestRelation relation) {
+	private @NotNull Tuple createRelationTuple(InterestRelation relation) {
 		return tuple(relation.getId().getId(), relation.getRegistrantId().getId(), relation.getParentInterestId().getId(),
 			relation.getChildInterestId().getId());
 	}
 
-	private static @NotNull Tuple createInterestTuple(Interest interest, long isMajorInterest) {
+	private @NotNull Tuple createInterestTuple(Interest interest, long isMajorInterest) {
 		return tuple(
 			interest.getId().getId(),
 			interest.getRegistrantId().getId(),

@@ -76,6 +76,10 @@ public class MajorInterest extends BaseAudit implements OrderChangeable, Authori
 		return this.registrantId.getId();
 	}
 
+	public int displayOrder() {
+		return this.displayOrder.getDisplayOrder();
+	}
+
 	@Override
 	public void changeOrder(DisplayOrder displayOrder) {
 		this.displayOrder = displayOrder;

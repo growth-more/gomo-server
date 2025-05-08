@@ -6,6 +6,8 @@ import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.*;
 
+import java.util.UUID;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,11 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.interest.common.dataprovider.InterestDataProvider;
-import com.gomo.app.interest.common.util.MajorInterestDataHelper;
 import com.gomo.app.interest.documentation.snippet.CreateMajorInterestSnippet;
-import com.gomo.app.interest.domain.model.Interest;
+import com.gomo.app.interest.domain.repository.InterestRepository;
+import com.gomo.app.interest.domain.repository.MajorInterestRepository;
 import com.gomo.app.interest.exception.code.MajorInterestErrorCode;
+import com.gomo.app.interest.presentation.InterestApi;
+import com.gomo.app.interest.presentation.MajorInterestApi;
+import com.gomo.app.interest.presentation.request.CreateInterestRequest;
 
 @DisplayName("[Presentation documentation]: 주요 관심사 생성 테스트")
 public class CreateMajorInterestDocumentationTest extends DocumentationTestBase {
@@ -27,22 +31,28 @@ public class CreateMajorInterestDocumentationTest extends DocumentationTestBase 
 	private final RestDocumentationFilter errorFilter = CreateMajorInterestSnippet.createError();
 
 	@Autowired
-	private MajorInterestDataHelper majorInterestDataHelper;
+	private InterestApi interestApi;
 
 	@Autowired
-	private InterestDataProvider interestDataProvider;
-	private Interest backend;
-	private Interest java;
+	private MajorInterestApi majorInterestApi;
+
+	@Autowired
+	private InterestRepository interestRepository;
+
+	@Autowired
+	private MajorInterestRepository majorInterestRepository;
+
+	private UUID interestId;
 
 	@BeforeEach
 	public void setUp() {
-		backend = interestDataProvider.backend();
-		java = interestDataProvider.java();
+		interestId = createInterest("interest");
 	}
 
 	@AfterEach
 	void tearDown() {
-		majorInterestDataHelper.cleanUp();
+		majorInterestRepository.deleteAllInBatch();
+		interestRepository.deleteAllInBatch();
 	}
 
 	@DisplayName("주요 관심사를 등록한다.")
@@ -53,7 +63,7 @@ public class CreateMajorInterestDocumentationTest extends DocumentationTestBase 
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.when()
-			.post("/interests/{id}/majors", backend.uuid())
+			.post("/interests/{id}/majors", interestId)
 			.then()
 			.statusCode(CREATED.value())
 			.body("id", hasLength(36));
@@ -62,18 +72,24 @@ public class CreateMajorInterestDocumentationTest extends DocumentationTestBase 
 	@DisplayName("이미 등록된 주요 관심사를 중복 등록한다.")
 	@Test
 	void create_already_major_interest() {
+		majorInterestApi.create(super.authInfo, interestId);
+
 		given(this.specification)
 			.filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.when()
-			.post("/interests/{id}/majors", java.uuid())
+			.post("/interests/{id}/majors", interestId)
 			.then()
 			.statusCode(MajorInterestErrorCode.DUPLICATED.getHttpStatus())
 			.body("timestamp", instanceOf(String.class))
-			.body("path", equalTo("/interests/" + java.uuid() + "/majors"))
+			.body("path", equalTo("/interests/" + interestId.toString() + "/majors"))
 			.body("httpStatus", equalTo(MajorInterestErrorCode.DUPLICATED.getHttpStatus()))
 			.body("code", equalTo(MajorInterestErrorCode.DUPLICATED.getErrorCode()))
 			.body("message", equalTo(MajorInterestErrorCode.DUPLICATED.getMessage()));
+	}
+
+	private UUID createInterest(String name) {
+		return interestApi.create(super.authInfo, CreateInterestRequest.of(name, "#FF0000", null)).getBody().getId();
 	}
 }

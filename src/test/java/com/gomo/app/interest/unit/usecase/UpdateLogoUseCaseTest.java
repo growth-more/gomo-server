@@ -14,8 +14,9 @@ import org.springframework.mock.web.MockMultipartFile;
 
 import com.gomo.app.image.ImageService;
 import com.gomo.app.interest.application.UpdateLogoUseCase;
-import com.gomo.app.interest.common.fixture.InterestFixture;
+import com.gomo.app.interest.fixture.InterestFixture;
 import com.gomo.app.interest.domain.model.InterestId;
+import com.gomo.app.interest.domain.model.Logo;
 import com.gomo.app.interest.domain.service.InterestService;
 
 @DisplayName("[Application unit]: 관심사 로고 수정 테스트")
@@ -34,7 +35,7 @@ public class UpdateLogoUseCaseTest {
 	@DisplayName("사용자가 등록해둔 관심사 로고를 새로운 로고로 변경한다.")
 	@Test
 	void update_interest() {
-		doReturn(InterestFixture.interest()).when(interestService).find(any(InterestId.class));
+		doReturn(InterestFixture.create()).when(interestService).find(any(InterestId.class));
 
 		sut.update(InterestId.of(UUID.randomUUID()), new MockMultipartFile("logo", "mock image data".getBytes()));
 
@@ -46,7 +47,7 @@ public class UpdateLogoUseCaseTest {
 	@DisplayName("기본 관심사 로고를 새로운 로고로 변경한다.")
 	@Test
 	void update_interest_by_unauthorized_accessor() {
-		doReturn(InterestFixture.defaultLogo()).when(interestService).find(any(InterestId.class));
+		doReturn(InterestFixture.create(Logo.of(null))).when(interestService).find(any(InterestId.class));
 
 		sut.update(InterestId.of(UUID.randomUUID()), new MockMultipartFile("logo", "mock image data".getBytes()));
 

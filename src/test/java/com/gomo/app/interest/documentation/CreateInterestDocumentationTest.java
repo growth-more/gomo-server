@@ -18,8 +18,8 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import org.springframework.util.ResourceUtils;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.interest.common.util.InterestDataHelper;
 import com.gomo.app.interest.documentation.snippet.CreateInterestSnippet;
+import com.gomo.app.interest.domain.repository.InterestRepository;
 import com.gomo.app.interest.exception.code.InterestNameErrorCode;
 
 @DisplayName("[Presentation documentation]: 관심사 생성 테스트")
@@ -33,17 +33,18 @@ public class CreateInterestDocumentationTest extends DocumentationTestBase {
 	private final RestDocumentationFilter errorFilter = CreateInterestSnippet.createError();
 
 	@Autowired
-	private InterestDataHelper interestDataHelper;
+	private InterestRepository interestRepository;
 
 	@AfterEach
 	void tearDown() {
-		interestDataHelper.cleanUp();
+		interestRepository.deleteAllInBatch();
 	}
 
 	@DisplayName("관심사를 등록한다.")
 	@Test
 	void create_interest() throws IOException {
 		given(this.specification).filter(filter)
+			.log().all()
 			.header(CONTENT_TYPE, MULTIPART_FORM_DATA_VALUE)
 			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.multiPart("name", "interest name")

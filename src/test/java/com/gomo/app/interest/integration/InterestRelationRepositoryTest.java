@@ -3,6 +3,7 @@ package com.gomo.app.interest.integration;
 import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -10,40 +11,63 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gomo.app.common.IntegrationTestBase;
-import com.gomo.app.interest.common.dataprovider.InterestRelationDataProvider;
+import com.gomo.app.interest.fixture.InterestFixture;
+import com.gomo.app.interest.fixture.InterestRelationFixture;
+import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestRelation;
+import com.gomo.app.interest.domain.model.RegistrantId;
 import com.gomo.app.interest.domain.repository.InterestRelationRepository;
+import com.gomo.app.interest.domain.repository.InterestRepository;
 
-@DisplayName("[Domain integration]: 관심사 관계선 중복 확인 테스트")
+@DisplayName("[Domain integration]: 관심사 관계선 DB 통합 테스트")
 public class InterestRelationRepositoryTest extends IntegrationTestBase {
 
 	@Autowired
 	InterestRelationRepository sut;
 
 	@Autowired
-	private InterestRelationDataProvider interestRelationDataProvider;
-	private InterestRelation backendToJava;
+	private InterestRepository interestRepository;
+
+	@Autowired
+	private InterestRelationRepository interestRelationRepository;
+
+	private Interest depth1;
+	private Interest depth2;
+	private Interest depth3;
 
 	@BeforeEach
 	public void setUp() {
-		backendToJava = interestRelationDataProvider.backendToJava();
+		RegistrantId registrantId = RegistrantId.of(UUID.randomUUID());
+		depth1 = InterestFixture.create(registrantId, "depth1");
+		depth2 = InterestFixture.create(registrantId, "depth2");
+		depth3 = InterestFixture.create(registrantId, "depth3");
+		interestRepository.saveAll(List.of(depth1, depth2, depth3));
 	}
 
-	@DisplayName("관심사 관계선이 이미 존재하는지 확인한다.")
+	@DisplayName("관심사 관계선은 양방향으로 중복 여부를 확인한다.")
 	@Test
 	void check_exists() {
-		boolean parentToChild = sut.existsRelationFor(backendToJava.getParentInterestId().getId(), backendToJava.getChildInterestId().getId());
-		boolean childToParent = sut.existsRelationFor(backendToJava.getChildInterestId().getId(), backendToJava.getParentInterestId().getId());
+		InterestRelation depth1ToDepth2 = InterestRelationFixture.create(depth1, depth2);
+		interestRelationRepository.save(depth1ToDepth2);
+
+		boolean parentToChild = sut.existsRelationFor(depth1ToDepth2.parentUuid(), depth1ToDepth2.childUuid());
+		boolean childToParent = sut.existsRelationFor(depth1ToDepth2.childUuid(), depth1ToDepth2.parentUuid());
 
 		assertThat(parentToChild).isTrue();
 		assertThat(childToParent).isTrue();
 	}
 
-	@DisplayName("관심사와 연결된 모든 관계선을 조회한다.")
+	@DisplayName("특정 관심사가 상위이거나 하위인 모든 관계선을 조회한다.")
 	@Test
 	void find_all_by_interest_id() {
-		List<InterestRelation> interestRelations = sut.findByInterestId(backendToJava.getChildInterestId().getId());
+		InterestRelation depth1ToDepth2 = InterestRelationFixture.create(depth1, depth2);
+		InterestRelation depth2ToDepth3 = InterestRelationFixture.create(depth2, depth3);
+		interestRelationRepository.saveAll(List.of(depth1ToDepth2, depth2ToDepth3));
 
-		assertThat(interestRelations.size()).isEqualTo(1);
+		List<InterestRelation> interestRelations = sut.findAllByInterestId(depth2.uuid());
+
+		assertThat(interestRelations).hasSize(2);
+		assertThat(interestRelations).extracting("id")
+			.containsExactlyInAnyOrderElementsOf(List.of(depth1ToDepth2.getId(), depth2ToDepth3.getId()));
 	}
 }

@@ -1,4 +1,4 @@
-package com.gomo.app.interest.common.fixture;
+package com.gomo.app.interest.fixture;
 
 import java.util.UUID;
 
@@ -24,6 +24,24 @@ public class MajorInterestFixture {
 			MajorInterestId.of(UUID.randomUUID()),
 			RegistrantId.of(UUID.randomUUID()),
 			InterestId.of(UUID.randomUUID()),
+			DisplayOrder.of(displayOrder)
+		);
+	}
+
+	public static MajorInterest majorInterest(RegistrantId registrantId, InterestId interestId) {
+		return MajorInterest.of(
+			MajorInterestId.of(UUID.randomUUID()),
+			registrantId,
+			interestId,
+			DisplayOrder.of(1)
+		);
+	}
+
+	public static MajorInterest majorInterest(RegistrantId registrantId, InterestId interestId, int displayOrder) {
+		return MajorInterest.of(
+			MajorInterestId.of(UUID.randomUUID()),
+			registrantId,
+			interestId,
 			DisplayOrder.of(displayOrder)
 		);
 	}

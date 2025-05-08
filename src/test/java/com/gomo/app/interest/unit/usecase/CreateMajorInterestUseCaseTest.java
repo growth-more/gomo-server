@@ -13,8 +13,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.interest.application.CreateMajorInterestUseCase;
-import com.gomo.app.interest.common.fixture.InterestFixture;
-import com.gomo.app.interest.common.fixture.MajorInterestFixture;
+import com.gomo.app.interest.fixture.InterestFixture;
+import com.gomo.app.interest.fixture.MajorInterestFixture;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.MajorInterest;
@@ -41,7 +41,7 @@ public class CreateMajorInterestUseCaseTest {
 	void create_major_interest() {
 		MajorInterest majorInterest = MajorInterestFixture.majorInterest();
 		CreateMajorInterestResponse response = CreateMajorInterestResponse.of(majorInterest.uuid());
-		doReturn(InterestFixture.interest(majorInterest.getRegistrantId())).when(interestService).find(any(InterestId.class));
+		doReturn(InterestFixture.create(majorInterest.getRegistrantId())).when(interestService).find(any(InterestId.class));
 		doReturn(majorInterest).when(majorInterestService).create(any(Interest.class));
 
 		CreateMajorInterestResponse actual = sut.create(majorInterest.registrantUuid(), majorInterest.interestUuid());

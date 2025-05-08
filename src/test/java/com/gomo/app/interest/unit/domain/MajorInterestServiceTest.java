@@ -11,8 +11,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.interest.common.fixture.InterestFixture;
-import com.gomo.app.interest.common.fixture.MajorInterestFixture;
+import com.gomo.app.interest.fixture.InterestFixture;
+import com.gomo.app.interest.fixture.MajorInterestFixture;
 import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.MajorInterest;
 import com.gomo.app.interest.domain.repository.MajorInterestRepository;
@@ -37,7 +37,7 @@ public class MajorInterestServiceTest {
 		doReturn(4).when(majorInterestRepository).findMaxDisplayOrder(any());
 		doReturn(majorInterest).when(majorInterestRepository).save(any());
 
-		MajorInterest actual = sut.create(InterestFixture.interest());
+		MajorInterest actual = sut.create(InterestFixture.create());
 
 		assertThat(actual.getId()).isEqualTo(majorInterest.getId());
 	}
@@ -47,7 +47,7 @@ public class MajorInterestServiceTest {
 	void create_major_interest_with_already_existing_major_interest() {
 		doThrow(MajorInterestDuplicatedException.class).when(majorInterestRepository).findByInterestId(any(InterestId.class));
 
-		assertThatThrownBy(() -> sut.create(InterestFixture.interest()))
+		assertThatThrownBy(() -> sut.create(InterestFixture.create()))
 			.isInstanceOf(MajorInterestDuplicatedException.class);
 	}
 
@@ -59,7 +59,7 @@ public class MajorInterestServiceTest {
 		doReturn(maxDisplayOrder).when(majorInterestRepository).findMaxDisplayOrder(any());
 		doReturn(MajorInterestFixture.majorInterest(maxDisplayOrder + 1)).when(majorInterestRepository).save(any());
 
-		MajorInterest actual = sut.create(InterestFixture.interest());
+		MajorInterest actual = sut.create(InterestFixture.create());
 
 		assertThat(actual.getDisplayOrder().getDisplayOrder()).isEqualTo(maxDisplayOrder + 1);
 	}

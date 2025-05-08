@@ -58,7 +58,7 @@ public class InterestRelationService {
 	}
 
 	public List<InterestRelation> findAllByInterestId(UUID interestId) {
-		return interestRelationRepository.findByInterestId(interestId);
+		return interestRelationRepository.findAllByInterestId(interestId);
 	}
 
 	@Transactional

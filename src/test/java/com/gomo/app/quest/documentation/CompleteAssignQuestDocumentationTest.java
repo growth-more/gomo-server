@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.interest.common.util.InterestDataHelper;
+import com.gomo.app.interest.domain.repository.InterestRepository;
 import com.gomo.app.quest.common.dataprovider.AssignQuestDataProvider;
 import com.gomo.app.quest.common.util.AssignQuestDataHelper;
 import com.gomo.app.quest.common.util.PointDataHelper;
@@ -28,10 +28,10 @@ public class CompleteAssignQuestDocumentationTest extends DocumentationTestBase 
 	private final RestDocumentationFilter filter = CompleteAssignQuestSnippet.create();
 
 	@Autowired
-	private AssignQuestDataHelper assignQuestDataHelper;
+	private InterestRepository interestRepository;
 
 	@Autowired
-	private InterestDataHelper interestDataHelper;
+	private AssignQuestDataHelper assignQuestDataHelper;
 
 	@Autowired
 	private StreakDataHelper streakDataHelper;
@@ -50,8 +50,9 @@ public class CompleteAssignQuestDocumentationTest extends DocumentationTestBase 
 
 	@AfterEach
 	void tearDown() {
+		interestRepository.deleteAllInBatch();
+
 		assignQuestDataHelper.cleanUp();
-		interestDataHelper.cleanUp();
 		streakDataHelper.cleanUp();
 		pointDataHelper.cleanUp();
 	}

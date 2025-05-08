@@ -23,7 +23,7 @@ public class Proficiency {
 	protected Proficiency() {
 	}
 
-	private Proficiency(
+	public Proficiency(
 		Level level,
 		Score score,
 		int totalScore
@@ -37,11 +37,19 @@ public class Proficiency {
 		return new Proficiency(Level.createDefault(), Score.createDefault(), 0);
 	}
 
-	public Proficiency adjust(int deltaTotalScore, int[] totalScoreForLevel, int[] scoreThresholdPolicy) {
+	public int level() {
+		return this.getLevel().getLevel();
+	}
+
+	public int score() {
+		return this.getScore().getScore();
+	}
+
+	public Proficiency adjust(int deltaTotalScore, int[] totalScoreForLevel, int[] scoreThresholdPerLevel) {
 		ensureTotalScoreNotNegative(deltaTotalScore);
 
 		int adjustedTotalScore = this.totalScore + deltaTotalScore;
-		return totalScoreToProficiency(adjustedTotalScore, totalScoreForLevel, scoreThresholdPolicy);
+		return totalScoreToProficiency(adjustedTotalScore, totalScoreForLevel, scoreThresholdPerLevel);
 	}
 
 	private void ensureTotalScoreNotNegative(int deltaTotalScore) {
@@ -50,13 +58,13 @@ public class Proficiency {
 		}
 	}
 
-	private Proficiency totalScoreToProficiency(int totalScore, int[] totalScoreForLevel, int[] scoreThresholdForLevel) {
+	private Proficiency totalScoreToProficiency(int totalScore, int[] totalScoreForLevel, int[] scoreThresholdPerLevel) {
 		for(int level = 1; level < totalScoreForLevel.length; level++) {
 			if(totalScoreForLevel[level] > totalScore) {
 				int matchedLevel = level - 1;
 
 				return new Proficiency(
-					Level.of(matchedLevel, scoreThresholdForLevel[matchedLevel]),
+					Level.of(matchedLevel, scoreThresholdPerLevel[matchedLevel]),
 					Score.of(totalScore - totalScoreForLevel[matchedLevel]),
 					totalScore
 				);

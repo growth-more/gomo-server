@@ -24,5 +24,5 @@ public interface InterestRelationRepository extends JpaRepository<InterestRelati
 	@Query("select ir from InterestRelation ir "
 		+ "where ir.parentInterestId.id = :interestId "
 		+ "or ir.childInterestId.id = :interestId")
-	List<InterestRelation> findByInterestId(UUID interestId);
+	List<InterestRelation> findAllByInterestId(UUID interestId);
 }

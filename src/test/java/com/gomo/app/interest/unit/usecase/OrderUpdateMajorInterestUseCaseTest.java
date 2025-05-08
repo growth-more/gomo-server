@@ -16,7 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.displayorder.OrderChanger;
 import com.gomo.app.interest.application.OrderUpdateMajorInterestUseCase;
-import com.gomo.app.interest.common.fixture.MajorInterestFixture;
+import com.gomo.app.interest.fixture.MajorInterestFixture;
 import com.gomo.app.interest.domain.model.MajorInterest;
 import com.gomo.app.interest.domain.repository.MajorInterestRepository;
 import com.gomo.app.interest.presentation.request.OrderUpdateMajorInterestRequest;

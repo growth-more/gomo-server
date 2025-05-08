@@ -13,7 +13,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.interest.application.UpdateInterestUseCase;
-import com.gomo.app.interest.common.fixture.InterestFixture;
+import com.gomo.app.interest.fixture.InterestFixture;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.service.InterestService;
@@ -32,7 +32,7 @@ public class UpdateInterestUseCaseTest {
 	@DisplayName("관심사를 수정한다.")
 	@Test
 	void update_interest() {
-		Interest interest = InterestFixture.interest();
+		Interest interest = InterestFixture.create();
 		doReturn(interest).when(interestService).find(any(InterestId.class));
 
 		sut.update(interest.getRegistrantId().getId(), interest.uuid(), UpdateInterestRequest.of("name", "#FF0000"));

@@ -13,8 +13,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.interest.application.ReadMajorInterestUseCase;
-import com.gomo.app.interest.common.fixture.InterestFixture;
-import com.gomo.app.interest.common.fixture.MajorInterestFixture;
+import com.gomo.app.interest.fixture.InterestFixture;
+import com.gomo.app.interest.fixture.MajorInterestFixture;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.MajorInterest;
 import com.gomo.app.interest.domain.model.RegistrantId;
@@ -55,10 +55,10 @@ public class ReadMajorInterestUseCaseTest {
 			);
 	}
 
-	private static List<Interest> getInterests(MajorInterest expected1, MajorInterest expected2) {
+	private List<Interest> getInterests(MajorInterest expected1, MajorInterest expected2) {
 		return List.of(
-			InterestFixture.interest(expected1.getInterestId(), "interest1"),
-			InterestFixture.interest(expected2.getInterestId(), "interest2")
+			InterestFixture.create(expected1.getInterestId(), "interest1"),
+			InterestFixture.create(expected2.getInterestId(), "interest2")
 		);
 	}
 }
