@@ -13,6 +13,7 @@ public class ReadInterestResponse {
 	private UUID registrantId;
 	private String name;
 	private String logoUrl;
+	private String colorCode;
 	private int level;
 	private int score;
 	private int scoreThreshold;
@@ -24,6 +25,7 @@ public class ReadInterestResponse {
 		UUID registrantId,
 		String name,
 		String logoUrl,
+		String colorCode,
 		int level,
 		int score,
 		int scoreThreshold,
@@ -33,6 +35,7 @@ public class ReadInterestResponse {
 		this.registrantId = registrantId;
 		this.name = name;
 		this.logoUrl = logoUrl;
+		this.colorCode = colorCode;
 		this.level = level;
 		this.score = score;
 		this.scoreThreshold = scoreThreshold;
@@ -45,6 +48,7 @@ public class ReadInterestResponse {
 			interest.getRegistrantId().getId(),
 			interest.getName().toString(),
 			interest.getLogo().getUrl(),
+			interest.getColorCode(),
 			interest.getProficiency().getLevel().getLevel(),
 			interest.getProficiency().getScore().getScore(),
 			interest.getProficiency().getLevel().getScoreThreshold(),
