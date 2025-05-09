@@ -45,6 +45,7 @@ public class ReadInterestDocumentationTest extends DocumentationTestBase {
 			.body("registrantId", equalTo(interest.registrantUuid().toString()))
 			.body("name", equalTo(interest.getName().toString()))
 			.body("logoUrl", equalTo(interest.getLogo().getUrl()))
+			.body("colorCode", equalTo(interest.getColorCode()))
 			.body("level", equalTo(interest.getProficiency().getLevel().getLevel()))
 			.body("score", equalTo(interest.getProficiency().getScore().getScore()))
 			.body("totalScore", equalTo(interest.getProficiency().getTotalScore()));

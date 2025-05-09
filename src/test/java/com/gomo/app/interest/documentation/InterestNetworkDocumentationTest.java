@@ -69,6 +69,11 @@ public class InterestNetworkDocumentationTest extends DocumentationTestBase {
 				spring.getLogo().getUrl(),
 				java.getLogo().getUrl()
 			))
+			.body("interests.colorCode", hasItems(
+				backend.getColorCode(),
+				spring.getColorCode(),
+				java.getColorCode()
+			))
 			.body("interests.level", hasItems(
 				backend.getProficiency().getLevel().getLevel(),
 				spring.getProficiency().getLevel().getLevel(),
