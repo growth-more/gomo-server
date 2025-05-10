@@ -1,5 +1,7 @@
 package com.gomo.app.auth.presentation;
 
+import java.time.Duration;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -18,19 +20,27 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/oauth/login")
 @Presentation
-public class OAuthController {
+public class OAuthApi {
 
 	private final OAuthUseCase oauthUseCase;
-	private final RefreshTokenCookieProvider refreshTokenCookieProvider;
 
 	@GetMapping("/{provider}")
 	public ResponseEntity<LoginMemberResponse> oauthLogin(@PathVariable String provider, @RequestParam String code) {
 		AuthTokenResponse tokens = oauthUseCase.login(provider, code);
-		ResponseCookie cookie = refreshTokenCookieProvider.create(tokens.getAuthToken().getRefreshToken(),
+		ResponseCookie cookie = createResponseCookie(tokens.getAuthToken().getRefreshToken(),
 			tokens.getExpiresIn());
 
 		return ResponseEntity.ok()
 			.header(HttpHeaders.SET_COOKIE, cookie.toString())
 			.body(LoginMemberResponse.of(tokens.getMemberId(), tokens.getAuthToken().getAccessToken()));
+	}
+
+	private ResponseCookie createResponseCookie(String refreshToken, long expiresIn) {
+		return ResponseCookie.from("refreshToken", refreshToken)
+			.httpOnly(true)
+			.secure(true)
+			.path("/")
+			.maxAge(Duration.ofMillis(expiresIn))
+			.build();
 	}
 }
