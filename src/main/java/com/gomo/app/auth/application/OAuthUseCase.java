@@ -20,22 +20,22 @@ import lombok.RequiredArgsConstructor;
 public class OAuthUseCase {
 
 	private final OAuthProviderFactory providerFactory;
-    private final MemberService memberService;
-    private final MemberRepository memberRepository;
-    private final AuthTokenIssuer authTokenIssuer;
+	private final MemberService memberService;
+	private final MemberRepository memberRepository;
+	private final AuthTokenGenerator authTokenGenerator;
 
-    public AuthTokenResponse login(String providerName, String code) {
-        OAuthProvider provider = providerFactory.getProvider(providerName);
-        OAuthUserInfo userInfo = provider.authenticate(code);
+	public AuthTokenResponse login(String providerName, String code) {
+		OAuthProvider provider = providerFactory.getProvider(providerName);
+		OAuthUserInfo userInfo = provider.authenticate(code);
 
-        Member member = memberRepository.findByEmail(Email.of(userInfo.getEmail()))
-                .orElseGet(() -> memberService.oauthCreateMember(userInfo, providerName));
-        memberService.checkActivated(member);
-        member.updateLastLoginDateTime(LocalDateTime.now());
+		Member member = memberRepository.findByEmail(Email.of(userInfo.getEmail()))
+			.orElseGet(() -> memberService.oauthCreateMember(userInfo, providerName));
+		memberService.checkActivated(member);
+		member.updateLastLoginDateTime(LocalDateTime.now());
 
-        AuthToken authToken = authTokenIssuer.issue(member.uuid());
-        long refreshExpirationTime = authTokenIssuer.getRefreshTokenExpirationTime(authToken.getRefreshToken());
+		AuthToken authToken = authTokenGenerator.generate(member.uuid());
+		long refreshExpirationTime = authTokenGenerator.getRefreshTokenExpirationTime(authToken.getRefreshToken());
 
-        return AuthTokenResponse.of(member.uuid(), authToken, refreshExpirationTime);
-    }
+		return AuthTokenResponse.of(member.uuid(), authToken, refreshExpirationTime);
+	}
 }
