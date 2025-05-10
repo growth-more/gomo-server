@@ -1,5 +1,7 @@
 package com.gomo.app.auth.presentation;
 
+import java.time.Duration;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -24,17 +26,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/members")
 @Presentation
-public class AuthController {
+public class AuthMemberApi {
 
 	private final LoginMemberUseCase loginMemberUseCase;
 	private final LogoutMemberUseCase logoutMemberUseCase;
 	private final RefreshTokenUseCase refreshTokenUseCase;
-	private final RefreshTokenCookieProvider refreshTokenCookieProvider;
 
 	@PostMapping("/login")
 	public ResponseEntity<LoginMemberResponse> login(@RequestBody LoginMemberRequest request) {
 		AuthTokenResponse tokens = loginMemberUseCase.login(request.getEmail(), request.getPassword());
-		ResponseCookie cookie = refreshTokenCookieProvider.create(tokens.getAuthToken().getRefreshToken(),
+		ResponseCookie cookie = createResponseCookie(tokens.getAuthToken().getRefreshToken(),
 			tokens.getExpiresIn());
 
 		return ResponseEntity.ok()
@@ -46,7 +47,7 @@ public class AuthController {
 	public ResponseEntity<LoginMemberResponse> refresh(
 		@CookieValue(name = "refreshToken", required = false) String refreshToken) {
 		AuthTokenResponse tokens = refreshTokenUseCase.refresh(refreshToken);
-		ResponseCookie cookie = refreshTokenCookieProvider.create(tokens.getAuthToken().getRefreshToken(),
+		ResponseCookie cookie = createResponseCookie(tokens.getAuthToken().getRefreshToken(),
 			tokens.getExpiresIn());
 
 		return ResponseEntity.ok()
@@ -57,10 +58,19 @@ public class AuthController {
 	@GetMapping("/logout")
 	public ResponseEntity<Void> logout(@Auth AuthInfo authInfo) {
 		logoutMemberUseCase.logout(authInfo.getMemberId());
-		ResponseCookie cookie = refreshTokenCookieProvider.delete();
+		ResponseCookie cookie = createResponseCookie("", 0);
 
 		return ResponseEntity.ok()
 			.header(HttpHeaders.SET_COOKIE, cookie.toString())
+			.build();
+	}
+
+	private ResponseCookie createResponseCookie(String refreshToken, long expiresIn) {
+		return ResponseCookie.from("refreshToken", refreshToken)
+			.httpOnly(true)
+			.secure(true)
+			.path("/")
+			.maxAge(Duration.ofMillis(expiresIn))
 			.build();
 	}
 }
