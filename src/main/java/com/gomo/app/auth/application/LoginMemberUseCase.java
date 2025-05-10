@@ -19,7 +19,7 @@ public class LoginMemberUseCase {
 
 	private final MemberService memberService;
 	private final PasswordService passwordService;
-	private final AuthTokenIssuer authTokenIssuer;
+	private final AuthTokenGenerator authTokenGenerator;
 
 	public AuthTokenResponse login(String email, String password) {
 		Member member = memberService.findByEmail(Email.of(email));
@@ -30,8 +30,8 @@ public class LoginMemberUseCase {
 		member.login(passwordService, inputPassword);
 		member.updateLastLoginDateTime(LocalDateTime.now());
 
-		AuthToken authToken = authTokenIssuer.issue(member.uuid());
-		long refreshTokenExpirationTime = authTokenIssuer.getRefreshTokenExpirationTime(authToken.getRefreshToken());
+		AuthToken authToken = authTokenGenerator.generate(member.uuid());
+		long refreshTokenExpirationTime = authTokenGenerator.getRefreshTokenExpirationTime(authToken.getRefreshToken());
 		return AuthTokenResponse.of(member.uuid(), authToken, refreshTokenExpirationTime);
 	}
 }

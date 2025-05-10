@@ -12,16 +12,16 @@ import lombok.RequiredArgsConstructor;
 
 @ApplicationService
 @RequiredArgsConstructor
-public class AuthTokenIssuer {
+public class AuthTokenGenerator {
 
 	private final JwtUtil jwtUtil;
 	private final AuthTokenRepository authTokenRepository;
 
 	@Transactional
-	public AuthToken issue(UUID issuerId) {
-		String accessToken = jwtUtil.generateAccessToken(issuerId);
-		String refreshToken = jwtUtil.generateRefreshToken(issuerId);
-		authTokenRepository.setRefreshToken(issuerId, refreshToken);
+	public AuthToken generate(UUID memberId) {
+		String accessToken = jwtUtil.generateAccessToken(memberId);
+		String refreshToken = jwtUtil.generateRefreshToken(memberId);
+		authTokenRepository.setRefreshToken(memberId, refreshToken);
 
 		return AuthToken.of(accessToken, refreshToken);
 	}
