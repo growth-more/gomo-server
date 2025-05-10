@@ -31,7 +31,7 @@ public class RefreshTokenUseCase {
 			throw new MemberAuthenticationFailedException(MemberErrorCode.AUTHENTICATION_FAILED);
 		}
 
-		AuthToken authToken = authTokenGenerator.issue(memberId);
+		AuthToken authToken = authTokenGenerator.generate(memberId);
 		long refreshTokenExpirationTime = authTokenGenerator.getRefreshTokenExpirationTime(authToken.getRefreshToken());
 
 		return AuthTokenResponse.of(memberId, authToken, refreshTokenExpirationTime);
