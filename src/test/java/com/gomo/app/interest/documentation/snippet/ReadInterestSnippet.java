@@ -23,6 +23,7 @@ public class ReadInterestSnippet {
 		fieldWithPath("registrantId").type(JsonFieldType.STRING).description("등록자 아이디"),
 		fieldWithPath("name").type(JsonFieldType.STRING).description("관심사 이름"),
 		fieldWithPath("logoUrl").type(JsonFieldType.STRING).description("로고 이미지"),
+		fieldWithPath("colorCode").type(JsonFieldType.STRING).description("관심사 색상"),
 		fieldWithPath("level").type(JsonFieldType.NUMBER).description("레벨"),
 		fieldWithPath("score").type(JsonFieldType.NUMBER).description("현재 점수"),
 		fieldWithPath("scoreThreshold").type(JsonFieldType.NUMBER).description("현재 레벨의 임계 점수"),

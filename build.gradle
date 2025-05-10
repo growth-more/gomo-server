@@ -126,6 +126,7 @@ jacocoTestCoverageVerification {
         }
     }
 }
+
 tasks.register('testCoverage') {
     group = 'verification'
     description = 'Runs the tests with coverage'
@@ -146,6 +147,7 @@ tasks.register('testCoverage') {
         }
     }
 }
+
 // generate open api specification
 openapi3 {
     def env = System.getenv("ENV")
@@ -178,8 +180,6 @@ tasks.register("authOpenApiSpec", task -> {
 
 // copy open api specification for swagger
 tasks.register('copyOasToSwagger', Copy) {
-    // todo 덮어 쓰여지는지 확인 후 제거
-    //delete 'src/main/resources/static/swagger-ui/openapi3.json'
     from 'build/api-spec/openapi3.json'
     into 'src/main/resources/static/swagger-ui/'
     dependsOn 'authOpenApiSpec'

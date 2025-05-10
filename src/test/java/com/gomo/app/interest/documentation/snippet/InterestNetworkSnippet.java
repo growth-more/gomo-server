@@ -24,6 +24,7 @@ public class InterestNetworkSnippet {
 		fieldWithPath("interests[].registrantId").type(JsonFieldType.STRING).description("사용자 아이디"),
 		fieldWithPath("interests[].name").type(JsonFieldType.STRING).description("관심사 이름"),
 		fieldWithPath("interests[].logoUrl").type(JsonFieldType.STRING).description("관심사 로고 이미지"),
+		fieldWithPath("interests[].colorCode").type(JsonFieldType.STRING).description("관심사 색상"),
 		fieldWithPath("interests[].level").type(JsonFieldType.NUMBER).description("레벨"),
 		fieldWithPath("interests[].score").type(JsonFieldType.NUMBER).description("현재 점수"),
 		fieldWithPath("interests[].scoreThreshold").type(JsonFieldType.NUMBER).description("현재 레벨의 임계 점수"),
