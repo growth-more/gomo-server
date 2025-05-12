@@ -30,8 +30,8 @@ public class ProfileBannerTest {
 	private Password PASSWORD;
 
 	@BeforeEach
-	void setUp(){
-		PASSWORD = Password.of("Test1234!", passwordService);
+	void setUp() {
+		PASSWORD = Password.ofRaw("Test1234!");
 	}
 
 	private static final MemberId ID = MemberId.of(UUID.randomUUID());
@@ -44,30 +44,30 @@ public class ProfileBannerTest {
 
 	@DisplayName("프로필 배너를 등록하지 않으면 기본 이미지가 등록된다.")
 	@Test
-	void create_member_with_default_banner(){
+	void create_member_with_default_banner() {
 		Member member = Member.of(ID, EMAIL, PASSWORD, HANDLE, MEMBER_NAME, MOTTO, LOGIN_PROVIDER);
 
 		assertThat(member.getProfileBanner().getUrl())
-				.isEqualTo(DEFAULT_IMAGE);
+			.isEqualTo(DEFAULT_IMAGE);
 	}
 
 	@DisplayName("프로필 배너를 업데이트 한다.")
 	@Test
-	void update_member_banner(){
+	void update_member_banner() {
 		Member member = Member.of(ID, EMAIL, PASSWORD, HANDLE, MEMBER_NAME, MOTTO, LOGIN_PROVIDER);
 		member.updateProfileBanner("https://mini-io/updated_banner.png");
 
 		assertThat(member.getProfileBanner().getUrl())
-				.isEqualTo("https://mini-io/updated_banner.png");
+			.isEqualTo("https://mini-io/updated_banner.png");
 	}
 
 	@DisplayName("프로필 배너를 삭제하면 기본 이미지로 수정된다.")
 	@Test
-	void delete_member_banner(){
+	void delete_member_banner() {
 		Member member = Member.of(ID, EMAIL, PASSWORD, HANDLE, MEMBER_NAME, MOTTO, LOGIN_PROVIDER);
 		member.delete();
 
 		assertThat(member.getProfileImage().getUrl())
-				.isEqualTo(DEFAULT_IMAGE);
+			.isEqualTo(DEFAULT_IMAGE);
 	}
 }

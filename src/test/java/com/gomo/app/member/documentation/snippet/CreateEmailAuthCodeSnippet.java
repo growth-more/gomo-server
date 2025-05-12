@@ -14,16 +14,12 @@ import com.gomo.app.common.constant.ErrorResponseFields;
 public class CreateEmailAuthCodeSnippet {
 
 	private static final String IDENTIFIER = "create_email_auth_code";
-	private static final String SUMMARY = "이메일 인증 코드 생성 API";
-	private static final String DESCRIPTION = "이메일 중복 및 유효성을 체크하고 인증 코드를 생성합니다.";
+	private static final String SUMMARY = "이메일 인증코드 생성 API";
+	private static final String DESCRIPTION = "회원가입 시 사용하는 이메일 인증 코드를 생성합니다.";
 	private static final String TAG = "Member";
 
 	private static final Snippet REQUEST_FIELDS = requestFields(
-		fieldWithPath("email").type(JsonFieldType.STRING).description("이메일")
-	);
-
-	private static final Snippet RESPONSE_FIELDS = responseFields(
-		fieldWithPath("email").type(JsonFieldType.STRING).description("이메일: 코드 생성 요청자의 EMAIL")
+		fieldWithPath("email").type(JsonFieldType.STRING).description("회원 이메일")
 	);
 
 	public static RestDocumentationFilter create() {
@@ -33,10 +29,8 @@ public class CreateEmailAuthCodeSnippet {
 				.summary(SUMMARY)
 				.description(DESCRIPTION)
 				.tag(TAG)
-				.requestSchema(Schema.schema("CreateEmailAuthCodeRequest"))
-				.responseSchema(Schema.schema("CreateEmailAuthCodeResponse")),
-			REQUEST_FIELDS,
-			RESPONSE_FIELDS
+				.requestSchema(Schema.schema("CreateEmailAuthCodeRequest")),
+			REQUEST_FIELDS
 		);
 	}
 
@@ -52,5 +46,7 @@ public class CreateEmailAuthCodeSnippet {
 			REQUEST_FIELDS,
 			ErrorResponseFields.RESPONSE_FIELDS
 		);
+
 	}
+
 }

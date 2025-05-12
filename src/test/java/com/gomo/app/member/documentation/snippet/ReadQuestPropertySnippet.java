@@ -9,6 +9,7 @@ import org.springframework.restdocs.snippet.Snippet;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
+import com.gomo.app.common.constant.ErrorResponseFields;
 
 public class ReadQuestPropertySnippet {
 
@@ -32,6 +33,18 @@ public class ReadQuestPropertySnippet {
 				.tag(TAG)
 				.responseSchema(Schema.schema("ReadQuestPropertyResponse")),
 			RESPONSE_FIELDS
+		);
+	}
+
+	public static RestDocumentationFilter createError() {
+		return document(
+			IDENTIFIER + "/error",
+			ResourceSnippetParameters.builder()
+				.summary(SUMMARY)
+				.description(DESCRIPTION)
+				.tag(TAG)
+				.responseSchema(Schema.schema("ErrorResponse")),
+			ErrorResponseFields.RESPONSE_FIELDS
 		);
 	}
 }

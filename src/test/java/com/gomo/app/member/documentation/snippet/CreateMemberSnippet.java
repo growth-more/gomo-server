@@ -11,15 +11,22 @@ import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
 import com.gomo.app.common.constant.ErrorResponseFields;
 
-public class UpdatePasswordSnippet {
-	private static final String IDENTIFIER = "update_password";
-	private static final String SUMMARY = "비밀번호 수정 API";
-	private static final String DESCRIPTION = "비밀번호를 수정합니다.";
+public class CreateMemberSnippet {
+	private static final String IDENTIFIER = "create_member";
+	private static final String SUMMARY = "회원 생성 API";
+	private static final String DESCRIPTION = "회원을 생성합니다.";
 	private static final String TAG = "Member";
 
 	private static final Snippet REQUEST_FIELDS = requestFields(
-		fieldWithPath("originPassword").type(JsonFieldType.STRING).description("원래 비밀번호"),
-		fieldWithPath("updatedPassword").type(JsonFieldType.STRING).description("수정할 비밀번호")
+		fieldWithPath("email").type(JsonFieldType.STRING).description("회원 이메일"),
+		fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
+		fieldWithPath("handle").type(JsonFieldType.STRING).description("사용자 고유식별자"),
+		fieldWithPath("name").type(JsonFieldType.STRING).description("사용자 이름"),
+		fieldWithPath("motto").type(JsonFieldType.STRING).description("사용자 이름")
+	);
+
+	private static final Snippet RESPONSE_FIELDS = responseFields(
+		fieldWithPath("id").type(JsonFieldType.STRING).description("사용자 고유식별자 ID")
 	);
 
 	public static RestDocumentationFilter create() {
@@ -29,8 +36,10 @@ public class UpdatePasswordSnippet {
 				.summary(SUMMARY)
 				.description(DESCRIPTION)
 				.tag(TAG)
-				.requestSchema(Schema.schema("UpdatePasswordRequest")),
-			REQUEST_FIELDS
+				.requestSchema(Schema.schema("CreateMemberRequest"))
+				.responseSchema(Schema.schema("CreateMemberResponse")),
+			REQUEST_FIELDS,
+			RESPONSE_FIELDS
 		);
 	}
 
@@ -41,9 +50,11 @@ public class UpdatePasswordSnippet {
 				.summary(SUMMARY)
 				.description(DESCRIPTION)
 				.tag(TAG)
-				.requestSchema(Schema.schema("UpdatePasswordRequest")),
+				.requestSchema(Schema.schema("CreateMemberRequest"))
+				.responseSchema(Schema.schema("ErrorResponse")),
 			REQUEST_FIELDS,
 			ErrorResponseFields.RESPONSE_FIELDS
 		);
+
 	}
 }

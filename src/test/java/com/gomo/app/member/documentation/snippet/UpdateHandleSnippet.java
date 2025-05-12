@@ -12,14 +12,13 @@ import com.epages.restdocs.apispec.Schema;
 import com.gomo.app.common.constant.ErrorResponseFields;
 
 public class UpdateHandleSnippet {
-
 	private static final String IDENTIFIER = "update_handle";
-	private static final String SUMMARY = "핸들 변경 API";
-	private static final String DESCRIPTION = "사용자 핸들을 변경합니다.";
+	private static final String SUMMARY = "핸들 업데이트 API";
+	private static final String DESCRIPTION = "사용자의 핸들을 수정합니다.";
 	private static final String TAG = "Member";
 
 	private static final Snippet REQUEST_FIELDS = requestFields(
-		fieldWithPath("handle").type(JsonFieldType.STRING).description("사용자가 지정한 고유 식별 문자")
+		fieldWithPath("handle").type(JsonFieldType.STRING).description("수정하려고 하는 핸들")
 	);
 
 	public static RestDocumentationFilter create() {
