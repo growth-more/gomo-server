@@ -24,7 +24,6 @@ public class Email {
 	}
 
 	private Email(String email) {
-		System.out.println(email);
 		ensureNotBlank(email);
 		ensureValidEmailLength(email);
 		ensureValidEmailRule(email);

@@ -35,7 +35,6 @@ public class MemberApi {
 
 	@PostMapping
 	public ResponseEntity<CreateMemberResponse> create(@RequestBody CreateMemberRequest request) {
-		System.out.println("@Api: " + request.getPassword());
 		CreateMemberResponse response = createMemberUseCase.create(request);
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
