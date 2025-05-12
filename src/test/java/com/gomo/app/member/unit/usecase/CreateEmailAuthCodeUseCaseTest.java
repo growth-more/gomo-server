@@ -11,15 +11,17 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.member.application.CreateEmailAuthCodeUseCase;
+import com.gomo.app.member.domain.model.Email;
+import com.gomo.app.member.domain.repository.EmailAuthCodeRepository;
+import com.gomo.app.member.domain.service.AuthCodeGenerator;
 import com.gomo.app.member.domain.service.MemberService;
 import com.gomo.app.member.infrastructure.EmailAuthSenderService;
-import com.gomo.app.member.infrastructure.repository.EmailAuthRedisRepository;
 import com.gomo.app.member.presentation.request.CreateEmailAuthCodeRequest;
-import com.gomo.app.member.presentation.response.CreateEmailAuthCodeResponse;
 
-@DisplayName("[Application Unit]: 이메일 인증코드 생성 테스트")
 @ExtendWith(MockitoExtension.class)
+@DisplayName("[Application unit] : 이메일 인증코드 생성 및 전송 테스트")
 public class CreateEmailAuthCodeUseCaseTest {
+
 	@InjectMocks
 	CreateEmailAuthCodeUseCase sut;
 
@@ -27,22 +29,24 @@ public class CreateEmailAuthCodeUseCaseTest {
 	MemberService memberService;
 
 	@Mock
-	EmailAuthRedisRepository emailAuthRedisRepository;
+	EmailAuthCodeRepository emailAuthCodeRepository;
 
 	@Mock
 	EmailAuthSenderService emailAuthSenderService;
 
-	private static final String EMAIL = "test@google.com";
+	@Mock
+	AuthCodeGenerator authCodeGenerator;
 
-	@DisplayName("이메일 인증코드를 생성한다.")
+	private static final String EMAIL = "test@gmail.com";
+	private static final String AUTH_CODE = "123456";
+
+	@DisplayName("이메일 인증 코드를 생성한다.")
 	@Test
 	void create_email_auth_code_successfully() {
-		doNothing().when(memberService).checkEmailDuplicated(any());
+		doNothing().when(memberService).checkEmailDuplicated(any(Email.class));
+		doReturn(AUTH_CODE).when(authCodeGenerator).generate();
 		doNothing().when(emailAuthSenderService).sendEmailAuthCode(anyString(), anyString());
-
-		CreateEmailAuthCodeResponse expected = CreateEmailAuthCodeResponse.of(EMAIL);
-		CreateEmailAuthCodeResponse actual = sut.create(CreateEmailAuthCodeRequest.of(EMAIL));
-
-		assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+		
+		assertThatCode(() -> sut.create(CreateEmailAuthCodeRequest.of(EMAIL))).doesNotThrowAnyException();
 	}
 }

@@ -1,46 +1,34 @@
 package com.gomo.app.member.documentation;
 
-import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.member.common.util.MemberDBDataHelper;
-import com.gomo.app.member.documentation.snippet.DeleteMemberSnippet;
-import org.junit.jupiter.api.AfterEach;
+import static io.restassured.RestAssured.*;
+import static org.springframework.http.HttpHeaders.*;
+import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.MediaType.*;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import static io.restassured.RestAssured.given;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
-import static org.springframework.http.HttpStatus.NO_CONTENT;
-import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import com.gomo.app.common.DocumentationTestBase;
+import com.gomo.app.member.documentation.snippet.DeleteProfileImageSnippet;
 
-@DisplayName("[Presentation documentation]: 회원 프로필이미지 삭제 테스트")
+@DisplayName("[Presentation Documentation]: 프로필 이미지 삭제 테스트")
 public class DeleteProfileImageDocumentationTest extends DocumentationTestBase {
 
-    private static final String MEMBER_PROFILE_DELETE_URL = "/members/images/profiles";
+	private static final String DELETE_PROFILE_URL = "/members/images/profiles";
 
-    private final RestDocumentationFilter filter = DeleteMemberSnippet.create();
-    private final RestDocumentationFilter errorFilter = DeleteMemberSnippet.createError();
+	private final RestDocumentationFilter filter = DeleteProfileImageSnippet.create();
+	private final RestDocumentationFilter errorFilter = DeleteProfileImageSnippet.createError();
 
-    @Autowired
-	private MemberDBDataHelper memberDBDataHelper;
-
-	@AfterEach
-	void tearDown() {
-		memberDBDataHelper.cleanUp();
+	@DisplayName("사용자가 프로필 이미지를 삭제한다.")
+	@Test
+	void delete_profile_image() {
+		given(this.specification).filter(filter)
+			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.header(AUTHORIZATION, "Bearer " + accessToken)
+			.when()
+			.delete(DELETE_PROFILE_URL)
+			.then()
+			.statusCode(OK.value());
 	}
-
-    @DisplayName("사용자가 프로필 삭제를 요청한다.")
-    @Test
-    void delete_member(){
-        given(this.specification).filter(filter)
-                .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-                .header(AUTHORIZATION, "Bearer " + accessToken)
-                .when()
-                .delete(MEMBER_PROFILE_DELETE_URL)
-                .then()
-                .statusCode(OK.value());
-    }
 }

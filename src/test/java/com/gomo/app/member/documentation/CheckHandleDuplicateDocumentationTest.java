@@ -11,46 +11,44 @@ import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.member.documentation.snippet.UpdateHandleSnippet;
+import com.gomo.app.member.documentation.snippet.CheckHandleDuplicateSnippet;
 import com.gomo.app.member.exception.code.HandleErrorCode;
-import com.gomo.app.member.presentation.request.UpdateHandleRequest;
 
-@DisplayName("[Presentation Documentation]: 핸들 수정 테스트")
-public class UpdateHandleDocumentationTest extends DocumentationTestBase {
+@DisplayName("[Presentation Documentation]: 핸들 중복 테스트")
+public class CheckHandleDuplicateDocumentationTest extends DocumentationTestBase {
 
-	private static final String UPDATE_HANDLE_URL = "/members/handles";
+	private static final String CHECK_DUPLICATE_HANDLE_URL = "/members/handles/duplicate";
 
-	private final RestDocumentationFilter filter = UpdateHandleSnippet.create();
-	private final RestDocumentationFilter errorFilter = UpdateHandleSnippet.createError();
+	private final RestDocumentationFilter filter = CheckHandleDuplicateSnippet.create();
+	private final RestDocumentationFilter errorFilter = CheckHandleDuplicateSnippet.createError();
 
-	@DisplayName("핸들을 수정한다.")
+	@DisplayName("사용자가 핸들을 검증에 성공한다.(중복X)")
 	@Test
-	void update_handle() {
+	void check_duplicate_handle_success() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.header(AUTHORIZATION, "Bearer " + accessToken)
-			.body(UpdateHandleRequest.of("@updateHandle"))
+			.param("handle", "@newhandle")
 			.when()
-			.put(UPDATE_HANDLE_URL)
+			.get(CHECK_DUPLICATE_HANDLE_URL)
 			.then()
-			.statusCode(NO_CONTENT.value());
+			.statusCode(OK.value());
 	}
 
-	@DisplayName("중복된 핸들로 인증한다")
+	@DisplayName("사용자가 핸들을 검증에 실패한다.(중복)")
 	@Test
-	void update_handle_with_duplicate_handle() {
+	void check_duplicate_handle_failure() {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.header(AUTHORIZATION, "Bearer " + accessToken)
-			.body(UpdateHandleRequest.of("@Test"))
+			.param("handle", "@GOMOTEST")
 			.when()
-			.put(UPDATE_HANDLE_URL)
+			.get(CHECK_DUPLICATE_HANDLE_URL)
 			.then()
 			.statusCode(HandleErrorCode.DUPLICATED.getHttpStatus())
 			.body("timestamp", instanceOf(String.class))
-			.body("path", equalTo(UPDATE_HANDLE_URL))
+			.body("path", equalTo(CHECK_DUPLICATE_HANDLE_URL))
 			.body("httpStatus", equalTo(HandleErrorCode.DUPLICATED.getHttpStatus()))
 			.body("code", equalTo(HandleErrorCode.DUPLICATED.getErrorCode()))
 			.body("message", equalTo(HandleErrorCode.DUPLICATED.getMessage()));
 	}
+
 }

@@ -1,26 +1,24 @@
 package com.gomo.app.member.documentation.snippet;
 
 import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 
-import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.restdocs.request.ParameterDescriptor;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
-import org.springframework.restdocs.snippet.Snippet;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
 import com.gomo.app.common.constant.ErrorResponseFields;
 
-public class UpdatePasswordSnippet {
-	private static final String IDENTIFIER = "update_password";
-	private static final String SUMMARY = "비밀번호 수정 API";
-	private static final String DESCRIPTION = "비밀번호를 수정합니다.";
+public class CheckHandleDuplicateSnippet {
+	private static final String IDENTIFIER = "check_handle_duplicate";
+	private static final String SUMMARY = "핸들 중복 체크 API";
+	private static final String DESCRIPTION = "회원가입 시 사용하는 핸들의 중복 여부를 체크합니다.";
 	private static final String TAG = "Member";
 
-	private static final Snippet REQUEST_FIELDS = requestFields(
-		fieldWithPath("originPassword").type(JsonFieldType.STRING).description("원래 비밀번호"),
-		fieldWithPath("updatedPassword").type(JsonFieldType.STRING).description("수정할 비밀번호")
-	);
+	private static final ParameterDescriptor[] REQUEST_PARAMETERS = {
+		parameterWithName("handle").description("사용하고자 하는 핸들"),
+	};
 
 	public static RestDocumentationFilter create() {
 		return document(
@@ -29,8 +27,8 @@ public class UpdatePasswordSnippet {
 				.summary(SUMMARY)
 				.description(DESCRIPTION)
 				.tag(TAG)
-				.requestSchema(Schema.schema("UpdatePasswordRequest")),
-			REQUEST_FIELDS
+				.queryParameters(REQUEST_PARAMETERS),
+			queryParameters(REQUEST_PARAMETERS)
 		);
 	}
 
@@ -41,8 +39,9 @@ public class UpdatePasswordSnippet {
 				.summary(SUMMARY)
 				.description(DESCRIPTION)
 				.tag(TAG)
-				.requestSchema(Schema.schema("UpdatePasswordRequest")),
-			REQUEST_FIELDS,
+				.queryParameters(REQUEST_PARAMETERS)
+				.responseSchema(Schema.schema("ErrorResponse")),
+			queryParameters(REQUEST_PARAMETERS),
 			ErrorResponseFields.RESPONSE_FIELDS
 		);
 	}

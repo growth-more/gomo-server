@@ -10,34 +10,29 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.member.application.UpdateHandleUseCase;
+import com.gomo.app.member.application.DeleteProfileImageUseCase;
 import com.gomo.app.member.common.fixture.MemberFixture;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.service.MemberService;
-import com.gomo.app.member.presentation.request.UpdateHandleRequest;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("[Application unit]: 핸들 업데이트 테스트")
-public class UpdateHandleUseCaseTest {
+@DisplayName("[Application Unit]: 멤버 프로필 이미지 삭제 테스트")
+public class DeleteProfileImageUseCaseTest {
 
 	@InjectMocks
-	UpdateHandleUseCase sut;
+	DeleteProfileImageUseCase sut;
 
 	@Mock
-	private MemberService memberService;
+	MemberService memberService;
 
-	private final static String UPDATED_HANDLE = "@updatedhandle";
-
-	@DisplayName("핸들 업데이트를 성공한다")
+	@DisplayName("프로필 이미지 삭제 테스트")
 	@Test
-	void update_handle_success() {
+	void delete_profile_image() {
 		Member member = MemberFixture.member();
-		UpdateHandleRequest request = UpdateHandleRequest.of(UPDATED_HANDLE);
 		doReturn(member).when(memberService).find(member.getId());
 
-		sut.update(member.uuid(), request);
+		sut.delete(member.uuid());
 
-		assertThat(member.getHandle().getHandle()).isEqualTo(UPDATED_HANDLE);
+		assertThat(member.getProfileImage().getUrl()).isEqualTo("DEFAULT_IMAGE");
 	}
-
 }
