@@ -32,7 +32,7 @@ public class CreateMemberUseCase {
 	public CreateMemberResponse create(CreateMemberRequest request) {
 		memberService.checkEmailDuplicated(Email.of(request.getEmail()));
 		memberService.checkHandleDuplicated(Handle.of(request.getHandle()));
-		System.out.println("@UseCase: " + request.getPassword());
+		
 		Member member = request.toDomain(MemberId.of(UUIDGenerator.generate()), passwordService);
 		Member savedMember = memberRepository.save(member);
 		PointWallet pointWallet = PointWallet.createDefault(PointWalletId.of(UUIDGenerator.generate()),
