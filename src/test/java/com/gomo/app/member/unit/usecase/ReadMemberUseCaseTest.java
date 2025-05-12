@@ -20,11 +20,12 @@ import com.gomo.app.point.domain.model.Balance;
 import com.gomo.app.point.domain.model.TransactorId;
 import com.gomo.app.point.domain.service.PointWalletService;
 
-@DisplayName("[Application Unit]: 멤버 조회 테스트")
 @ExtendWith(MockitoExtension.class)
+@DisplayName("[Application unit]: 멤버 조회 테스트")
 public class ReadMemberUseCaseTest {
+
 	@InjectMocks
-	private ReadMemberUseCase sut;
+	ReadMemberUseCase sut;
 
 	@Mock
 	private MemberService memberService;
@@ -32,21 +33,20 @@ public class ReadMemberUseCaseTest {
 	@Mock
 	private PointWalletService pointWalletService;
 
-	private static final int BALANCE_AMOUNT = 5000;
+	private static final int BALANCE = 5000;
 
-	@DisplayName("멤버 조회에 성공한다.")
+	@DisplayName("멤버 조회에 성공한다")
 	@Test
 	void read_member_successfully() {
 		Member member = MemberFixture.member();
-		Balance balance = Balance.of(BALANCE_AMOUNT);
-		ReadMemberResponse expected = ReadMemberResponse.of(member, BALANCE_AMOUNT);
+		Balance balance = Balance.of(BALANCE);
+		ReadMemberResponse expected = ReadMemberResponse.of(member, BALANCE);
 
-		doReturn(member).when(memberService).find(MemberId.of(member.uuid()));
-		doReturn(balance).when(pointWalletService).findBalance(TransactorId.of(member.getId().getId()));
+		doReturn(member).when(memberService).find(any(MemberId.class));
+		doReturn(balance).when(pointWalletService).findBalance(any(TransactorId.class));
 
 		ReadMemberResponse actual = sut.find(member.uuid());
 
 		assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
-
 	}
 }

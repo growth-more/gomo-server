@@ -15,37 +15,37 @@ import com.gomo.app.image.ImageService;
 import com.gomo.app.member.application.UpdateProfileImageUseCase;
 import com.gomo.app.member.common.fixture.MemberFixture;
 import com.gomo.app.member.domain.model.Member;
-import com.gomo.app.member.domain.model.MemberId;
 import com.gomo.app.member.domain.service.MemberService;
 import com.gomo.app.member.presentation.response.UpdateProfileImageResponse;
 
-@DisplayName("[Application Unit]: 프로필 이미지 수정 기능 테스트")
 @ExtendWith(MockitoExtension.class)
+@DisplayName("[Application Unit]: 프로필 이미지 수정 기능 테스트")
 public class UpdateProfileImageUseCaseTest {
 
-    @InjectMocks
-    private UpdateProfileImageUseCase sut;
+	@InjectMocks
+	UpdateProfileImageUseCase sut;
 
-    @Mock
-    private MemberService memberService;
+	@Mock
+	private MemberService memberService;
 
-    @Mock
-    private ImageService imageService;
+	@Mock
+	private ImageService imageService;
 
-    private static final String NEW_IMAGE_URL = "https://example.com/profile.jpg";
+	private static final String NEW_IMAGE_URL = "https://example.com/profile.jpg";
 
-    @DisplayName("프로필 이미지를 업데이트 한다.")
-    @Test
-    void update_member_profile(){
-        Member member = MemberFixture.member();
-        MockMultipartFile request = new MockMultipartFile("profile", "mock image data".getBytes());
-        UpdateProfileImageResponse expected = UpdateProfileImageResponse.of(NEW_IMAGE_URL);
+	@DisplayName("프로필 이미지를 수정한다")
+	@Test
+	void update_profile_image() {
+		Member member = MemberFixture.member();
+		MockMultipartFile request = new MockMultipartFile("banner", "mock image data".getBytes());
+		UpdateProfileImageResponse expected = UpdateProfileImageResponse.of(NEW_IMAGE_URL);
 
-        doReturn(member).when(memberService).find(MemberId.of(member.uuid()));
-        doReturn(NEW_IMAGE_URL).when(imageService).uploadImage(any());
+		doReturn(member).when(memberService).find(member.getId());
+		doReturn(NEW_IMAGE_URL).when(imageService).uploadImage(any(MockMultipartFile.class));
 
-        UpdateProfileImageResponse actual = sut.update(member.uuid(), request);
+		UpdateProfileImageResponse actual = sut.update(member.uuid(), request);
 
-        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
-    }
+		assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+	}
+
 }

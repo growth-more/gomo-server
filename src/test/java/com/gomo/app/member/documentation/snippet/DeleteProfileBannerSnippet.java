@@ -1,26 +1,19 @@
 package com.gomo.app.member.documentation.snippet;
 
 import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 
-import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
-import org.springframework.restdocs.snippet.Snippet;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
 import com.epages.restdocs.apispec.Schema;
 import com.gomo.app.common.constant.ErrorResponseFields;
 
-public class UpdatePasswordSnippet {
-	private static final String IDENTIFIER = "update_password";
-	private static final String SUMMARY = "비밀번호 수정 API";
-	private static final String DESCRIPTION = "비밀번호를 수정합니다.";
+public class DeleteProfileBannerSnippet {
+	
+	private static final String IDENTIFIER = "delete_profile_banner";
+	private static final String SUMMARY = "프로필 배너 삭제 API";
+	private static final String DESCRIPTION = "사용자의 프로필 배너를 삭제합니다.";
 	private static final String TAG = "Member";
-
-	private static final Snippet REQUEST_FIELDS = requestFields(
-		fieldWithPath("originPassword").type(JsonFieldType.STRING).description("원래 비밀번호"),
-		fieldWithPath("updatedPassword").type(JsonFieldType.STRING).description("수정할 비밀번호")
-	);
 
 	public static RestDocumentationFilter create() {
 		return document(
@@ -29,8 +22,6 @@ public class UpdatePasswordSnippet {
 				.summary(SUMMARY)
 				.description(DESCRIPTION)
 				.tag(TAG)
-				.requestSchema(Schema.schema("UpdatePasswordRequest")),
-			REQUEST_FIELDS
 		);
 	}
 
@@ -41,8 +32,7 @@ public class UpdatePasswordSnippet {
 				.summary(SUMMARY)
 				.description(DESCRIPTION)
 				.tag(TAG)
-				.requestSchema(Schema.schema("UpdatePasswordRequest")),
-			REQUEST_FIELDS,
+				.responseSchema(Schema.schema("ErrorResponse")),
 			ErrorResponseFields.RESPONSE_FIELDS
 		);
 	}

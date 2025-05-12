@@ -1,6 +1,7 @@
 package com.gomo.app.member.documentation.snippet;
 
 import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.*;
+
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
