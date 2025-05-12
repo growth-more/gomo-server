@@ -55,5 +55,6 @@ public class CreateMemberSnippet {
 			REQUEST_FIELDS,
 			ErrorResponseFields.RESPONSE_FIELDS
 		);
+
 	}
 }

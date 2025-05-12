@@ -11,7 +11,6 @@ import com.epages.restdocs.apispec.Schema;
 import com.gomo.app.common.constant.ErrorResponseFields;
 
 public class CheckHandleDuplicateSnippet {
-
 	private static final String IDENTIFIER = "check_handle_duplicate";
 	private static final String SUMMARY = "핸들 중복 체크 API";
 	private static final String DESCRIPTION = "회원가입 시 사용하는 핸들의 중복 여부를 체크합니다.";
