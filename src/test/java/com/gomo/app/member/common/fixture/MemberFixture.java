@@ -3,8 +3,6 @@ package com.gomo.app.member.common.fixture;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import org.mockito.Mockito;
-
 import com.gomo.app.member.domain.model.ActivateStatus;
 import com.gomo.app.member.domain.model.DailyThreshold;
 import com.gomo.app.member.domain.model.Email;
@@ -22,12 +20,10 @@ import com.gomo.app.member.domain.model.QuestProperty;
 import com.gomo.app.member.domain.model.RoleType;
 import com.gomo.app.member.domain.model.SubscriptionPlan;
 import com.gomo.app.member.domain.model.WeeklyThreshold;
-import com.gomo.app.member.domain.service.PasswordService;
 
 public class MemberFixture {
 
 	public static Member member() {
-		Password rawPw = Password.ofRaw("Test123!");
 		return Member.of(
 			MemberId.of(UUID.randomUUID()),
 			Email.of("test@naver.com"),
@@ -52,11 +48,10 @@ public class MemberFixture {
 	}
 
 	public static Member member(int dailyQuestThreshold) {
-		Password rawPw = Password.ofRaw("Test123!");
 		return new Member(
 			MemberId.of(UUID.randomUUID()),
 			Email.of("test@naver.com"),
-			rawPw.encodedWith(Mockito.mock(PasswordService.class)),
+			Password.ofEncoded("Test123!"),
 			Handle.of("@gomo"),
 			MemberName.of("testname"),
 			Motto.of("test motto"),
@@ -74,11 +69,10 @@ public class MemberFixture {
 	}
 
 	public static Member member(SubscriptionPlan subscriptionPlan) {
-		Password rawPw = Password.ofRaw("Test123!");
 		return new Member(
 			MemberId.of(UUID.randomUUID()),
 			Email.of("test@naver.com"),
-			rawPw.encodedWith(Mockito.mock(PasswordService.class)),
+			Password.ofEncoded("Test123!"),
 			Handle.of("@gomo"),
 			MemberName.of("testname"),
 			Motto.of("test motto"),
@@ -95,11 +89,10 @@ public class MemberFixture {
 	}
 
 	public static Member member(ActivateStatus status) {
-		Password rawPw = Password.ofRaw("Test123!");
 		return new Member(
 			MemberId.of(UUID.randomUUID()),
 			Email.of("test@naver.com"),
-			rawPw.encodedWith(Mockito.mock(PasswordService.class)),
+			Password.ofEncoded("Test123!"),
 			Handle.of("@gomo"),
 			MemberName.of("testname"),
 			Motto.of("test motto"),

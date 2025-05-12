@@ -20,7 +20,6 @@ public class CreateEmailAuthCodeUseCase {
 	private final EmailAuthCodeRepository emailAuthCodeRepository;
 
 	public void create(CreateEmailAuthCodeRequest request) {
-		System.out.println("@UseCase: " + request.getEmail());
 		memberService.checkEmailDuplicated(Email.of(request.getEmail()));
 		String authCode = authCodeGenerator.generate();
 		emailAuthCodeRepository.save(request.getEmail(), authCode);

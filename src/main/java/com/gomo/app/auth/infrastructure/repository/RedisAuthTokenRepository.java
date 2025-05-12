@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RedisAuthTokenRepository implements AuthTokenRepository {
 
-	@Qualifier("emailAuthRedisTemplate")
+	@Qualifier("jwtSessionRedisTemplate")
 	private final RedisTemplate<String, Object> redisTemplate;
 
 	@Value("${jwt.expiration.refresh}")
@@ -29,7 +29,7 @@ public class RedisAuthTokenRepository implements AuthTokenRepository {
 
 	@Override
 	public String getRefreshToken(UUID memberId) {
-		return (String)redisTemplate.opsForValue().get(memberId);
+		return (String)redisTemplate.opsForValue().get(memberId.toString());
 	}
 
 	@Override

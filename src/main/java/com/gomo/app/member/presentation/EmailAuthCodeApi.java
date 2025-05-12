@@ -26,7 +26,6 @@ public class EmailAuthCodeApi {
 
 	@PostMapping
 	public ResponseEntity<Void> createEmailAuthCode(@RequestBody CreateEmailAuthCodeRequest request) {
-		System.out.println("@Api: " + request.getEmail());
 		createEmailAuthCodeUseCase.create(request);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
