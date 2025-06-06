@@ -68,6 +68,27 @@ public class MemberFixture {
 		);
 	}
 
+	public static Member member(int dailyQuestThreshold, int weeklyQuestThreshold, int monthlyQuestThreshold) {
+		return new Member(
+			MemberId.of(UUID.randomUUID()),
+			Email.of("test@naver.com"),
+			Password.ofEncoded("Test123!"),
+			Handle.of("@gomo"),
+			MemberName.of("testname"),
+			Motto.of("test motto"),
+			ProfileImage.createDefault(),
+			ProfileBanner.createDefault(),
+			new QuestProperty(DailyThreshold.of(dailyQuestThreshold), WeeklyThreshold.of(weeklyQuestThreshold),
+				MonthlyThreshold.of(monthlyQuestThreshold)),
+			LoginProvider.EMAIL,
+			RoleType.ROLE_MEMBER,
+			SubscriptionPlan.FREE,
+			ActivateStatus.ACTIVE,
+			LocalDateTime.now(),
+			null
+		);
+	}
+
 	public static Member member(SubscriptionPlan subscriptionPlan) {
 		return new Member(
 			MemberId.of(UUID.randomUUID()),

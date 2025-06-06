@@ -5,12 +5,17 @@ import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.*;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
+import com.gomo.app.auth.application.LoginMemberUseCase;
 import com.gomo.app.common.DocumentationTestBase;
+import com.gomo.app.member.application.CreateMemberUseCase;
 import com.gomo.app.member.documentation.snippet.DeleteMemberSnippet;
+import com.gomo.app.member.presentation.request.CreateMemberRequest;
 
 @DisplayName("[Presentation documentation]: 회원 탈퇴 테스트")
 public class DeleteMemberDocumentationTest extends DocumentationTestBase {
@@ -19,6 +24,26 @@ public class DeleteMemberDocumentationTest extends DocumentationTestBase {
 
 	private final RestDocumentationFilter filter = DeleteMemberSnippet.create();
 	private final RestDocumentationFilter errorFilter = DeleteMemberSnippet.createError();
+
+	private final String EMAIL = "user_delete@test.com";
+	private final String PASSWORD = "userDelete123@";
+	private final String HANDLE = "@deletetester";
+	private final String NAME = "deleteTester";
+	private final String MOTTO = "MyMotto";
+
+	@Autowired
+	private CreateMemberUseCase createMemberUseCase;
+
+	@Autowired
+	private LoginMemberUseCase loginMemberUseCase;
+
+	@BeforeEach
+	void setUp() {
+		CreateMemberRequest createMemberRequest = CreateMemberRequest.of(EMAIL, PASSWORD, HANDLE, NAME, MOTTO);
+		createMemberUseCase.create(createMemberRequest);
+
+		this.accessToken = loginMemberUseCase.login(EMAIL, PASSWORD).getAuthToken().getAccessToken();
+	}
 
 	@DisplayName("사용자가 회원 탈퇴를 요청한다.")
 	@Test
