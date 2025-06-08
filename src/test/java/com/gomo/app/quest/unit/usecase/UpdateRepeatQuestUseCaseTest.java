@@ -14,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.quest.application.UpdateRepeatQuestUseCase;
-import com.gomo.app.quest.common.fixture.RepeatQuestFixture;
 import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.domain.model.RepeatQuest;
 import com.gomo.app.quest.domain.model.RepeatQuestId;
@@ -23,6 +22,7 @@ import com.gomo.app.quest.exception.QuestTypeConstraintViolationException;
 import com.gomo.app.quest.exception.RepeatQuestAccessDeniedException;
 import com.gomo.app.quest.exception.code.QuestTypeErrorCode;
 import com.gomo.app.quest.exception.code.RepeatQuestErrorCode;
+import com.gomo.app.quest.fixture.RepeatQuestFixture;
 import com.gomo.app.quest.presentation.request.UpdateRepeatQuestRequest;
 
 @DisplayName("[Application unit]: 반복 퀘스트 수정 테스트")

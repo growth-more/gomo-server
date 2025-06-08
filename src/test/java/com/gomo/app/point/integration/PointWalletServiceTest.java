@@ -2,20 +2,20 @@ package com.gomo.app.point.integration;
 
 import static org.assertj.core.api.Assertions.*;
 
-import org.junit.jupiter.api.AfterEach;
+import java.util.UUID;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gomo.app.common.IntegrationTestBase;
-import com.gomo.app.point.common.dataprovider.PointWalletDataProvider;
 import com.gomo.app.point.domain.model.Balance;
 import com.gomo.app.point.domain.model.PointWallet;
 import com.gomo.app.point.domain.model.TransactionType;
 import com.gomo.app.point.domain.repository.PointWalletRepository;
 import com.gomo.app.point.domain.service.PointWalletService;
-import com.gomo.app.quest.common.util.PointDataHelper;
+import com.gomo.app.point.fixture.PointWalletFixture;
 
 @DisplayName("[Domain integration]: 포인트 잔고 조회 및 조정 테스트")
 public class PointWalletServiceTest extends IntegrationTestBase {
@@ -24,23 +24,12 @@ public class PointWalletServiceTest extends IntegrationTestBase {
 	PointWalletService sut;
 
 	@Autowired
-	PointWalletRepository pointWalletRepository;
-
-	@Autowired
-	PointWalletDataProvider pointWalletDataProvider;
-	PointWallet pointWallet;
-
-	@Autowired
-	PointDataHelper pointDataHelper;
+	private PointWalletRepository pointWalletRepository;
+	private PointWallet pointWallet;
 
 	@BeforeEach
-	void setUp() {
-		pointWallet = pointWalletDataProvider.pointWallet();
-	}
-
-	@AfterEach
-	void tearDown() {
-		pointDataHelper.cleanUp();
+	public void setUp() {
+		pointWallet = pointWalletRepository.save(PointWalletFixture.point(UUID.randomUUID(), 1660));
 	}
 
 	@DisplayName("사용자의 포인트 잔고를 조회한다.")

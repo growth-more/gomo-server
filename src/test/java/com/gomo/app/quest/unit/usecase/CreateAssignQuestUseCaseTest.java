@@ -17,11 +17,11 @@ import com.gomo.app.member.common.fixture.MemberFixture;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.service.MemberService;
 import com.gomo.app.quest.application.CreateAssignQuestUseCase;
-import com.gomo.app.quest.common.fixture.AssignQuestFixture;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.quest.domain.service.AssignQuestService;
+import com.gomo.app.quest.fixture.AssignQuestFixture;
 import com.gomo.app.quest.presentation.request.CreateAssignQuestRequest;
 import com.gomo.app.quest.presentation.response.CreateAssignQuestResponse;
 

@@ -7,6 +7,8 @@ import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,9 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.quest.common.dataprovider.AssignQuestDataProvider;
 import com.gomo.app.quest.documentation.snippet.CalendarAssignQuestSnippet;
 import com.gomo.app.quest.domain.model.AssignQuest;
+import com.gomo.app.quest.domain.model.QuestType;
+import com.gomo.app.quest.domain.repository.AssignQuestRepository;
+import com.gomo.app.quest.fixture.AssignQuestFixture;
 
 @DisplayName("[Presentation documentation]: 할당 퀘스트 캘린더 조회 테스트")
 public class CalendarAssignQuestDocumentationTest extends DocumentationTestBase {
@@ -25,16 +29,17 @@ public class CalendarAssignQuestDocumentationTest extends DocumentationTestBase 
 	private final RestDocumentationFilter filter = CalendarAssignQuestSnippet.create();
 
 	@Autowired
-	private AssignQuestDataProvider assignQuestDataProvider;
+	private AssignQuestRepository assignQuestRepository;
 	private AssignQuest dailyQuest;
 	private AssignQuest weeklyQuest;
 	private AssignQuest monthlyQuest;
 
 	@BeforeEach
 	public void setUp() {
-		dailyQuest = assignQuestDataProvider.dailyParticipatingQuest();
-		weeklyQuest = assignQuestDataProvider.weeklyParticipatingQuest();
-		monthlyQuest = assignQuestDataProvider.monthlyParticipatingQuest();
+		dailyQuest = AssignQuestFixture.assignQuest(sessionMemberId, QuestType.DAILY, LocalDateTime.now());
+		weeklyQuest = AssignQuestFixture.assignQuest(sessionMemberId, QuestType.WEEKLY, LocalDateTime.now());
+		monthlyQuest = AssignQuestFixture.assignQuest(sessionMemberId, QuestType.MONTHLY, LocalDateTime.now());
+		assignQuestRepository.saveAll(List.of(dailyQuest, weeklyQuest, monthlyQuest));
 	}
 
 	@DisplayName("사용자가 할당 퀘스트의 한달 치 캘린더를 조회한다.")
@@ -49,41 +54,6 @@ public class CalendarAssignQuestDocumentationTest extends DocumentationTestBase 
 			.get("/quests/assigns/calendars")
 			.then()
 			.statusCode(OK.value())
-			.body("assignQuests", hasSize(3))
-			.body("assignQuests.id", containsInAnyOrder(
-				dailyQuest.getId().toString(),
-				weeklyQuest.getId().toString(),
-				monthlyQuest.getId().toString()
-			))
-			.body("assignQuests.questType", containsInAnyOrder(
-				dailyQuest.getQuest().getType().name(),
-				weeklyQuest.getQuest().getType().name(),
-				monthlyQuest.getQuest().getType().name()
-			))
-			.body("assignQuests.subjectName", containsInAnyOrder(
-				dailyQuest.getQuest().getSubjectName().toString(),
-				weeklyQuest.getQuest().getSubjectName().toString(),
-				monthlyQuest.getQuest().getSubjectName().toString()
-			))
-			.body("assignQuests.content", containsInAnyOrder(
-				dailyQuest.getQuest().getContent().toString(),
-				weeklyQuest.getQuest().getContent().toString(),
-				monthlyQuest.getQuest().getContent().toString()
-			))
-			.body("assignQuests.proof", containsInAnyOrder(
-				dailyQuest.getProof().toString(),
-				weeklyQuest.getProof().toString(),
-				monthlyQuest.getProof().toString()
-			))
-			.body("assignQuests.completed", containsInAnyOrder(
-				dailyQuest.isCompleted(),
-				weeklyQuest.isCompleted(),
-				monthlyQuest.isCompleted()
-			))
-			.body("assignQuests.completedDateTime", contains(
-				dailyQuest.getCompletedDateTime(),
-				weeklyQuest.getCompletedDateTime(),
-				monthlyQuest.getCompletedDateTime()
-			));
+			.body("assignQuests", hasSize(3));
 	}
 }

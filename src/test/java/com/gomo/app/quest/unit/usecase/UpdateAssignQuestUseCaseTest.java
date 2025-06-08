@@ -14,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.quest.application.UpdateAssignQuestUseCase;
-import com.gomo.app.quest.common.fixture.AssignQuestFixture;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.model.CompletionProof;
@@ -25,6 +24,7 @@ import com.gomo.app.quest.exception.AssignQuestConstraintViolationException;
 import com.gomo.app.quest.exception.QuestTypeConstraintViolationException;
 import com.gomo.app.quest.exception.code.AssignQuestErrorCode;
 import com.gomo.app.quest.exception.code.QuestTypeErrorCode;
+import com.gomo.app.quest.fixture.AssignQuestFixture;
 import com.gomo.app.quest.presentation.request.UpdateAssignQuestRequest;
 
 @DisplayName("[Application unit]: 할당 퀘스트 수정 테스트")

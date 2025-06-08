@@ -14,8 +14,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.quest.common.fixture.AssignQuestFixture;
-import com.gomo.app.quest.common.fixture.QuestFixture;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.model.ParticipantId;
@@ -23,6 +21,8 @@ import com.gomo.app.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.quest.domain.service.AssignQuestService;
 import com.gomo.app.quest.exception.AssignQuestNotFoundException;
 import com.gomo.app.quest.exception.code.AssignQuestErrorCode;
+import com.gomo.app.quest.fixture.AssignQuestFixture;
+import com.gomo.app.quest.fixture.QuestFixture;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Domain unit]: 할당 퀘스트 생성 테스트")

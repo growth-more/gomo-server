@@ -13,17 +13,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import com.gomo.app.common.IntegrationTestBase;
-import com.gomo.app.interest.fixture.InterestFixture;
-import com.gomo.app.interest.fixture.InterestRelationFixture;
-import com.gomo.app.interest.fixture.ScoreThresholdPolicyFixture;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestRelation;
 import com.gomo.app.interest.domain.model.RegistrantId;
+import com.gomo.app.interest.domain.policy.InMemoryScoreThresholdPolicyProvider;
 import com.gomo.app.interest.domain.repository.InterestRelationRepository;
 import com.gomo.app.interest.domain.repository.InterestRepository;
-import com.gomo.app.interest.domain.repository.ScoreThresholdPolicyCache;
 import com.gomo.app.interest.domain.service.InterestService;
 import com.gomo.app.interest.domain.service.ProficiencyService;
+import com.gomo.app.interest.fixture.InterestFixture;
+import com.gomo.app.interest.fixture.InterestRelationFixture;
+import com.gomo.app.interest.fixture.ScoreThresholdPolicyFixture;
 
 @DisplayName("[Domain unit]: 숙련도 향상 테스트")
 public class ProficiencyServiceTest extends IntegrationTestBase {
@@ -32,7 +32,7 @@ public class ProficiencyServiceTest extends IntegrationTestBase {
 	private ProficiencyService sut;
 
 	@Mock
-	private ScoreThresholdPolicyCache scoreThresholdPolicyCache;
+	private InMemoryScoreThresholdPolicyProvider inMemoryScoreThresholdPolicyProvider;
 
 	@Mock
 	private InterestService interestService;
@@ -49,8 +49,8 @@ public class ProficiencyServiceTest extends IntegrationTestBase {
 	public void setUp() {
 		registrantId = RegistrantId.of(UUID.randomUUID());
 
-		doReturn(ScoreThresholdPolicyFixture.scoreThresholdPolicyCache()).when(scoreThresholdPolicyCache).getScoreThresholdPerLevel();
-		doReturn(ScoreThresholdPolicyFixture.totalScoreForLevelCache()).when(scoreThresholdPolicyCache).getTotalScoreForLevel();
+		doReturn(ScoreThresholdPolicyFixture.scoreThresholdPolicyCache()).when(inMemoryScoreThresholdPolicyProvider).getScoreThresholdPerLevel();
+		doReturn(ScoreThresholdPolicyFixture.totalScoreForLevelCache()).when(inMemoryScoreThresholdPolicyProvider).getTotalScoreForLevel();
 	}
 
 	@DisplayName("하위 관심사의 숙련도가 향상된다면, 모든 상위 관심사의 숙련도도 동일한 수치만큼 향상된다.")

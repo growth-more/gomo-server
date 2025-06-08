@@ -13,13 +13,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.quest.application.DeleteRepeatQuestUseCase;
-import com.gomo.app.quest.common.fixture.RepeatQuestFixture;
 import com.gomo.app.quest.domain.model.RepeatQuest;
 import com.gomo.app.quest.domain.model.RepeatQuestId;
 import com.gomo.app.quest.domain.repository.RepeatQuestRepository;
 import com.gomo.app.quest.domain.service.RepeatQuestService;
 import com.gomo.app.quest.exception.RepeatQuestAccessDeniedException;
 import com.gomo.app.quest.exception.code.RepeatQuestErrorCode;
+import com.gomo.app.quest.fixture.RepeatQuestFixture;
 
 @DisplayName("[Application unit]: 반복 퀘스트 삭제 테스트")
 @ExtendWith(MockitoExtension.class)

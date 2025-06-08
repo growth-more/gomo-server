@@ -15,10 +15,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.quest.application.CalendarReadAssignQuestUseCase;
-import com.gomo.app.quest.common.fixture.AssignQuestFixture;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.ParticipantId;
 import com.gomo.app.quest.domain.repository.AssignQuestRepository;
+import com.gomo.app.quest.fixture.AssignQuestFixture;
 import com.gomo.app.quest.presentation.response.CalendarListAssignQuestResponse;
 
 @DisplayName("[Application unit]: 할당 퀘스트 과거 이력 조회 테스트")

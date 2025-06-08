@@ -13,9 +13,9 @@ import com.gomo.app.common.DomainService;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.InterestRelation;
+import com.gomo.app.interest.domain.policy.InMemoryScoreThresholdPolicyProvider;
 import com.gomo.app.interest.domain.repository.InterestRelationRepository;
 import com.gomo.app.interest.domain.repository.InterestRepository;
-import com.gomo.app.interest.domain.repository.ScoreThresholdPolicyCache;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,15 +23,15 @@ import lombok.RequiredArgsConstructor;
 @DomainService
 public class ProficiencyService {
 
-	private final ScoreThresholdPolicyCache scoreThresholdPolicyCache;
+	private final InMemoryScoreThresholdPolicyProvider policyProvider;
 	private final InterestService interestService;
 	private final InterestRepository interestRepository;
 	private final InterestRelationRepository interestRelationRepository;
 
 	@Transactional
 	public void adjust(InterestId interestId, int deltaTotalScore) {
-		int[] totalScoreForLevel = scoreThresholdPolicyCache.getTotalScoreForLevel();
-		int[] scoreThresholdPerLevel = scoreThresholdPolicyCache.getScoreThresholdPerLevel();
+		int[] totalScoreForLevel = policyProvider.getTotalScoreForLevel();
+		int[] scoreThresholdPerLevel = policyProvider.getScoreThresholdPerLevel();
 		Map<InterestId, Set<Interest>> childToParentMap = buildChildToParentMap();
 
 		Set<InterestId> enhancedIds = new HashSet<>();

@@ -15,9 +15,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.common.dto.PageRequest;
 import com.gomo.app.point.application.ReadPointUseCase;
-import com.gomo.app.point.common.fixture.PointFixture;
 import com.gomo.app.point.domain.model.TransactorId;
 import com.gomo.app.point.domain.repository.PointRepository;
+import com.gomo.app.point.fixture.PointFixture;
 import com.gomo.app.point.presentation.response.ListPointResponse;
 
 @DisplayName("[Application unit]: 포인트 조회 테스트")

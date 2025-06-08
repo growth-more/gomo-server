@@ -8,7 +8,6 @@ import static org.springframework.http.MediaType.*;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,11 +16,11 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.interest.presentation.request.UpdateOrderRequest;
-import com.gomo.app.quest.common.dataprovider.RepeatQuestDataProvider;
-import com.gomo.app.quest.common.util.RepeatQuestDataHelper;
 import com.gomo.app.quest.documentation.snippet.OrderUpdateRepeatQuestSnippet;
 import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.domain.model.RepeatQuest;
+import com.gomo.app.quest.domain.repository.RepeatQuestRepository;
+import com.gomo.app.quest.fixture.RepeatQuestFixture;
 import com.gomo.app.quest.presentation.request.OrderUpdateRepeatQuestRequest;
 
 @DisplayName("[Presentation documentation]: 반복 퀘스트 순서 변경 테스트")
@@ -30,22 +29,15 @@ public class OrderUpdateRepeatQuestDocumentationTest extends DocumentationTestBa
 	private final RestDocumentationFilter filter = OrderUpdateRepeatQuestSnippet.create();
 
 	@Autowired
-	private RepeatQuestDataHelper repeatQuestDataHelper;
-
-	@Autowired
-	private RepeatQuestDataProvider repeatQuestDataProvider;
-	private RepeatQuest repeatQuestA;
-	private RepeatQuest repeatQuestB;
+	private RepeatQuestRepository repeatQuestRepository;
+	private RepeatQuest repeatQuest1;
+	private RepeatQuest repeatQuest2;
 
 	@BeforeEach
-	void setup() {
-		repeatQuestA = repeatQuestDataProvider.firstOrderDaily();
-		repeatQuestB = repeatQuestDataProvider.secondOrderDaily();
-	}
-
-	@AfterEach
-	void tearDown() {
-		repeatQuestDataHelper.cleanUp();
+	public void setUp() {
+		repeatQuest1 = RepeatQuestFixture.repeatQuest(sessionMemberId, 1);
+		repeatQuest2 = RepeatQuestFixture.repeatQuest(sessionMemberId, 2);
+		repeatQuestRepository.saveAll(List.of(repeatQuest1, repeatQuest2));
 	}
 
 	@DisplayName("사용자가 반복 퀘스트의 정렬 순서를 변경한다.")
@@ -65,8 +57,8 @@ public class OrderUpdateRepeatQuestDocumentationTest extends DocumentationTestBa
 		return OrderUpdateRepeatQuestRequest.of(
 			QuestType.DAILY,
 			List.of(
-				UpdateOrderRequest.of(repeatQuestA.getId().getId(), 2),
-				UpdateOrderRequest.of(repeatQuestB.getId().getId(), 1)
+				UpdateOrderRequest.of(repeatQuest1.getId().getId(), 2),
+				UpdateOrderRequest.of(repeatQuest2.getId().getId(), 1)
 			)
 		);
 	}

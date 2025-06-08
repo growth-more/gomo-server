@@ -8,7 +8,6 @@ import static org.springframework.http.MediaType.*;
 
 import java.util.UUID;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,12 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.quest.common.dataprovider.AssignQuestDataProvider;
-import com.gomo.app.quest.common.util.AssignQuestDataHelper;
 import com.gomo.app.quest.documentation.snippet.UpdateAssignQuestSnippet;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.QuestType;
+import com.gomo.app.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.quest.exception.code.QuestContentErrorCode;
+import com.gomo.app.quest.fixture.AssignQuestFixture;
 import com.gomo.app.quest.presentation.request.UpdateAssignQuestRequest;
 
 @DisplayName("[Presentation documentation]: 참여 중인 퀘스트 수정 테스트")
@@ -33,20 +32,13 @@ public class UpdateAssignQuestDocumentationTest extends DocumentationTestBase {
 	private final RestDocumentationFilter errorFilter = UpdateAssignQuestSnippet.createError();
 
 	@Autowired
-	private AssignQuestDataHelper assignQuestDataHelper;
-
-	@Autowired
-	private AssignQuestDataProvider assignQuestDataProvider;
+	private AssignQuestRepository assignQuestRepository;
 	private AssignQuest assignQuest;
 
 	@BeforeEach
 	public void setUp() {
-		assignQuest = assignQuestDataProvider.notConfirmed();
-	}
-
-	@AfterEach
-	void tearDown() {
-		assignQuestDataHelper.cleanUp();
+		assignQuest = AssignQuestFixture.assignQuest(sessionMemberId, false);
+		assignQuestRepository.save(assignQuest);
 	}
 
 	@DisplayName("사용자가 할당 퀘스트를 수정한다.")

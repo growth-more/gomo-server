@@ -8,7 +8,6 @@ import static org.springframework.http.MediaType.*;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,12 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.survey.common.dataprovider.SurveyItemDataProvider;
-import com.gomo.app.survey.common.dataprovider.SurveyQuestionDataProvider;
-import com.gomo.app.survey.common.util.SurveyResultDataHelper;
 import com.gomo.app.survey.documentation.snippet.CreateSurveyAnswerSnippet;
 import com.gomo.app.survey.domain.model.SurveyItem;
 import com.gomo.app.survey.domain.model.SurveyQuestion;
+import com.gomo.app.survey.domain.repository.SurveyItemRepository;
+import com.gomo.app.survey.domain.repository.SurveyQuestionRepository;
+import com.gomo.app.survey.fixture.SurveyItemFixture;
+import com.gomo.app.survey.fixture.SurveyQuestionFixture;
 import com.gomo.app.survey.presentation.request.CreateSurveyResultRequest;
 import com.gomo.app.survey.presentation.request.SelectedSurveyItem;
 
@@ -31,27 +31,21 @@ public class CreateSurveyAnswerDocumentationTest extends DocumentationTestBase {
 	private final RestDocumentationFilter filter = CreateSurveyAnswerSnippet.create();
 
 	@Autowired
-	private SurveyQuestionDataProvider surveyQuestionDataProvider;
+	private SurveyQuestionRepository surveyQuestionRepository;
 	private SurveyQuestion surveyQuestion;
 
 	@Autowired
-	private SurveyItemDataProvider surveyItemDataProvider;
-	private SurveyItem firstSurveyItem;
-	private SurveyItem secondSurveyItem;
-
-	@Autowired
-	private SurveyResultDataHelper surveyResultDataHelper;
+	private SurveyItemRepository surveyItemRepository;
+	private SurveyItem surveyItem1;
+	private SurveyItem surveyItem2;
 
 	@BeforeEach
 	public void setUp() {
-		surveyQuestion = surveyQuestionDataProvider.surveyQuestion();
-		firstSurveyItem = surveyItemDataProvider.firstSurveyItem();
-		secondSurveyItem = surveyItemDataProvider.secondSurveyItem();
-	}
-
-	@AfterEach
-	public void tearDown() {
-		surveyResultDataHelper.cleanUp();
+		surveyQuestion = SurveyQuestionFixture.surveyQuestion();
+		surveyQuestionRepository.save(surveyQuestion);
+		surveyItem1 = SurveyItemFixture.surveyItem(surveyQuestion.getId().getId(), "직업은?", 1);
+		surveyItem2 = SurveyItemFixture.surveyItem(surveyQuestion.getId().getId(), "기타", 2);
+		surveyItemRepository.saveAll(List.of(surveyItem1, surveyItem2));
 	}
 
 	@DisplayName("사용자가 설문 답변을 등록한다.")
@@ -72,13 +66,13 @@ public class CreateSurveyAnswerDocumentationTest extends DocumentationTestBase {
 			List.of(
 				SelectedSurveyItem.of(
 					surveyQuestion.getId().getId(),
-					firstSurveyItem.getId().getId(),
-					firstSurveyItem.getContent(),
+					surveyItem1.getId().getId(),
+					surveyItem1.getContent(),
 					null
 				), SelectedSurveyItem.of(
 					surveyQuestion.getId().getId(),
-					secondSurveyItem.getId().getId(),
-					secondSurveyItem.getContent(),
+					surveyItem2.getId().getId(),
+					surveyItem2.getContent(),
 					"custom answer"
 				)
 			)

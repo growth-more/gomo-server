@@ -46,7 +46,7 @@ public class QuestProperty {
 	}
 
 	public static QuestProperty createDefault() {
-		return new QuestProperty(DailyThreshold.of(0), WeeklyThreshold.of(0), MonthlyThreshold.of(0));
+		return new QuestProperty(DailyThreshold.of(5), WeeklyThreshold.of(5), MonthlyThreshold.of(5));
 	}
 
 	public static QuestProperty update(

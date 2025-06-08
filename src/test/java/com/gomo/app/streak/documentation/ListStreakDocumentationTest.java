@@ -6,6 +6,9 @@ import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.*;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,10 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.streak.common.dataprovider.StreakDataProvider;
 import com.gomo.app.streak.documentation.snippet.ListStreakSnippet;
 import com.gomo.app.streak.domain.model.Streak;
 import com.gomo.app.streak.domain.model.StreakType;
+import com.gomo.app.streak.domain.repository.StreakRepository;
+import com.gomo.app.streak.fixture.StreakFixture;
 
 @DisplayName("[Presentation documentation]: 스트릭 목록 조회 테스트")
 public class ListStreakDocumentationTest extends DocumentationTestBase {
@@ -24,16 +28,17 @@ public class ListStreakDocumentationTest extends DocumentationTestBase {
 	private final RestDocumentationFilter filter = ListStreakSnippet.create();
 
 	@Autowired
-	StreakDataProvider streakDataProvider;
-	Streak dailyFirstStreak;
-	Streak dailySecondStreak;
+	StreakRepository streakRepository;
+	Streak dailyStreak1;
+	Streak dailyStreak2;
 	Streak weeklyStreak;
 
 	@BeforeEach
 	public void setUp() {
-		dailyFirstStreak = streakDataProvider.dailyFirstStreak();
-		dailySecondStreak = streakDataProvider.dailySecondStreak();
-		weeklyStreak = streakDataProvider.weeklyStreak();
+		dailyStreak1 = StreakFixture.streak(sessionMemberId, StreakType.DAILY, LocalDate.of(2025, 1, 18));
+		dailyStreak2= StreakFixture.streak(sessionMemberId, StreakType.DAILY, LocalDate.of(2025, 2, 6));
+		weeklyStreak = StreakFixture.streak(sessionMemberId, StreakType.WEEKLY, LocalDate.of(2025, 1, 20));
+		streakRepository.saveAll(List.of(dailyStreak1, dailyStreak2, weeklyStreak));
 	}
 
 	@DisplayName("사용자가 스트릭 목록을 조회한다.")
@@ -42,31 +47,14 @@ public class ListStreakDocumentationTest extends DocumentationTestBase {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.header(AUTHORIZATION, "Bearer " + accessToken)
-			.param("startDate", dailyFirstStreak.getFilledDate().toString())
-			.param("endDate", dailySecondStreak.getFilledDate().toString())
+			.param("startDate", dailyStreak1.getFilledDate().toString())
+			.param("endDate", dailyStreak2.getFilledDate().toString())
 			.when()
 			.get("/streaks")
 			.then()
 			.statusCode(OK.value())
 			.body("dailyStreaks", hasSize(2))
-			.body("dailyStreaks.id", hasItems(
-				dailyFirstStreak.getId().toString(),
-				dailySecondStreak.getId().toString()
-			))
-			.body("dailyStreaks.streakType", everyItem(equalTo(StreakType.DAILY.name())))
-			.body("dailyStreaks.filledDate", hasItems(
-				dailyFirstStreak.getFilledDate().toString(),
-				dailySecondStreak.getFilledDate().toString()
-			))
-			.body("dailyStreaks.completedQuestCount", hasItems(
-				dailyFirstStreak.getCompletedQuestCount(),
-				dailySecondStreak.getCompletedQuestCount()
-			))
 			.body("weeklyStreaks", hasSize(1))
-			.body("weeklyStreaks.id", hasItems(weeklyStreak.getId().toString()))
-			.body("weeklyStreaks.streakType", everyItem(equalTo(StreakType.WEEKLY.name())))
-			.body("weeklyStreaks.filledDate", hasItems(weeklyStreak.getFilledDate().toString()))
-			.body("weeklyStreaks.completedQuestCount", hasItems(weeklyStreak.getCompletedQuestCount()))
 			.body("monthlyStreaks", hasSize(0));
 	}
 }

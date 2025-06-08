@@ -8,7 +8,6 @@ import static org.springframework.http.MediaType.*;
 
 import java.util.UUID;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,10 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.interest.domain.repository.InterestRepository;
 import com.gomo.app.interest.presentation.InterestApi;
 import com.gomo.app.interest.presentation.request.CreateInterestRequest;
-import com.gomo.app.quest.common.util.RepeatQuestDataHelper;
+import com.gomo.app.member.presentation.QuestPropertyApi;
+import com.gomo.app.member.presentation.request.UpdateQuestPropertyRequest;
 import com.gomo.app.quest.documentation.snippet.CreateRepeatQuestSnippet;
 import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.exception.code.QuestContentErrorCode;
@@ -36,24 +35,13 @@ public class CreateRepeatQuestDocumentationTest extends DocumentationTestBase {
 	private InterestApi interestApi;
 
 	@Autowired
-	private InterestRepository interestRepository;
-
-	private UUID interestId;
-
-	@Autowired
-	private RepeatQuestDataHelper repeatQuestDataHelper;
+	private QuestPropertyApi questPropertyApi;
 
 	private UUID subjectId;
 
 	@BeforeEach
 	public void setUp() {
-		subjectId = createInterest("interest");
-	}
-
-	@AfterEach
-	void tearDown() {
-		interestRepository.deleteAllInBatch();
-		repeatQuestDataHelper.cleanUp();
+		subjectId = interestApi.create(super.authInfo, CreateInterestRequest.of("name", "#FF0000", null)).getBody().getId();
 	}
 
 	@DisplayName("사용자가 반복 퀘스트를 생성한다.")
@@ -99,6 +87,7 @@ public class CreateRepeatQuestDocumentationTest extends DocumentationTestBase {
 	@DisplayName("사용자가 퀘스트 제한 개수를 초과하는 반복 퀘스트를 생성한다.")
 	@Test
 	void create_repeat_quest_exceeding_threshold() {
+		questPropertyApi.update(super.authInfo, UpdateQuestPropertyRequest.of(0, 0, 0));
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.header(AUTHORIZATION, "Bearer " + accessToken)
@@ -116,9 +105,5 @@ public class CreateRepeatQuestDocumentationTest extends DocumentationTestBase {
 			.body("code", equalTo(QuestErrorCode.EXCEED_QUOTA.getErrorCode()))
 			.body("message", equalTo(QuestErrorCode.EXCEED_QUOTA.getMessage()))
 			.body("path", equalTo("/quests/repeats"));
-	}
-
-	private UUID createInterest(String name) {
-		return interestApi.create(super.authInfo, CreateInterestRequest.of(name, "#FF0000", null)).getBody().getId();
 	}
 }

@@ -17,6 +17,7 @@ import com.gomo.app.point.domain.model.TransactorId;
 import com.gomo.app.point.domain.repository.PointRepository;
 import com.gomo.app.point.domain.service.PointService;
 import com.gomo.app.point.domain.service.PointWalletService;
+import com.gomo.app.point.fixture.PointFixture;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Domain integration]: 포인트 생성 테스트")
@@ -34,8 +35,8 @@ public class PointServiceTest {
 	@DisplayName("포인트를 생성한다.")
 	@Test
 	void create_point() {
+		doReturn(PointFixture.point()).when(pointRepository).save(any());
 		sut.create(TransactorId.of(UUID.randomUUID()), SourceType.QUEST, TransactionType.GAIN, 10);
-
 		verify(pointWalletService, times(1)).adjustPointBalance(any(), any(), eq(10));
 		verify(pointRepository, times(1)).save(any());
 	}

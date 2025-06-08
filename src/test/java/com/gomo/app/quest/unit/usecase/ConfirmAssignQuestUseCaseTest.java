@@ -13,13 +13,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.quest.application.ConfirmAssignQuestUseCase;
-import com.gomo.app.quest.common.fixture.AssignQuestFixture;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.domain.service.AssignQuestService;
 import com.gomo.app.quest.exception.AssignQuestAccessDeniedException;
 import com.gomo.app.quest.exception.code.AssignQuestErrorCode;
+import com.gomo.app.quest.fixture.AssignQuestFixture;
 
 @DisplayName("[Application unit]: 할당 퀘스트 확정 테스트")
 @ExtendWith(MockitoExtension.class)

@@ -1,6 +1,7 @@
 package com.gomo.app.point.domain.service;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +24,7 @@ public class PointService {
 	private final PointRepository pointRepository;
 
 	@Transactional
-	public void create(TransactorId transactorId, SourceType sourceType, TransactionType transactionType, int amount) {
+	public UUID create(TransactorId transactorId, SourceType sourceType, TransactionType transactionType, int amount) {
 		Point point = Point.of(
 			PointId.of(UUIDGenerator.generate()),
 			transactorId,
@@ -35,6 +36,7 @@ public class PointService {
 		);
 
 		pointWalletService.adjustPointBalance(transactorId, transactionType, amount);
-		pointRepository.save(point);
+		Point savedPoint = pointRepository.save(point);
+		return savedPoint.getId().getId();
 	}
 }

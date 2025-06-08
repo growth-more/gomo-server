@@ -15,11 +15,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.streak.application.ReadStreakUseCase;
-import com.gomo.app.streak.common.fixture.StreakFixture;
 import com.gomo.app.streak.domain.model.AchieverId;
 import com.gomo.app.streak.domain.model.Streak;
 import com.gomo.app.streak.domain.model.StreakType;
 import com.gomo.app.streak.domain.service.StreakService;
+import com.gomo.app.streak.fixture.StreakFixture;
 import com.gomo.app.streak.presentation.response.ListStreakResponse;
 
 @DisplayName("[Application unit]: 스트릭 조회 테스트")
