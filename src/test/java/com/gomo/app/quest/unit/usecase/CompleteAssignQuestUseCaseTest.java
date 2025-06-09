@@ -15,7 +15,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.event.EventEntryRepository;
 import com.gomo.app.quest.application.CompleteAssignQuestUseCase;
-import com.gomo.app.quest.common.fixture.AssignQuestFixture;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.model.PointReward;
@@ -24,6 +23,7 @@ import com.gomo.app.quest.domain.model.ScoreReward;
 import com.gomo.app.quest.domain.service.AssignQuestService;
 import com.gomo.app.quest.domain.service.QuestRewardService;
 import com.gomo.app.quest.exception.AssignQuestAccessDeniedException;
+import com.gomo.app.quest.fixture.AssignQuestFixture;
 import com.gomo.app.quest.presentation.request.CompleteAssignQuestRequest;
 
 @DisplayName("[Application unit]: 할당 퀘스트 완료 테스트")

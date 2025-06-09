@@ -15,7 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.interest.application.ReadInterestUseCase;
-import com.gomo.app.interest.common.fixture.InterestFixture;
+import com.gomo.app.interest.fixture.InterestFixture;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.RegistrantId;
@@ -44,7 +44,7 @@ public class ReadInterestUseCaseTest {
 	@DisplayName("관심사를 단건 조회한다.")
 	@Test
 	void find_interest() {
-		Interest expected = InterestFixture.interest();
+		Interest expected = InterestFixture.create();
 		doReturn(expected).when(interestService).find(any(InterestId.class));
 		doReturn(false).when(majorInterestRepository).existsMajorInterestByInterestId(any(InterestId.class));
 
@@ -67,8 +67,8 @@ public class ReadInterestUseCaseTest {
 	@DisplayName("관심사 목록을 조회한다.")
 	@Test
 	void find_interest_list() {
-		Interest expected1 = InterestFixture.interest();
-		Interest expected2 = InterestFixture.interest();
+		Interest expected1 = InterestFixture.create();
+		Interest expected2 = InterestFixture.create();
 		long isNotMajorInterest = 0L;
 		long isMajorInterest = 1L;
 		doReturn(List.of(expected1, expected2)).when(interestRepository).findAllByRegistrantId(any(RegistrantId.class));
@@ -82,7 +82,7 @@ public class ReadInterestUseCaseTest {
 			.containsExactly(createTuple(expected1, isNotMajorInterest), createTuple(expected2, isMajorInterest));
 	}
 
-	private static @NotNull Tuple createTuple(Interest interest, long isMajorInterest) {
+	private @NotNull Tuple createTuple(Interest interest, long isMajorInterest) {
 		return tuple(
 			interest.getId().getId(),
 			interest.getRegistrantId().getId(),

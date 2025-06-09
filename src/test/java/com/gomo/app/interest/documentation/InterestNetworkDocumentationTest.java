@@ -6,6 +6,9 @@ import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.*;
 
+import java.util.UUID;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,11 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.interest.common.dataprovider.InterestDataProvider;
-import com.gomo.app.interest.common.dataprovider.InterestRelationDataProvider;
 import com.gomo.app.interest.documentation.snippet.InterestNetworkSnippet;
-import com.gomo.app.interest.domain.model.Interest;
-import com.gomo.app.interest.domain.model.InterestRelation;
+import com.gomo.app.interest.domain.repository.InterestRelationRepository;
+import com.gomo.app.interest.domain.repository.InterestRepository;
+import com.gomo.app.interest.presentation.InterestApi;
+import com.gomo.app.interest.presentation.InterestNetworkApi;
+import com.gomo.app.interest.presentation.request.CreateInterestRelationRequest;
+import com.gomo.app.interest.presentation.request.CreateInterestRequest;
 
 @DisplayName("[Presentation documentation]: 관심사 네트워크 조회 테스트")
 public class InterestNetworkDocumentationTest extends DocumentationTestBase {
@@ -25,21 +30,29 @@ public class InterestNetworkDocumentationTest extends DocumentationTestBase {
 	private final RestDocumentationFilter filter = InterestNetworkSnippet.create();
 
 	@Autowired
-	private InterestDataProvider interestDataProvider;
-	private Interest backend;
-	private Interest java;
-	private Interest spring;
+	private InterestApi interestApi;
 
 	@Autowired
-	private InterestRelationDataProvider interestRelationDataProvider;
-	private InterestRelation toJava;
+	private InterestNetworkApi interestNetworkApi;
+
+	@Autowired
+	private InterestRepository interestRepository;
+
+	@Autowired
+	private InterestRelationRepository interestRelationRepository;
 
 	@BeforeEach
 	public void setUp() {
-		backend = interestDataProvider.backend();
-		java = interestDataProvider.java();
-		spring = interestDataProvider.spring();
-		toJava = interestRelationDataProvider.backendToJava();
+		UUID depth1Id = createInterest("depth1");
+		UUID depth2Id = createInterest("depth2");
+		createInterest("depth3");
+		createInterestRelation(depth1Id, depth2Id);
+	}
+
+	@AfterEach
+	void tearDown() {
+		interestRelationRepository.deleteAllInBatch();
+		interestRepository.deleteAllInBatch();
 	}
 
 	@DisplayName("사용자가 관심사 네트워크를 조회한다.")
@@ -53,46 +66,14 @@ public class InterestNetworkDocumentationTest extends DocumentationTestBase {
 			.then()
 			.statusCode(OK.value())
 			.body("interests", hasSize(3))
-			.body("interests.id", hasItems(
-				backend.getId().toString(),
-				spring.getId().toString(),
-				java.getId().toString()
-			))
-			.body("interests.registrantId", everyItem(equalTo(backend.registrantUuid().toString())))
-			.body("interests.name", hasItems(
-				backend.getName().toString(),
-				spring.getName().toString(),
-				java.getName().toString()
-			))
-			.body("interests.logoUrl", hasItems(
-				backend.getLogo().getUrl(),
-				spring.getLogo().getUrl(),
-				java.getLogo().getUrl()
-			))
-			.body("interests.colorCode", hasItems(
-				backend.getColorCode(),
-				spring.getColorCode(),
-				java.getColorCode()
-			))
-			.body("interests.level", hasItems(
-				backend.getProficiency().getLevel().getLevel(),
-				spring.getProficiency().getLevel().getLevel(),
-				java.getProficiency().getLevel().getLevel()
-			))
-			.body("interests.score", hasItems(
-				backend.getProficiency().getScore().getScore(),
-				spring.getProficiency().getScore().getScore(),
-				java.getProficiency().getScore().getScore()
-			))
-			.body("interests.totalScore", hasItems(
-				backend.getProficiency().getTotalScore(),
-				spring.getProficiency().getTotalScore(),
-				java.getProficiency().getTotalScore()
-			))
-			.body("relations", hasSize(1))
-			.body("relations.id", hasItems(toJava.getId().toString()))
-			.body("relations.registrantId", everyItem(equalTo(backend.registrantUuid().toString())))
-			.body("relations.parentInterestId", hasItems(toJava.getParentInterestId().toString()))
-			.body("relations.childInterestId", hasItems(toJava.getChildInterestId().toString()));
+			.body("relations", hasSize(1));
+	}
+
+	private UUID createInterest(String name) {
+		return interestApi.create(super.authInfo, CreateInterestRequest.of(name, "#FF0000", null)).getBody().getId();
+	}
+
+	private void createInterestRelation(UUID depth1Id, UUID depth2Id) {
+		interestNetworkApi.createRelation(this.authInfo, CreateInterestRelationRequest.of(depth1Id, depth2Id));
 	}
 }

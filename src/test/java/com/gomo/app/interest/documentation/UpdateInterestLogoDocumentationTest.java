@@ -8,8 +8,10 @@ import static org.springframework.http.MediaType.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +20,14 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import org.springframework.util.ResourceUtils;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.interest.common.util.InterestDataHelper;
 import com.gomo.app.interest.documentation.snippet.UpdateInterestLogoSnippet;
+import com.gomo.app.interest.domain.repository.InterestRepository;
+import com.gomo.app.interest.presentation.InterestApi;
+import com.gomo.app.interest.presentation.request.CreateInterestRequest;
 
 @DisplayName("[Presentation documentation]: 관심사 로고 수정 테스트")
 public class UpdateInterestLogoDocumentationTest extends DocumentationTestBase {
 
-	private static final String UPDATED_INTEREST_ID = "3bd1b3f7-d7c6-11ef-abb8-a7e09b2a499c";
 	private final static String NORMAL_IMAGE_NAME = "normal-image.png";
 	private final static String LARGE_IMAGE_NAME = "large-image.png";
 
@@ -32,11 +35,21 @@ public class UpdateInterestLogoDocumentationTest extends DocumentationTestBase {
 	private final RestDocumentationFilter errorFilter = UpdateInterestLogoSnippet.createError();
 
 	@Autowired
-	private InterestDataHelper interestDataHelper;
+	private InterestApi interestApi;
+
+	@Autowired
+	private InterestRepository interestRepository;
+
+	private UUID interestId;
+
+	@BeforeEach
+	public void setUp() {
+		interestId = createInterest("interest");
+	}
 
 	@AfterEach
 	void tearDown() {
-		interestDataHelper.cleanUp();
+		interestRepository.deleteAllInBatch();
 	}
 
 	@DisplayName("사용자가 관심사 로고 이미지를 수정한다.")
@@ -47,7 +60,7 @@ public class UpdateInterestLogoDocumentationTest extends DocumentationTestBase {
 			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.multiPart("updatedLogo", getImageFile(NORMAL_IMAGE_NAME))
 			.when()
-			.put("/interests/{id}/logos", UPDATED_INTEREST_ID)
+			.put("/interests/{id}/logos", interestId)
 			.then()
 			.statusCode(NO_CONTENT.value());
 	}
@@ -60,11 +73,11 @@ public class UpdateInterestLogoDocumentationTest extends DocumentationTestBase {
 			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.multiPart("updatedLogo", getImageFile(LARGE_IMAGE_NAME))
 			.when()
-			.put("/interests/{id}/logos", UPDATED_INTEREST_ID)
+			.put("/interests/{id}/logos", interestId)
 			.then()
 			.statusCode(HttpStatus.PAYLOAD_TOO_LARGE.value())
 			.body("timestamp", instanceOf(String.class))
-			.body("path", equalTo("/interests/" + UPDATED_INTEREST_ID + "/logos"))
+			.body("path", equalTo("/interests/" + interestId + "/logos"))
 			.body("httpStatus", equalTo(HttpStatus.PAYLOAD_TOO_LARGE.value()))
 			.body("code", equalTo("IMA_ROO_001"))
 			.body("message", equalTo("Maximum upload size exceeded"));
@@ -72,5 +85,9 @@ public class UpdateInterestLogoDocumentationTest extends DocumentationTestBase {
 
 	private static File getImageFile(String imageName) throws IOException {
 		return ResourceUtils.getFile("classpath:image/" + imageName);
+	}
+
+	private UUID createInterest(String name) {
+		return interestApi.create(super.authInfo, CreateInterestRequest.of(name, "#FF0000", null)).getBody().getId();
 	}
 }

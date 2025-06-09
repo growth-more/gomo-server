@@ -13,7 +13,7 @@ import org.springframework.mock.web.MockMultipartFile;
 
 import com.gomo.app.image.ImageService;
 import com.gomo.app.interest.application.CreateInterestUseCase;
-import com.gomo.app.interest.common.fixture.InterestFixture;
+import com.gomo.app.interest.fixture.InterestFixture;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestQuota;
 import com.gomo.app.interest.domain.model.RegistrantId;
@@ -44,7 +44,7 @@ public class CreateInterestUseCaseTest {
 	@DisplayName("관심사를 등록한다.")
 	@Test
 	void create_interest() {
-		Interest interest = InterestFixture.interest();
+		Interest interest = InterestFixture.create();
 		doReturn(MemberFixture.member(SubscriptionPlan.BASIC)).when(memberService).find(any(MemberId.class));
 		doReturn(interest.getLogo().getUrl()).when(imageService).uploadImage(any(MockMultipartFile.class));
 		doReturn((long)(InterestQuota.BASIC.getMaxCount() - 1)).when(interestRepository).countAllByRegistrantId(any(RegistrantId.class));

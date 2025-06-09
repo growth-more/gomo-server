@@ -13,11 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gomo.app.common.IntegrationTestBase;
-import com.gomo.app.interest.common.dataprovider.InterestDataProvider;
-import com.gomo.app.interest.common.dataprovider.MajorInterestDataProvider;
+import com.gomo.app.interest.fixture.InterestFixture;
+import com.gomo.app.interest.fixture.MajorInterestFixture;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.MajorInterest;
 import com.gomo.app.interest.domain.model.RegistrantId;
+import com.gomo.app.interest.domain.repository.InterestRepository;
 import com.gomo.app.interest.domain.repository.MajorInterestRepository;
 
 @DisplayName("[Domain integration]: 주요 관심사 DB 접근 테스트")
@@ -27,50 +28,53 @@ public class MajorInterestRepositoryTest extends IntegrationTestBase {
 	MajorInterestRepository sut;
 
 	@Autowired
-	private MajorInterestDataProvider majorInterestDataProvider;
-	private MajorInterest java;
-	private MajorInterest spring;
+	private InterestRepository interestRepository;
 
 	@Autowired
-	private InterestDataProvider interestDataProvider;
-	private Interest backend;
+	private MajorInterestRepository majorInterestRepository;
+
+	private RegistrantId registrantId;
+	private Interest interest1;
+	private Interest interest2;
 
 	@BeforeEach
 	public void setUp() {
-		backend = interestDataProvider.backend();
-		java = majorInterestDataProvider.java();
-		spring = majorInterestDataProvider.spring();
-	}
-
-	@DisplayName("등록자의 모든 주요 관심사 목록을 정렬 순서에 맞게 조회한다.")
-	@Test
-	void find_all() {
-		List<MajorInterest> expected = List.of(java, spring);
-		List<MajorInterest> actual = sut.findAllByRegistrantIdOrderByDisplayOrder(RegistrantId.of(java.getRegistrantId().getId()));
-
-		assertThat(actual)
-			.hasSameSizeAs(expected)
-			.usingRecursiveFieldByFieldElementComparator()
-			.containsExactlyElementsOf(expected);
+		registrantId = RegistrantId.of(UUID.randomUUID());
+		interest1 = InterestFixture.create(registrantId, "interest1");
+		interest2 = InterestFixture.create(registrantId, "interest2");
+		interestRepository.saveAll(List.of(interest1, interest2));
 	}
 
 	@DisplayName("주요 관심사 목록의 마지막 정렬 순서를 조회한다.")
 	@Test
 	void count_all() {
-		long actual = sut.findMaxDisplayOrder(RegistrantId.of(java.getRegistrantId().getId()));
+		MajorInterest majorInterest1 = MajorInterestFixture.majorInterest(registrantId, interest1.getId(), 1);
+		MajorInterest majorInterest2 = MajorInterestFixture.majorInterest(registrantId, interest2.getId(), 5);
+		majorInterestRepository.saveAll(List.of(majorInterest1, majorInterest2));
 
-		assertThat(actual).isEqualTo(2);
+		long actual = sut.findMaxDisplayOrder(registrantId);
+
+		assertThat(actual).isEqualTo(5);
 	}
 
-	@DisplayName("관심사가 아이디 목록으로 주요 관심사가 등록되어 있는지 확인한다.")
+	@DisplayName("관심사가 주요 관심사로 등록되어 있는지 확인한다.")
 	@Test
 	void exist_major_interests() throws JsonProcessingException {
-		List<UUID> interestIds = List.of(backend.getId().getId(), java.getInterestId().getId(), spring.getInterestId().getId());
-		String interestIdsJson = new ObjectMapper().writeValueAsString(interestIds);
-		List<Long> isMajorInterests = sut.existsAsMajorInterests(interestIdsJson);
+		MajorInterest majorInterest = MajorInterestFixture.majorInterest(registrantId, interest1.getId());
+		majorInterestRepository.save(majorInterest);
 
-		assertThat(isMajorInterests.get(0)).isEqualTo(0);
-		assertThat(isMajorInterests.get(1)).isEqualTo(1);
-		assertThat(isMajorInterests.get(2)).isEqualTo(1);
+		Interest notMajorInterest = InterestFixture.create(registrantId, "notMajorInterest");
+		interestRepository.save(notMajorInterest);
+
+		String jsonInterestIds = getJsonInterestIds(majorInterest, notMajorInterest);
+		List<Long> isMajorInterests = sut.existsAsMajorInterests(jsonInterestIds);
+
+		assertThat(isMajorInterests.get(0)).isEqualTo(1);
+		assertThat(isMajorInterests.get(1)).isEqualTo(0);
+	}
+
+	private String getJsonInterestIds(MajorInterest majorInterest, Interest notMajorInterest) throws JsonProcessingException {
+		List<UUID> interestIds = List.of(majorInterest.interestUuid(), notMajorInterest.uuid());
+		return new ObjectMapper().writeValueAsString(interestIds);
 	}
 }

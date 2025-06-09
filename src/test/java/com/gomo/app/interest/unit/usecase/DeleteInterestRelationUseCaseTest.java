@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.interest.application.DeleteInterestRelationUseCase;
-import com.gomo.app.interest.common.fixture.InterestRelationFixture;
+import com.gomo.app.interest.fixture.InterestRelationFixture;
 import com.gomo.app.interest.domain.model.InterestRelation;
 import com.gomo.app.interest.domain.model.InterestRelationId;
 import com.gomo.app.interest.domain.service.InterestRelationService;
@@ -32,7 +32,7 @@ public class DeleteInterestRelationUseCaseTest {
 	@DisplayName("관심사 관계를 삭제한다.")
 	@Test
 	void delete_interest_relation() {
-		InterestRelation interestRelation = InterestRelationFixture.relation();
+		InterestRelation interestRelation = InterestRelationFixture.create();
 		doReturn(interestRelation).when(interestRelationService).find(any(InterestRelationId.class));
 
 		sut.delete(interestRelation.registrantUuid(), interestRelation.uuid());

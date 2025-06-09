@@ -13,10 +13,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.survey.application.ReadSurveyQuestionUseCase;
-import com.gomo.app.survey.common.fixture.SurveyItemFixture;
-import com.gomo.app.survey.common.fixture.SurveyQuestionFixture;
 import com.gomo.app.survey.domain.repository.SurveyItemRepository;
 import com.gomo.app.survey.domain.repository.SurveyQuestionRepository;
+import com.gomo.app.survey.fixture.SurveyItemFixture;
+import com.gomo.app.survey.fixture.SurveyQuestionFixture;
 import com.gomo.app.survey.presentation.response.ListSurveyQuestionResponse;
 
 @DisplayName("[Application unit]: 설문 조회 테스트")

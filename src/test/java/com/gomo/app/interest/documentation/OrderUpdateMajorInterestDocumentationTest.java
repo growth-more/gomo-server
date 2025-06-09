@@ -6,6 +6,7 @@ import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.*;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.AfterEach;
@@ -16,10 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.interest.common.dataprovider.MajorInterestDataProvider;
-import com.gomo.app.interest.common.util.MajorInterestDataHelper;
 import com.gomo.app.interest.documentation.snippet.OrderUpdateMajorInterestSnippet;
-import com.gomo.app.interest.domain.model.MajorInterest;
+import com.gomo.app.interest.domain.repository.InterestRepository;
+import com.gomo.app.interest.domain.repository.MajorInterestRepository;
+import com.gomo.app.interest.presentation.InterestApi;
+import com.gomo.app.interest.presentation.MajorInterestApi;
+import com.gomo.app.interest.presentation.request.CreateInterestRequest;
 import com.gomo.app.interest.presentation.request.OrderUpdateMajorInterestRequest;
 import com.gomo.app.interest.presentation.request.UpdateOrderRequest;
 
@@ -29,22 +32,32 @@ public class OrderUpdateMajorInterestDocumentationTest extends DocumentationTest
 	private final RestDocumentationFilter filter = OrderUpdateMajorInterestSnippet.create();
 
 	@Autowired
-	private MajorInterestDataHelper majorInterestDataHelper;
+	private InterestApi interestApi;
 
 	@Autowired
-	private MajorInterestDataProvider majorInterestDataProvider;
-	private MajorInterest majorInterestA;
-	private MajorInterest majorInterestB;
+	private MajorInterestApi majorInterestApi;
+
+	@Autowired
+	private InterestRepository interestRepository;
+
+	@Autowired
+	private MajorInterestRepository majorInterestRepository;
+
+	private UUID majorInterest1Id;
+	private UUID majorInterest2Id;
 
 	@BeforeEach
-	void setup() {
-		majorInterestA = majorInterestDataProvider.java();
-		majorInterestB = majorInterestDataProvider.spring();
+	public void setUp() {
+		UUID interest1Id = createInterest("interest1");
+		UUID interest2Id = createInterest("interest2");
+		majorInterest1Id = createMajorInterest(interest1Id);
+		majorInterest2Id = createMajorInterest(interest2Id);
 	}
 
 	@AfterEach
 	void tearDown() {
-		majorInterestDataHelper.cleanUp();
+		majorInterestRepository.deleteAllInBatch();
+		interestRepository.deleteAllInBatch();
 	}
 
 	@DisplayName("사용자가 주요 관심사의 정렬 순서를 변경한다.")
@@ -63,9 +76,17 @@ public class OrderUpdateMajorInterestDocumentationTest extends DocumentationTest
 	private @NotNull OrderUpdateMajorInterestRequest getRequest() {
 		return OrderUpdateMajorInterestRequest.of(
 			List.of(
-				UpdateOrderRequest.of(majorInterestA.uuid(), 2),
-				UpdateOrderRequest.of(majorInterestB.uuid(), 1)
+				UpdateOrderRequest.of(majorInterest1Id, 2),
+				UpdateOrderRequest.of(majorInterest2Id, 1)
 			)
 		);
+	}
+
+	private UUID createMajorInterest(UUID interestId) {
+		return majorInterestApi.create(this.authInfo, interestId).getBody().getId();
+	}
+
+	private UUID createInterest(String name) {
+		return interestApi.create(super.authInfo, CreateInterestRequest.of(name, "#FF0000", null)).getBody().getId();
 	}
 }

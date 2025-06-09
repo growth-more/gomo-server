@@ -6,7 +6,8 @@ import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.*;
 
-import org.junit.jupiter.api.AfterEach;
+import java.util.UUID;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,9 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.interest.common.dataprovider.InterestDataProvider;
-import com.gomo.app.interest.domain.model.Interest;
-import com.gomo.app.quest.common.util.RepeatQuestDataHelper;
+import com.gomo.app.interest.presentation.InterestApi;
+import com.gomo.app.interest.presentation.request.CreateInterestRequest;
+import com.gomo.app.member.presentation.QuestPropertyApi;
+import com.gomo.app.member.presentation.request.UpdateQuestPropertyRequest;
 import com.gomo.app.quest.documentation.snippet.CreateRepeatQuestSnippet;
 import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.exception.code.QuestContentErrorCode;
@@ -30,20 +32,16 @@ public class CreateRepeatQuestDocumentationTest extends DocumentationTestBase {
 	private final RestDocumentationFilter errorFilter = CreateRepeatQuestSnippet.createError();
 
 	@Autowired
-	private RepeatQuestDataHelper repeatQuestDataHelper;
+	private InterestApi interestApi;
 
 	@Autowired
-	private InterestDataProvider interestDataProvider;
-	private Interest subject;
+	private QuestPropertyApi questPropertyApi;
+
+	private UUID subjectId;
 
 	@BeforeEach
 	public void setUp() {
-		subject = interestDataProvider.backend();
-	}
-
-	@AfterEach
-	void tearDown() {
-		repeatQuestDataHelper.cleanUp();
+		subjectId = interestApi.create(super.authInfo, CreateInterestRequest.of("name", "#FF0000", null)).getBody().getId();
 	}
 
 	@DisplayName("사용자가 반복 퀘스트를 생성한다.")
@@ -53,7 +51,7 @@ public class CreateRepeatQuestDocumentationTest extends DocumentationTestBase {
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.body(CreateRepeatQuestRequest.of(
-				subject.getId().getId(),
+				subjectId,
 				"subject name",
 				QuestType.DAILY,
 				"quest content"))
@@ -71,7 +69,7 @@ public class CreateRepeatQuestDocumentationTest extends DocumentationTestBase {
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.body(CreateRepeatQuestRequest.of(
-				subject.getId().getId(),
+				subjectId,
 				"subject name",
 				QuestType.DAILY,
 				" "))
@@ -89,11 +87,12 @@ public class CreateRepeatQuestDocumentationTest extends DocumentationTestBase {
 	@DisplayName("사용자가 퀘스트 제한 개수를 초과하는 반복 퀘스트를 생성한다.")
 	@Test
 	void create_repeat_quest_exceeding_threshold() {
+		questPropertyApi.update(super.authInfo, UpdateQuestPropertyRequest.of(0, 0, 0));
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.body(CreateRepeatQuestRequest.of(
-				subject.getId().getId(),
+				subjectId,
 				"subject name",
 				QuestType.MONTHLY,
 				"quest content"))

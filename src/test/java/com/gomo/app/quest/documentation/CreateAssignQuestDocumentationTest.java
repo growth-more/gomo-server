@@ -8,14 +8,14 @@ import static org.springframework.http.MediaType.*;
 
 import java.util.UUID;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.quest.common.util.AssignQuestDataHelper;
+import com.gomo.app.member.presentation.QuestPropertyApi;
+import com.gomo.app.member.presentation.request.UpdateQuestPropertyRequest;
 import com.gomo.app.quest.documentation.snippet.CreateAssignQuestSnippet;
 import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.exception.code.QuestContentErrorCode;
@@ -29,12 +29,7 @@ public class CreateAssignQuestDocumentationTest extends DocumentationTestBase {
 	private final RestDocumentationFilter errorFilter = CreateAssignQuestSnippet.createError();
 
 	@Autowired
-	private AssignQuestDataHelper assignQuestDataHelper;
-
-	@AfterEach
-	void tearDown() {
-		assignQuestDataHelper.cleanUp();
-	}
+	private QuestPropertyApi questPropertyApi;
 
 	@DisplayName("사용자가 할당 퀘스트를 생성한다.")
 	@Test
@@ -80,6 +75,7 @@ public class CreateAssignQuestDocumentationTest extends DocumentationTestBase {
 	@DisplayName("사용자가 퀘스트 제한 개수를 초과하는 할당 퀘스트를 생성한다.")
 	@Test
 	void create_assign_quest_exceeding_threshold() {
+		questPropertyApi.update(super.authInfo, UpdateQuestPropertyRequest.of(0, 0, 0));
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.header(AUTHORIZATION, "Bearer " + accessToken)

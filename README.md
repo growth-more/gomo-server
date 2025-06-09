@@ -73,6 +73,9 @@ dependencies {
 #4-2.&nbsp; 메서드 파라미터도 **하나의 라인에 모두** 작성한다.<br>
 #4-3.&nbsp; 단, 메서드 파라미터가 많아 Hard wrap 160을 넘긴다면 **한 라인에 하나**만 작성한다.<br>
 
+#5.&nbsp; 루트 엔티티에서 값 객체 내부 필드에 바로 접근하는 메서드는 `get`으로 시작하지 않는다.<br>
+#5-1. &nbsp; ex) `member.getId().getId()` == `member.id()`
+
 <br>
 <br>
 

@@ -5,6 +5,8 @@ import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.*;
 
+import java.util.UUID;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,10 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.interest.common.dataprovider.MajorInterestDataProvider;
-import com.gomo.app.interest.common.util.MajorInterestDataHelper;
 import com.gomo.app.interest.documentation.snippet.DeleteMajorInterestSnippet;
-import com.gomo.app.interest.domain.model.MajorInterest;
+import com.gomo.app.interest.domain.repository.InterestRepository;
+import com.gomo.app.interest.domain.repository.MajorInterestRepository;
+import com.gomo.app.interest.presentation.InterestApi;
+import com.gomo.app.interest.presentation.MajorInterestApi;
+import com.gomo.app.interest.presentation.request.CreateInterestRequest;
 
 @DisplayName("[Presentation documentation]: 주요 관심사 삭제 테스트")
 public class DeleteMajorInterestDocumentationTest extends DocumentationTestBase {
@@ -24,20 +28,29 @@ public class DeleteMajorInterestDocumentationTest extends DocumentationTestBase 
 	private final RestDocumentationFilter filter = DeleteMajorInterestSnippet.create();
 
 	@Autowired
-	private MajorInterestDataHelper majorInterestDataHelper;
+	private InterestApi interestApi;
 
 	@Autowired
-	private MajorInterestDataProvider majorInterestDataProvider;
-	private MajorInterest java;
+	private MajorInterestApi majorInterestApi;
+
+	@Autowired
+	private InterestRepository interestRepository;
+
+	@Autowired
+	private MajorInterestRepository majorInterestRepository;
+
+	private UUID majorInterestId;
 
 	@BeforeEach
 	public void setUp() {
-		java = majorInterestDataProvider.java();
+		UUID interestId = createInterest("interest");
+		majorInterestId = createMajorInterest(interestId);
 	}
 
 	@AfterEach
 	void tearDown() {
-		majorInterestDataHelper.cleanUp();
+		interestRepository.deleteAllInBatch();
+		majorInterestRepository.deleteAllInBatch();
 	}
 
 	@DisplayName("사용자가 주요 관심사를 삭제한다.")
@@ -47,8 +60,16 @@ public class DeleteMajorInterestDocumentationTest extends DocumentationTestBase 
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.when()
-			.delete("/interests/majors/{id}", java.uuid())
+			.delete("/interests/majors/{id}", majorInterestId)
 			.then()
 			.statusCode(NO_CONTENT.value());
+	}
+
+	private UUID createMajorInterest(UUID interestId) {
+		return majorInterestApi.create(this.authInfo, interestId).getBody().getId();
+	}
+
+	private UUID createInterest(String name) {
+		return interestApi.create(super.authInfo, CreateInterestRequest.of(name, "#FF0000", null)).getBody().getId();
 	}
 }

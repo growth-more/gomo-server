@@ -1,3 +1,33 @@
+-- 퀘스트 자동 새성 시 사용되는 관심사. AI 기능 도입 후, 제거 필요합니다.
+INSERT INTO interest(
+    id,
+    registrant_id,
+    level,
+    score,
+    score_threshold,
+    total_score,
+    name,
+    logo_url,
+    color_code,
+    created_at,
+    created_by,
+    last_modified_at,
+    last_modified_by
+) VALUES
+    (UNHEX(REPLACE('3bd1b3f7-d7c6-11ef-abb8-a7e09b2a499c', '-', '')),
+    UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
+    0,
+    0,
+    40,
+    0,
+    "BLANK",
+    "BLANK",
+    "000000",
+    '2025-01-02T16:04:35.457921',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
+    '2025-01-02T16:04:35.457921',
+    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
+
 INSERT INTO survey_question (
     id,
     question_select_type,

@@ -13,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.quest.application.DeleteAssignQuestUseCase;
-import com.gomo.app.quest.common.fixture.AssignQuestFixture;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.model.CompletionProof;
@@ -22,6 +21,7 @@ import com.gomo.app.quest.domain.service.AssignQuestService;
 import com.gomo.app.quest.exception.AssignQuestAccessDeniedException;
 import com.gomo.app.quest.exception.AssignQuestConstraintViolationException;
 import com.gomo.app.quest.exception.code.AssignQuestErrorCode;
+import com.gomo.app.quest.fixture.AssignQuestFixture;
 
 @DisplayName("[Application unit]: 할당 퀘스트 삭제 테스트")
 @ExtendWith(MockitoExtension.class)

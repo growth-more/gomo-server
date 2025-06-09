@@ -6,11 +6,8 @@ import com.gomo.app.common.ApplicationService;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.MajorInterest;
-import com.gomo.app.interest.domain.repository.InterestRepository;
 import com.gomo.app.interest.domain.service.InterestService;
 import com.gomo.app.interest.domain.service.MajorInterestService;
-import com.gomo.app.interest.exception.InterestNotFoundException;
-import com.gomo.app.interest.exception.code.InterestErrorCode;
 import com.gomo.app.interest.presentation.response.CreateMajorInterestResponse;
 
 import lombok.RequiredArgsConstructor;

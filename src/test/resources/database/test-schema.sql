@@ -20,59 +20,28 @@ DROP TABLE IF EXISTS streak_quest_completed_success_event;
 DROP TABLE IF EXISTS point_quest_completed_success_event;
 
 CREATE TABLE member (
-    id BINARY(16) NOT NULL PRIMARY KEY,
-    email VARCHAR(255) UNIQUE,
-    password VARCHAR(255),
+    id BINARY(16) PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(128) NOT NULL,
     profile_banner_url VARCHAR(512),
     profile_image_url VARCHAR(512),
-    handle VARCHAR(50) UNIQUE,
-    name VARCHAR(30),
+    handle VARCHAR(50) NOT NULL UNIQUE,
+    name VARCHAR(30) NOT NULL,
     motto VARCHAR(255),
-    daily_quest_threshold TINYINT,
-    weekly_quest_threshold TINYINT,
-    monthly_quest_threshold TINYINT,
-    login_provider ENUM('EMAIL', 'GOOGLE', 'KAKAO', 'NAVER'),
-    role_type ENUM('ROLE_MEMBER', 'ROLE_ADMIN'),
-    subscription_plan ENUM('FREE', 'BASIC', 'PREMIUM'),
-    activate_status ENUM('ACTIVE', 'INACTIVE', 'BLOCKED', 'DELETED'),
+    daily_quest_threshold TINYINT DEFAULT 1,
+    weekly_quest_threshold TINYINT DEFAULT 1,
+    monthly_quest_threshold TINYINT DEFAULT 1,
+    login_provider ENUM('EMAIL', 'GOOGLE', 'KAKAO', 'NAVER') NOT NULL,
+    role_type ENUM('ROLE_MEMBER', 'ROLE_ADMIN') NOT NULL,
+    subscription_plan ENUM('FREE', 'BASIC', 'PREMIUM') NOT NULL,
+    activate_status ENUM('ACTIVE', 'INACTIVE', 'BLOCKED', 'DELETED') NOT NULL,
     sign_up_date_time DATETIME(6),
     last_login_date_time DATETIME(6),
     created_at DATETIME(6),
-    created_by varchar(255),
+    created_by VARCHAR(255),
     last_modified_at DATETIME(6),
-    last_modified_by varchar(255),
+    last_modified_by VARCHAR(255),
     deleted_at DATETIME(6)
-);
-
-CREATE TABLE survey_question (
-    id BINARY(16) NOT NULL PRIMARY KEY,
-    question_select_type VARCHAR(50),
-    is_required TINYINT(1),
-    content VARCHAR(255),
-    display_order INT,
-    created_at DATETIME(6),
-    created_by varchar(255),
-    last_modified_at DATETIME(6),
-    last_modified_by varchar(255)
-);
-
-CREATE TABLE survey_item (
-    id BINARY(16) NOT NULL PRIMARY KEY,
-    survey_question_id BINARY(16),
-    content VARCHAR(255),
-    display_order INT,
-    created_at DATETIME(6),
-    created_by varchar(255),
-    last_modified_at DATETIME(6),
-    last_modified_by varchar(255)
-);
-
-CREATE TABLE survey_result (
-    respondent_id BINARY(16),
-    survey_question_id BINARY(16),
-    survey_item_id BINARY(16),
-    survey_item_content varchar(255),
-    custom_answer varchar(255)
 );
 
 CREATE TABLE interest (
@@ -85,7 +54,6 @@ CREATE TABLE interest (
     name VARCHAR(30),
     logo_url VARCHAR(512),
     color_code VARCHAR(10),
-    version BIGINT DEFAULT 0 NOT NULL,
     created_at DATETIME(6),
     created_by varchar(255),
     last_modified_at DATETIME(6),
@@ -104,14 +72,14 @@ CREATE TABLE interest_relation (
 );
 
 CREATE TABLE major_interest (
-    id BINARY(16) NOT NULL PRIMARY KEY,
-    registrant_id BINARY(16),
-    interest_id BINARY(16),
-    display_order INT,
+    id BINARY(16) PRIMARY KEY,
+    registrant_id BINARY(16) NOT NULL,
+    interest_id BINARY(16) NOT NULL,
+    display_order INT NOT NULL,
     created_at DATETIME(6),
-    created_by varchar(255),
+    created_by VARCHAR(255),
     last_modified_at DATETIME(6),
-    last_modified_by varchar(255)
+    last_modified_by VARCHAR(255)
 );
 
 CREATE TABLE score_threshold_policy (
@@ -125,7 +93,6 @@ CREATE TABLE streak (
     streak_type ENUM('DAILY', 'WEEKLY', 'MONTHLY'),
     filled_date DATE,
     completed_quest_count TINYINT,
-    version BIGINT DEFAULT 0 NOT NULL,
     created_at DATETIME(6),
     created_by varchar(255),
     last_modified_at DATETIME(6),
@@ -193,7 +160,6 @@ CREATE TABLE point_wallet (
     id BINARY(16) NOT NULL PRIMARY KEY,
     transactor_id BINARY(16),
     balance INT,
-    version BIGINT DEFAULT 0 NOT NULL,
     created_at DATETIME(6),
     created_by varchar(255),
     last_modified_at DATETIME(6),
@@ -221,6 +187,37 @@ CREATE TABLE streak_quest_completed_success_event (
 CREATE TABLE point_quest_completed_success_event (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     event_entry_id BIGINT NOT NULL
+);
+
+CREATE TABLE survey_question (
+    id BINARY(16) NOT NULL PRIMARY KEY,
+    question_select_type VARCHAR(50),
+    is_required TINYINT(1),
+    content VARCHAR(255),
+    display_order INT,
+    created_at DATETIME(6),
+    created_by varchar(255),
+    last_modified_at DATETIME(6),
+    last_modified_by varchar(255)
+);
+
+CREATE TABLE survey_item (
+    id BINARY(16) NOT NULL PRIMARY KEY,
+    survey_question_id BINARY(16),
+    content VARCHAR(255),
+    display_order INT,
+    created_at DATETIME(6),
+    created_by varchar(255),
+    last_modified_at DATETIME(6),
+    last_modified_by varchar(255)
+);
+
+CREATE TABLE survey_result (
+    respondent_id BINARY(16),
+    survey_question_id BINARY(16),
+    survey_item_id BINARY(16),
+    survey_item_content varchar(255),
+    custom_answer varchar(255)
 );
 
 -- input sample data
@@ -271,7 +268,7 @@ INSERT INTO member (
     'gomotest fighting!',
     10,
     5,
-    0, -- create quest document test: 생성 제한 테스트를 위해 임계치를 0으로 고정한다.
+    0,
     'EMAIL',
     'ROLE_MEMBER',
     'FREE',
@@ -306,454 +303,6 @@ INSERT INTO member (
     @current_date_time,
     'b10581ce-d721-11ef-a8a5-250872a6438b',
     null);
-
-INSERT INTO interest(
-    id,
-    registrant_id,
-    level,
-    score,
-    score_threshold,
-    total_score,
-    name,
-    logo_url,
-    color_code,
-    version,
-    created_at,
-    created_by,
-    last_modified_at,
-    last_modified_by
-) VALUES
-    (UNHEX(REPLACE('3bd1b3f7-d7c6-11ef-abb8-a7e09b2a499c', '-', '')),
-    UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
-    10,
-    45,
-    60,
-    445,
-    "Backend",
-    'https://mini-cloud/backend-logo.png',
-    "000000",
-    0,
-    '2025-01-02T16:04:35.457921',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
-    '2025-01-02T16:04:35.457921',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
-
-    (UNHEX(REPLACE('f8c51811-d7c5-11ef-82dc-4322ccc3e338', '-', '')),
-    UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
-    6,
-    30,
-    40,
-    270,
-    "Java",
-    'https://mini-cloud/java-logo.png',
-    "000000",
-    0,
-    '2025-01-10T16:04:35.457921',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
-    '2025-01-10T16:04:35.457921',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
-
-    (UNHEX(REPLACE('90a387a7-d7c5-11ef-b4d7-079c7dc41274', '-', '')),
-    UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
-    5,
-    20,
-    40,
-    220,
-    "Spring",
-    'https://mini-cloud/spring-logo.png',
-    "000000",
-    0,
-    '2025-01-18T16:04:35.457921',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
-    '2025-01-21T16:04:35.457921',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b');
-
-INSERT INTO major_interest(
-    id,
-    registrant_id,
-    interest_id,
-    display_order,
-    created_at,
-    created_by,
-    last_modified_at,
-    last_modified_by
-) VALUES
-    -- interest: java
-    (UNHEX(REPLACE('172916b7-d7f6-11ef-b7fd-0bd5a273f618', '-', '')),
-     UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
-    UNHEX(REPLACE('f8c51811-d7c5-11ef-82dc-4322ccc3e338', '-', '')),
-    1,
-    '2025-01-21T21:49:02.287881',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
-    '2025-01-21T21:49:02.287881',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
-    -- interest: spring
-    (UNHEX(REPLACE('bec49c34-d7f5-11ef-8497-edeb32532766', '-', '')),
-     UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
-    UNHEX(REPLACE('90a387a7-d7c5-11ef-b4d7-079c7dc41274', '-', '')),
-    2,
-    '2025-01-21T21:46:33.988955',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
-    '2025-01-21T21:46:33.988955',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b');
-
-INSERT INTO interest_relation(
-    id,
-    registrant_id,
-    parent_interest_id,
-    child_interest_id,
-    created_at,
-    created_by,
-    last_modified_at,
-    last_modified_by
-) VALUES
-    -- java to backend relation
-    (UNHEX(REPLACE('80ac5a74-d7eb-11ef-a2bd-1f5e37eb89a8', '-', '')),
-    UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
-    UNHEX(REPLACE('3bd1b3f7-d7c6-11ef-abb8-a7e09b2a499c', '-', '')),
-    UNHEX(REPLACE('f8c51811-d7c5-11ef-82dc-4322ccc3e338', '-', '')),
-    '2025-01-21T20:33:14.844656',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
-    '2025-01-21T20:33:14.844656',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b');
-
-INSERT INTO repeat_quest (
-    id,
-    participant_id,
-    subject_id,
-    subject_name,
-    quest_type,
-    content,
-    display_order,
-    created_at,
-    created_by,
-    last_modified_at,
-    last_modified_by
-) VALUES
-    -- repeat quest: java daily
-    (UNHEX(REPLACE('3892ced2-d816-11ef-a05f-25caca7d3e8c', '-', '')),
-    UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
-    UNHEX(REPLACE('f8c51811-d7c5-11ef-82dc-4322ccc3e338', '-', '')),
-    "Java",
-    'DAILY',
-    'Java 공식 문서 학습하고 TIL 작성하기',
-    1,
-    '2025-01-22T01:39:02.242071',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
-    '2025-01-22T01:39:02.242071',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
-    -- repeat quest: spring daily
-    (UNHEX(REPLACE('a49f544f-d816-11ef-969c-6f84f91c1c7d', '-', '')),
-    UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
-    UNHEX(REPLACE('90a387a7-d7c5-11ef-b4d7-079c7dc41274', '-', '')),
-    "Spring",
-    'DAILY',
-    'Spring 공식 문서 학습하고 TIL 작성하기',
-    2,
-    '2025-01-22T01:42:03.516094',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
-    '2025-01-22T01:42:03.516094',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b');
-
-INSERT INTO assign_quest(
-    id,
-    participant_id,
-    subject_id,
-    subject_name,
-    quest_type,
-    content,
-    proof,
-    is_confirmed,
-    is_completed,
-    display_order,
-    start_date_time,
-    completed_date_time,
-    created_at,
-    created_by,
-    last_modified_at,
-    last_modified_by
-) VALUES
-    -- java daily quest - not confirm, not completed
-    (UNHEX(REPLACE('1450177f-d7ff-11ef-830c-233264c36b07', '-', '')),
-    UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
-    UNHEX(REPLACE('f8c51811-d7c5-11ef-82dc-4322ccc3e338', '-', '')),
-    'Java',
-    'DAILY',
-    'Java Stream API 학습하고 TIL 작성하기',
-     'no_proof',
-    false,
-    false,
-    1,
-    '2025-01-21T22:53:22.980611',
-    null,
-    '2025-01-21T22:53:22.980611',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
-    '2025-01-21T22:53:22.980611',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
-    -- spring daily quest - confirm, not completed
-    (UNHEX(REPLACE('bf259c7a-d7ff-11ef-ac7f-3bd3057a2c2e', '-', '')),
-    UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
-    UNHEX(REPLACE('90a387a7-d7c5-11ef-b4d7-079c7dc41274', '-', '')),
-    'Spring',
-    'DAILY',
-    'Spring AOP 학습하고 TIL 작성하기',
-    'no_proof',
-     true,
-    false,
-    2,
-    '2025-01-21T22:53:22.980611',
-    null,
-    '2025-01-21T22:53:22.980611',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
-    '2025-01-21T22:53:22.980611',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
-    -- java daily quest - confirm, completed
-    (UNHEX(REPLACE('210891d5-d814-11ef-9cc5-cdb1eaaaac96', '-', '')),
-    UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
-    UNHEX(REPLACE('f8c51811-d7c5-11ef-82dc-4322ccc3e338', '-', '')),
-    'Java',
-    'DAILY',
-    'Java Stream API 학습하고 TIL 작성하기',
-     'https://proof',
-    true,
-    true,
-    1,
-    '2025-01-21T20:53:22.980611',
-    '2025-01-21T22:53:22.980611',
-    '2025-01-21T20:53:22.980611',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
-    '2025-01-21T22:53:22.980611',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
-    -- spring daily quest - confirm, completed
-    (UNHEX(REPLACE('996604d8-d814-11ef-8d8d-fdccfa1ea3b3', '-', '')),
-    UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
-    UNHEX(REPLACE('90a387a7-d7c5-11ef-b4d7-079c7dc41274', '-', '')),
-    'Spring',
-    'DAILY',
-    'Spring AOP 학습하고 TIL 작성하기',
-     'https://proof',
-    true,
-    true,
-    2,
-    '2025-01-20T20:53:22.980611',
-    '2025-01-20T22:53:22.980611',
-    '2025-01-20T20:53:22.980611',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
-    '2025-01-20T22:53:22.980611',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
-    -- daily participating quest
-    (UNHEX(REPLACE('0194cbd7-8689-74ec-bd46-dc855f493c3b', '-', '')),
-    UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
-    UNHEX(REPLACE('f8c51811-d7c5-11ef-82dc-4322ccc3e338', '-', '')),
-    'Java',
-    'DAILY',
-    'daily participating quest',
-    'no_proof',
-    false,
-    false,
-    1,
-    @current_date_time,
-    NULL,
-    @current_date_time,
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
-    @current_date_time,
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
-    -- weekly participating quest
-    (UNHEX(REPLACE('0194cbda-6135-79fc-b659-ebaac3684761', '-', '')),
-     UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
-     UNHEX(REPLACE('f8c51811-d7c5-11ef-82dc-4322ccc3e338', '-', '')),
-     'Java',
-     'WEEKLY',
-     'weekly participating quest',
-     'no_proof',
-     false,
-     false,
-     1,
-     @current_date_time,
-     NULL,
-     @current_date_time,
-     'a10581ce-d721-11ef-a8a5-2508e2a6438b',
-     @current_date_time,
-     'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
-    -- monthly participating quest
-    (UNHEX(REPLACE('0194cbeb-345e-74a6-9199-07bdb402ea36', '-', '')),
-     UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
-     UNHEX(REPLACE('f8c51811-d7c5-11ef-82dc-4322ccc3e338', '-', '')),
-     'Java',
-     'MONTHLY',
-     'monthly participating quest',
-     'no_proof',
-     false,
-     false,
-     1,
-     @current_date_time,
-     NULL,
-     @current_date_time,
-     'a10581ce-d721-11ef-a8a5-2508e2a6438b',
-     @current_date_time,
-     'a10581ce-d721-11ef-a8a5-2508e2a6438b');
-
-INSERT INTO streak (
-    id,
-    achiever_id,
-    streak_type,
-    filled_date,
-    completed_quest_count,
-    version,
-    created_at,
-    created_by,
-    last_modified_at,
-    last_modified_by
-) VALUES
-    (UNHEX(REPLACE('203ece27-d868-11ef-824e-338baee5b682', '-', '')),
-    UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
-    'DAILY',
-    '2025-01-18',
-    1,
-    0,
-    '2025-01-18T22:53:22.980611',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
-    '2025-01-18T22:53:22.980611',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
-
-    (UNHEX(REPLACE('fa1cf1b5-e3d3-11ef-9c0c-5f1ac1d71b42', '-', '')),
-     UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
-     'DAILY',
-     '2025-02-06',
-     1,
-     0,
-     '2025-02-06T00:00:00.000000',
-     'a10581ce-d721-11ef-a8a5-2508e2a6438b',
-     '2025-02-06T00:00:00.000000',
-     'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
-
-    (UNHEX(REPLACE('febad463-d868-11ef-826f-395aa04e34d3', '-', '')),
-    UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
-    'WEEKLY',
-    '2025-01-20',
-    1,
-    0,
-    '2025-01-20T22:53:22.980611',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
-    '2025-01-20T22:53:22.980611',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b');
-
-INSERT INTO point (
-    id,
-    transactor_id,
-    source_type,
-    transaction_type,
-    amount,
-    description,
-    transaction_date_time,
-    created_at,
-    created_by,
-    last_modified_at,
-    last_modified_by
-) VALUES
-    (UNHEX(REPLACE('7dbbdedb-d734-11ef-9c48-394e79c4a67c', '-', '')),
-    UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
-    'QUEST',
-    'GAIN',
-    10,
-    '일일 퀘스트 완료 포인트 획득',
-    '2025-01-20T22:47:25.429471',
-    '2025-01-20T22:47:25.429471',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
-    '2025-01-20T22:47:25.429471',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
-
-    (UNHEX(REPLACE('c9f68773-d735-11ef-9d10-57f4db82cd9c', '-', '')),
-    UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
-    'QUEST',
-    'GAIN',
-    150,
-    '주간 퀘스트 완료 포인트 획득',
-    '2025-01-21T22:47:25.429471',
-    '2025-01-21T22:47:25.429471',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
-    '2025-01-21T22:47:25.429471',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b'),
-
-    (UNHEX(REPLACE('ead8cd48-d735-11ef-b568-8745309ead01', '-', '')),
-    UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
-    'QUEST',
-    'GAIN',
-    1500,
-    '월간 퀘스트 완료 포인트 획득',
-    '2025-01-22T22:47:25.429471',
-    '2025-01-22T22:47:25.429471',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b',
-    '2025-01-22T22:47:25.429471',
-    'a10581ce-d721-11ef-a8a5-2508e2a6438b');
-
-INSERT INTO point_wallet (
-    id,
-    transactor_id,
-    balance,
-    version,
-    created_at,
-    created_by,
-    last_modified_at,
-    last_modified_by
-) VALUES
-      (UNHEX(REPLACE('e23db9d3-e6e5-11ef-9f07-0b157ee08b8d', '-', '')),
-       UNHEX(REPLACE('a10581ce-d721-11ef-a8a5-2508e2a6438b', '-', '')),
-       '1660',
-       0,
-       '2025-02-09T22:47:25.429471',
-       'a10581ce-d721-11ef-a8a5-2508e2a6438b',
-       '2025-02-09T22:47:25.429471',
-       'a10581ce-d721-11ef-a8a5-2508e2a6438b');
-
-INSERT INTO survey_question (
-    id,
-    question_select_type,
-    is_required,
-    content,
-    display_order,
-    created_at,
-    created_by,
-    last_modified_at,
-    last_modified_by
-) VALUES
-    (UNHEX(REPLACE('3030e03f-d874-11ef-8c53-0f7e2e2f64c0', '-','')),
-    'SINGLE',
-    true,
-    '직업이 무엇인가요?',
-    1,
-    '2025-01-22T12:51:40.869541',
-    'admin',
-    '2025-01-22T12:51:40.869541',
-    'admin');
-
-INSERT INTO survey_item (
-    id,
-    survey_question_id,
-    content,
-    display_order,
-    created_at,
-    created_by,
-    last_modified_at,
-    last_modified_by
-) VALUES
-    (UNHEX(REPLACE('a115056c-d874-11ef-8a6a-454f4733cb7c', '-','')),
-    UNHEX(REPLACE('3030e03f-d874-11ef-8c53-0f7e2e2f64c0', '-','')),
-    '학생',
-    1,
-    '2025-01-22T12:51:40.869541',
-    'admin',
-    '2025-01-22T12:51:40.869541',
-    'admin'),
-
-    (UNHEX(REPLACE('b94a39ed-d874-11ef-b96f-c12f103e5c2c', '-','')),
-    UNHEX(REPLACE('3030e03f-d874-11ef-8c53-0f7e2e2f64c0', '-','')),
-    '기타',
-    2,
-    '2025-01-22T12:51:40.869541',
-    'admin',
-    '2025-01-22T12:51:40.869541',
-    'admin');
 
 INSERT INTO score_threshold_policy (
     level,

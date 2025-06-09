@@ -14,13 +14,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.quest.application.ReadAssignQuestUseCase;
-import com.gomo.app.quest.common.fixture.AssignQuestFixture;
-import com.gomo.app.quest.common.fixture.QuestRewardPolicyFixture;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.ParticipantId;
 import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.quest.domain.repository.QuestRewardPolicyRepository;
+import com.gomo.app.quest.fixture.AssignQuestFixture;
+import com.gomo.app.quest.fixture.QuestRewardPolicyFixture;
 import com.gomo.app.quest.presentation.response.ListAssignQuestResponse;
 
 @DisplayName("[Application unit]: 현재 참여중인 퀘스트 조회 테스트")

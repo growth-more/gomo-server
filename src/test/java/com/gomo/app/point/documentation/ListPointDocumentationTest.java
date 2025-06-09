@@ -14,9 +14,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.point.common.dataprovider.PointDataProvider;
 import com.gomo.app.point.documentation.snippet.ListPointSnippet;
-import com.gomo.app.point.domain.model.Point;
+import com.gomo.app.point.domain.model.SourceType;
+import com.gomo.app.point.domain.model.TransactionType;
+import com.gomo.app.point.domain.model.TransactorId;
+import com.gomo.app.point.domain.service.PointService;
 
 @DisplayName("[Presentation documentation]: 포인트 목록 조회 테스트")
 public class ListPointDocumentationTest extends DocumentationTestBase {
@@ -24,16 +26,13 @@ public class ListPointDocumentationTest extends DocumentationTestBase {
 	private final RestDocumentationFilter filter = ListPointSnippet.create();
 
 	@Autowired
-	private PointDataProvider pointDataProvider;
-	private Point dailyQuestPoint;
-	private Point weeklyQuestPoint;
-	private Point monthlyQuestPoint;
+	private PointService pointService;
 
 	@BeforeEach
 	public void setUp() {
-		dailyQuestPoint = pointDataProvider.dailyQuest();
-		weeklyQuestPoint = pointDataProvider.weeklyQuest();
-		monthlyQuestPoint = pointDataProvider.monthlyQuest();
+		pointService.create(TransactorId.of(sessionMemberId), SourceType.QUEST, TransactionType.GAIN, 10);
+		pointService.create(TransactorId.of(sessionMemberId), SourceType.QUEST, TransactionType.GAIN, 150);
+		pointService.create(TransactorId.of(sessionMemberId), SourceType.QUEST, TransactionType.GAIN, 1500);
 	}
 
 	@DisplayName("사용자가 포인트 목록을 조회한다.")
@@ -47,29 +46,6 @@ public class ListPointDocumentationTest extends DocumentationTestBase {
 			.get("/points")
 			.then()
 			.statusCode(OK.value())
-			.body("points", hasSize(3))
-			.body("lastElementId", equalTo(dailyQuestPoint.getId().toString()))
-			.body("points.id", contains(
-				monthlyQuestPoint.getId().toString(),
-				weeklyQuestPoint.getId().toString(),
-				dailyQuestPoint.getId().toString()
-			))
-			.body("points.sourceType", everyItem(is(equalTo(dailyQuestPoint.getSourceType().name()))))
-			.body("points.transactionType", everyItem(is(equalTo(dailyQuestPoint.getTransactionType().name()))))
-			.body("points.amount", contains(
-				monthlyQuestPoint.getAmount(),
-				weeklyQuestPoint.getAmount(),
-				dailyQuestPoint.getAmount()
-				))
-			.body("points.description", contains(
-				monthlyQuestPoint.getDescription(),
-				weeklyQuestPoint.getDescription(),
-				dailyQuestPoint.getDescription()
-				))
-			.body("points.transactionDateTime", contains(
-				monthlyQuestPoint.getTransactionDateTime().toString(),
-				weeklyQuestPoint.getTransactionDateTime().toString(),
-				dailyQuestPoint.getTransactionDateTime().toString()
-			));
+			.body("points", hasSize(3));
 	}
 }

@@ -14,12 +14,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.member.domain.service.MemberService;
-import com.gomo.app.quest.common.fixture.QuestFixture;
-import com.gomo.app.quest.common.fixture.RepeatQuestFixture;
 import com.gomo.app.quest.domain.model.ParticipantId;
 import com.gomo.app.quest.domain.model.RepeatQuest;
 import com.gomo.app.quest.domain.repository.RepeatQuestRepository;
 import com.gomo.app.quest.domain.service.RepeatQuestService;
+import com.gomo.app.quest.fixture.QuestFixture;
+import com.gomo.app.quest.fixture.RepeatQuestFixture;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Domain unit]: 반복 퀘스트 생성 테스트")

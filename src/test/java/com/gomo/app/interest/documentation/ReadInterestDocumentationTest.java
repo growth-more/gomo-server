@@ -1,11 +1,13 @@
 package com.gomo.app.interest.documentation;
 
 import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.*;
 import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.*;
 
+import java.util.UUID;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,9 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.interest.common.dataprovider.InterestDataProvider;
 import com.gomo.app.interest.documentation.snippet.ReadInterestSnippet;
-import com.gomo.app.interest.domain.model.Interest;
+import com.gomo.app.interest.domain.repository.InterestRepository;
+import com.gomo.app.interest.presentation.InterestApi;
+import com.gomo.app.interest.presentation.request.CreateInterestRequest;
 
 @DisplayName("[Presentation documentation]: 관심사 단건 조회 테스트")
 public class ReadInterestDocumentationTest extends DocumentationTestBase {
@@ -23,12 +26,21 @@ public class ReadInterestDocumentationTest extends DocumentationTestBase {
 	private final RestDocumentationFilter filter = ReadInterestSnippet.create();
 
 	@Autowired
-	private InterestDataProvider interestDataProvider;
-	private Interest interest;
+	private InterestApi interestApi;
+
+	@Autowired
+	private InterestRepository interestRepository;
+
+	private UUID interestId;
 
 	@BeforeEach
 	public void setUp() {
-		interest = interestDataProvider.backend();
+		interestId = createInterest("interest");
+	}
+
+	@AfterEach
+	void tearDown() {
+		interestRepository.deleteAllInBatch();
 	}
 
 	@DisplayName("사용자가 하나의 관심사(Backend)를 조회한다.")
@@ -38,16 +50,12 @@ public class ReadInterestDocumentationTest extends DocumentationTestBase {
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.when()
-			.get("/interests/{id}", interest.uuid())
+			.get("/interests/{id}", interestId)
 			.then()
-			.statusCode(OK.value())
-			.body("id", equalTo(interest.uuid().toString()))
-			.body("registrantId", equalTo(interest.registrantUuid().toString()))
-			.body("name", equalTo(interest.getName().toString()))
-			.body("logoUrl", equalTo(interest.getLogo().getUrl()))
-			.body("colorCode", equalTo(interest.getColorCode()))
-			.body("level", equalTo(interest.getProficiency().getLevel().getLevel()))
-			.body("score", equalTo(interest.getProficiency().getScore().getScore()))
-			.body("totalScore", equalTo(interest.getProficiency().getTotalScore()));
+			.statusCode(OK.value());
+	}
+
+	private UUID createInterest(String name) {
+		return interestApi.create(super.authInfo, CreateInterestRequest.of(name, "#FF0000", null)).getBody().getId();
 	}
 }

@@ -6,19 +6,19 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gomo.app.common.IntegrationTestBase;
-import com.gomo.app.quest.common.util.StreakDataHelper;
-import com.gomo.app.streak.common.dataprovider.StreakDataProvider;
+import com.gomo.app.streak.domain.model.AchieverId;
 import com.gomo.app.streak.domain.model.Streak;
 import com.gomo.app.streak.domain.model.StreakId;
 import com.gomo.app.streak.domain.model.StreakType;
+import com.gomo.app.streak.domain.repository.StreakRepository;
 import com.gomo.app.streak.domain.service.StreakService;
+import com.gomo.app.streak.fixture.StreakFixture;
 
 @DisplayName("[Domain integration]: 스트릭 생성 및 조회 테스트")
 public class StreakServiceTest extends IntegrationTestBase {
@@ -27,22 +27,17 @@ public class StreakServiceTest extends IntegrationTestBase {
 	StreakService sut;
 
 	@Autowired
-	StreakDataProvider streakDataProvider;
-	Streak dailyFirstStreak;
-	Streak dailySecondStreak;
-
-	@Autowired
-	StreakDataHelper streakDataHelper;
+	StreakRepository streakRepository;
+	UUID achieverId;
+	Streak dailyStreak1;
+	Streak dailyStreak2;
 
 	@BeforeEach
-	void setUp() {
-		dailyFirstStreak = streakDataProvider.dailyFirstStreak();
-		dailySecondStreak = streakDataProvider.dailySecondStreak();
-	}
-
-	@AfterEach
-	void tearDown() {
-		streakDataHelper.cleanUp();
+	public void setUp() {
+		achieverId = UUID.randomUUID();
+		dailyStreak1 = StreakFixture.streak(achieverId, StreakType.DAILY, LocalDate.of(2025, 1, 18));
+		dailyStreak2= StreakFixture.streak(achieverId, StreakType.DAILY, LocalDate.of(2025, 2, 6));
+		streakRepository.saveAll(List.of(dailyStreak1, dailyStreak2));
 	}
 
 	@DisplayName("스트릭이 없다면, 최초 스트릭을 생성한다.")
@@ -50,7 +45,7 @@ public class StreakServiceTest extends IntegrationTestBase {
 	void create_initial_streak() {
 		Streak streak = Streak.of(
 			StreakId.of(UUID.randomUUID()),
-			dailyFirstStreak.getAchieverId(),
+			AchieverId.of(achieverId),
 			StreakType.DAILY,
 			LocalDate.of(2025, 2, 5),
 			1
@@ -67,15 +62,15 @@ public class StreakServiceTest extends IntegrationTestBase {
 	void update_exist_streak() {
 		Streak streak = Streak.of(
 			StreakId.of(UUID.randomUUID()),
-			dailyFirstStreak.getAchieverId(),
+			AchieverId.of(achieverId),
 			StreakType.DAILY,
-			dailyFirstStreak.getFilledDate(),
+			dailyStreak1.getFilledDate(),
 			1
 		);
 
 		Streak actual = sut.fill(streak);
 
-		assertThat(actual.getId()).isEqualTo(dailyFirstStreak.getId());
+		assertThat(actual.getId()).isEqualTo(dailyStreak1.getId());
 		assertThat(actual.getCompletedQuestCount()).isEqualTo(2);
 	}
 
@@ -83,10 +78,10 @@ public class StreakServiceTest extends IntegrationTestBase {
 	@Test
 	void find_streaks_by_type() {
 		List<Streak> streaks = sut.findAllByStreakType(
-			dailyFirstStreak.getAchieverId(),
-			dailyFirstStreak.getStreakType(),
-			dailyFirstStreak.getFilledDate(),
-			dailySecondStreak.getFilledDate()
+			AchieverId.of(achieverId),
+			StreakType.DAILY,
+			dailyStreak1.getFilledDate(),
+			dailyStreak2.getFilledDate()
 		);
 
 		assertThat(streaks.size()).isEqualTo(2);

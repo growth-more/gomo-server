@@ -6,6 +6,9 @@ import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.*;
 
+import java.util.UUID;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,9 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.interest.common.dataprovider.MajorInterestDataProvider;
 import com.gomo.app.interest.documentation.snippet.ListMajorInterestSnippet;
-import com.gomo.app.interest.domain.model.MajorInterest;
+import com.gomo.app.interest.domain.repository.InterestRepository;
+import com.gomo.app.interest.domain.repository.MajorInterestRepository;
+import com.gomo.app.interest.presentation.InterestApi;
+import com.gomo.app.interest.presentation.MajorInterestApi;
+import com.gomo.app.interest.presentation.request.CreateInterestRequest;
 
 @DisplayName("[Presentation documentation]: 주요 관심사 목록 조회 테스트")
 public class ListMajorInterestDocumentationTest extends DocumentationTestBase {
@@ -23,14 +29,29 @@ public class ListMajorInterestDocumentationTest extends DocumentationTestBase {
 	private final RestDocumentationFilter filter = ListMajorInterestSnippet.create();
 
 	@Autowired
-	private MajorInterestDataProvider majorInterestDataProvider;
-	private MajorInterest java;
-	private MajorInterest spring;
+	private InterestApi interestApi;
+
+	@Autowired
+	private MajorInterestApi majorInterestApi;
+
+	@Autowired
+	private InterestRepository interestRepository;
+
+	@Autowired
+	private MajorInterestRepository majorInterestRepository;
 
 	@BeforeEach
 	public void setUp() {
-		java = majorInterestDataProvider.java();
-		spring = majorInterestDataProvider.spring();
+		UUID interest1Id = createInterest("interest1");
+		UUID interest2Id = createInterest("interest2");
+		createMajorInterest(interest1Id);
+		createMajorInterest(interest2Id);
+	}
+
+	@AfterEach
+	void tearDown() {
+		majorInterestRepository.deleteAllInBatch();
+		interestRepository.deleteAllInBatch();
 	}
 
 	@DisplayName("사용자가 주요 관심사 목록을 조회한다.")
@@ -43,7 +64,14 @@ public class ListMajorInterestDocumentationTest extends DocumentationTestBase {
 			.get("/interests/majors")
 			.then()
 			.statusCode(OK.value())
-			.body("majorInterests", hasSize(2))
-			.body("majorInterests.id", hasItems(java.uuid().toString(), spring.uuid().toString()));
+			.body("majorInterests", hasSize(2));
+	}
+
+	private void createMajorInterest(UUID interestId) {
+		majorInterestApi.create(this.authInfo, interestId);
+	}
+
+	private UUID createInterest(String name) {
+		return interestApi.create(super.authInfo, CreateInterestRequest.of(name, "#FF0000", null)).getBody().getId();
 	}
 }

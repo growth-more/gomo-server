@@ -13,10 +13,9 @@ import com.gomo.app.common.DomainService;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.InterestRelation;
+import com.gomo.app.interest.domain.policy.InMemoryScoreThresholdPolicyProvider;
 import com.gomo.app.interest.domain.repository.InterestRelationRepository;
 import com.gomo.app.interest.domain.repository.InterestRepository;
-import com.gomo.app.interest.exception.InterestNotFoundException;
-import com.gomo.app.interest.exception.code.InterestErrorCode;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,32 +23,34 @@ import lombok.RequiredArgsConstructor;
 @DomainService
 public class ProficiencyService {
 
-	private final ScoreThresholdPolicyService scoreThresholdPolicyService;
+	private final InMemoryScoreThresholdPolicyProvider policyProvider;
+	private final InterestService interestService;
 	private final InterestRepository interestRepository;
 	private final InterestRelationRepository interestRelationRepository;
 
 	@Transactional
 	public void adjust(InterestId interestId, int deltaTotalScore) {
-		int[] totalScoreForLevel = scoreThresholdPolicyService.getTotalScoreForLevel();
-		int[] scoreThresholdForLevel = scoreThresholdPolicyService.getScoreThresholdPolicy();
+		int[] totalScoreForLevel = policyProvider.getTotalScoreForLevel();
+		int[] scoreThresholdPerLevel = policyProvider.getScoreThresholdPerLevel();
 		Map<InterestId, Set<Interest>> childToParentMap = buildChildToParentMap();
 
 		Set<InterestId> enhancedIds = new HashSet<>();
 		ArrayDeque<Interest> queue = new ArrayDeque<>();
-		queue.addLast(findInterest(interestId));
+		Interest interest = interestService.find(interestId);
+		queue.addLast(interest);
 		while (!queue.isEmpty()) {
 			Interest current = queue.removeFirst();
 			if (alreadyEnhancedInterest(current.getId(), enhancedIds)) {
 				continue;
 			}
 
-			adjustProficiency(current, deltaTotalScore, enhancedIds, totalScoreForLevel, scoreThresholdForLevel);
+			adjustProficiency(current, deltaTotalScore, enhancedIds, totalScoreForLevel, scoreThresholdPerLevel);
 			enqueueParents(childToParentMap.get(current.getId()), queue, enhancedIds);
 		}
 	}
 
-	private void adjustProficiency(Interest interest, int deltaTotalScore, Set<InterestId> enhancedIds, int[] totalScoreForLevel, int[] scoreThresholdForLevel) {
-		interest.adjustProficiency(deltaTotalScore, totalScoreForLevel, scoreThresholdForLevel);
+	private void adjustProficiency(Interest interest, int deltaTotalScore, Set<InterestId> enhancedIds, int[] totalScoreForLevel, int[] scoreThresholdPerLevel) {
+		interest.adjustProficiency(deltaTotalScore, totalScoreForLevel, scoreThresholdPerLevel);
 		enhancedIds.add(interest.getId());
 	}
 
@@ -94,10 +95,5 @@ public class ProficiencyService {
 		}
 
 		return childToParentMap;
-	}
-
-	private Interest findInterest(InterestId interestId) {
-		return interestRepository.findById(interestId)
-			.orElseThrow(() -> new InterestNotFoundException(InterestErrorCode.NOT_FOUND));
 	}
 }

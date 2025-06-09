@@ -12,7 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.interest.application.CreateInterestRelationUseCase;
-import com.gomo.app.interest.common.fixture.InterestRelationFixture;
+import com.gomo.app.interest.fixture.InterestRelationFixture;
 import com.gomo.app.interest.domain.model.InterestRelation;
 import com.gomo.app.interest.domain.service.InterestRelationService;
 import com.gomo.app.interest.presentation.request.CreateInterestRelationRequest;
@@ -31,7 +31,7 @@ public class CreateInterestRelationUseCaseTest {
 	@DisplayName("관심사 관계를 등록한다.")
 	@Test
 	void create_interest_relation() {
-		InterestRelation interestRelation = InterestRelationFixture.relation();
+		InterestRelation interestRelation = InterestRelationFixture.create();
 		doReturn(interestRelation).when(interestRelationService).create(any(), any(), any());
 
 		CreateInterestRelationResponse actual = sut.create(
@@ -42,7 +42,7 @@ public class CreateInterestRelationUseCaseTest {
 		assertThat(actual.getId()).isEqualTo(interestRelation.getId().getId());
 	}
 
-	private static @NotNull CreateInterestRelationRequest createRequest(InterestRelation interestRelation) {
+	private @NotNull CreateInterestRelationRequest createRequest(InterestRelation interestRelation) {
 		return CreateInterestRelationRequest.of(
 			interestRelation.getParentInterestId().getId(),
 			interestRelation.getChildInterestId().getId()

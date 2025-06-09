@@ -17,10 +17,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.gomo.app.displayorder.OrderChanger;
 import com.gomo.app.interest.presentation.request.UpdateOrderRequest;
 import com.gomo.app.quest.application.OrderUpdateAssignQuestUseCase;
-import com.gomo.app.quest.common.fixture.AssignQuestFixture;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.domain.repository.AssignQuestRepository;
+import com.gomo.app.quest.fixture.AssignQuestFixture;
 import com.gomo.app.quest.presentation.request.OrderUpdateAssignQuestRequest;
 
 @DisplayName("[Application unit]: 참여 중인 퀘스트 정렬 순서 변경 테스트")

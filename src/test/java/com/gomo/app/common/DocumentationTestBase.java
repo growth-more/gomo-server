@@ -2,31 +2,35 @@ package com.gomo.app.common;
 
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.*;
 
-import com.gomo.app.member.presentation.LoginMemberApi;
-import com.gomo.app.member.presentation.request.LoginMemberRequest;
-import com.gomo.app.member.presentation.response.TokenResponse;
-import com.google.common.net.HttpHeaders;
+import java.util.List;
+import java.util.UUID;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gomo.app.common.authentication.AuthInfo;
 import com.gomo.app.common.config.RestAssureConfig;
+import com.gomo.app.member.domain.model.MemberId;
+import com.gomo.app.member.domain.repository.MemberRepository;
+import com.gomo.app.member.presentation.LoginMemberApi;
+import com.gomo.app.member.presentation.MemberApi;
+import com.gomo.app.member.presentation.request.CreateMemberRequest;
+import com.gomo.app.member.presentation.request.LoginMemberRequest;
+import com.google.common.net.HttpHeaders;
 
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.testcontainers.shaded.org.yaml.snakeyaml.tokens.Token;
-
-import java.util.List;
 
 @ExtendWith(RestDocumentationExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -40,7 +44,16 @@ public abstract class DocumentationTestBase {
 	protected ObjectMapper objectMapper;
 
 	@Autowired
+	MemberApi memberApi;
+
+	@Autowired
 	LoginMemberApi loginMemberApi;
+
+	@Autowired
+	private MemberRepository memberRepository;
+
+	protected AuthInfo authInfo;
+	protected UUID sessionMemberId;
 	protected String accessToken;
 	protected String refreshToken;
 
@@ -57,23 +70,32 @@ public abstract class DocumentationTestBase {
 					.operationPreprocessors()
 			)
 			.build();
-		ResponseEntity<TokenResponse> response = this.loginMemberApi.login(LoginMemberRequest.of("gomotest@naver.com", "Gomotest1234@"));
-		this.accessToken = response.getBody().getToken().toString();
-		this.refreshToken = extractTokenFromCookie(response.getHeaders().get(HttpHeaders.SET_COOKIE));
+
+		memberApi.create(CreateMemberRequest.of("testmember@naver.com", "Test1234@", "@Test", "testname", "testmotto"));
+		var tokenResponse = this.loginMemberApi.login(LoginMemberRequest.of("testmember@naver.com", "Test1234@"));
+		this.sessionMemberId = tokenResponse.getBody().getMemberId();
+		this.authInfo = AuthInfo.of(sessionMemberId);
+		this.accessToken = tokenResponse.getBody().getToken().toString();
+		this.refreshToken = extractTokenFromCookie(tokenResponse.getHeaders().get(HttpHeaders.SET_COOKIE));
 		initMockHttpServletRequest(accessToken);
 	}
 
-	String extractTokenFromCookie(List<String> cookies){
-		if(cookies != null){
-			for (String cookie: cookies){
-				if (cookie.contains("refreshToken=")){
+	String extractTokenFromCookie(List<String> cookies) {
+		if (cookies != null) {
+			for (String cookie : cookies) {
+				if (cookie.contains("refreshToken=")) {
 					int start = cookie.indexOf("refreshToken=") + "refreshToken=".length();
-            		int end = cookie.indexOf(";", start);
-            		return (end > start) ? cookie.substring(start, end) : cookie.substring(start);
+					int end = cookie.indexOf(";", start);
+					return (end > start) ? cookie.substring(start, end) : cookie.substring(start);
 				}
 			}
 		}
 		return null;
+	}
+
+	@AfterEach
+	void tearDown() {
+		memberRepository.deleteById(MemberId.of(sessionMemberId));
 	}
 
 	public static void initMockHttpServletRequest(String token) {
