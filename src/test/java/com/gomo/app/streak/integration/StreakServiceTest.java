@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,8 +37,13 @@ public class StreakServiceTest extends IntegrationTestBase {
 	public void setUp() {
 		achieverId = UUID.randomUUID();
 		dailyStreak1 = StreakFixture.streak(achieverId, StreakType.DAILY, LocalDate.of(2025, 1, 18));
-		dailyStreak2= StreakFixture.streak(achieverId, StreakType.DAILY, LocalDate.of(2025, 2, 6));
+		dailyStreak2 = StreakFixture.streak(achieverId, StreakType.DAILY, LocalDate.of(2025, 2, 6));
 		streakRepository.saveAll(List.of(dailyStreak1, dailyStreak2));
+	}
+
+	@AfterEach
+	void tearDown() {
+		streakRepository.deleteAllInBatch();
 	}
 
 	@DisplayName("스트릭이 없다면, 최초 스트릭을 생성한다.")

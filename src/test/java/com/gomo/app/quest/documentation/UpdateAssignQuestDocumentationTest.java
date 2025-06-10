@@ -8,6 +8,7 @@ import static org.springframework.http.MediaType.*;
 
 import java.util.UUID;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,6 +40,11 @@ public class UpdateAssignQuestDocumentationTest extends DocumentationTestBase {
 	public void setUp() {
 		assignQuest = AssignQuestFixture.assignQuest(sessionMemberId, false);
 		assignQuestRepository.save(assignQuest);
+	}
+
+	@AfterEach
+	void tearDown() {
+		assignQuestRepository.deleteAllInBatch();
 	}
 
 	@DisplayName("사용자가 할당 퀘스트를 수정한다.")

@@ -5,6 +5,7 @@ import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.*;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,11 @@ public class DeleteAssignQuestDocumentationTest extends DocumentationTestBase {
 	public void setUp() {
 		assignQuest = AssignQuestFixture.assignQuest(sessionMemberId, false);
 		assignQuestRepository.save(assignQuest);
+	}
+
+	@AfterEach
+	void tearDown() {
+		assignQuestRepository.deleteAllInBatch();
 	}
 
 	@DisplayName("사용자가 할당 퀘스트를 삭제한다.")

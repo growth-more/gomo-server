@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.*;
 import java.util.List;
 import java.util.UUID;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -45,11 +46,18 @@ public class SurveyResultRepositoryTest extends IntegrationTestBase {
 		surveyItemRepository.saveAll(List.of(surveyItem1, surveyItem2));
 	}
 
+	@AfterEach
+	void tearDown() {
+		surveyQuestionRepository.deleteAllInBatch();
+		surveyItemRepository.deleteAllInBatch();
+	}
+
 	@DisplayName("회원의 설문 결과를 등록한 후, 조회한다.")
 	@Test
 	void create_survey_result_by_member() {
 		RespondentId respondentId = RespondentId.of(UUID.randomUUID());
-		List<SurveyResult> surveyResults = List.of(createSurveyResult(respondentId, surveyItem1, null), createSurveyResult(respondentId, surveyItem2, "foo"));
+		List<SurveyResult> surveyResults = List.of(createSurveyResult(respondentId, surveyItem1, null),
+			createSurveyResult(respondentId, surveyItem2, "foo"));
 
 		sut.saveAll(surveyResults);
 

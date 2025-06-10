@@ -9,6 +9,7 @@ import static org.springframework.http.MediaType.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,6 +40,11 @@ public class ListAssignQuestDocumentationTest extends DocumentationTestBase {
 		weeklyQuest = AssignQuestFixture.assignQuest(sessionMemberId, QuestType.WEEKLY, LocalDateTime.now());
 		monthlyQuest = AssignQuestFixture.assignQuest(sessionMemberId, QuestType.MONTHLY, LocalDateTime.now());
 		assignQuestRepository.saveAll(List.of(dailyQuest, weeklyQuest, monthlyQuest));
+	}
+
+	@AfterEach
+	void tearDown() {
+		assignQuestRepository.deleteAllInBatch();
 	}
 
 	@DisplayName("사용자가 현재 참여중인 퀘스트 목록을 조회한다.")

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.UUID;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,11 @@ public class PointWalletServiceTest extends IntegrationTestBase {
 	@BeforeEach
 	public void setUp() {
 		pointWallet = pointWalletRepository.save(PointWalletFixture.point(UUID.randomUUID(), 1660));
+	}
+
+	@AfterEach
+	void tearDown() {
+		pointWalletRepository.deleteAllInBatch();
 	}
 
 	@DisplayName("사용자의 포인트 잔고를 조회한다.")

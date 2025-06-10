@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,6 +41,11 @@ public class CalendarAssignQuestDocumentationTest extends DocumentationTestBase 
 		weeklyQuest = AssignQuestFixture.assignQuest(sessionMemberId, QuestType.WEEKLY, LocalDateTime.now());
 		monthlyQuest = AssignQuestFixture.assignQuest(sessionMemberId, QuestType.MONTHLY, LocalDateTime.now());
 		assignQuestRepository.saveAll(List.of(dailyQuest, weeklyQuest, monthlyQuest));
+	}
+
+	@AfterEach
+	void tearDown() {
+		assignQuestRepository.deleteAllInBatch();
 	}
 
 	@DisplayName("사용자가 할당 퀘스트의 한달 치 캘린더를 조회한다.")

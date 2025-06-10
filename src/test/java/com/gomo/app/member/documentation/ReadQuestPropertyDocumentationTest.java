@@ -31,8 +31,8 @@ public class ReadQuestPropertyDocumentationTest extends DocumentationTestBase {
 			.get(READ_PROPERTY_URL)
 			.then()
 			.statusCode(OK.value())
-			.body("dailyThreshold", equalTo(0))
-			.body("weeklyThreshold", equalTo(0))
-			.body("monthlyThreshold", equalTo(0));
+			.body("dailyThreshold", equalTo(5))
+			.body("weeklyThreshold", equalTo(5))
+			.body("monthlyThreshold", equalTo(5));
 	}
 }

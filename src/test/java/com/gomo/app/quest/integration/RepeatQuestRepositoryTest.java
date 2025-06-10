@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.*;
 import java.util.List;
 import java.util.UUID;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,11 @@ public class RepeatQuestRepositoryTest extends IntegrationTestBase {
 		repeatQuest1 = RepeatQuestFixture.repeatQuest(participantId, 1);
 		repeatQuest2 = RepeatQuestFixture.repeatQuest(participantId, 2);
 		repeatQuestRepository.saveAll(List.of(repeatQuest1, repeatQuest2));
+	}
+
+	@AfterEach
+	void tearDown() {
+		repeatQuestRepository.deleteAllInBatch();
 	}
 
 	@DisplayName("반복 퀘스트 개수를 조회한다.")

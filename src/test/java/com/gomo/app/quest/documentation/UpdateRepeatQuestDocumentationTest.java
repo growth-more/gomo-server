@@ -9,6 +9,7 @@ import static org.springframework.http.MediaType.*;
 import java.util.UUID;
 
 import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,7 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.quest.documentation.snippet.UpdateRepeatQuestSnippet;
 import com.gomo.app.quest.domain.model.QuestType;
+import com.gomo.app.quest.domain.repository.RepeatQuestRepository;
 import com.gomo.app.quest.exception.code.QuestContentErrorCode;
 import com.gomo.app.quest.presentation.RepeatQuestApi;
 import com.gomo.app.quest.presentation.request.CreateRepeatQuestRequest;
@@ -33,9 +35,17 @@ public class UpdateRepeatQuestDocumentationTest extends DocumentationTestBase {
 	private RepeatQuestApi repeatQuestApi;
 	private UUID repeatQuestId;
 
+	@Autowired
+	private RepeatQuestRepository repeatQuestRepository;
+
 	@BeforeEach
 	public void setUp() {
 		repeatQuestId = repeatQuestApi.create(super.authInfo, getCreateRepeatQuestRequest()).getBody().getId();
+	}
+
+	@AfterEach
+	void tearDown() {
+		repeatQuestRepository.deleteAllInBatch();
 	}
 
 	@DisplayName("사용자가 반복 퀘스트를 수정한다.")

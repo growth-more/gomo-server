@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,9 +37,16 @@ public class AssignQuestRepositoryTest extends IntegrationTestBase {
 		UUID participantId = UUID.randomUUID();
 		notConfirmed = AssignQuestFixture.assignQuest(participantId, false, LocalDateTime.of(2025, 1, 21, 10, 0), 1);
 		confirmed = AssignQuestFixture.assignQuest(participantId, true, LocalDateTime.of(2025, 1, 21, 10, 0), 2);
-		completed1 = AssignQuestFixture.assignQuest(participantId, true, CompletionProof.of("completed"), LocalDateTime.of(2025, 1, 21, 10, 0));
-		completed2 = AssignQuestFixture.assignQuest(participantId, true, CompletionProof.of("completed"), LocalDateTime.of(2025, 1, 20, 0, 0));
+		completed1 = AssignQuestFixture.assignQuest(participantId, true, CompletionProof.of("completed"),
+			LocalDateTime.of(2025, 1, 21, 10, 0));
+		completed2 = AssignQuestFixture.assignQuest(participantId, true, CompletionProof.of("completed"),
+			LocalDateTime.of(2025, 1, 20, 0, 0));
 		assignQuestRepository.saveAll(List.of(notConfirmed, confirmed, completed1, completed2));
+	}
+
+	@AfterEach
+	void tearDown() {
+		assignQuestRepository.deleteAllInBatch();
 	}
 
 	@DisplayName("현재 참여중인 퀘스트 개수를 조회한다.")
