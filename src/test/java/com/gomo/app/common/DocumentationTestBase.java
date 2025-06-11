@@ -19,14 +19,14 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gomo.app.auth.presentation.AuthMemberApi;
+import com.gomo.app.auth.presentation.request.LoginMemberRequest;
 import com.gomo.app.common.authentication.AuthInfo;
 import com.gomo.app.common.config.RestAssureConfig;
 import com.gomo.app.member.domain.model.MemberId;
 import com.gomo.app.member.domain.repository.MemberRepository;
-import com.gomo.app.member.presentation.LoginMemberApi;
 import com.gomo.app.member.presentation.MemberApi;
 import com.gomo.app.member.presentation.request.CreateMemberRequest;
-import com.gomo.app.member.presentation.request.LoginMemberRequest;
 import com.google.common.net.HttpHeaders;
 
 import io.restassured.builder.RequestSpecBuilder;
@@ -47,7 +47,7 @@ public abstract class DocumentationTestBase {
 	MemberApi memberApi;
 
 	@Autowired
-	LoginMemberApi loginMemberApi;
+	AuthMemberApi authMemberApi;
 
 	@Autowired
 	private MemberRepository memberRepository;
@@ -72,7 +72,7 @@ public abstract class DocumentationTestBase {
 			.build();
 
 		memberApi.create(CreateMemberRequest.of("testmember@naver.com", "Test1234@", "@Test", "testname", "testmotto"));
-		var tokenResponse = this.loginMemberApi.login(LoginMemberRequest.of("testmember@naver.com", "Test1234@"));
+		var tokenResponse = this.authMemberApi.login(LoginMemberRequest.of("testmember@naver.com", "Test1234@"));
 		this.sessionMemberId = tokenResponse.getBody().getMemberId();
 		this.authInfo = AuthInfo.of(sessionMemberId);
 		this.accessToken = tokenResponse.getBody().getToken().toString();

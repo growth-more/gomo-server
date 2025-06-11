@@ -8,6 +8,7 @@ import static org.springframework.http.MediaType.*;
 
 import java.util.UUID;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import com.gomo.app.member.presentation.QuestPropertyApi;
 import com.gomo.app.member.presentation.request.UpdateQuestPropertyRequest;
 import com.gomo.app.quest.documentation.snippet.CreateAssignQuestSnippet;
 import com.gomo.app.quest.domain.model.QuestType;
+import com.gomo.app.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.quest.exception.code.QuestContentErrorCode;
 import com.gomo.app.quest.exception.code.QuestErrorCode;
 import com.gomo.app.quest.presentation.request.CreateAssignQuestRequest;
@@ -30,6 +32,14 @@ public class CreateAssignQuestDocumentationTest extends DocumentationTestBase {
 
 	@Autowired
 	private QuestPropertyApi questPropertyApi;
+
+	@Autowired
+	private AssignQuestRepository assignQuestRepository;
+
+	@AfterEach
+	void tearDown() {
+		assignQuestRepository.deleteAllInBatch();
+	}
 
 	@DisplayName("사용자가 할당 퀘스트를 생성한다.")
 	@Test

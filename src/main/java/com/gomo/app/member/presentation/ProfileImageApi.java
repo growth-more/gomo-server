@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.gomo.app.common.Presentation;
 import com.gomo.app.common.authentication.Auth;
 import com.gomo.app.common.authentication.AuthInfo;
-import com.gomo.app.member.application.DeleteMemberUseCase;
+import com.gomo.app.member.application.DeleteProfileImageUseCase;
 import com.gomo.app.member.application.UpdateProfileImageUseCase;
 import com.gomo.app.member.presentation.request.UpdateProfileImageRequest;
 
@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class ProfileImageApi {
 
 	private final UpdateProfileImageUseCase updateProfileImageUseCase;
-	private final DeleteMemberUseCase deleteMemberUseCase;
+	private final DeleteProfileImageUseCase deleteProfileImageUseCase;
 
 	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @ModelAttribute UpdateProfileImageRequest request) {
@@ -31,8 +31,8 @@ public class ProfileImageApi {
 	}
 
 	@DeleteMapping
-	public ResponseEntity<Void> delete(@Auth AuthInfo authInfo){
-		deleteMemberUseCase.deleteProfile(authInfo.getMemberId());
+	public ResponseEntity<Void> delete(@Auth AuthInfo authInfo) {
+		deleteProfileImageUseCase.delete(authInfo.getMemberId());
 		return ResponseEntity.ok().build();
 	}
 }

@@ -5,42 +5,55 @@ import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.*;
 
-import com.gomo.app.member.common.util.MemberDBDataHelper;
-import com.gomo.app.member.documentation.snippet.DeleteMemberSnippet;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
+import com.gomo.app.auth.application.LoginMemberUseCase;
 import com.gomo.app.common.DocumentationTestBase;
+import com.gomo.app.member.application.CreateMemberUseCase;
+import com.gomo.app.member.documentation.snippet.DeleteMemberSnippet;
+import com.gomo.app.member.presentation.request.CreateMemberRequest;
 
 @DisplayName("[Presentation documentation]: 회원 탈퇴 테스트")
 public class DeleteMemberDocumentationTest extends DocumentationTestBase {
 
+	private static final String MEMBER_DELETE_URL = "/members";
 
-    private static final String MEMBER_DELETE_URL = "/members";
+	private final RestDocumentationFilter filter = DeleteMemberSnippet.create();
+	private final RestDocumentationFilter errorFilter = DeleteMemberSnippet.createError();
 
-    private final RestDocumentationFilter filter = DeleteMemberSnippet.create();
-    private final RestDocumentationFilter errorFilter = DeleteMemberSnippet.createError();
+	private final String EMAIL = "user_delete@test.com";
+	private final String PASSWORD = "userDelete123@";
+	private final String HANDLE = "@deletetester";
+	private final String NAME = "deleteTester";
+	private final String MOTTO = "MyMotto";
 
-    @Autowired
-	private MemberDBDataHelper memberDBDataHelper;
+	@Autowired
+	private CreateMemberUseCase createMemberUseCase;
 
-	@AfterEach
-	void tearDown() {
-		memberDBDataHelper.cleanUp();
+	@Autowired
+	private LoginMemberUseCase loginMemberUseCase;
+
+	@BeforeEach
+	void setUp() {
+		CreateMemberRequest createMemberRequest = CreateMemberRequest.of(EMAIL, PASSWORD, HANDLE, NAME, MOTTO);
+		createMemberUseCase.create(createMemberRequest);
+
+		this.accessToken = loginMemberUseCase.login(EMAIL, PASSWORD).getAuthToken().getAccessToken();
 	}
 
-    @DisplayName("사용자가 회원 탈퇴를 요청한다.")
-    @Test
-    void delete_member(){
-        given(this.specification).filter(filter)
-                .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-                .header(AUTHORIZATION, "Bearer " + accessToken)
-                .when()
-                .delete(MEMBER_DELETE_URL)
-                .then()
-                .statusCode(NO_CONTENT.value());
-    }
+	@DisplayName("사용자가 회원 탈퇴를 요청한다.")
+	@Test
+	void delete_member() {
+		given(this.specification).filter(filter)
+			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.header(AUTHORIZATION, "Bearer " + accessToken)
+			.when()
+			.delete(MEMBER_DELETE_URL)
+			.then()
+			.statusCode(NO_CONTENT.value());
+	}
 }

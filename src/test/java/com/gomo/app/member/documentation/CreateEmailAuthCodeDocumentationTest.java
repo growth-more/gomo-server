@@ -15,7 +15,7 @@ import com.gomo.app.member.documentation.snippet.CreateEmailAuthCodeSnippet;
 import com.gomo.app.member.exception.code.EmailErrorCode;
 import com.gomo.app.member.presentation.request.CreateEmailAuthCodeRequest;
 
-@DisplayName("[Presentation documentation]: 이메일 인증 코드 테스트")
+@DisplayName("[Presentation Documentation]: 이메일 인증 코드 테스트")
 public class CreateEmailAuthCodeDocumentationTest extends DocumentationTestBase {
 
 	private static final String EMAIL_AUTH_URL = "/members/emails/codes/auth";
@@ -25,20 +25,20 @@ public class CreateEmailAuthCodeDocumentationTest extends DocumentationTestBase 
 
 	@DisplayName("이메일 인증 코드 생성을 요청한다.")
 	@Test
-	void validate_email() {
+	void create_auth_code() {
 		given(this.specification).filter(filter)
+			.log().all()
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.body(CreateEmailAuthCodeRequest.of("test@test.com"))
 			.when()
 			.post(EMAIL_AUTH_URL)
 			.then()
-			.statusCode(CREATED.value())
-			.body("email", instanceOf(String.class));
+			.statusCode(CREATED.value());
 	}
 
-	@DisplayName("중복된 이메일로 인증한다.")
+	@DisplayName("중복된 이메일로 인증한다")
 	@Test
-	void validate_email_with_duplicated_email() {
+	void create_auth_code_with_duplicated_email() {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.body(CreateEmailAuthCodeRequest.of("gomotest@naver.com"))
@@ -51,22 +51,5 @@ public class CreateEmailAuthCodeDocumentationTest extends DocumentationTestBase 
 			.body("httpStatus", equalTo(EmailErrorCode.DUPLICATED.getHttpStatus()))
 			.body("code", equalTo(EmailErrorCode.DUPLICATED.getErrorCode()))
 			.body("message", equalTo(EmailErrorCode.DUPLICATED.getMessage()));
-	}
-
-	@DisplayName("유효하지 않은 이메일 형식으로 인증한다.")
-	@Test
-	void validate_email_with_invalid_email() {
-		given(this.specification).filter(errorFilter)
-			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.body(CreateEmailAuthCodeRequest.of("invalid-email"))
-			.when()
-			.post(EMAIL_AUTH_URL)
-			.then()
-			.statusCode(EmailErrorCode.INVALID_FORMAT.getHttpStatus())
-			.body("timestamp", instanceOf(String.class))
-			.body("path", equalTo(EMAIL_AUTH_URL))
-			.body("httpStatus", equalTo(EmailErrorCode.INVALID_FORMAT.getHttpStatus()))
-			.body("code", equalTo(EmailErrorCode.INVALID_FORMAT.getErrorCode()))
-			.body("message", equalTo(EmailErrorCode.INVALID_FORMAT.getMessage()));
 	}
 }

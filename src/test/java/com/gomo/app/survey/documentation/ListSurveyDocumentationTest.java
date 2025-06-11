@@ -8,6 +8,7 @@ import static org.springframework.http.MediaType.*;
 
 import java.util.List;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -44,6 +45,12 @@ public class ListSurveyDocumentationTest extends DocumentationTestBase {
 		surveyItem1 = SurveyItemFixture.surveyItem(surveyQuestion.getId().getId(), "직업은?", 1);
 		surveyItem2 = SurveyItemFixture.surveyItem(surveyQuestion.getId().getId(), "기타", 2);
 		surveyItemRepository.saveAll(List.of(surveyItem1, surveyItem2));
+	}
+
+	@AfterEach
+	void tearDown() {
+		surveyQuestionRepository.deleteAllInBatch();
+		surveyItemRepository.deleteAllInBatch();
 	}
 
 	@DisplayName("사용자가 설문 목록을 조회한다.")

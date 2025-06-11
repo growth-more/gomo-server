@@ -6,6 +6,7 @@ import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.*;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,7 @@ import com.gomo.app.point.documentation.snippet.ListPointSnippet;
 import com.gomo.app.point.domain.model.SourceType;
 import com.gomo.app.point.domain.model.TransactionType;
 import com.gomo.app.point.domain.model.TransactorId;
+import com.gomo.app.point.domain.repository.PointRepository;
 import com.gomo.app.point.domain.service.PointService;
 
 @DisplayName("[Presentation documentation]: 포인트 목록 조회 테스트")
@@ -28,11 +30,19 @@ public class ListPointDocumentationTest extends DocumentationTestBase {
 	@Autowired
 	private PointService pointService;
 
+	@Autowired
+	private PointRepository pointRepository;
+
 	@BeforeEach
 	public void setUp() {
 		pointService.create(TransactorId.of(sessionMemberId), SourceType.QUEST, TransactionType.GAIN, 10);
 		pointService.create(TransactorId.of(sessionMemberId), SourceType.QUEST, TransactionType.GAIN, 150);
 		pointService.create(TransactorId.of(sessionMemberId), SourceType.QUEST, TransactionType.GAIN, 1500);
+	}
+
+	@AfterEach
+	void tearDown() {
+		pointRepository.deleteAllInBatch();
 	}
 
 	@DisplayName("사용자가 포인트 목록을 조회한다.")

@@ -9,6 +9,7 @@ import static org.springframework.http.MediaType.*;
 import java.util.UUID;
 
 import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,7 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.quest.documentation.snippet.ListRepeatQuestSnippet;
 import com.gomo.app.quest.domain.model.QuestType;
+import com.gomo.app.quest.domain.repository.RepeatQuestRepository;
 import com.gomo.app.quest.presentation.RepeatQuestApi;
 import com.gomo.app.quest.presentation.request.CreateRepeatQuestRequest;
 
@@ -29,11 +31,19 @@ public class ListRepeatQuestDocumentationTest extends DocumentationTestBase {
 	@Autowired
 	private RepeatQuestApi repeatQuestApi;
 
+	@Autowired
+	private RepeatQuestRepository repeatQuestRepository;
+
 	@BeforeEach
 	public void setUp() {
 		repeatQuestApi.create(super.authInfo, getCreateRepeatQuestRequest(QuestType.DAILY)).getBody().getId();
 		repeatQuestApi.create(super.authInfo, getCreateRepeatQuestRequest(QuestType.WEEKLY)).getBody().getId();
 		repeatQuestApi.create(super.authInfo, getCreateRepeatQuestRequest(QuestType.MONTHLY)).getBody().getId();
+	}
+
+	@AfterEach
+	void tearDown() {
+		repeatQuestRepository.deleteAllInBatch();
 	}
 
 	@DisplayName("사용자가 반복 퀘스트 목록을 조회한다.")

@@ -14,27 +14,27 @@ import com.gomo.app.member.application.DeleteMemberUseCase;
 import com.gomo.app.member.common.fixture.MemberFixture;
 import com.gomo.app.member.domain.model.ActivateStatus;
 import com.gomo.app.member.domain.model.Member;
-import com.gomo.app.member.domain.model.MemberId;
 import com.gomo.app.member.domain.service.MemberService;
 
-@DisplayName("[Application Unit]: 멤버 삭제 테스트")
 @ExtendWith(MockitoExtension.class)
+@DisplayName("[Application Unit]: 멤버 삭제 테스트")
 public class DeleteMemberUseCaseTest {
 
-    @InjectMocks
-    private DeleteMemberUseCase sut;
+	@InjectMocks
+	DeleteMemberUseCase sut;
 
-    @Mock
-    private MemberService memberService;
+	@Mock
+	private MemberService memberService;
 
-    @DisplayName("멤버 삭제 테스트")
-    @Test
-    void delete_member_successful() {
-        Member member = MemberFixture.member();
-        doReturn(member).when(memberService).find(MemberId.of(member.uuid()));
+	@DisplayName("멤버 삭제 테스트")
+	@Test
+	void delete_member_successfully() {
+		Member member = MemberFixture.member();
+		doReturn(member).when(memberService).find(member.getId());
 
-        sut.delete(member.uuid());
+		sut.delete(member.uuid());
 
-        assertThat(member.getActivateStatus()).isEqualTo(ActivateStatus.DELETED);
-    }
+		assertThat(member.getActivateStatus()).isEqualTo(ActivateStatus.DELETED);
+	}
+
 }

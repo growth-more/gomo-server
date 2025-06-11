@@ -4,7 +4,8 @@ import lombok.Getter;
 
 @Getter
 public class VerifyEmailAuthCodeResponse {
-    private String email;
+
+	private String email;
 
 	private VerifyEmailAuthCodeResponse(String email) {
 		this.email = email;

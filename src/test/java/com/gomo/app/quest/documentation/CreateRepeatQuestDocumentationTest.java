@@ -8,6 +8,7 @@ import static org.springframework.http.MediaType.*;
 
 import java.util.UUID;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,12 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
+import com.gomo.app.interest.domain.repository.InterestRepository;
 import com.gomo.app.interest.presentation.InterestApi;
 import com.gomo.app.interest.presentation.request.CreateInterestRequest;
 import com.gomo.app.member.presentation.QuestPropertyApi;
 import com.gomo.app.member.presentation.request.UpdateQuestPropertyRequest;
 import com.gomo.app.quest.documentation.snippet.CreateRepeatQuestSnippet;
 import com.gomo.app.quest.domain.model.QuestType;
+import com.gomo.app.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.quest.exception.code.QuestContentErrorCode;
 import com.gomo.app.quest.exception.code.QuestErrorCode;
 import com.gomo.app.quest.presentation.request.CreateRepeatQuestRequest;
@@ -41,7 +44,21 @@ public class CreateRepeatQuestDocumentationTest extends DocumentationTestBase {
 
 	@BeforeEach
 	public void setUp() {
-		subjectId = interestApi.create(super.authInfo, CreateInterestRequest.of("name", "#FF0000", null)).getBody().getId();
+		subjectId = interestApi.create(super.authInfo, CreateInterestRequest.of("name", "#FF0000", null))
+			.getBody()
+			.getId();
+	}
+
+	@Autowired
+	private InterestRepository interestRepository;
+
+	@Autowired
+	private AssignQuestRepository assignQuestRepository;
+
+	@AfterEach
+	void tearDown() {
+		interestRepository.deleteAllInBatch();
+		assignQuestRepository.deleteAllInBatch();
 	}
 
 	@DisplayName("사용자가 반복 퀘스트를 생성한다.")

@@ -23,14 +23,4 @@ public class DeleteMemberUseCase {
 		Member member = memberService.find(MemberId.of(memberId));
 		member.delete();
 	}
-
-	public void deleteProfile(UUID memberId){
-		Member member = memberService.find(MemberId.of(memberId));
-		member.deleteProfile();
-	}
-
-	public void deleteBanner(UUID memberId){
-		Member member = memberService.find(MemberId.of(memberId));
-		member.deleteBanner();
-	}
 }

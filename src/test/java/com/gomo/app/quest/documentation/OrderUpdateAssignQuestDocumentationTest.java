@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,6 +40,11 @@ public class OrderUpdateAssignQuestDocumentationTest extends DocumentationTestBa
 		assignQuest1 = AssignQuestFixture.assignQuest(sessionMemberId, 1, LocalDateTime.now());
 		assignQuest2 = AssignQuestFixture.assignQuest(sessionMemberId, 2, LocalDateTime.now());
 		assignQuestRepository.saveAll(List.of(assignQuest1, assignQuest2));
+	}
+
+	@AfterEach
+	void tearDown() {
+		assignQuestRepository.deleteAllInBatch();
 	}
 
 	@DisplayName("사용자가 참여 중인 퀘스트의 정렬 순서를 변경한다.")

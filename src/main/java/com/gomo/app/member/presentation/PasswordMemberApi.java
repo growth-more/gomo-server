@@ -1,5 +1,6 @@
 package com.gomo.app.member.presentation;
 
+import com.gomo.app.member.application.UpdatePasswordUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,11 +19,11 @@ import lombok.RequiredArgsConstructor;
 @Presentation
 public class PasswordMemberApi {
 
-	private final UpdateMemberUseCase updateMemberUseCase;
+	private final UpdatePasswordUseCase updatePasswordUseCase;
 
 	@PutMapping
 	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @RequestBody UpdatePasswordRequest request) {
-		updateMemberUseCase.updatePassword(authInfo.getMemberId(), request);
+		updatePasswordUseCase.update(authInfo.getMemberId(), request);
 		return ResponseEntity.noContent().build();
 	}
 }

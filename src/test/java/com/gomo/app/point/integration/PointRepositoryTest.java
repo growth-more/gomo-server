@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.*;
 import java.util.List;
 import java.util.UUID;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,6 +33,9 @@ public class PointRepositoryTest extends IntegrationTestBase {
 	private UUID offsetId;
 
 	@Autowired
+	private PointRepository pointRepository;
+
+	@Autowired
 	private PointWalletRepository pointWalletRepository;
 
 	@BeforeEach
@@ -41,6 +45,12 @@ public class PointRepositoryTest extends IntegrationTestBase {
 		pointService.create(TransactorId.of(transactorId), SourceType.QUEST, TransactionType.GAIN, 10);
 		offsetId = pointService.create(TransactorId.of(transactorId), SourceType.QUEST, TransactionType.GAIN, 150);
 		pointService.create(TransactorId.of(transactorId), SourceType.QUEST, TransactionType.GAIN, 1500);
+	}
+
+	@AfterEach
+	void tearDown() {
+		pointRepository.deleteAllInBatch();
+		pointWalletRepository.deleteAllInBatch();
 	}
 
 	@DisplayName("마지막 아이디 없이 포인트 목록을 조회한다.")

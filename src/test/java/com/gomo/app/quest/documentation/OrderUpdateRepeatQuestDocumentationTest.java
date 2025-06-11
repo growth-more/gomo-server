@@ -8,6 +8,7 @@ import static org.springframework.http.MediaType.*;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,6 +39,11 @@ public class OrderUpdateRepeatQuestDocumentationTest extends DocumentationTestBa
 		repeatQuest1 = RepeatQuestFixture.repeatQuest(sessionMemberId, 1);
 		repeatQuest2 = RepeatQuestFixture.repeatQuest(sessionMemberId, 2);
 		repeatQuestRepository.saveAll(List.of(repeatQuest1, repeatQuest2));
+	}
+
+	@AfterEach
+	void tearDown() {
+		repeatQuestRepository.deleteAllInBatch();
 	}
 
 	@DisplayName("사용자가 반복 퀘스트의 정렬 순서를 변경한다.")

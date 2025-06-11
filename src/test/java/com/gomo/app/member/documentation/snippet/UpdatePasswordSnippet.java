@@ -12,15 +12,14 @@ import com.epages.restdocs.apispec.Schema;
 import com.gomo.app.common.constant.ErrorResponseFields;
 
 public class UpdatePasswordSnippet {
-
 	private static final String IDENTIFIER = "update_password";
-	private static final String SUMMARY = "비밀번호 변경 API";
-	private static final String DESCRIPTION = "사용자 비밀번호를 변경합니다.";
+	private static final String SUMMARY = "비밀번호 수정 API";
+	private static final String DESCRIPTION = "비밀번호를 수정합니다.";
 	private static final String TAG = "Member";
 
 	private static final Snippet REQUEST_FIELDS = requestFields(
-		fieldWithPath("originPassword").type(JsonFieldType.STRING).description("기존 비밀번호"),
-		fieldWithPath("updatedPassword").type(JsonFieldType.STRING).description("새 비밀번호")
+		fieldWithPath("originPassword").type(JsonFieldType.STRING).description("원래 비밀번호"),
+		fieldWithPath("updatedPassword").type(JsonFieldType.STRING).description("수정할 비밀번호")
 	);
 
 	public static RestDocumentationFilter create() {
@@ -42,8 +41,7 @@ public class UpdatePasswordSnippet {
 				.summary(SUMMARY)
 				.description(DESCRIPTION)
 				.tag(TAG)
-				.requestSchema(Schema.schema("UpdatePasswordRequest"))
-				.responseSchema(Schema.schema("ErrorResponse")),
+				.requestSchema(Schema.schema("UpdatePasswordRequest")),
 			REQUEST_FIELDS,
 			ErrorResponseFields.RESPONSE_FIELDS
 		);

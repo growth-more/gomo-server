@@ -9,6 +9,7 @@ import static org.springframework.http.MediaType.*;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,9 +37,14 @@ public class ListStreakDocumentationTest extends DocumentationTestBase {
 	@BeforeEach
 	public void setUp() {
 		dailyStreak1 = StreakFixture.streak(sessionMemberId, StreakType.DAILY, LocalDate.of(2025, 1, 18));
-		dailyStreak2= StreakFixture.streak(sessionMemberId, StreakType.DAILY, LocalDate.of(2025, 2, 6));
+		dailyStreak2 = StreakFixture.streak(sessionMemberId, StreakType.DAILY, LocalDate.of(2025, 2, 6));
 		weeklyStreak = StreakFixture.streak(sessionMemberId, StreakType.WEEKLY, LocalDate.of(2025, 1, 20));
 		streakRepository.saveAll(List.of(dailyStreak1, dailyStreak2, weeklyStreak));
+	}
+
+	@AfterEach
+	void tearDown() {
+		streakRepository.deleteAllInBatch();
 	}
 
 	@DisplayName("사용자가 스트릭 목록을 조회한다.")

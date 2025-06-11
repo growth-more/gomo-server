@@ -24,20 +24,21 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class CreateMemberUseCase {
 
-    private final MemberService memberService;
-    private final PasswordService passwordService;
-    private final MemberRepository memberRepository;
-    private final PointWalletRepository pointWalletRepository;
+	private final MemberService memberService;
+	private final PasswordService passwordService;
+	private final MemberRepository memberRepository;
+	private final PointWalletRepository pointWalletRepository;
 
-    public CreateMemberResponse create(CreateMemberRequest request) {
-        memberService.checkEmailDuplicated(Email.of(request.getEmail()));
-        memberService.checkHandleDuplicated(Handle.of(request.getHandle()));
-
+	public CreateMemberResponse create(CreateMemberRequest request) {
+		memberService.checkEmailDuplicated(Email.of(request.getEmail()));
+		memberService.checkHandleDuplicated(Handle.of(request.getHandle()));
+		
 		Member member = request.toDomain(MemberId.of(UUIDGenerator.generate()), passwordService);
-        Member savedMember = memberRepository.save(member);
-        PointWallet pointWallet = PointWallet.createDefault(PointWalletId.of(UUIDGenerator.generate()), TransactorId.of(savedMember.uuid()));
-        pointWalletRepository.save(pointWallet);
+		Member savedMember = memberRepository.save(member);
+		PointWallet pointWallet = PointWallet.createDefault(PointWalletId.of(UUIDGenerator.generate()),
+			TransactorId.of(savedMember.uuid()));
+		pointWalletRepository.save(pointWallet);
 
-        return CreateMemberResponse.of(savedMember.getId());
-    }
+		return CreateMemberResponse.of(savedMember.getId());
+	}
 }

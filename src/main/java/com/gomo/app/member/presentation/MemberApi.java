@@ -28,32 +28,32 @@ import lombok.RequiredArgsConstructor;
 @Presentation
 public class MemberApi {
 
-    private final CreateMemberUseCase createMemberUseCase;
-    private final ReadMemberUseCase readMemberUseCase;
-    private final UpdateMemberUseCase updateMemberUseCase;
-    private final DeleteMemberUseCase deleteMemberUseCase;
+	private final CreateMemberUseCase createMemberUseCase;
+	private final ReadMemberUseCase readMemberUseCase;
+	private final UpdateMemberUseCase updateMemberUseCase;
+	private final DeleteMemberUseCase deleteMemberUseCase;
 
-    @PostMapping
-    public ResponseEntity<CreateMemberResponse> create(@RequestBody CreateMemberRequest request) {
-        CreateMemberResponse response = createMemberUseCase.create(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
+	@PostMapping
+	public ResponseEntity<CreateMemberResponse> create(@RequestBody CreateMemberRequest request) {
+		CreateMemberResponse response = createMemberUseCase.create(request);
+		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+	}
 
-    @GetMapping
-    public ResponseEntity<ReadMemberResponse> read(@Auth AuthInfo authInfo) {
-        ReadMemberResponse response = readMemberUseCase.find(authInfo.getMemberId());
-        return ResponseEntity.ok(response);
-    }
+	@GetMapping
+	public ResponseEntity<ReadMemberResponse> read(@Auth AuthInfo authInfo) {
+		ReadMemberResponse response = readMemberUseCase.find(authInfo.getMemberId());
+		return ResponseEntity.ok(response);
+	}
 
-    @PutMapping
-    public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @RequestBody UpdateMemberRequest request) {
-        updateMemberUseCase.update(authInfo.getMemberId(), request);
-        return ResponseEntity.noContent().build();
-    }
+	@PutMapping
+	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @RequestBody UpdateMemberRequest request) {
+		updateMemberUseCase.update(authInfo.getMemberId(), request);
+		return ResponseEntity.noContent().build();
+	}
 
-    @DeleteMapping
-    public ResponseEntity<Void> delete(@Auth AuthInfo authInfo) {
-        deleteMemberUseCase.delete(authInfo.getMemberId());
-        return ResponseEntity.noContent().build();
-    }
+	@DeleteMapping
+	public ResponseEntity<Void> delete(@Auth AuthInfo authInfo) {
+		deleteMemberUseCase.delete(authInfo.getMemberId());
+		return ResponseEntity.noContent().build();
+	}
 }
