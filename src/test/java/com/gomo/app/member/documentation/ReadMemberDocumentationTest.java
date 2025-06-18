@@ -37,6 +37,7 @@ public class ReadMemberDocumentationTest extends DocumentationTestBase {
 			.body("motto", equalTo("testmotto"))
 			.body("availablePoints", equalTo(0))
 			.body("profileImageUrl", equalTo("DEFAULT_IMAGE"))
+			.body("profileBannerUrl", equalTo("DEFAULT_IMAGE"))
 			.body("loginProvider", equalTo("EMAIL"))
 			.body("roleType", equalTo("ROLE_MEMBER"))
 			.body("subscriptionPlan", equalTo("FREE"))
