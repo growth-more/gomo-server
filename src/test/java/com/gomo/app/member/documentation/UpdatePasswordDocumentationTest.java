@@ -13,7 +13,7 @@ import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.member.documentation.snippet.UpdatePasswordSnippet;
 import com.gomo.app.member.presentation.request.UpdatePasswordRequest;
 
-@DisplayName("[Presentation Documentation]: 이메일 인증 코드 테스트")
+@DisplayName("[Presentation Documentation]: 비밀번호 수정 테스트")
 public class UpdatePasswordDocumentationTest extends DocumentationTestBase {
 
 	private static final String UPDATE_PASSWORD_URL = "/members/passwords";
