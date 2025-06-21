@@ -12,26 +12,39 @@ import com.gomo.app.common.Presentation;
 import com.gomo.app.member.application.CreateEmailAuthCodeUseCase;
 import com.gomo.app.member.application.VerifyEmailAuthCodeUseCase;
 import com.gomo.app.member.presentation.request.CreateEmailAuthCodeRequest;
+import com.gomo.app.member.presentation.request.CreatePasswordAuthCodeRequest;
 import com.gomo.app.member.presentation.request.VerifyEmailAuthCodeRequest;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@RequestMapping("/members/emails/codes/auth")
+@RequestMapping("/members")
 @Presentation
 public class EmailAuthCodeApi {
 
 	private final CreateEmailAuthCodeUseCase createEmailAuthCodeUseCase;
 	private final VerifyEmailAuthCodeUseCase verifyEmailAuthCodeUseCase;
 
-	@PostMapping
+	@PostMapping("/emails/codes/auth")
 	public ResponseEntity<Void> createEmailAuthCode(@RequestBody CreateEmailAuthCodeRequest request) {
 		createEmailAuthCodeUseCase.create(request);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 
-	@GetMapping
+	@GetMapping("/emails/codes/auth")
 	public ResponseEntity<Void> verifyEmailAuthCode(@ModelAttribute VerifyEmailAuthCodeRequest request) {
+		verifyEmailAuthCodeUseCase.verify(request);
+		return ResponseEntity.ok().build();
+	}
+
+	@PostMapping("/passwords/codes/auth")
+	public ResponseEntity<Void> createPasswordAuthCode(@RequestBody CreatePasswordAuthCodeRequest request) {
+		createEmailAuthCodeUseCase.createPwReset(request);
+		return ResponseEntity.status(HttpStatus.CREATED).build();
+	}
+
+	@GetMapping("/passwords/codes/auth")
+	public ResponseEntity<Void> verifyPasswordAuthCode(@ModelAttribute VerifyEmailAuthCodeRequest request) {
 		verifyEmailAuthCodeUseCase.verify(request);
 		return ResponseEntity.ok().build();
 	}

@@ -7,6 +7,7 @@ import com.gomo.app.member.domain.service.AuthCodeGenerator;
 import com.gomo.app.member.domain.service.MemberService;
 import com.gomo.app.member.infrastructure.EmailAuthSenderService;
 import com.gomo.app.member.presentation.request.CreateEmailAuthCodeRequest;
+import com.gomo.app.member.presentation.request.CreatePasswordAuthCodeRequest;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +22,13 @@ public class CreateEmailAuthCodeUseCase {
 
 	public void create(CreateEmailAuthCodeRequest request) {
 		memberService.checkEmailDuplicated(Email.of(request.getEmail()));
+		String authCode = authCodeGenerator.generate();
+		emailAuthCodeRepository.save(request.getEmail(), authCode);
+		emailAuthSenderService.sendEmailAuthCode(request.getEmail(), authCode);
+	}
+
+	public void createPwReset(CreatePasswordAuthCodeRequest request) {
+		memberService.findByEmail(Email.of(request.getEmail()));
 		String authCode = authCodeGenerator.generate();
 		emailAuthCodeRepository.save(request.getEmail(), authCode);
 		emailAuthSenderService.sendEmailAuthCode(request.getEmail(), authCode);
