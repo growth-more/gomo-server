@@ -166,6 +166,16 @@ CREATE TABLE point_wallet (
     last_modified_by varchar(255)
 );
 
+CREATE TABLE achiever (
+    id BINARY(16) NOT NULL PRIMARY KEY,
+    longest_streak_days INT,
+    current_streak_days INT,
+    created_at DATETIME(6),
+    created_by varchar(255),
+    last_modified_at DATETIME(6),
+    last_modified_by varchar(255)
+);
+
 CREATE TABLE event_entry (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     event_type VARCHAR(255) NOT NULL,

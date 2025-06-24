@@ -13,10 +13,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gomo.app.common.IntegrationTestBase;
+import com.gomo.app.streak.domain.model.Achiever;
 import com.gomo.app.streak.domain.model.AchieverId;
 import com.gomo.app.streak.domain.model.Streak;
 import com.gomo.app.streak.domain.model.StreakId;
 import com.gomo.app.streak.domain.model.StreakType;
+import com.gomo.app.streak.domain.repository.AchieverRepository;
 import com.gomo.app.streak.domain.repository.StreakRepository;
 import com.gomo.app.streak.domain.service.StreakService;
 import com.gomo.app.streak.fixture.StreakFixture;
@@ -28,6 +30,9 @@ public class StreakServiceTest extends IntegrationTestBase {
 	StreakService sut;
 
 	@Autowired
+	AchieverRepository achieverRepository;
+
+	@Autowired
 	StreakRepository streakRepository;
 	UUID achieverId;
 	Streak dailyStreak1;
@@ -36,6 +41,7 @@ public class StreakServiceTest extends IntegrationTestBase {
 	@BeforeEach
 	public void setUp() {
 		achieverId = UUID.randomUUID();
+		achieverRepository.save(Achiever.of(AchieverId.of(achieverId)));
 		dailyStreak1 = StreakFixture.streak(achieverId, StreakType.DAILY, LocalDate.of(2025, 1, 18));
 		dailyStreak2 = StreakFixture.streak(achieverId, StreakType.DAILY, LocalDate.of(2025, 2, 6));
 		streakRepository.saveAll(List.of(dailyStreak1, dailyStreak2));
@@ -78,6 +84,25 @@ public class StreakServiceTest extends IntegrationTestBase {
 
 		assertThat(actual.getId()).isEqualTo(dailyStreak1.getId());
 		assertThat(actual.getCompletedQuestCount()).isEqualTo(2);
+	}
+
+	@DisplayName("스트릭 생성 시, 전날 스트릭이 존재 여부에 따라 유지 일수도 함께 조정한다.")
+	@Test
+	void adjust_streak_days() {
+		Streak streak = Streak.of(
+			StreakId.of(UUID.randomUUID()),
+			AchieverId.of(achieverId),
+			StreakType.DAILY,
+			LocalDate.now(),
+			1
+		);
+		Streak priorStreak = StreakFixture.streak(achieverId, StreakType.DAILY, LocalDate.now().minusDays(1));
+		sut.fill(priorStreak);
+
+		sut.fill(streak);
+		Achiever achiever = achieverRepository.findById(AchieverId.of(achieverId)).get();
+
+		assertThat(achiever.getCurrentStreakDays()).isEqualTo(2);
 	}
 
 	@DisplayName("타입, 날짜 별 스트릭 목록을 조회한다.")
