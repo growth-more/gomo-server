@@ -16,13 +16,14 @@ import com.gomo.app.common.constant.ErrorResponseFields;
 public class CalendarAssignQuestSnippet {
 
 	private static final String IDENTIFIER = "calendar_assign_quest";
-	private static final String SUMMARY = "할당 퀘스트 캘린더 조회 API";
-	private static final String DESCRIPTION = "사용자가 한 달간 수행한, 혹은 수행 중인 퀘스트 목록을 조회합니다.";
+	private static final String SUMMARY = "할당 퀘스트 이력 조회 API";
+	private static final String DESCRIPTION = "사용자가 특정 기간의 퀘스트 이력을 조회합니다.";
 	private static final String TAG = "Quest";
 
 	private static final ParameterDescriptor[] CALENDAR_ASSIGN_QUEST_QUERY_PARAMETERS = {
 		parameterWithName("year").description("년"),
-		parameterWithName("month").description("월")
+		parameterWithName("month").description("월"),
+		parameterWithName("day").description("일")
 	};
 
 	private static final Snippet RESPONSE_FIELDS = responseFields(

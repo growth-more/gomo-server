@@ -48,7 +48,7 @@ public class CalendarAssignQuestDocumentationTest extends DocumentationTestBase 
 		assignQuestRepository.deleteAllInBatch();
 	}
 
-	@DisplayName("사용자가 할당 퀘스트의 한달 치 캘린더를 조회한다.")
+	@DisplayName("사용자가 특정 기간의 할당 퀘스트 이력을 조회한다.")
 	@Test
 	void calendar_assign_quest() {
 		given(this.specification).filter(filter)
@@ -56,6 +56,7 @@ public class CalendarAssignQuestDocumentationTest extends DocumentationTestBase 
 			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.param("year", LocalDate.now().getYear())
 			.param("month", LocalDate.now().getMonth().getValue())
+			.param("day", LocalDate.now().getDayOfMonth())
 			.when()
 			.get("/quests/assigns/calendars")
 			.then()

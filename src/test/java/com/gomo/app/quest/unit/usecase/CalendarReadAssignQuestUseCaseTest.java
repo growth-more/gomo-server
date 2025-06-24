@@ -33,11 +33,11 @@ public class CalendarReadAssignQuestUseCaseTest {
 
 	@DisplayName("월별 할당 퀘스트 목록을 조회한다.")
 	@Test
-	void find_all_in_month() {
-		List<AssignQuest> historyQuests = List.of(AssignQuestFixture.assignQuest(DAILY), AssignQuestFixture.assignQuest(WEEKLY));
-		doReturn(historyQuests).when(assignQuestRepository).findByQuestParticipantIdAndStartDateTimeBetween(any(), any(), any());
+	void find_all() {
+		List<AssignQuest> calendars = List.of(AssignQuestFixture.assignQuest(DAILY), AssignQuestFixture.assignQuest(WEEKLY));
+		doReturn(calendars).when(assignQuestRepository).findByQuestParticipantIdAndStartDateTimeBetween(any(), any(), any());
 
-		CalendarListAssignQuestResponse actual = sut.findAll(ParticipantId.of(UUID.randomUUID()), 2025, 2);
+		CalendarListAssignQuestResponse actual = sut.findAll(ParticipantId.of(UUID.randomUUID()), 2025, 2, 1);
 
 		assertThat(actual.getAssignQuests().size()).isEqualTo(2);
 	}
