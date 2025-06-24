@@ -86,21 +86,23 @@ public class StreakServiceTest extends IntegrationTestBase {
 		assertThat(actual.getCompletedQuestCount()).isEqualTo(2);
 	}
 
-	@DisplayName("스트릭 생성 시, 유지 일수도 함께 조정한다.")
+	@DisplayName("스트릭 생성 시, 전날 스트릭이 존재 여부에 따라 유지 일수도 함께 조정한다.")
 	@Test
 	void adjust_streak_days() {
 		Streak streak = Streak.of(
 			StreakId.of(UUID.randomUUID()),
 			AchieverId.of(achieverId),
 			StreakType.DAILY,
-			LocalDate.of(2025, 2, 5),
+			LocalDate.now(),
 			1
 		);
+		Streak priorStreak = StreakFixture.streak(achieverId, StreakType.DAILY, LocalDate.now().minusDays(1));
+		sut.fill(priorStreak);
 
 		sut.fill(streak);
 		Achiever achiever = achieverRepository.findById(AchieverId.of(achieverId)).get();
 
-		assertThat(achiever.getCurrentStreakDays()).isEqualTo(1);
+		assertThat(achiever.getCurrentStreakDays()).isEqualTo(2);
 	}
 
 	@DisplayName("타입, 날짜 별 스트릭 목록을 조회한다.")
