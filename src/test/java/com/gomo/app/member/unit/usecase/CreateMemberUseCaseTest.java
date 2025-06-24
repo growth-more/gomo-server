@@ -24,6 +24,7 @@ import com.gomo.app.point.domain.model.PointWallet;
 import com.gomo.app.point.domain.model.PointWalletId;
 import com.gomo.app.point.domain.model.TransactorId;
 import com.gomo.app.point.domain.repository.PointWalletRepository;
+import com.gomo.app.streak.domain.service.AchieverService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Application unit] : 멤버 생성 테스트")
@@ -43,6 +44,9 @@ public class CreateMemberUseCaseTest {
 
 	@Mock
 	PointWalletRepository pointWalletRepository;
+
+	@Mock
+	AchieverService achieverService;
 
 	@DisplayName("회원을 등록한다")
 	@Test
