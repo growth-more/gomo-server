@@ -22,8 +22,9 @@ public class CalendarAssignQuestApi {
 	private final CalendarReadAssignQuestUseCase calendarReadAssignQuestUseCase;
 
 	@GetMapping
-	public ResponseEntity<CalendarListAssignQuestResponse> findAll(@Auth AuthInfo authInfo, @RequestParam int year, @RequestParam int month, @RequestParam int day) {
-		CalendarListAssignQuestResponse response = calendarReadAssignQuestUseCase.findAll(ParticipantId.of(authInfo.getMemberId()), year, month, day);
+	public ResponseEntity<CalendarListAssignQuestResponse> findAll(@Auth AuthInfo authInfo, @RequestParam int year, @RequestParam int month, @RequestParam int day,
+		@RequestParam String periodType) {
+		CalendarListAssignQuestResponse response = calendarReadAssignQuestUseCase.findAll(ParticipantId.of(authInfo.getMemberId()), year, month, day, periodType);
 		return ResponseEntity.ok(response);
 	}
 }

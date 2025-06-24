@@ -57,6 +57,7 @@ public class CalendarAssignQuestDocumentationTest extends DocumentationTestBase 
 			.param("year", LocalDate.now().getYear())
 			.param("month", LocalDate.now().getMonth().getValue())
 			.param("day", LocalDate.now().getDayOfMonth())
+			.param("periodType", "MONTH")
 			.when()
 			.get("/quests/assigns/calendars")
 			.then()

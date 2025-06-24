@@ -23,7 +23,8 @@ public class CalendarAssignQuestSnippet {
 	private static final ParameterDescriptor[] CALENDAR_ASSIGN_QUEST_QUERY_PARAMETERS = {
 		parameterWithName("year").description("년"),
 		parameterWithName("month").description("월"),
-		parameterWithName("day").description("일")
+		parameterWithName("day").description("일"),
+		parameterWithName("periodType").description("기간 단위")
 	};
 
 	private static final Snippet RESPONSE_FIELDS = responseFields(
