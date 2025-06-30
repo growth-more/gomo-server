@@ -19,7 +19,7 @@ public class ResetPasswordSnippet {
 
 	private static final Snippet REQUEST_FIELDS = requestFields(
 		fieldWithPath("email").type(JsonFieldType.STRING).description("사용자 이메일"),
-		fieldWithPath("updatedPassword").type(JsonFieldType.STRING).description("수정할 비밀번호")
+		fieldWithPath("resetPassword").type(JsonFieldType.STRING).description("수정할 비밀번호")
 	);
 
 	public static RestDocumentationFilter create() {

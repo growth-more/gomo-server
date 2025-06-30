@@ -31,20 +31,14 @@ public class EmailAuthCodeApi {
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 
-	@GetMapping("/emails/codes/auth")
-	public ResponseEntity<Void> verifyEmailAuthCode(@ModelAttribute VerifyEmailAuthCodeRequest request) {
-		verifyEmailAuthCodeUseCase.verify(request);
-		return ResponseEntity.ok().build();
-	}
-
 	@PostMapping("/passwords/codes/auth")
 	public ResponseEntity<Void> createPasswordAuthCode(@RequestBody CreatePasswordAuthCodeRequest request) {
 		createEmailAuthCodeUseCase.createPwReset(request);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 
-	@GetMapping("/passwords/codes/auth")
-	public ResponseEntity<Void> verifyPasswordAuthCode(@ModelAttribute VerifyEmailAuthCodeRequest request) {
+	@GetMapping("/auth/codes/verify")
+	public ResponseEntity<Void> verifyEmailAuthCode(@ModelAttribute VerifyEmailAuthCodeRequest request) {
 		verifyEmailAuthCodeUseCase.verify(request);
 		return ResponseEntity.ok().build();
 	}
