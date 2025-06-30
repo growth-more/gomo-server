@@ -40,13 +40,24 @@ public class CreateEmailAuthCodeUseCaseTest {
 	private static final String EMAIL = "test@gmail.com";
 	private static final String AUTH_CODE = "123456";
 
-	@DisplayName("이메일 인증 코드를 생성한다.")
+	@DisplayName("회원가입 관련 이메일 인증 코드를 생성한다.")
 	@Test
 	void create_email_auth_code_successfully() {
 		doNothing().when(memberService).checkEmailDuplicated(any(Email.class));
 		doReturn(AUTH_CODE).when(authCodeGenerator).generate();
 		doNothing().when(emailAuthSenderService).sendEmailAuthCode(anyString(), anyString());
-		
-		assertThatCode(() -> sut.create(CreateEmailAuthCodeRequest.of(EMAIL))).doesNotThrowAnyException();
+
+		assertThatCode(() -> sut.createForSignUp(CreateEmailAuthCodeRequest.of(EMAIL))).doesNotThrowAnyException();
+	}
+
+	@DisplayName("비밀번호 초기화 관련 이메일 인증 코드를 생성한다.")
+	@Test
+	void create_email_auth_code_for_password_successfully() {
+		doReturn(null).when(memberService).findByEmail(any(Email.class));
+		doReturn(AUTH_CODE).when(authCodeGenerator).generate();
+		doNothing().when(emailAuthSenderService).sendEmailAuthCode(anyString(), anyString());
+
+		assertThatCode(
+			() -> sut.createForPasswordReset(CreateEmailAuthCodeRequest.of(EMAIL))).doesNotThrowAnyException();
 	}
 }

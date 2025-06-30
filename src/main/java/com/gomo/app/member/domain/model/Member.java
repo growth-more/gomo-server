@@ -110,15 +110,8 @@ public class Member extends LogicalDeleteBaseAudit {
 		return this.id.getId();
 	}
 
-	public void updatePassword(Password rawOld, Password rawNew, PasswordService passwordService) {
-		if (rawOld.getPassword().equals(rawNew.getPassword())) {
-			throw new RuntimeException("update password must not same as origin password");
-		}
+	public void updatePassword(Password rawNew, PasswordService passwordService) {
 		this.password = rawNew.encodedWith(passwordService);
-	}
-
-	public void resetPassword(PasswordService passwordService, Password newPassword) {
-		this.password = newPassword.encodedWith(passwordService);
 	}
 
 	public void updateHandle(String handle) {
