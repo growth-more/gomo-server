@@ -19,14 +19,14 @@ public class CreateEmailAuthCodeUseCase {
 	private final EmailAuthSenderService emailAuthSenderService;
 	private final EmailAuthCodeRepository emailAuthCodeRepository;
 
-	public void create(CreateEmailAuthCodeRequest request) {
+	public void createForSignUp(CreateEmailAuthCodeRequest request) {
 		memberService.checkEmailDuplicated(Email.of(request.getEmail()));
 		String authCode = authCodeGenerator.generate();
 		emailAuthCodeRepository.save(request.getEmail(), authCode);
 		emailAuthSenderService.sendEmailAuthCode(request.getEmail(), authCode);
 	}
 
-	public void createPasswordResetAuthCode(CreateEmailAuthCodeRequest request) {
+	public void createForPasswordReset(CreateEmailAuthCodeRequest request) {
 		memberService.findByEmail(Email.of(request.getEmail()));
 		String authCode = authCodeGenerator.generate();
 		emailAuthCodeRepository.save(request.getEmail(), authCode);

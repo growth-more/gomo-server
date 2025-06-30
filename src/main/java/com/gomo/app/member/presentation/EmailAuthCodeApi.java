@@ -26,13 +26,13 @@ public class EmailAuthCodeApi {
 
 	@PostMapping("/emails/codes/auth")
 	public ResponseEntity<Void> createEmailAuthCode(@RequestBody CreateEmailAuthCodeRequest request) {
-		createEmailAuthCodeUseCase.create(request);
+		createEmailAuthCodeUseCase.createForSignUp(request);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 
 	@PostMapping("/passwords/codes/auth")
 	public ResponseEntity<Void> createPasswordAuthCode(@RequestBody CreateEmailAuthCodeRequest request) {
-		createEmailAuthCodeUseCase.createPasswordResetAuthCode(request);
+		createEmailAuthCodeUseCase.createForPasswordReset(request);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 

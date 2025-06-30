@@ -47,7 +47,7 @@ public class CreateEmailAuthCodeUseCaseTest {
 		doReturn(AUTH_CODE).when(authCodeGenerator).generate();
 		doNothing().when(emailAuthSenderService).sendEmailAuthCode(anyString(), anyString());
 
-		assertThatCode(() -> sut.create(CreateEmailAuthCodeRequest.of(EMAIL))).doesNotThrowAnyException();
+		assertThatCode(() -> sut.createForSignUp(CreateEmailAuthCodeRequest.of(EMAIL))).doesNotThrowAnyException();
 	}
 
 	@DisplayName("비밀번호 초기화 관련 이메일 인증 코드를 생성한다.")
@@ -58,6 +58,6 @@ public class CreateEmailAuthCodeUseCaseTest {
 		doNothing().when(emailAuthSenderService).sendEmailAuthCode(anyString(), anyString());
 
 		assertThatCode(
-			() -> sut.createPasswordResetAuthCode(CreateEmailAuthCodeRequest.of(EMAIL))).doesNotThrowAnyException();
+			() -> sut.createForPasswordReset(CreateEmailAuthCodeRequest.of(EMAIL))).doesNotThrowAnyException();
 	}
 }
