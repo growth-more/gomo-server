@@ -17,7 +17,6 @@ import com.gomo.app.member.domain.service.AuthCodeGenerator;
 import com.gomo.app.member.domain.service.MemberService;
 import com.gomo.app.member.infrastructure.EmailAuthSenderService;
 import com.gomo.app.member.presentation.request.CreateEmailAuthCodeRequest;
-import com.gomo.app.member.presentation.request.CreatePasswordAuthCodeRequest;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Application unit] : 이메일 인증코드 생성 및 전송 테스트")
@@ -58,6 +57,6 @@ public class CreateEmailAuthCodeUseCaseTest {
 		doReturn(AUTH_CODE).when(authCodeGenerator).generate();
 		doNothing().when(emailAuthSenderService).sendEmailAuthCode(anyString(), anyString());
 
-		assertThatCode(() -> sut.createPwReset(CreatePasswordAuthCodeRequest.of(EMAIL))).doesNotThrowAnyException();
+		assertThatCode(() -> sut.createPwReset(CreateEmailAuthCodeRequest.of(EMAIL))).doesNotThrowAnyException();
 	}
 }

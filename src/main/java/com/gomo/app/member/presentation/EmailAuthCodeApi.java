@@ -12,7 +12,6 @@ import com.gomo.app.common.Presentation;
 import com.gomo.app.member.application.CreateEmailAuthCodeUseCase;
 import com.gomo.app.member.application.VerifyEmailAuthCodeUseCase;
 import com.gomo.app.member.presentation.request.CreateEmailAuthCodeRequest;
-import com.gomo.app.member.presentation.request.CreatePasswordAuthCodeRequest;
 import com.gomo.app.member.presentation.request.VerifyEmailAuthCodeRequest;
 
 import lombok.RequiredArgsConstructor;
@@ -32,7 +31,7 @@ public class EmailAuthCodeApi {
 	}
 
 	@PostMapping("/passwords/codes/auth")
-	public ResponseEntity<Void> createPasswordAuthCode(@RequestBody CreatePasswordAuthCodeRequest request) {
+	public ResponseEntity<Void> createPasswordAuthCode(@RequestBody CreateEmailAuthCodeRequest request) {
 		createEmailAuthCodeUseCase.createPwReset(request);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
