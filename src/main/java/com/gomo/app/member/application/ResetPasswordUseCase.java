@@ -21,9 +21,7 @@ public class ResetPasswordUseCase {
 
 	public void reset(ResetPasswordRequest request) {
 		Member member = memberService.findByEmail(Email.of(request.getEmail()));
-
 		Password rawNew = Password.ofRaw(request.getResetPassword());
-
 		member.updatePassword(rawNew, passwordService);
 	}
 }

@@ -27,12 +27,7 @@ public class UpdatePasswordUseCase {
 		Password rawOld = Password.ofRaw(request.getOriginPassword());
 		Password rawNew = Password.ofRaw(request.getUpdatedPassword());
 
-		if (rawOld.getPassword().equals(rawNew.getPassword())) {
-			throw new RuntimeException("update password must not same as origin password");
-		}
-
 		passwordService.matches(member.getPassword().getPassword(), rawOld.getPassword());
-
 		member.updatePassword(rawNew, passwordService);
 	}
 }
