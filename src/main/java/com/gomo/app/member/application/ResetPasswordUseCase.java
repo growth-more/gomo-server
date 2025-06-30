@@ -24,6 +24,6 @@ public class ResetPasswordUseCase {
 
 		Password rawNew = Password.ofRaw(request.getUpdatedPassword());
 
-		member.resetPassword(passwordService, rawNew);
+		member.updatePassword(rawNew, passwordService);
 	}
 }
