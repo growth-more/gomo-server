@@ -23,7 +23,7 @@ import com.gomo.app.member.presentation.request.CreateEmailAuthCodeRequest;
 @DisplayName("[Presentation Documentation]: 이메일 인증 코드 테스트")
 public class VerifyEmailAuthCodeDocumentationTest extends DocumentationTestBase {
 
-	private static final String EMAIL_VERIFY_URL = "/members/auth/codes/verify";
+	private static final String EMAIL_VERIFY_URL = "/auth/codes/verify";
 
 	private final RestDocumentationFilter filter = VerifyEmailAuthCodeSnippet.create();
 	private final RestDocumentationFilter errorFilter = VerifyEmailAuthCodeSnippet.createError();

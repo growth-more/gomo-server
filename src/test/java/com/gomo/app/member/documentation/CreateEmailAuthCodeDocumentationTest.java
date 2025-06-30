@@ -18,7 +18,7 @@ import com.gomo.app.member.presentation.request.CreateEmailAuthCodeRequest;
 @DisplayName("[Presentation Documentation]: 이메일 인증 코드 테스트")
 public class CreateEmailAuthCodeDocumentationTest extends DocumentationTestBase {
 
-	private static final String EMAIL_AUTH_URL = "/members/emails/codes/auth";
+	private static final String EMAIL_AUTH_URL = "/auth/codes/generates/email";
 
 	private final RestDocumentationFilter filter = CreateEmailAuthCodeSnippet.create();
 	private final RestDocumentationFilter errorFilter = CreateEmailAuthCodeSnippet.createError();
