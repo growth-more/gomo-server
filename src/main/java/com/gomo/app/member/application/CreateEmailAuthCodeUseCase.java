@@ -26,7 +26,7 @@ public class CreateEmailAuthCodeUseCase {
 		emailAuthSenderService.sendEmailAuthCode(request.getEmail(), authCode);
 	}
 
-	public void createPwReset(CreateEmailAuthCodeRequest request) {
+	public void createPasswordResetAuthCode(CreateEmailAuthCodeRequest request) {
 		memberService.findByEmail(Email.of(request.getEmail()));
 		String authCode = authCodeGenerator.generate();
 		emailAuthCodeRepository.save(request.getEmail(), authCode);

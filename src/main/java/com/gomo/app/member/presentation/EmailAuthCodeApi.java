@@ -32,7 +32,7 @@ public class EmailAuthCodeApi {
 
 	@PostMapping("/passwords/codes/auth")
 	public ResponseEntity<Void> createPasswordAuthCode(@RequestBody CreateEmailAuthCodeRequest request) {
-		createEmailAuthCodeUseCase.createPwReset(request);
+		createEmailAuthCodeUseCase.createPasswordResetAuthCode(request);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 

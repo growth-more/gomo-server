@@ -57,6 +57,7 @@ public class CreateEmailAuthCodeUseCaseTest {
 		doReturn(AUTH_CODE).when(authCodeGenerator).generate();
 		doNothing().when(emailAuthSenderService).sendEmailAuthCode(anyString(), anyString());
 
-		assertThatCode(() -> sut.createPwReset(CreateEmailAuthCodeRequest.of(EMAIL))).doesNotThrowAnyException();
+		assertThatCode(
+			() -> sut.createPasswordResetAuthCode(CreateEmailAuthCodeRequest.of(EMAIL))).doesNotThrowAnyException();
 	}
 }
