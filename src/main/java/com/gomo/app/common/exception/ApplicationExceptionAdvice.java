@@ -16,7 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 public class ApplicationExceptionAdvice {
 
 	@ExceptionHandler(ApplicationException.class)
-	public ResponseEntity<ErrorResponse> handleApplicationException(ApplicationException e, HttpServletRequest request) {
+	public ResponseEntity<ErrorResponse> handleApplicationException(ApplicationException e,
+		HttpServletRequest request) {
 		log.warn("[Application exception] errorCode: {}, message: {}", e.getErrorCode(), e.getMessage(), e);
 		ErrorResponse errorResponse = ErrorResponse.of(
 			LocalDateTime.now(),
@@ -44,13 +45,14 @@ public class ApplicationExceptionAdvice {
 	}
 
 	@ExceptionHandler(MaxUploadSizeExceededException.class)
-	public ResponseEntity<ErrorResponse> handleMultipartException(MaxUploadSizeExceededException e, HttpServletRequest request) {
-		log.warn("[File upload exception] errorCode: {}, message: {}", "IMA_ROO_001", e.getMessage(), e);
+	public ResponseEntity<ErrorResponse> handleMultipartException(MaxUploadSizeExceededException e,
+		HttpServletRequest request) {
+		log.warn("[File upload exception] errorCode: {}, message: {}", "IMA-ROO-001", e.getMessage(), e);
 		ErrorResponse errorResponse = ErrorResponse.of(
 			LocalDateTime.now(),
 			request.getRequestURI(),
 			HttpStatus.PAYLOAD_TOO_LARGE.value(),
-			"IMA_ROO_001",
+			"IMA-ROO-001",
 			e.getMessage()
 		);
 

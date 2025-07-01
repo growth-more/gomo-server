@@ -93,7 +93,7 @@ public class CreateInterestDocumentationTest extends DocumentationTestBase {
 			.body("timestamp", instanceOf(String.class))
 			.body("path", equalTo("/interests"))
 			.body("httpStatus", equalTo(HttpStatus.PAYLOAD_TOO_LARGE.value()))
-			.body("code", equalTo("IMA_ROO_001"))
+			.body("code", equalTo("IMA-ROO-001"))
 			.body("message", equalTo("Maximum upload size exceeded"));
 	}
 
