@@ -5,8 +5,8 @@ import lombok.Getter;
 @Getter
 public enum DisplayOrderErrorCode {
 
-	NON_POSITIVE(422, "DIS_ROO_001", "Order display must be positive"),
-	NON_POSITIVE_INCREMENT(422, "DIS_ROO_002", "Order display increment must be positive");
+	NON_POSITIVE(422, "DIS-ROO-001", "Order display must be positive"),
+	NON_POSITIVE_INCREMENT(422, "DIS-ROO-002", "Order display increment must be positive");
 
 	private final int httpStatus;
 	private final String errorCode;
