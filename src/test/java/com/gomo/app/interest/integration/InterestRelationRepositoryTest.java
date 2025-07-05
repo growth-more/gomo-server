@@ -11,13 +11,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gomo.app.common.IntegrationTestBase;
-import com.gomo.app.interest.fixture.InterestFixture;
-import com.gomo.app.interest.fixture.InterestRelationFixture;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestRelation;
 import com.gomo.app.interest.domain.model.RegistrantId;
 import com.gomo.app.interest.domain.repository.InterestRelationRepository;
 import com.gomo.app.interest.domain.repository.InterestRepository;
+import com.gomo.app.interest.fixture.InterestFixture;
+import com.gomo.app.interest.fixture.InterestRelationFixture;
+
+import jakarta.transaction.Transactional;
 
 @DisplayName("[Domain integration]: 관심사 관계선 DB 통합 테스트")
 public class InterestRelationRepositoryTest extends IntegrationTestBase {
@@ -69,5 +71,16 @@ public class InterestRelationRepositoryTest extends IntegrationTestBase {
 		assertThat(interestRelations).hasSize(2);
 		assertThat(interestRelations).extracting("id")
 			.containsExactlyInAnyOrderElementsOf(List.of(depth1ToDepth2.getId(), depth2ToDepth3.getId()));
+	}
+
+	@DisplayName("특정 사용자의 관심사 관계를 모두 삭제한다.")
+	@Transactional
+	@Test
+	void delete_all_by_registrant_id() {
+		sut.deleteAllByRegistrantId(depth1.getRegistrantId());
+
+		List<InterestRelation> interestRelations = sut.findAllByRegistrantId(depth1.getRegistrantId());
+
+		assertThat(interestRelations).hasSize(0);
 	}
 }
