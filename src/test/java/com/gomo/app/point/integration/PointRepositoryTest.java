@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.IntegrationTestBase;
 import com.gomo.app.point.domain.model.Point;
@@ -100,5 +101,16 @@ public class PointRepositoryTest extends IntegrationTestBase {
 		);
 
 		assertThat(actual.size()).isEqualTo(1);
+	}
+
+	@DisplayName("특정 사용자의 포인트 내역을 삭제한다.")
+	@Transactional
+	@Test
+	void delete_all_points() {
+
+		sut.deleteAllByTransactorId(TransactorId.of(transactorId));
+
+		assertThat(sut.findAllByTransactorId(String.valueOf(transactorId), null, 100).size())
+			.isZero();
 	}
 }
