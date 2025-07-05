@@ -13,6 +13,7 @@ import com.gomo.app.quest.domain.repository.RepeatQuestRepository;
 import com.gomo.app.quest.exception.RepeatQuestNotFoundException;
 import com.gomo.app.quest.exception.code.RepeatQuestErrorCode;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -29,6 +30,11 @@ public class RepeatQuestService {
 	public RepeatQuest find(RepeatQuestId repeatQuestId) {
 		return repeatQuestRepository.findById(repeatQuestId)
 			.orElseThrow(() -> new RepeatQuestNotFoundException(RepeatQuestErrorCode.NOT_FOUND));
+	}
+
+	@Transactional
+	public void deleteAllByParticipantId(ParticipantId participantId) {
+		repeatQuestRepository.deleteAllByParticipantId(participantId);
 	}
 
 	@NotNull

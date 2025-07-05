@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.gomo.app.interest.domain.model.InterestRelation;
@@ -25,4 +26,8 @@ public interface InterestRelationRepository extends JpaRepository<InterestRelati
 		+ "where ir.parentInterestId.id = :interestId "
 		+ "or ir.childInterestId.id = :interestId")
 	List<InterestRelation> findAllByInterestId(UUID interestId);
+
+	@Modifying
+	@Query("DELETE FROM InterestRelation ir WHERE ir.registrantId = :registrantId")
+	void deleteAllByRegistrantId(RegistrantId registrantId);
 }

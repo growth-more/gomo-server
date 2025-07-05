@@ -3,6 +3,7 @@ package com.gomo.app.quest.domain.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -33,4 +34,9 @@ public interface RepeatQuestRepository extends JpaRepository<RepeatQuest, Repeat
 		@Param("participantId") ParticipantId participantId,
 		@Param("questType") QuestType questType
 	);
+
+	@Modifying
+	@Query("DELETE FROM RepeatQuest r WHERE r.quest.participantId =: participantId")
+	void deleteAllByParticipantId(ParticipantId participantId);
+
 }

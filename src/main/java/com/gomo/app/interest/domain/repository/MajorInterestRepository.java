@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -23,14 +24,18 @@ public interface MajorInterestRepository extends JpaRepository<MajorInterest, Ma
 	boolean existsMajorInterestByInterestId(InterestId interestId);
 
 	@Query(value = """
-    SELECT EXISTS (
-        SELECT 1 FROM major_interest m WHERE m.interest_id = UNHEX(REPLACE(i.id, '-', ''))
-    )
-    FROM JSON_TABLE(:interestIds, '$[*]' COLUMNS (id CHAR(36) PATH '$')) AS i
-    """, nativeQuery = true)
+		SELECT EXISTS (
+		    SELECT 1 FROM major_interest m WHERE m.interest_id = UNHEX(REPLACE(i.id, '-', ''))
+		)
+		FROM JSON_TABLE(:interestIds, '$[*]' COLUMNS (id CHAR(36) PATH '$')) AS i
+		""", nativeQuery = true)
 	List<Long> existsAsMajorInterests(@Param("interestIds") String interestIdsJson);
 
 	List<MajorInterest> findAllByRegistrantIdOrderByDisplayOrder(RegistrantId registrantId);
 
 	void deleteByInterestId(InterestId interestId);
+
+	@Modifying
+	@Query("DELETE FROM MajorInterest mi WHERE mi.registrantId = :registrantId")
+	void deleteAllByRegistrantId(RegistrantId registrantId);
 }
