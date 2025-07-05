@@ -36,7 +36,7 @@ public interface RepeatQuestRepository extends JpaRepository<RepeatQuest, Repeat
 	);
 
 	@Modifying
-	@Query("DELETE FROM RepeatQuest r WHERE r.quest.participantId =: participantId")
+	@Query("DELETE FROM RepeatQuest r WHERE r.quest.participantId = :participantId")
 	void deleteAllByParticipantId(ParticipantId participantId);
 
 }

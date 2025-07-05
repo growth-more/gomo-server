@@ -65,6 +65,6 @@ public interface AssignQuestRepository extends JpaRepository<AssignQuest, Assign
 		LocalDateTime startOfPeriod, LocalDateTime endOfPeriod);
 
 	@Modifying
-	@Query("DELETE FROM AssignQuest a WHERE a.quest.participantId =: participantId")
+	@Query("DELETE FROM AssignQuest a WHERE a.quest.participantId = :participantId")
 	void deleteAllByParticipantId(ParticipantId participantId);
 }
