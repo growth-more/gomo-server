@@ -45,4 +45,14 @@ public class AchieverServiceTest {
 		assertThat(actual.getCurrentStreakDays()).isEqualTo(3);
 		assertThat(actual.getLongestStreakDays()).isEqualTo(5);
 	}
+
+	@DisplayName("성취자를 삭제한다.")
+	@Test
+	void delete_achiever() {
+		Achiever achiever = AchieverFixture.achiever(3, 5);
+		doNothing().when(achieverRepository).deleteByAchieverId(any());
+
+		sut.deleteAchiever(achiever.getId());
+		verify(achieverRepository).deleteByAchieverId(any());
+	}
 }
