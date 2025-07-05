@@ -26,7 +26,7 @@ public interface PointRepository extends JpaRepository<Point, PointId> {
 	);
 
 	@Modifying
-	@Query("DELETE FROM point p WHERE p.transactorId = :transactorId")
+	@Query("DELETE FROM Point p WHERE p.transactorId = :transactorId")
 	void deleteAllByTransactorId(TransactorId transactorId);
 
 }
