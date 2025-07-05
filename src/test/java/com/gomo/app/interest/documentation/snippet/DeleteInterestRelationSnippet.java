@@ -1,37 +1,45 @@
 package com.gomo.app.interest.documentation.snippet;
 
-import com.epages.restdocs.apispec.ResourceSnippetParameters;
-import com.epages.restdocs.apispec.Schema;
-import com.gomo.app.common.constant.ErrorResponseFields;
-import org.springframework.restdocs.restassured.RestDocumentationFilter;
+import static org.springframework.http.HttpHeaders.*;
+import static org.springframework.restdocs.headers.HeaderDocumentation.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.*;
 
-import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.document;
+import org.springframework.restdocs.restassured.RestDocumentationFilter;
+import org.springframework.restdocs.snippet.Snippet;
+
+import com.gomo.app.common.constant.ErrorResponseFields;
 
 public class DeleteInterestRelationSnippet {
 
-	private static final String IDENTIFIER = "delete_interest_relation";
-	private static final String SUMMARY = "관심사 계층 구조 삭제 API";
-	private static final String DESCRIPTION = "두 가지 관심사 사이의 연결선을 삭제합니다.";
-	private static final String TAG = "Interest";
+	private static final String IDENTIFIER = "interest-relation-delete";
+
+	private static final Snippet REQUEST_HEADERS = requestHeaders(
+		headerWithName(AUTHORIZATION).description("JWT Access Token (Bearer)")
+	);
+
+	private static final Snippet PATH_PARAMETERS = pathParameters(
+		parameterWithName("id").description("삭제할 관심사 관계의 ID (UUID)")
+	);
 
 	public static RestDocumentationFilter create() {
 		return document(
 			IDENTIFIER,
-			ResourceSnippetParameters.builder()
-				.summary(SUMMARY)
-				.description(DESCRIPTION)
-				.tag(TAG)
+			preprocessRequest(prettyPrint()),
+			preprocessResponse(prettyPrint()),
+			REQUEST_HEADERS,
+			PATH_PARAMETERS
 		);
 	}
 
 	public static RestDocumentationFilter createError() {
 		return document(
-			IDENTIFIER + "/error",
-			ResourceSnippetParameters.builder()
-				.summary(SUMMARY)
-				.description(DESCRIPTION)
-				.tag(TAG)
-				.responseSchema(Schema.schema("ErrorResponse")),
+			IDENTIFIER + "-error",
+			preprocessRequest(prettyPrint()),
+			preprocessResponse(prettyPrint()),
+			REQUEST_HEADERS,
+			PATH_PARAMETERS,
 			ErrorResponseFields.RESPONSE_FIELDS
 		);
 	}

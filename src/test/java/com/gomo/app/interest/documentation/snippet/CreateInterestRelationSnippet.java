@@ -1,40 +1,41 @@
 package com.gomo.app.interest.documentation.snippet;
 
-import com.epages.restdocs.apispec.ResourceSnippetParameters;
-import com.epages.restdocs.apispec.Schema;
-import com.gomo.app.common.constant.ErrorResponseFields;
-import org.springframework.restdocs.payload.JsonFieldType;
+import static org.springframework.http.HttpHeaders.*;
+import static org.springframework.restdocs.headers.HeaderDocumentation.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.payload.JsonFieldType.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.*;
+
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import org.springframework.restdocs.snippet.Snippet;
 
-import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import com.gomo.app.common.constant.ErrorResponseFields;
 
 public class CreateInterestRelationSnippet {
 
-	private static final String IDENTIFIER = "create_interest_relation";
-	private static final String SUMMARY = "관심사 계층 구조 추가 API";
-	private static final String DESCRIPTION = "두 가지 관심사 사이의 연결선을 추가합니다.";
-	private static final String TAG = "Interest";
+	private static final String IDENTIFIER = "interest-relation-create";
+
+	private static final Snippet REQUEST_HEADERS = requestHeaders(
+		headerWithName(CONTENT_TYPE).description("Content-Type: `application/json`"),
+		headerWithName(AUTHORIZATION).description("JWT Access Token (Bearer)")
+	);
 
 	private static final Snippet REQUEST_FIELDS = requestFields(
-		fieldWithPath("parentInterestId").type(JsonFieldType.STRING).description("상위 관심사 아이디"),
-		fieldWithPath("childInterestId").type(JsonFieldType.STRING).description("하위 관심사 아이디")
+		fieldWithPath("parentInterestId").type(STRING).description("상위 관심사 아이디 (UUID)"),
+		fieldWithPath("childInterestId").type(STRING).description("하위 관심사 아이디 (UUID)")
 	);
 
 	private static final Snippet RESPONSE_FIELDS = responseFields(
-		fieldWithPath("id").type(JsonFieldType.STRING).description("관심사 간선 아이디")
+		fieldWithPath("id").type(STRING).description("생성된 관심사 관계(간선)의 고유 ID (UUID)")
 	);
 
 	public static RestDocumentationFilter create() {
 		return document(
 			IDENTIFIER,
-			ResourceSnippetParameters.builder()
-				.summary(SUMMARY)
-				.description(DESCRIPTION)
-				.tag(TAG)
-				.requestSchema(Schema.schema("CreateInterestRelationRequest"))
-				.responseSchema(Schema.schema("CreateInterestRelationResponse")),
+			preprocessRequest(prettyPrint()),
+			preprocessResponse(prettyPrint()),
+			REQUEST_HEADERS,
 			REQUEST_FIELDS,
 			RESPONSE_FIELDS
 		);
@@ -42,13 +43,10 @@ public class CreateInterestRelationSnippet {
 
 	public static RestDocumentationFilter createError() {
 		return document(
-			IDENTIFIER + "/error",
-			ResourceSnippetParameters.builder()
-				.summary(SUMMARY)
-				.description(DESCRIPTION)
-				.tag(TAG)
-				.requestSchema(Schema.schema("CreateInterestRelationRequest"))
-				.responseSchema(Schema.schema("ErrorResponse")),
+			IDENTIFIER + "-error",
+			preprocessRequest(prettyPrint()),
+			preprocessResponse(prettyPrint()),
+			REQUEST_HEADERS,
 			REQUEST_FIELDS,
 			ErrorResponseFields.RESPONSE_FIELDS
 		);

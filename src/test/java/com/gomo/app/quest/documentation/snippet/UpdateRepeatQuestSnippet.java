@@ -1,51 +1,56 @@
 package com.gomo.app.quest.documentation.snippet;
 
-import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.*;
+import static org.springframework.http.HttpHeaders.*;
+import static org.springframework.restdocs.headers.HeaderDocumentation.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.*;
 
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import org.springframework.restdocs.snippet.Snippet;
 
-import com.epages.restdocs.apispec.ResourceSnippetParameters;
-import com.epages.restdocs.apispec.Schema;
 import com.gomo.app.common.constant.ErrorResponseFields;
 
 public class UpdateRepeatQuestSnippet {
 
-	private static final String IDENTIFIER = "update_repeat_quest";
-	private static final String SUMMARY = "반복 퀘스트 수정 API";
-	private static final String DESCRIPTION = "사용자가 반복 퀘스트를 수정합니다.";
-	private static final String TAG = "Quest";
+	private static final String IDENTIFIER = "quest-repeat-update";
+
+	private static final Snippet REQUEST_HEADERS = requestHeaders(
+		headerWithName(CONTENT_TYPE).description("Content-Type: `application/json`"),
+		headerWithName(AUTHORIZATION).description("JWT Access Token (Bearer)")
+	);
+
+	private static final Snippet PATH_PARAMETERS = pathParameters(
+		parameterWithName("id").description("수정할 반복 퀘스트의 ID (UUID)")
+	);
 
 	private static final Snippet REQUEST_FIELDS = requestFields(
-		fieldWithPath("subjectId").type(JsonFieldType.STRING).description("퀘스트 주제(관심사) 아이디"),
-		fieldWithPath("subjectName").type(JsonFieldType.STRING).description("퀘스트 주제(관심사) 이름"),
-		fieldWithPath("questType").type(JsonFieldType.STRING).description("퀘스트 타입: DAILY / WEEKLY / MONTHLY"),
-		fieldWithPath("content").type(JsonFieldType.STRING).description("퀘스트 내용")
+		fieldWithPath("subjectId").type(JsonFieldType.STRING).description("새로운 퀘스트 주제(관심사) 아이디"),
+		fieldWithPath("subjectName").type(JsonFieldType.STRING).description("새로운 퀘스트 주제(관심사) 이름"),
+		fieldWithPath("questType").type(JsonFieldType.STRING).description("새로운 퀘스트 타입: `DAILY`, `WEEKLY`, `MONTHLY`"),
+		fieldWithPath("content").type(JsonFieldType.STRING).description("새로운 퀘스트 내용")
 	);
 
 	public static RestDocumentationFilter create() {
 		return document(
 			IDENTIFIER,
-			ResourceSnippetParameters.builder()
-				.summary(SUMMARY)
-				.description(DESCRIPTION)
-				.tag(TAG)
-				.requestSchema(Schema.schema("UpdateRepeatQuestRequest")),
+			preprocessRequest(prettyPrint()),
+			preprocessResponse(prettyPrint()),
+			REQUEST_HEADERS,
+			PATH_PARAMETERS,
 			REQUEST_FIELDS
 		);
 	}
 
 	public static RestDocumentationFilter createError() {
 		return document(
-			IDENTIFIER + "/error",
-			ResourceSnippetParameters.builder()
-				.summary(SUMMARY)
-				.description(DESCRIPTION)
-				.tag(TAG)
-				.requestSchema(Schema.schema("UpdateRepeatQuestRequest"))
-				.responseSchema(Schema.schema("ErrorResponse")),
+			IDENTIFIER + "-error",
+			preprocessRequest(prettyPrint()),
+			preprocessResponse(prettyPrint()),
+			REQUEST_HEADERS,
+			PATH_PARAMETERS,
 			REQUEST_FIELDS,
 			ErrorResponseFields.RESPONSE_FIELDS
 		);

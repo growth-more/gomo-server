@@ -1,48 +1,37 @@
 package com.gomo.app.member.documentation.snippet;
 
-import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.*;
 
-import org.springframework.restdocs.request.ParameterDescriptor;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
+import org.springframework.restdocs.snippet.Snippet;
 
-import com.epages.restdocs.apispec.ResourceSnippetParameters;
-import com.epages.restdocs.apispec.Schema;
 import com.gomo.app.common.constant.ErrorResponseFields;
 
 public class CheckHandleDuplicateSnippet {
 
-	private static final String IDENTIFIER = "check_handle_duplicate";
-	private static final String SUMMARY = "핸들 중복 체크 API";
-	private static final String DESCRIPTION = "회원가입 시 사용하는 핸들의 중복 여부를 체크합니다.";
-	private static final String TAG = "Member";
+	private static final String IDENTIFIER = "member-handle-check-duplicate";
 
-	private static final ParameterDescriptor[] REQUEST_PARAMETERS = {
-		parameterWithName("handle").description("사용하고자 하는 핸들"),
-	};
+	private static final Snippet QUERY_PARAMETERS = queryParameters(
+		parameterWithName("handle").description("중복을 확인할 핸들 (예: @newhandle)")
+	);
 
 	public static RestDocumentationFilter create() {
 		return document(
 			IDENTIFIER,
-			ResourceSnippetParameters.builder()
-				.summary(SUMMARY)
-				.description(DESCRIPTION)
-				.tag(TAG)
-				.queryParameters(REQUEST_PARAMETERS),
-			queryParameters(REQUEST_PARAMETERS)
+			preprocessRequest(prettyPrint()),
+			preprocessResponse(prettyPrint()),
+			QUERY_PARAMETERS
 		);
 	}
 
 	public static RestDocumentationFilter createError() {
 		return document(
-			IDENTIFIER + "/error",
-			ResourceSnippetParameters.builder()
-				.summary(SUMMARY)
-				.description(DESCRIPTION)
-				.tag(TAG)
-				.queryParameters(REQUEST_PARAMETERS)
-				.responseSchema(Schema.schema("ErrorResponse")),
-			queryParameters(REQUEST_PARAMETERS),
+			IDENTIFIER + "-error",
+			preprocessRequest(prettyPrint()),
+			preprocessResponse(prettyPrint()),
+			QUERY_PARAMETERS,
 			ErrorResponseFields.RESPONSE_FIELDS
 		);
 	}

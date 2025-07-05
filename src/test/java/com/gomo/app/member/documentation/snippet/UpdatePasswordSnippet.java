@@ -1,49 +1,47 @@
 package com.gomo.app.member.documentation.snippet;
 
-import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.*;
+import static com.gomo.app.common.constant.ErrorResponseFields.*;
+import static org.springframework.http.HttpHeaders.*;
+import static org.springframework.restdocs.headers.HeaderDocumentation.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.*;
 
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import org.springframework.restdocs.snippet.Snippet;
 
-import com.epages.restdocs.apispec.ResourceSnippetParameters;
-import com.epages.restdocs.apispec.Schema;
-import com.gomo.app.common.constant.ErrorResponseFields;
-
 public class UpdatePasswordSnippet {
-	private static final String IDENTIFIER = "update_password";
-	private static final String SUMMARY = "비밀번호 수정 API";
-	private static final String DESCRIPTION = "비밀번호를 수정합니다.";
-	private static final String TAG = "Member";
+	private static final String IDENTIFIER = "member-password-update";
+
+	private static final Snippet REQUEST_HEADERS = requestHeaders(
+		headerWithName(CONTENT_TYPE).description("Content-Type: `application/json`"),
+		headerWithName(AUTHORIZATION).description("JWT Access Token (Bearer)")
+	);
 
 	private static final Snippet REQUEST_FIELDS = requestFields(
-		fieldWithPath("originPassword").type(JsonFieldType.STRING).description("원래 비밀번호"),
-		fieldWithPath("updatedPassword").type(JsonFieldType.STRING).description("수정할 비밀번호")
+		fieldWithPath("originPassword").type(JsonFieldType.STRING).description("현재 비밀번호"),
+		fieldWithPath("updatedPassword").type(JsonFieldType.STRING).description("새로운 비밀번호")
 	);
 
 	public static RestDocumentationFilter create() {
 		return document(
 			IDENTIFIER,
-			ResourceSnippetParameters.builder()
-				.summary(SUMMARY)
-				.description(DESCRIPTION)
-				.tag(TAG)
-				.requestSchema(Schema.schema("UpdatePasswordRequest")),
+			preprocessRequest(prettyPrint()),
+			preprocessResponse(prettyPrint()),
+			REQUEST_HEADERS,
 			REQUEST_FIELDS
 		);
 	}
 
 	public static RestDocumentationFilter createError() {
 		return document(
-			IDENTIFIER + "/error",
-			ResourceSnippetParameters.builder()
-				.summary(SUMMARY)
-				.description(DESCRIPTION)
-				.tag(TAG)
-				.requestSchema(Schema.schema("UpdatePasswordRequest")),
+			IDENTIFIER + "-error",
+			preprocessRequest(prettyPrint()),
+			preprocessResponse(prettyPrint()),
+			REQUEST_HEADERS,
 			REQUEST_FIELDS,
-			ErrorResponseFields.RESPONSE_FIELDS
+			RESPONSE_FIELDS
 		);
 	}
 }

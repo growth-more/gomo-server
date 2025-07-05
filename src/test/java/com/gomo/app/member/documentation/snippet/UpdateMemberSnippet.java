@@ -1,49 +1,47 @@
 package com.gomo.app.member.documentation.snippet;
 
-import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.*;
+import static org.springframework.http.HttpHeaders.*;
+import static org.springframework.restdocs.headers.HeaderDocumentation.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.*;
 
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import org.springframework.restdocs.snippet.Snippet;
 
-import com.epages.restdocs.apispec.ResourceSnippetParameters;
-import com.epages.restdocs.apispec.Schema;
 import com.gomo.app.common.constant.ErrorResponseFields;
 
 public class UpdateMemberSnippet {
 
-	private static final String IDENTIFIER = "update_member_info";
-	private static final String SUMMARY = "사용자 개인정보 수정 API";
-	private static final String DESCRIPTION = "사용자의 개인정보를 변경합니다.";
-	private static final String TAG = "Member";
+	private static final String IDENTIFIER = "member-info-update";
+
+	private static final Snippet REQUEST_HEADERS = requestHeaders(
+		headerWithName(CONTENT_TYPE).description("Content-Type: `application/json`"),
+		headerWithName(AUTHORIZATION).description("JWT Access Token (Bearer)")
+	);
 
 	private static final Snippet REQUEST_FIELDS = requestFields(
-		fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
-		fieldWithPath("motto").type(JsonFieldType.STRING).description("한 줄 다짐")
+		fieldWithPath("name").type(JsonFieldType.STRING).description("새로운 사용자 이름"),
+		fieldWithPath("motto").type(JsonFieldType.STRING).description("새로운 좌우명 또는 한 줄 소개")
 	);
 
 	public static RestDocumentationFilter create() {
 		return document(
 			IDENTIFIER,
-			ResourceSnippetParameters.builder()
-				.summary(SUMMARY)
-				.description(DESCRIPTION)
-				.tag(TAG)
-				.requestSchema(Schema.schema("UpdateMemberRequest")),
+			preprocessRequest(prettyPrint()),
+			preprocessResponse(prettyPrint()),
+			REQUEST_HEADERS,
 			REQUEST_FIELDS
 		);
 	}
 
 	public static RestDocumentationFilter createError() {
 		return document(
-			IDENTIFIER + "/error",
-			ResourceSnippetParameters.builder()
-				.summary(SUMMARY)
-				.description(DESCRIPTION)
-				.tag(TAG)
-				.requestSchema(Schema.schema("UpdateMemberRequest"))
-				.responseSchema(Schema.schema("ErrorResponse")),
+			IDENTIFIER + "-error",
+			preprocessRequest(prettyPrint()),
+			preprocessResponse(prettyPrint()),
+			REQUEST_HEADERS,
 			REQUEST_FIELDS,
 			ErrorResponseFields.RESPONSE_FIELDS
 		);

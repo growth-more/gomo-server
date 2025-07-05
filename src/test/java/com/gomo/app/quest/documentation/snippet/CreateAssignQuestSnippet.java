@@ -1,43 +1,43 @@
 package com.gomo.app.quest.documentation.snippet;
 
-import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.*;
+import static org.springframework.http.HttpHeaders.*;
+import static org.springframework.restdocs.headers.HeaderDocumentation.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.*;
 
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import org.springframework.restdocs.snippet.Snippet;
 
-import com.epages.restdocs.apispec.ResourceSnippetParameters;
-import com.epages.restdocs.apispec.Schema;
 import com.gomo.app.common.constant.ErrorResponseFields;
 
 public class CreateAssignQuestSnippet {
 
-	private static final String IDENTIFIER = "create_assign_quest";
-	private static final String SUMMARY = "할당 퀘스트 생성 API";
-	private static final String DESCRIPTION = "사용자가 할당 퀘스트를 생성합니다.";
-	private static final String TAG = "Quest";
+	private static final String IDENTIFIER = "quest-assign-create";
+
+	private static final Snippet REQUEST_HEADERS = requestHeaders(
+		headerWithName(CONTENT_TYPE).description("Content-Type: `application/json`"),
+		headerWithName(AUTHORIZATION).description("JWT Access Token (Bearer)")
+	);
 
 	private static final Snippet REQUEST_FIELDS = requestFields(
 		fieldWithPath("subjectId").type(JsonFieldType.STRING).description("퀘스트 주제(관심사) 아이디"),
 		fieldWithPath("subjectName").type(JsonFieldType.STRING).description("퀘스트 주제(관심사) 이름"),
-		fieldWithPath("questType").type(JsonFieldType.STRING).description("퀘스트 타입: DAILY / WEEKLY / MONTHLY"),
+		fieldWithPath("questType").type(JsonFieldType.STRING).description("퀘스트 타입: `DAILY`, `WEEKLY`, `MONTHLY`"),
 		fieldWithPath("content").type(JsonFieldType.STRING).description("퀘스트 내용")
 	);
 
 	private static final Snippet RESPONSE_FIELDS = responseFields(
-		fieldWithPath("id").type(JsonFieldType.STRING).description("할당 퀘스트 아이디")
+		fieldWithPath("id").type(JsonFieldType.STRING).description("생성된 할당 퀘스트의 고유 ID (UUID)")
 	);
 
 	public static RestDocumentationFilter create() {
 		return document(
 			IDENTIFIER,
-			ResourceSnippetParameters.builder()
-				.summary(SUMMARY)
-				.description(DESCRIPTION)
-				.tag(TAG)
-				.requestSchema(Schema.schema("CreateAssignQuestRequest"))
-				.responseSchema(Schema.schema("CreateAssignQuestResponse")),
+			preprocessRequest(prettyPrint()),
+			preprocessResponse(prettyPrint()),
+			REQUEST_HEADERS,
 			REQUEST_FIELDS,
 			RESPONSE_FIELDS
 		);
@@ -45,13 +45,10 @@ public class CreateAssignQuestSnippet {
 
 	public static RestDocumentationFilter createError() {
 		return document(
-			IDENTIFIER + "/error",
-			ResourceSnippetParameters.builder()
-				.summary(SUMMARY)
-				.description(DESCRIPTION)
-				.tag(TAG)
-				.requestSchema(Schema.schema("CreateAssignQuestRequest"))
-				.responseSchema(Schema.schema("ErrorResponse")),
+			IDENTIFIER + "-error",
+			preprocessRequest(prettyPrint()),
+			preprocessResponse(prettyPrint()),
+			REQUEST_HEADERS,
 			REQUEST_FIELDS,
 			ErrorResponseFields.RESPONSE_FIELDS
 		);

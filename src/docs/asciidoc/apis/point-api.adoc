@@ -1,0 +1,41 @@
+=== 포인트 내역 조회
+
+`GET /points`
+
+현재 로그인된 사용자의 포인트 획득/사용 내역을 페이지네이션하여 조회합니다.
+
+==== 요청 헤더
+
+operation::point-list[snippets='request-headers']
+
+==== 쿼리 파라미터
+
+operation::point-list[snippets='query-parameters']
+
+==== 성공 응답
+
+operation::point-list[snippets='http-response,response-fields']
+
+==== 에러 응답
+
+operation::point-list-error[snippets='http-response,response-fields']
+
+'''
+
+=== 포인트 잔고 조회
+
+`GET /points/balances`
+
+현재 로그인된 사용자의 총 포인트 잔고를 조회합니다.
+
+==== 요청 헤더
+
+operation::point-balance-read[snippets='request-headers']
+
+==== 성공 응답
+
+operation::point-balance-read[snippets='http-response,response-fields']
+
+==== 에러 응답
+
+operation::point-balance-read-error[snippets='http-response,response-fields']

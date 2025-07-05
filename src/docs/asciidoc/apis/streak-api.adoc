@@ -1,0 +1,41 @@
+=== 스트릭 목록 조회
+
+`GET /streaks`
+
+주어진 기간 내에 사용자가 달성한 스트릭(퀘스트 완료 기록) 목록을 조회합니다.
+
+==== 요청 헤더
+
+operation::streak-list-find[snippets='request-headers']
+
+==== 쿼리 파라미터
+
+operation::streak-list-find[snippets='query-parameters']
+
+==== 성공 응답
+
+operation::streak-list-find[snippets='http-response,response-fields']
+
+==== 에러 응답
+
+operation::streak-list-find-error[snippets='http-response,response-fields']
+
+'''
+
+=== 성취자 정보 조회
+
+`GET /achievers`
+
+현재 로그인된 사용자의 스트릭 달성 정보(성취자 정보)를 조회합니다.
+
+==== 요청 헤더
+
+operation::achiever-read[snippets='request-headers']
+
+==== 성공 응답
+
+operation::achiever-read[snippets='http-response,response-fields']
+
+==== 에러 응답
+
+operation::achiever-read-error[snippets='http-response,response-fields']

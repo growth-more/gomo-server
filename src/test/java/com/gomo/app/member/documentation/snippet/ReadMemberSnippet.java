@@ -1,20 +1,15 @@
 package com.gomo.app.member.documentation.snippet;
 
-import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.*;
 
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import org.springframework.restdocs.snippet.Snippet;
 
-import com.epages.restdocs.apispec.ResourceSnippetParameters;
-import com.epages.restdocs.apispec.Schema;
-
 public class ReadMemberSnippet {
-	private static final String IDENTIFIER = "read_member";
-	private static final String SUMMARY = "사용자 조회 API";
-	private static final String DESCRIPTION = "사용자 정보를 조회합니다.";
-	private static final String TAG = "Member";
+	private static final String IDENTIFIER = "member-read";
 
 	private static final Snippet RESPONSE_FIELDS = responseFields(
 		fieldWithPath("id").type(JsonFieldType.STRING).description("사용자 식별자(UUID)"),
@@ -35,11 +30,8 @@ public class ReadMemberSnippet {
 	public static RestDocumentationFilter create() {
 		return document(
 			IDENTIFIER,
-			ResourceSnippetParameters.builder()
-				.summary(SUMMARY)
-				.description(DESCRIPTION)
-				.tag(TAG)
-				.responseSchema(Schema.schema("ReadMemberResponse")),
+			preprocessRequest(prettyPrint()),
+			preprocessResponse(prettyPrint()),
 			RESPONSE_FIELDS
 		);
 	}

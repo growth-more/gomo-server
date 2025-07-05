@@ -1,40 +1,46 @@
 package com.gomo.app.member.documentation.snippet;
 
-import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.*;
+import static org.springframework.http.HttpHeaders.*;
+import static org.springframework.restdocs.headers.HeaderDocumentation.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.*;
 
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
+import org.springframework.restdocs.snippet.Snippet;
 
-import com.epages.restdocs.apispec.ResourceSnippetParameters;
-import com.epages.restdocs.apispec.Schema;
 import com.gomo.app.common.constant.ErrorResponseFields;
 
 public class UpdateProfileBannerSnippet {
 
-	private static final String IDENTIFIER = "update_profile_banner";
-	private static final String SUMMARY = "프로필 배너 수정 API";
-	private static final String DESCRIPTION = "사용자의 프로필 배너를 수정합니다.";
-	private static final String TAG = "Member";
+	private static final String IDENTIFIER = "member-profile-banner-update";
+
+	private static final Snippet REQUEST_HEADERS = requestHeaders(
+		headerWithName(CONTENT_TYPE).description("Content-Type: `multipart/form-data`"),
+		headerWithName(AUTHORIZATION).description("JWT Access Token (Bearer)")
+	);
+
+	private static final Snippet REQUEST_PARTS = requestParts(
+		partWithName("profileBanner").description("새로운 프로필 배너 이미지 파일")
+	);
 
 	public static RestDocumentationFilter create() {
 		return document(
 			IDENTIFIER,
-			ResourceSnippetParameters.builder()
-				.summary(SUMMARY)
-				.description(DESCRIPTION)
-				.tag(TAG)
-				.requestSchema(Schema.schema("UpdateProfileBannerRequest"))
+			preprocessRequest(prettyPrint()),
+			preprocessResponse(prettyPrint()),
+			REQUEST_HEADERS,
+			REQUEST_PARTS
 		);
 	}
 
 	public static RestDocumentationFilter createError() {
 		return document(
-			IDENTIFIER + "/error",
-			ResourceSnippetParameters.builder()
-				.summary(SUMMARY)
-				.description(DESCRIPTION)
-				.tag(TAG)
-				.requestSchema(Schema.schema("UpdateProfileBannerRequest"))
-				.responseSchema(Schema.schema("ErrorResponse")),
+			IDENTIFIER + "-error",
+			preprocessRequest(prettyPrint()),
+			preprocessResponse(prettyPrint()),
+			REQUEST_HEADERS,
+			REQUEST_PARTS,
 			ErrorResponseFields.RESPONSE_FIELDS
 		);
 	}

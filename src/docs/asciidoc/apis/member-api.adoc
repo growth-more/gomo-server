@@ -1,0 +1,308 @@
+'''
+
+=== 핸들 중복 확인
+
+`GET /members/handles/duplicate`
+
+회원 가입 시 사용하려는 핸들(사용자명)이 이미 사용 중인지 확인합니다.
+
+==== 쿼리 파라미터
+
+operation::member-handle-check-duplicate[snippets='query-parameters']
+
+==== 성공 응답
+
+사용 가능한 핸들일 경우, `200 OK` 상태 코드와 함께 빈 응답 본문을 반환합니다.
+
+==== 에러 응답 (중복된 핸들)
+
+operation::member-handle-check-duplicate-error[snippets='http-response,response-fields']
+
+'''
+
+=== 회원 가입
+
+`POST /members`
+
+새로운 회원을 생성합니다.
+
+==== 요청 헤더
+
+operation::member-create[snippets='request-headers']
+
+==== 요청 본문 (JSON)
+
+operation::member-create[snippets='request-fields']
+
+==== 성공 응답
+
+operation::member-create[snippets='http-response,response-fields']
+
+==== 에러 응답
+
+operation::member-create-error[snippets='http-response,response-fields']
+
+'''
+
+=== 회원 탈퇴
+
+`DELETE /members`
+
+현재 로그인된 사용자가 서비스에서 탈퇴합니다.
+모든 사용자 정보가 삭제됩니다.
+
+==== 요청 헤더
+
+operation::member-delete[snippets='request-headers']
+
+==== 성공 응답
+
+성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
+
+==== 에러 응답
+
+operation::member-delete-error[snippets='http-response,response-fields']
+
+'''
+
+=== 프로필 배너 이미지 삭제
+
+`DELETE /members/images/banners`
+
+현재 로그인된 사용자의 프로필 배너 이미지를 삭제하고 기본 이미지로 되돌립니다.
+
+==== 요청 헤더
+
+operation::member-profile-banner-delete[snippets='request-headers']
+
+==== 성공 응답
+
+성공 시 `200 OK` 상태 코드와 함께 빈 응답 본문을 반환합니다.
+
+==== 에러 응답
+
+operation::member-profile-banner-delete-error[snippets='http-response,response-fields']
+
+'''
+
+=== 프로필 이미지 삭제
+
+`DELETE /members/images/profiles`
+
+현재 로그인된 사용자의 프로필 이미지를 삭제하고 기본 이미지로 되돌립니다.
+
+==== 요청 헤더
+
+operation::member-profile-image-delete[snippets='request-headers']
+
+==== 성공 응답
+
+성공 시 `200 OK` 상태 코드와 함께 빈 응답 본문을 반환합니다.
+
+==== 에러 응답
+
+operation::member-profile-image-delete-error[snippets='http-response,response-fields']
+
+'''
+
+=== 사용자 정보 조회
+
+`GET /members`
+
+현재 로그인된 사용자 정보를 조회합니다.
+
+==== 요청 헤더
+
+operation::member-read[snippets='request-headers']
+
+==== 성공 응답
+
+operation::member-read[snippets='http-response,response-fields']
+
+'''
+
+=== 퀘스트 설정값 조회
+
+`GET /members/properties/quests`
+
+현재 로그인된 사용자의 퀘스트 관련 설정값(일/주/월별 퀘스트 생성 제한 수 등)을 조회합니다.
+
+==== 요청 헤더
+
+operation::member-quest-property-read[snippets='request-headers']
+
+==== 성공 응답
+
+operation::member-quest-property-read[snippets='http-response,response-fields']
+
+==== 에러 응답
+
+operation::member-quest-property-read-error[snippets='http-response,response-fields']
+
+'''
+
+=== 비밀번호 초기화 (찾기)
+
+`PUT /members/passwords/reset`
+
+이메일 인증 등을 통해 본인인증이 완료된 사용자가 비밀번호를 새로 설정합니다.
+
+==== 요청 헤더
+
+operation::member-password-reset[snippets='request-headers']
+
+==== 요청 본문 (JSON)
+
+operation::member-password-reset[snippets='request-fields']
+
+==== 성공 응답
+
+성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
+
+==== 에러 응답
+
+operation::member-password-reset-error[snippets='http-response,response-fields']
+
+'''
+
+=== 핸들 수정
+
+`PUT /members/handles`
+
+현재 로그인된 사용자의 핸들(고유 사용자명)을 수정합니다.
+
+==== 요청 헤더
+
+operation::member-handle-update[snippets='request-headers']
+
+==== 요청 본문 (JSON)
+
+operation::member-handle-update[snippets='request-fields']
+
+==== 성공 응답
+
+성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
+
+==== 에러 응답 (중복된 핸들)
+
+operation::member-handle-update-error[snippets='http-response,response-fields']
+
+'''
+
+=== 회원 기본 정보 수정
+
+`PUT /members`
+
+현재 로그인된 사용자의 이름과 좌우명을 수정합니다.
+
+==== 요청 헤더
+
+operation::member-info-update[snippets='request-headers']
+
+==== 요청 본문 (JSON)
+
+operation::member-info-update[snippets='request-fields']
+
+==== 성공 응답
+
+성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
+
+==== 에러 응답
+
+operation::member-info-update-error[snippets='http-response,response-fields']
+
+'''
+
+=== 비밀번호 변경
+
+`PUT /members/passwords`
+
+현재 로그인된 사용자의 비밀번호를 변경합니다.
+
+==== 요청 헤더
+
+operation::member-password-update[snippets='request-headers']
+
+==== 요청 본문 (JSON)
+
+operation::member-password-update[snippets='request-fields']
+
+==== 성공 응답
+
+성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
+
+==== 에러 응답
+
+operation::member-password-update-error[snippets='http-response,response-fields']
+
+'''
+
+=== 프로필 배너 이미지 수정
+
+`PUT /members/images/banners`
+
+현재 로그인된 사용자의 프로필 배너 이미지를 수정합니다.
+
+==== 요청 헤더
+
+operation::member-profile-banner-update[snippets='request-headers']
+
+==== 요청 파트 (multipart/form-data)
+
+operation::member-profile-banner-update[snippets='request-parts']
+
+==== 성공 응답
+
+성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
+
+==== 에러 응답
+
+operation::member-profile-banner-update-error[snippets='http-response,response-fields']
+
+'''
+
+=== 프로필 이미지 수정
+
+`PUT /members/images/profiles`
+
+현재 로그인된 사용자의 프로필 이미지를 수정합니다.
+
+==== 요청 헤더
+
+operation::member-profile-image-update[snippets='request-headers']
+
+==== 요청 파트 (multipart/form-data)
+
+operation::member-profile-image-update[snippets='request-parts']
+
+==== 성공 응답
+
+성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
+
+==== 에러 응답
+
+operation::member-profile-image-update-error[snippets='http-response,response-fields']
+
+'''
+
+=== 퀘스트 설정값 수정
+
+`PUT /members/properties/quests`
+
+현재 로그인된 사용자의 퀘스트 관련 설정값(일/주/월별 퀘스트 생성 제한 수 등)을 수정합니다.
+
+==== 요청 헤더
+
+operation::member-quest-property-update[snippets='request-headers']
+
+==== 요청 본문 (JSON)
+
+operation::member-quest-property-update[snippets='request-fields']
+
+==== 성공 응답
+
+성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
+
+==== 에러 응답
+
+operation::member-quest-property-update-error[snippets='http-response,response-fields']
