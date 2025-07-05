@@ -24,6 +24,8 @@ import com.gomo.app.quest.exception.code.AssignQuestErrorCode;
 import com.gomo.app.quest.fixture.AssignQuestFixture;
 import com.gomo.app.quest.fixture.QuestFixture;
 
+import jakarta.transaction.Transactional;
+
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Domain unit]: 할당 퀘스트 생성 테스트")
 public class AssignQuestServiceTest {
@@ -77,5 +79,17 @@ public class AssignQuestServiceTest {
 		assertThatThrownBy(() -> sut.find(AssignQuestId.of(UUID.randomUUID())))
 			.isInstanceOf(AssignQuestNotFoundException.class)
 			.hasMessageContaining(AssignQuestErrorCode.NOT_FOUND.getMessage());
+	}
+
+	@DisplayName("특정 사용자의 할당 퀘스트를 모두 삭제한다.")
+	@Transactional
+	@Test
+	void delete_all_assign_quests() {
+		ParticipantId participantId = ParticipantId.of(UUID.randomUUID());
+		doNothing().when(assignQuestRepository).deleteAllByParticipantId(any());
+
+		sut.deleteAllByParticipantId(participantId);
+
+		verify(assignQuestRepository).deleteAllByParticipantId(participantId);
 	}
 }
