@@ -25,6 +25,12 @@ public class PointWalletService {
 		pointWallet.adjustBalance(transactionType.getOperationType() * deltaAmount);
 	}
 
+	@Transactional
+	public void deletePointWalletByTransactorId(TransactorId transactorId) {
+		PointWallet pointWallet = findPointWalletByTransactorId(transactorId);
+		pointWalletRepository.delete(pointWallet);
+	}
+
 	public Balance findBalance(TransactorId transactorId) {
 		PointWallet pointWallet = findPointWalletByTransactorId(transactorId);
 		return pointWallet.getBalance();

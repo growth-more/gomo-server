@@ -9,6 +9,7 @@ import com.gomo.app.streak.domain.repository.AchieverRepository;
 import com.gomo.app.streak.exception.AchieverErrorCode;
 import com.gomo.app.streak.exception.AchieverNotFoundException;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -22,6 +23,12 @@ public class AchieverService {
 	}
 
 	public Achiever find(AchieverId achieverId) {
-		return achieverRepository.findById(achieverId).orElseThrow(() -> new AchieverNotFoundException(AchieverErrorCode.NOT_FOUND));
+		return achieverRepository.findById(achieverId)
+			.orElseThrow(() -> new AchieverNotFoundException(AchieverErrorCode.NOT_FOUND));
+	}
+
+	@Transactional
+	public void deleteAchiever(AchieverId achieverId) {
+		achieverRepository.deleteByAchieverId(achieverId);
 	}
 }

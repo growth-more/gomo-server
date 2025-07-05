@@ -37,7 +37,8 @@ public class InterestRelationService {
 	private final InterestRelationRepository interestRelationRepository;
 
 	@Transactional
-	public InterestRelation create(RegistrantId registrantId, ParentInterestId parentInterestId, ChildInterestId childInterestId) {
+	public InterestRelation create(RegistrantId registrantId, ParentInterestId parentInterestId,
+		ChildInterestId childInterestId) {
 		ensureNotDuplicated(parentInterestId, childInterestId);
 
 		InterestRelation interestRelation = InterestRelation.of(
@@ -54,7 +55,7 @@ public class InterestRelationService {
 
 	public InterestRelation find(InterestRelationId interestRelationId) {
 		return interestRelationRepository.findById(interestRelationId)
-				.orElseThrow(()  -> new InterestRelationNotFoundException(InterestRelationErrorCode.NOT_FOUND));
+			.orElseThrow(() -> new InterestRelationNotFoundException(InterestRelationErrorCode.NOT_FOUND));
 	}
 
 	public List<InterestRelation> findAllByInterestId(UUID interestId) {
@@ -63,12 +64,18 @@ public class InterestRelationService {
 
 	@Transactional
 	public void delete(InterestRelation interestRelation) {
-		reduceProficiencyOfParentInterests(interestRelation.getParentInterestId(), interestRelation.getChildInterestId());
+		reduceProficiencyOfParentInterests(interestRelation.getParentInterestId(),
+			interestRelation.getChildInterestId());
 		interestRelationRepository.delete(interestRelation);
 	}
 
+	@Transactional
+	public void deleteAllByRegistrantId(RegistrantId registrantId) {
+		interestRelationRepository.deleteAllByRegistrantId(registrantId);
+	}
+
 	private void ensureNotDuplicated(ParentInterestId parentInterestId, ChildInterestId childInterestId) {
-		if(interestRelationRepository.existsRelationFor(parentInterestId.getId(), childInterestId.getId())) {
+		if (interestRelationRepository.existsRelationFor(parentInterestId.getId(), childInterestId.getId())) {
 			throw new InterestRelationDuplicatedException(InterestRelationErrorCode.DUPLICATED);
 		}
 	}
@@ -80,7 +87,8 @@ public class InterestRelationService {
 	}
 
 	@NotNull
-	private Map<InterestId, Set<InterestId>> buildInterestGraph(RegistrantId registrantId, InterestRelation proposedRelation) {
+	private Map<InterestId, Set<InterestId>> buildInterestGraph(RegistrantId registrantId,
+		InterestRelation proposedRelation) {
 		List<InterestRelation> existingRelations = interestRelationRepository.findAllByRegistrantId(registrantId);
 		existingRelations.add(proposedRelation);
 
@@ -131,12 +139,14 @@ public class InterestRelationService {
 		return visitedNodes.contains(currentNode);
 	}
 
-	private void enhanceProficiencyOfParentInterests(ParentInterestId parentInterestId, ChildInterestId childInterestId) {
+	private void enhanceProficiencyOfParentInterests(ParentInterestId parentInterestId,
+		ChildInterestId childInterestId) {
 		Interest childInterest = interestService.find(childInterestId.toInterestId());
 		proficiencyService.adjust(parentInterestId.toInterestId(), childInterest.getProficiency().getTotalScore());
 	}
 
-	private void reduceProficiencyOfParentInterests(ParentInterestId parentInterestId, ChildInterestId childInterestId) {
+	private void reduceProficiencyOfParentInterests(ParentInterestId parentInterestId,
+		ChildInterestId childInterestId) {
 		Interest childInterest = interestService.find(childInterestId.toInterestId());
 		proficiencyService.adjust(parentInterestId.toInterestId(), -1 * childInterest.getProficiency().getTotalScore());
 	}

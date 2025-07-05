@@ -26,7 +26,8 @@ public class StreakService {
 	@Transactional
 	public Streak fill(Streak streak) {
 		adjustStreakDays(streak);
-		return streakRepository.findByAchieverIdAndStreakTypeAndFilledDate(streak.getAchieverId(), streak.getStreakType(), streak.getFilledDate())
+		return streakRepository.findByAchieverIdAndStreakTypeAndFilledDate(streak.getAchieverId(),
+				streak.getStreakType(), streak.getFilledDate())
 			.map(existingStreak -> {
 				existingStreak.increaseCompletedQuestCount();
 				return existingStreak;
@@ -34,13 +35,21 @@ public class StreakService {
 			.orElseGet(() -> createInitialStreak(streak));
 	}
 
-	public List<Streak> findAllByStreakType(AchieverId achieverId, StreakType streakType, LocalDate startDate, LocalDate endDate) {
-		return streakRepository.findByAchieverIdAndStreakTypeAndFilledDateBetween(achieverId, streakType, startDate, endDate);
+	public List<Streak> findAllByStreakType(AchieverId achieverId, StreakType streakType, LocalDate startDate,
+		LocalDate endDate) {
+		return streakRepository.findByAchieverIdAndStreakTypeAndFilledDateBetween(achieverId, streakType, startDate,
+			endDate);
+	}
+
+	@Transactional
+	public void deleteAllByAchieverId(AchieverId achieverId) {
+		streakRepository.deleteAllByAchieverId(achieverId);
 	}
 
 	private void adjustStreakDays(Streak streak) {
 		Achiever achiever = achieverService.find(streak.getAchieverId());
-		List<Streak> priorDayStreaks = streakRepository.findByAchieverIdAndFilledDate(streak.getAchieverId(), streak.getFilledDate().minusDays(1));
+		List<Streak> priorDayStreaks = streakRepository.findByAchieverIdAndFilledDate(streak.getAchieverId(),
+			streak.getFilledDate().minusDays(1));
 		boolean isFilledPriorDay = !priorDayStreaks.isEmpty();
 		achiever.adjustStreakDays(isFilledPriorDay);
 	}

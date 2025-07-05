@@ -18,6 +18,7 @@ import com.gomo.app.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.quest.exception.AssignQuestNotFoundException;
 import com.gomo.app.quest.exception.code.AssignQuestErrorCode;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -34,6 +35,11 @@ public class AssignQuestService {
 	public AssignQuest find(AssignQuestId assignQuestId) {
 		return assignQuestRepository.findById(assignQuestId)
 			.orElseThrow(() -> new AssignQuestNotFoundException(AssignQuestErrorCode.NOT_FOUND));
+	}
+
+	@Transactional
+	public void deleteAllByParticipantId(ParticipantId participantId) {
+		assignQuestRepository.deleteAllByParticipantId(participantId);
 	}
 
 	@NotNull
