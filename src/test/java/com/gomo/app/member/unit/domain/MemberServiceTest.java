@@ -3,6 +3,8 @@ package com.gomo.app.member.unit.domain;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -45,6 +47,16 @@ public class MemberServiceTest {
 		doReturn(Optional.of(mock(Member.class))).when(memberRepository).findById(any(MemberId.class));
 
 		Member actual = sut.find(MemberId.of(UUID.randomUUID()));
+
+		assertThat(actual).isNotNull();
+	}
+
+	@DisplayName("삭제 상태의 회원 목록을 조회한다.")
+	@Test
+	void find_member_for_delete() {
+		doReturn(mock(List.class)).when(memberRepository).findByDeletedAtBefore(any(LocalDateTime.class));
+
+		List<Member> actual = sut.findMembersForDelete();
 
 		assertThat(actual).isNotNull();
 	}
@@ -147,5 +159,15 @@ public class MemberServiceTest {
 		when(member.getActivateStatus()).thenReturn(ActivateStatus.ACTIVE);
 
 		assertThatNoException().isThrownBy(() -> sut.checkActivated(member));
+	}
+
+	@DisplayName("사용자를 영구 삭제한다.")
+	@Test
+	void delete_member_permanently() {
+
+		doNothing().when(memberRepository).deleteById(any());
+		sut.deleteMemberPermanently(MemberId.of(UUID.randomUUID()));
+
+		verify(memberRepository).deleteById(any());
 	}
 }
