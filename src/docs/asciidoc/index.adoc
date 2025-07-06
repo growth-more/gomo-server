@@ -1,0 +1,37 @@
+= gomo api docs
+:doctype: book
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:seclinks:
+
+[[member-api]]
+== 회원 (Member) API
+
+include::apis/auth-api.adoc[]
+include::apis/member-api.adoc[]
+
+[[interest-api]]
+== 관심사 (Interest) API
+
+include::apis/interest-api.adoc[]
+
+[[quest-api]]
+== 퀘스트 (Quest) API
+
+include::apis/quest-api.adoc[]
+
+[[streak-api]]
+== 스트릭 (Streak) API
+
+include::apis/streak-api.adoc[]
+
+[[point-api]]
+== 포인트 (Point) API
+
+include::apis/point-api.adoc[]
+
+[[survey-api]]
+== 설문 (Survey) API
+
+include::apis/survey-api.adoc[]

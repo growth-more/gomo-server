@@ -1,11 +1,9 @@
-import com.gomo.app.common.util.CommonUtils
-
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.4.1'
     id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.asciidoctor.jvm.convert' version '3.3.2'
     id 'jacoco'
-    id 'com.epages.restdocs-api-spec' version "${restdocsApiSpecVersion}"
 }
 
 group = 'com.gomo'
@@ -38,7 +36,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
     // bcrypt
-	implementation 'org.springframework.security:spring-security-crypto'
+    implementation 'org.springframework.security:spring-security-crypto'
 
     // jwt
     implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
@@ -67,6 +65,9 @@ dependencies {
     // mail
     implementation 'org.springframework.boot:spring-boot-starter-mail'
 
+    // spring rest docs
+    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+
     // test
     testRuntimeOnly "org.junit.platform:junit-platform-launcher"
     testImplementation "org.springframework.boot:spring-boot-starter-test"
@@ -76,17 +77,41 @@ dependencies {
     testImplementation "org.testcontainers:testcontainers"
     testImplementation "org.testcontainers:mysql"
     testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
-    testImplementation "com.epages:restdocs-api-spec-mockmvc:${restdocsApiSpecVersion}"
-    testImplementation "com.epages:restdocs-api-spec-restassured:${restdocsApiSpecVersion}"
+}
+
+ext {
+    snippetsDir = file('build/generated-snippets')
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+    jvmArgs "--add-opens=java.base/java.time=ALL-UNNAMED"
+    outputs.dir snippetsDir
+//    finalizedBy jacocoTestReport todo <jhl221123>>: 기능 구현 마무리 후 활성화한다.
 }
 
-test {
-    jvmArgs "--add-opens=java.base/java.time=ALL-UNNAMED"
-//    finalizedBy jacocoTestReport todo <jhl221123>>: 기능 구현 마무리 후 활성화한다.
+asciidoctor {
+    inputs.dir snippetsDir
+    configurations 'asciidoctorExt'
+    dependsOn test
+    baseDirFollowsSourceDir()
+}
+
+asciidoctor.doFirst {
+    delete file('src/main/resources/static/docs')
+}
+
+tasks.register('copyRestDocs', Copy) {
+    dependsOn asciidoctor
+    from file("build/docs/asciidoc")
+    into file("src/main/resources/static/docs")
+}
+
+bootJar {
+    dependsOn asciidoctor
+    from("${asciidoctor.outputDir}") {
+        into 'static/docs'
+    }
 }
 
 jacocoTestReport {
@@ -146,41 +171,4 @@ tasks.register('testCoverage') {
             mustRunAfter(tasks.named('jacocoTestReport'))
         }
     }
-}
-
-// generate open api specification
-openapi3 {
-    def env = System.getenv("ENV")
-    setServer(env != null && env == "prod" ? "https://api.gomo.com" : "http://localhost:8080")
-    title = "GOMO API"
-    description = "GOMO API 문서 입니다."
-    version = "1.0.0"
-    format = "json"
-}
-
-// add authentication specification to open api specification
-tasks.register("authOpenApiSpec", task -> {
-    task.dependsOn("openapi3")
-    task.doLast {
-        final String filePath = file("build/api-spec/openapi3.json").toString()
-        final File apiSpecFile = new File(filePath)
-        if (apiSpecFile.exists()) {
-            try {
-                final String apiSpec = apiSpecFile.text
-                final String updatedApiSpec = CommonUtils.addAuthOption(apiSpec)
-                apiSpecFile.write(updatedApiSpec)
-            } catch (Exception e) {
-                e.printStackTrace()
-            }
-        } else {
-            println("Can't find filePath: " + filePath)
-        }
-    }
-})
-
-// copy open api specification for swagger
-tasks.register('copyOasToSwagger', Copy) {
-    from 'build/api-spec/openapi3.json'
-    into 'src/main/resources/static/swagger-ui/'
-    dependsOn 'authOpenApiSpec'
 }

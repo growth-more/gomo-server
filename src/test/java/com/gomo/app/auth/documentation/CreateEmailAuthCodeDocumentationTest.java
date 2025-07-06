@@ -1,4 +1,4 @@
-package com.gomo.app.member.documentation;
+package com.gomo.app.auth.documentation;
 
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
@@ -10,8 +10,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
+import com.gomo.app.auth.documentation.snippet.CreateEmailAuthCodeSnippet;
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.member.documentation.snippet.CreateEmailAuthCodeSnippet;
 import com.gomo.app.member.exception.code.EmailErrorCode;
 import com.gomo.app.member.presentation.request.CreateEmailAuthCodeRequest;
 

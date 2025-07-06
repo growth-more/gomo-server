@@ -1,0 +1,111 @@
+=== 로그인
+
+`POST /members/login`
+
+이메일과 비밀번호로 로그인하여 인증 토큰을 발급받습니다.
+
+==== 요청 헤더
+
+operation::member-login[snippets='request-headers']
+
+==== 요청 본문 (JSON)
+
+operation::member-login[snippets='request-fields']
+
+==== 성공 응답
+
+operation::member-login[snippets='http-response,response-fields']
+
+==== 에러 응답
+
+operation::member-login-error[snippets='http-response,response-fields']
+
+'''
+
+=== 로그아웃
+
+`GET /members/logout`
+
+현재 로그인된 사용자의 세션을 종료하고 인증 토큰을 무효화합니다.
+
+==== 요청 헤더
+
+operation::member-logout[snippets='request-headers']
+
+==== 성공 응답
+
+성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
+
+==== 에러 응답
+
+operation::member-logout-error[snippets='http-response,response-fields']
+
+'''
+
+=== Refresh Token 재발급
+
+`POST /members/refresh`
+
+만료된 Access Token을 재발급받습니다. 요청 시 유효한 `refreshToken`을 쿠키에 담아 전송해야 합니다.
+
+==== 요청 헤더
+
+operation::member-token-refresh[snippets='request-headers']
+
+==== 요청 쿠키
+
+operation::member-token-refresh[snippets='request-cookies']
+
+==== 성공 응답
+
+operation::member-token-refresh[snippets='http-response,response-fields']
+
+==== 에러 응답
+
+operation::member-token-refresh-error[snippets='http-response,response-fields']
+
+'''
+
+=== 이메일 인증 코드 발송
+
+`POST /auth/codes/generate/emails`
+
+회원가입 또는 비밀번호 찾기 등에 사용할 이메일 인증 코드를 요청한 이메일 주소로 발송합니다.
+
+==== 요청 헤더
+
+operation::member-email-auth-code-create[snippets='request-headers']
+
+==== 요청 본문 (JSON)
+
+operation::member-email-auth-code-create[snippets='request-fields']
+
+==== 성공 응답
+
+성공 시 `201 Created` 상태 코드와 함께 빈 응답 본문을 반환합니다.
+
+==== 에러 응답 (이미 가입된 이메일)
+
+operation::member-email-auth-code-create-error[snippets='http-response,response-fields']
+
+// todo 패스워드 인증 코드 스펙 추가
+
+'''
+
+=== 이메일 인증 코드 검증
+
+`GET /auth/codes/verify`
+
+이메일로 발송된 인증 코드가 올바른지 검증합니다.
+
+==== 쿼리 파라미터
+
+operation::member-email-auth-code-verify[snippets='query-parameters']
+
+==== 성공 응답
+
+인증 성공 시, `200 OK` 상태 코드와 함께 빈 응답 본문을 반환합니다.
+
+==== 에러 응답 (잘못된 인증 코드)
+
+operation::member-email-auth-code-verify-error[snippets='http-response,response-fields']

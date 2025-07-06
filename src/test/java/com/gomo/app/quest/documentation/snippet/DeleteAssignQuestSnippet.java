@@ -1,38 +1,45 @@
 package com.gomo.app.quest.documentation.snippet;
 
-import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.*;
+import static org.springframework.http.HttpHeaders.*;
+import static org.springframework.restdocs.headers.HeaderDocumentation.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.*;
 
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
+import org.springframework.restdocs.snippet.Snippet;
 
-import com.epages.restdocs.apispec.ResourceSnippetParameters;
-import com.epages.restdocs.apispec.Schema;
 import com.gomo.app.common.constant.ErrorResponseFields;
 
 public class DeleteAssignQuestSnippet {
 
-	private static final String IDENTIFIER = "delete_assign_quest";
-	private static final String SUMMARY = "할당 퀘스트 삭제 API";
-	private static final String DESCRIPTION = "사용자가 할당 퀘스트를 삭제합니다.";
-	private static final String TAG = "Quest";
+	private static final String IDENTIFIER = "quest-assign-delete";
+
+	private static final Snippet REQUEST_HEADERS = requestHeaders(
+		headerWithName(AUTHORIZATION).description("JWT Access Token (Bearer)")
+	);
+
+	private static final Snippet PATH_PARAMETERS = pathParameters(
+		parameterWithName("id").description("삭제할 할당 퀘스트의 ID (UUID)")
+	);
 
 	public static RestDocumentationFilter create() {
 		return document(
 			IDENTIFIER,
-			ResourceSnippetParameters.builder()
-				.summary(SUMMARY)
-				.description(DESCRIPTION)
-				.tag(TAG)
+			preprocessRequest(prettyPrint()),
+			preprocessResponse(prettyPrint()),
+			REQUEST_HEADERS,
+			PATH_PARAMETERS
 		);
 	}
 
 	public static RestDocumentationFilter createError() {
 		return document(
-			IDENTIFIER + "/error",
-			ResourceSnippetParameters.builder()
-				.summary(SUMMARY)
-				.description(DESCRIPTION)
-				.tag(TAG)
-				.responseSchema(Schema.schema("ErrorResponse")),
+			IDENTIFIER + "-error",
+			preprocessRequest(prettyPrint()),
+			preprocessResponse(prettyPrint()),
+			REQUEST_HEADERS,
+			PATH_PARAMETERS,
 			ErrorResponseFields.RESPONSE_FIELDS
 		);
 	}

@@ -1,49 +1,47 @@
 package com.gomo.app.streak.documentation.snippet;
 
-import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.*;
+import static org.springframework.http.HttpHeaders.*;
+import static org.springframework.restdocs.headers.HeaderDocumentation.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.*;
 
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import org.springframework.restdocs.snippet.Snippet;
 
-import com.epages.restdocs.apispec.ResourceSnippetParameters;
-import com.epages.restdocs.apispec.Schema;
 import com.gomo.app.common.constant.ErrorResponseFields;
 
 public class ReadAchieverSnippet {
 
-	private static final String IDENTIFIER = "read_achiever";
-	private static final String SUMMARY = "성취자 조회 API";
-	private static final String DESCRIPTION = "스트릭 대상 사용자 정보를 조회합니다.";
-	private static final String TAG = "Achiever";
+	private static final String IDENTIFIER = "achiever-read";
+
+	private static final Snippet REQUEST_HEADERS = requestHeaders(
+		headerWithName(AUTHORIZATION).description("JWT Access Token (Bearer)")
+	);
 
 	private static final Snippet RESPONSE_FIELDS = responseFields(
-		fieldWithPath("id").type(JsonFieldType.STRING).description("성취자 아이디"),
-		fieldWithPath("currentStreakDays").type(JsonFieldType.NUMBER).description("현재 스트릭 유지일 수"),
-		fieldWithPath("longestStreakDays").type(JsonFieldType.NUMBER).description("최장 스트릭 유지일 수")
+		fieldWithPath("id").type(JsonFieldType.STRING).description("성취자 정보의 고유 ID"),
+		fieldWithPath("currentStreakDays").type(JsonFieldType.NUMBER).description("현재 연속 스트릭 유지일 수"),
+		fieldWithPath("longestStreakDays").type(JsonFieldType.NUMBER).description("역대 최장 스트릭 유지일 수")
 	);
 
 	public static RestDocumentationFilter create() {
 		return document(
 			IDENTIFIER,
-			ResourceSnippetParameters.builder()
-				.summary(SUMMARY)
-				.description(DESCRIPTION)
-				.tag(TAG)
-				.responseSchema(Schema.schema("ReadAchieverResponse")),
+			preprocessRequest(prettyPrint()),
+			preprocessResponse(prettyPrint()),
+			REQUEST_HEADERS,
 			RESPONSE_FIELDS
 		);
 	}
 
 	public static RestDocumentationFilter createError() {
 		return document(
-			IDENTIFIER + "/error",
-			ResourceSnippetParameters.builder()
-				.summary(SUMMARY)
-				.description(DESCRIPTION)
-				.tag(TAG)
-				.responseSchema(Schema.schema("ErrorResponse")),
+			IDENTIFIER + "-error",
+			preprocessRequest(prettyPrint()),
+			preprocessResponse(prettyPrint()),
+			REQUEST_HEADERS,
 			ErrorResponseFields.RESPONSE_FIELDS
 		);
 	}

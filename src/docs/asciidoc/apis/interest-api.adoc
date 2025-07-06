@@ -1,0 +1,303 @@
+=== 관심사 생성
+
+`POST /interests`
+
+사용자의 새로운 관심사를 등록합니다.
+
+==== 요청 헤더
+
+operation::interest-create[snippets='request-headers']
+
+==== 요청 파트 (multipart/form-data)
+
+operation::interest-create[snippets='request-parts']
+
+==== 성공 응답
+
+operation::interest-create[snippets='http-response,response-fields']
+
+==== 에러 응답
+// operation::major-interest-create-error[snippets='http-response,response-fields']
+
+'''
+
+=== 주요 관심사 등록
+
+`POST /users/me/interests/major/{id}`
+
+특정 관심사를 사용자의 '주요 관심사'로 등록합니다.
+
+==== 요청 헤더
+
+operation::major-interest-create[snippets='request-headers']
+
+==== 경로 파라미터
+
+operation::major-interest-create[snippets='path-parameters']
+
+==== 성공 응답
+
+operation::major-interest-create[snippets='http-response,response-fields']
+
+==== 에러 응답
+// operation::major-interest-create-error[snippets='http-response,response-fields']
+
+'''
+
+=== 관심사 관계(계층) 생성
+
+`POST /interests/networks/relations`
+
+두 관심사 간의 부모-자식 관계를 설정하여 계층 구조를 만듭니다.
+
+==== 요청 헤더
+
+operation::interest-relation-create[snippets='request-headers']
+
+==== 요청 본문 (JSON)
+
+operation::interest-relation-create[snippets='request-fields']
+
+==== 성공 응답
+
+operation::interest-relation-create[snippets='http-response,response-fields']
+
+==== 에러 응답
+// 필요 시, 에러 케이스에 대한 테스트를 추가하고 해당 스니펫을 여기에 포함시킬 수 있습니다.
+// operation::interest-relation-create-error[snippets='http-response,response-fields']
+
+'''
+
+=== 관심사 단건 조회
+
+`GET /interests/{id}`
+
+ID에 해당하는 관심사의 상세 정보를 조회합니다.
+
+==== 요청 헤더
+
+operation::interest-find-by-id[snippets='request-headers']
+
+==== 경로 파라미터
+
+operation::interest-find-by-id[snippets='path-parameters']
+
+==== 성공 응답
+
+operation::interest-find-by-id[snippets='http-response,response-fields']
+
+==== 에러 응답
+
+operation::interest-find-by-id-error[snippets='http-response,response-fields']
+
+'''
+
+=== 관심사 목록 조회
+
+`GET /interests`
+
+사용자가 등록한 모든 관심사의 목록을 조회합니다.
+
+==== 요청 헤더
+
+operation::interest-list[snippets='request-headers']
+
+==== 성공 응답
+
+operation::interest-list[snippets='http-response,response-fields']
+
+==== 에러 응답
+
+operation::interest-list-error[snippets='http-response,response-fields']
+
+'''
+
+=== 주요 관심사 목록 조회
+
+`GET /interests/majors`
+
+사용자가 등록한 모든 주요 관심사의 목록을 조회합니다.
+
+==== 요청 헤더
+
+operation::list_major_interest[snippets='request-headers']
+
+==== 성공 응답
+
+operation::list_major_interest[snippets='http-response,response-fields']
+
+==== 에러 응답
+
+operation::list_major_interest-error[snippets='http-response,response-fields']
+
+'''
+
+=== 관심사 네트워크(그래프) 조회
+
+`GET /interests/networks`
+
+사용자의 모든 관심사와 그 관계를 네트워크(그래프) 형태로 조회합니다.
+
+==== 요청 헤더
+
+operation::interest-network-find[snippets='request-headers']
+
+==== 성공 응답
+
+operation::interest-network-find[snippets='http-response,response-fields']
+
+==== 에러 응답
+
+operation::interest-network-find-error[snippets='http-response,response-fields']
+
+'''
+
+=== 관심사 수정
+
+`PUT /interests/{id}` (예시 경로)
+
+ID에 해당하는 관심사를 수정합니다.
+
+==== 요청 헤더
+
+operation::interest-update[snippets='request-headers']
+
+==== 경로 파라미터
+
+operation::interest-update[snippets='path-parameters']
+
+==== 요청 파트 (multipart/form-data)
+
+operation::interest-update[snippets='request-body']
+
+==== 성공 응답
+
+성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
+
+==== 에러 응답
+
+operation::interest-update-error[snippets='http-response,response-fields']
+
+'''
+
+=== 관심사 로고 이미지 수정
+
+`PUT /interests/{id}/logo` (예시 경로)
+
+ID에 해당하는 관심사의 로고 이미지를 수정합니다.
+
+==== 요청 헤더
+
+operation::interest-logo-update[snippets='request-headers']
+
+==== 경로 파라미터
+
+operation::interest-logo-update[snippets='path-parameters']
+
+==== 요청 파트 (multipart/form-data)
+
+operation::interest-logo-update[snippets='request-parts']
+
+==== 성공 응답
+
+성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
+
+==== 에러 응답
+
+operation::interest-logo-update-error[snippets='http-response,response-fields']
+
+'''
+
+=== 주요 관심사 정렬 순서 변경
+
+`PUT /interests/majors/orders`
+
+주요 관심사 목록의 표시 순서를 일괄 변경합니다.
+
+==== 요청 헤더
+
+operation::major-interest-order-update[snippets='request-headers']
+
+==== 요청 본문 (JSON)
+
+operation::major-interest-order-update[snippets='request-fields']
+
+==== 성공 응답
+
+성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
+
+==== 에러 응답
+
+operation::major-interest-order-update-error[snippets='http-response,response-fields']
+
+'''
+
+=== 관심사 삭제
+
+`DELETE /interests/{id}`
+
+ID에 해당하는 관심사를 삭제합니다.
+
+==== 요청 헤더
+
+operation::interest-delete[snippets='request-headers']
+
+==== 경로 파라미터
+
+operation::interest-delete[snippets='path-parameters']
+
+==== 성공 응답
+
+성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
+
+==== 에러 응답
+
+operation::interest-delete-error[snippets='http-response,response-fields']
+
+'''
+
+=== 주요 관심사 삭제
+
+`DELETE /users/me/interests/major/{id}` (예시 경로)
+
+ID에 해당하는 주요 관심사 지정을 해제(삭제)합니다.
+
+==== 요청 헤더
+
+operation::major-interest-delete[snippets='request-headers']
+
+==== 경로 파라미터
+
+operation::major-interest-delete[snippets='path-parameters']
+
+==== 성공 응답
+
+성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
+
+==== 에러 응답
+
+operation::major-interest-delete-error[snippets='http-response,response-fields']
+
+'''
+
+=== 관심사 관계(계층) 삭제
+
+`DELETE /interests/networks/relations/{id}`
+
+ID에 해당하는 관심사 관계(연결선)를 삭제합니다.
+
+==== 요청 헤더
+
+operation::interest-relation-delete[snippets='request-headers']
+
+==== 경로 파라미터
+
+operation::interest-relation-delete[snippets='path-parameters']
+
+==== 성공 응답
+
+성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
+
+==== 에러 응답 (예시: 존재하지 않는 ID)
+
+operation::interest-relation-delete-error[snippets='http-response,response-fields']

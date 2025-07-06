@@ -1,63 +1,52 @@
 package com.gomo.app.interest.documentation.snippet;
 
-import com.epages.restdocs.apispec.ResourceSnippetParameters;
-import com.epages.restdocs.apispec.Schema;
-import com.gomo.app.common.constant.ErrorResponseFields;
-import org.springframework.restdocs.payload.FieldDescriptor;
-import org.springframework.restdocs.payload.JsonFieldType;
-import org.springframework.restdocs.request.ParameterDescriptor;
-import org.springframework.restdocs.restassured.RestDocumentationFilter;
-
-import java.util.Arrays;
-
-import static com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper.document;
+import static org.springframework.http.HttpHeaders.*;
+import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.payload.JsonFieldType.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.*;
+
+import org.springframework.restdocs.restassured.RestDocumentationFilter;
+import org.springframework.restdocs.snippet.Snippet;
+
+import com.gomo.app.common.constant.ErrorResponseFields;
 
 public class CreateMajorInterestSnippet {
 
-	private static final String IDENTIFIER = "create_major_interest";
-	private static final String SUMMARY = "주요 관심사 등록 API";
-	private static final String DESCRIPTION = "사용자의 주요 관심사를 등록합니다.";
-	private static final String TAG = "Interest";
+	private static final String IDENTIFIER = "major-interest-create";
 
-	private static final ParameterDescriptor[] PATH_PARAMETERS = {
-		parameterWithName("id").description("관심사 ID")
-	};
+	private static final Snippet REQUEST_HEADERS = requestHeaders(
+		headerWithName(AUTHORIZATION).description("JWT Access Token (Bearer)")
+	);
 
-	private static final FieldDescriptor[] RESPONSE_FIELDS2 = {
-		fieldWithPath("id").type(JsonFieldType.STRING).description("주요 관심사 아이디")
-	};
+	private static final Snippet PATH_PARAMETERS = pathParameters(
+		parameterWithName("id").description("주요 관심사로 등록할 관심사의 ID (UUID)")
+	);
+
+	private static final Snippet RESPONSE_FIELDS = responseFields(
+		fieldWithPath("id").type(STRING).description("생성된 주요 관심사 데이터의 고유 ID (UUID)")
+	);
 
 	public static RestDocumentationFilter create() {
 		return document(
 			IDENTIFIER,
-			ResourceSnippetParameters.builder()
-				.summary(SUMMARY)
-				.description(DESCRIPTION)
-				.tag(TAG)
-				.pathParameters(PATH_PARAMETERS)
-				.responseSchema(Schema.schema("CreateMajorInterestResponse")),
 			preprocessRequest(prettyPrint()),
 			preprocessResponse(prettyPrint()),
-			pathParameters(PATH_PARAMETERS),
-			responseFields(Arrays.stream(RESPONSE_FIELDS2).toList())
+			REQUEST_HEADERS,
+			PATH_PARAMETERS,
+			RESPONSE_FIELDS
 		);
 	}
 
 	public static RestDocumentationFilter createError() {
 		return document(
-			IDENTIFIER + "/error",
-			ResourceSnippetParameters.builder()
-				.summary(SUMMARY)
-				.description(DESCRIPTION)
-				.tag(TAG)
-				.pathParameters(PATH_PARAMETERS)
-				.responseSchema(Schema.schema("ErrorResponse")),
-			pathParameters(PATH_PARAMETERS),
+			IDENTIFIER + "-error",
+			preprocessRequest(prettyPrint()),
+			preprocessResponse(prettyPrint()),
+			REQUEST_HEADERS,
+			PATH_PARAMETERS,
 			ErrorResponseFields.RESPONSE_FIELDS
 		);
 	}
