@@ -19,7 +19,6 @@ public class DeleteMemberUseCase {
 	private final MemberService memberService;
 
 	public void delete(UUID memberId) {
-		// TODO <jhl221123> to <nurdy>: 회원을 삭제할 때, 추가적인 검증이나 부가 작업에 대해 고민해보면 좋을 것 같습니다.
 		Member member = memberService.find(MemberId.of(memberId));
 		member.delete();
 	}
