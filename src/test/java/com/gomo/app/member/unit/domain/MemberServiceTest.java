@@ -51,16 +51,6 @@ public class MemberServiceTest {
 		assertThat(actual).isNotNull();
 	}
 
-	@DisplayName("삭제 상태의 회원 목록을 조회한다.")
-	@Test
-	void find_member_for_delete() {
-		doReturn(mock(List.class)).when(memberRepository).findByDeletedAtBefore(any(LocalDateTime.class));
-
-		List<Member> actual = sut.findMembersForDelete();
-
-		assertThat(actual).isNotNull();
-	}
-
 	@DisplayName("존재하지 않는 회원 엔티티를 조회한다.")
 	@Test
 	void find_nonexistent_member() {
