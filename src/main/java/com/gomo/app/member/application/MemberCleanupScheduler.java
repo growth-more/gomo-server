@@ -9,20 +9,21 @@ import org.springframework.stereotype.Component;
 
 import com.gomo.app.image.ImageService;
 import com.gomo.app.interest.domain.model.RegistrantId;
-import com.gomo.app.interest.domain.service.InterestRelationService;
-import com.gomo.app.interest.domain.service.InterestService;
-import com.gomo.app.interest.domain.service.MajorInterestService;
+import com.gomo.app.interest.domain.repository.InterestRelationRepository;
+import com.gomo.app.interest.domain.repository.InterestRepository;
+import com.gomo.app.interest.domain.repository.MajorInterestRepository;
 import com.gomo.app.member.domain.model.Member;
+import com.gomo.app.member.domain.repository.MemberRepository;
 import com.gomo.app.member.domain.service.MemberService;
 import com.gomo.app.point.domain.model.TransactorId;
-import com.gomo.app.point.domain.service.PointService;
-import com.gomo.app.point.domain.service.PointWalletService;
+import com.gomo.app.point.domain.repository.PointRepository;
+import com.gomo.app.point.domain.repository.PointWalletRepository;
 import com.gomo.app.quest.domain.model.ParticipantId;
-import com.gomo.app.quest.domain.service.AssignQuestService;
-import com.gomo.app.quest.domain.service.RepeatQuestService;
+import com.gomo.app.quest.domain.repository.AssignQuestRepository;
+import com.gomo.app.quest.domain.repository.RepeatQuestRepository;
 import com.gomo.app.streak.domain.model.AchieverId;
-import com.gomo.app.streak.domain.service.AchieverService;
-import com.gomo.app.streak.domain.service.StreakService;
+import com.gomo.app.streak.domain.repository.AchieverRepository;
+import com.gomo.app.streak.domain.repository.StreakRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,16 +33,16 @@ public class MemberCleanupScheduler {
 
 	private final MemberService memberService;
 	private final ImageService imageService;
-	private final InterestService interestService;
-	private final MajorInterestService majorInterestService;
-	private final InterestRelationService interestRelationService;
-
-	private final PointService pointService;
-	private final PointWalletService pointWalletService;
-	private final StreakService streakService;
-	private final AchieverService achieverService;
-	private final AssignQuestService assignQuestService;
-	private final RepeatQuestService repeatQuestService;
+	private final PointRepository pointRepository;
+	private final PointWalletRepository pointWalletRepository;
+	private final AssignQuestRepository assignQuestRepository;
+	private final RepeatQuestRepository repeatQuestRepository;
+	private final InterestRelationRepository interestRelationRepository;
+	private final MajorInterestRepository majorInterestRepository;
+	private final InterestRepository interestRepository;
+	private final StreakRepository streakRepository;
+	private final AchieverRepository achieverRepository;
+	private final MemberRepository memberRepository;
 
 	@Scheduled(cron = "0 0 2 * * *")
 	public void memberDataCleanUp() {
@@ -65,27 +66,27 @@ public class MemberCleanupScheduler {
 	private void deleteMemberAndRelatedData(Member member) {
 
 		// Quest 관련 데이터 삭제
-		assignQuestService.deleteAllByParticipantId(ParticipantId.of(member.uuid()));
-		repeatQuestService.deleteAllByParticipantId(ParticipantId.of(member.uuid()));
+		assignQuestRepository.deleteAllByParticipantId(ParticipantId.of(member.uuid()));
+		repeatQuestRepository.deleteAllByParticipantId(ParticipantId.of(member.uuid()));
 
 		// Interest 관련 데이터 삭제
-		interestRelationService.deleteAllByRegistrantId(RegistrantId.of(member.uuid()));
-		majorInterestService.deleteAllByRegistrantId(RegistrantId.of(member.uuid()));
-		interestService.deleteAllByRegistrantId(RegistrantId.of(member.uuid()));
+		interestRelationRepository.deleteAllByRegistrantId(RegistrantId.of(member.uuid()));
+		majorInterestRepository.deleteAllByRegistrantId(RegistrantId.of(member.uuid()));
+		interestRepository.deleteAllByRegistrantId(RegistrantId.of(member.uuid()));
 
 		// Point 관련 데이터 삭제
-		pointService.deleteAllByTransactorId(TransactorId.of(member.uuid()));
-		pointWalletService.deletePointWalletByTransactorId(TransactorId.of(member.uuid()));
+		pointRepository.deleteAllByTransactorId(TransactorId.of(member.uuid()));
+		pointWalletRepository.deletePointWalletByTransactorId(TransactorId.of(member.uuid()));
 
 		// Streak 관련 데이터 삭제
-		streakService.deleteAllByAchieverId(AchieverId.of(member.uuid()));
-		achieverService.deleteAchiever(AchieverId.of(member.uuid()));
+		streakRepository.deleteAllByAchieverId(AchieverId.of(member.uuid()));
+		achieverRepository.deleteByAchieverId(AchieverId.of(member.uuid()));
 
 		// 이미지 파일 삭제
 		imageService.deleteImage(member.getProfileImage().getUrl());
 		imageService.deleteImage(member.getProfileBanner().getUrl());
 
 		// member 최종 삭제
-		memberService.deleteMemberPermanently(member.getId());
+		memberRepository.deleteById(member.getId());
 	}
 }

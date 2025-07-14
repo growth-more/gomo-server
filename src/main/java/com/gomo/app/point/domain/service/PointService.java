@@ -39,9 +39,4 @@ public class PointService {
 		Point savedPoint = pointRepository.save(point);
 		return savedPoint.getId().getId();
 	}
-
-	@Transactional
-	public void deleteAllByTransactorId(TransactorId transactorId) {
-		pointRepository.deleteAllByTransactorId(transactorId);
-	}
 }

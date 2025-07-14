@@ -69,11 +69,6 @@ public class InterestRelationService {
 		interestRelationRepository.delete(interestRelation);
 	}
 
-	@Transactional
-	public void deleteAllByRegistrantId(RegistrantId registrantId) {
-		interestRelationRepository.deleteAllByRegistrantId(registrantId);
-	}
-
 	private void ensureNotDuplicated(ParentInterestId parentInterestId, ChildInterestId childInterestId) {
 		if (interestRelationRepository.existsRelationFor(parentInterestId.getId(), childInterestId.getId())) {
 			throw new InterestRelationDuplicatedException(InterestRelationErrorCode.DUPLICATED);

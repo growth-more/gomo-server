@@ -41,11 +41,6 @@ public class StreakService {
 			endDate);
 	}
 
-	@Transactional
-	public void deleteAllByAchieverId(AchieverId achieverId) {
-		streakRepository.deleteAllByAchieverId(achieverId);
-	}
-
 	private void adjustStreakDays(Streak streak) {
 		Achiever achiever = achieverService.find(streak.getAchieverId());
 		List<Streak> priorDayStreaks = streakRepository.findByAchieverIdAndFilledDate(streak.getAchieverId(),

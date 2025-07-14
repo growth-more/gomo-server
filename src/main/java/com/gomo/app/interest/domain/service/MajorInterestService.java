@@ -1,7 +1,6 @@
 package com.gomo.app.interest.domain.service;
 
 import org.jetbrains.annotations.NotNull;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.DomainService;
 import com.gomo.app.common.util.UUIDGenerator;
@@ -9,7 +8,6 @@ import com.gomo.app.displayorder.DisplayOrder;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.MajorInterest;
 import com.gomo.app.interest.domain.model.MajorInterestId;
-import com.gomo.app.interest.domain.model.RegistrantId;
 import com.gomo.app.interest.domain.repository.MajorInterestRepository;
 import com.gomo.app.interest.exception.MajorInterestDuplicatedException;
 import com.gomo.app.interest.exception.MajorInterestNotFoundException;
@@ -50,10 +48,5 @@ public class MajorInterestService {
 			interest.getId(),
 			DisplayOrder.of(maxDisplayOrder + 1)
 		);
-	}
-
-	@Transactional
-	public void deleteAllByRegistrantId(RegistrantId registrantId) {
-		majorInterestRepository.deleteAllByRegistrantId(registrantId);
 	}
 }

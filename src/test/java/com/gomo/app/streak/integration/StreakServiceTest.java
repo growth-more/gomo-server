@@ -117,12 +117,4 @@ public class StreakServiceTest extends IntegrationTestBase {
 
 		assertThat(streaks.size()).isEqualTo(2);
 	}
-
-	@DisplayName("특정 사용자의 스트릭을 모두 삭제한다.")
-	@Test
-	void delete_all_streaks() {
-		sut.deleteAllByAchieverId(AchieverId.of(achieverId));
-		
-		assertThat(streakRepository.count()).isEqualTo(0);
-	}
 }

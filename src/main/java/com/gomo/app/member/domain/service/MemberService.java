@@ -46,10 +46,6 @@ public class MemberService {
 		return memberRepository.findByDeletedAtBefore(LocalDateTime.now().minusDays(30));
 	}
 
-	public void deleteMemberPermanently(MemberId memberId) {
-		memberRepository.deleteById(memberId);
-	}
-
 	@Transactional
 	public Member oauthCreateMember(OAuthUserInfo userInfo, String provider) {
 		UUID uuid = UUIDGenerator.generate();

@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-import java.util.UUID;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +13,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.MajorInterest;
-import com.gomo.app.interest.domain.model.RegistrantId;
 import com.gomo.app.interest.domain.repository.MajorInterestRepository;
 import com.gomo.app.interest.domain.service.MajorInterestService;
 import com.gomo.app.interest.exception.MajorInterestDuplicatedException;
@@ -66,15 +63,5 @@ public class MajorInterestServiceTest {
 		MajorInterest actual = sut.create(InterestFixture.create());
 
 		assertThat(actual.getDisplayOrder().getDisplayOrder()).isEqualTo(maxDisplayOrder + 1);
-	}
-
-	@DisplayName("특정 사용자의 주요 관심사를 모두 삭제한다.")
-	@Test
-	void delete_all_major_interests() {
-		RegistrantId registrantId = RegistrantId.of(UUID.randomUUID());
-		doNothing().when(majorInterestRepository).deleteAllByRegistrantId(any());
-
-		sut.deleteAllByRegistrantId(registrantId);
-		verify(majorInterestRepository).deleteAllByRegistrantId(registrantId);
 	}
 }

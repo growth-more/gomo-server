@@ -40,15 +40,5 @@ public class PointServiceTest {
 		verify(pointWalletService, times(1)).adjustPointBalance(any(), any(), eq(10));
 		verify(pointRepository, times(1)).save(any());
 	}
-
-	@DisplayName("특정 사용자의 모든 포인트를 삭제한다.")
-	@Test
-	void delete_all_points() {
-		TransactorId transactorId = TransactorId.of(UUID.randomUUID());
-		doNothing().when(pointRepository).deleteAllByTransactorId(any());
-
-		sut.deleteAllByTransactorId(transactorId);
-
-		verify(pointRepository).deleteAllByTransactorId(transactorId);
-	}
+	
 }

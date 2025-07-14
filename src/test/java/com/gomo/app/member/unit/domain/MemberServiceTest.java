@@ -160,14 +160,4 @@ public class MemberServiceTest {
 
 		assertThatNoException().isThrownBy(() -> sut.checkActivated(member));
 	}
-
-	@DisplayName("사용자를 영구 삭제한다.")
-	@Test
-	void delete_member_permanently() {
-
-		doNothing().when(memberRepository).deleteById(any());
-		sut.deleteMemberPermanently(MemberId.of(UUID.randomUUID()));
-
-		verify(memberRepository).deleteById(any());
-	}
 }

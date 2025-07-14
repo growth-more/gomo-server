@@ -21,8 +21,6 @@ import com.gomo.app.quest.domain.service.RepeatQuestService;
 import com.gomo.app.quest.fixture.QuestFixture;
 import com.gomo.app.quest.fixture.RepeatQuestFixture;
 
-import jakarta.transaction.Transactional;
-
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Domain unit]: 반복 퀘스트 생성 테스트")
 public class RepeatQuestServiceTest {
@@ -57,17 +55,5 @@ public class RepeatQuestServiceTest {
 		RepeatQuest actual = sut.create(ParticipantId.of(UUID.randomUUID()), QuestFixture.quest());
 
 		assertThat(actual.getDisplayOrder().getDisplayOrder()).isEqualTo(4 + 1);
-	}
-
-	@DisplayName("특정 사용자의 반복 퀘스트를 모두 삭제한다.")
-	@Transactional
-	@Test
-	void delete_all_assign_quests() {
-		ParticipantId participantId = ParticipantId.of(UUID.randomUUID());
-		doNothing().when(repeatQuestRepository).deleteAllByParticipantId(any());
-
-		sut.deleteAllByParticipantId(participantId);
-
-		verify(repeatQuestRepository).deleteAllByParticipantId(participantId);
 	}
 }

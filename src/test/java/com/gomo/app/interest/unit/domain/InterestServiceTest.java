@@ -15,7 +15,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestId;
-import com.gomo.app.interest.domain.model.RegistrantId;
 import com.gomo.app.interest.domain.repository.InterestRepository;
 import com.gomo.app.interest.domain.service.InterestService;
 import com.gomo.app.interest.exception.InterestNotFoundException;
@@ -51,16 +50,5 @@ public class InterestServiceTest {
 		assertThatThrownBy(() -> sut.find(InterestId.of(UUID.randomUUID())))
 			.isInstanceOf(InterestNotFoundException.class)
 			.hasMessageContaining(InterestErrorCode.NOT_FOUND.getMessage());
-	}
-
-	@DisplayName("특정 사용자의 관심사를 모두 삭제한다.")
-	@Test
-	void delete_all_interests() {
-		RegistrantId registrantId = RegistrantId.of(UUID.randomUUID());
-		doNothing().when(interestRepository).deleteAllByRegistrantId(registrantId);
-
-		sut.deleteAllByRegistrantId(registrantId);
-
-		verify(interestRepository).deleteAllByRegistrantId(registrantId);
 	}
 }
