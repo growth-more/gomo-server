@@ -1,8 +1,10 @@
-package com.gomo.app.member.application;
+package com.gomo.app.member.infrastructure.scheduler;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -31,7 +33,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemberCleanupScheduler {
 
-	private final MemberService memberService;
+
 	private final ImageService imageService;
 	private final PointRepository pointRepository;
 	private final PointWalletRepository pointWalletRepository;
@@ -44,9 +46,12 @@ public class MemberCleanupScheduler {
 	private final AchieverRepository achieverRepository;
 	private final MemberRepository memberRepository;
 
+	@Value("${app.members.retentionDays}")
+	private long retentionDays;
+
 	@Scheduled(cron = "0 0 2 * * *")
 	public void memberDataCleanUp() {
-		List<Member> deletedMembers = memberService.findMembersForDelete();
+		List<Member> deletedMembers = memberRepository.findByDeletedAtBefore(LocalDateTime.now().minusDays(retentionDays));
 
 		for (Member member : deletedMembers) {
 			cleanupMemberDataAsync(member);

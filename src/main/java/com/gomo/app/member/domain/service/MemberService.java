@@ -42,10 +42,6 @@ public class MemberService {
 			.orElseThrow(() -> new MemberNotFoundException(MemberErrorCode.NOT_FOUND));
 	}
 
-	public List<Member> findMembersForDelete() {
-		return memberRepository.findByDeletedAtBefore(LocalDateTime.now().minusDays(30));
-	}
-
 	@Transactional
 	public Member oauthCreateMember(OAuthUserInfo userInfo, String provider) {
 		UUID uuid = UUIDGenerator.generate();
