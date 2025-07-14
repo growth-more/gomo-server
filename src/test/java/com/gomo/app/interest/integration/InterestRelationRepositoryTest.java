@@ -77,6 +77,10 @@ public class InterestRelationRepositoryTest extends IntegrationTestBase {
 	@Transactional
 	@Test
 	void delete_all_by_registrant_id() {
+		InterestRelation depth1ToDepth2 = InterestRelationFixture.create(depth1, depth2);
+		InterestRelation depth2ToDepth3 = InterestRelationFixture.create(depth2, depth3);
+		interestRelationRepository.saveAll(List.of(depth1ToDepth2, depth2ToDepth3));
+
 		sut.deleteAllByRegistrantId(depth1.getRegistrantId());
 
 		List<InterestRelation> interestRelations = sut.findAllByRegistrantId(depth1.getRegistrantId());

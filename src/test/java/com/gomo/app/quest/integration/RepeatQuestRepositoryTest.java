@@ -81,8 +81,11 @@ public class RepeatQuestRepositoryTest extends IntegrationTestBase {
 	@Transactional
 	@Test
 	void delete_all_repeat_quest() {
+		
 		sut.deleteAllByParticipantId(ParticipantId.of(participantId));
 
-		assertThat(sut.countByQuestParticipantIdAndQuestType(ParticipantId.of(participantId), null)).isZero();
+		assertThat(sut.countByQuestParticipantIdAndQuestType(ParticipantId.of(participantId), QuestType.DAILY)).isZero();
+		assertThat(sut.countByQuestParticipantIdAndQuestType(ParticipantId.of(participantId), QuestType.WEEKLY)).isZero();
+		assertThat(sut.countByQuestParticipantIdAndQuestType(ParticipantId.of(participantId), QuestType.MONTHLY)).isZero();
 	}
 }
