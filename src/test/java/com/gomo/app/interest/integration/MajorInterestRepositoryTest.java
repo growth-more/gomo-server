@@ -80,9 +80,11 @@ public class MajorInterestRepositoryTest extends IntegrationTestBase {
 	void delete_major_interests() {
 		MajorInterest majorInterest = MajorInterestFixture.majorInterest(registrantId, interest1.getId());
 		majorInterestRepository.save(majorInterest);
+		List<MajorInterest> majorInterests = sut.findAllByRegistrantIdOrderByDisplayOrder(registrantId);
+		assertThat(majorInterests.size()).isNotZero();
 
 		sut.deleteAllByRegistrantId(registrantId);
-		List<MajorInterest> majorInterests = sut.findAllByRegistrantIdOrderByDisplayOrder(registrantId);
+		majorInterests = sut.findAllByRegistrantIdOrderByDisplayOrder(registrantId);
 
 		assertThat(majorInterests).isEmpty();
 	}
