@@ -22,7 +22,6 @@ public class AchieverService {
 	}
 
 	public Achiever find(AchieverId achieverId) {
-		return achieverRepository.findById(achieverId)
-			.orElseThrow(() -> new AchieverNotFoundException(AchieverErrorCode.NOT_FOUND));
+		return achieverRepository.findById(achieverId).orElseThrow(() -> new AchieverNotFoundException(AchieverErrorCode.NOT_FOUND));
 	}
 }

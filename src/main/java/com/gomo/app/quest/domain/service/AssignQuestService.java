@@ -35,7 +35,7 @@ public class AssignQuestService {
 		return assignQuestRepository.findById(assignQuestId)
 			.orElseThrow(() -> new AssignQuestNotFoundException(AssignQuestErrorCode.NOT_FOUND));
 	}
-	
+
 	@NotNull
 	private AssignQuest createAssignQuest(Quest quest, int displayOrder) {
 		return AssignQuest.of(

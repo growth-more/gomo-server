@@ -24,11 +24,11 @@ public interface MajorInterestRepository extends JpaRepository<MajorInterest, Ma
 	boolean existsMajorInterestByInterestId(InterestId interestId);
 
 	@Query(value = """
-		SELECT EXISTS (
-		    SELECT 1 FROM major_interest m WHERE m.interest_id = UNHEX(REPLACE(i.id, '-', ''))
-		)
-		FROM JSON_TABLE(:interestIds, '$[*]' COLUMNS (id CHAR(36) PATH '$')) AS i
-		""", nativeQuery = true)
+	SELECT EXISTS (
+		SELECT 1 FROM major_interest m WHERE m.interest_id = UNHEX(REPLACE(i.id, '-', ''))
+	)
+	FROM JSON_TABLE(:interestIds, '$[*]' COLUMNS (id CHAR(36) PATH '$')) AS i
+	""", nativeQuery = true)
 	List<Long> existsAsMajorInterests(@Param("interestIds") String interestIdsJson);
 
 	List<MajorInterest> findAllByRegistrantIdOrderByDisplayOrder(RegistrantId registrantId);

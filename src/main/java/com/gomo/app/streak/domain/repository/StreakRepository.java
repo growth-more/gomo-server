@@ -15,11 +15,9 @@ import com.gomo.app.streak.domain.model.StreakType;
 
 public interface StreakRepository extends JpaRepository<Streak, StreakId> {
 
-	Optional<Streak> findByAchieverIdAndStreakTypeAndFilledDate(AchieverId achieverId, StreakType type,
-		LocalDate filledDate);
+	Optional<Streak> findByAchieverIdAndStreakTypeAndFilledDate(AchieverId achieverId, StreakType type, LocalDate filledDate);
 
-	List<Streak> findByAchieverIdAndStreakTypeAndFilledDateBetween(AchieverId achieverId, StreakType type,
-		LocalDate startDate, LocalDate endDate);
+	List<Streak> findByAchieverIdAndStreakTypeAndFilledDateBetween(AchieverId achieverId, StreakType type, LocalDate startDate, LocalDate endDate);
 
 	List<Streak> findByAchieverIdAndFilledDate(AchieverId achieverId, LocalDate filledDate);
 

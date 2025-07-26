@@ -30,7 +30,7 @@ public class RepeatQuestService {
 		return repeatQuestRepository.findById(repeatQuestId)
 			.orElseThrow(() -> new RepeatQuestNotFoundException(RepeatQuestErrorCode.NOT_FOUND));
 	}
-	
+
 	@NotNull
 	private RepeatQuest createRepeatQuest(Quest quest, int displayOrder) {
 		return RepeatQuest.of(
