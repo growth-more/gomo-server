@@ -1,5 +1,7 @@
 package com.gomo.app.quest.presentation;
 
+import java.time.LocalDateTime;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,9 +24,13 @@ public class CalendarAssignQuestApi {
 	private final CalendarReadAssignQuestUseCase calendarReadAssignQuestUseCase;
 
 	@GetMapping
-	public ResponseEntity<CalendarListAssignQuestResponse> findAll(@Auth AuthInfo authInfo, @RequestParam int year, @RequestParam int month, @RequestParam int day,
-		@RequestParam String periodType) {
-		CalendarListAssignQuestResponse response = calendarReadAssignQuestUseCase.findAll(ParticipantId.of(authInfo.getMemberId()), year, month, day, periodType);
+	public ResponseEntity<CalendarListAssignQuestResponse> find(@Auth AuthInfo authInfo, @RequestParam boolean isCompleted,
+		@RequestParam LocalDateTime startDateTime, @RequestParam LocalDateTime endDateTime) {
+		System.out.println("startDateTime: " + startDateTime);
+		System.out.println("endDateTime: " + endDateTime);
+		CalendarListAssignQuestResponse response = calendarReadAssignQuestUseCase.find(ParticipantId.of(authInfo.getMemberId()), isCompleted,
+			startDateTime, endDateTime);
+		System.out.println("response: " + response.getAssignQuests().size());
 		return ResponseEntity.ok(response);
 	}
 }

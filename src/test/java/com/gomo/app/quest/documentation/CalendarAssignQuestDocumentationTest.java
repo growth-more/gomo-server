@@ -6,12 +6,10 @@ import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,33 +29,49 @@ public class CalendarAssignQuestDocumentationTest extends DocumentationTestBase 
 
 	@Autowired
 	private AssignQuestRepository assignQuestRepository;
-	private AssignQuest dailyQuest;
-	private AssignQuest weeklyQuest;
-	private AssignQuest monthlyQuest;
-
-	@BeforeEach
-	public void setUp() {
-		dailyQuest = AssignQuestFixture.assignQuest(sessionMemberId, QuestType.DAILY, LocalDateTime.now());
-		weeklyQuest = AssignQuestFixture.assignQuest(sessionMemberId, QuestType.WEEKLY, LocalDateTime.now());
-		monthlyQuest = AssignQuestFixture.assignQuest(sessionMemberId, QuestType.MONTHLY, LocalDateTime.now());
-		assignQuestRepository.saveAll(List.of(dailyQuest, weeklyQuest, monthlyQuest));
-	}
 
 	@AfterEach
 	void tearDown() {
 		assignQuestRepository.deleteAllInBatch();
 	}
 
-	@DisplayName("사용자가 특정 기간의 할당 퀘스트 이력을 조회한다.")
+	@DisplayName("지정된 기간 내 완료하지 못한 퀘스트 이력을 조회한다.")
 	@Test
-	void calendar_assign_quest() {
+	void calendar_not_completed_quest() {
+		LocalDateTime startDateTime = LocalDateTime.of(2025, 7, 16, 10, 0, 0);
+		AssignQuest dailyQuest = AssignQuestFixture.assignQuest(sessionMemberId, QuestType.DAILY, startDateTime);
+		AssignQuest weeklyQuest = AssignQuestFixture.assignQuest(sessionMemberId, QuestType.WEEKLY, startDateTime);
+		AssignQuest monthlyQuest = AssignQuestFixture.assignQuest(sessionMemberId, QuestType.MONTHLY, startDateTime);
+		assignQuestRepository.saveAll(List.of(dailyQuest, weeklyQuest, monthlyQuest));
+
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.header(AUTHORIZATION, "Bearer " + accessToken)
-			.param("year", LocalDate.now().getYear())
-			.param("month", LocalDate.now().getMonth().getValue())
-			.param("day", LocalDate.now().getDayOfMonth())
-			.param("periodType", "MONTH")
+			.param("isCompleted", false)
+			.param("startDateTime", LocalDateTime.of(2025, 7, 16, 0, 0, 0).toString())
+			.param("endDateTime", LocalDateTime.of(2025, 7, 16, 23, 59, 59).toString())
+			.when()
+			.get("/quests/assigns/calendars")
+			.then()
+			.statusCode(OK.value())
+			.body("assignQuests", hasSize(3));
+	}
+
+	@DisplayName("지정된 기간 내 완료한 퀘스트 이력을 조회한다.")
+	@Test
+	void calendar_completed_quest() {
+		LocalDateTime completedDateTime = LocalDateTime.of(2025, 7, 16, 10, 0, 0);
+		AssignQuest dailyQuest = AssignQuestFixture.assignQuest(sessionMemberId, QuestType.DAILY, true, completedDateTime);
+		AssignQuest weeklyQuest = AssignQuestFixture.assignQuest(sessionMemberId, QuestType.WEEKLY, true, completedDateTime);
+		AssignQuest monthlyQuest = AssignQuestFixture.assignQuest(sessionMemberId, QuestType.MONTHLY, true, completedDateTime);
+		assignQuestRepository.saveAll(List.of(dailyQuest, weeklyQuest, monthlyQuest));
+
+		given(this.specification).filter(filter)
+			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.header(AUTHORIZATION, "Bearer " + accessToken)
+			.param("isCompleted", true)
+			.param("startDateTime", LocalDateTime.of(2025, 7, 16, 0, 0, 0).toString())
+			.param("endDateTime", LocalDateTime.of(2025, 7, 16, 23, 59, 59).toString())
 			.when()
 			.get("/quests/assigns/calendars")
 			.then()

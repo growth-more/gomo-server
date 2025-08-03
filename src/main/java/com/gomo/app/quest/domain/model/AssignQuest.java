@@ -26,7 +26,6 @@ import lombok.Getter;
 public class AssignQuest extends BaseAudit implements OrderChangeable, Authorizable {
 
 	private static final boolean NOT_COMPLETED = false;
-	private static final LocalDateTime BLANK_DATE_TIME = null;
 
 	@EmbeddedId
 	private AssignQuestId id;
@@ -53,7 +52,8 @@ public class AssignQuest extends BaseAudit implements OrderChangeable, Authoriza
 	private LocalDateTime startDateTime;
 	private LocalDateTime completedDateTime;
 
-	protected AssignQuest() {}
+	protected AssignQuest() {
+	}
 
 	public AssignQuest(
 		AssignQuestId id,
@@ -83,7 +83,7 @@ public class AssignQuest extends BaseAudit implements OrderChangeable, Authoriza
 		LocalDateTime startDateTime
 	) {
 		return new AssignQuest(
-			id, quest, CompletionProof.createDefault(), isConfirmed, NOT_COMPLETED, displayOrder, startDateTime, BLANK_DATE_TIME
+			id, quest, CompletionProof.createDefault(), isConfirmed, NOT_COMPLETED, displayOrder, startDateTime, null
 		);
 	}
 
@@ -106,14 +106,14 @@ public class AssignQuest extends BaseAudit implements OrderChangeable, Authoriza
 	}
 
 	public void ensureSameQuestType(QuestType questType) {
-		if(!this.quest.getType().equals(questType)) {
+		if (!this.quest.getType().equals(questType)) {
 			throw new QuestTypeConstraintViolationException(QuestTypeErrorCode.MISMATCHED);
 		}
 	}
 
 	@Override
 	public void changeOrder(DisplayOrder displayOrder) {
-		if(this.isCompleted) {
+		if (this.isCompleted) {
 			throw new AssignQuestConstraintViolationException(AssignQuestErrorCode.NOT_ALLOWED_ORDER_CHANGE);
 		}
 		this.displayOrder = displayOrder;
@@ -121,25 +121,25 @@ public class AssignQuest extends BaseAudit implements OrderChangeable, Authoriza
 
 	@Override
 	public void validateAuthority(UUID accessorId) {
-		if(!this.quest.isAccessibleBy(accessorId)) {
+		if (!this.quest.isAccessibleBy(accessorId)) {
 			throw new AssignQuestAccessDeniedException(AssignQuestErrorCode.ACCESS_DENIED);
 		}
 	}
 
 	private void ensureConfirmed() {
-		if(!this.isConfirmed) {
+		if (!this.isConfirmed) {
 			throw new AssignQuestConstraintViolationException(AssignQuestErrorCode.NOT_CONFIRMED);
 		}
 	}
 
 	public void ensureNotConfirmed() {
-		if(this.isConfirmed) {
+		if (this.isConfirmed) {
 			throw new AssignQuestConstraintViolationException(AssignQuestErrorCode.ALREADY_CONFIRMED);
 		}
 	}
 
 	public void ensureNotCompleted() {
-		if(this.isCompleted) {
+		if (this.isCompleted) {
 			throw new AssignQuestConstraintViolationException(AssignQuestErrorCode.ALREADY_COMPLETED);
 		}
 	}

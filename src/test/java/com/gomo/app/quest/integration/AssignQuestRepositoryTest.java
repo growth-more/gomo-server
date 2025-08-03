@@ -29,6 +29,7 @@ public class AssignQuestRepositoryTest extends IntegrationTestBase {
 
 	@Autowired
 	private AssignQuestRepository assignQuestRepository;
+	ParticipantId participantId;
 	AssignQuest notConfirmed;
 	AssignQuest confirmed;
 	AssignQuest completed1;
@@ -36,13 +37,19 @@ public class AssignQuestRepositoryTest extends IntegrationTestBase {
 
 	@BeforeEach
 	public void setUp() {
-		UUID participantId = UUID.randomUUID();
-		notConfirmed = AssignQuestFixture.assignQuest(participantId, false, LocalDateTime.of(2025, 1, 21, 10, 0), 1);
-		confirmed = AssignQuestFixture.assignQuest(participantId, true, LocalDateTime.of(2025, 1, 21, 10, 0), 2);
-		completed1 = AssignQuestFixture.assignQuest(participantId, true, CompletionProof.of("completed"),
-			LocalDateTime.of(2025, 1, 21, 10, 0));
-		completed2 = AssignQuestFixture.assignQuest(participantId, true, CompletionProof.of("completed"),
-			LocalDateTime.of(2025, 1, 20, 0, 0));
+		UUID uuid = UUID.randomUUID();
+		participantId = ParticipantId.of(uuid);
+
+		LocalDateTime startDateTime1 = LocalDateTime.of(2025, 1, 21, 10, 0);
+		notConfirmed = AssignQuestFixture.assignQuest(uuid, false, startDateTime1, 1);
+		confirmed = AssignQuestFixture.assignQuest(uuid, true, startDateTime1, 2);
+
+		LocalDateTime completedDateTime1 = LocalDateTime.of(2025, 1, 21, 11, 0);
+		completed1 = AssignQuestFixture.assignQuest(uuid, true, CompletionProof.of("completed"), startDateTime1, completedDateTime1);
+
+		LocalDateTime startDateTime2 = LocalDateTime.of(2025, 1, 20, 10, 0);
+		LocalDateTime completedDateTime2 = LocalDateTime.of(2025, 1, 20, 11, 0);
+		completed2 = AssignQuestFixture.assignQuest(uuid, true, CompletionProof.of("completed"), startDateTime2, completedDateTime2);
 		assignQuestRepository.saveAll(List.of(notConfirmed, confirmed, completed1, completed2));
 	}
 
@@ -55,7 +62,7 @@ public class AssignQuestRepositoryTest extends IntegrationTestBase {
 	@Test
 	void count_participating_quest() {
 		long actual = sut.countParticipatingQuestByQuestType(
-			notConfirmed.getQuest().getParticipantId(),
+			participantId,
 			QuestType.DAILY,
 			LocalDateTime.of(2025, 1, 21, 0, 0, 0),
 			LocalDateTime.of(2025, 1, 21, 23, 59, 59)
@@ -68,7 +75,7 @@ public class AssignQuestRepositoryTest extends IntegrationTestBase {
 	@Test
 	void find_max_order_participating_quest() {
 		int actual = sut.findMaxDisplayOrderOfParticipatingQuest(
-			notConfirmed.getQuest().getParticipantId(),
+			participantId,
 			QuestType.DAILY,
 			LocalDateTime.of(2025, 1, 21, 0, 0, 0),
 			LocalDateTime.of(2025, 1, 21, 23, 59, 59)
@@ -81,7 +88,7 @@ public class AssignQuestRepositoryTest extends IntegrationTestBase {
 	@Test
 	void find_participating_quests() {
 		List<AssignQuest> actual = sut.findParticipatingQuestByQuestType(
-			notConfirmed.getQuest().getParticipantId(),
+			participantId,
 			QuestType.DAILY,
 			LocalDateTime.of(2025, 1, 21, 0, 0, 0),
 			LocalDateTime.of(2025, 1, 21, 23, 59, 59)
@@ -94,7 +101,7 @@ public class AssignQuestRepositoryTest extends IntegrationTestBase {
 	@Test
 	void find_participating_quests_without_completed() {
 		List<AssignQuest> actual = sut.findParticipatingQuestByQuestTypeWithoutCompleted(
-			notConfirmed.getQuest().getParticipantId(),
+			participantId,
 			QuestType.DAILY,
 			LocalDateTime.of(2025, 1, 21, 0, 0, 0),
 			LocalDateTime.of(2025, 1, 21, 23, 59, 59)
@@ -104,14 +111,29 @@ public class AssignQuestRepositoryTest extends IntegrationTestBase {
 		assertThat(actual).extracting("isCompleted").containsOnly(false);
 	}
 
+	@DisplayName("완료한 퀘스트 목록을 퀘스트 완료일 기준으로 조회한다.")
+	@Test
+	void find_completed_quest_between_completed_date_time() {
+		LocalDateTime startDateTime = LocalDateTime.of(2025, 1, 1, 0, 0, 0);
+		LocalDateTime endDateTime = LocalDateTime.of(2025, 1, 23, 23, 59, 59);
+		List<AssignQuest> actual = sut.findByQuestParticipantIdAndCompletedDateTimeBetween(participantId, startDateTime, endDateTime);
+		assertThat(actual.size()).isEqualTo(2);
+	}
+
+	@DisplayName("완료하지 못한 퀘스트 목록을 퀘스트 시작일 기준으로 조회한다.")
+	@Test
+	void find_not_completed_quest_between_start_date_time() {
+		LocalDateTime startDateTime = LocalDateTime.of(2025, 1, 1, 0, 0, 0);
+		LocalDateTime endDateTime = LocalDateTime.of(2025, 1, 23, 23, 59, 59);
+		List<AssignQuest> actual = sut.findByQuestParticipantIdAndStartDateTimeBetweenAndIsCompletedFalse(participantId, startDateTime, endDateTime);
+		assertThat(actual.size()).isEqualTo(2);
+	}
+
 	@DisplayName("특정사용자의 퀘스트를 모두 삭제한다.")
 	@Transactional
 	@Test
 	void delete_all_assign_quests() {
-		ParticipantId participantId = notConfirmed.getQuest().getParticipantId();
-
 		sut.deleteAllByParticipantId(participantId);
-
 		assertThat(sut.countParticipatingQuestByQuestType(participantId, null, null, null)).isEqualTo(0);
 	}
 }
