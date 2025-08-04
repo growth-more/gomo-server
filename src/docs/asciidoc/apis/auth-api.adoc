@@ -66,11 +66,11 @@ operation::member-token-refresh-error[snippets='http-response,response-fields']
 
 '''
 
-=== 이메일 인증 코드 발송
+=== 이메일 인증 코드 발송 (회원 등록 시)
 
 `POST /auth/codes/generate/emails`
 
-회원가입 또는 비밀번호 찾기 등에 사용할 이메일 인증 코드를 요청한 이메일 주소로 발송합니다.
+회원가입에 사용할 이메일 인증 코드를 요청한 이메일 주소로 발송합니다.
 
 ==== 요청 헤더
 
@@ -88,7 +88,29 @@ operation::member-email-auth-code-create[snippets='request-fields']
 
 operation::member-email-auth-code-create-error[snippets='http-response,response-fields']
 
-// todo 패스워드 인증 코드 스펙 추가
+'''
+// todo 테스트 추가
+=== 이메일 인증 코드 발송 (비밀번호 변경 시)
+
+`POST /auth/codes/generate/passwords`
+
+비밀번호 찾기에 사용할 이메일 인증 코드를 요청한 이메일 주소로 발송합니다.
+
+==== 요청 헤더
+
+operation::member-password-auth-code-create[snippets='request-headers']
+
+==== 요청 본문 (JSON)
+
+operation::member-password-auth-code-create[snippets='request-fields']
+
+==== 성공 응답
+
+성공 시 `201 Created` 상태 코드와 함께 빈 응답 본문을 반환합니다.
+
+==== 에러 응답 (이미 가입된 이메일)
+
+operation::member-password-auth-code-create-error[snippets='http-response,response-fields']
 
 '''
 

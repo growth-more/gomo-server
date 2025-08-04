@@ -235,9 +235,14 @@ operation::quest-assign-order-update[snippets='request-fields']
 
 성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
 
+==== 에러 코드
+
+`DIS-ROO-001`: Order display must be positive +
+`DIS-ROO-002`: Order display increment must be positive
+
 ==== 에러 응답
 
-// operation::quest-assign-order-update-error[snippets='http-response,response-fields']
+operation::quest-assign-order-update-error[snippets='http-response,response-fields']
 
 '''
 
@@ -259,9 +264,14 @@ operation::quest-repeat-order-update[snippets='request-fields']
 
 성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
 
+==== 에러 코드
+
+`DIS-ROO-001`: Order display must be positive +
+`DIS-ROO-002`: Order display increment must be positive
+
 ==== 에러 응답
 
-// operation::quest-repeat-order-update-error[snippets='http-response,response-fields']
+operation::quest-repeat-order-update-error[snippets='http-response,response-fields']
 
 '''
 

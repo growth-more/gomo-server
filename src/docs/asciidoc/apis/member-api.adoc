@@ -65,6 +65,54 @@ operation::member-delete-error[snippets='http-response,response-fields']
 
 '''
 
+=== 프로필 배너 이미지 수정
+
+`PUT /members/images/banners`
+
+현재 로그인된 사용자의 프로필 배너 이미지를 수정합니다.
+
+==== 요청 헤더
+
+operation::member-profile-banner-update[snippets='request-headers']
+
+==== 요청 파트 (multipart/form-data)
+
+operation::member-profile-banner-update[snippets='request-parts']
+
+==== 성공 응답
+
+성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
+
+==== 에러 응답
+
+operation::member-profile-banner-update-error[snippets='http-response,response-fields']
+
+'''
+
+=== 프로필 이미지 수정
+
+`PUT /members/images/profiles`
+
+현재 로그인된 사용자의 프로필 이미지를 수정합니다.
+
+==== 요청 헤더
+
+operation::member-profile-image-update[snippets='request-headers']
+
+==== 요청 파트 (multipart/form-data)
+
+operation::member-profile-image-update[snippets='request-parts']
+
+==== 성공 응답
+
+성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
+
+==== 에러 응답
+
+operation::member-profile-image-update-error[snippets='http-response,response-fields']
+
+'''
+
 === 프로필 배너 이미지 삭제
 
 `DELETE /members/images/banners`
@@ -234,54 +282,6 @@ operation::member-password-update[snippets='request-fields']
 ==== 에러 응답
 
 operation::member-password-update-error[snippets='http-response,response-fields']
-
-'''
-
-=== 프로필 배너 이미지 수정
-
-`PUT /members/images/banners`
-
-현재 로그인된 사용자의 프로필 배너 이미지를 수정합니다.
-
-==== 요청 헤더
-
-operation::member-profile-banner-update[snippets='request-headers']
-
-==== 요청 파트 (multipart/form-data)
-
-operation::member-profile-banner-update[snippets='request-parts']
-
-==== 성공 응답
-
-성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
-
-==== 에러 응답
-
-operation::member-profile-banner-update-error[snippets='http-response,response-fields']
-
-'''
-
-=== 프로필 이미지 수정
-
-`PUT /members/images/profiles`
-
-현재 로그인된 사용자의 프로필 이미지를 수정합니다.
-
-==== 요청 헤더
-
-operation::member-profile-image-update[snippets='request-headers']
-
-==== 요청 파트 (multipart/form-data)
-
-operation::member-profile-image-update[snippets='request-parts']
-
-==== 성공 응답
-
-성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
-
-==== 에러 응답
-
-operation::member-profile-image-update-error[snippets='http-response,response-fields']
 
 '''
 

@@ -17,7 +17,8 @@ operation::interest-create[snippets='request-parts']
 operation::interest-create[snippets='http-response,response-fields']
 
 ==== 에러 응답
-// operation::major-interest-create-error[snippets='http-response,response-fields']
+
+operation::major-interest-create-error[snippets='http-response,response-fields']
 
 '''
 
@@ -40,7 +41,8 @@ operation::major-interest-create[snippets='path-parameters']
 operation::major-interest-create[snippets='http-response,response-fields']
 
 ==== 에러 응답
-// operation::major-interest-create-error[snippets='http-response,response-fields']
+
+operation::major-interest-create-error[snippets='http-response,response-fields']
 
 '''
 
@@ -63,8 +65,8 @@ operation::interest-relation-create[snippets='request-fields']
 operation::interest-relation-create[snippets='http-response,response-fields']
 
 ==== 에러 응답
-// 필요 시, 에러 케이스에 대한 테스트를 추가하고 해당 스니펫을 여기에 포함시킬 수 있습니다.
-// operation::interest-relation-create-error[snippets='http-response,response-fields']
+
+operation::interest-relation-create-error[snippets='http-response,response-fields']
 
 '''
 
