@@ -26,11 +26,8 @@ public class CalendarAssignQuestApi {
 	@GetMapping
 	public ResponseEntity<CalendarListAssignQuestResponse> find(@Auth AuthInfo authInfo, @RequestParam boolean isCompleted,
 		@RequestParam LocalDateTime startDateTime, @RequestParam LocalDateTime endDateTime) {
-		System.out.println("startDateTime: " + startDateTime);
-		System.out.println("endDateTime: " + endDateTime);
 		CalendarListAssignQuestResponse response = calendarReadAssignQuestUseCase.find(ParticipantId.of(authInfo.getMemberId()), isCompleted,
 			startDateTime, endDateTime);
-		System.out.println("response: " + response.getAssignQuests().size());
 		return ResponseEntity.ok(response);
 	}
 }

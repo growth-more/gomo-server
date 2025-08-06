@@ -30,7 +30,6 @@ public class CalendarReadAssignQuestUseCase {
 				.map(CalendarReadAssignQuestResponse::of)
 				.toList();
 		}
-		System.out.println("calendars: " + calendars.size());
 		return CalendarListAssignQuestResponse.of(calendars);
 	}
 }
