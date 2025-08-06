@@ -14,8 +14,8 @@ import com.gomo.app.member.application.VerifyEmailAuthCodeUseCase;
 import com.gomo.app.member.domain.service.EmailAuthCodeService;
 import com.gomo.app.member.exception.MemberAuthenticationFailedException;
 import com.gomo.app.member.exception.code.MemberErrorCode;
-import com.gomo.app.member.presentation.request.VerifyEmailAuthCodeRequest;
-import com.gomo.app.member.presentation.response.VerifyEmailAuthCodeResponse;
+import com.gomo.app.auth.presentation.request.VerifyEmailAuthCodeRequest;
+import com.gomo.app.auth.presentation.response.VerifyEmailAuthCodeResponse;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Application Unit]: Email 인증 검증 기능 테스트")

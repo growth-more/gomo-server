@@ -6,7 +6,7 @@ import com.gomo.app.member.domain.repository.EmailAuthCodeRepository;
 import com.gomo.app.member.domain.service.AuthCodeGenerator;
 import com.gomo.app.member.domain.service.MemberService;
 import com.gomo.app.member.infrastructure.EmailAuthSenderService;
-import com.gomo.app.member.presentation.request.CreateEmailAuthCodeRequest;
+import com.gomo.app.auth.presentation.request.CreateEmailAuthCodeRequest;
 
 import lombok.RequiredArgsConstructor;
 
