@@ -12,6 +12,11 @@ jobs:
     env:
       TZ: Asia/Seoul
 
+    services:
+      docker:
+        image: docker:dind
+        options: --privileged
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
