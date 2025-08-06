@@ -56,6 +56,8 @@ public abstract class DocumentationTestBase {
 	protected UUID sessionMemberId;
 	protected String accessToken;
 	protected String refreshToken;
+	protected String sessionEmail;
+	protected String sessionHandle;
 
 	protected DocumentationTestBase() {
 		this.objectMapper = RestAssureConfig.initObjectMapper();
@@ -71,8 +73,10 @@ public abstract class DocumentationTestBase {
 			)
 			.build();
 
-		memberApi.create(CreateMemberRequest.of("testmember@naver.com", "Test1234@", "@Test", "testname", "testmotto"));
-		var tokenResponse = this.authMemberApi.login(LoginMemberRequest.of("testmember@naver.com", "Test1234@"));
+		sessionEmail = "testmember@naver.com";
+		sessionHandle = "@Test";
+		memberApi.create(CreateMemberRequest.of(sessionEmail, "Test1234@", sessionHandle, "testname", "testmotto"));
+		var tokenResponse = this.authMemberApi.login(LoginMemberRequest.of(sessionEmail, "Test1234@"));
 		this.sessionMemberId = tokenResponse.getBody().getMemberId();
 		this.authInfo = AuthInfo.of(sessionMemberId);
 		this.accessToken = tokenResponse.getBody().getToken().toString();

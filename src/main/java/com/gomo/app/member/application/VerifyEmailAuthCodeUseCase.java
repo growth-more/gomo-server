@@ -4,8 +4,8 @@ import com.gomo.app.common.ApplicationService;
 import com.gomo.app.member.domain.service.EmailAuthCodeService;
 import com.gomo.app.member.exception.MemberAuthenticationFailedException;
 import com.gomo.app.member.exception.code.MemberErrorCode;
-import com.gomo.app.member.presentation.request.VerifyEmailAuthCodeRequest;
-import com.gomo.app.member.presentation.response.VerifyEmailAuthCodeResponse;
+import com.gomo.app.auth.presentation.request.VerifyEmailAuthCodeRequest;
+import com.gomo.app.auth.presentation.response.VerifyEmailAuthCodeResponse;
 
 import lombok.RequiredArgsConstructor;
 

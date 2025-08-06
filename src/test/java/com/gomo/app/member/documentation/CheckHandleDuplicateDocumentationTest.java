@@ -39,7 +39,7 @@ public class CheckHandleDuplicateDocumentationTest extends DocumentationTestBase
 	void check_duplicate_handle_failure() {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.param("handle", "@GOMOTEST")
+			.param("handle", super.sessionHandle)
 			.when()
 			.get(CHECK_DUPLICATE_HANDLE_URL)
 			.then()
