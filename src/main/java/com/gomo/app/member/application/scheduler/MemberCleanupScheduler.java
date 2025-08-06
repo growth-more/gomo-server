@@ -1,4 +1,4 @@
-package com.gomo.app.member.infrastructure.scheduler;
+package com.gomo.app.member.application.scheduler;
 
 import java.time.LocalDateTime;
 import java.util.List;
