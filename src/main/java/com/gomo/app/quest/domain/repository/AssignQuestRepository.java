@@ -61,8 +61,11 @@ public interface AssignQuestRepository extends JpaRepository<AssignQuest, Assign
 		@Param("endOfPeriod") LocalDateTime endOfPeriod
 	);
 
-	List<AssignQuest> findByQuestParticipantIdAndStartDateTimeBetween(ParticipantId participantId,
-		LocalDateTime startOfPeriod, LocalDateTime endOfPeriod);
+	List<AssignQuest> findByQuestParticipantIdAndCompletedDateTimeBetween(ParticipantId participantId,
+		LocalDateTime completedDateTimeAfter, LocalDateTime completedDateTimeBefore);
+
+	List<AssignQuest> findByQuestParticipantIdAndStartDateTimeBetweenAndIsCompletedFalse(ParticipantId participantId,
+		LocalDateTime startDateTimeAfter, LocalDateTime startDateTimeBefore);
 
 	@Modifying
 	@Query("DELETE FROM AssignQuest a WHERE a.quest.participantId = :participantId")

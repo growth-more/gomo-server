@@ -48,7 +48,7 @@ public class AssignQuestFixture {
 		);
 	}
 
-	public static AssignQuest assignQuest(UUID participantId, QuestType questType, LocalDateTime dateTime) {
+	public static AssignQuest assignQuest(UUID participantId, QuestType questType, LocalDateTime startDateTime) {
 		return AssignQuest.of(
 			AssignQuestId.of(UUID.randomUUID()),
 			Quest.of(
@@ -60,7 +60,7 @@ public class AssignQuestFixture {
 			),
 			false,
 			DisplayOrder.of(1),
-			dateTime
+			startDateTime
 		);
 	}
 
@@ -96,7 +96,7 @@ public class AssignQuestFixture {
 		);
 	}
 
-	public static AssignQuest assignQuest(UUID participantId, boolean isConfirm, LocalDateTime dateTime, int displayOrder) {
+	public static AssignQuest assignQuest(UUID participantId, boolean isConfirm, LocalDateTime startDateTime, int displayOrder) {
 		return AssignQuest.of(
 			AssignQuestId.of(UUID.randomUUID()),
 			Quest.of(
@@ -108,7 +108,7 @@ public class AssignQuestFixture {
 			),
 			isConfirm,
 			DisplayOrder.of(displayOrder),
-			dateTime
+			startDateTime
 		);
 	}
 
@@ -131,7 +131,7 @@ public class AssignQuestFixture {
 		);
 	}
 
-	public static AssignQuest assignQuest(UUID participantId, boolean isCompleted, CompletionProof proof, LocalDateTime createdDateTime) {
+	public static AssignQuest assignQuest(UUID participantId, boolean isCompleted, CompletionProof proof, LocalDateTime startDateTime) {
 		return new AssignQuest(
 			AssignQuestId.of(UUID.randomUUID()),
 			Quest.of(
@@ -145,8 +145,46 @@ public class AssignQuestFixture {
 			true,
 			isCompleted,
 			DisplayOrder.of(1),
-			createdDateTime,
+			startDateTime,
 			LocalDateTime.of(2025, 2, 2, 12, 51, 0)
+		);
+	}
+
+	public static AssignQuest assignQuest(UUID participantId, QuestType questType, boolean isCompleted, LocalDateTime completedDateTime) {
+		return new AssignQuest(
+			AssignQuestId.of(UUID.randomUUID()),
+			Quest.of(
+				ParticipantId.of(participantId),
+				SubjectId.of(UUID.randomUUID()),
+				SubjectName.of("subject name"),
+				questType,
+				QuestContent.of("quest content")
+			),
+			CompletionProof.of("completed"),
+			true,
+			isCompleted,
+			DisplayOrder.of(1),
+			LocalDateTime.of(2025, 2, 2, 12, 51, 0),
+			completedDateTime
+		);
+	}
+
+	public static AssignQuest assignQuest(UUID participantId, boolean isCompleted, CompletionProof proof, LocalDateTime startDateTime, LocalDateTime completedDateTime) {
+		return new AssignQuest(
+			AssignQuestId.of(UUID.randomUUID()),
+			Quest.of(
+				ParticipantId.of(participantId),
+				SubjectId.of(UUID.randomUUID()),
+				SubjectName.of("subject name"),
+				QuestType.DAILY,
+				QuestContent.of("quest content")
+			),
+			proof,
+			true,
+			isCompleted,
+			DisplayOrder.of(1),
+			startDateTime,
+			completedDateTime
 		);
 	}
 

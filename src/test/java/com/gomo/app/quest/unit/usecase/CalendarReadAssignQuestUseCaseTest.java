@@ -19,7 +19,6 @@ import com.gomo.app.quest.application.CalendarReadAssignQuestUseCase;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.ParticipantId;
 import com.gomo.app.quest.domain.repository.AssignQuestRepository;
-import com.gomo.app.quest.exception.InvalidPeriodTypeException;
 import com.gomo.app.quest.fixture.AssignQuestFixture;
 import com.gomo.app.quest.presentation.response.CalendarListAssignQuestResponse;
 
@@ -33,47 +32,75 @@ public class CalendarReadAssignQuestUseCaseTest {
 	@Mock
 	private AssignQuestRepository assignQuestRepository;
 
-	@DisplayName("주어진 날짜를 기준으로 한달 이력을 조회한다.")
+	@DisplayName("완료한 퀘스트의 한달 이력을 조회한다.")
 	@Test
-	void find_all_by_month() {
+	void find_completed_quest_for_month() {
 		List<AssignQuest> calendars = List.of(AssignQuestFixture.assignQuest(DAILY), AssignQuestFixture.assignQuest(WEEKLY));
 		ParticipantId participantId = ParticipantId.of(UUID.randomUUID());
 		LocalDateTime start = LocalDateTime.of(2025, 2, 1, 0, 0);
 		LocalDateTime end = start.plusMonths(1).minusSeconds(1);
-		doReturn(calendars).when(assignQuestRepository).findByQuestParticipantIdAndStartDateTimeBetween(
+		doReturn(calendars).when(assignQuestRepository).findByQuestParticipantIdAndCompletedDateTimeBetween(
 			eq(participantId),
 			eq(start),
 			eq(end)
 		);
 
-		CalendarListAssignQuestResponse actual = sut.findAll(participantId, 2025, 2, 1, "MONTH");
+		CalendarListAssignQuestResponse actual = sut.find(participantId, true, start, end);
 
 		assertThat(actual.getAssignQuests().size()).isEqualTo(2);
 	}
 
-	@DisplayName("주어진 날짜를 기준으로 하루 이력을 조회한다.")
+	@DisplayName("완료한 퀘스트의 하루 이력을 조회한다.")
 	@Test
-	void find_all_by_day() {
+	void find_completed_quest_for_day() {
 		List<AssignQuest> calendars = List.of(AssignQuestFixture.assignQuest(DAILY), AssignQuestFixture.assignQuest(WEEKLY));
 		ParticipantId participantId = ParticipantId.of(UUID.randomUUID());
 		LocalDateTime start = LocalDateTime.of(2025, 2, 1, 0, 0);
 		LocalDateTime end = start.plusDays(1).minusSeconds(1);
-		doReturn(calendars).when(assignQuestRepository).findByQuestParticipantIdAndStartDateTimeBetween(
+		doReturn(calendars).when(assignQuestRepository).findByQuestParticipantIdAndCompletedDateTimeBetween(
 			eq(participantId),
 			eq(start),
 			eq(end)
 		);
 
-		CalendarListAssignQuestResponse actual = sut.findAll(participantId, 2025, 2, 1, "DAY");
+		CalendarListAssignQuestResponse actual = sut.find(participantId, true, start, end);
 
 		assertThat(actual.getAssignQuests().size()).isEqualTo(2);
 	}
 
-	@DisplayName("잘못된 타입으로 이력을 조회한다.")
+	@DisplayName("완료하지 못한 퀘스트의 한달 이력을 조회한다.")
 	@Test
-	void find_all_by_invalid_type() {
-		assertThatThrownBy(() -> sut.findAll(ParticipantId.of(UUID.randomUUID()), 2025, 2, 1, "INVALID"))
-			.isInstanceOf(InvalidPeriodTypeException.class)
-			.hasMessageContaining("The requested period type is invalid");
+	void find_not_completed_quest_for_month() {
+		List<AssignQuest> calendars = List.of(AssignQuestFixture.assignQuest(DAILY), AssignQuestFixture.assignQuest(WEEKLY));
+		ParticipantId participantId = ParticipantId.of(UUID.randomUUID());
+		LocalDateTime start = LocalDateTime.of(2025, 2, 1, 0, 0);
+		LocalDateTime end = start.plusMonths(1).minusSeconds(1);
+		doReturn(calendars).when(assignQuestRepository).findByQuestParticipantIdAndStartDateTimeBetweenAndIsCompletedFalse(
+			eq(participantId),
+			eq(start),
+			eq(end)
+		);
+
+		CalendarListAssignQuestResponse actual = sut.find(participantId, false, start, end);
+
+		assertThat(actual.getAssignQuests().size()).isEqualTo(2);
+	}
+
+	@DisplayName("완료하지 못한 퀘스트의 하루 이력을 조회한다.")
+	@Test
+	void find_not_completed_quest_for_day() {
+		List<AssignQuest> calendars = List.of(AssignQuestFixture.assignQuest(DAILY), AssignQuestFixture.assignQuest(WEEKLY));
+		ParticipantId participantId = ParticipantId.of(UUID.randomUUID());
+		LocalDateTime start = LocalDateTime.of(2025, 2, 1, 0, 0);
+		LocalDateTime end = start.plusDays(1).minusSeconds(1);
+		doReturn(calendars).when(assignQuestRepository).findByQuestParticipantIdAndStartDateTimeBetweenAndIsCompletedFalse(
+			eq(participantId),
+			eq(start),
+			eq(end)
+		);
+
+		CalendarListAssignQuestResponse actual = sut.find(participantId, false, start, end);
+
+		assertThat(actual.getAssignQuests().size()).isEqualTo(2);
 	}
 }

@@ -22,10 +22,9 @@ public class CalendarAssignQuestSnippet {
 	);
 
 	private static final Snippet QUERY_PARAMETERS = queryParameters(
-		parameterWithName("year").description("조회할 년도 (예: 2024)"),
-		parameterWithName("month").description("조회할 월 (1~12)"),
-		parameterWithName("day").description("조회 기준일 (1~31)"),
-		parameterWithName("periodType").description("조회 기간 단위: `DAY`, `MONTH`")
+		parameterWithName("isCompleted").description("퀘스트 완료 여부 (true/false)"),
+		parameterWithName("startDateTime").description("조회 시작일 (0000-00-00)"),
+		parameterWithName("endDateTime").description("종료일 (0000-00-00)")
 	);
 
 	private static final Snippet RESPONSE_FIELDS = responseFields(
