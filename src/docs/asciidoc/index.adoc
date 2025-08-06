@@ -11,15 +11,105 @@
 include::apis/auth-api.adoc[]
 include::apis/member-api.adoc[]
 
+==== 에러 코드
+
+`MEM-ROO-001`: Member not found  +
+`MEM-ROO-002`: Access denied for the member  +
+`MEM-ROO-003`: Member Authentication fail  +
+
+`MEM-EMA-001`: Email must not be blank +
+`MEM-EMA-002`: Email must be at least 10 characters +
+`MEM-EMA-003`: Email must not exceed 254 characters +
+`MEM-EMA-004`: Email must not contain forbidden characters +
+`MEM-EMA-005`: Email already exists +
+
+`MEM-PAS-001`: Password must not be blank +
+`MEM-PAS-002`: Password must be at least 8 characters +
+`MEM-PAS-003`: Password must not exceed 64 characters +
+`MEM-PAS-004`: Password must not contain forbidden characters +
+
+`MEM-HAN-001`: Handle must not be blank +
+`MEM-HAN-002`: Handle must be at least 3 characters +
+`MEM-HAN-003`: Handle must not exceed 30 characters +
+`MEM-HAN-004`: Handle must not contain forbidden characters +
+`MEM-HAN-005`: Handle already exists +
+
+`MEM-NAM-001`: Member name must not be blank +
+`MEM-NAM-002`: Member name must be at least 2 characters +
+`MEM-NAM-003`: Member name must not exceed 20 characters +
+`MEM-NAM-004`: Member name must not contain forbidden characters +
+
+`MEM-MOT-001`: Motto must not exceed 200 characters +
+`MEM-MOT-002`: Motto must not contain forbidden characters +
+
+`IMA-ROO-001`: 'Spring default message...' +
+`IMA-ROO-002`: An error occurred while uploading the image +
+
+`MEM-QUE-001`: Threshold must meet the minimum value +
+`MEM-QUE-002`: Threshold must meet the maximum value +
+`MEM-QUE-003`: Unexpected quest type +
+
 [[interest-api]]
 == 관심사 (Interest) API
 
 include::apis/interest-api.adoc[]
 
+==== 에러 코드
+
+`INT-ROO-001`: Interest not found  +
+`INT-ROO-002`: Access denied for the interest  +
+`INT-ROO-003`: Exceeded the maximum number of allowed interests  +
+
+`INT-NAM-001`: Interest name must not be blank +
+`INT-NAM-002`: Interest name must not exceed 25 characters +
+`INT-NAM-003`: Interest name must not contain forbidden characters +
+`INT-NAM-004`: Email must not contain forbidden characters +
+
+`MAJ-ROO-001`: Major interest not found +
+`MAJ-ROO-002`: Access denied for the major interest  +
+`MAJ-ROO-003`: Already registered as a major interest  +
+
+`INT-REL-001`: Interest relation not found +
+`INT-REL-002`: Access denied for the interest relation +
+`INT-REL-003`: Interest relation already exists +
+`INT-REL-004`: Cycle detected in the interest network by adding this relation, which is not allowed +
+
+`IMA-ROO-001`: 'Spring default message...' +
+`IMA-ROO-002`: An error occurred while uploading the image +
+
+`DIS-ROO-001`: Order display must be positive +
+`DIS-ROO-002`: Order display increment must be positive
+
 [[quest-api]]
 == 퀘스트 (Quest) API
 
 include::apis/quest-api.adoc[]
+
+==== 에러 코드
+
+`ASS-ROO-001`: Assign quest not found  +
+`ASS-ROO-002`: Access denied for the assign quest  +
+`ASS-ROO-003`: Assign quest has not been confirmed  +
+`ASS-ROO-004`: Assign quest has already been confirmed +
+`ASS-ROO-005`: Assign quest has already been completed +
+`ASS-ROO-006`: Completed quests cannot have their order changed +
+`ASS-ROO-007`: The requested period type is invalid +
+
+`REP-ROO-001`: Repeat quest not found   +
+`REP-ROO-002`: Access denied for the repeat quest  +
+
+`QUE-ROO-001`: Quest quota exceeded  +
+
+`QUE-TYP-001`: Unexpected quest type +
+`QUE-TYP-002`: Assigned quest type does not match the requested quest type +
+
+`QUE-CON-001`: Quest content must not be blank +
+`QUE-CON-002`: Quest content must be at least 3 characters +
+`QUE-CON-003`: Quest content must not exceed 30 characters +
+`QUE-CON-004`: Quest content must not contain forbidden characters +
+
+`QUE-COM-001`: Completion proof must not be blank +
+`QUE-COM-002`: Completion proof must not exceed 512 characters
 
 [[streak-api]]
 == 스트릭 (Streak) API
@@ -31,7 +121,25 @@ include::apis/streak-api.adoc[]
 
 include::apis/point-api.adoc[]
 
+==== 에러 코드
+
+`POI-ROO-001`: Point not found  +
+`POI-ROO-002`: Access denied for the point   +
+`POI-ROO-003`: Point amount not allowed negative value  +
+
+`WAL-ROO-001`: Point wallet not found +
+`WAL-ROO-002`: Access denied for the point wallet  +
+
+`WAL-BAL-001`: Adjust fail due to insufficient balance +
+
 [[survey-api]]
 == 설문 (Survey) API
 
 include::apis/survey-api.adoc[]
+
+==== 에러 코드
+
+`SUR-RES-001`: Custom answer must not exceed 20 characters  +
+`SUR-RES-002`: Custom answer cannot contain forbidden characters   +
+`SUR-RES-003`: Custom answer must not be blank when selecting 'Other'  +
+`SUR-RES-004`: Custom answer should not be provided when selecting a predefined option +
