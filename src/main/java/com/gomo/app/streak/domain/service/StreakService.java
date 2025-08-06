@@ -35,7 +35,8 @@ public class StreakService {
 	}
 
 	public List<Streak> findAllByStreakType(AchieverId achieverId, StreakType streakType, LocalDate startDate, LocalDate endDate) {
-		return streakRepository.findByAchieverIdAndStreakTypeAndFilledDateBetween(achieverId, streakType, startDate, endDate);
+		return streakRepository.findByAchieverIdAndStreakTypeAndFilledDateBetween(achieverId, streakType, startDate,
+			endDate);
 	}
 
 	private void adjustStreakDays(Streak streak) {

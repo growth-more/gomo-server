@@ -68,6 +68,7 @@ public class Member extends LogicalDeleteBaseAudit {
 	private ActivateStatus activateStatus;
 	private LocalDateTime signUpDateTime;
 	private LocalDateTime lastLoginDateTime;
+	private LocalDateTime deletedAt;
 
 	protected Member() {
 	}
@@ -120,6 +121,7 @@ public class Member extends LogicalDeleteBaseAudit {
 
 	public void delete() {
 		this.activateStatus = ActivateStatus.DELETED;
+		this.deletedAt = LocalDateTime.now();
 	}
 
 	public void deleteProfile() {

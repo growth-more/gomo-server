@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.gomo.app.interest.domain.model.Interest;
@@ -21,6 +22,10 @@ public interface InterestRepository extends JpaRepository<Interest, InterestId> 
 	//  ※ @Query 어노테이션을 활용해 직접 작성한 메서드는 테스트를 작성해야 합니다.
 	@Query("SELECT i.logo FROM Interest i WHERE i.logo IS NOT NULL")
 	List<String> findAllLogoUrl();
+
+	@Modifying
+	@Query("DELETE FROM Interest i WHERE i.registrantId = :registrantId")
+	void deleteAllByRegistrantId(RegistrantId registrantId);
 
 	long countAllByRegistrantId(RegistrantId registrantId);
 }

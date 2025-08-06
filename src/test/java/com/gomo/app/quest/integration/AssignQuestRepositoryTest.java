@@ -11,10 +11,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.IntegrationTestBase;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.CompletionProof;
+import com.gomo.app.quest.domain.model.ParticipantId;
 import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.quest.fixture.AssignQuestFixture;
@@ -100,5 +102,16 @@ public class AssignQuestRepositoryTest extends IntegrationTestBase {
 
 		assertThat(actual.size()).isEqualTo(2);
 		assertThat(actual).extracting("isCompleted").containsOnly(false);
+	}
+
+	@DisplayName("특정사용자의 퀘스트를 모두 삭제한다.")
+	@Transactional
+	@Test
+	void delete_all_assign_quests() {
+		ParticipantId participantId = notConfirmed.getQuest().getParticipantId();
+
+		sut.deleteAllByParticipantId(participantId);
+
+		assertThat(sut.countParticipatingQuestByQuestType(participantId, null, null, null)).isEqualTo(0);
 	}
 }

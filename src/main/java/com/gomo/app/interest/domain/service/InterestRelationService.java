@@ -54,7 +54,7 @@ public class InterestRelationService {
 
 	public InterestRelation find(InterestRelationId interestRelationId) {
 		return interestRelationRepository.findById(interestRelationId)
-				.orElseThrow(()  -> new InterestRelationNotFoundException(InterestRelationErrorCode.NOT_FOUND));
+			.orElseThrow(() -> new InterestRelationNotFoundException(InterestRelationErrorCode.NOT_FOUND));
 	}
 
 	public List<InterestRelation> findAllByInterestId(UUID interestId) {
@@ -68,7 +68,7 @@ public class InterestRelationService {
 	}
 
 	private void ensureNotDuplicated(ParentInterestId parentInterestId, ChildInterestId childInterestId) {
-		if(interestRelationRepository.existsRelationFor(parentInterestId.getId(), childInterestId.getId())) {
+		if (interestRelationRepository.existsRelationFor(parentInterestId.getId(), childInterestId.getId())) {
 			throw new InterestRelationDuplicatedException(InterestRelationErrorCode.DUPLICATED);
 		}
 	}

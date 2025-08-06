@@ -40,4 +40,5 @@ public class PointServiceTest {
 		verify(pointWalletService, times(1)).adjustPointBalance(any(), any(), eq(10));
 		verify(pointRepository, times(1)).save(any());
 	}
+	
 }

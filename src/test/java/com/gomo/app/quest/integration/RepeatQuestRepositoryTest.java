@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.IntegrationTestBase;
 import com.gomo.app.quest.domain.model.ParticipantId;
@@ -74,5 +75,17 @@ public class RepeatQuestRepositoryTest extends IntegrationTestBase {
 		);
 
 		assertThat(actual.size()).isEqualTo(2);
+	}
+
+	@DisplayName("특정 사용자의 반복퀘스트를 삭제한다.")
+	@Transactional
+	@Test
+	void delete_all_repeat_quest() {
+		
+		sut.deleteAllByParticipantId(ParticipantId.of(participantId));
+
+		assertThat(sut.countByQuestParticipantIdAndQuestType(ParticipantId.of(participantId), QuestType.DAILY)).isZero();
+		assertThat(sut.countByQuestParticipantIdAndQuestType(ParticipantId.of(participantId), QuestType.WEEKLY)).isZero();
+		assertThat(sut.countByQuestParticipantIdAndQuestType(ParticipantId.of(participantId), QuestType.MONTHLY)).isZero();
 	}
 }

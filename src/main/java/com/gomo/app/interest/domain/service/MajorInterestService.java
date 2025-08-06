@@ -30,7 +30,7 @@ public class MajorInterestService {
 
 	public MajorInterest find(MajorInterestId majorInterestId) {
 		return majorInterestRepository.findById(majorInterestId)
-				.orElseThrow(() -> new MajorInterestNotFoundException(MajorInterestErrorCode.NOT_FOUND));
+			.orElseThrow(() -> new MajorInterestNotFoundException(MajorInterestErrorCode.NOT_FOUND));
 	}
 
 	private void ensureNotDuplicated(Interest interest) {

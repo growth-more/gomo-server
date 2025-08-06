@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gomo.app.auth.domain.repository.AuthTokenRepository;
 import com.gomo.app.common.ApplicationService;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.model.MemberId;
@@ -17,10 +18,11 @@ import lombok.RequiredArgsConstructor;
 public class DeleteMemberUseCase {
 
 	private final MemberService memberService;
+	private final AuthTokenRepository authTokenRepository;
 
 	public void delete(UUID memberId) {
-		// TODO <jhl221123> to <nurdy>: 회원을 삭제할 때, 추가적인 검증이나 부가 작업에 대해 고민해보면 좋을 것 같습니다.
 		Member member = memberService.find(MemberId.of(memberId));
+		authTokenRepository.deleteRefreshToken(memberId);
 		member.delete();
 	}
 }
