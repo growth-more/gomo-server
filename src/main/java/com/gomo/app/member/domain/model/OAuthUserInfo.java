@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class OAuthUserInfo {
-    private String providerId;
+    private LoginProvider provider;
     private String email;
     private String name;
 }

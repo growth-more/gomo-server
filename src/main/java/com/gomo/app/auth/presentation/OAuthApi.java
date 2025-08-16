@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.gomo.app.auth.application.OAuthUseCase;
 import com.gomo.app.auth.presentation.response.AuthTokenResponse;
 import com.gomo.app.auth.presentation.response.LoginMemberResponse;
+import com.gomo.app.auth.presentation.response.OAuthResponse;
+import com.gomo.app.auth.presentation.response.OAuthTokenResponse;
 import com.gomo.app.common.Presentation;
 
 import lombok.RequiredArgsConstructor;
@@ -25,14 +27,14 @@ public class OAuthApi {
 	private final OAuthUseCase oauthUseCase;
 
 	@GetMapping("/{provider}")
-	public ResponseEntity<LoginMemberResponse> oauthLogin(@PathVariable String provider, @RequestParam String code) {
-		AuthTokenResponse tokens = oauthUseCase.login(provider, code);
+	public ResponseEntity<OAuthResponse> getUserInformation(@PathVariable String provider, @RequestParam String code) {
+		OAuthTokenResponse tokens = oauthUseCase.getUserInformation(provider, code);
 		ResponseCookie cookie = createResponseCookie(tokens.getAuthToken().getRefreshToken(),
 			tokens.getExpiresIn());
 
 		return ResponseEntity.ok()
 			.header(HttpHeaders.SET_COOKIE, cookie.toString())
-			.body(LoginMemberResponse.of(tokens.getMemberId(), tokens.getAuthToken().getAccessToken()));
+			.body(OAuthResponse.of(tokens.getAuthToken().getAccessToken(), tokens.getUserInfo()));
 	}
 
 	private ResponseCookie createResponseCookie(String refreshToken, long expiresIn) {

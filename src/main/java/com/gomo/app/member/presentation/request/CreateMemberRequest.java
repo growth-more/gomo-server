@@ -20,6 +20,7 @@ public class CreateMemberRequest {
 	private String handle;
 	private String name;
 	private String motto;
+	private LoginProvider loginProvider;
 
 	private CreateMemberRequest() {
 	}
@@ -29,13 +30,15 @@ public class CreateMemberRequest {
 		String password,
 		String handle,
 		String name,
-		String motto
+		String motto,
+		LoginProvider loginProvider
 	) {
 		this.email = email;
 		this.password = password;
 		this.handle = handle;
 		this.name = name;
 		this.motto = motto;
+		this.loginProvider = loginProvider;
 	}
 
 	public static CreateMemberRequest of(
@@ -43,15 +46,15 @@ public class CreateMemberRequest {
 		String password,
 		String handle,
 		String name,
-		String motto
+		String motto,
+		LoginProvider loginProvider
 	) {
-		return new CreateMemberRequest(email, password, handle, name, motto);
+		return new CreateMemberRequest(email, password, handle, name, motto, loginProvider);
 	}
 
-	public Member toDomain(MemberId memberId, PasswordService passwordService) {
+	public Member toDomain(MemberId memberId, LoginProvider loginProvider, PasswordService passwordService) {
 		Password newPw = Password.ofRaw(password);
 		return Member.of(memberId, Email.of(email), newPw.encodedWith(passwordService), Handle.of(handle),
-			MemberName.of(name), Motto.of(motto),
-			LoginProvider.EMAIL);
+			MemberName.of(name), Motto.of(motto), loginProvider);
 	}
 }
