@@ -6,8 +6,6 @@ import java.util.Optional;
 import com.gomo.app.auth.domain.model.AuthToken;
 import com.gomo.app.auth.infrastructure.oauth.OAuthProvider;
 import com.gomo.app.auth.infrastructure.oauth.OAuthProviderFactory;
-import com.gomo.app.auth.presentation.response.AuthTokenResponse;
-import com.gomo.app.auth.presentation.response.OAuthResponse;
 import com.gomo.app.auth.presentation.response.OAuthTokenResponse;
 import com.gomo.app.common.ApplicationService;
 import com.gomo.app.member.domain.model.Email;

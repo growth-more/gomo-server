@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gomo.app.auth.application.OAuthUseCase;
-import com.gomo.app.auth.presentation.response.AuthTokenResponse;
-import com.gomo.app.auth.presentation.response.LoginMemberResponse;
 import com.gomo.app.auth.presentation.response.OAuthResponse;
 import com.gomo.app.auth.presentation.response.OAuthTokenResponse;
 import com.gomo.app.common.Presentation;
