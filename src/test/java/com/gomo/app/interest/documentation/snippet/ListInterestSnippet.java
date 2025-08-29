@@ -31,7 +31,7 @@ public class ListInterestSnippet {
 		fieldWithPath("interests[].score").type(JsonFieldType.NUMBER).description("현재 레벨의 경험치"),
 		fieldWithPath("interests[].scoreThreshold").type(JsonFieldType.NUMBER).description("다음 레벨업에 필요한 경험치"),
 		fieldWithPath("interests[].totalScore").type(JsonFieldType.NUMBER).description("누적 경험치"),
-		fieldWithPath("interests[].majorInterest").type(JsonFieldType.BOOLEAN).description("주요 관심사 여부")
+		fieldWithPath("interests[].majorInterestId").type(JsonFieldType.STRING).description("주요 관심사 아이디").optional()
 	);
 
 	public static RestDocumentationFilter create() {

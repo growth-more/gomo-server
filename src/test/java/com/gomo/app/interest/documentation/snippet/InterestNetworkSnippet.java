@@ -31,7 +31,7 @@ public class InterestNetworkSnippet {
 		fieldWithPath("interests[].score").type(NUMBER).description("현재 레벨의 경험치"),
 		fieldWithPath("interests[].scoreThreshold").type(NUMBER).description("다음 레벨업에 필요한 경험치"),
 		fieldWithPath("interests[].totalScore").type(NUMBER).description("누적 경험치"),
-		fieldWithPath("interests[].majorInterest").type(BOOLEAN).description("주요 관심사 여부"),
+		fieldWithPath("interests[].majorInterestId").type(STRING).description("주요 관심사 아이디").optional(),
 
 		fieldWithPath("relations").type(ARRAY).description("관심사 간의 연결 관계 목록"),
 		fieldWithPath("relations[].id").type(STRING).description("관심사 간선 아이디"),

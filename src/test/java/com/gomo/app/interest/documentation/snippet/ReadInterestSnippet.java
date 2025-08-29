@@ -35,7 +35,7 @@ public class ReadInterestSnippet {
 		fieldWithPath("score").type(JsonFieldType.NUMBER).description("현재 레벨의 경험치"),
 		fieldWithPath("scoreThreshold").type(JsonFieldType.NUMBER).description("다음 레벨업에 필요한 경험치"),
 		fieldWithPath("totalScore").type(JsonFieldType.NUMBER).description("누적 경험치"),
-		fieldWithPath("majorInterest").type(JsonFieldType.BOOLEAN).description("주요 관심사 여부")
+		fieldWithPath("majorInterestId").type(JsonFieldType.STRING).description("주요 관심사 아이디").optional()
 	);
 
 	public static RestDocumentationFilter create() {
