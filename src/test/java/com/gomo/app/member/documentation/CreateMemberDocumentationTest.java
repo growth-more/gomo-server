@@ -14,6 +14,7 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.member.documentation.snippet.CreateMemberSnippet;
+import com.gomo.app.member.domain.model.LoginProvider;
 import com.gomo.app.member.domain.repository.MemberRepository;
 import com.gomo.app.member.presentation.request.CreateMemberRequest;
 
@@ -38,13 +39,14 @@ public class CreateMemberDocumentationTest extends DocumentationTestBase {
 	private static final String HANDLE = "@GOMOTEST3";
 	private static final String NAME = "gomotest3";
 	private static final String MOTTO = "TEST MOTTO";
+	private static final LoginProvider LOGIN_PROVIDER = LoginProvider.EMAIL;
 
 	@DisplayName("사용자를 등록한다.")
 	@Test
 	void create_member() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.body(CreateMemberRequest.of(EMAIL, PASSWORD, HANDLE, NAME, MOTTO))
+			.body(CreateMemberRequest.of(EMAIL, PASSWORD, HANDLE, NAME, MOTTO, LOGIN_PROVIDER))
 			.when()
 			.post(CREATE_MEMBER_URL)
 			.then()

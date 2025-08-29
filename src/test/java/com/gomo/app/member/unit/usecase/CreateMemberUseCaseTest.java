@@ -66,7 +66,8 @@ public class CreateMemberUseCaseTest {
 			member.getPassword().getPassword(),
 			member.getHandle().getHandle(),
 			member.getName().getName(),
-			member.getMotto().getMotto()
+			member.getMotto().getMotto(),
+			member.getLoginProvider()
 		));
 
 		assertThat(actual).usingRecursiveComparison().isEqualTo(CreateMemberResponse.of(member.getId()));

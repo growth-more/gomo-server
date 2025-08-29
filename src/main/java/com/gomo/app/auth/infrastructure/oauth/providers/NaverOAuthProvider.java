@@ -10,6 +10,7 @@ import org.springframework.web.client.RestClient;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.gomo.app.auth.infrastructure.oauth.OAuthProvider;
+import com.gomo.app.member.domain.model.LoginProvider;
 import com.gomo.app.member.domain.model.OAuthUserInfo;
 
 import lombok.RequiredArgsConstructor;
@@ -43,7 +44,7 @@ public class NaverOAuthProvider implements OAuthProvider {
 		return OAuthUserInfo.builder()
 			.email(userInfo.get("email").asText())
 			.name(userInfo.get("name").asText())
-			.providerId("naver")
+			.provider(LoginProvider.NAVER)
 			.build();
 	}
 

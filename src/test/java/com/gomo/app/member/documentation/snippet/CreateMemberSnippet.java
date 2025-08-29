@@ -24,7 +24,8 @@ public class CreateMemberSnippet {
 		fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
 		fieldWithPath("handle").type(JsonFieldType.STRING).description("사용자 핸들 (고유 식별자, 예: @myhandle)"),
 		fieldWithPath("name").type(JsonFieldType.STRING).description("사용자 이름"),
-		fieldWithPath("motto").type(JsonFieldType.STRING).description("좌우명 또는 한 줄 소개")
+		fieldWithPath("motto").type(JsonFieldType.STRING).description("좌우명 또는 한 줄 소개"),
+		fieldWithPath("loginProvider").type(JsonFieldType.STRING).description("회원가입 시 사용한 로그인 제공자 예: EMAIL, GOOGLE, KAKAO")
 	);
 
 	private static final Snippet RESPONSE_FIELDS = responseFields(

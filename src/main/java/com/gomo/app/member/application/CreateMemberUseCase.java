@@ -4,6 +4,7 @@ import com.gomo.app.common.ApplicationService;
 import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.member.domain.model.Email;
 import com.gomo.app.member.domain.model.Handle;
+import com.gomo.app.member.domain.model.LoginProvider;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.model.MemberId;
 import com.gomo.app.member.domain.repository.MemberRepository;
@@ -35,7 +36,7 @@ public class CreateMemberUseCase {
 		memberService.checkEmailDuplicated(Email.of(request.getEmail()));
 		memberService.checkHandleDuplicated(Handle.of(request.getHandle()));
 
-		Member member = request.toDomain(MemberId.of(UUIDGenerator.generate()), passwordService);
+		Member member = request.toDomain(MemberId.of(UUIDGenerator.generate()), LoginProvider.EMAIL, passwordService);
 		Member savedMember = memberRepository.save(member);
 		PointWallet pointWallet = PointWallet.createDefault(PointWalletId.of(UUIDGenerator.generate()),
 			TransactorId.of(savedMember.uuid()));

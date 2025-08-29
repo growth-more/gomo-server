@@ -23,6 +23,7 @@ import com.gomo.app.auth.presentation.AuthMemberApi;
 import com.gomo.app.auth.presentation.request.LoginMemberRequest;
 import com.gomo.app.common.authentication.AuthInfo;
 import com.gomo.app.common.config.RestAssureConfig;
+import com.gomo.app.member.domain.model.LoginProvider;
 import com.gomo.app.member.domain.model.MemberId;
 import com.gomo.app.member.domain.repository.MemberRepository;
 import com.gomo.app.member.presentation.MemberApi;
@@ -75,7 +76,7 @@ public abstract class DocumentationTestBase {
 
 		sessionEmail = "testmember@naver.com";
 		sessionHandle = "@Test";
-		memberApi.create(CreateMemberRequest.of(sessionEmail, "Test1234@", sessionHandle, "testname", "testmotto"));
+		memberApi.create(CreateMemberRequest.of(sessionEmail, "Test1234@", sessionHandle, "testname", "testmotto", LoginProvider.EMAIL));
 		var tokenResponse = this.authMemberApi.login(LoginMemberRequest.of(sessionEmail, "Test1234@"));
 		this.sessionMemberId = tokenResponse.getBody().getMemberId();
 		this.authInfo = AuthInfo.of(sessionMemberId);
