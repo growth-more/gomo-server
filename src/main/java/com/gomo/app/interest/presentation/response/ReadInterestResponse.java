@@ -18,7 +18,7 @@ public class ReadInterestResponse {
 	private int score;
 	private int scoreThreshold;
 	private int totalScore;
-	private boolean isMajorInterest;
+	private UUID majorInterestId;
 
 	private ReadInterestResponse(
 		UUID id,
@@ -29,7 +29,8 @@ public class ReadInterestResponse {
 		int level,
 		int score,
 		int scoreThreshold,
-		int totalScore
+		int totalScore,
+		UUID majorInterestId
 	) {
 		this.id = id;
 		this.registrantId = registrantId;
@@ -40,22 +41,20 @@ public class ReadInterestResponse {
 		this.score = score;
 		this.scoreThreshold = scoreThreshold;
 		this.totalScore = totalScore;
+		this.majorInterestId = majorInterestId;
 	}
 
-	public static ReadInterestResponse of(Interest interest) {
+	public static ReadInterestResponse of(Interest interest, UUID majorInterestId) {
 		return new ReadInterestResponse(
-			interest.getId().getId(),
-			interest.getRegistrantId().getId(),
+			interest.uuid(),
+			interest.registrantUuid(),
 			interest.getName().toString(),
 			interest.getLogo().getUrl(),
 			interest.getColorCode(),
 			interest.getProficiency().getLevel().getLevel(),
 			interest.getProficiency().getScore().getScore(),
 			interest.getProficiency().getLevel().getScoreThreshold(),
-			interest.getProficiency().getTotalScore());
-	}
-
-	public void updateMajorInterest() {
-		this.isMajorInterest = true;
+			interest.getProficiency().getTotalScore(),
+			majorInterestId);
 	}
 }
