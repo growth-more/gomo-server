@@ -11,8 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gomo.app.common.IntegrationTestBase;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.MajorInterest;
@@ -58,22 +56,6 @@ public class MajorInterestRepositoryTest extends IntegrationTestBase {
 		assertThat(actual).isEqualTo(5);
 	}
 
-	@DisplayName("관심사가 주요 관심사로 등록되어 있는지 확인한다.")
-	@Test
-	void exist_major_interests() throws JsonProcessingException {
-		MajorInterest majorInterest = MajorInterestFixture.majorInterest(registrantId, interest1.getId());
-		majorInterestRepository.save(majorInterest);
-
-		Interest notMajorInterest = InterestFixture.create(registrantId, "notMajorInterest");
-		interestRepository.save(notMajorInterest);
-
-		String jsonInterestIds = getJsonInterestIds(majorInterest, notMajorInterest);
-		List<Long> isMajorInterests = sut.existsAsMajorInterests(jsonInterestIds);
-
-		assertThat(isMajorInterests.get(0)).isEqualTo(1);
-		assertThat(isMajorInterests.get(1)).isEqualTo(0);
-	}
-
 	@DisplayName("특정 사용자의 주요 관심사를 모두 삭제한다.")
 	@Transactional
 	@Test
@@ -87,11 +69,5 @@ public class MajorInterestRepositoryTest extends IntegrationTestBase {
 		majorInterests = sut.findAllByRegistrantIdOrderByDisplayOrder(registrantId);
 
 		assertThat(majorInterests).isEmpty();
-	}
-
-	private String getJsonInterestIds(MajorInterest majorInterest, Interest notMajorInterest) throws
-		JsonProcessingException {
-		List<UUID> interestIds = List.of(majorInterest.interestUuid(), notMajorInterest.uuid());
-		return new ObjectMapper().writeValueAsString(interestIds);
 	}
 }

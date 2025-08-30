@@ -1,5 +1,6 @@
 package com.gomo.app.interest.domain.repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,15 +22,7 @@ public interface MajorInterestRepository extends JpaRepository<MajorInterest, Ma
 		"where m.registrantId = :registrantId ")
 	int findMaxDisplayOrder(@Param("registrantId") RegistrantId registrantId);
 
-	boolean existsMajorInterestByInterestId(InterestId interestId);
-
-	@Query(value = """
-	SELECT EXISTS (
-		SELECT 1 FROM major_interest m WHERE m.interest_id = UNHEX(REPLACE(i.id, '-', ''))
-	)
-	FROM JSON_TABLE(:interestIds, '$[*]' COLUMNS (id CHAR(36) PATH '$')) AS i
-	""", nativeQuery = true)
-	List<Long> existsAsMajorInterests(@Param("interestIds") String interestIdsJson);
+	List<MajorInterest> findAllByRegistrantIdAndInterestIdIn(RegistrantId registrantId, Collection<InterestId> interestIds);
 
 	List<MajorInterest> findAllByRegistrantIdOrderByDisplayOrder(RegistrantId registrantId);
 

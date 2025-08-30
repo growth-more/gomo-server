@@ -1,11 +1,16 @@
 package com.gomo.app.interest.application;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
-import java.util.stream.IntStream;
+import java.util.stream.Collectors;
+
+import org.jetbrains.annotations.NotNull;
 
 import com.gomo.app.common.ApplicationService;
-import com.gomo.app.common.util.JsonParser;
+import com.gomo.app.interest.domain.model.Interest;
+import com.gomo.app.interest.domain.model.InterestId;
+import com.gomo.app.interest.domain.model.MajorInterest;
 import com.gomo.app.interest.domain.model.RegistrantId;
 import com.gomo.app.interest.domain.repository.InterestRelationRepository;
 import com.gomo.app.interest.domain.repository.InterestRepository;
@@ -26,22 +31,23 @@ public class ReadInterestNetworkUseCase {
 
 	public InterestNetworkResponse find(UUID accessorId) {
 		RegistrantId registrantId = RegistrantId.of(accessorId);
-		List<ReadInterestResponse> interests = interestRepository.findAllByRegistrantId(registrantId).stream()
-			.map(ReadInterestResponse::of)
-			.toList();
-		markMajorInterests(interests);
-
-		List<ReadInterestRelationResponse> relations = interestRelationRepository.findAllByRegistrantId(registrantId).stream()
+		List<ReadInterestResponse> interestResponses = getReadInterestResponses(registrantId);
+		List<ReadInterestRelationResponse> relationResponses = interestRelationRepository.findAllByRegistrantId(registrantId).stream()
 			.map(ReadInterestRelationResponse::of)
 			.toList();
-		return InterestNetworkResponse.of(interests, relations);
+		return InterestNetworkResponse.of(interestResponses, relationResponses);
 	}
 
-	private void markMajorInterests(List<ReadInterestResponse> interestResponses) {
-		String interestIdsJson = JsonParser.toJson(interestResponses.stream().map(ReadInterestResponse::getId).toList());
-		List<Long> isMajorInterests = majorInterestRepository.existsAsMajorInterests(interestIdsJson);
-		IntStream.range(0, interestResponses.size())
-			.filter(i -> isMajorInterests.get(i) == 1)
-			.forEach(i -> interestResponses.get(i).updateMajorInterest());
+	@NotNull
+	private List<ReadInterestResponse> getReadInterestResponses(RegistrantId registrantId) {
+		List<Interest> interests = interestRepository.findAllByRegistrantId(registrantId);
+		List<InterestId> interestIds = interests.stream().map(Interest::getId).toList();
+		Map<UUID, UUID> majorInterestMap = majorInterestRepository.findAllByRegistrantIdAndInterestIdIn(registrantId, interestIds).stream()
+			.collect(Collectors.toMap(MajorInterest::interestUuid, MajorInterest::uuid));
+
+		return interests.stream().map(interest -> {
+			UUID majorInterestId = majorInterestMap.get(interest.uuid());
+			return ReadInterestResponse.of(interest, majorInterestId);
+		}).toList();
 	}
 }
