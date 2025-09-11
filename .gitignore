@@ -7,6 +7,7 @@ build/
 src/main/resources/application.yml
 src/main/resources/static/docs/
 src/test/resources/application.yml
+logs/
 
 ### STS ###
 .apt_generated

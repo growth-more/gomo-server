@@ -1,0 +1,11 @@
+POST http://localhost:8080/members
+Content-Type: application/json
+
+{
+  "email": "gomotest3@naver.com",
+  "password": "Test123@",
+  "handle": "@GOMOTEST3",
+  "name": "gomotest3",
+  "motto": "TEST MOTTO",
+  "loginProvider": "EMAIL"
+}
