@@ -26,6 +26,7 @@ configurations {
         extendsFrom annotationProcessor
     }
     configureEach {
+        // use log4j2 instead of logback
         exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
     }
 }
