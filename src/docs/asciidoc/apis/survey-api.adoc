@@ -10,7 +10,7 @@ operation::survey-answer-create[snippets='request-headers']
 
 ==== 요청 본문 (JSON)
 
-operation::survey-answer-create[snippets='request-fields']
+operation::survey-answer-create[snippets='http-request,request-fields']
 
 ==== 성공 응답
 

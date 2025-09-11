@@ -38,7 +38,7 @@ operation::quest-assign-complete[snippets='path-parameters']
 
 ==== 요청 본문 (JSON)
 
-operation::quest-assign-complete[snippets='request-fields']
+operation::quest-assign-complete[snippets='http-request,request-fields']
 
 ==== 성공 응답
 
@@ -87,7 +87,7 @@ operation::quest-assign-create[snippets='request-headers']
 
 ==== 요청 본문 (JSON)
 
-operation::quest-assign-create[snippets='request-fields']
+operation::quest-assign-create[snippets='http-request,request-fields']
 
 ==== 성공 응답
 
@@ -111,7 +111,7 @@ operation::quest-repeat-create[snippets='request-headers']
 
 ==== 요청 본문 (JSON)
 
-operation::quest-repeat-create[snippets='request-fields']
+operation::quest-repeat-create[snippets='http-request,request-fields']
 
 ==== 성공 응답
 
@@ -229,7 +229,7 @@ operation::quest-assign-order-update[snippets='request-headers']
 
 ==== 요청 본문 (JSON)
 
-operation::quest-assign-order-update[snippets='request-fields']
+operation::quest-assign-order-update[snippets='http-request,request-fields']
 
 ==== 성공 응답
 
@@ -258,7 +258,7 @@ operation::quest-repeat-order-update[snippets='request-headers']
 
 ==== 요청 본문 (JSON)
 
-operation::quest-repeat-order-update[snippets='request-fields']
+operation::quest-repeat-order-update[snippets='http-request,request-fields']
 
 ==== 성공 응답
 
@@ -292,7 +292,7 @@ operation::quest-assign-update[snippets='path-parameters']
 
 ==== 요청 본문 (JSON)
 
-operation::quest-assign-update[snippets='request-fields']
+operation::quest-assign-update[snippets='http-request,request-fields']
 
 ==== 성공 응답
 
@@ -320,7 +320,7 @@ operation::quest-repeat-update[snippets='path-parameters']
 
 ==== 요청 본문 (JSON)
 
-operation::quest-repeat-update[snippets='request-fields']
+operation::quest-repeat-update[snippets='http-request,request-fields']
 
 ==== 성공 응답
 

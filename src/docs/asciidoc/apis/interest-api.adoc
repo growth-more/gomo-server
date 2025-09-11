@@ -58,7 +58,7 @@ operation::interest-relation-create[snippets='request-headers']
 
 ==== 요청 본문 (JSON)
 
-operation::interest-relation-create[snippets='request-fields']
+operation::interest-relation-create[snippets='http-request,request-fields']
 
 ==== 성공 응답
 
@@ -222,7 +222,7 @@ operation::major-interest-order-update[snippets='request-headers']
 
 ==== 요청 본문 (JSON)
 
-operation::major-interest-order-update[snippets='request-fields']
+operation::major-interest-order-update[snippets='http-request,request-fields']
 
 ==== 성공 응답
 
