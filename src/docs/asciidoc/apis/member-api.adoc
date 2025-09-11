@@ -32,7 +32,7 @@ operation::member-create[snippets='request-headers']
 
 ==== 요청 본문 (JSON)
 
-operation::member-create[snippets='request-fields']
+operation::member-create[snippets='http-request,request-fields']
 
 ==== 성공 응답
 
@@ -201,7 +201,7 @@ operation::member-password-reset[snippets='request-headers']
 
 ==== 요청 본문 (JSON)
 
-operation::member-password-reset[snippets='request-fields']
+operation::member-password-reset[snippets='http-request,request-fields']
 
 ==== 성공 응답
 
@@ -225,7 +225,7 @@ operation::member-handle-update[snippets='request-headers']
 
 ==== 요청 본문 (JSON)
 
-operation::member-handle-update[snippets='request-fields']
+operation::member-handle-update[snippets='http-request,request-fields']
 
 ==== 성공 응답
 
@@ -249,7 +249,7 @@ operation::member-info-update[snippets='request-headers']
 
 ==== 요청 본문 (JSON)
 
-operation::member-info-update[snippets='request-fields']
+operation::member-info-update[snippets='http-request,request-fields']
 
 ==== 성공 응답
 
@@ -273,7 +273,7 @@ operation::member-password-update[snippets='request-headers']
 
 ==== 요청 본문 (JSON)
 
-operation::member-password-update[snippets='request-fields']
+operation::member-password-update[snippets='http-request,request-fields']
 
 ==== 성공 응답
 
@@ -297,7 +297,7 @@ operation::member-quest-property-update[snippets='request-headers']
 
 ==== 요청 본문 (JSON)
 
-operation::member-quest-property-update[snippets='request-fields']
+operation::member-quest-property-update[snippets='http-request,request-fields']
 
 ==== 성공 응답
 
