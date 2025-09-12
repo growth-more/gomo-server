@@ -1,9 +1,11 @@
 package com.gomo.app.common.util;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.UUID;
 
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtUtil {
@@ -18,10 +21,13 @@ public class JwtUtil {
     private final long refreshExpirationTime;
     private final SecretKey secretKey;
 
-    public JwtUtil(@Value("${jwt.expiration.access}") long accessExpirationTime, @Value("${jwt.expiration.refresh}") long refreshExpirationTime) {
+    public JwtUtil(
+		@Value("${jwt.secret-key}") String secret,
+		@Value("${jwt.expiration.access}") long accessExpirationTime,
+		@Value("${jwt.expiration.refresh}") long refreshExpirationTime) {
         this.accessExpirationTime = accessExpirationTime;
         this.refreshExpirationTime = refreshExpirationTime;
-        this.secretKey = Jwts.SIG.HS256.key().build();
+        this.secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
     }
 
 
