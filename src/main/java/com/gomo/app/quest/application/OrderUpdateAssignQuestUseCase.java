@@ -8,9 +8,10 @@ import java.util.stream.Collectors;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.ApplicationService;
+import com.gomo.app.common.util.DateRangeCalculator;
 import com.gomo.app.displayorder.OrderChangeable;
 import com.gomo.app.displayorder.OrderChanger;
-import com.gomo.app.common.util.DateRangeCalculator;
+import com.gomo.app.logging.AuditLog;
 import com.gomo.app.quest.domain.model.ParticipantId;
 import com.gomo.app.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.quest.presentation.request.OrderUpdateAssignQuestRequest;
@@ -24,6 +25,7 @@ public class OrderUpdateAssignQuestUseCase {
 
 	private final AssignQuestRepository assignQuestRepository;
 
+	@AuditLog(action = "UPDATE_ASSIGN_QUEST_ORDER")
 	public void update(UUID accessorId, OrderUpdateAssignQuestRequest request) {
 		LocalDate now = LocalDate.now();
 

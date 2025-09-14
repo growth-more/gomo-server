@@ -10,6 +10,7 @@ import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.InterestName;
 import com.gomo.app.interest.domain.service.InterestService;
 import com.gomo.app.interest.presentation.request.UpdateInterestRequest;
+import com.gomo.app.logging.AuditLog;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,6 +21,7 @@ public class UpdateInterestUseCase {
 
 	private final InterestService interestService;
 
+	@AuditLog(action = "UPDATE_INTEREST")
 	public void update(UUID registrantId, UUID interestId, UpdateInterestRequest request) {
 		Interest interest = interestService.find(InterestId.of(interestId));
 		interest.validateAuthority(registrantId);

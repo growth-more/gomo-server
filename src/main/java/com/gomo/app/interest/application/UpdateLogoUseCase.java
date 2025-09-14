@@ -9,6 +9,7 @@ import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.Logo;
 import com.gomo.app.interest.domain.service.InterestService;
+import com.gomo.app.logging.AuditLog;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,6 +21,7 @@ public class UpdateLogoUseCase {
 	private final InterestService interestService;
 	private final ImageService imageService;
 
+	@AuditLog(action = "UPDATE_INTEREST_LOGO")
 	public void update(InterestId interestId, MultipartFile updatedLogo) {
 		Interest interest = interestService.find(interestId);
 		deletePreviousLogo(interest);
@@ -28,7 +30,7 @@ public class UpdateLogoUseCase {
 	}
 
 	private void deletePreviousLogo(Interest interest) {
-		if(!interest.hasDefaultLogo()) {
+		if (!interest.hasDefaultLogo()) {
 			imageService.deleteImage(interest.getLogo().getUrl());
 		}
 	}

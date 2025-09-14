@@ -12,6 +12,7 @@ import com.gomo.app.common.util.JsonParser;
 import com.gomo.app.common.util.TimestampGenerator;
 import com.gomo.app.event.EventEntry;
 import com.gomo.app.event.EventEntryRepository;
+import com.gomo.app.logging.AuditLog;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.model.CompletionProof;
@@ -25,7 +26,9 @@ import com.gomo.app.quest.event.StreakQuestCompletedEvent;
 import com.gomo.app.quest.presentation.request.CompleteAssignQuestRequest;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 @ApplicationService
 @Transactional
@@ -35,10 +38,10 @@ public class CompleteAssignQuestUseCase {
 	private final QuestRewardService questRewardService;
 	private final EventEntryRepository eventEntryRepository;
 
+	@AuditLog(action = "COMPLETE_ASSIGN_QUEST")
 	public void complete(UUID accessorId, AssignQuestId assignQuestId, CompleteAssignQuestRequest request) {
 		AssignQuest assignQuest = assignQuestService.find(assignQuestId);
 		assignQuest.validateAuthority(accessorId);
-
 		assignQuest.complete(CompletionProof.of(request.getProof()), LocalDateTime.now());
 		createQuestCompletionEvents(accessorId, assignQuest);
 	}

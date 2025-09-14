@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.ApplicationService;
+import com.gomo.app.logging.AuditLog;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.model.QuestContent;
@@ -23,6 +24,7 @@ public class UpdateAssignQuestUseCase {
 
 	private final AssignQuestService assignQuestService;
 
+	@AuditLog(action = "UPDATE_ASSIGN_QUEST")
 	public void update(UUID accessorId, AssignQuestId assignQuestId, UpdateAssignQuestRequest request) {
 		AssignQuest assignQuest = assignQuestService.find(assignQuestId);
 		assignQuest.validateAuthority(accessorId);

@@ -3,6 +3,7 @@ package com.gomo.app.member.application;
 import java.util.UUID;
 
 import com.gomo.app.common.ApplicationService;
+import com.gomo.app.logging.AuditLog;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.model.MemberId;
 import com.gomo.app.member.domain.model.Password;
@@ -21,6 +22,7 @@ public class UpdatePasswordUseCase {
 	private final MemberService memberService;
 	private final PasswordService passwordService;
 
+	@AuditLog(action = "UPDATE_PASSWORD")
 	public void update(UUID memberId, UpdatePasswordRequest request) {
 		Member member = memberService.find(MemberId.of(memberId));
 

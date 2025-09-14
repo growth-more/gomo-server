@@ -9,6 +9,7 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 import org.slf4j.MDC;
+import org.springframework.stereotype.Component;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
@@ -22,6 +23,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Component
 public class LoggingFilter implements Filter {
 
 	@Override
@@ -54,11 +56,12 @@ public class LoggingFilter implements Filter {
 			String clientIp = getClientIp(wrappedRequest);
 			String body = new String(wrappedRequest.getContentAsByteArray(), wrappedRequest.getCharacterEncoding());
 			if (body.isBlank()) {
-				body = "[None]";
+				body = null;
 			}
-			log.trace("[request] url={}, method={}, clientIp={}, userAgent={}, body={}", url, method, clientIp, userAgent, body);
+			log.trace(
+				"\"request\":{\"url\":\"{}\", \"method\":\"{}\", \"clientIp\":\"{}\", \"userAgent\":\"{}\", \"body\":{}}", url, method, clientIp, userAgent, body);
 		} catch (UnsupportedEncodingException e) {
-			log.warn("Failed to read request body", e);
+			log.warn("\"message\":\"Failed to read request body\"", e);
 		}
 	}
 
@@ -67,11 +70,11 @@ public class LoggingFilter implements Filter {
 			int status = wrappedResponse.getStatus();
 			String body = new String(wrappedResponse.getContentAsByteArray(), wrappedResponse.getCharacterEncoding());
 			if (body.isBlank()) {
-				body = "[None]";
+				body = null;
 			}
-			log.trace("[response] status={}, body={}", status, body);
+			log.trace("\"response\":{\"status\":{}, \"body\":{}}", status, body);
 		} catch (UnsupportedEncodingException e) {
-			log.warn("Failed to read response body", e);
+			log.warn("\"message\":\"Failed to read response body\"", e);
 		}
 	}
 

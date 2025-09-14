@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.ApplicationService;
+import com.gomo.app.logging.AuditLog;
 import com.gomo.app.quest.domain.model.QuestContent;
 import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.domain.model.RepeatQuest;
@@ -25,6 +26,7 @@ public class UpdateRepeatQuestUseCase {
 
 	private final RepeatQuestService repeatQuestService;
 
+	@AuditLog(action = "UPDATE_REPEAT_QUEST")
 	public void update(UUID accessorId, RepeatQuestId repeatQuestId, UpdateRepeatQuestRequest request) {
 		RepeatQuest repeatQuest = repeatQuestService.find(repeatQuestId);
 		repeatQuest.validateAuthority(accessorId);
@@ -39,7 +41,7 @@ public class UpdateRepeatQuestUseCase {
 	}
 
 	private void ensureSameQuestType(RepeatQuest repeatQuest, QuestType questType) {
-		if(!repeatQuest.isSameQuestType(questType)) {
+		if (!repeatQuest.isSameQuestType(questType)) {
 			throw new QuestTypeConstraintViolationException(QuestTypeErrorCode.MISMATCHED);
 		}
 	}

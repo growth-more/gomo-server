@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import com.gomo.app.auth.domain.model.AuthToken;
 import com.gomo.app.auth.presentation.response.AuthTokenResponse;
 import com.gomo.app.common.ApplicationService;
+import com.gomo.app.logging.AuditLog;
 import com.gomo.app.member.domain.model.Email;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.model.Password;
@@ -21,6 +22,7 @@ public class LoginMemberUseCase {
 	private final PasswordService passwordService;
 	private final AuthTokenGenerator authTokenGenerator;
 
+	@AuditLog(action = "MEMBER_LOGIN")
 	public AuthTokenResponse login(String email, String password) {
 		Member member = memberService.findByEmail(Email.of(email));
 		memberService.checkActivated(member);

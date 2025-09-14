@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.auth.domain.repository.AuthTokenRepository;
 import com.gomo.app.common.ApplicationService;
+import com.gomo.app.logging.AuditLog;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.model.MemberId;
 import com.gomo.app.member.domain.service.MemberService;
@@ -20,6 +21,7 @@ public class DeleteMemberUseCase {
 	private final MemberService memberService;
 	private final AuthTokenRepository authTokenRepository;
 
+	@AuditLog(action = "DELETE_MEMBER")
 	public void delete(UUID memberId) {
 		Member member = memberService.find(MemberId.of(memberId));
 		authTokenRepository.deleteRefreshToken(memberId);
