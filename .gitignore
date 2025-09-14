@@ -8,6 +8,8 @@ src/main/resources/application.yml
 src/main/resources/static/docs/
 src/test/resources/application.yml
 logs/
+.DS_Store
+promtail-config.yml
 
 ### STS ###
 .apt_generated
