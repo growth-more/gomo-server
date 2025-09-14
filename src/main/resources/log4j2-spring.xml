@@ -1,35 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="${sys:log4j.configuration.status:-WARN}"> <!-- use java system property for log4j2 status in local or dev-->
+<Configuration status="${sys:log4j.configuration.status:-WARN}" XIncludeAware="true"
+               xmlns:xi="http://www.w3.org/2001/XInclude"> <!-- use java system property for log4j2 status in local or dev-->
     <Properties>
         <Property name="p_profile">${spring:spring.profiles.active:-local}</Property>
         <Property name="p_pid">${sys:PID}</Property>
-        <Property name="FILE_DIR">./logs</Property>
+        <Property name="LOG_PATH">${sys:LOG_PATH:-./logs}</Property>
         <Property name="CONSOLE_LOG_LEVEL">{%5p}{FATAL=red blink, ERROR=red bold, WARN=yellow bold, INFO=green bold, DEBUG=blue bold, TRACE=blue}</Property>
 
         <Property name="CONSOLE_LOG_PATTERN">
-            <![CDATA[[%mdc{REQUEST_ID}] %d{HH:mm:ss.SSS} %style{${p_profile}}{magenta} ${p_pid} %highlight${CONSOLE_LOG_LEVEL} [%t] %style{%c{1.}}{cyan} --- %m%n%ex]]>
-        </Property>
-        <Property name="FILE_LOG_PATTERN">
-            <![CDATA[[%mdc{REQUEST_ID}] %d{yyyy-MM-dd HH:mm:ss.SSS} ${p_profile} ${p_pid} %-5level [%t] %c{1.} --- %m%n%ex]]>
+            <![CDATA[[%mdc{REQUEST_ID}] [%mdc{MEMBER_ID}] %d{HH:mm:ss.SSS} %style{${p_profile}}{magenta} ${p_pid} %highlight${CONSOLE_LOG_LEVEL} [%t] %style{%c{1.}}{cyan} --- %m%n%ex]]>
         </Property>
     </Properties>
 
     <Appenders>
         <Console name="CONSOLE" target="SYSTEM_OUT">
-            <PatternLayout pattern="${CONSOLE_LOG_PATTERN}"/>
+            <xi:include href="log4j2-json-layout.xml"/>
         </Console>
 
-        <RollingFile name="INFO_FILE" fileName="${FILE_DIR}/gomo.log" filePattern="${FILE_DIR}/gomo.%d{yyyy-MM-dd}.%i.log.gz">
-            <PatternLayout>
-                <Pattern>${FILE_LOG_PATTERN}</Pattern>
-            </PatternLayout>
+        <RollingFile name="INFO_FILE" fileName="${LOG_PATH}/gomo.log" filePattern="${LOG_PATH}/gomo.%d{yyyy-MM-dd}.%i.log.gz">
+            <xi:include href="log4j2-json-layout.xml"/>
             <Policies>
                 <!-- modulate="true": Adjusts the rollover time to occur precisely at midnight, rather than at the application start time. -->
                 <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
                 <SizeBasedTriggeringPolicy size="100 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="30">
-                <Delete basePath="${FILE_DIR}" maxDepth="1">
+                <Delete basePath="${LOG_PATH}" maxDepth="1">
                     <IfFileName glob="gomo.*.log.gz"/>
                     <IfLastModified age="30d"/>
                     <IfAccumulatedFileSize exceeds="10 GB"/>
@@ -40,17 +36,14 @@
             </Filters>
         </RollingFile>
 
-        <RollingFile name="DEBUG_FILE" fileName="${FILE_DIR}/gomo-debug.log"
-                     filePattern="${FILE_DIR}/gomo-debug.%d{yyyy-MM-dd}.%i.log.gz">
-            <PatternLayout>
-                <Pattern>${FILE_LOG_PATTERN}</Pattern>
-            </PatternLayout>
+        <RollingFile name="DEBUG_FILE" fileName="${LOG_PATH}/gomo-debug.log" filePattern="${LOG_PATH}/gomo-debug.%d{yyyy-MM-dd}.%i.log.gz">
+            <xi:include href="log4j2-json-layout.xml"/>
             <Policies>
                 <TimeBasedTriggeringPolicy/>
                 <SizeBasedTriggeringPolicy size="100 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="7">
-                <Delete basePath="${FILE_DIR}" maxDepth="1">
+                <Delete basePath="${LOG_PATH}" maxDepth="1">
                     <IfFileName glob="gomo-debug.*.log.gz"/>
                     <IfLastModified age="7d"/>
                     <IfAccumulatedFileSize exceeds="10 GB"/>
@@ -61,17 +54,14 @@
             </Filters>
         </RollingFile>
 
-        <RollingFile name="TRACE_FILE" fileName="${FILE_DIR}/gomo-trace.log"
-                     filePattern="${FILE_DIR}/gomo-trace.%d{yyyy-MM-dd}.%i.log.gz">
-            <PatternLayout>
-                <Pattern>${FILE_LOG_PATTERN}</Pattern>
-            </PatternLayout>
+        <RollingFile name="TRACE_FILE" fileName="${LOG_PATH}/gomo-trace.log" filePattern="${LOG_PATH}/gomo-trace.%d{yyyy-MM-dd}.%i.log.gz">
+            <xi:include href="log4j2-json-layout.xml"/>
             <Policies>
                 <TimeBasedTriggeringPolicy/>
                 <SizeBasedTriggeringPolicy size="100 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="7">
-                <Delete basePath="${FILE_DIR}" maxDepth="1">
+                <Delete basePath="${LOG_PATH}" maxDepth="1">
                     <IfFileName glob="gomo-trace.*.log.gz"/>
                     <IfLastModified age="7d"/>
                     <IfAccumulatedFileSize exceeds="10 GB"/>
@@ -87,9 +77,19 @@
         <SpringProfile name="local">
             <Root level="info">
                 <AppenderRef ref="CONSOLE"/>
+                <AppenderRef ref="INFO_FILE"/>
             </Root>
-            <Logger name="com.gomo.app" level="trace" additivity="false">
+            <Logger name="com.gomo.app" level="info" additivity="false">
                 <AppenderRef ref="CONSOLE"/>
+                <AppenderRef ref="INFO_FILE"/>
+                <AppenderRef ref="DEBUG_FILE"/>
+                <AppenderRef ref="TRACE_FILE"/>
+            </Logger>
+            <Logger name="com.gomo.app.logging" level="trace" additivity="false">
+                <AppenderRef ref="CONSOLE"/>
+                <AppenderRef ref="INFO_FILE"/>
+                <!--<AppenderRef ref="DEBUG_FILE"/>-->
+                <AppenderRef ref="TRACE_FILE"/>
             </Logger>
         </SpringProfile>
 
@@ -104,6 +104,18 @@
                 <AppenderRef ref="DEBUG_FILE"/>
                 <AppenderRef ref="TRACE_FILE"/>
             </Logger>
+            <Logger name="io.micrometer" level="warn" additivity="false">
+                <AppenderRef ref="CONSOLE"/>
+                <AppenderRef ref="INFO_FILE"/>
+                <AppenderRef ref="DEBUG_FILE"/>
+                <AppenderRef ref="TRACE_FILE"/>
+            </Logger>
+            <Logger name="org.springframework.boot.actuate" level="warn" additivity="false">
+                <AppenderRef ref="CONSOLE"/>
+                <AppenderRef ref="INFO_FILE"/>
+                <AppenderRef ref="DEBUG_FILE"/>
+                <AppenderRef ref="TRACE_FILE"/>
+            </Logger>
         </SpringProfile>
 
         <SpringProfile name="prod">
@@ -112,6 +124,18 @@
                 <AppenderRef ref="INFO_FILE"/>
             </Root>
             <Logger name="com.gomo.app" level="info" additivity="false">
+                <AppenderRef ref="CONSOLE"/>
+                <AppenderRef ref="INFO_FILE"/>
+                <AppenderRef ref="DEBUG_FILE"/>
+                <AppenderRef ref="TRACE_FILE"/>
+            </Logger>
+            <Logger name="io.micrometer" level="warn" additivity="false">
+                <AppenderRef ref="CONSOLE"/>
+                <AppenderRef ref="INFO_FILE"/>
+                <AppenderRef ref="DEBUG_FILE"/>
+                <AppenderRef ref="TRACE_FILE"/>
+            </Logger>
+            <Logger name="org.springframework.boot.actuate" level="warn" additivity="false">
                 <AppenderRef ref="CONSOLE"/>
                 <AppenderRef ref="INFO_FILE"/>
                 <AppenderRef ref="DEBUG_FILE"/>
