@@ -12,6 +12,7 @@ import com.gomo.app.displayorder.OrderChanger;
 import com.gomo.app.interest.domain.model.RegistrantId;
 import com.gomo.app.interest.domain.repository.MajorInterestRepository;
 import com.gomo.app.interest.presentation.request.OrderUpdateMajorInterestRequest;
+import com.gomo.app.logging.AuditLog;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,6 +23,7 @@ public class OrderUpdateMajorInterestUseCase {
 
 	private final MajorInterestRepository majorInterestRepository;
 
+	@AuditLog(action = "UPDATE_MAJOR_INTEREST_ORDER")
 	public void update(UUID accessorId, OrderUpdateMajorInterestRequest request) {
 		Map<UUID, OrderChangeable> majorInterestMap = majorInterestRepository.findAllByRegistrantIdOrderByDisplayOrder(RegistrantId.of(accessorId)).stream()
 			.collect(Collectors.toMap(

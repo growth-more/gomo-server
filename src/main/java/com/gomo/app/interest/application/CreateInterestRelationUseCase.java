@@ -11,6 +11,7 @@ import com.gomo.app.interest.domain.model.RegistrantId;
 import com.gomo.app.interest.domain.service.InterestRelationService;
 import com.gomo.app.interest.presentation.request.CreateInterestRelationRequest;
 import com.gomo.app.interest.presentation.response.CreateInterestRelationResponse;
+import com.gomo.app.logging.AuditLog;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,6 +21,7 @@ public class CreateInterestRelationUseCase {
 
 	private final InterestRelationService interestRelationService;
 
+	@AuditLog(action = "CREATE_INTEREST_RELATION")
 	public CreateInterestRelationResponse create(UUID registrantId, CreateInterestRelationRequest request) {
 		InterestRelation interestRelation = interestRelationService.create(
 			RegistrantId.of(registrantId),

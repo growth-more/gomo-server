@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.ApplicationService;
+import com.gomo.app.logging.AuditLog;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.model.MemberId;
 import com.gomo.app.member.domain.service.MemberService;
@@ -19,6 +20,7 @@ public class UpdateMemberUseCase {
 
 	private final MemberService memberService;
 
+	@AuditLog(action = "UPDATE_MEMBER")
 	public void update(UUID memberId, UpdateMemberRequest request) {
 		Member member = memberService.find(MemberId.of(memberId));
 		member.updateMemberInfo(request.getName(), request.getMotto());

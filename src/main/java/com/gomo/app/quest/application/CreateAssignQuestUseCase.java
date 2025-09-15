@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.gomo.app.common.ApplicationService;
 import com.gomo.app.common.util.DateRangeCalculator;
+import com.gomo.app.logging.AuditLog;
 import com.gomo.app.member.domain.model.MemberId;
 import com.gomo.app.member.domain.service.MemberService;
 import com.gomo.app.quest.application.translator.ParticipantTranslator;
@@ -29,6 +30,7 @@ public class CreateAssignQuestUseCase {
 	private final AssignQuestService assignQuestService;
 	private final AssignQuestRepository assignQuestRepository;
 
+	@AuditLog(action = "CREATE_ASSIGN_QUEST")
 	public CreateAssignQuestResponse create(UUID participantId, CreateAssignQuestRequest request) {
 		ensureNotExceedQuestQuota(participantId, request.getQuestType());
 		Quest quest = request.toQuest(participantId);
@@ -47,7 +49,7 @@ public class CreateAssignQuestUseCase {
 		LocalDateTime startDateTime = DateRangeCalculator.startOf(now, questType.name());
 		LocalDateTime endDateTime = DateRangeCalculator.endOf(now, questType.name());
 
-		return (int) assignQuestRepository.countParticipatingQuestByQuestType(
+		return (int)assignQuestRepository.countParticipatingQuestByQuestType(
 			participantId,
 			questType,
 			startDateTime,

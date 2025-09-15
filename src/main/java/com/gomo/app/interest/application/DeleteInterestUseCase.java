@@ -14,6 +14,7 @@ import com.gomo.app.interest.domain.repository.InterestRepository;
 import com.gomo.app.interest.domain.repository.MajorInterestRepository;
 import com.gomo.app.interest.domain.service.InterestRelationService;
 import com.gomo.app.interest.domain.service.InterestService;
+import com.gomo.app.logging.AuditLog;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,6 +29,7 @@ public class DeleteInterestUseCase {
 	private final InterestRepository interestRepository;
 	private final MajorInterestRepository majorInterestRepository;
 
+	@AuditLog(action = "DELETE_INTEREST")
 	public void delete(UUID registrantId, UUID interestId) {
 		Interest interest = interestService.find(InterestId.of(interestId));
 		interest.validateAuthority(registrantId);
@@ -38,12 +40,12 @@ public class DeleteInterestUseCase {
 		interestRepository.delete(interest);
 	}
 
-	// TODO <jhl221123>: InterestRelationService로 분리해야 합니다.
+	// TODO <jhl221123>: 관심사를 삭제할 때, 주요관심사와 관계선을 함께 제거하는 것은 도메인 정책임으로 도메인 서비스로 분리해야 합니다.
 	private void deleteInterestRelations(UUID interestId) {
 		List<InterestRelation> interestRelations = interestRelationService.findAllByInterestId(interestId);
 
-		if(!interestRelations.isEmpty()) {
-			for(InterestRelation relation : interestRelations) {
+		if (!interestRelations.isEmpty()) {
+			for (InterestRelation relation : interestRelations) {
 				interestRelationService.delete(relation);
 			}
 		}
@@ -54,7 +56,7 @@ public class DeleteInterestUseCase {
 	}
 
 	private void deleteLogoUrl(Interest interest) {
-		if(!interest.hasDefaultLogo()) {
+		if (!interest.hasDefaultLogo()) {
 			imageService.deleteImage(interest.getLogo().getUrl());
 		}
 	}

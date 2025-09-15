@@ -5,8 +5,10 @@ import java.util.UUID;
 import com.gomo.app.member.domain.model.MemberId;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class CreateMemberResponse {
 
 	private UUID id;

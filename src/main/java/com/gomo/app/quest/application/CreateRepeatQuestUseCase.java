@@ -3,6 +3,7 @@ package com.gomo.app.quest.application;
 import java.util.UUID;
 
 import com.gomo.app.common.ApplicationService;
+import com.gomo.app.logging.AuditLog;
 import com.gomo.app.member.domain.model.MemberId;
 import com.gomo.app.member.domain.service.MemberService;
 import com.gomo.app.quest.application.translator.ParticipantTranslator;
@@ -26,6 +27,7 @@ public class CreateRepeatQuestUseCase {
 	private final RepeatQuestService repeatQuestService;
 	private final RepeatQuestRepository repeatQuestRepository;
 
+	@AuditLog(action = "CREATE_REPEAT_QUEST")
 	public CreateRepeatQuestResponse create(UUID participantId, CreateRepeatQuestRequest request) {
 		ensureNotExceedQuestQuota(participantId, request.getQuestType());
 		Quest quest = request.toQuest(participantId);
@@ -35,7 +37,7 @@ public class CreateRepeatQuestUseCase {
 
 	private void ensureNotExceedQuestQuota(UUID participantId, QuestType questType) {
 		Participant participant = ParticipantTranslator.from(memberService.find(MemberId.of(participantId)));
-		int repeatQuestCount = (int) repeatQuestRepository.countByQuestParticipantIdAndQuestType(participant.getId(), questType);
+		int repeatQuestCount = (int)repeatQuestRepository.countByQuestParticipantIdAndQuestType(participant.getId(), questType);
 		participant.validateQuestQuota(questType, repeatQuestCount);
 	}
 }

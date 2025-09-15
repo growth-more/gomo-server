@@ -8,6 +8,7 @@ import com.gomo.app.auth.infrastructure.oauth.OAuthProvider;
 import com.gomo.app.auth.infrastructure.oauth.OAuthProviderFactory;
 import com.gomo.app.auth.presentation.response.OAuthTokenResponse;
 import com.gomo.app.common.ApplicationService;
+import com.gomo.app.logging.AuditLog;
 import com.gomo.app.member.domain.model.Email;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.model.OAuthUserInfo;
@@ -25,6 +26,7 @@ public class OAuthUseCase {
 	private final MemberRepository memberRepository;
 	private final AuthTokenGenerator authTokenGenerator;
 
+	@AuditLog(action = "OAUTH_LOGIN")
 	public OAuthTokenResponse getUserInformation(String providerName, String code) {
 		OAuthProvider provider = providerFactory.getProvider(providerName);
 		OAuthUserInfo userInfo = provider.authenticate(code);

@@ -1,11 +1,12 @@
 package com.gomo.app.member.application;
 
+import com.gomo.app.auth.presentation.request.VerifyEmailAuthCodeRequest;
+import com.gomo.app.auth.presentation.response.VerifyEmailAuthCodeResponse;
 import com.gomo.app.common.ApplicationService;
+import com.gomo.app.logging.AuditLog;
 import com.gomo.app.member.domain.service.EmailAuthCodeService;
 import com.gomo.app.member.exception.MemberAuthenticationFailedException;
 import com.gomo.app.member.exception.code.MemberErrorCode;
-import com.gomo.app.auth.presentation.request.VerifyEmailAuthCodeRequest;
-import com.gomo.app.auth.presentation.response.VerifyEmailAuthCodeResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,6 +16,7 @@ public class VerifyEmailAuthCodeUseCase {
 
 	private final EmailAuthCodeService emailAuthCodeService;
 
+	@AuditLog(action = "VERIFY_EMAIL_CODE")
 	public VerifyEmailAuthCodeResponse verify(VerifyEmailAuthCodeRequest request) {
 		String storedCode = emailAuthCodeService.find(request.getEmail());
 		if (!storedCode.equals(request.getCode()) || request.getEmail() == null) {

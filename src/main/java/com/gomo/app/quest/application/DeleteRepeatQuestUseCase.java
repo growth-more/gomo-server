@@ -3,6 +3,7 @@ package com.gomo.app.quest.application;
 import java.util.UUID;
 
 import com.gomo.app.common.ApplicationService;
+import com.gomo.app.logging.AuditLog;
 import com.gomo.app.quest.domain.model.RepeatQuest;
 import com.gomo.app.quest.domain.model.RepeatQuestId;
 import com.gomo.app.quest.domain.repository.RepeatQuestRepository;
@@ -17,6 +18,7 @@ public class DeleteRepeatQuestUseCase {
 	private final RepeatQuestService repeatQuestService;
 	private final RepeatQuestRepository repeatQuestRepository;
 
+	@AuditLog(action = "DELETE_REPEAT_QUEST")
 	public void delete(UUID accessorId, RepeatQuestId repeatQuestId) {
 		RepeatQuest repeatQuest = repeatQuestService.find(repeatQuestId);
 		repeatQuest.validateAuthority(accessorId);

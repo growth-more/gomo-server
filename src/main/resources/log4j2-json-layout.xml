@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<JsonLayout compact="true" eventEol="true" properties="true">
+    <KeyValuePair key="@timestamp" value="$${date:yyyy-MM-dd'T'HH:mm:ss.SSSXXX}"/>
+    <KeyValuePair key="env" value="${p_profile}"/>
+    <KeyValuePair key="pid" value="${p_pid}"/>
+</JsonLayout>

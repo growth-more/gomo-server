@@ -3,6 +3,7 @@ package com.gomo.app.member.application;
 import java.util.UUID;
 
 import com.gomo.app.common.ApplicationService;
+import com.gomo.app.logging.AuditLog;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.model.MemberId;
 import com.gomo.app.member.domain.service.MemberService;
@@ -17,6 +18,7 @@ public class DeleteProfileBannerUseCase {
 
 	private final MemberService memberService;
 
+	@AuditLog(action = "DELETE_PROFILE_BANNER")
 	public void delete(UUID memberId) {
 		Member member = memberService.find(MemberId.of(memberId));
 		member.deleteBanner();

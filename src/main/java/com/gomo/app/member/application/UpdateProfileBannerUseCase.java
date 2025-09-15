@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.gomo.app.common.ApplicationService;
 import com.gomo.app.image.ImageService;
+import com.gomo.app.logging.AuditLog;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.model.MemberId;
 import com.gomo.app.member.domain.service.MemberService;
@@ -22,6 +23,7 @@ public class UpdateProfileBannerUseCase {
 	private final MemberService memberService;
 	private final ImageService imageService;
 
+	@AuditLog(action = "UPDATE_PROFILE_BANNER")
 	public UpdateProfileBannerResponse update(UUID memberId, MultipartFile profileBanner) {
 		Member member = memberService.find(MemberId.of(memberId));
 		String updatedUrl = imageService.uploadImage(profileBanner);

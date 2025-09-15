@@ -1,6 +1,6 @@
 package com.gomo.app.logging;
 
 public enum MDC {
-	
-	REQUEST_ID,
+
+	REQUEST_ID, MEMBER_ID
 }

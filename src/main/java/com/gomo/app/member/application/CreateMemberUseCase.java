@@ -2,6 +2,8 @@ package com.gomo.app.member.application;
 
 import com.gomo.app.common.ApplicationService;
 import com.gomo.app.common.util.UUIDGenerator;
+import com.gomo.app.logging.AuditLog;
+import com.gomo.app.logging.Timed;
 import com.gomo.app.member.domain.model.Email;
 import com.gomo.app.member.domain.model.Handle;
 import com.gomo.app.member.domain.model.LoginProvider;
@@ -32,6 +34,8 @@ public class CreateMemberUseCase {
 	private final PointWalletRepository pointWalletRepository;
 	private final AchieverService achieverService;
 
+	@AuditLog(action = "CREATE_MEMBER")
+	@Timed
 	public CreateMemberResponse create(CreateMemberRequest request) {
 		memberService.checkEmailDuplicated(Email.of(request.getEmail()));
 		memberService.checkHandleDuplicated(Handle.of(request.getHandle()));
