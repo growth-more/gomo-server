@@ -27,8 +27,13 @@ public class OAuthApi {
 	@GetMapping("/{provider}")
 	public ResponseEntity<OAuthResponse> getUserInformation(@PathVariable String provider, @RequestParam String code) {
 		OAuthTokenResponse tokens = oauthUseCase.getUserInformation(provider, code);
-		ResponseCookie cookie = createResponseCookie(tokens.getAuthToken().getRefreshToken(),
+		ResponseCookie cookie;
+		if (tokens.getAuthToken() != null){
+			cookie = createResponseCookie(tokens.getAuthToken().getRefreshToken(),
 			tokens.getExpiresIn());
+		} else {
+			cookie = createResponseCookie("", 0);
+		}
 
 		return ResponseEntity.ok()
 			.header(HttpHeaders.SET_COOKIE, cookie.toString())
