@@ -27,17 +27,19 @@ public class OAuthApi {
 	@GetMapping("/{provider}")
 	public ResponseEntity<OAuthResponse> getUserInformation(@PathVariable String provider, @RequestParam String code) {
 		OAuthTokenResponse tokens = oauthUseCase.getUserInformation(provider, code);
+
 		ResponseCookie cookie;
+
 		if (tokens.getAuthToken() != null){
 			cookie = createResponseCookie(tokens.getAuthToken().getRefreshToken(),
-			tokens.getExpiresIn());
+				tokens.getExpiresIn());
+			return ResponseEntity.ok()
+				.header(HttpHeaders.SET_COOKIE, cookie.toString())
+				.body(OAuthResponse.of(tokens.getAuthToken().getAccessToken(), tokens.getUserInfo()));
 		} else {
-			cookie = createResponseCookie("", 0);
+			return ResponseEntity.ok()
+				.body(OAuthResponse.of(null, tokens.getUserInfo()));
 		}
-
-		return ResponseEntity.ok()
-			.header(HttpHeaders.SET_COOKIE, cookie.toString())
-			.body(OAuthResponse.of(tokens.getAuthToken().getAccessToken(), tokens.getUserInfo()));
 	}
 
 	private ResponseCookie createResponseCookie(String refreshToken, long expiresIn) {
