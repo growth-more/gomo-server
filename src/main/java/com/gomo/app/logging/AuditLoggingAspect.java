@@ -1,7 +1,5 @@
 package com.gomo.app.logging;
 
-import java.util.Objects;
-
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -26,11 +24,7 @@ public class AuditLoggingAspect {
 
 		try {
 			Object result = joinPoint.proceed();
-			if (Objects.nonNull(result)) {
-				log.info("action={}, status=success, result={}", action, result);
-			} else {
-				log.info("action={}, status=success", action);
-			}
+			log.info("action={}, status=success, result={}", action, result);
 			return result;
 		} catch (Throwable throwable) {
 			log.error("action={}, status=failed, exception={}", action, throwable.getMessage(), throwable);
