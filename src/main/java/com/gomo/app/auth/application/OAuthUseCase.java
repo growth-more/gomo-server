@@ -26,7 +26,7 @@ public class OAuthUseCase {
 	private final MemberRepository memberRepository;
 	private final AuthTokenGenerator authTokenGenerator;
 
-	@AuditLog(action = "OAUTH_LOGIN")
+	@AuditLog(action = "OAUTH_VERIFY")
 	public OAuthTokenResponse getUserInformation(String providerName, String code) {
 		OAuthProvider provider = providerFactory.getProvider(providerName);
 		OAuthUserInfo userInfo = provider.authenticate(code);

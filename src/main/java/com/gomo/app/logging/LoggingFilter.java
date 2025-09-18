@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.slf4j.MDC;
@@ -47,21 +48,29 @@ public class LoggingFilter implements Filter {
 
 	private void loggingRequest(ContentCachingRequestWrapper wrappedRequest) {
 		try {
-			String url = wrappedRequest.getRequestURI();
-			String method = wrappedRequest.getMethod();
+			String clientIp = getClientIp(wrappedRequest);
 			String userAgent = wrappedRequest.getHeader("User-Agent");
 			if (userAgent == null || userAgent.isBlank()) {
 				userAgent = "Unknown";
 			}
-			String clientIp = getClientIp(wrappedRequest);
-			String body = new String(wrappedRequest.getContentAsByteArray(), wrappedRequest.getCharacterEncoding());
-			if (body.isBlank()) {
-				body = null;
+
+			String url = wrappedRequest.getRequestURI();
+			String method = wrappedRequest.getMethod();
+			String params = null;
+			if (!wrappedRequest.getParameterMap().isEmpty()) {
+				params = wrappedRequest.getParameterMap().entrySet().stream()
+					.map(entry -> entry.getKey() + "=" + String.join(",", entry.getValue()))
+					.collect(Collectors.joining(", ", "[", "]"));
 			}
-			log.trace(
-				"\"request\":{\"url\":\"{}\", \"method\":\"{}\", \"clientIp\":\"{}\", \"userAgent\":\"{}\", \"body\":{}}", url, method, clientIp, userAgent, body);
+
+			String body = null;
+			if (wrappedRequest.getContentLength() > 0) {
+				body = new String(wrappedRequest.getContentAsByteArray(), wrappedRequest.getCharacterEncoding());
+			}
+
+			log.trace("clientIp={}, userAgent={}, request=[url={}, method={}, params={}, body={}]", clientIp, userAgent, url, method, params, body);
 		} catch (UnsupportedEncodingException e) {
-			log.warn("\"message\":\"Failed to read request body\"", e);
+			log.warn("Failed to read request body", e);
 		}
 	}
 
@@ -72,9 +81,9 @@ public class LoggingFilter implements Filter {
 			if (body.isBlank()) {
 				body = null;
 			}
-			log.trace("\"response\":{\"status\":{}, \"body\":{}}", status, body);
+			log.trace("response=[status={}, body={}]", status, body);
 		} catch (UnsupportedEncodingException e) {
-			log.warn("\"message\":\"Failed to read response body\"", e);
+			log.warn("Failed to read response body", e);
 		}
 	}
 

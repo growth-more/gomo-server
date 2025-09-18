@@ -8,13 +8,14 @@
         <Property name="CONSOLE_LOG_LEVEL">{%5p}{FATAL=red blink, ERROR=red bold, WARN=yellow bold, INFO=green bold, DEBUG=blue bold, TRACE=blue}</Property>
 
         <Property name="CONSOLE_LOG_PATTERN">
-            <![CDATA[[%mdc{REQUEST_ID}] [%mdc{MEMBER_ID}] %d{HH:mm:ss.SSS} %style{${p_profile}}{magenta} ${p_pid} %highlight${CONSOLE_LOG_LEVEL} [%t] %style{%c{1.}}{cyan} --- %m%n%ex]]>
+            <![CDATA[[request_id: %mdc{REQUEST_ID}] [member_id: %mdc{MEMBER_ID}] %d{HH:mm:ss.SSS} %style{${p_profile}}{magenta} ${p_pid} %highlight${CONSOLE_LOG_LEVEL} [%t] %style{%c{1.}}{cyan} --- %m%n%ex]]>
         </Property>
     </Properties>
 
     <Appenders>
         <Console name="CONSOLE" target="SYSTEM_OUT">
-            <xi:include href="log4j2-json-layout.xml"/>
+            <PatternLayout pattern="${CONSOLE_LOG_PATTERN}"/>
+            <!--            <xi:include href="log4j2-json-layout.xml"/>-->
         </Console>
 
         <RollingFile name="INFO_FILE" fileName="${LOG_PATH}/gomo.log" filePattern="${LOG_PATH}/gomo.%d{yyyy-MM-dd}.%i.log.gz">

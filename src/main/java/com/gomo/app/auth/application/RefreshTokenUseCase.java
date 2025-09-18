@@ -7,6 +7,7 @@ import com.gomo.app.auth.domain.repository.AuthTokenRepository;
 import com.gomo.app.auth.presentation.response.AuthTokenResponse;
 import com.gomo.app.common.ApplicationService;
 import com.gomo.app.common.util.JwtUtil;
+import com.gomo.app.logging.AuditLog;
 import com.gomo.app.member.exception.MemberAuthenticationFailedException;
 import com.gomo.app.member.exception.code.MemberErrorCode;
 
@@ -20,6 +21,7 @@ public class RefreshTokenUseCase {
 	private final JwtUtil jwtUtil;
 	private final AuthTokenRepository authTokenRepository;
 
+	@AuditLog(action = "REFRESH_TOKEN_UPDATE")
 	public AuthTokenResponse refresh(String refreshToken) {
 		if (refreshToken == null) {
 			throw new MemberAuthenticationFailedException(MemberErrorCode.AUTHENTICATION_FAILED);
