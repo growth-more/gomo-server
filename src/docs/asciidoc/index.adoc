@@ -99,6 +99,7 @@ include::apis/quest-api.adoc[]
 `REP-ROO-002`: Access denied for the repeat quest  +
 
 `QUE-ROO-001`: Quest quota exceeded  +
+`QUE-ROO-002`: Access denied for the quest  +
 
 `QUE-TYP-001`: Unexpected quest type +
 `QUE-TYP-002`: Assigned quest type does not match the requested quest type +
