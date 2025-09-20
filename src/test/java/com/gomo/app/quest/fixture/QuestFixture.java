@@ -20,4 +20,14 @@ public class QuestFixture {
 			QuestContent.of("quest content")
 		);
 	}
+
+	public static Quest quest(UUID participantId) {
+		return Quest.of(
+			ParticipantId.of(participantId),
+			SubjectId.of(UUID.randomUUID()),
+			SubjectName.of("subject name"),
+			QuestType.DAILY,
+			QuestContent.of("quest content")
+		);
+	}
 }
