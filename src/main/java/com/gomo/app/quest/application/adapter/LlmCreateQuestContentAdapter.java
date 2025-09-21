@@ -3,8 +3,8 @@ package com.gomo.app.quest.application.adapter;
 import java.util.List;
 
 import com.gomo.app.common.Adapter;
-import com.gomo.app.llm.application.GenerateTextUseCase;
-import com.gomo.app.quest.application.port.CreateQuestContentPort;
+import com.gomo.app.llm.application.GenerateTextPortIn;
+import com.gomo.app.quest.application.port.CreateQuestContentPortOut;
 import com.gomo.app.quest.application.port.command.CreateQuestContentCommand;
 import com.gomo.app.quest.application.port.dto.QuestContentDto;
 
@@ -12,9 +12,9 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Adapter
-class LlmCreateQuestContentAdapter implements CreateQuestContentPort {
+class LlmCreateQuestContentAdapter implements CreateQuestContentPortOut {
 
-	private final GenerateTextUseCase generateTextUseCase;
+	private final GenerateTextPortIn generateTextPortIn;
 
 	@Override
 	public List<QuestContentDto> create(CreateQuestContentCommand command) {

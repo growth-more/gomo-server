@@ -12,5 +12,7 @@ import com.gomo.app.quest.domain.model.QuestPoolId;
 
 public interface QuestPoolRepository extends JpaRepository<QuestPool, QuestPoolId> {
 
+	long countByQuestParticipantIdAndProcessingStatus(ParticipantId participantId, ProcessingStatus processingStatus);
+
 	List<QuestPool> findTopByQuestParticipantIdAndProcessingStatus(ParticipantId participantId, ProcessingStatus processingStatus, Pageable pageable);
 }

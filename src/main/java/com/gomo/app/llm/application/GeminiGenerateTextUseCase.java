@@ -3,7 +3,7 @@ package com.gomo.app.llm.application;
 import com.gomo.app.common.ApplicationService;
 
 @ApplicationService
-class GeminiGenerateTextUseCase implements GenerateTextUseCase {
+class GeminiGenerateTextUseCase implements GenerateTextPortIn {
 
 	@Override
 	public GenerateTextDto generate(GenerateTextCommand command) {

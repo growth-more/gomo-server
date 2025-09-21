@@ -1,6 +1,6 @@
 package com.gomo.app.llm.application;
 
-public interface GenerateTextUseCase {
+public interface GenerateTextPortIn {
 
 	GenerateTextDto generate(GenerateTextCommand command);
 }
