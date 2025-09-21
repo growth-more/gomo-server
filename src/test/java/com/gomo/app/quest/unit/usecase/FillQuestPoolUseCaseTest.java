@@ -41,9 +41,9 @@ public class FillQuestPoolUseCaseTest {
 	@Mock
 	private QuestPoolRepository questPoolRepository;
 
-	@DisplayName("현재 참여중인 목록을 조회한다.")
+	@DisplayName("지정된 타입, 개수만큼 전체 활성화 사용자의 퀘스트 풀을 생성한다.")
 	@Test
-	void find_All() {
+	void fill_quest_pool_for_active_participants() {
 		List<ActiveParticipantDto> activeParticipants = List.of(
 			ActiveParticipantDto.of(UUID.randomUUID()),
 			ActiveParticipantDto.of(UUID.randomUUID())
