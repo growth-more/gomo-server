@@ -9,7 +9,6 @@ import com.gomo.app.logging.AuditLog;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.model.MemberId;
 import com.gomo.app.member.domain.service.MemberService;
-import com.gomo.app.member.presentation.request.UpdateMemberRequest;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,8 +20,8 @@ public class UpdateMemberUseCase {
 	private final MemberService memberService;
 
 	@AuditLog(action = "UPDATE_MEMBER")
-	public void update(UUID memberId, UpdateMemberRequest request) {
+	public void update(UUID memberId, String name, String motto) {
 		Member member = memberService.find(MemberId.of(memberId));
-		member.updateMemberInfo(request.getName(), request.getMotto());
+		member.updateMemberInfo(name, motto);
 	}
 }

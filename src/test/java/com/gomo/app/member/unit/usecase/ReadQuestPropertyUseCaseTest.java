@@ -11,10 +11,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.member.application.ReadQuestPropertyUseCase;
+import com.gomo.app.member.application.port.dto.QuestPropertyDto;
 import com.gomo.app.member.common.fixture.MemberFixture;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.service.MemberService;
-import com.gomo.app.member.presentation.response.ReadQuestPropertyResponse;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Application unit]: 퀘스트 설정 조회 테스트")
@@ -30,10 +30,10 @@ public class ReadQuestPropertyUseCaseTest {
 	@Test
 	void find_quest_property_successfully() {
 		Member member = MemberFixture.member(3);
-		ReadQuestPropertyResponse expected = ReadQuestPropertyResponse.of(member.getQuestProperty());
+		QuestPropertyDto expected = QuestPropertyDto.from(member.getQuestProperty());
 		doReturn(member).when(memberService).find(member.getId());
 
-		ReadQuestPropertyResponse actual = sut.find(member.uuid());
+		QuestPropertyDto actual = sut.find(member.uuid());
 
 		assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
 	}

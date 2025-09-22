@@ -14,7 +14,6 @@ import com.gomo.app.member.application.UpdateMemberUseCase;
 import com.gomo.app.member.common.fixture.MemberFixture;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.service.MemberService;
-import com.gomo.app.member.presentation.request.UpdateMemberRequest;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Application unit]: 멤버 수정(이름, 모토) 테스트")
@@ -30,12 +29,8 @@ public class UpdateMemberUseCaseTest {
 	@Test
 	void update_member_name_and_motto() {
 		Member member = MemberFixture.member();
-		UpdateMemberRequest request = UpdateMemberRequest.of("NEW_NAME", "NEW_MOTTO");
-
 		doReturn(member).when(memberService).find(member.getId());
-
-		sut.update(member.uuid(), request);
-
+		sut.update(member.uuid(), "NEW_NAME", "NEW_MOTTO");
 		assertThat(member.getName().getName()).isEqualTo("NEW_NAME");
 		assertThat(member.getMotto().getMotto()).isEqualTo("NEW_MOTTO");
 	}
@@ -66,5 +61,4 @@ public class UpdateMemberUseCaseTest {
 	//
 	// 	assertThat(member.getMotto().getMotto()).isEqualTo("NEW_MOTTO_2");
 	// }
-
 }

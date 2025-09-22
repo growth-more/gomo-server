@@ -76,7 +76,7 @@ public abstract class DocumentationTestBase {
 
 		sessionEmail = "testmember@naver.com";
 		sessionHandle = "@Test";
-		memberApi.create(CreateMemberRequest.of(sessionEmail, "Test1234@", sessionHandle, "testname", "testmotto", LoginProvider.EMAIL));
+		memberApi.create(CreateMemberRequest.of(sessionEmail, "Test1234@", sessionHandle, "testname", "testmotto", LoginProvider.EMAIL.name()));
 		var tokenResponse = this.authMemberApi.login(LoginMemberRequest.of(sessionEmail, "Test1234@"));
 		this.sessionMemberId = tokenResponse.getBody().getMemberId();
 		this.authInfo = AuthInfo.of(sessionMemberId);

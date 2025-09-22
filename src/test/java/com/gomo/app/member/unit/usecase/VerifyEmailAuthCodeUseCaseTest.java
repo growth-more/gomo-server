@@ -10,12 +10,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.gomo.app.auth.presentation.request.VerifyEmailAuthCodeRequest;
 import com.gomo.app.member.application.VerifyEmailAuthCodeUseCase;
+import com.gomo.app.member.application.port.dto.VerifyEmailAuthCodeDto;
 import com.gomo.app.member.domain.service.EmailAuthCodeService;
 import com.gomo.app.member.exception.MemberAuthenticationFailedException;
 import com.gomo.app.member.exception.code.MemberErrorCode;
-import com.gomo.app.auth.presentation.request.VerifyEmailAuthCodeRequest;
-import com.gomo.app.auth.presentation.response.VerifyEmailAuthCodeResponse;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Application Unit]: Email 인증 검증 기능 테스트")
@@ -37,8 +37,8 @@ public class VerifyEmailAuthCodeUseCaseTest {
 		doReturn(AUTH_CODE_STORED).when(emailAuthCodeService).find(anyString());
 		doNothing().when(emailAuthCodeService).remove(anyString());
 
-		VerifyEmailAuthCodeResponse expected = VerifyEmailAuthCodeResponse.of(EMAIL);
-		VerifyEmailAuthCodeResponse actual = sut.verify(request);
+		VerifyEmailAuthCodeDto expected = VerifyEmailAuthCodeDto.of(EMAIL);
+		VerifyEmailAuthCodeDto actual = sut.verify(request.getEmail(), request.getCode());
 
 		assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
 	}
@@ -49,7 +49,7 @@ public class VerifyEmailAuthCodeUseCaseTest {
 		VerifyEmailAuthCodeRequest request = VerifyEmailAuthCodeRequest.of(EMAIL, null);
 		doReturn(AUTH_CODE_STORED).when(emailAuthCodeService).find(anyString());
 
-		assertThatThrownBy(() -> sut.verify(request))
+		assertThatThrownBy(() -> sut.verify(request.getEmail(), request.getCode()))
 			.isInstanceOf(MemberAuthenticationFailedException.class)
 			.hasMessageContaining(MemberErrorCode.AUTHENTICATION_FAILED.getMessage());
 	}
@@ -60,7 +60,7 @@ public class VerifyEmailAuthCodeUseCaseTest {
 		VerifyEmailAuthCodeRequest request = VerifyEmailAuthCodeRequest.of(EMAIL, "111111");
 		doReturn(AUTH_CODE_STORED).when(emailAuthCodeService).find(anyString());
 
-		assertThatThrownBy(() -> sut.verify(request))
+		assertThatThrownBy(() -> sut.verify(request.getEmail(), request.getCode()))
 			.isInstanceOf(MemberAuthenticationFailedException.class)
 			.hasMessageContaining(MemberErrorCode.AUTHENTICATION_FAILED.getMessage());
 	}

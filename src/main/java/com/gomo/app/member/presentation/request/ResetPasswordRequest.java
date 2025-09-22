@@ -6,20 +6,20 @@ import lombok.Getter;
 public class ResetPasswordRequest {
 
 	private String email;
-	private String resetPassword;
+	private String newPassword;
 
 	private ResetPasswordRequest(
 		String email,
-		String resetPassword
+		String newPassword
 	) {
 		this.email = email;
-		this.resetPassword = resetPassword;
+		this.newPassword = newPassword;
 	}
 
 	public static ResetPasswordRequest of(
 		String email,
-		String resetPassword
+		String newPassword
 	) {
-		return new ResetPasswordRequest(email, resetPassword);
+		return new ResetPasswordRequest(email, newPassword);
 	}
 }

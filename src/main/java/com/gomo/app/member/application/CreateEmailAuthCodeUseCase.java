@@ -1,6 +1,5 @@
 package com.gomo.app.member.application;
 
-import com.gomo.app.auth.presentation.request.CreateEmailAuthCodeRequest;
 import com.gomo.app.common.ApplicationService;
 import com.gomo.app.logging.AuditLog;
 import com.gomo.app.member.domain.model.Email;
@@ -21,18 +20,18 @@ public class CreateEmailAuthCodeUseCase {
 	private final EmailAuthCodeRepository emailAuthCodeRepository;
 
 	@AuditLog(action = "CREATE_SIGNUP_EMAIL_CODE")
-	public void createForSignUp(CreateEmailAuthCodeRequest request) {
-		memberService.checkEmailDuplicated(Email.of(request.getEmail()));
+	public void createForSignUp(String email) {
+		memberService.checkEmailDuplicated(Email.of(email));
 		String authCode = authCodeGenerator.generate();
-		emailAuthCodeRepository.save(request.getEmail(), authCode);
-		emailAuthSenderService.sendEmailAuthCode(request.getEmail(), authCode);
+		emailAuthCodeRepository.save(email, authCode);
+		emailAuthSenderService.sendEmailAuthCode(email, authCode);
 	}
 
 	@AuditLog(action = "CREATE_PW_RESET_EMAIL_CODE")
-	public void createForPasswordReset(CreateEmailAuthCodeRequest request) {
-		memberService.findByEmail(Email.of(request.getEmail()));
+	public void createForPasswordReset(String email) {
+		memberService.findByEmail(Email.of(email));
 		String authCode = authCodeGenerator.generate();
-		emailAuthCodeRepository.save(request.getEmail(), authCode);
-		emailAuthSenderService.sendEmailAuthCode(request.getEmail(), authCode);
+		emailAuthCodeRepository.save(email, authCode);
+		emailAuthSenderService.sendEmailAuthCode(email, authCode);
 	}
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.gomo.app.common.ApplicationService;
 import com.gomo.app.member.application.port.ReadActiveMemberPortIn;
-import com.gomo.app.member.application.port.dto.MemberDto;
+import com.gomo.app.member.application.port.dto.ActiveMemberDto;
 import com.gomo.app.member.domain.model.ActivateStatus;
 import com.gomo.app.member.domain.repository.MemberRepository;
 
@@ -20,12 +20,12 @@ class ReadActiveMemberUseCase implements ReadActiveMemberPortIn {
 	private final MemberRepository memberRepository;
 
 	@Override
-	public List<MemberDto> findAll(LocalDate lastLoginDate) {
+	public List<ActiveMemberDto> findAll(LocalDate lastLoginDate) {
 		return memberRepository.findByActivateStatusAndLastLoginDateTimeGreaterThanEqual(
 				ActivateStatus.ACTIVE,
 				LocalDateTime.of(lastLoginDate, LocalTime.MIDNIGHT)
 			).stream()
-			.map(MemberDto::from)
+			.map(ActiveMemberDto::from)
 			.toList();
 	}
 }

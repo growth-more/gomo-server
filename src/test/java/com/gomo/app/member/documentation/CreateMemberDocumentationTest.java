@@ -34,24 +34,16 @@ public class CreateMemberDocumentationTest extends DocumentationTestBase {
 		memberRepository.deleteAllInBatch();
 	}
 
-	private static final String EMAIL = "gomotest3@naver.com";
-	private static final String PASSWORD = "Test123@";
-	private static final String HANDLE = "@GOMOTEST3";
-	private static final String NAME = "gomotest3";
-	private static final String MOTTO = "TEST MOTTO";
-	private static final LoginProvider LOGIN_PROVIDER = LoginProvider.EMAIL;
-
 	@DisplayName("사용자를 등록한다.")
 	@Test
 	void create_member() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.body(CreateMemberRequest.of(EMAIL, PASSWORD, HANDLE, NAME, MOTTO, LOGIN_PROVIDER))
+			.body(CreateMemberRequest.of("gomotest3@naver.com", "Test123@", "@GOMOTEST3", "gomotest3", "TEST MOTTO", LoginProvider.EMAIL.name()))
 			.when()
 			.post(CREATE_MEMBER_URL)
 			.then()
 			.statusCode(CREATED.value())
 			.body("id", hasLength(36));
 	}
-
 }

@@ -16,6 +16,8 @@ import com.gomo.app.member.application.CreateMemberUseCase;
 import com.gomo.app.member.application.DeleteMemberUseCase;
 import com.gomo.app.member.application.ReadMemberUseCase;
 import com.gomo.app.member.application.UpdateMemberUseCase;
+import com.gomo.app.member.application.port.dto.CreateMemberDto;
+import com.gomo.app.member.application.port.dto.MemberDto;
 import com.gomo.app.member.presentation.request.CreateMemberRequest;
 import com.gomo.app.member.presentation.request.UpdateMemberRequest;
 import com.gomo.app.member.presentation.response.CreateMemberResponse;
@@ -35,19 +37,19 @@ public class MemberApi {
 
 	@PostMapping
 	public ResponseEntity<CreateMemberResponse> create(@RequestBody CreateMemberRequest request) {
-		CreateMemberResponse response = createMemberUseCase.create(request);
-		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+		CreateMemberDto dto = createMemberUseCase.create(request.toCommand());
+		return ResponseEntity.status(HttpStatus.CREATED).body(CreateMemberResponse.of(dto.id()));
 	}
 
 	@GetMapping
 	public ResponseEntity<ReadMemberResponse> read(@Auth AuthInfo authInfo) {
-		ReadMemberResponse response = readMemberUseCase.find(authInfo.getMemberId());
-		return ResponseEntity.ok(response);
+		MemberDto dto = readMemberUseCase.find(authInfo.getMemberId());
+		return ResponseEntity.ok(ReadMemberResponse.of(dto));
 	}
 
 	@PutMapping
 	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @RequestBody UpdateMemberRequest request) {
-		updateMemberUseCase.update(authInfo.getMemberId(), request);
+		updateMemberUseCase.update(authInfo.getMemberId(), request.getName(), request.getMotto());
 		return ResponseEntity.noContent().build();
 	}
 

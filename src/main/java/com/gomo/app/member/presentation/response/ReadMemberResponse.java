@@ -3,11 +3,7 @@ package com.gomo.app.member.presentation.response;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.gomo.app.member.domain.model.ActivateStatus;
-import com.gomo.app.member.domain.model.LoginProvider;
-import com.gomo.app.member.domain.model.Member;
-import com.gomo.app.member.domain.model.RoleType;
-import com.gomo.app.member.domain.model.SubscriptionPlan;
+import com.gomo.app.member.application.port.dto.MemberDto;
 
 import lombok.Getter;
 
@@ -22,10 +18,10 @@ public class ReadMemberResponse {
 	private int availablePoints;
 	private String profileImageUrl;
 	private String profileBannerUrl;
-	private LoginProvider loginProvider;
-	private RoleType roleType;
-	private SubscriptionPlan subscriptionPlan;
-	private ActivateStatus activateStatus;
+	private String loginProvider;
+	private String roleType;
+	private String subscriptionPlan;
+	private String activateStatus;
 	private LocalDateTime signUpDateTime;
 
 	private ReadMemberResponse(
@@ -37,10 +33,10 @@ public class ReadMemberResponse {
 		int availablePoints,
 		String profileImageUrl,
 		String profileBannerUrl,
-		LoginProvider loginProvider,
-		RoleType roleType,
-		SubscriptionPlan subscriptionPlan,
-		ActivateStatus activateStatus,
+		String loginProvider,
+		String roleType,
+		String subscriptionPlan,
+		String activateStatus,
 		LocalDateTime signUpDateTime
 	) {
 		this.id = id;
@@ -58,21 +54,21 @@ public class ReadMemberResponse {
 		this.signUpDateTime = signUpDateTime;
 	}
 
-	public static ReadMemberResponse of(Member member, int availablePoints) {
+	public static ReadMemberResponse of(MemberDto dto) {
 		return new ReadMemberResponse(
-			member.getId().getId(),
-			member.getEmail().toString(),
-			member.getHandle().toString(),
-			member.getName().toString(),
-			member.getMotto().toString(),
-			availablePoints,
-			member.getProfileImage().getUrl(),
-			member.getProfileBanner().getUrl(),
-			member.getLoginProvider(),
-			member.getRoleType(),
-			member.getSubscriptionPlan(),
-			member.getActivateStatus(),
-			member.getSignUpDateTime()
+			dto.id(),
+			dto.email(),
+			dto.handle(),
+			dto.name(),
+			dto.motto(),
+			dto.availablePoints(),
+			dto.profileImageUrl(),
+			dto.profileBannerUrl(),
+			dto.loginProvider(),
+			dto.roleType(),
+			dto.subscriptionPlan(),
+			dto.activateStatus(),
+			dto.signUpDateTime()
 		);
 	}
 }

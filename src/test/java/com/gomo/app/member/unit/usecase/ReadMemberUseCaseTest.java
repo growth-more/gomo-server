@@ -11,11 +11,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.member.application.ReadMemberUseCase;
+import com.gomo.app.member.application.port.dto.MemberDto;
 import com.gomo.app.member.common.fixture.MemberFixture;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.model.MemberId;
 import com.gomo.app.member.domain.service.MemberService;
-import com.gomo.app.member.presentation.response.ReadMemberResponse;
 import com.gomo.app.point.domain.model.Balance;
 import com.gomo.app.point.domain.model.TransactorId;
 import com.gomo.app.point.domain.service.PointWalletService;
@@ -40,12 +40,12 @@ public class ReadMemberUseCaseTest {
 	void read_member_successfully() {
 		Member member = MemberFixture.member();
 		Balance balance = Balance.of(BALANCE);
-		ReadMemberResponse expected = ReadMemberResponse.of(member, BALANCE);
+		MemberDto expected = MemberDto.from(member, BALANCE);
 
 		doReturn(member).when(memberService).find(any(MemberId.class));
 		doReturn(balance).when(pointWalletService).findBalance(any(TransactorId.class));
 
-		ReadMemberResponse actual = sut.find(member.uuid());
+		MemberDto actual = sut.find(member.uuid());
 
 		assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
 	}

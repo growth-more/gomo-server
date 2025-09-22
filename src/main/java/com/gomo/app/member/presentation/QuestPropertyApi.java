@@ -11,6 +11,7 @@ import com.gomo.app.common.authentication.Auth;
 import com.gomo.app.common.authentication.AuthInfo;
 import com.gomo.app.member.application.ReadQuestPropertyUseCase;
 import com.gomo.app.member.application.UpdateQuestPropertyUseCase;
+import com.gomo.app.member.application.port.dto.QuestPropertyDto;
 import com.gomo.app.member.presentation.request.UpdateQuestPropertyRequest;
 import com.gomo.app.member.presentation.response.ReadQuestPropertyResponse;
 
@@ -26,13 +27,13 @@ public class QuestPropertyApi {
 
 	@GetMapping
 	public ResponseEntity<ReadQuestPropertyResponse> find(@Auth AuthInfo authInfo) {
-		ReadQuestPropertyResponse response = readQuestPropertyUseCase.find(authInfo.getMemberId());
-		return ResponseEntity.ok(response);
+		QuestPropertyDto dto = readQuestPropertyUseCase.find(authInfo.getMemberId());
+		return ResponseEntity.ok(ReadQuestPropertyResponse.of(dto));
 	}
 
 	@PutMapping
 	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @RequestBody UpdateQuestPropertyRequest request) {
-		updateQuestPropertyUseCase.update(authInfo.getMemberId(), request);
+		updateQuestPropertyUseCase.update(request.toCommand(authInfo.getMemberId()));
 		return ResponseEntity.noContent().build();
 	}
 }

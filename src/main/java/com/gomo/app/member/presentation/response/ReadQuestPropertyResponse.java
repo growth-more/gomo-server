@@ -1,14 +1,15 @@
 package com.gomo.app.member.presentation.response;
 
-import com.gomo.app.member.domain.model.QuestProperty;
+import com.gomo.app.member.application.port.dto.QuestPropertyDto;
+
 import lombok.Getter;
 
 @Getter
 public class ReadQuestPropertyResponse {
 
-	private int dailyThreshold;
-	private int weeklyThreshold;
-	private int monthlyThreshold;
+	private final int dailyThreshold;
+	private final int weeklyThreshold;
+	private final int monthlyThreshold;
 
 	private ReadQuestPropertyResponse(
 		int dailyThreshold,
@@ -20,7 +21,7 @@ public class ReadQuestPropertyResponse {
 		this.monthlyThreshold = monthlyThreshold;
 	}
 
-	public static ReadQuestPropertyResponse of(QuestProperty questProperty) {
-		return new ReadQuestPropertyResponse(questProperty.getDailyThreshold().getThreshold(), questProperty.getWeeklyThreshold().getThreshold(), questProperty.getMonthlyThreshold().getThreshold());
+	public static ReadQuestPropertyResponse of(QuestPropertyDto dto) {
+		return new ReadQuestPropertyResponse(dto.dailyThreshold(), dto.weeklyThreshold(), dto.monthlyThreshold());
 	}
 }
