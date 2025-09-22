@@ -2,6 +2,7 @@ package com.gomo.app.interest.presentation.response;
 
 import java.util.UUID;
 
+import com.gomo.app.interest.application.port.dto.InterestDto;
 import com.gomo.app.interest.domain.model.Interest;
 
 import lombok.Getter;
@@ -9,16 +10,16 @@ import lombok.Getter;
 @Getter
 public class ReadInterestResponse {
 
-	private UUID id;
-	private UUID registrantId;
-	private String name;
-	private String logoUrl;
-	private String colorCode;
-	private int level;
-	private int score;
-	private int scoreThreshold;
-	private int totalScore;
-	private UUID majorInterestId;
+	private final UUID id;
+	private final UUID registrantId;
+	private final String name;
+	private final String logoUrl;
+	private final String colorCode;
+	private final int level;
+	private final int score;
+	private final int scoreThreshold;
+	private final int totalScore;
+	private final UUID majorInterestId;
 
 	private ReadInterestResponse(
 		UUID id,
@@ -44,6 +45,7 @@ public class ReadInterestResponse {
 		this.majorInterestId = majorInterestId;
 	}
 
+	// todo jhl221123: 패키지 구조 수정하면서 함께 제거
 	public static ReadInterestResponse of(Interest interest, UUID majorInterestId) {
 		return new ReadInterestResponse(
 			interest.uuid(),
@@ -56,5 +58,20 @@ public class ReadInterestResponse {
 			interest.getProficiency().getLevel().getScoreThreshold(),
 			interest.getProficiency().getTotalScore(),
 			majorInterestId);
+	}
+
+	public static ReadInterestResponse of(InterestDto interestdto) {
+		return new ReadInterestResponse(
+			interestdto.id(),
+			interestdto.registrantId(),
+			interestdto.name(),
+			interestdto.logoUrl(),
+			interestdto.colorCode(),
+			interestdto.proficiency().level(),
+			interestdto.proficiency().score(),
+			interestdto.proficiency().scoreThreshold(),
+			interestdto.proficiency().totalScore(),
+			interestdto.majorInterestId()
+		);
 	}
 }
