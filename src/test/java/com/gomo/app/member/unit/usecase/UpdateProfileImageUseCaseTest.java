@@ -11,7 +11,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 
-import com.gomo.app.image.ImageService;
+import com.gomo.app.interest.application.port.UploadLogoPortOut;
+import com.gomo.app.interest.application.port.dto.LogoDto;
 import com.gomo.app.member.application.UpdateProfileImageUseCase;
 import com.gomo.app.member.application.port.dto.UpdateProfileImageDto;
 import com.gomo.app.member.common.fixture.MemberFixture;
@@ -29,7 +30,7 @@ public class UpdateProfileImageUseCaseTest {
 	private MemberService memberService;
 
 	@Mock
-	private ImageService imageService;
+	private UploadLogoPortOut uploadLogoPortOut;
 
 	private static final String NEW_IMAGE_URL = "https://example.com/profile.jpg";
 
@@ -41,7 +42,7 @@ public class UpdateProfileImageUseCaseTest {
 		UpdateProfileImageDto expected = UpdateProfileImageDto.of(NEW_IMAGE_URL);
 
 		doReturn(member).when(memberService).find(member.getId());
-		doReturn(NEW_IMAGE_URL).when(imageService).uploadImage(any(MockMultipartFile.class));
+		doReturn(LogoDto.of(NEW_IMAGE_URL)).when(uploadLogoPortOut).upload(any(MockMultipartFile.class));
 
 		UpdateProfileImageDto actual = sut.update(member.uuid(), request);
 

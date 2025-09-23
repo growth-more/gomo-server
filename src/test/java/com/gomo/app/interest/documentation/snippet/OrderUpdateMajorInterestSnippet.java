@@ -22,9 +22,9 @@ public class OrderUpdateMajorInterestSnippet {
 	);
 
 	private static final Snippet REQUEST_FIELDS = requestFields(
-		fieldWithPath("updateOrderRequests").type(JsonFieldType.ARRAY).description("정렬 순서를 변경할 주요 관심사 목록"),
-		fieldWithPath("updateOrderRequests[].id").type(JsonFieldType.STRING).description("변경 대상 주요 관심사 아이디"),
-		fieldWithPath("updateOrderRequests[].displayOrder").type(JsonFieldType.NUMBER).description("새로운 정렬 순서")
+		fieldWithPath("updatedOrders").type(JsonFieldType.ARRAY).description("정렬 순서를 변경할 주요 관심사 목록"),
+		fieldWithPath("updatedOrders[].orderChangeableId").type(JsonFieldType.STRING).description("변경 대상 주요 관심사 아이디"),
+		fieldWithPath("updatedOrders[].displayOrder").type(JsonFieldType.NUMBER).description("새로운 정렬 순서")
 	);
 
 	public static RestDocumentationFilter create() {

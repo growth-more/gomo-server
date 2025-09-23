@@ -1,4 +1,4 @@
-package com.gomo.app.image;
+package com.gomo.app.image.service;
 
 import java.io.IOException;
 import java.security.InvalidKeyException;
@@ -11,7 +11,12 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.gomo.app.common.DomainService;
+import com.gomo.app.common.ApplicationService;
+import com.gomo.app.image.exception.ImageErrorCode;
+import com.gomo.app.image.exception.ImageProcessingException;
+import com.gomo.app.image.port.DeleteImagePortIn;
+import com.gomo.app.image.port.UploadImagePortIn;
+import com.gomo.app.image.port.dto.UploadImageDto;
 
 import io.minio.ListObjectsArgs;
 import io.minio.MinioClient;
@@ -23,8 +28,8 @@ import io.minio.messages.Item;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@DomainService
-public class ImageService {
+@ApplicationService
+public class ImageService implements UploadImagePortIn, DeleteImagePortIn {
 
 	private final MinioClient minioClient;
 
@@ -34,24 +39,25 @@ public class ImageService {
 	@Value("${minio.bucket-name}")
 	private String bucketName;
 
-	public Set<String> readAllImages(){
+	public Set<String> readAllImages() {
 		Set<String> images = new HashSet<>();
 		try {
 			Iterable<Result<Item>> results = minioClient.listObjects(
-					ListObjectsArgs.builder().bucket(bucketName).recursive(true).build()
+				ListObjectsArgs.builder().bucket(bucketName).recursive(true).build()
 			);
 			for (Result<Item> result : results) {
 				images.add(getImageUrl(result.get().objectName()));
 			}
-		}catch (MinioException | IOException | NoSuchAlgorithmException | InvalidKeyException e) {
-				throw new ImageProcessingException(ImageErrorCode.READ_FAIL, e);
+		} catch (MinioException | IOException | NoSuchAlgorithmException | InvalidKeyException e) {
+			throw new ImageProcessingException(ImageErrorCode.READ_FAIL, e);
 		}
 		return images;
 	}
 
-	public String uploadImage(MultipartFile file) {
+	@Override
+	public UploadImageDto upload(MultipartFile file) {
 		if (file == null || file.isEmpty()) {
-			return null;
+			return UploadImageDto.of(null);
 		}
 
 		String fileName = generateUniqueFileName(file);
@@ -68,10 +74,10 @@ public class ImageService {
 			throw new ImageProcessingException(ImageErrorCode.UPLOAD_FAIL, e);
 		}
 
-		return String.format("%s/%s/%s", endpoint, bucketName, fileName);
+		return UploadImageDto.of(String.format("%s/%s/%s", endpoint, bucketName, fileName));
 	}
 
-	public void deleteImage(String imageUrl) {
+	public void delete(String imageUrl) {
 		try {
 			String fileName = extractFileNameFromUrl(imageUrl);
 			minioClient.removeObject(
@@ -98,8 +104,8 @@ public class ImageService {
 		return uuid + extension;
 	}
 
-	private String getImageUrl(String imageName){
-		return endpoint +"/"+bucketName+"/"+imageName;
+	private String getImageUrl(String imageName) {
+		return endpoint + "/" + bucketName + "/" + imageName;
 	}
 
 	@NotNull

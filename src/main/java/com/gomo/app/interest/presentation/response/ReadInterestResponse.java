@@ -3,7 +3,6 @@ package com.gomo.app.interest.presentation.response;
 import java.util.UUID;
 
 import com.gomo.app.interest.application.port.dto.InterestDto;
-import com.gomo.app.interest.domain.model.Interest;
 
 import lombok.Getter;
 
@@ -45,22 +44,7 @@ public class ReadInterestResponse {
 		this.majorInterestId = majorInterestId;
 	}
 
-	// todo jhl221123: 패키지 구조 수정하면서 함께 제거
-	public static ReadInterestResponse of(Interest interest, UUID majorInterestId) {
-		return new ReadInterestResponse(
-			interest.uuid(),
-			interest.registrantUuid(),
-			interest.getName().toString(),
-			interest.getLogo().getUrl(),
-			interest.getColorCode(),
-			interest.getProficiency().getLevel().getLevel(),
-			interest.getProficiency().getScore().getScore(),
-			interest.getProficiency().getLevel().getScoreThreshold(),
-			interest.getProficiency().getTotalScore(),
-			majorInterestId);
-	}
-
-	public static ReadInterestResponse of(InterestDto interestdto) {
+	public static ReadInterestResponse from(InterestDto interestdto) {
 		return new ReadInterestResponse(
 			interestdto.id(),
 			interestdto.registrantId(),

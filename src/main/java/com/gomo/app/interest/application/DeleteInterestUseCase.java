@@ -6,7 +6,7 @@ import java.util.UUID;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.ApplicationService;
-import com.gomo.app.image.ImageService;
+import com.gomo.app.interest.application.port.DeleteLogoPortOut;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.InterestRelation;
@@ -24,10 +24,10 @@ import lombok.RequiredArgsConstructor;
 public class DeleteInterestUseCase {
 
 	private final InterestService interestService;
-	private final ImageService imageService;
 	private final InterestRelationService interestRelationService;
 	private final InterestRepository interestRepository;
 	private final MajorInterestRepository majorInterestRepository;
+	private final DeleteLogoPortOut deleteLogoPortOut;
 
 	@AuditLog(action = "DELETE_INTEREST")
 	public void delete(UUID registrantId, UUID interestId) {
@@ -57,7 +57,7 @@ public class DeleteInterestUseCase {
 
 	private void deleteLogoUrl(Interest interest) {
 		if (!interest.hasDefaultLogo()) {
-			imageService.deleteImage(interest.getLogo().getUrl());
+			deleteLogoPortOut.delete(interest.getLogo().getUrl());
 		}
 	}
 }

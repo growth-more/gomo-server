@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.interest.application.ReadInterestNetworkUseCase;
+import com.gomo.app.interest.application.port.dto.InterestNetworkDto;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestRelation;
 import com.gomo.app.interest.domain.model.MajorInterest;
@@ -26,7 +27,6 @@ import com.gomo.app.interest.domain.repository.MajorInterestRepository;
 import com.gomo.app.interest.fixture.InterestFixture;
 import com.gomo.app.interest.fixture.InterestRelationFixture;
 import com.gomo.app.interest.fixture.MajorInterestFixture;
-import com.gomo.app.interest.presentation.response.InterestNetworkResponse;
 
 @DisplayName("[Application unit]: 관심사 네트워크 조회 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -56,14 +56,14 @@ public class ReadInterestNetworkUseCaseTest {
 		InterestRelation relation = InterestRelationFixture.create();
 		doReturn(List.of(relation)).when(interestRelationRepository).findAllByRegistrantId(any(RegistrantId.class));
 
-		InterestNetworkResponse actual = sut.find(relation.getRegistrantId().getId());
+		InterestNetworkDto actual = sut.find(relation.getRegistrantId().getId());
 
-		assertThat(actual.getInterests())
+		assertThat(actual.interestDtos())
 			.hasSize(2)
-			.extracting("id", "registrantId", "name", "logoUrl", "level", "score", "totalScore", "majorInterestId")
+			.extracting("id", "registrantId", "name", "logoUrl", "proficiency.level", "proficiency.score", "proficiency.totalScore", "majorInterestId")
 			.containsExactly(createInterestTuple(expected1, majorInterest.uuid()), createInterestTuple(expected2, null));
 
-		assertThat(actual.getRelations())
+		assertThat(actual.relationDtos())
 			.hasSize(1)
 			.extracting("id", "registrantId", "parentInterestId", "childInterestId")
 			.containsExactly(createRelationTuple(relation));

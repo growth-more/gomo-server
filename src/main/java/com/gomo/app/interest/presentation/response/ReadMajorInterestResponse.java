@@ -2,8 +2,7 @@ package com.gomo.app.interest.presentation.response;
 
 import java.util.UUID;
 
-import com.gomo.app.interest.domain.model.Interest;
-import com.gomo.app.interest.domain.model.MajorInterest;
+import com.gomo.app.interest.application.port.dto.MajorInterestDto;
 
 import lombok.Getter;
 
@@ -39,16 +38,7 @@ public class ReadMajorInterestResponse {
 		this.displayOrder = displayOrder;
 	}
 
-	public static ReadMajorInterestResponse of(MajorInterest majorInterest, Interest interest) {
-		return new ReadMajorInterestResponse(
-			majorInterest.getId().getId(),
-			interest.getId().getId(),
-			interest.getName().toString(),
-			interest.getLogo().getUrl(),
-			interest.getProficiency().getLevel().getLevel(),
-			interest.getProficiency().getScore().getScore(),
-			interest.getProficiency().getLevel().getScoreThreshold(),
-			majorInterest.getDisplayOrder().getDisplayOrder()
-		);
+	public static ReadMajorInterestResponse of(MajorInterestDto dto) {
+		return new ReadMajorInterestResponse(dto.id(), dto.interestId(), dto.name(), dto.logoUrl(), dto.level(), dto.score(), dto.scoreThreshold(), dto.displayOrder());
 	}
 }

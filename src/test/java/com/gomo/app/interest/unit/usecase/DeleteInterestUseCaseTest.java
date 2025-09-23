@@ -13,10 +13,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.image.ImageService;
 import com.gomo.app.interest.application.DeleteInterestUseCase;
-import com.gomo.app.interest.fixture.InterestFixture;
-import com.gomo.app.interest.fixture.InterestRelationFixture;
+import com.gomo.app.interest.application.port.DeleteLogoPortOut;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.InterestRelation;
@@ -25,6 +23,8 @@ import com.gomo.app.interest.domain.repository.InterestRepository;
 import com.gomo.app.interest.domain.repository.MajorInterestRepository;
 import com.gomo.app.interest.domain.service.InterestRelationService;
 import com.gomo.app.interest.domain.service.InterestService;
+import com.gomo.app.interest.fixture.InterestFixture;
+import com.gomo.app.interest.fixture.InterestRelationFixture;
 
 @DisplayName("[Application unit]: 관심사 삭제 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -37,7 +37,7 @@ public class DeleteInterestUseCaseTest {
 	private InterestService interestService;
 
 	@Mock
-	private ImageService imageService;
+	private DeleteLogoPortOut deleteLogoPortOut;
 
 	@Mock
 	private InterestRelationService interestRelationService;
@@ -65,7 +65,7 @@ public class DeleteInterestUseCaseTest {
 	void delete_interest_by_unauthorized_accessor() {
 		Interest interest = Mockito.mock(Interest.class);
 		doReturn(interest).when(interestService).find(any(InterestId.class));
-		doReturn(Logo.of("logo")).when(interest).getLogo();
+		doReturn(Logo.of("logoFile")).when(interest).getLogo();
 		doReturn(List.of(InterestRelationFixture.create())).when(interestRelationService).findAllByInterestId(any(UUID.class));
 
 		sut.delete(UUID.randomUUID(), UUID.randomUUID());
@@ -82,7 +82,7 @@ public class DeleteInterestUseCaseTest {
 
 		sut.delete(interest.getRegistrantId().getId(), interest.uuid());
 
-		verify(imageService, times(0)).deleteImage(any());
+		verify(deleteLogoPortOut, times(0)).delete(any());
 	}
 
 	@DisplayName("관심사의 로고가 사용자가 업로드한 로고라면 이미지는 삭제된다.")
@@ -94,7 +94,7 @@ public class DeleteInterestUseCaseTest {
 
 		sut.delete(interest.getRegistrantId().getId(), interest.uuid());
 
-		verify(imageService, times(1)).deleteImage(any());
+		verify(deleteLogoPortOut, times(1)).delete(any());
 	}
 
 	@DisplayName("관심사를 삭제할 때, 주요 관심사도 함께 삭제된다.")

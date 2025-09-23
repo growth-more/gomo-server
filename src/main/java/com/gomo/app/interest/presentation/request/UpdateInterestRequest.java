@@ -1,5 +1,9 @@
 package com.gomo.app.interest.presentation.request;
 
+import java.util.UUID;
+
+import com.gomo.app.interest.application.port.command.UpdateInterestCommand;
+
 import lombok.Getter;
 
 @Getter
@@ -15,5 +19,9 @@ public class UpdateInterestRequest {
 
 	public static UpdateInterestRequest of(String name, String colorCode) {
 		return new UpdateInterestRequest(name, colorCode);
+	}
+
+	public UpdateInterestCommand toCommand(UUID registrantId, UUID interestId) {
+		return UpdateInterestCommand.of(registrantId, interestId, name, colorCode);
 	}
 }

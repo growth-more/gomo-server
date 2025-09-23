@@ -13,7 +13,7 @@ import com.gomo.app.common.constant.ErrorResponseFields;
 
 public class UpdateInterestLogoSnippet {
 
-	private static final String IDENTIFIER = "interest-logo-update";
+	private static final String IDENTIFIER = "interest-logoFile-update";
 
 	private static final Snippet REQUEST_HEADERS = requestHeaders(
 		headerWithName(CONTENT_TYPE).description("Content-Type: `multipart/form-data`"),

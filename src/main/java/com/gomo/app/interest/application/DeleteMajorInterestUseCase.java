@@ -19,9 +19,9 @@ public class DeleteMajorInterestUseCase {
 	private final MajorInterestRepository majorInterestRepository;
 
 	@AuditLog(action = "DELETE_MAJOR_INTEREST")
-	public void delete(UUID accessorId, MajorInterestId majorInterestId) {
-		MajorInterest majorInterest = majorInterestService.find(majorInterestId);
-		majorInterest.validateAuthority(accessorId);
+	public void delete(UUID registrantId, UUID majorInterestId) {
+		MajorInterest majorInterest = majorInterestService.find(MajorInterestId.of(majorInterestId));
+		majorInterest.validateAuthority(registrantId);
 		majorInterestRepository.delete(majorInterest);
 	}
 }

@@ -14,8 +14,8 @@ import com.gomo.app.common.authentication.Auth;
 import com.gomo.app.common.authentication.AuthInfo;
 import com.gomo.app.member.application.CreateMemberUseCase;
 import com.gomo.app.member.application.DeleteMemberUseCase;
-import com.gomo.app.member.application.ReadMemberUseCase;
 import com.gomo.app.member.application.UpdateMemberUseCase;
+import com.gomo.app.member.application.port.ReadMemberPortIn;
 import com.gomo.app.member.application.port.dto.CreateMemberDto;
 import com.gomo.app.member.application.port.dto.MemberDto;
 import com.gomo.app.member.presentation.request.CreateMemberRequest;
@@ -31,7 +31,7 @@ import lombok.RequiredArgsConstructor;
 public class MemberApi {
 
 	private final CreateMemberUseCase createMemberUseCase;
-	private final ReadMemberUseCase readMemberUseCase;
+	private final ReadMemberPortIn readMemberPortIn;
 	private final UpdateMemberUseCase updateMemberUseCase;
 	private final DeleteMemberUseCase deleteMemberUseCase;
 
@@ -43,7 +43,7 @@ public class MemberApi {
 
 	@GetMapping
 	public ResponseEntity<ReadMemberResponse> read(@Auth AuthInfo authInfo) {
-		MemberDto dto = readMemberUseCase.find(authInfo.getMemberId());
+		MemberDto dto = readMemberPortIn.find(authInfo.getMemberId());
 		return ResponseEntity.ok(ReadMemberResponse.of(dto));
 	}
 

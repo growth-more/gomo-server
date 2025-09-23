@@ -1,4 +1,4 @@
-package com.gomo.app.image;
+package com.gomo.app.image.exception;
 
 import lombok.Getter;
 

@@ -7,18 +7,18 @@ import java.util.stream.IntStream;
 
 import org.springframework.stereotype.Component;
 
-import com.gomo.app.interest.presentation.request.UpdateOrderRequest;
-
 @Component
 public class OrderChanger {
 
-	public static void change(Map<UUID, OrderChangeable> orderChangeableMap, List<UpdateOrderRequest> updateOrderRequests) {
-		List<OrderChangeable> candidates = updateOrderRequests.stream()
-			.map(updateOrderRequest -> orderChangeableMap.get(updateOrderRequest.getId()))
+	public static void change(OrderUpdateOrderChangeableCommand command) {
+		Map<UUID, OrderChangeable> originOrderChangeableMap = command.originOrderChangeableMap();
+		List<UpdatedOrderDto> updatedOrders = command.updatedOrders();
+		List<OrderChangeable> candidates = updatedOrders.stream()
+			.map(updatedOrder -> originOrderChangeableMap.get(updatedOrder.orderChangeableId()))
 			.toList();
 
-		List<DisplayOrder> changedOrders = updateOrderRequests.stream()
-			.map(updateOrderRequest -> DisplayOrder.of(updateOrderRequest.getDisplayOrder()))
+		List<DisplayOrder> changedOrders = updatedOrders.stream()
+			.map(updatedOrder -> DisplayOrder.of(updatedOrder.displayOrder()))
 			.toList();
 
 		IntStream.range(0, candidates.size()).forEach(i -> candidates.get(i).changeOrder(changedOrders.get(i)));
