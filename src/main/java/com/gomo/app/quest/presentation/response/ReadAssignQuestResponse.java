@@ -3,8 +3,7 @@ package com.gomo.app.quest.presentation.response;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.gomo.app.quest.domain.model.AssignQuest;
-import com.gomo.app.quest.domain.model.QuestType;
+import com.gomo.app.quest.application.port.dto.AssignQuestDto;
 
 import lombok.Getter;
 
@@ -13,7 +12,7 @@ public class ReadAssignQuestResponse {
 
 	private UUID id;
 	private UUID subjectId;
-	private QuestType questType;
+	private String questType;
 	private int point;
 	private int score;
 	private String subjectName;
@@ -27,7 +26,7 @@ public class ReadAssignQuestResponse {
 	private ReadAssignQuestResponse(
 		UUID id,
 		UUID subjectId,
-		QuestType questType,
+		String questType,
 		int point,
 		int score,
 		String subjectName,
@@ -52,20 +51,20 @@ public class ReadAssignQuestResponse {
 		this.displayOrder = displayOrder;
 	}
 
-	public static ReadAssignQuestResponse of(AssignQuest assignQuest, int point, int score) {
+	public static ReadAssignQuestResponse from(AssignQuestDto dto) {
 		return new ReadAssignQuestResponse(
-			assignQuest.getId().getId(),
-			assignQuest.getQuest().getSubjectId().getId(),
-			assignQuest.getQuest().getType(),
-			point,
-			score,
-			assignQuest.getQuest().getSubjectName().toString(),
-			assignQuest.getQuest().getContent().getQuestContent(),
-			assignQuest.isConfirmed(),
-			assignQuest.isCompleted(),
-			assignQuest.getProof().getUrl(),
-			assignQuest.getStartDateTime(),
-			assignQuest.getDisplayOrder().getDisplayOrder()
+			dto.id(),
+			dto.subjectId(),
+			dto.questType(),
+			dto.point(),
+			dto.score(),
+			dto.subjectName(),
+			dto.content(),
+			dto.isConfirmed(),
+			dto.isCompleted(),
+			dto.proof(),
+			dto.startDateTime(),
+			dto.displayOrder()
 		);
 	}
 }

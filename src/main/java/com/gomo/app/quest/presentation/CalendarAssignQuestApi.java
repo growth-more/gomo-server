@@ -1,6 +1,7 @@
 package com.gomo.app.quest.presentation;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.gomo.app.common.Presentation;
 import com.gomo.app.common.authentication.Auth;
 import com.gomo.app.common.authentication.AuthInfo;
-import com.gomo.app.quest.application.CalendarReadAssignQuestUseCase;
-import com.gomo.app.quest.domain.model.ParticipantId;
-import com.gomo.app.quest.presentation.response.CalendarListAssignQuestResponse;
+import com.gomo.app.quest.application.CalendarAssignQuestUseCase;
+import com.gomo.app.quest.application.port.command.CalendarAssignQuestCommand;
+import com.gomo.app.quest.application.port.dto.CalendarAssignQuestDto;
+import com.gomo.app.quest.presentation.response.CalendarAssignQuestResponse;
+import com.gomo.app.quest.presentation.response.ListCalendarAssignQuestResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,13 +24,13 @@ import lombok.RequiredArgsConstructor;
 @Presentation
 public class CalendarAssignQuestApi {
 
-	private final CalendarReadAssignQuestUseCase calendarReadAssignQuestUseCase;
+	private final CalendarAssignQuestUseCase calendarAssignQuestUseCase;
 
 	@GetMapping
-	public ResponseEntity<CalendarListAssignQuestResponse> find(@Auth AuthInfo authInfo, @RequestParam boolean isCompleted,
+	public ResponseEntity<ListCalendarAssignQuestResponse> find(@Auth AuthInfo authInfo, @RequestParam boolean isCompleted,
 		@RequestParam LocalDateTime startDateTime, @RequestParam LocalDateTime endDateTime) {
-		CalendarListAssignQuestResponse response = calendarReadAssignQuestUseCase.find(ParticipantId.of(authInfo.getMemberId()), isCompleted,
-			startDateTime, endDateTime);
-		return ResponseEntity.ok(response);
+		CalendarAssignQuestCommand command = CalendarAssignQuestCommand.of(authInfo.getMemberId(), isCompleted, startDateTime, endDateTime);
+		List<CalendarAssignQuestDto> calendarDtos = calendarAssignQuestUseCase.find(command);
+		return ResponseEntity.ok(ListCalendarAssignQuestResponse.of(calendarDtos.stream().map(CalendarAssignQuestResponse::from).toList()));
 	}
 }

@@ -1,8 +1,11 @@
 package com.gomo.app.quest.application;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.gomo.app.common.ApplicationService;
+import com.gomo.app.quest.application.port.dto.ListRepeatQuestDto;
+import com.gomo.app.quest.application.port.dto.RepeatQuestDto;
 import com.gomo.app.quest.domain.model.ParticipantId;
 import com.gomo.app.quest.domain.model.QuestPointPolicy;
 import com.gomo.app.quest.domain.model.QuestScorePolicy;
@@ -11,8 +14,6 @@ import com.gomo.app.quest.domain.repository.QuestRewardPolicyRepository;
 import com.gomo.app.quest.domain.repository.RepeatQuestRepository;
 import com.gomo.app.quest.exception.QuestTypeConstraintViolationException;
 import com.gomo.app.quest.exception.code.QuestTypeErrorCode;
-import com.gomo.app.quest.presentation.response.ListRepeatQuestResponse;
-import com.gomo.app.quest.presentation.response.ReadRepeatQuestResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,32 +24,28 @@ public class ReadRepeatQuestUseCase {
 	private final RepeatQuestRepository repeatQuestRepository;
 	private final QuestRewardPolicyRepository questRewardPolicyRepository;
 
-	public ListRepeatQuestResponse findAll(ParticipantId participantId) {
+	public ListRepeatQuestDto findAll(UUID participantId) {
+		ParticipantId targetId = ParticipantId.of(participantId);
 		List<QuestPointPolicy> pointPolicies = questRewardPolicyRepository.findPointPolicies();
 		List<QuestScorePolicy> scorePolicies = questRewardPolicyRepository.findScorePolicies();
 
-		List<ReadRepeatQuestResponse> dailyRepeatQuests = findRepeatQuestResponses(participantId, QuestType.DAILY, pointPolicies, scorePolicies);
-		List<ReadRepeatQuestResponse> weeklyRepeatQuests = findRepeatQuestResponses(participantId, QuestType.WEEKLY, pointPolicies, scorePolicies);
-		List<ReadRepeatQuestResponse> monthlyRepeatQuests = findRepeatQuestResponses(participantId, QuestType.MONTHLY, pointPolicies, scorePolicies);
-
-		return ListRepeatQuestResponse.of(dailyRepeatQuests, weeklyRepeatQuests, monthlyRepeatQuests);
+		List<RepeatQuestDto> dailyRepeatQuests = findRepeatQuestResponses(targetId, QuestType.DAILY, pointPolicies, scorePolicies);
+		List<RepeatQuestDto> weeklyRepeatQuests = findRepeatQuestResponses(targetId, QuestType.WEEKLY, pointPolicies, scorePolicies);
+		List<RepeatQuestDto> monthlyRepeatQuests = findRepeatQuestResponses(targetId, QuestType.MONTHLY, pointPolicies, scorePolicies);
+		return ListRepeatQuestDto.of(dailyRepeatQuests, weeklyRepeatQuests, monthlyRepeatQuests);
 	}
 
-	private List<ReadRepeatQuestResponse> findRepeatQuestResponses(
+	private List<RepeatQuestDto> findRepeatQuestResponses(
 		ParticipantId participantId,
 		QuestType questType,
 		List<QuestPointPolicy> pointPolicies,
 		List<QuestScorePolicy> scorePolicies
 	) {
-		return repeatQuestRepository.findRepeatQuestsByQuestType(
-				participantId,
-				questType
-			).stream()
+		return repeatQuestRepository.findRepeatQuestsByQuestType(participantId, questType).stream()
 			.map(assignQuest -> {
 				int points = findPointByQuestType(pointPolicies, questType);
 				int score = findScoreByQuestType(scorePolicies, questType);
-
-				return ReadRepeatQuestResponse.of(assignQuest, points, score);
+				return RepeatQuestDto.from(assignQuest, points, score);
 			}).toList();
 	}
 

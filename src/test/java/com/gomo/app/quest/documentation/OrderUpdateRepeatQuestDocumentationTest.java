@@ -61,7 +61,7 @@ public class OrderUpdateRepeatQuestDocumentationTest extends DocumentationTestBa
 
 	private @NotNull OrderUpdateRepeatQuestRequest getRequest() {
 		return OrderUpdateRepeatQuestRequest.of(
-			QuestType.DAILY,
+			QuestType.DAILY.name(),
 			List.of(
 				UpdatedOrderDto.of(repeatQuest1.getId().getId(), 2),
 				UpdatedOrderDto.of(repeatQuest2.getId().getId(), 1)

@@ -57,6 +57,6 @@ public class DeleteRepeatQuestDocumentationTest extends DocumentationTestBase {
 	}
 
 	private static @NotNull CreateRepeatQuestRequest getCreateRepeatQuestRequest() {
-		return CreateRepeatQuestRequest.of(UUID.randomUUID(), "subject name", QuestType.MONTHLY, "quest content");
+		return CreateRepeatQuestRequest.of(UUID.randomUUID(), "subject name", QuestType.MONTHLY.name(), "quest content");
 	}
 }

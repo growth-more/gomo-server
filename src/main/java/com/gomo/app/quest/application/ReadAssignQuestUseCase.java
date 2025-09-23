@@ -2,9 +2,12 @@ package com.gomo.app.quest.application;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 import com.gomo.app.common.ApplicationService;
 import com.gomo.app.common.util.DateRangeCalculator;
+import com.gomo.app.quest.application.port.dto.AssignQuestDto;
+import com.gomo.app.quest.application.port.dto.ListAssignQuestDto;
 import com.gomo.app.quest.domain.model.ParticipantId;
 import com.gomo.app.quest.domain.model.QuestPointPolicy;
 import com.gomo.app.quest.domain.model.QuestScorePolicy;
@@ -13,8 +16,6 @@ import com.gomo.app.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.quest.domain.repository.QuestRewardPolicyRepository;
 import com.gomo.app.quest.exception.QuestTypeConstraintViolationException;
 import com.gomo.app.quest.exception.code.QuestTypeErrorCode;
-import com.gomo.app.quest.presentation.response.ListAssignQuestResponse;
-import com.gomo.app.quest.presentation.response.ReadAssignQuestResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,18 +26,18 @@ public class ReadAssignQuestUseCase {
 	private final AssignQuestRepository assignQuestRepository;
 	private final QuestRewardPolicyRepository questRewardPolicyRepository;
 
-	public ListAssignQuestResponse findAll(ParticipantId participantId) {
+	public ListAssignQuestDto findAll(UUID participantId) {
+		ParticipantId targetId = ParticipantId.of(participantId);
 		List<QuestPointPolicy> pointPolicies = questRewardPolicyRepository.findPointPolicies();
 		List<QuestScorePolicy> scorePolicies = questRewardPolicyRepository.findScorePolicies();
 
-		List<ReadAssignQuestResponse> dailyQuests = findAllByQuestType(participantId, QuestType.DAILY, pointPolicies, scorePolicies);
-		List<ReadAssignQuestResponse> weeklyQuests = findAllByQuestType(participantId, QuestType.WEEKLY, pointPolicies, scorePolicies);
-		List<ReadAssignQuestResponse> monthlyQuests = findAllByQuestType(participantId, QuestType.MONTHLY, pointPolicies, scorePolicies);
-
-		return ListAssignQuestResponse.of(dailyQuests, weeklyQuests, monthlyQuests);
+		List<AssignQuestDto> dailyQuests = findAllByQuestType(targetId, QuestType.DAILY, pointPolicies, scorePolicies);
+		List<AssignQuestDto> weeklyQuests = findAllByQuestType(targetId, QuestType.WEEKLY, pointPolicies, scorePolicies);
+		List<AssignQuestDto> monthlyQuests = findAllByQuestType(targetId, QuestType.MONTHLY, pointPolicies, scorePolicies);
+		return ListAssignQuestDto.of(dailyQuests, weeklyQuests, monthlyQuests);
 	}
 
-	private List<ReadAssignQuestResponse> findAllByQuestType(
+	private List<AssignQuestDto> findAllByQuestType(
 		ParticipantId participantId,
 		QuestType questType,
 		List<QuestPointPolicy> pointPolicies,
@@ -52,7 +53,7 @@ public class ReadAssignQuestUseCase {
 				int points = findPointByQuestType(pointPolicies, questType);
 				int score = findScoreByQuestType(scorePolicies, questType);
 
-				return ReadAssignQuestResponse.of(assignQuest, points, score);
+				return AssignQuestDto.from(assignQuest, points, score);
 			}).toList();
 	}
 

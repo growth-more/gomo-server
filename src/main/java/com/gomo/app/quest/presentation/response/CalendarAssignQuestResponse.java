@@ -3,13 +3,13 @@ package com.gomo.app.quest.presentation.response;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.gomo.app.quest.domain.model.AssignQuest;
+import com.gomo.app.quest.application.port.dto.CalendarAssignQuestDto;
 import com.gomo.app.quest.domain.model.QuestType;
 
 import lombok.Getter;
 
 @Getter
-public class CalendarReadAssignQuestResponse {
+public class CalendarAssignQuestResponse {
 
 	private UUID id;
 	private QuestType questType;
@@ -19,7 +19,7 @@ public class CalendarReadAssignQuestResponse {
 	private boolean isCompleted;
 	private LocalDateTime completedDateTime;
 
-	private CalendarReadAssignQuestResponse(
+	private CalendarAssignQuestResponse(
 		UUID id,
 		QuestType questType,
 		String subjectName,
@@ -37,15 +37,15 @@ public class CalendarReadAssignQuestResponse {
 		this.completedDateTime = completedDateTime;
 	}
 
-	public static CalendarReadAssignQuestResponse of(AssignQuest assignQuest) {
-		return new CalendarReadAssignQuestResponse(
-			assignQuest.getId().getId(),
-			assignQuest.getQuest().getType(),
-			assignQuest.getQuest().getSubjectName().toString(),
-			assignQuest.getQuest().getContent().toString(),
-			assignQuest.getProof().toString(),
-			assignQuest.isCompleted(),
-			assignQuest.getCompletedDateTime()
+	public static CalendarAssignQuestResponse from(CalendarAssignQuestDto dto) {
+		return new CalendarAssignQuestResponse(
+			dto.id(),
+			dto.questType(),
+			dto.subjectName(),
+			dto.content(),
+			dto.proof(),
+			dto.isCompleted(),
+			dto.completedDateTime()
 		);
 	}
 }

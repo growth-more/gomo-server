@@ -30,9 +30,9 @@ public class ReadInterestNetworkUseCase {
 	private final InterestRelationRepository interestRelationRepository;
 
 	public InterestNetworkDto find(UUID registrantId) {
-		RegistrantId id = RegistrantId.of(registrantId);
-		List<InterestDto> interestDtos = getInterestDtos(id);
-		List<InterestRelationDto> relationDtos = getRelationDtos(id);
+		RegistrantId targetId = RegistrantId.of(registrantId);
+		List<InterestDto> interestDtos = getInterestDtos(targetId);
+		List<InterestRelationDto> relationDtos = getRelationDtos(targetId);
 		return InterestNetworkDto.of(interestDtos, relationDtos);
 	}
 

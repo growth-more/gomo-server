@@ -23,7 +23,6 @@ public class ConfirmAssignQuestUseCase {
 	public void confirm(UUID accessorId, UUID assignQuestId) {
 		AssignQuest assignQuest = assignQuestService.find(AssignQuestId.of(assignQuestId));
 		assignQuest.validateAuthority(accessorId);
-
 		assignQuest.confirm();
 	}
 }

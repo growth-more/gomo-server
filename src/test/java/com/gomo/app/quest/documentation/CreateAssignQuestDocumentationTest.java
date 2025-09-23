@@ -50,7 +50,7 @@ public class CreateAssignQuestDocumentationTest extends DocumentationTestBase {
 			.body(CreateAssignQuestRequest.of(
 				UUID.randomUUID(),
 				"subject name",
-				QuestType.DAILY,
+				QuestType.DAILY.name(),
 				"quest content"
 			))
 			.when()
@@ -69,7 +69,7 @@ public class CreateAssignQuestDocumentationTest extends DocumentationTestBase {
 			.body(CreateAssignQuestRequest.of(
 				UUID.randomUUID(),
 				"",
-				QuestType.DAILY,
+				QuestType.DAILY.name(),
 				""))
 			.when()
 			.post("/quests/assigns")
@@ -92,7 +92,7 @@ public class CreateAssignQuestDocumentationTest extends DocumentationTestBase {
 			.body(CreateAssignQuestRequest.of(
 				UUID.randomUUID(),
 				"subject name",
-				QuestType.MONTHLY,
+				QuestType.MONTHLY.name(),
 				"quest content"
 			))
 			.when()

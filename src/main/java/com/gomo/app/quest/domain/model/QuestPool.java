@@ -1,9 +1,12 @@
 package com.gomo.app.quest.domain.model;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.gomo.app.common.Authorizable;
 import com.gomo.app.common.BaseAudit;
+import com.gomo.app.common.util.UUIDGenerator;
+import com.gomo.app.displayorder.DisplayOrder;
 import com.gomo.app.quest.exception.QuestAccessDeniedException;
 import com.gomo.app.quest.exception.code.QuestErrorCode;
 
@@ -43,29 +46,23 @@ public class QuestPool extends BaseAudit implements Authorizable {
 	protected QuestPool() {
 	}
 
-	private QuestPool(
-		QuestPoolId id,
-		Quest quest,
-		ProcessingStatus processingStatus,
-		SourceType sourceType
-	) {
+	private QuestPool(QuestPoolId id, Quest quest, ProcessingStatus processingStatus, SourceType sourceType) {
 		this.id = id;
 		this.quest = quest;
 		this.processingStatus = processingStatus;
 		this.sourceType = sourceType;
 	}
 
-	public static QuestPool of(
-		QuestPoolId id,
-		Quest quest,
-		ProcessingStatus processingStatus,
-		SourceType sourceType
-	) {
+	public static QuestPool of(QuestPoolId id, Quest quest, ProcessingStatus processingStatus, SourceType sourceType) {
 		return new QuestPool(id, quest, processingStatus, sourceType);
 	}
 
 	public void updateProcessingStatus(ProcessingStatus processingStatus) {
 		this.processingStatus = processingStatus;
+	}
+
+	public AssignQuest createAssignQuest(DisplayOrder displayOrder, LocalDateTime startDateTime) {
+		return AssignQuest.of(AssignQuestId.of(UUIDGenerator.generate()), this.quest.copy(), false, displayOrder, startDateTime);
 	}
 
 	@Override

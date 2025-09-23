@@ -36,9 +36,9 @@ public class ListRepeatQuestDocumentationTest extends DocumentationTestBase {
 
 	@BeforeEach
 	public void setUp() {
-		repeatQuestApi.create(super.authInfo, getCreateRepeatQuestRequest(QuestType.DAILY)).getBody().getId();
-		repeatQuestApi.create(super.authInfo, getCreateRepeatQuestRequest(QuestType.WEEKLY)).getBody().getId();
-		repeatQuestApi.create(super.authInfo, getCreateRepeatQuestRequest(QuestType.MONTHLY)).getBody().getId();
+		repeatQuestApi.create(super.authInfo, getCreateRepeatQuestRequest(QuestType.DAILY.name())).getBody().getId();
+		repeatQuestApi.create(super.authInfo, getCreateRepeatQuestRequest(QuestType.WEEKLY.name())).getBody().getId();
+		repeatQuestApi.create(super.authInfo, getCreateRepeatQuestRequest(QuestType.MONTHLY.name())).getBody().getId();
 	}
 
 	@AfterEach
@@ -62,7 +62,7 @@ public class ListRepeatQuestDocumentationTest extends DocumentationTestBase {
 			.body("monthlyQuests", hasSize(1));
 	}
 
-	private static @NotNull CreateRepeatQuestRequest getCreateRepeatQuestRequest(QuestType questType) {
+	private static @NotNull CreateRepeatQuestRequest getCreateRepeatQuestRequest(String questType) {
 		return CreateRepeatQuestRequest.of(UUID.randomUUID(), "subject name", questType, "quest content");
 	}
 }

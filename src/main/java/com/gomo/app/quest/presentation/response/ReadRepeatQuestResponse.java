@@ -2,8 +2,7 @@ package com.gomo.app.quest.presentation.response;
 
 import java.util.UUID;
 
-import com.gomo.app.quest.domain.model.QuestType;
-import com.gomo.app.quest.domain.model.RepeatQuest;
+import com.gomo.app.quest.application.port.dto.RepeatQuestDto;
 
 import lombok.Getter;
 
@@ -12,7 +11,7 @@ public class ReadRepeatQuestResponse {
 
 	private UUID id;
 	private UUID subjectId;
-	private QuestType questType;
+	private String questType;
 	private int point;
 	private int score;
 	private String subjectName;
@@ -22,7 +21,7 @@ public class ReadRepeatQuestResponse {
 	private ReadRepeatQuestResponse(
 		UUID id,
 		UUID subjectId,
-		QuestType questType,
+		String questType,
 		int point,
 		int score,
 		String subjectName,
@@ -39,16 +38,16 @@ public class ReadRepeatQuestResponse {
 		this.displayOrder = displayOrder;
 	}
 
-	public static ReadRepeatQuestResponse of(RepeatQuest repeatQuest, int point, int score) {
+	public static ReadRepeatQuestResponse from(RepeatQuestDto dto) {
 		return new ReadRepeatQuestResponse(
-			repeatQuest.getId().getId(),
-			repeatQuest.getQuest().getSubjectId().getId(),
-			repeatQuest.getQuest().getType(),
-			point,
-			score,
-			repeatQuest.getQuest().getSubjectName().toString(),
-			repeatQuest.getQuest().getContent().toString(),
-			repeatQuest.getDisplayOrder().getDisplayOrder()
+			dto.id(),
+			dto.subjectId(),
+			dto.questType(),
+			dto.point(),
+			dto.score(),
+			dto.subjectName(),
+			dto.content(),
+			dto.displayOrder()
 		);
 	}
 }

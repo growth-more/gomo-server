@@ -70,7 +70,7 @@ public class CreateRepeatQuestDocumentationTest extends DocumentationTestBase {
 			.body(CreateRepeatQuestRequest.of(
 				subjectId,
 				"subject name",
-				QuestType.DAILY,
+				QuestType.DAILY.name(),
 				"quest content"))
 			.when()
 			.post("/quests/repeats")
@@ -88,7 +88,7 @@ public class CreateRepeatQuestDocumentationTest extends DocumentationTestBase {
 			.body(CreateRepeatQuestRequest.of(
 				subjectId,
 				"subject name",
-				QuestType.DAILY,
+				QuestType.DAILY.name(),
 				" "))
 			.when()
 			.post("/quests/repeats")
@@ -111,7 +111,7 @@ public class CreateRepeatQuestDocumentationTest extends DocumentationTestBase {
 			.body(CreateRepeatQuestRequest.of(
 				subjectId,
 				"subject name",
-				QuestType.MONTHLY,
+				QuestType.MONTHLY.name(),
 				"quest content"))
 			.when()
 			.post("/quests/repeats")

@@ -4,18 +4,21 @@ import java.util.UUID;
 
 import com.gomo.app.common.ApplicationService;
 import com.gomo.app.logging.AuditLog;
-import com.gomo.app.member.domain.model.MemberId;
-import com.gomo.app.member.domain.service.MemberService;
-import com.gomo.app.quest.application.translator.ParticipantTranslator;
+import com.gomo.app.quest.application.port.ReadParticipantPortOut;
+import com.gomo.app.quest.application.port.command.CreateRepeatQuestCommand;
+import com.gomo.app.quest.application.port.dto.CreateRepeatQuestDto;
+import com.gomo.app.quest.application.port.dto.ParticipantDto;
 import com.gomo.app.quest.domain.model.Participant;
 import com.gomo.app.quest.domain.model.ParticipantId;
 import com.gomo.app.quest.domain.model.Quest;
+import com.gomo.app.quest.domain.model.QuestContent;
+import com.gomo.app.quest.domain.model.QuestQuota;
 import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.domain.model.RepeatQuest;
+import com.gomo.app.quest.domain.model.SubjectId;
+import com.gomo.app.quest.domain.model.SubjectName;
 import com.gomo.app.quest.domain.repository.RepeatQuestRepository;
 import com.gomo.app.quest.domain.service.RepeatQuestService;
-import com.gomo.app.quest.presentation.request.CreateRepeatQuestRequest;
-import com.gomo.app.quest.presentation.response.CreateRepeatQuestResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,20 +26,32 @@ import lombok.RequiredArgsConstructor;
 @ApplicationService
 public class CreateRepeatQuestUseCase {
 
-	private final MemberService memberService;
+	private final ReadParticipantPortOut readParticipantPortOut;
 	private final RepeatQuestService repeatQuestService;
 	private final RepeatQuestRepository repeatQuestRepository;
 
 	@AuditLog(action = "CREATE_REPEAT_QUEST")
-	public CreateRepeatQuestResponse create(UUID participantId, CreateRepeatQuestRequest request) {
-		ensureNotExceedQuestQuota(participantId, request.getQuestType());
-		Quest quest = request.toQuest(participantId);
+	public CreateRepeatQuestDto create(CreateRepeatQuestCommand command) {
+		UUID participantId = command.participantId();
+		QuestType questType = QuestType.valueOf(command.questType());
+		ensureNotExceedQuestQuota(participantId, questType);
+		Quest quest = Quest.of(
+			ParticipantId.of(participantId),
+			SubjectId.of(command.subjectId()),
+			SubjectName.of(command.subjectName()),
+			questType,
+			QuestContent.of(command.content())
+		);
 		RepeatQuest savedRepeatQuest = repeatQuestService.create(ParticipantId.of(participantId), quest);
-		return CreateRepeatQuestResponse.of(savedRepeatQuest.getId());
+		return CreateRepeatQuestDto.of(savedRepeatQuest.id());
 	}
 
 	private void ensureNotExceedQuestQuota(UUID participantId, QuestType questType) {
-		Participant participant = ParticipantTranslator.from(memberService.find(MemberId.of(participantId)));
+		ParticipantDto dto = readParticipantPortOut.find(participantId);
+		Participant participant = Participant.of(
+			ParticipantId.of(dto.id()),
+			QuestQuota.of(dto.dailyQuota(), dto.weeklyQuota(), dto.monthlyQuota())
+		);
 		int repeatQuestCount = (int)repeatQuestRepository.countByQuestParticipantIdAndQuestType(participant.getId(), questType);
 		participant.validateQuestQuota(questType, repeatQuestCount);
 	}

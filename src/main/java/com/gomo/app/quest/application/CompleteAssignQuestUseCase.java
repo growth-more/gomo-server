@@ -13,6 +13,7 @@ import com.gomo.app.common.util.TimestampGenerator;
 import com.gomo.app.event.EventEntry;
 import com.gomo.app.event.EventEntryRepository;
 import com.gomo.app.logging.AuditLog;
+import com.gomo.app.quest.application.port.command.CompleteAssignQuestCommand;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.model.CompletionProof;
@@ -23,7 +24,6 @@ import com.gomo.app.quest.domain.service.QuestRewardService;
 import com.gomo.app.quest.event.PointQuestCompletedEvent;
 import com.gomo.app.quest.event.ScoreQuestCompletedEvent;
 import com.gomo.app.quest.event.StreakQuestCompletedEvent;
-import com.gomo.app.quest.presentation.request.CompleteAssignQuestRequest;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,22 +39,22 @@ public class CompleteAssignQuestUseCase {
 	private final EventEntryRepository eventEntryRepository;
 
 	@AuditLog(action = "COMPLETE_ASSIGN_QUEST")
-	public void complete(UUID accessorId, AssignQuestId assignQuestId, CompleteAssignQuestRequest request) {
-		AssignQuest assignQuest = assignQuestService.find(assignQuestId);
-		assignQuest.validateAuthority(accessorId);
-		assignQuest.complete(CompletionProof.of(request.getProof()), LocalDateTime.now());
-		createQuestCompletionEvents(accessorId, assignQuest);
+	public void complete(CompleteAssignQuestCommand command) {
+		AssignQuest assignQuest = assignQuestService.find(AssignQuestId.of(command.assignQuestId()));
+		assignQuest.validateAuthority(command.participantId());
+		assignQuest.complete(CompletionProof.of(command.proof()), LocalDateTime.now());
+		createQuestCompletionEvents(command.participantId(), assignQuest);
 	}
 
-	private void createQuestCompletionEvents(UUID accessorId, AssignQuest assignQuest) {
+	private void createQuestCompletionEvents(UUID participantId, AssignQuest assignQuest) {
 		QuestReward questReward = questRewardService.create(assignQuest.getId(), assignQuest.getQuest().getType());
 		long completedTime = TimestampGenerator.generate();
 
 		eventEntryRepository.saveAll(
 			List.of(
-				createScoreEventEntry(accessorId, assignQuest, questReward, completedTime),
-				createPointEventEntry(accessorId, questReward, completedTime),
-				createStreakEventEntry(accessorId, assignQuest, completedTime)
+				createScoreEventEntry(participantId, assignQuest, questReward, completedTime),
+				createPointEventEntry(participantId, questReward, completedTime),
+				createStreakEventEntry(participantId, assignQuest, completedTime)
 			)
 		);
 	}

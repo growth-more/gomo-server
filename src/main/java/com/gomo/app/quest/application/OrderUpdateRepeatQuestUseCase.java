@@ -13,6 +13,7 @@ import com.gomo.app.displayorder.OrderUpdateOrderChangeableCommand;
 import com.gomo.app.logging.AuditLog;
 import com.gomo.app.quest.application.port.command.OrderUpdateRepeatQuestCommand;
 import com.gomo.app.quest.domain.model.ParticipantId;
+import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.domain.repository.RepeatQuestRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -27,14 +28,12 @@ public class OrderUpdateRepeatQuestUseCase {
 	@AuditLog(action = "UPDATE_REPEAT_QUEST_ORDER")
 	public void update(OrderUpdateRepeatQuestCommand command) {
 		Map<UUID, OrderChangeable> repeatQuestMap = repeatQuestRepository.findRepeatQuestsByQuestType(
-				ParticipantId.of(command.participantId()),
-				command.questType()
-			).stream()
-			.collect(Collectors.toMap(
-				repeatQuest -> repeatQuest.getId().getId(),
-				repeatQuest -> repeatQuest
-			));
-
+			ParticipantId.of(command.participantId()),
+			QuestType.valueOf(command.questType())
+		).stream().collect(Collectors.toMap(
+			repeatQuest -> repeatQuest.getId().getId(),
+			repeatQuest -> repeatQuest
+		));
 		OrderChanger.change(OrderUpdateOrderChangeableCommand.of(repeatQuestMap, command.updatedOrders()));
 	}
 }

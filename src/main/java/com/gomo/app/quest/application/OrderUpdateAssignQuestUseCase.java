@@ -30,19 +30,16 @@ public class OrderUpdateAssignQuestUseCase {
 	@AuditLog(action = "UPDATE_ASSIGN_QUEST_ORDER")
 	public void update(OrderUpdateAssignQuestCommand command) {
 		LocalDate now = LocalDate.now();
-		QuestType questType = command.questType();
-
+		QuestType questType = QuestType.valueOf(command.questType());
 		Map<UUID, OrderChangeable> assignQuestMap = assignQuestRepository.findParticipatingQuestByQuestTypeWithoutCompleted(
-				ParticipantId.of(command.participantId()),
-				questType,
-				DateRangeCalculator.startOf(now, questType.name()),
-				DateRangeCalculator.endOf(now, questType.name())
-			).stream()
-			.collect(Collectors.toMap(
-				assignQuest -> assignQuest.getId().getId(),
-				assignQuest -> assignQuest
-			));
-
+			ParticipantId.of(command.participantId()),
+			questType,
+			DateRangeCalculator.startOf(now, questType.name()),
+			DateRangeCalculator.endOf(now, questType.name())
+		).stream().collect(Collectors.toMap(
+			assignQuest -> assignQuest.getId().getId(),
+			assignQuest -> assignQuest
+		));
 		OrderChanger.change(OrderUpdateOrderChangeableCommand.of(assignQuestMap, command.updatedOrders()));
 	}
 }

@@ -2,6 +2,8 @@ package com.gomo.app.quest.presentation.response;
 
 import java.util.List;
 
+import com.gomo.app.quest.application.port.dto.ListAssignQuestDto;
+
 import lombok.Getter;
 
 @Getter
@@ -21,11 +23,11 @@ public class ListAssignQuestResponse {
 		this.monthlyQuests = monthlyQuests;
 	}
 
-	public static ListAssignQuestResponse of(
-		List<ReadAssignQuestResponse> dailyQuests,
-		List<ReadAssignQuestResponse> weeklyQuests,
-		List<ReadAssignQuestResponse> monthlyQuests
-	) {
-		return new ListAssignQuestResponse(dailyQuests, weeklyQuests, monthlyQuests);
+	public static ListAssignQuestResponse from(ListAssignQuestDto dto) {
+		return new ListAssignQuestResponse(
+			dto.dailyQuests().stream().map(ReadAssignQuestResponse::from).toList(),
+			dto.weeklyQuests().stream().map(ReadAssignQuestResponse::from).toList(),
+			dto.monthlyQuests().stream().map(ReadAssignQuestResponse::from).toList()
+		);
 	}
 }

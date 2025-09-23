@@ -62,7 +62,7 @@ public class OrderUpdateAssignQuestDocumentationTest extends DocumentationTestBa
 
 	private @NotNull OrderUpdateAssignQuestRequest getRequest() {
 		return OrderUpdateAssignQuestRequest.of(
-			QuestType.DAILY,
+			QuestType.DAILY.name(),
 			List.of(
 				UpdatedOrderDto.of(assignQuest1.getId().getId(), 2),
 				UpdatedOrderDto.of(assignQuest2.getId().getId(), 1)

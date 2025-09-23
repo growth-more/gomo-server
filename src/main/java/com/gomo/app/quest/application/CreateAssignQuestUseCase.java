@@ -7,18 +7,21 @@ import java.util.UUID;
 import com.gomo.app.common.ApplicationService;
 import com.gomo.app.common.util.DateRangeCalculator;
 import com.gomo.app.logging.AuditLog;
-import com.gomo.app.member.domain.model.MemberId;
-import com.gomo.app.member.domain.service.MemberService;
-import com.gomo.app.quest.application.translator.ParticipantTranslator;
+import com.gomo.app.quest.application.port.ReadParticipantPortOut;
+import com.gomo.app.quest.application.port.command.CreateAssignQuestCommand;
+import com.gomo.app.quest.application.port.dto.CreateAssignQuestDto;
+import com.gomo.app.quest.application.port.dto.ParticipantDto;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.Participant;
 import com.gomo.app.quest.domain.model.ParticipantId;
 import com.gomo.app.quest.domain.model.Quest;
+import com.gomo.app.quest.domain.model.QuestContent;
+import com.gomo.app.quest.domain.model.QuestQuota;
 import com.gomo.app.quest.domain.model.QuestType;
+import com.gomo.app.quest.domain.model.SubjectId;
+import com.gomo.app.quest.domain.model.SubjectName;
 import com.gomo.app.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.quest.domain.service.AssignQuestService;
-import com.gomo.app.quest.presentation.request.CreateAssignQuestRequest;
-import com.gomo.app.quest.presentation.response.CreateAssignQuestResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,20 +29,32 @@ import lombok.RequiredArgsConstructor;
 @ApplicationService
 public class CreateAssignQuestUseCase {
 
-	private final MemberService memberService;
+	private final ReadParticipantPortOut readParticipantPortOut;
 	private final AssignQuestService assignQuestService;
 	private final AssignQuestRepository assignQuestRepository;
 
 	@AuditLog(action = "CREATE_ASSIGN_QUEST")
-	public CreateAssignQuestResponse create(UUID participantId, CreateAssignQuestRequest request) {
-		ensureNotExceedQuestQuota(participantId, request.getQuestType());
-		Quest quest = request.toQuest(participantId);
+	public CreateAssignQuestDto create(CreateAssignQuestCommand command) {
+		UUID participantId = command.participantId();
+		QuestType questType = QuestType.valueOf(command.questType());
+		ensureNotExceedQuestQuota(participantId, questType);
+		Quest quest = Quest.of(
+			ParticipantId.of(participantId),
+			SubjectId.of(command.subjectId()),
+			SubjectName.of(command.subjectName()),
+			questType,
+			QuestContent.of(command.content())
+		);
 		AssignQuest savedAssignQuest = assignQuestService.create(ParticipantId.of(participantId), quest);
-		return CreateAssignQuestResponse.of(savedAssignQuest.getId());
+		return CreateAssignQuestDto.of(savedAssignQuest.id());
 	}
 
 	private void ensureNotExceedQuestQuota(UUID participantId, QuestType questType) {
-		Participant participant = ParticipantTranslator.from(memberService.find(MemberId.of(participantId)));
+		ParticipantDto dto = readParticipantPortOut.find(participantId);
+		Participant participant = Participant.of(
+			ParticipantId.of(dto.id()),
+			QuestQuota.of(dto.dailyQuota(), dto.weeklyQuota(), dto.monthlyQuota())
+		);
 		int participatingQuestCount = countParticipatingQuest(participant.getId(), questType);
 		participant.validateQuestQuota(questType, participatingQuestCount);
 	}
@@ -48,12 +63,6 @@ public class CreateAssignQuestUseCase {
 		LocalDate now = LocalDate.now();
 		LocalDateTime startDateTime = DateRangeCalculator.startOf(now, questType.name());
 		LocalDateTime endDateTime = DateRangeCalculator.endOf(now, questType.name());
-
-		return (int)assignQuestRepository.countParticipatingQuestByQuestType(
-			participantId,
-			questType,
-			startDateTime,
-			endDateTime
-		);
+		return (int)assignQuestRepository.countParticipatingQuestByQuestType(participantId, questType, startDateTime, endDateTime);
 	}
 }

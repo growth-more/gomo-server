@@ -5,7 +5,6 @@ import static org.mockito.Mockito.*;
 
 import java.util.UUID;
 
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,17 +12,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.member.common.fixture.MemberFixture;
-import com.gomo.app.member.domain.model.Member;
-import com.gomo.app.member.domain.service.MemberService;
 import com.gomo.app.quest.application.CreateRepeatQuestUseCase;
+import com.gomo.app.quest.application.port.ReadParticipantPortOut;
+import com.gomo.app.quest.application.port.command.CreateRepeatQuestCommand;
+import com.gomo.app.quest.application.port.dto.CreateRepeatQuestDto;
+import com.gomo.app.quest.application.port.dto.ParticipantDto;
 import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.domain.model.RepeatQuest;
 import com.gomo.app.quest.domain.repository.RepeatQuestRepository;
 import com.gomo.app.quest.domain.service.RepeatQuestService;
 import com.gomo.app.quest.fixture.RepeatQuestFixture;
-import com.gomo.app.quest.presentation.request.CreateRepeatQuestRequest;
-import com.gomo.app.quest.presentation.response.CreateRepeatQuestResponse;
 
 @DisplayName("[Application unit]: 반복 퀘스트 생성 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -33,7 +31,7 @@ public class CreateRepeatQuestUseCaseTest {
 	private CreateRepeatQuestUseCase sut;
 
 	@Mock
-	private MemberService memberService;
+	private ReadParticipantPortOut readParticipantPort;
 
 	@Mock
 	private RepeatQuestService repeatQuestService;
@@ -45,27 +43,24 @@ public class CreateRepeatQuestUseCaseTest {
 	@Test
 	void create_repeat_quest() {
 		RepeatQuest repeatQuest = RepeatQuestFixture.repeatQuest();
-		Member member = MemberFixture.member(5, 5, 5);
-		doReturn(member).when(memberService).find(any());
+		ParticipantDto participantDto = ParticipantDto.of(UUID.randomUUID(), 5, 5, 5);
+		doReturn(participantDto).when(readParticipantPort).find(any());
 		doReturn(repeatQuest).when(repeatQuestService).create(any(), any());
 		doReturn(4L).when(repeatQuestRepository).countByQuestParticipantIdAndQuestType(any(), any());
 
-		CreateRepeatQuestResponse actual = sut.create(UUID.randomUUID(), createRequest());
+		CreateRepeatQuestDto actual = sut.create(
+			CreateRepeatQuestCommand.of(UUID.randomUUID(), UUID.randomUUID(), "subject name", QuestType.DAILY.name(), "quest content"));
 
-		assertThat(actual.getId()).isEqualTo(repeatQuest.getId().getId());
+		assertThat(actual.id()).isEqualTo(repeatQuest.getId().getId());
 	}
 
 	@DisplayName("할당량을 초과하면 반복 퀘스트를 생성할 수 없다.")
 	@Test
 	void check_quest_quota() {
-		Member member = MemberFixture.member(5, 5, 5);
-		doReturn(member).when(memberService).find(any());
+		ParticipantDto participantDto = ParticipantDto.of(UUID.randomUUID(), 5, 5, 5);
+		doReturn(participantDto).when(readParticipantPort).find(any());
 		doReturn(5L).when(repeatQuestRepository).countByQuestParticipantIdAndQuestType(any(), any());
 
-		assertThatThrownBy(() -> sut.create(UUID.randomUUID(), createRequest()));
-	}
-
-	private static @NotNull CreateRepeatQuestRequest createRequest() {
-		return CreateRepeatQuestRequest.of(UUID.randomUUID(), "subject name", QuestType.DAILY, "quest content");
+		assertThatThrownBy(() -> sut.create(CreateRepeatQuestCommand.of(UUID.randomUUID(), UUID.randomUUID(), "subject name", QuestType.DAILY.name(), "quest content")));
 	}
 }

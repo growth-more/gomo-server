@@ -2,6 +2,8 @@ package com.gomo.app.quest.presentation.response;
 
 import java.util.List;
 
+import com.gomo.app.quest.application.port.dto.ListRepeatQuestDto;
+
 import lombok.Getter;
 
 @Getter
@@ -21,11 +23,11 @@ public class ListRepeatQuestResponse {
 		this.monthlyQuests = monthlyQuests;
 	}
 
-	public static ListRepeatQuestResponse of(
-		List<ReadRepeatQuestResponse> dailyQuests,
-		List<ReadRepeatQuestResponse> weeklyQuests,
-		List<ReadRepeatQuestResponse> monthlyQuests
-	) {
-		return new ListRepeatQuestResponse(dailyQuests, weeklyQuests, monthlyQuests);
+	public static ListRepeatQuestResponse from(ListRepeatQuestDto dto) {
+		return new ListRepeatQuestResponse(
+			dto.dailyQuests().stream().map(ReadRepeatQuestResponse::from).toList(),
+			dto.weeklyQuests().stream().map(ReadRepeatQuestResponse::from).toList(),
+			dto.monthlyQuests().stream().map(ReadRepeatQuestResponse::from).toList()
+		);
 	}
 }

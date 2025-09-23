@@ -15,19 +15,20 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.quest.application.CalendarReadAssignQuestUseCase;
+import com.gomo.app.quest.application.CalendarAssignQuestUseCase;
+import com.gomo.app.quest.application.port.command.CalendarAssignQuestCommand;
+import com.gomo.app.quest.application.port.dto.CalendarAssignQuestDto;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.ParticipantId;
 import com.gomo.app.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.quest.fixture.AssignQuestFixture;
-import com.gomo.app.quest.presentation.response.CalendarListAssignQuestResponse;
 
 @DisplayName("[Application unit]: 할당 퀘스트 과거 이력 조회 테스트")
 @ExtendWith(MockitoExtension.class)
-public class CalendarReadAssignQuestUseCaseTest {
+public class CalendarAssignQuestUseCaseTest {
 
 	@InjectMocks
-	private CalendarReadAssignQuestUseCase sut;
+	private CalendarAssignQuestUseCase sut;
 
 	@Mock
 	private AssignQuestRepository assignQuestRepository;
@@ -45,9 +46,9 @@ public class CalendarReadAssignQuestUseCaseTest {
 			eq(end)
 		);
 
-		CalendarListAssignQuestResponse actual = sut.find(participantId, true, start, end);
+		List<CalendarAssignQuestDto> actual = sut.find(CalendarAssignQuestCommand.of(participantId.getId(), true, start, end));
 
-		assertThat(actual.getAssignQuests().size()).isEqualTo(2);
+		assertThat(actual.size()).isEqualTo(2);
 	}
 
 	@DisplayName("완료한 퀘스트의 하루 이력을 조회한다.")
@@ -63,9 +64,9 @@ public class CalendarReadAssignQuestUseCaseTest {
 			eq(end)
 		);
 
-		CalendarListAssignQuestResponse actual = sut.find(participantId, true, start, end);
+		List<CalendarAssignQuestDto> actual = sut.find(CalendarAssignQuestCommand.of(participantId.getId(), true, start, end));
 
-		assertThat(actual.getAssignQuests().size()).isEqualTo(2);
+		assertThat(actual.size()).isEqualTo(2);
 	}
 
 	@DisplayName("완료하지 못한 퀘스트의 한달 이력을 조회한다.")
@@ -81,9 +82,9 @@ public class CalendarReadAssignQuestUseCaseTest {
 			eq(end)
 		);
 
-		CalendarListAssignQuestResponse actual = sut.find(participantId, false, start, end);
+		List<CalendarAssignQuestDto> actual = sut.find(CalendarAssignQuestCommand.of(participantId.getId(), false, start, end));
 
-		assertThat(actual.getAssignQuests().size()).isEqualTo(2);
+		assertThat(actual.size()).isEqualTo(2);
 	}
 
 	@DisplayName("완료하지 못한 퀘스트의 하루 이력을 조회한다.")
@@ -99,8 +100,8 @@ public class CalendarReadAssignQuestUseCaseTest {
 			eq(end)
 		);
 
-		CalendarListAssignQuestResponse actual = sut.find(participantId, false, start, end);
+		List<CalendarAssignQuestDto> actual = sut.find(CalendarAssignQuestCommand.of(participantId.getId(), false, start, end));
 
-		assertThat(actual.getAssignQuests().size()).isEqualTo(2);
+		assertThat(actual.size()).isEqualTo(2);
 	}
 }

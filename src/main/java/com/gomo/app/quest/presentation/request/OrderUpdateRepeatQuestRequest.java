@@ -5,22 +5,21 @@ import java.util.UUID;
 
 import com.gomo.app.displayorder.UpdatedOrderDto;
 import com.gomo.app.quest.application.port.command.OrderUpdateRepeatQuestCommand;
-import com.gomo.app.quest.domain.model.QuestType;
 
 import lombok.Getter;
 
 @Getter
 public class OrderUpdateRepeatQuestRequest {
 
-	private QuestType questType;
+	private String questType;
 	private List<UpdatedOrderDto> updatedOrders;
 
-	private OrderUpdateRepeatQuestRequest(QuestType questType, List<UpdatedOrderDto> updatedOrders) {
+	private OrderUpdateRepeatQuestRequest(String questType, List<UpdatedOrderDto> updatedOrders) {
 		this.questType = questType;
 		this.updatedOrders = updatedOrders;
 	}
 
-	public static OrderUpdateRepeatQuestRequest of(QuestType questType, List<UpdatedOrderDto> updatedOrders) {
+	public static OrderUpdateRepeatQuestRequest of(String questType, List<UpdatedOrderDto> updatedOrders) {
 		return new OrderUpdateRepeatQuestRequest(questType, updatedOrders);
 	}
 

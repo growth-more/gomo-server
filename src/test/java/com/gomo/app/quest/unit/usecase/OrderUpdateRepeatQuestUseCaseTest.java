@@ -42,7 +42,7 @@ public class OrderUpdateRepeatQuestUseCaseTest {
 			sut.update(
 				OrderUpdateRepeatQuestCommand.of(
 					UUID.randomUUID(),
-					QuestType.DAILY,
+					QuestType.DAILY.name(),
 					List.of(
 						UpdatedOrderDto.of(UUID.randomUUID(), 1),
 						UpdatedOrderDto.of(UUID.randomUUID(), 2),

@@ -56,7 +56,7 @@ public class UpdateAssignQuestDocumentationTest extends DocumentationTestBase {
 			.body(UpdateAssignQuestRequest.of(
 				UUID.randomUUID(),
 				"updated subject name",
-				QuestType.DAILY,
+				QuestType.DAILY.name(),
 				"updated quest content"
 			))
 			.when()
@@ -74,7 +74,7 @@ public class UpdateAssignQuestDocumentationTest extends DocumentationTestBase {
 			.body(UpdateAssignQuestRequest.of(
 				UUID.randomUUID(),
 				"subject name",
-				QuestType.DAILY,
+				QuestType.DAILY.name(),
 				BLANK_QUEST_CONTENT))
 			.when()
 			.put("/quests/assigns/{id}", assignQuest.getId().getId())

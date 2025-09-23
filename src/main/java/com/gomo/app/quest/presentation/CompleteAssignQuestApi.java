@@ -1,19 +1,20 @@
 package com.gomo.app.quest.presentation;
 
-import com.gomo.app.common.authentication.Auth;
-import com.gomo.app.common.authentication.AuthInfo;
-import com.gomo.app.common.Presentation;
-import com.gomo.app.quest.application.CompleteAssignQuestUseCase;
-import com.gomo.app.quest.domain.model.AssignQuestId;
-import com.gomo.app.quest.presentation.request.CompleteAssignQuestRequest;
-import lombok.RequiredArgsConstructor;
+import java.util.UUID;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.UUID;
+import com.gomo.app.common.Presentation;
+import com.gomo.app.common.authentication.Auth;
+import com.gomo.app.common.authentication.AuthInfo;
+import com.gomo.app.quest.application.CompleteAssignQuestUseCase;
+import com.gomo.app.quest.presentation.request.CompleteAssignQuestRequest;
+
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RequestMapping("/quests/assigns/{id}/complete")
@@ -24,7 +25,7 @@ public class CompleteAssignQuestApi {
 
 	@PutMapping
 	public ResponseEntity<Void> complete(@Auth AuthInfo authInfo, @PathVariable("id") UUID assignQuestId, @RequestBody CompleteAssignQuestRequest request) {
-		completeAssignQuestUseCase.complete(authInfo.getMemberId(), AssignQuestId.of(assignQuestId), request);
+		completeAssignQuestUseCase.complete(request.toCommand(authInfo.getMemberId(), assignQuestId));
 		return ResponseEntity.noContent().build();
 	}
 }
