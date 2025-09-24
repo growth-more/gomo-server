@@ -19,15 +19,15 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gomo.app.auth.presentation.AuthMemberApi;
-import com.gomo.app.auth.presentation.request.LoginMemberRequest;
-import com.gomo.app.common.authentication.AuthInfo;
+import com.gomo.app.support.auth.presentation.AuthMemberApi;
+import com.gomo.app.support.auth.presentation.request.LoginMemberRequest;
+import com.gomo.app.support.auth.AuthInfo;
 import com.gomo.app.common.config.RestAssureConfig;
-import com.gomo.app.member.domain.model.LoginProvider;
-import com.gomo.app.member.domain.model.MemberId;
-import com.gomo.app.member.domain.repository.MemberRepository;
-import com.gomo.app.member.presentation.MemberApi;
-import com.gomo.app.member.presentation.request.CreateMemberRequest;
+import com.gomo.app.core.member.domain.model.LoginProvider;
+import com.gomo.app.core.member.domain.model.MemberId;
+import com.gomo.app.core.member.domain.repository.MemberRepository;
+import com.gomo.app.core.member.presentation.MemberApi;
+import com.gomo.app.core.member.presentation.request.CreateMemberRequest;
 import com.google.common.net.HttpHeaders;
 
 import io.restassured.builder.RequestSpecBuilder;

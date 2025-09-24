@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import com.gomo.app.auth.presentation.AuthMemberApi;
-import com.gomo.app.auth.presentation.request.LoginMemberRequest;
-import com.gomo.app.auth.presentation.response.LoginMemberResponse;
+import com.gomo.app.support.auth.presentation.AuthMemberApi;
+import com.gomo.app.support.auth.presentation.request.LoginMemberRequest;
+import com.gomo.app.support.auth.presentation.response.LoginMemberResponse;
 
 @Component
 public class LoginMemberHelper {

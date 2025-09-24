@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.interest.domain.model.InterestQuota;
+import com.gomo.app.core.interest.domain.model.InterestQuota;
 
 @DisplayName("[Domain unit]: 관심사 할당량 검증 기능 테스트")
 public class InterestQuotaTest {

@@ -14,8 +14,8 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.quest.documentation.snippet.DeleteAssignQuestSnippet;
-import com.gomo.app.quest.domain.model.AssignQuest;
-import com.gomo.app.quest.domain.repository.AssignQuestRepository;
+import com.gomo.app.core.quest.domain.model.AssignQuest;
+import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.quest.fixture.AssignQuestFixture;
 
 @DisplayName("[Presentation documentation]: 참여 중인 퀘스트 삭제 테스트")

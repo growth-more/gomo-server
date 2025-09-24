@@ -10,9 +10,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.member.application.CheckHandleUseCase;
-import com.gomo.app.member.domain.model.Handle;
-import com.gomo.app.member.domain.service.MemberService;
+import com.gomo.app.core.member.application.CheckHandleUseCase;
+import com.gomo.app.core.member.domain.model.Handle;
+import com.gomo.app.core.member.domain.service.MemberService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Application unit] : 유저 핸들 중복체크 테스트")

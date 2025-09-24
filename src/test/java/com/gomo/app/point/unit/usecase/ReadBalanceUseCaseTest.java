@@ -12,10 +12,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.point.application.ReadBalanceUseCase;
-import com.gomo.app.point.domain.model.Balance;
-import com.gomo.app.point.domain.service.PointWalletService;
-import com.gomo.app.point.presentation.response.ReadBalanceResponse;
+import com.gomo.app.core.point.application.ReadBalanceUseCase;
+import com.gomo.app.core.point.domain.model.Balance;
+import com.gomo.app.core.point.domain.service.PointWalletService;
+import com.gomo.app.core.point.presentation.response.ReadBalanceResponse;
 
 @DisplayName("[Application unit]: 포인트 잔고 조회 테스트")
 @ExtendWith(MockitoExtension.class)

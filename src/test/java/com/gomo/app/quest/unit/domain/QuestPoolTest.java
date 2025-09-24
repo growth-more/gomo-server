@@ -8,11 +8,11 @@ import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.quest.domain.model.ProcessingStatus;
-import com.gomo.app.quest.domain.model.QuestPool;
-import com.gomo.app.quest.domain.model.QuestPoolId;
-import com.gomo.app.quest.domain.model.SourceType;
-import com.gomo.app.quest.exception.QuestAccessDeniedException;
+import com.gomo.app.core.quest.domain.model.ProcessingStatus;
+import com.gomo.app.core.quest.domain.model.QuestPool;
+import com.gomo.app.core.quest.domain.model.QuestPoolId;
+import com.gomo.app.core.quest.domain.model.SourceType;
+import com.gomo.app.core.quest.exception.QuestAccessDeniedException;
 import com.gomo.app.quest.fixture.QuestFixture;
 
 @DisplayName("[Domain unit]: 퀘스트 풀 생성 및 수정 테스트")

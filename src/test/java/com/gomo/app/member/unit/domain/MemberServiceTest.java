@@ -3,8 +3,6 @@ package com.gomo.app.member.unit.domain;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,21 +13,21 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.member.domain.model.ActivateStatus;
-import com.gomo.app.member.domain.model.Email;
-import com.gomo.app.member.domain.model.Handle;
-import com.gomo.app.member.domain.model.Member;
-import com.gomo.app.member.domain.model.MemberId;
-import com.gomo.app.member.domain.repository.MemberRepository;
-import com.gomo.app.member.domain.service.MemberService;
-import com.gomo.app.member.exception.ActivateStatusException;
-import com.gomo.app.member.exception.EmailDuplicatedException;
-import com.gomo.app.member.exception.HandleDuplicatedException;
-import com.gomo.app.member.exception.MemberNotFoundException;
-import com.gomo.app.member.exception.code.ActivateStatusErrorCode;
-import com.gomo.app.member.exception.code.EmailErrorCode;
-import com.gomo.app.member.exception.code.HandleErrorCode;
-import com.gomo.app.member.exception.code.MemberErrorCode;
+import com.gomo.app.core.member.domain.model.ActivateStatus;
+import com.gomo.app.core.member.domain.model.Email;
+import com.gomo.app.core.member.domain.model.Handle;
+import com.gomo.app.core.member.domain.model.Member;
+import com.gomo.app.core.member.domain.model.MemberId;
+import com.gomo.app.core.member.domain.repository.MemberRepository;
+import com.gomo.app.core.member.domain.service.MemberService;
+import com.gomo.app.core.member.exception.ActivateStatusException;
+import com.gomo.app.core.member.exception.EmailDuplicatedException;
+import com.gomo.app.core.member.exception.HandleDuplicatedException;
+import com.gomo.app.core.member.exception.MemberNotFoundException;
+import com.gomo.app.core.member.exception.code.ActivateStatusErrorCode;
+import com.gomo.app.core.member.exception.code.EmailErrorCode;
+import com.gomo.app.core.member.exception.code.HandleErrorCode;
+import com.gomo.app.core.member.exception.code.MemberErrorCode;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Domain unit]: MemberService 테스트")

@@ -10,14 +10,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.member.domain.model.Email;
-import com.gomo.app.member.domain.model.Handle;
-import com.gomo.app.member.domain.model.LoginProvider;
-import com.gomo.app.member.domain.model.Member;
-import com.gomo.app.member.domain.model.MemberId;
-import com.gomo.app.member.domain.model.MemberName;
-import com.gomo.app.member.domain.model.Motto;
-import com.gomo.app.member.domain.model.Password;
+import com.gomo.app.core.member.domain.model.Email;
+import com.gomo.app.core.member.domain.model.Handle;
+import com.gomo.app.core.member.domain.model.LoginProvider;
+import com.gomo.app.core.member.domain.model.Member;
+import com.gomo.app.core.member.domain.model.MemberId;
+import com.gomo.app.core.member.domain.model.MemberName;
+import com.gomo.app.core.member.domain.model.Motto;
+import com.gomo.app.core.member.domain.model.Password;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Domain unit]: 회원 테스트")

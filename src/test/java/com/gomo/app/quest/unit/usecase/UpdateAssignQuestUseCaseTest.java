@@ -13,18 +13,18 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.quest.application.UpdateAssignQuestUseCase;
-import com.gomo.app.quest.application.port.command.UpdateAssignQuestCommand;
-import com.gomo.app.quest.domain.model.AssignQuest;
-import com.gomo.app.quest.domain.model.AssignQuestId;
-import com.gomo.app.quest.domain.model.CompletionProof;
-import com.gomo.app.quest.domain.model.QuestType;
-import com.gomo.app.quest.domain.service.AssignQuestService;
-import com.gomo.app.quest.exception.AssignQuestAccessDeniedException;
-import com.gomo.app.quest.exception.AssignQuestConstraintViolationException;
-import com.gomo.app.quest.exception.QuestTypeConstraintViolationException;
-import com.gomo.app.quest.exception.code.AssignQuestErrorCode;
-import com.gomo.app.quest.exception.code.QuestTypeErrorCode;
+import com.gomo.app.core.quest.application.UpdateAssignQuestUseCase;
+import com.gomo.app.core.quest.application.port.command.UpdateAssignQuestCommand;
+import com.gomo.app.core.quest.domain.model.AssignQuest;
+import com.gomo.app.core.quest.domain.model.AssignQuestId;
+import com.gomo.app.core.quest.domain.model.CompletionProof;
+import com.gomo.app.core.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.domain.service.AssignQuestService;
+import com.gomo.app.core.quest.exception.AssignQuestAccessDeniedException;
+import com.gomo.app.core.quest.exception.AssignQuestConstraintViolationException;
+import com.gomo.app.core.quest.exception.QuestTypeConstraintViolationException;
+import com.gomo.app.core.quest.exception.code.AssignQuestErrorCode;
+import com.gomo.app.core.quest.exception.code.QuestTypeErrorCode;
 import com.gomo.app.quest.fixture.AssignQuestFixture;
 
 @DisplayName("[Application unit]: 할당 퀘스트 수정 테스트")

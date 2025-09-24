@@ -1,0 +1,4 @@
+package com.gomo.app.support.llm.application;
+
+public record GenerateTextDto() {
+}

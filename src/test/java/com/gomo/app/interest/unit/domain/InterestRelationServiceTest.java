@@ -18,21 +18,21 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.interest.fixture.InterestFixture;
 import com.gomo.app.interest.fixture.InterestRelationFixture;
-import com.gomo.app.interest.domain.model.ChildInterestId;
-import com.gomo.app.interest.domain.model.Interest;
-import com.gomo.app.interest.domain.model.InterestId;
-import com.gomo.app.interest.domain.model.InterestRelation;
-import com.gomo.app.interest.domain.model.InterestRelationId;
-import com.gomo.app.interest.domain.model.ParentInterestId;
-import com.gomo.app.interest.domain.model.RegistrantId;
-import com.gomo.app.interest.domain.repository.InterestRelationRepository;
-import com.gomo.app.interest.domain.service.InterestRelationService;
-import com.gomo.app.interest.domain.service.InterestService;
-import com.gomo.app.interest.domain.service.ProficiencyService;
-import com.gomo.app.interest.exception.InterestRelationCycleException;
-import com.gomo.app.interest.exception.InterestRelationDuplicatedException;
-import com.gomo.app.interest.exception.InterestRelationNotFoundException;
-import com.gomo.app.interest.exception.code.InterestRelationErrorCode;
+import com.gomo.app.core.interest.domain.model.ChildInterestId;
+import com.gomo.app.core.interest.domain.model.Interest;
+import com.gomo.app.core.interest.domain.model.InterestId;
+import com.gomo.app.core.interest.domain.model.InterestRelation;
+import com.gomo.app.core.interest.domain.model.InterestRelationId;
+import com.gomo.app.core.interest.domain.model.ParentInterestId;
+import com.gomo.app.core.interest.domain.model.RegistrantId;
+import com.gomo.app.core.interest.domain.repository.InterestRelationRepository;
+import com.gomo.app.core.interest.domain.service.InterestRelationService;
+import com.gomo.app.core.interest.domain.service.InterestService;
+import com.gomo.app.core.interest.domain.service.ProficiencyService;
+import com.gomo.app.core.interest.exception.InterestRelationCycleException;
+import com.gomo.app.core.interest.exception.InterestRelationDuplicatedException;
+import com.gomo.app.core.interest.exception.InterestRelationNotFoundException;
+import com.gomo.app.core.interest.exception.code.InterestRelationErrorCode;
 
 @DisplayName("[Domain integration]: 관심사 관계선 생성 테스트")
 @ExtendWith(MockitoExtension.class)

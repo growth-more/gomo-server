@@ -13,14 +13,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.quest.application.port.CreateQuestContentPortOut;
-import com.gomo.app.quest.application.port.ReadActiveParticipantPortOut;
-import com.gomo.app.quest.application.port.ReadSubjectPortOut;
-import com.gomo.app.quest.application.port.dto.ActiveParticipantDto;
-import com.gomo.app.quest.application.port.dto.QuestContentDto;
-import com.gomo.app.quest.application.port.dto.SubjectDto;
-import com.gomo.app.quest.domain.model.QuestType;
-import com.gomo.app.quest.domain.repository.QuestPoolRepository;
+import com.gomo.app.core.quest.application.FillQuestPoolUseCase;
+import com.gomo.app.core.quest.application.port.CreateQuestContentPortOut;
+import com.gomo.app.core.quest.application.port.ReadActiveParticipantPortOut;
+import com.gomo.app.core.quest.application.port.ReadSubjectPortOut;
+import com.gomo.app.core.quest.application.port.dto.ActiveParticipantDto;
+import com.gomo.app.core.quest.application.port.dto.QuestContentDto;
+import com.gomo.app.core.quest.application.port.dto.SubjectDto;
+import com.gomo.app.core.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.domain.repository.QuestPoolRepository;
 
 @DisplayName("[Application unit]: 퀘스트 풀 생성 테스트")
 @ExtendWith(MockitoExtension.class)

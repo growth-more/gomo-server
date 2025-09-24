@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.quest.domain.model.ScoreReward;
+import com.gomo.app.core.quest.domain.model.ScoreReward;
 
 @DisplayName("[Domain unit]: 숙련도 점수 보상 생성 테스트")
 public class ScoreRewardTest {

@@ -10,12 +10,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.member.application.UpdateQuestPropertyUseCase;
-import com.gomo.app.member.application.port.command.UpdateQuestPropertyCommand;
+import com.gomo.app.core.member.application.UpdateQuestPropertyUseCase;
+import com.gomo.app.core.member.application.port.command.UpdateQuestPropertyCommand;
 import com.gomo.app.member.common.fixture.MemberFixture;
-import com.gomo.app.member.domain.model.Member;
-import com.gomo.app.member.domain.model.QuestProperty;
-import com.gomo.app.member.domain.service.MemberService;
+import com.gomo.app.core.member.domain.model.Member;
+import com.gomo.app.core.member.domain.model.QuestProperty;
+import com.gomo.app.core.member.domain.service.MemberService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Application Unit]: 퀘스트 설정 업데이트 기능 테스트")

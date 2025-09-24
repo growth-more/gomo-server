@@ -16,17 +16,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.interest.domain.repository.InterestRepository;
-import com.gomo.app.interest.presentation.InterestApi;
-import com.gomo.app.interest.presentation.request.CreateInterestRequest;
-import com.gomo.app.member.presentation.QuestPropertyApi;
-import com.gomo.app.member.presentation.request.UpdateQuestPropertyRequest;
+import com.gomo.app.core.interest.domain.repository.InterestRepository;
+import com.gomo.app.core.interest.presentation.InterestApi;
+import com.gomo.app.core.interest.presentation.request.CreateInterestRequest;
+import com.gomo.app.core.member.presentation.QuestPropertyApi;
+import com.gomo.app.core.member.presentation.request.UpdateQuestPropertyRequest;
 import com.gomo.app.quest.documentation.snippet.CreateRepeatQuestSnippet;
-import com.gomo.app.quest.domain.model.QuestType;
-import com.gomo.app.quest.domain.repository.AssignQuestRepository;
-import com.gomo.app.quest.exception.code.QuestContentErrorCode;
-import com.gomo.app.quest.exception.code.QuestErrorCode;
-import com.gomo.app.quest.presentation.request.CreateRepeatQuestRequest;
+import com.gomo.app.core.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
+import com.gomo.app.core.quest.exception.code.QuestContentErrorCode;
+import com.gomo.app.core.quest.exception.code.QuestErrorCode;
+import com.gomo.app.core.quest.presentation.request.CreateRepeatQuestRequest;
 
 @DisplayName("[Presentation documentation]: 반복 퀘스트 생성 테스트")
 public class CreateRepeatQuestDocumentationTest extends DocumentationTestBase {

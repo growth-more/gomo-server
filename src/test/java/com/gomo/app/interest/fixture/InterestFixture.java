@@ -2,14 +2,14 @@ package com.gomo.app.interest.fixture;
 
 import java.util.UUID;
 
-import com.gomo.app.interest.domain.model.Interest;
-import com.gomo.app.interest.domain.model.InterestId;
-import com.gomo.app.interest.domain.model.InterestName;
-import com.gomo.app.interest.domain.model.Level;
-import com.gomo.app.interest.domain.model.Logo;
-import com.gomo.app.interest.domain.model.Proficiency;
-import com.gomo.app.interest.domain.model.RegistrantId;
-import com.gomo.app.interest.domain.model.Score;
+import com.gomo.app.core.interest.domain.model.Interest;
+import com.gomo.app.core.interest.domain.model.InterestId;
+import com.gomo.app.core.interest.domain.model.InterestName;
+import com.gomo.app.core.interest.domain.model.Level;
+import com.gomo.app.core.interest.domain.model.Logo;
+import com.gomo.app.core.interest.domain.model.Proficiency;
+import com.gomo.app.core.interest.domain.model.RegistrantId;
+import com.gomo.app.core.interest.domain.model.Score;
 
 public class InterestFixture {
 

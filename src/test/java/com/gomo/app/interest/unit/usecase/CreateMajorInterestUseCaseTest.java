@@ -12,14 +12,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.interest.application.CreateMajorInterestUseCase;
-import com.gomo.app.interest.application.port.dto.CreateMajorInterestDto;
-import com.gomo.app.interest.domain.model.Interest;
-import com.gomo.app.interest.domain.model.InterestId;
-import com.gomo.app.interest.domain.model.MajorInterest;
-import com.gomo.app.interest.domain.service.InterestService;
-import com.gomo.app.interest.domain.service.MajorInterestService;
-import com.gomo.app.interest.exception.InterestAccessDeniedException;
+import com.gomo.app.core.interest.application.CreateMajorInterestUseCase;
+import com.gomo.app.core.interest.application.port.dto.CreateMajorInterestDto;
+import com.gomo.app.core.interest.domain.model.Interest;
+import com.gomo.app.core.interest.domain.model.InterestId;
+import com.gomo.app.core.interest.domain.model.MajorInterest;
+import com.gomo.app.core.interest.domain.service.InterestService;
+import com.gomo.app.core.interest.domain.service.MajorInterestService;
+import com.gomo.app.core.interest.exception.InterestAccessDeniedException;
 import com.gomo.app.interest.fixture.InterestFixture;
 import com.gomo.app.interest.fixture.MajorInterestFixture;
 

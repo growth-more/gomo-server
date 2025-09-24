@@ -13,16 +13,16 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.interest.application.DeleteInterestUseCase;
-import com.gomo.app.interest.application.port.DeleteLogoPortOut;
-import com.gomo.app.interest.domain.model.Interest;
-import com.gomo.app.interest.domain.model.InterestId;
-import com.gomo.app.interest.domain.model.InterestRelation;
-import com.gomo.app.interest.domain.model.Logo;
-import com.gomo.app.interest.domain.repository.InterestRepository;
-import com.gomo.app.interest.domain.repository.MajorInterestRepository;
-import com.gomo.app.interest.domain.service.InterestRelationService;
-import com.gomo.app.interest.domain.service.InterestService;
+import com.gomo.app.core.interest.application.DeleteInterestUseCase;
+import com.gomo.app.core.interest.application.port.DeleteLogoPortOut;
+import com.gomo.app.core.interest.domain.model.Interest;
+import com.gomo.app.core.interest.domain.model.InterestId;
+import com.gomo.app.core.interest.domain.model.InterestRelation;
+import com.gomo.app.core.interest.domain.model.Logo;
+import com.gomo.app.core.interest.domain.repository.InterestRepository;
+import com.gomo.app.core.interest.domain.repository.MajorInterestRepository;
+import com.gomo.app.core.interest.domain.service.InterestRelationService;
+import com.gomo.app.core.interest.domain.service.InterestService;
 import com.gomo.app.interest.fixture.InterestFixture;
 import com.gomo.app.interest.fixture.InterestRelationFixture;
 

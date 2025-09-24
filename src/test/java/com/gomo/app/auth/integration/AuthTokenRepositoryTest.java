@@ -9,7 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.gomo.app.auth.domain.repository.AuthTokenRepository;
+import com.gomo.app.support.auth.domain.repository.AuthTokenRepository;
 import com.gomo.app.common.IntegrationTestBase;
 
 @DisplayName("[Domain Integration]: Auth 토큰 Redis DB 테스트")

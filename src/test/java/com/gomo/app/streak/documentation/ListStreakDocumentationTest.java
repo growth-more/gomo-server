@@ -18,9 +18,9 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.streak.documentation.snippet.ListStreakSnippet;
-import com.gomo.app.streak.domain.model.Streak;
-import com.gomo.app.streak.domain.model.StreakType;
-import com.gomo.app.streak.domain.repository.StreakRepository;
+import com.gomo.app.core.streak.domain.model.Streak;
+import com.gomo.app.core.streak.domain.model.StreakType;
+import com.gomo.app.core.streak.domain.repository.StreakRepository;
 import com.gomo.app.streak.fixture.StreakFixture;
 
 @DisplayName("[Presentation documentation]: 스트릭 목록 조회 테스트")

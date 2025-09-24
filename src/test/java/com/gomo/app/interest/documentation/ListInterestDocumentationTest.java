@@ -15,9 +15,9 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.interest.documentation.snippet.ListInterestSnippet;
-import com.gomo.app.interest.domain.repository.InterestRepository;
-import com.gomo.app.interest.presentation.InterestApi;
-import com.gomo.app.interest.presentation.request.CreateInterestRequest;
+import com.gomo.app.core.interest.domain.repository.InterestRepository;
+import com.gomo.app.core.interest.presentation.InterestApi;
+import com.gomo.app.core.interest.presentation.request.CreateInterestRequest;
 
 @DisplayName("[Presentation documentation]: 관심사 목록 조회 테스트")
 public class ListInterestDocumentationTest extends DocumentationTestBase {

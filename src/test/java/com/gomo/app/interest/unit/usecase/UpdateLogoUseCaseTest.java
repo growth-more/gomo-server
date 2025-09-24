@@ -13,14 +13,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.gomo.app.image.port.DeleteImagePortIn;
-import com.gomo.app.interest.application.UpdateLogoUseCase;
-import com.gomo.app.interest.application.port.UploadLogoPortOut;
-import com.gomo.app.interest.application.port.dto.LogoDto;
-import com.gomo.app.interest.domain.model.InterestId;
-import com.gomo.app.interest.domain.model.Logo;
-import com.gomo.app.interest.domain.service.InterestService;
+import com.gomo.app.core.interest.application.UpdateLogoUseCase;
+import com.gomo.app.core.interest.application.port.UploadLogoPortOut;
+import com.gomo.app.core.interest.application.port.dto.LogoDto;
+import com.gomo.app.core.interest.domain.model.InterestId;
+import com.gomo.app.core.interest.domain.model.Logo;
+import com.gomo.app.core.interest.domain.service.InterestService;
 import com.gomo.app.interest.fixture.InterestFixture;
+import com.gomo.app.support.image.port.DeleteImagePortIn;
 
 @DisplayName("[Application unit]: 관심사 로고 수정 테스트")
 @ExtendWith(MockitoExtension.class)

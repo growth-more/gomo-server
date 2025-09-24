@@ -13,9 +13,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.streak.domain.model.Achiever;
-import com.gomo.app.streak.domain.repository.AchieverRepository;
-import com.gomo.app.streak.domain.service.AchieverService;
+import com.gomo.app.core.streak.domain.model.Achiever;
+import com.gomo.app.core.streak.domain.repository.AchieverRepository;
+import com.gomo.app.core.streak.domain.service.AchieverService;
 import com.gomo.app.streak.fixture.AchieverFixture;
 
 @DisplayName("[Domain unit]: 성취자 서비스 테스트")

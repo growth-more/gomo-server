@@ -7,11 +7,11 @@ import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.point.domain.model.Balance;
-import com.gomo.app.point.domain.model.PointWallet;
-import com.gomo.app.point.domain.model.PointWalletId;
-import com.gomo.app.point.domain.model.TransactorId;
-import com.gomo.app.point.exception.InsufficientBalanceException;
+import com.gomo.app.core.point.domain.model.Balance;
+import com.gomo.app.core.point.domain.model.PointWallet;
+import com.gomo.app.core.point.domain.model.PointWalletId;
+import com.gomo.app.core.point.domain.model.TransactorId;
+import com.gomo.app.core.point.exception.InsufficientBalanceException;
 
 @DisplayName("[Domain unit]: 잔고 생성 및 조정 테스트")
 public class BalanceTest {

@@ -1,6 +1,5 @@
 package com.gomo.app.quest.unit.usecase;
 
-import static com.gomo.app.quest.domain.model.QuestType.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -15,12 +14,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.quest.application.CalendarAssignQuestUseCase;
-import com.gomo.app.quest.application.port.command.CalendarAssignQuestCommand;
-import com.gomo.app.quest.application.port.dto.CalendarAssignQuestDto;
-import com.gomo.app.quest.domain.model.AssignQuest;
-import com.gomo.app.quest.domain.model.ParticipantId;
-import com.gomo.app.quest.domain.repository.AssignQuestRepository;
+import com.gomo.app.core.quest.application.CalendarAssignQuestUseCase;
+import com.gomo.app.core.quest.application.port.command.CalendarAssignQuestCommand;
+import com.gomo.app.core.quest.application.port.dto.CalendarAssignQuestDto;
+import com.gomo.app.core.quest.domain.model.AssignQuest;
+import com.gomo.app.core.quest.domain.model.ParticipantId;
+import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.quest.fixture.AssignQuestFixture;
 
 @DisplayName("[Application unit]: 할당 퀘스트 과거 이력 조회 테스트")

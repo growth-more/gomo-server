@@ -7,10 +7,10 @@ import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.quest.domain.model.AssignQuestId;
-import com.gomo.app.quest.domain.model.PointReward;
-import com.gomo.app.quest.domain.model.QuestReward;
-import com.gomo.app.quest.domain.model.ScoreReward;
+import com.gomo.app.core.quest.domain.model.AssignQuestId;
+import com.gomo.app.core.quest.domain.model.PointReward;
+import com.gomo.app.core.quest.domain.model.QuestReward;
+import com.gomo.app.core.quest.domain.model.ScoreReward;
 
 @DisplayName("[Domain unit]: 퀘스트 보상 생성 테스트")
 public class QuestRewardTest {

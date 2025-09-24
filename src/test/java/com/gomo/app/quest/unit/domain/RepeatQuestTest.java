@@ -9,17 +9,17 @@ import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.displayorder.DisplayOrder;
-import com.gomo.app.quest.domain.model.AssignQuest;
-import com.gomo.app.quest.domain.model.ParticipantId;
-import com.gomo.app.quest.domain.model.Quest;
-import com.gomo.app.quest.domain.model.QuestContent;
-import com.gomo.app.quest.domain.model.QuestType;
-import com.gomo.app.quest.domain.model.RepeatQuest;
-import com.gomo.app.quest.domain.model.RepeatQuestId;
-import com.gomo.app.quest.domain.model.SubjectId;
-import com.gomo.app.quest.domain.model.SubjectName;
-import com.gomo.app.quest.exception.RepeatQuestAccessDeniedException;
+import com.gomo.app.common.displayorder.DisplayOrder;
+import com.gomo.app.core.quest.domain.model.AssignQuest;
+import com.gomo.app.core.quest.domain.model.ParticipantId;
+import com.gomo.app.core.quest.domain.model.Quest;
+import com.gomo.app.core.quest.domain.model.QuestContent;
+import com.gomo.app.core.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.domain.model.RepeatQuest;
+import com.gomo.app.core.quest.domain.model.RepeatQuestId;
+import com.gomo.app.core.quest.domain.model.SubjectId;
+import com.gomo.app.core.quest.domain.model.SubjectName;
+import com.gomo.app.core.quest.exception.RepeatQuestAccessDeniedException;
 
 @DisplayName("[Domain unit]: 반복 퀘스트 생성 및 수정 테스트")
 public class RepeatQuestTest {
@@ -101,7 +101,6 @@ public class RepeatQuestTest {
 		DisplayOrder assignQuestDisplayOrder = DisplayOrder.of(1);
 		LocalDateTime startDateTime = LocalDateTime.now();
 		AssignQuest assignQuest = repeatQuest.createAssignQuest(assignQuestDisplayOrder, startDateTime);
-
 
 		assertThat(assignQuest.isConfirmed()).isTrue();
 	}

@@ -7,13 +7,13 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.quest.domain.model.PointReward;
-import com.gomo.app.quest.domain.model.QuestPointPolicy;
-import com.gomo.app.quest.domain.model.QuestScorePolicy;
-import com.gomo.app.quest.domain.model.QuestType;
-import com.gomo.app.quest.domain.model.ScoreReward;
-import com.gomo.app.quest.domain.repository.QuestRewardPolicyRepository;
-import com.gomo.app.quest.infrastructure.InMemoryQuestRewardPolicyProvider;
+import com.gomo.app.core.quest.domain.model.PointReward;
+import com.gomo.app.core.quest.domain.model.QuestPointPolicy;
+import com.gomo.app.core.quest.domain.model.QuestScorePolicy;
+import com.gomo.app.core.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.domain.model.ScoreReward;
+import com.gomo.app.core.quest.domain.repository.QuestRewardPolicyRepository;
+import com.gomo.app.core.quest.infrastructure.InMemoryQuestRewardPolicyProvider;
 
 @DisplayName("[Infrastructure unit]: 퀘스트 보상 프로바이더 조회 테스트")
 public class InMemoryQuestRewardPolicyProviderTest {

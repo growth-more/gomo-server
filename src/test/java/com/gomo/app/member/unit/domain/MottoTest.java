@@ -8,9 +8,9 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.member.domain.model.Motto;
-import com.gomo.app.member.exception.MottoConstraintViolationException;
-import com.gomo.app.member.exception.code.MottoErrorCode;
+import com.gomo.app.core.member.domain.model.Motto;
+import com.gomo.app.core.member.exception.MottoConstraintViolationException;
+import com.gomo.app.core.member.exception.code.MottoErrorCode;
 
 @DisplayName("[Domain unit]: 모토 생성 및 수정 테스트")
 public class MottoTest {

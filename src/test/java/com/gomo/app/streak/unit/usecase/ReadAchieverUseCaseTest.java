@@ -12,10 +12,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.streak.application.ReadAchieverUseCase;
-import com.gomo.app.streak.domain.service.AchieverService;
+import com.gomo.app.core.streak.application.ReadAchieverUseCase;
+import com.gomo.app.core.streak.domain.service.AchieverService;
 import com.gomo.app.streak.fixture.AchieverFixture;
-import com.gomo.app.streak.presentation.response.ReadAchieverResponse;
+import com.gomo.app.core.streak.presentation.response.ReadAchieverResponse;
 
 @DisplayName("[Application unit]: 성취자 조회 테스트")
 @ExtendWith(MockitoExtension.class)

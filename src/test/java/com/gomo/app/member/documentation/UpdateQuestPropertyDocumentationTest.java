@@ -11,7 +11,7 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.member.documentation.snippet.UpdateQuestPropertySnippet;
-import com.gomo.app.member.presentation.request.UpdateQuestPropertyRequest;
+import com.gomo.app.core.member.presentation.request.UpdateQuestPropertyRequest;
 
 @DisplayName("[Presentation Documentation]: 퀘스트 설정 값을 변경한다.")
 public class UpdateQuestPropertyDocumentationTest extends DocumentationTestBase {

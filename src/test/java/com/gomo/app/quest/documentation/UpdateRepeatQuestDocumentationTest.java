@@ -18,12 +18,12 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.quest.documentation.snippet.UpdateRepeatQuestSnippet;
-import com.gomo.app.quest.domain.model.QuestType;
-import com.gomo.app.quest.domain.repository.RepeatQuestRepository;
-import com.gomo.app.quest.exception.code.QuestContentErrorCode;
-import com.gomo.app.quest.presentation.RepeatQuestApi;
-import com.gomo.app.quest.presentation.request.CreateRepeatQuestRequest;
-import com.gomo.app.quest.presentation.request.UpdateRepeatQuestRequest;
+import com.gomo.app.core.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.domain.repository.RepeatQuestRepository;
+import com.gomo.app.core.quest.exception.code.QuestContentErrorCode;
+import com.gomo.app.core.quest.presentation.RepeatQuestApi;
+import com.gomo.app.core.quest.presentation.request.CreateRepeatQuestRequest;
+import com.gomo.app.core.quest.presentation.request.UpdateRepeatQuestRequest;
 
 @DisplayName("[Presentation documentation]: 반복 퀘스트 수정 테스트")
 public class UpdateRepeatQuestDocumentationTest extends DocumentationTestBase {

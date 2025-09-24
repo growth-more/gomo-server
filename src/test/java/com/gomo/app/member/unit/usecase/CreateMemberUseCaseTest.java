@@ -12,19 +12,19 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.member.application.CreateMemberUseCase;
-import com.gomo.app.member.application.port.command.CreateMemberCommand;
-import com.gomo.app.member.application.port.dto.CreateMemberDto;
+import com.gomo.app.core.member.application.CreateMemberUseCase;
+import com.gomo.app.core.member.application.port.command.CreateMemberCommand;
+import com.gomo.app.core.member.application.port.dto.CreateMemberDto;
 import com.gomo.app.member.common.fixture.MemberFixture;
-import com.gomo.app.member.domain.model.Member;
-import com.gomo.app.member.domain.repository.MemberRepository;
-import com.gomo.app.member.domain.service.MemberService;
-import com.gomo.app.member.domain.service.PasswordService;
-import com.gomo.app.point.domain.model.PointWallet;
-import com.gomo.app.point.domain.model.PointWalletId;
-import com.gomo.app.point.domain.model.TransactorId;
-import com.gomo.app.point.domain.repository.PointWalletRepository;
-import com.gomo.app.streak.domain.service.AchieverService;
+import com.gomo.app.core.member.domain.model.Member;
+import com.gomo.app.core.member.domain.repository.MemberRepository;
+import com.gomo.app.core.member.domain.service.MemberService;
+import com.gomo.app.core.member.domain.service.PasswordService;
+import com.gomo.app.core.point.domain.model.PointWallet;
+import com.gomo.app.core.point.domain.model.PointWalletId;
+import com.gomo.app.core.point.domain.model.TransactorId;
+import com.gomo.app.core.point.domain.repository.PointWalletRepository;
+import com.gomo.app.core.streak.domain.service.AchieverService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Application unit] : 멤버 생성 테스트")

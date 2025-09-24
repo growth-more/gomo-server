@@ -12,9 +12,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.auth.application.AuthTokenGenerator;
-import com.gomo.app.auth.domain.model.AuthToken;
-import com.gomo.app.auth.domain.repository.AuthTokenRepository;
+import com.gomo.app.support.auth.application.AuthTokenGenerator;
+import com.gomo.app.support.auth.domain.model.AuthToken;
+import com.gomo.app.support.auth.domain.repository.AuthTokenRepository;
 import com.gomo.app.common.util.JwtUtil;
 
 @ExtendWith(MockitoExtension.class)

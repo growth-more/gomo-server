@@ -14,13 +14,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.quest.domain.model.AssignQuest;
-import com.gomo.app.quest.domain.model.AssignQuestId;
-import com.gomo.app.quest.domain.model.ParticipantId;
-import com.gomo.app.quest.domain.repository.AssignQuestRepository;
-import com.gomo.app.quest.domain.service.AssignQuestService;
-import com.gomo.app.quest.exception.AssignQuestNotFoundException;
-import com.gomo.app.quest.exception.code.AssignQuestErrorCode;
+import com.gomo.app.core.quest.domain.model.AssignQuest;
+import com.gomo.app.core.quest.domain.model.AssignQuestId;
+import com.gomo.app.core.quest.domain.model.ParticipantId;
+import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
+import com.gomo.app.core.quest.domain.service.AssignQuestService;
+import com.gomo.app.core.quest.exception.AssignQuestNotFoundException;
+import com.gomo.app.core.quest.exception.code.AssignQuestErrorCode;
 import com.gomo.app.quest.fixture.AssignQuestFixture;
 import com.gomo.app.quest.fixture.QuestFixture;
 

@@ -13,12 +13,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.interest.domain.model.Interest;
-import com.gomo.app.interest.domain.model.InterestId;
-import com.gomo.app.interest.domain.repository.InterestRepository;
-import com.gomo.app.interest.domain.service.InterestService;
-import com.gomo.app.interest.exception.InterestNotFoundException;
-import com.gomo.app.interest.exception.code.InterestErrorCode;
+import com.gomo.app.core.interest.domain.model.Interest;
+import com.gomo.app.core.interest.domain.model.InterestId;
+import com.gomo.app.core.interest.domain.repository.InterestRepository;
+import com.gomo.app.core.interest.domain.service.InterestService;
+import com.gomo.app.core.interest.exception.InterestNotFoundException;
+import com.gomo.app.core.interest.exception.code.InterestErrorCode;
 import com.gomo.app.interest.fixture.InterestFixture;
 
 @ExtendWith(MockitoExtension.class)

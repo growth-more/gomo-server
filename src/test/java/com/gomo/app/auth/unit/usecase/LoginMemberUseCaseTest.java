@@ -10,15 +10,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.auth.application.AuthTokenGenerator;
-import com.gomo.app.auth.application.LoginMemberUseCase;
-import com.gomo.app.auth.domain.model.AuthToken;
-import com.gomo.app.auth.presentation.response.AuthTokenResponse;
+import com.gomo.app.support.auth.application.AuthTokenGenerator;
+import com.gomo.app.support.auth.application.LoginMemberUseCase;
+import com.gomo.app.support.auth.domain.model.AuthToken;
+import com.gomo.app.support.auth.presentation.response.AuthTokenResponse;
 import com.gomo.app.member.common.fixture.MemberFixture;
-import com.gomo.app.member.domain.model.Email;
-import com.gomo.app.member.domain.model.Member;
-import com.gomo.app.member.domain.service.MemberService;
-import com.gomo.app.member.domain.service.PasswordService;
+import com.gomo.app.core.member.domain.model.Email;
+import com.gomo.app.core.member.domain.model.Member;
+import com.gomo.app.core.member.domain.service.MemberService;
+import com.gomo.app.core.member.domain.service.PasswordService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Application Unit]: 사용자 로그인 테스트")

@@ -18,9 +18,9 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.quest.documentation.snippet.ListAssignQuestSnippet;
-import com.gomo.app.quest.domain.model.AssignQuest;
-import com.gomo.app.quest.domain.model.QuestType;
-import com.gomo.app.quest.domain.repository.AssignQuestRepository;
+import com.gomo.app.core.quest.domain.model.AssignQuest;
+import com.gomo.app.core.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.quest.fixture.AssignQuestFixture;
 
 @DisplayName("[Presentation documentation]: 참여중인 퀘스트 조회 테스트")

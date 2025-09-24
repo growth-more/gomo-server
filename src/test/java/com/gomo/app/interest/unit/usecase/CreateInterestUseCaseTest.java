@@ -13,19 +13,19 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 
-import com.gomo.app.interest.application.CreateInterestUseCase;
-import com.gomo.app.interest.application.port.ReadRegistrantPortOut;
-import com.gomo.app.interest.application.port.UploadLogoPortOut;
-import com.gomo.app.interest.application.port.command.CreateInterestCommand;
-import com.gomo.app.interest.application.port.dto.CreateInterestDto;
-import com.gomo.app.interest.application.port.dto.LogoDto;
-import com.gomo.app.interest.application.port.dto.RegistrantDto;
-import com.gomo.app.interest.domain.model.Interest;
-import com.gomo.app.interest.domain.model.InterestQuota;
-import com.gomo.app.interest.domain.model.RegistrantId;
-import com.gomo.app.interest.domain.repository.InterestRepository;
+import com.gomo.app.core.interest.application.CreateInterestUseCase;
+import com.gomo.app.core.interest.application.port.ReadRegistrantPortOut;
+import com.gomo.app.core.interest.application.port.UploadLogoPortOut;
+import com.gomo.app.core.interest.application.port.command.CreateInterestCommand;
+import com.gomo.app.core.interest.application.port.dto.CreateInterestDto;
+import com.gomo.app.core.interest.application.port.dto.LogoDto;
+import com.gomo.app.core.interest.application.port.dto.RegistrantDto;
+import com.gomo.app.core.interest.domain.model.Interest;
+import com.gomo.app.core.interest.domain.model.InterestQuota;
+import com.gomo.app.core.interest.domain.model.RegistrantId;
+import com.gomo.app.core.interest.domain.repository.InterestRepository;
 import com.gomo.app.interest.fixture.InterestFixture;
-import com.gomo.app.interest.presentation.response.CreateInterestResponse;
+import com.gomo.app.core.interest.presentation.response.CreateInterestResponse;
 
 @DisplayName("[Application unit]: 관심사 등록 테스트")
 @ExtendWith(MockitoExtension.class)

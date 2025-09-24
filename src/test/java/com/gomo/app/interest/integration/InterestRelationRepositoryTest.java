@@ -11,11 +11,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gomo.app.common.IntegrationTestBase;
-import com.gomo.app.interest.domain.model.Interest;
-import com.gomo.app.interest.domain.model.InterestRelation;
-import com.gomo.app.interest.domain.model.RegistrantId;
-import com.gomo.app.interest.domain.repository.InterestRelationRepository;
-import com.gomo.app.interest.domain.repository.InterestRepository;
+import com.gomo.app.core.interest.domain.model.Interest;
+import com.gomo.app.core.interest.domain.model.InterestRelation;
+import com.gomo.app.core.interest.domain.model.RegistrantId;
+import com.gomo.app.core.interest.domain.repository.InterestRelationRepository;
+import com.gomo.app.core.interest.domain.repository.InterestRepository;
 import com.gomo.app.interest.fixture.InterestFixture;
 import com.gomo.app.interest.fixture.InterestRelationFixture;
 

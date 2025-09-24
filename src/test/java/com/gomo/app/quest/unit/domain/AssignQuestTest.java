@@ -9,21 +9,21 @@ import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.displayorder.DisplayOrder;
-import com.gomo.app.quest.domain.model.AssignQuest;
-import com.gomo.app.quest.domain.model.AssignQuestId;
-import com.gomo.app.quest.domain.model.CompletionProof;
-import com.gomo.app.quest.domain.model.ParticipantId;
-import com.gomo.app.quest.domain.model.Quest;
-import com.gomo.app.quest.domain.model.QuestContent;
-import com.gomo.app.quest.domain.model.QuestType;
-import com.gomo.app.quest.domain.model.SubjectId;
-import com.gomo.app.quest.domain.model.SubjectName;
-import com.gomo.app.quest.exception.AssignQuestAccessDeniedException;
-import com.gomo.app.quest.exception.AssignQuestConstraintViolationException;
-import com.gomo.app.quest.exception.QuestTypeConstraintViolationException;
-import com.gomo.app.quest.exception.code.AssignQuestErrorCode;
-import com.gomo.app.quest.exception.code.QuestTypeErrorCode;
+import com.gomo.app.common.displayorder.DisplayOrder;
+import com.gomo.app.core.quest.domain.model.AssignQuest;
+import com.gomo.app.core.quest.domain.model.AssignQuestId;
+import com.gomo.app.core.quest.domain.model.CompletionProof;
+import com.gomo.app.core.quest.domain.model.ParticipantId;
+import com.gomo.app.core.quest.domain.model.Quest;
+import com.gomo.app.core.quest.domain.model.QuestContent;
+import com.gomo.app.core.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.domain.model.SubjectId;
+import com.gomo.app.core.quest.domain.model.SubjectName;
+import com.gomo.app.core.quest.exception.AssignQuestAccessDeniedException;
+import com.gomo.app.core.quest.exception.AssignQuestConstraintViolationException;
+import com.gomo.app.core.quest.exception.QuestTypeConstraintViolationException;
+import com.gomo.app.core.quest.exception.code.AssignQuestErrorCode;
+import com.gomo.app.core.quest.exception.code.QuestTypeErrorCode;
 
 @DisplayName("[Domain unit]: 할당 퀘스트 생성 및 수정 테스트")
 public class AssignQuestTest {

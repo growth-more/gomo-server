@@ -12,8 +12,8 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.auth.documentation.snippet.CreateEmailAuthCodeSnippet;
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.member.exception.code.EmailErrorCode;
-import com.gomo.app.auth.presentation.request.CreateEmailAuthCodeRequest;
+import com.gomo.app.core.member.exception.code.EmailErrorCode;
+import com.gomo.app.support.auth.presentation.request.CreateEmailAuthCodeRequest;
 
 @DisplayName("[Presentation Documentation]: 이메일 인증 코드 테스트")
 public class CreateEmailAuthCodeDocumentationTest extends DocumentationTestBase {

@@ -11,12 +11,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.point.domain.model.SourceType;
-import com.gomo.app.point.domain.model.TransactionType;
-import com.gomo.app.point.domain.model.TransactorId;
-import com.gomo.app.point.domain.repository.PointRepository;
-import com.gomo.app.point.domain.service.PointService;
-import com.gomo.app.point.domain.service.PointWalletService;
+import com.gomo.app.core.point.domain.model.SourceType;
+import com.gomo.app.core.point.domain.model.TransactionType;
+import com.gomo.app.core.point.domain.model.TransactorId;
+import com.gomo.app.core.point.domain.repository.PointRepository;
+import com.gomo.app.core.point.domain.service.PointService;
+import com.gomo.app.core.point.domain.service.PointWalletService;
 import com.gomo.app.point.fixture.PointFixture;
 
 @ExtendWith(MockitoExtension.class)

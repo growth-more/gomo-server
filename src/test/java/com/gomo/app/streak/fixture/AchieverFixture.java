@@ -2,8 +2,8 @@ package com.gomo.app.streak.fixture;
 
 import java.util.UUID;
 
-import com.gomo.app.streak.domain.model.Achiever;
-import com.gomo.app.streak.domain.model.AchieverId;
+import com.gomo.app.core.streak.domain.model.Achiever;
+import com.gomo.app.core.streak.domain.model.AchieverId;
 
 public class AchieverFixture {
 

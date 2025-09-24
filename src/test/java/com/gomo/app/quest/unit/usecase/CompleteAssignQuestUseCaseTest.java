@@ -12,17 +12,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.event.EventEntryRepository;
-import com.gomo.app.quest.application.CompleteAssignQuestUseCase;
-import com.gomo.app.quest.application.port.command.CompleteAssignQuestCommand;
-import com.gomo.app.quest.domain.model.AssignQuest;
-import com.gomo.app.quest.domain.model.AssignQuestId;
-import com.gomo.app.quest.domain.model.PointReward;
-import com.gomo.app.quest.domain.model.QuestReward;
-import com.gomo.app.quest.domain.model.ScoreReward;
-import com.gomo.app.quest.domain.service.AssignQuestService;
-import com.gomo.app.quest.domain.service.QuestRewardService;
-import com.gomo.app.quest.exception.AssignQuestAccessDeniedException;
+import com.gomo.app.common.event.EventEntryRepository;
+import com.gomo.app.core.quest.application.CompleteAssignQuestUseCase;
+import com.gomo.app.core.quest.application.port.command.CompleteAssignQuestCommand;
+import com.gomo.app.core.quest.domain.model.AssignQuest;
+import com.gomo.app.core.quest.domain.model.AssignQuestId;
+import com.gomo.app.core.quest.domain.model.PointReward;
+import com.gomo.app.core.quest.domain.model.QuestReward;
+import com.gomo.app.core.quest.domain.model.ScoreReward;
+import com.gomo.app.core.quest.domain.service.AssignQuestService;
+import com.gomo.app.core.quest.domain.service.QuestRewardService;
+import com.gomo.app.core.quest.exception.AssignQuestAccessDeniedException;
 import com.gomo.app.quest.fixture.AssignQuestFixture;
 
 @DisplayName("[Application unit]: 할당 퀘스트 완료 테스트")

@@ -5,9 +5,9 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.member.domain.model.WeeklyThreshold;
-import com.gomo.app.member.exception.QuestPropertyConstraintViolationException;
-import com.gomo.app.member.exception.code.QuestPropertyErrorCode;
+import com.gomo.app.core.member.domain.model.WeeklyThreshold;
+import com.gomo.app.core.member.exception.QuestPropertyConstraintViolationException;
+import com.gomo.app.core.member.exception.code.QuestPropertyErrorCode;
 
 @DisplayName("[Domain unit]: 주간 퀘스트 제한 테스트")
 public class WeeklyThresholdTest {

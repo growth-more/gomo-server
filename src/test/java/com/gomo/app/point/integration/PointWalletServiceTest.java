@@ -11,11 +11,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gomo.app.common.IntegrationTestBase;
-import com.gomo.app.point.domain.model.Balance;
-import com.gomo.app.point.domain.model.PointWallet;
-import com.gomo.app.point.domain.model.TransactionType;
-import com.gomo.app.point.domain.repository.PointWalletRepository;
-import com.gomo.app.point.domain.service.PointWalletService;
+import com.gomo.app.core.point.domain.model.Balance;
+import com.gomo.app.core.point.domain.model.PointWallet;
+import com.gomo.app.core.point.domain.model.TransactionType;
+import com.gomo.app.core.point.domain.repository.PointWalletRepository;
+import com.gomo.app.core.point.domain.service.PointWalletService;
 import com.gomo.app.point.fixture.PointWalletFixture;
 
 @DisplayName("[Domain integration]: 포인트 잔고 조회 및 조정 테스트")

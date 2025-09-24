@@ -7,13 +7,13 @@ import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.interest.domain.model.ChildInterestId;
-import com.gomo.app.interest.domain.model.InterestId;
-import com.gomo.app.interest.domain.model.InterestRelation;
-import com.gomo.app.interest.domain.model.InterestRelationId;
-import com.gomo.app.interest.domain.model.ParentInterestId;
-import com.gomo.app.interest.domain.model.RegistrantId;
-import com.gomo.app.interest.exception.InterestRelationAccessDeniedException;
+import com.gomo.app.core.interest.domain.model.ChildInterestId;
+import com.gomo.app.core.interest.domain.model.InterestId;
+import com.gomo.app.core.interest.domain.model.InterestRelation;
+import com.gomo.app.core.interest.domain.model.InterestRelationId;
+import com.gomo.app.core.interest.domain.model.ParentInterestId;
+import com.gomo.app.core.interest.domain.model.RegistrantId;
+import com.gomo.app.core.interest.exception.InterestRelationAccessDeniedException;
 
 @DisplayName("[Domain unit]: 관심사 관계 생성 및 접근 테스트")
 public class InterestRelationTest {

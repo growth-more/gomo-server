@@ -12,15 +12,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.quest.application.CreateRepeatQuestUseCase;
-import com.gomo.app.quest.application.port.ReadParticipantPortOut;
-import com.gomo.app.quest.application.port.command.CreateRepeatQuestCommand;
-import com.gomo.app.quest.application.port.dto.CreateRepeatQuestDto;
-import com.gomo.app.quest.application.port.dto.ParticipantDto;
-import com.gomo.app.quest.domain.model.QuestType;
-import com.gomo.app.quest.domain.model.RepeatQuest;
-import com.gomo.app.quest.domain.repository.RepeatQuestRepository;
-import com.gomo.app.quest.domain.service.RepeatQuestService;
+import com.gomo.app.core.quest.application.CreateRepeatQuestUseCase;
+import com.gomo.app.core.quest.application.port.ReadParticipantPortOut;
+import com.gomo.app.core.quest.application.port.command.CreateRepeatQuestCommand;
+import com.gomo.app.core.quest.application.port.dto.CreateRepeatQuestDto;
+import com.gomo.app.core.quest.application.port.dto.ParticipantDto;
+import com.gomo.app.core.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.domain.model.RepeatQuest;
+import com.gomo.app.core.quest.domain.repository.RepeatQuestRepository;
+import com.gomo.app.core.quest.domain.service.RepeatQuestService;
 import com.gomo.app.quest.fixture.RepeatQuestFixture;
 
 @DisplayName("[Application unit]: 반복 퀘스트 생성 테스트")

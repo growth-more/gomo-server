@@ -12,7 +12,7 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.member.documentation.snippet.CheckHandleDuplicateSnippet;
-import com.gomo.app.member.exception.code.HandleErrorCode;
+import com.gomo.app.core.member.exception.code.HandleErrorCode;
 
 @DisplayName("[Presentation Documentation]: 핸들 중복 테스트")
 public class CheckHandleDuplicateDocumentationTest extends DocumentationTestBase {

@@ -7,12 +7,12 @@ import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.interest.domain.model.Interest;
-import com.gomo.app.interest.domain.model.InterestId;
-import com.gomo.app.interest.domain.model.InterestName;
-import com.gomo.app.interest.domain.model.Logo;
-import com.gomo.app.interest.domain.model.RegistrantId;
-import com.gomo.app.interest.exception.InterestAccessDeniedException;
+import com.gomo.app.core.interest.domain.model.Interest;
+import com.gomo.app.core.interest.domain.model.InterestId;
+import com.gomo.app.core.interest.domain.model.InterestName;
+import com.gomo.app.core.interest.domain.model.Logo;
+import com.gomo.app.core.interest.domain.model.RegistrantId;
+import com.gomo.app.core.interest.exception.InterestAccessDeniedException;
 
 @DisplayName("[Domain unit]: 관심사 생성 및 수정 테스트")
 public class InterestTest {

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gomo.app.common.IntegrationTestBase;
-import com.gomo.app.member.domain.repository.EmailAuthCodeRepository;
+import com.gomo.app.core.member.domain.repository.EmailAuthCodeRepository;
 
 @DisplayName("[Domain Integration]: 이메일 인증코드 Redis DB 테스트")
 public class EmailAuthCodeRepositoryTest extends IntegrationTestBase {

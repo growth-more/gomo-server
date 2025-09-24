@@ -5,9 +5,9 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.interest.domain.model.Proficiency;
-import com.gomo.app.interest.exception.ProficiencyAdjustFailureException;
-import com.gomo.app.interest.exception.code.ProficiencyErrorCode;
+import com.gomo.app.core.interest.domain.model.Proficiency;
+import com.gomo.app.core.interest.exception.ProficiencyAdjustFailureException;
+import com.gomo.app.core.interest.exception.code.ProficiencyErrorCode;
 
 @DisplayName("[Domain unit]: 숙련도 생성 및 향상 테스트")
 public class ProficiencyTest {

@@ -13,16 +13,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.quest.application.UpdateRepeatQuestUseCase;
-import com.gomo.app.quest.application.port.command.UpdateRepeatQuestCommand;
-import com.gomo.app.quest.domain.model.QuestType;
-import com.gomo.app.quest.domain.model.RepeatQuest;
-import com.gomo.app.quest.domain.model.RepeatQuestId;
-import com.gomo.app.quest.domain.service.RepeatQuestService;
-import com.gomo.app.quest.exception.QuestTypeConstraintViolationException;
-import com.gomo.app.quest.exception.RepeatQuestAccessDeniedException;
-import com.gomo.app.quest.exception.code.QuestTypeErrorCode;
-import com.gomo.app.quest.exception.code.RepeatQuestErrorCode;
+import com.gomo.app.core.quest.application.UpdateRepeatQuestUseCase;
+import com.gomo.app.core.quest.application.port.command.UpdateRepeatQuestCommand;
+import com.gomo.app.core.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.domain.model.RepeatQuest;
+import com.gomo.app.core.quest.domain.model.RepeatQuestId;
+import com.gomo.app.core.quest.domain.service.RepeatQuestService;
+import com.gomo.app.core.quest.exception.QuestTypeConstraintViolationException;
+import com.gomo.app.core.quest.exception.RepeatQuestAccessDeniedException;
+import com.gomo.app.core.quest.exception.code.QuestTypeErrorCode;
+import com.gomo.app.core.quest.exception.code.RepeatQuestErrorCode;
 import com.gomo.app.quest.fixture.RepeatQuestFixture;
 
 @DisplayName("[Application unit]: 반복 퀘스트 수정 테스트")

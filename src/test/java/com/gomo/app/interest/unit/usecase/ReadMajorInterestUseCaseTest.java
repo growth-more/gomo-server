@@ -12,13 +12,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.interest.application.ReadMajorInterestUseCase;
-import com.gomo.app.interest.application.port.dto.MajorInterestDto;
-import com.gomo.app.interest.domain.model.Interest;
-import com.gomo.app.interest.domain.model.MajorInterest;
-import com.gomo.app.interest.domain.model.RegistrantId;
-import com.gomo.app.interest.domain.repository.InterestRepository;
-import com.gomo.app.interest.domain.repository.MajorInterestRepository;
+import com.gomo.app.core.interest.application.ReadMajorInterestUseCase;
+import com.gomo.app.core.interest.application.port.dto.MajorInterestDto;
+import com.gomo.app.core.interest.domain.model.Interest;
+import com.gomo.app.core.interest.domain.model.MajorInterest;
+import com.gomo.app.core.interest.domain.model.RegistrantId;
+import com.gomo.app.core.interest.domain.repository.InterestRepository;
+import com.gomo.app.core.interest.domain.repository.MajorInterestRepository;
 import com.gomo.app.interest.fixture.InterestFixture;
 import com.gomo.app.interest.fixture.MajorInterestFixture;
 

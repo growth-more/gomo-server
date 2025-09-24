@@ -14,13 +14,13 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.displayorder.OrderChanger;
-import com.gomo.app.displayorder.UpdatedOrderDto;
-import com.gomo.app.quest.application.OrderUpdateRepeatQuestUseCase;
-import com.gomo.app.quest.application.port.command.OrderUpdateRepeatQuestCommand;
-import com.gomo.app.quest.domain.model.QuestType;
-import com.gomo.app.quest.domain.model.RepeatQuest;
-import com.gomo.app.quest.domain.repository.RepeatQuestRepository;
+import com.gomo.app.common.displayorder.OrderChanger;
+import com.gomo.app.common.displayorder.UpdatedOrderDto;
+import com.gomo.app.core.quest.application.OrderUpdateRepeatQuestUseCase;
+import com.gomo.app.core.quest.application.port.command.OrderUpdateRepeatQuestCommand;
+import com.gomo.app.core.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.domain.model.RepeatQuest;
+import com.gomo.app.core.quest.domain.repository.RepeatQuestRepository;
 import com.gomo.app.quest.fixture.RepeatQuestFixture;
 
 @DisplayName("[Application unit]: 반복 퀘스트 정렬 순서 변경 테스트")

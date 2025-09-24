@@ -3,11 +3,11 @@ package com.gomo.app.point.fixture;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.gomo.app.point.domain.model.Point;
-import com.gomo.app.point.domain.model.PointId;
-import com.gomo.app.point.domain.model.SourceType;
-import com.gomo.app.point.domain.model.TransactionType;
-import com.gomo.app.point.domain.model.TransactorId;
+import com.gomo.app.core.point.domain.model.Point;
+import com.gomo.app.core.point.domain.model.PointId;
+import com.gomo.app.core.point.domain.model.SourceType;
+import com.gomo.app.core.point.domain.model.TransactionType;
+import com.gomo.app.core.point.domain.model.TransactorId;
 
 public class PointFixture {
 

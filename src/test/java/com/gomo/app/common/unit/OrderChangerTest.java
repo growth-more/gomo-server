@@ -12,11 +12,11 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.displayorder.DisplayOrder;
-import com.gomo.app.displayorder.OrderChangeable;
-import com.gomo.app.displayorder.OrderChanger;
-import com.gomo.app.displayorder.OrderUpdateOrderChangeableCommand;
-import com.gomo.app.displayorder.UpdatedOrderDto;
+import com.gomo.app.common.displayorder.DisplayOrder;
+import com.gomo.app.common.displayorder.OrderChangeable;
+import com.gomo.app.common.displayorder.OrderChanger;
+import com.gomo.app.common.displayorder.OrderUpdateOrderChangeableCommand;
+import com.gomo.app.common.displayorder.UpdatedOrderDto;
 
 import lombok.Getter;
 

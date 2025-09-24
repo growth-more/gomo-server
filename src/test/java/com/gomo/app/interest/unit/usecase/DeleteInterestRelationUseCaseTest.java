@@ -12,12 +12,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.interest.application.DeleteInterestRelationUseCase;
+import com.gomo.app.core.interest.application.DeleteInterestRelationUseCase;
 import com.gomo.app.interest.fixture.InterestRelationFixture;
-import com.gomo.app.interest.domain.model.InterestRelation;
-import com.gomo.app.interest.domain.model.InterestRelationId;
-import com.gomo.app.interest.domain.service.InterestRelationService;
-import com.gomo.app.interest.exception.InterestRelationAccessDeniedException;
+import com.gomo.app.core.interest.domain.model.InterestRelation;
+import com.gomo.app.core.interest.domain.model.InterestRelationId;
+import com.gomo.app.core.interest.domain.service.InterestRelationService;
+import com.gomo.app.core.interest.exception.InterestRelationAccessDeniedException;
 
 @DisplayName("[Application unit]: 관심사 관계 삭제 테스트")
 @ExtendWith(MockitoExtension.class)

@@ -12,13 +12,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gomo.app.common.IntegrationTestBase;
-import com.gomo.app.survey.domain.model.RespondentId;
-import com.gomo.app.survey.domain.model.SurveyItem;
-import com.gomo.app.survey.domain.model.SurveyQuestion;
-import com.gomo.app.survey.domain.model.SurveyResult;
-import com.gomo.app.survey.domain.repository.SurveyItemRepository;
-import com.gomo.app.survey.domain.repository.SurveyQuestionRepository;
-import com.gomo.app.survey.domain.repository.SurveyResultRepository;
+import com.gomo.app.core.survey.domain.model.RespondentId;
+import com.gomo.app.core.survey.domain.model.SurveyItem;
+import com.gomo.app.core.survey.domain.model.SurveyQuestion;
+import com.gomo.app.core.survey.domain.model.SurveyResult;
+import com.gomo.app.core.survey.domain.repository.SurveyItemRepository;
+import com.gomo.app.core.survey.domain.repository.SurveyQuestionRepository;
+import com.gomo.app.core.survey.domain.repository.SurveyResultRepository;
 import com.gomo.app.survey.fixture.SurveyItemFixture;
 import com.gomo.app.survey.fixture.SurveyQuestionFixture;
 

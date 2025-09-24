@@ -2,12 +2,12 @@ package com.gomo.app.quest.fixture;
 
 import java.util.UUID;
 
-import com.gomo.app.quest.domain.model.ParticipantId;
-import com.gomo.app.quest.domain.model.Quest;
-import com.gomo.app.quest.domain.model.QuestContent;
-import com.gomo.app.quest.domain.model.QuestType;
-import com.gomo.app.quest.domain.model.SubjectId;
-import com.gomo.app.quest.domain.model.SubjectName;
+import com.gomo.app.core.quest.domain.model.ParticipantId;
+import com.gomo.app.core.quest.domain.model.Quest;
+import com.gomo.app.core.quest.domain.model.QuestContent;
+import com.gomo.app.core.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.domain.model.SubjectId;
+import com.gomo.app.core.quest.domain.model.SubjectName;
 
 public class QuestFixture {
 

@@ -5,8 +5,8 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.quest.domain.model.QuestQuota;
-import com.gomo.app.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.domain.model.QuestQuota;
+import com.gomo.app.core.quest.domain.model.QuestType;
 
 @DisplayName("[Domain unit]: 퀘스트 할당량 값 객체 테스트")
 public class QuestQuotaTest {

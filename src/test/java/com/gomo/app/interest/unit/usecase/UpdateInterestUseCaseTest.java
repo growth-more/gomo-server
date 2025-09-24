@@ -12,11 +12,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.interest.application.UpdateInterestUseCase;
-import com.gomo.app.interest.application.port.command.UpdateInterestCommand;
-import com.gomo.app.interest.domain.model.Interest;
-import com.gomo.app.interest.domain.model.InterestId;
-import com.gomo.app.interest.domain.service.InterestService;
+import com.gomo.app.core.interest.application.UpdateInterestUseCase;
+import com.gomo.app.core.interest.application.port.command.UpdateInterestCommand;
+import com.gomo.app.core.interest.domain.model.Interest;
+import com.gomo.app.core.interest.domain.model.InterestId;
+import com.gomo.app.core.interest.domain.service.InterestService;
 import com.gomo.app.interest.fixture.InterestFixture;
 
 @DisplayName("[Application unit]: 관심사 수정 테스트")

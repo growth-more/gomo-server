@@ -11,7 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.gomo.app.member.domain.service.PasswordService;
+import com.gomo.app.core.member.domain.service.PasswordService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Domain Unit]: PasswordService 테스트")

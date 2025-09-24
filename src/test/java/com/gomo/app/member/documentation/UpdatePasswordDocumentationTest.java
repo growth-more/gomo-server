@@ -11,7 +11,7 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.member.documentation.snippet.UpdatePasswordSnippet;
-import com.gomo.app.member.presentation.request.UpdatePasswordRequest;
+import com.gomo.app.core.member.presentation.request.UpdatePasswordRequest;
 
 @DisplayName("[Presentation Documentation]: 비밀번호 수정 테스트")
 public class UpdatePasswordDocumentationTest extends DocumentationTestBase {

@@ -10,12 +10,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.member.application.CreateEmailAuthCodeUseCase;
-import com.gomo.app.member.domain.model.Email;
-import com.gomo.app.member.domain.repository.EmailAuthCodeRepository;
-import com.gomo.app.member.domain.service.AuthCodeGenerator;
-import com.gomo.app.member.domain.service.MemberService;
-import com.gomo.app.member.infrastructure.EmailAuthSenderService;
+import com.gomo.app.core.member.application.CreateEmailAuthCodeUseCase;
+import com.gomo.app.core.member.domain.model.Email;
+import com.gomo.app.core.member.domain.repository.EmailAuthCodeRepository;
+import com.gomo.app.core.member.domain.service.AuthCodeGenerator;
+import com.gomo.app.core.member.domain.service.MemberService;
+import com.gomo.app.core.member.infrastructure.EmailAuthSenderService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Application unit] : 이메일 인증코드 생성 및 전송 테스트")

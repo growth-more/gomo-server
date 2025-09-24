@@ -14,11 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.IntegrationTestBase;
-import com.gomo.app.quest.domain.model.AssignQuest;
-import com.gomo.app.quest.domain.model.CompletionProof;
-import com.gomo.app.quest.domain.model.ParticipantId;
-import com.gomo.app.quest.domain.model.QuestType;
-import com.gomo.app.quest.domain.repository.AssignQuestRepository;
+import com.gomo.app.core.quest.domain.model.AssignQuest;
+import com.gomo.app.core.quest.domain.model.CompletionProof;
+import com.gomo.app.core.quest.domain.model.ParticipantId;
+import com.gomo.app.core.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.quest.fixture.AssignQuestFixture;
 
 @DisplayName("[Domain integration]: 할당 퀘스트 DB 접근 테스트")

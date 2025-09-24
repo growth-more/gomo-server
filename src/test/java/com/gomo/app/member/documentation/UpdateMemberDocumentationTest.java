@@ -11,7 +11,7 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.member.documentation.snippet.UpdateMemberSnippet;
-import com.gomo.app.member.presentation.request.UpdateMemberRequest;
+import com.gomo.app.core.member.presentation.request.UpdateMemberRequest;
 
 @DisplayName("[Presentation documentation]: 회원 기본 정보 수정 테스트")
 public class UpdateMemberDocumentationTest extends DocumentationTestBase {

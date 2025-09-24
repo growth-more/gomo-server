@@ -15,8 +15,8 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.streak.documentation.snippet.ReadAchieverSnippet;
-import com.gomo.app.streak.domain.model.Achiever;
-import com.gomo.app.streak.domain.repository.AchieverRepository;
+import com.gomo.app.core.streak.domain.model.Achiever;
+import com.gomo.app.core.streak.domain.repository.AchieverRepository;
 import com.gomo.app.streak.fixture.AchieverFixture;
 
 @DisplayName("[Presentation documentation]: 성취자 조회 테스트")

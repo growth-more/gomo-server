@@ -13,14 +13,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gomo.app.common.IntegrationTestBase;
-import com.gomo.app.streak.domain.model.Achiever;
-import com.gomo.app.streak.domain.model.AchieverId;
-import com.gomo.app.streak.domain.model.Streak;
-import com.gomo.app.streak.domain.model.StreakId;
-import com.gomo.app.streak.domain.model.StreakType;
-import com.gomo.app.streak.domain.repository.AchieverRepository;
-import com.gomo.app.streak.domain.repository.StreakRepository;
-import com.gomo.app.streak.domain.service.StreakService;
+import com.gomo.app.core.streak.domain.model.Achiever;
+import com.gomo.app.core.streak.domain.model.AchieverId;
+import com.gomo.app.core.streak.domain.model.Streak;
+import com.gomo.app.core.streak.domain.model.StreakId;
+import com.gomo.app.core.streak.domain.model.StreakType;
+import com.gomo.app.core.streak.domain.repository.AchieverRepository;
+import com.gomo.app.core.streak.domain.repository.StreakRepository;
+import com.gomo.app.core.streak.domain.service.StreakService;
 import com.gomo.app.streak.fixture.StreakFixture;
 
 @DisplayName("[Domain integration]: 스트릭 생성 및 조회 테스트")

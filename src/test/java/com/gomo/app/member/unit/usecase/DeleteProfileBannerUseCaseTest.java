@@ -10,10 +10,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.member.application.DeleteProfileBannerUseCase;
+import com.gomo.app.core.member.application.DeleteProfileBannerUseCase;
 import com.gomo.app.member.common.fixture.MemberFixture;
-import com.gomo.app.member.domain.model.Member;
-import com.gomo.app.member.domain.service.MemberService;
+import com.gomo.app.core.member.domain.model.Member;
+import com.gomo.app.core.member.domain.service.MemberService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Application Unit]: 멤버 프로필 배너 삭제 테스트")

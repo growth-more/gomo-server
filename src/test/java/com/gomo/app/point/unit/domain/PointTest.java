@@ -1,7 +1,5 @@
 package com.gomo.app.point.unit.domain;
 
-import static com.gomo.app.point.domain.model.SourceType.*;
-import static com.gomo.app.point.domain.model.TransactionType.*;
 import static org.assertj.core.api.Assertions.*;
 
 import java.time.LocalDateTime;
@@ -10,10 +8,10 @@ import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.point.domain.model.Point;
-import com.gomo.app.point.domain.model.PointId;
-import com.gomo.app.point.domain.model.TransactorId;
-import com.gomo.app.point.exception.PointConstraintViolationException;
+import com.gomo.app.core.point.domain.model.Point;
+import com.gomo.app.core.point.domain.model.PointId;
+import com.gomo.app.core.point.domain.model.TransactorId;
+import com.gomo.app.core.point.exception.PointConstraintViolationException;
 
 @DisplayName("[Domain unit]: 포인트 생성 테스트")
 public class PointTest {

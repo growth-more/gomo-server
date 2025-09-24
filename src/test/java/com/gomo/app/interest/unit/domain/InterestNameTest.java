@@ -8,9 +8,9 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.interest.domain.model.InterestName;
-import com.gomo.app.interest.exception.InterestNameConstraintViolationException;
-import com.gomo.app.interest.exception.code.InterestNameErrorCode;
+import com.gomo.app.core.interest.domain.model.InterestName;
+import com.gomo.app.core.interest.exception.InterestNameConstraintViolationException;
+import com.gomo.app.core.interest.exception.code.InterestNameErrorCode;
 
 @DisplayName("[Domain unit]: 관심사 이름 생성 및 수정 테스트")
 public class InterestNameTest {

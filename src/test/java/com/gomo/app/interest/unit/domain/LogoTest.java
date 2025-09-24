@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.interest.domain.model.Logo;
+import com.gomo.app.core.interest.domain.model.Logo;
 
 @DisplayName("[Domain unit]: 관심사 로고 테스트")
 public class LogoTest {

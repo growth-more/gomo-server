@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gomo.app.common.IntegrationTestBase;
-import com.gomo.app.interest.domain.policy.InMemoryScoreThresholdPolicyProvider;
+import com.gomo.app.core.interest.domain.policy.InMemoryScoreThresholdPolicyProvider;
 
 @DisplayName("[Domain integration]: 레벨 구간 별 임계점수 조회 테스트")
 public class InMemoryScoreThresholdPolicyProviderTest extends IntegrationTestBase {

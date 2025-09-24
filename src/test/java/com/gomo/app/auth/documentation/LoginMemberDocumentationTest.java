@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.auth.documentation.snippet.LoginMemberSnippet;
-import com.gomo.app.auth.presentation.request.LoginMemberRequest;
+import com.gomo.app.support.auth.presentation.request.LoginMemberRequest;
 import com.gomo.app.common.DocumentationTestBase;
 
 @DisplayName("[Presentation Documentation]: 회원 로그인 테스트")

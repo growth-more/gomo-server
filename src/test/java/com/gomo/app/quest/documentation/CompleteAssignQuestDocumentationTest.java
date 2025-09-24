@@ -14,10 +14,10 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.quest.documentation.snippet.CompleteAssignQuestSnippet;
-import com.gomo.app.quest.domain.model.AssignQuest;
-import com.gomo.app.quest.domain.repository.AssignQuestRepository;
+import com.gomo.app.core.quest.domain.model.AssignQuest;
+import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.quest.fixture.AssignQuestFixture;
-import com.gomo.app.quest.presentation.request.CompleteAssignQuestRequest;
+import com.gomo.app.core.quest.presentation.request.CompleteAssignQuestRequest;
 
 @DisplayName("[Presentation documentation]: 참여 중인 퀘스트 완료 테스트")
 public class CompleteAssignQuestDocumentationTest extends DocumentationTestBase {

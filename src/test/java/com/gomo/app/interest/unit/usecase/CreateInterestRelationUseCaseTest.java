@@ -10,10 +10,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.interest.application.CreateInterestRelationUseCase;
-import com.gomo.app.interest.application.port.dto.CreateInterestRelationDto;
-import com.gomo.app.interest.domain.model.InterestRelation;
-import com.gomo.app.interest.domain.service.InterestRelationService;
+import com.gomo.app.core.interest.application.CreateInterestRelationUseCase;
+import com.gomo.app.core.interest.application.port.dto.CreateInterestRelationDto;
+import com.gomo.app.core.interest.domain.model.InterestRelation;
+import com.gomo.app.core.interest.domain.service.InterestRelationService;
 import com.gomo.app.interest.fixture.InterestRelationFixture;
 
 @DisplayName("[Application unit]: 관심사 관계 등록 테스트")

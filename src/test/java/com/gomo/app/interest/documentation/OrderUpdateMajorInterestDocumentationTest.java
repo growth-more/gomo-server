@@ -17,14 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.displayorder.UpdatedOrderDto;
+import com.gomo.app.common.displayorder.UpdatedOrderDto;
 import com.gomo.app.interest.documentation.snippet.OrderUpdateMajorInterestSnippet;
-import com.gomo.app.interest.domain.repository.InterestRepository;
-import com.gomo.app.interest.domain.repository.MajorInterestRepository;
-import com.gomo.app.interest.presentation.InterestApi;
-import com.gomo.app.interest.presentation.MajorInterestApi;
-import com.gomo.app.interest.presentation.request.CreateInterestRequest;
-import com.gomo.app.interest.presentation.request.OrderUpdateMajorInterestRequest;
+import com.gomo.app.core.interest.domain.repository.InterestRepository;
+import com.gomo.app.core.interest.domain.repository.MajorInterestRepository;
+import com.gomo.app.core.interest.presentation.InterestApi;
+import com.gomo.app.core.interest.presentation.MajorInterestApi;
+import com.gomo.app.core.interest.presentation.request.CreateInterestRequest;
+import com.gomo.app.core.interest.presentation.request.OrderUpdateMajorInterestRequest;
 
 @DisplayName("[Presentation documentation]: 주요 관심사 정렬 순서 변경 테스트")
 public class OrderUpdateMajorInterestDocumentationTest extends DocumentationTestBase {

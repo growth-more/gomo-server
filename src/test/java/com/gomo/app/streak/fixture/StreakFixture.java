@@ -3,10 +3,10 @@ package com.gomo.app.streak.fixture;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import com.gomo.app.streak.domain.model.AchieverId;
-import com.gomo.app.streak.domain.model.Streak;
-import com.gomo.app.streak.domain.model.StreakId;
-import com.gomo.app.streak.domain.model.StreakType;
+import com.gomo.app.core.streak.domain.model.AchieverId;
+import com.gomo.app.core.streak.domain.model.Streak;
+import com.gomo.app.core.streak.domain.model.StreakId;
+import com.gomo.app.core.streak.domain.model.StreakType;
 
 public class StreakFixture {
 

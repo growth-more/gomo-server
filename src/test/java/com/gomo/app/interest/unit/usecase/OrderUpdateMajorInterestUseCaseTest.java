@@ -14,12 +14,12 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.displayorder.OrderChanger;
-import com.gomo.app.displayorder.UpdatedOrderDto;
-import com.gomo.app.interest.application.OrderUpdateMajorInterestUseCase;
-import com.gomo.app.interest.application.port.command.OrderUpdateMajorInterestCommand;
-import com.gomo.app.interest.domain.model.MajorInterest;
-import com.gomo.app.interest.domain.repository.MajorInterestRepository;
+import com.gomo.app.common.displayorder.OrderChanger;
+import com.gomo.app.common.displayorder.UpdatedOrderDto;
+import com.gomo.app.core.interest.application.OrderUpdateMajorInterestUseCase;
+import com.gomo.app.core.interest.application.port.command.OrderUpdateMajorInterestCommand;
+import com.gomo.app.core.interest.domain.model.MajorInterest;
+import com.gomo.app.core.interest.domain.repository.MajorInterestRepository;
 import com.gomo.app.interest.fixture.MajorInterestFixture;
 
 @DisplayName("[Application unit]: 주요 관심사 정렬 순서 변경 테스트")

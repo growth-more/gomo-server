@@ -10,15 +10,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.member.application.port.dto.MemberDto;
-import com.gomo.app.member.application.usecase.ReadMemberUseCase;
+import com.gomo.app.core.member.application.port.dto.MemberDto;
+import com.gomo.app.core.member.application.usecase.ReadMemberUseCase;
 import com.gomo.app.member.common.fixture.MemberFixture;
-import com.gomo.app.member.domain.model.Member;
-import com.gomo.app.member.domain.model.MemberId;
-import com.gomo.app.member.domain.service.MemberService;
-import com.gomo.app.point.domain.model.Balance;
-import com.gomo.app.point.domain.model.TransactorId;
-import com.gomo.app.point.domain.service.PointWalletService;
+import com.gomo.app.core.member.domain.model.Member;
+import com.gomo.app.core.member.domain.model.MemberId;
+import com.gomo.app.core.member.domain.service.MemberService;
+import com.gomo.app.core.point.domain.model.Balance;
+import com.gomo.app.core.point.domain.model.TransactorId;
+import com.gomo.app.core.point.domain.service.PointWalletService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Application unit]: 멤버 조회 테스트")

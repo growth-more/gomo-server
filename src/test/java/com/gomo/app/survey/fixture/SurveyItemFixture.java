@@ -2,10 +2,10 @@ package com.gomo.app.survey.fixture;
 
 import java.util.UUID;
 
-import com.gomo.app.displayorder.DisplayOrder;
-import com.gomo.app.survey.domain.model.SurveyItem;
-import com.gomo.app.survey.domain.model.SurveyItemId;
-import com.gomo.app.survey.domain.model.SurveyQuestionId;
+import com.gomo.app.common.displayorder.DisplayOrder;
+import com.gomo.app.core.survey.domain.model.SurveyItem;
+import com.gomo.app.core.survey.domain.model.SurveyItemId;
+import com.gomo.app.core.survey.domain.model.SurveyQuestionId;
 
 public class SurveyItemFixture {
 

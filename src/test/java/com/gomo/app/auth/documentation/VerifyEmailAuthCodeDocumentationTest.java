@@ -15,10 +15,10 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.auth.documentation.snippet.VerifyEmailAuthCodeSnippet;
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.member.domain.repository.EmailAuthCodeRepository;
-import com.gomo.app.member.exception.code.MemberErrorCode;
-import com.gomo.app.auth.presentation.EmailAuthCodeApi;
-import com.gomo.app.auth.presentation.request.CreateEmailAuthCodeRequest;
+import com.gomo.app.core.member.domain.repository.EmailAuthCodeRepository;
+import com.gomo.app.core.member.exception.code.MemberErrorCode;
+import com.gomo.app.support.auth.presentation.EmailAuthCodeApi;
+import com.gomo.app.support.auth.presentation.request.CreateEmailAuthCodeRequest;
 
 @DisplayName("[Presentation Documentation]: 이메일 인증 코드 테스트")
 public class VerifyEmailAuthCodeDocumentationTest extends DocumentationTestBase {

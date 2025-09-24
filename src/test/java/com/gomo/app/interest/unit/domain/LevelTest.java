@@ -5,9 +5,9 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.interest.domain.model.Level;
-import com.gomo.app.interest.exception.LevelConstraintViolationException;
-import com.gomo.app.interest.exception.code.LevelErrorCode;
+import com.gomo.app.core.interest.domain.model.Level;
+import com.gomo.app.core.interest.exception.LevelConstraintViolationException;
+import com.gomo.app.core.interest.exception.code.LevelErrorCode;
 
 @DisplayName("[Domain unit]: 레벨 생성 및 증가 테스트")
 public class LevelTest {

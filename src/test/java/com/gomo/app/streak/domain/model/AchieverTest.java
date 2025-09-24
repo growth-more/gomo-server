@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.gomo.app.core.streak.domain.model.Achiever;
 import com.gomo.app.streak.fixture.AchieverFixture;
 
 @DisplayName("[Domain Unit]: 스트릭 유지일 수 테스트")

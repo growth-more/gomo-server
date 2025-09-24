@@ -11,12 +11,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.auth.application.LoginMemberUseCase;
+import com.gomo.app.support.auth.application.LoginMemberUseCase;
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.member.application.CreateMemberUseCase;
-import com.gomo.app.member.application.port.command.CreateMemberCommand;
+import com.gomo.app.core.member.application.CreateMemberUseCase;
+import com.gomo.app.core.member.application.port.command.CreateMemberCommand;
 import com.gomo.app.member.documentation.snippet.DeleteMemberSnippet;
-import com.gomo.app.member.domain.model.LoginProvider;
+import com.gomo.app.core.member.domain.model.LoginProvider;
 
 @DisplayName("[Presentation documentation]: 회원 탈퇴 테스트")
 public class DeleteMemberDocumentationTest extends DocumentationTestBase {

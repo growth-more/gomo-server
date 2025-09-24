@@ -5,9 +5,9 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.interest.domain.model.Score;
-import com.gomo.app.interest.exception.ScoreConstraintViolationException;
-import com.gomo.app.interest.exception.code.ScoreErrorCode;
+import com.gomo.app.core.interest.domain.model.Score;
+import com.gomo.app.core.interest.exception.ScoreConstraintViolationException;
+import com.gomo.app.core.interest.exception.code.ScoreErrorCode;
 
 @DisplayName("[Domain unit]: 점수 생성, 증가, 조정, 레벨 증가량 확인 테스트")
 public class ScoreTest {

@@ -9,12 +9,12 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.survey.domain.model.RespondentId;
-import com.gomo.app.survey.domain.model.SurveyItemId;
-import com.gomo.app.survey.domain.model.SurveyQuestionId;
-import com.gomo.app.survey.domain.model.SurveyResult;
-import com.gomo.app.survey.exception.SurveyResultConstraintViolationException;
-import com.gomo.app.survey.exception.SurveyResultErrorCode;
+import com.gomo.app.core.survey.domain.model.RespondentId;
+import com.gomo.app.core.survey.domain.model.SurveyItemId;
+import com.gomo.app.core.survey.domain.model.SurveyQuestionId;
+import com.gomo.app.core.survey.domain.model.SurveyResult;
+import com.gomo.app.core.survey.exception.SurveyResultConstraintViolationException;
+import com.gomo.app.core.survey.exception.SurveyResultErrorCode;
 
 @DisplayName("[Domain unit]: 설문 결과 생성 테스트")
 public class SurveyResultTest {

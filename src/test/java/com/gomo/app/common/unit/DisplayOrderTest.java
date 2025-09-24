@@ -5,9 +5,9 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.displayorder.DisplayOrder;
-import com.gomo.app.displayorder.DisplayOrderConstraintViolationException;
-import com.gomo.app.displayorder.DisplayOrderErrorCode;
+import com.gomo.app.common.displayorder.DisplayOrder;
+import com.gomo.app.common.displayorder.DisplayOrderConstraintViolationException;
+import com.gomo.app.common.displayorder.DisplayOrderErrorCode;
 
 @DisplayName("[Domain unit]: 정렬 순서 생성 및 수정 테스트")
 public class DisplayOrderTest {

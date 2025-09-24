@@ -14,11 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gomo.app.common.IntegrationTestBase;
 import com.gomo.app.member.common.fixture.MemberFixture;
-import com.gomo.app.member.domain.model.ActivateStatus;
-import com.gomo.app.member.domain.model.Email;
-import com.gomo.app.member.domain.model.Handle;
-import com.gomo.app.member.domain.model.Member;
-import com.gomo.app.member.domain.repository.MemberRepository;
+import com.gomo.app.core.member.domain.model.ActivateStatus;
+import com.gomo.app.core.member.domain.model.Email;
+import com.gomo.app.core.member.domain.model.Handle;
+import com.gomo.app.core.member.domain.model.Member;
+import com.gomo.app.core.member.domain.repository.MemberRepository;
 
 @DisplayName("[Domain Integration]: 회원 DB 접근 테스트")
 public class MemberRepositoryTest extends IntegrationTestBase {

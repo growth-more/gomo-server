@@ -12,8 +12,8 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.member.documentation.snippet.UpdateHandleSnippet;
-import com.gomo.app.member.exception.code.HandleErrorCode;
-import com.gomo.app.member.presentation.request.UpdateHandleRequest;
+import com.gomo.app.core.member.exception.code.HandleErrorCode;
+import com.gomo.app.core.member.presentation.request.UpdateHandleRequest;
 
 @DisplayName("[Presentation Documentation]: 핸들 수정 테스트")
 public class UpdateHandleDocumentationTest extends DocumentationTestBase {

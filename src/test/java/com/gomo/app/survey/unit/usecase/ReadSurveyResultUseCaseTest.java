@@ -12,10 +12,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.survey.application.ReadSurveyQuestionUseCase;
-import com.gomo.app.survey.application.SurveyQuestionDto;
-import com.gomo.app.survey.domain.repository.SurveyItemRepository;
-import com.gomo.app.survey.domain.repository.SurveyQuestionRepository;
+import com.gomo.app.core.survey.application.ReadSurveyQuestionUseCase;
+import com.gomo.app.core.survey.application.SurveyQuestionDto;
+import com.gomo.app.core.survey.domain.repository.SurveyItemRepository;
+import com.gomo.app.core.survey.domain.repository.SurveyQuestionRepository;
 import com.gomo.app.survey.fixture.SurveyItemFixture;
 import com.gomo.app.survey.fixture.SurveyQuestionFixture;
 

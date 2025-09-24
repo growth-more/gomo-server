@@ -2,11 +2,11 @@ package com.gomo.app.interest.fixture;
 
 import java.util.UUID;
 
-import com.gomo.app.displayorder.DisplayOrder;
-import com.gomo.app.interest.domain.model.InterestId;
-import com.gomo.app.interest.domain.model.MajorInterest;
-import com.gomo.app.interest.domain.model.MajorInterestId;
-import com.gomo.app.interest.domain.model.RegistrantId;
+import com.gomo.app.common.displayorder.DisplayOrder;
+import com.gomo.app.core.interest.domain.model.InterestId;
+import com.gomo.app.core.interest.domain.model.MajorInterest;
+import com.gomo.app.core.interest.domain.model.MajorInterestId;
+import com.gomo.app.core.interest.domain.model.RegistrantId;
 
 public class MajorInterestFixture {
 

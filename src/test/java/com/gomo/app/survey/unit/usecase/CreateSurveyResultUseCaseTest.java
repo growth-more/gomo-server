@@ -13,10 +13,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.survey.application.CreateSurveyResultCommand;
-import com.gomo.app.survey.application.CreateSurveyResultUseCase;
-import com.gomo.app.survey.application.SurveyItemDto;
-import com.gomo.app.survey.domain.repository.SurveyResultRepository;
+import com.gomo.app.core.survey.application.CreateSurveyResultCommand;
+import com.gomo.app.core.survey.application.CreateSurveyResultUseCase;
+import com.gomo.app.core.survey.application.SurveyItemDto;
+import com.gomo.app.core.survey.domain.repository.SurveyResultRepository;
 
 @DisplayName("[Application unit]: 설문 결과 생성 테스트")
 @ExtendWith(MockitoExtension.class)

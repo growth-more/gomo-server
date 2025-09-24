@@ -17,12 +17,12 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.quest.documentation.snippet.UpdateAssignQuestSnippet;
-import com.gomo.app.quest.domain.model.AssignQuest;
-import com.gomo.app.quest.domain.model.QuestType;
-import com.gomo.app.quest.domain.repository.AssignQuestRepository;
-import com.gomo.app.quest.exception.code.QuestContentErrorCode;
+import com.gomo.app.core.quest.domain.model.AssignQuest;
+import com.gomo.app.core.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
+import com.gomo.app.core.quest.exception.code.QuestContentErrorCode;
 import com.gomo.app.quest.fixture.AssignQuestFixture;
-import com.gomo.app.quest.presentation.request.UpdateAssignQuestRequest;
+import com.gomo.app.core.quest.presentation.request.UpdateAssignQuestRequest;
 
 @DisplayName("[Presentation documentation]: 참여 중인 퀘스트 수정 테스트")
 public class UpdateAssignQuestDocumentationTest extends DocumentationTestBase {

@@ -12,12 +12,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.interest.application.DeleteMajorInterestUseCase;
-import com.gomo.app.interest.domain.model.MajorInterest;
-import com.gomo.app.interest.domain.model.MajorInterestId;
-import com.gomo.app.interest.domain.repository.MajorInterestRepository;
-import com.gomo.app.interest.domain.service.MajorInterestService;
-import com.gomo.app.interest.exception.MajorInterestAccessDeniedException;
+import com.gomo.app.core.interest.application.DeleteMajorInterestUseCase;
+import com.gomo.app.core.interest.domain.model.MajorInterest;
+import com.gomo.app.core.interest.domain.model.MajorInterestId;
+import com.gomo.app.core.interest.domain.repository.MajorInterestRepository;
+import com.gomo.app.core.interest.domain.service.MajorInterestService;
+import com.gomo.app.core.interest.exception.MajorInterestAccessDeniedException;
 import com.gomo.app.interest.fixture.MajorInterestFixture;
 
 @DisplayName("[Application unit]: 주요 관심사 삭제 테스트")

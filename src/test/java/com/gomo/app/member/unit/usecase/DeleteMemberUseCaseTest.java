@@ -10,12 +10,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.auth.domain.repository.AuthTokenRepository;
-import com.gomo.app.member.application.DeleteMemberUseCase;
+import com.gomo.app.support.auth.domain.repository.AuthTokenRepository;
+import com.gomo.app.core.member.application.DeleteMemberUseCase;
 import com.gomo.app.member.common.fixture.MemberFixture;
-import com.gomo.app.member.domain.model.ActivateStatus;
-import com.gomo.app.member.domain.model.Member;
-import com.gomo.app.member.domain.service.MemberService;
+import com.gomo.app.core.member.domain.model.ActivateStatus;
+import com.gomo.app.core.member.domain.model.Member;
+import com.gomo.app.core.member.domain.service.MemberService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Application Unit]: 멤버 삭제 테스트")

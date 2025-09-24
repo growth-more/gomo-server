@@ -7,12 +7,12 @@ import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.quest.domain.model.Participant;
-import com.gomo.app.quest.domain.model.ParticipantId;
-import com.gomo.app.quest.domain.model.QuestQuota;
-import com.gomo.app.quest.domain.model.QuestType;
-import com.gomo.app.quest.exception.QuestConstraintViolationException;
-import com.gomo.app.quest.exception.code.QuestErrorCode;
+import com.gomo.app.core.quest.domain.model.Participant;
+import com.gomo.app.core.quest.domain.model.ParticipantId;
+import com.gomo.app.core.quest.domain.model.QuestQuota;
+import com.gomo.app.core.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.exception.QuestConstraintViolationException;
+import com.gomo.app.core.quest.exception.code.QuestErrorCode;
 
 @DisplayName("[Domain unit]: 퀘스트 참여자 엔티티 테스트")
 public class ParticipantTest {

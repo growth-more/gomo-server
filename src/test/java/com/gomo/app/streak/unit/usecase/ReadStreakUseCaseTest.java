@@ -14,12 +14,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.streak.application.ReadStreakUseCase;
-import com.gomo.app.streak.domain.model.Streak;
-import com.gomo.app.streak.domain.model.StreakType;
-import com.gomo.app.streak.domain.service.StreakService;
+import com.gomo.app.core.streak.application.ReadStreakUseCase;
+import com.gomo.app.core.streak.domain.model.Streak;
+import com.gomo.app.core.streak.domain.model.StreakType;
+import com.gomo.app.core.streak.domain.service.StreakService;
 import com.gomo.app.streak.fixture.StreakFixture;
-import com.gomo.app.streak.presentation.response.ListStreakResponse;
+import com.gomo.app.core.streak.presentation.response.ListStreakResponse;
 
 @DisplayName("[Application unit]: 스트릭 조회 테스트")
 @ExtendWith(MockitoExtension.class)

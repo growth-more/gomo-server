@@ -8,10 +8,10 @@ import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.streak.domain.model.AchieverId;
-import com.gomo.app.streak.domain.model.Streak;
-import com.gomo.app.streak.domain.model.StreakId;
-import com.gomo.app.streak.domain.model.StreakType;
+import com.gomo.app.core.streak.domain.model.AchieverId;
+import com.gomo.app.core.streak.domain.model.Streak;
+import com.gomo.app.core.streak.domain.model.StreakId;
+import com.gomo.app.core.streak.domain.model.StreakType;
 
 @DisplayName("[Domain unit]: 스트릭 생성 테스트")
 public class StreakTest {

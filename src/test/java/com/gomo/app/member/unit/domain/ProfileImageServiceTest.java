@@ -3,8 +3,8 @@ package com.gomo.app.member.unit.domain;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import com.gomo.app.member.domain.repository.MemberRepository;
-import com.gomo.app.member.domain.service.ProfileImageService;
+import com.gomo.app.core.member.domain.repository.MemberRepository;
+import com.gomo.app.core.member.domain.service.ProfileImageService;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

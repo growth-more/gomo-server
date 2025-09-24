@@ -2,10 +2,10 @@ package com.gomo.app.point.fixture;
 
 import java.util.UUID;
 
-import com.gomo.app.point.domain.model.Balance;
-import com.gomo.app.point.domain.model.PointWallet;
-import com.gomo.app.point.domain.model.PointWalletId;
-import com.gomo.app.point.domain.model.TransactorId;
+import com.gomo.app.core.point.domain.model.Balance;
+import com.gomo.app.core.point.domain.model.PointWallet;
+import com.gomo.app.core.point.domain.model.PointWalletId;
+import com.gomo.app.core.point.domain.model.TransactorId;
 
 public class PointWalletFixture {
 

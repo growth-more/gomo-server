@@ -11,13 +11,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 
-import com.gomo.app.interest.application.port.UploadLogoPortOut;
-import com.gomo.app.interest.application.port.dto.LogoDto;
-import com.gomo.app.member.application.UpdateProfileBannerUseCase;
-import com.gomo.app.member.application.port.dto.UpdateProfileBannerDto;
+import com.gomo.app.core.interest.application.port.UploadLogoPortOut;
+import com.gomo.app.core.interest.application.port.dto.LogoDto;
+import com.gomo.app.core.member.application.UpdateProfileBannerUseCase;
+import com.gomo.app.core.member.application.port.dto.UpdateProfileBannerDto;
 import com.gomo.app.member.common.fixture.MemberFixture;
-import com.gomo.app.member.domain.model.Member;
-import com.gomo.app.member.domain.service.MemberService;
+import com.gomo.app.core.member.domain.model.Member;
+import com.gomo.app.core.member.domain.service.MemberService;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Application Unit]: 배너 이미지 수정 기능 테스트")

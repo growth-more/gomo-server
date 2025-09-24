@@ -8,9 +8,9 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.quest.domain.model.CompletionProof;
-import com.gomo.app.quest.exception.CompletionProofConstraintViolationException;
-import com.gomo.app.quest.exception.code.CompletionProofErrorCode;
+import com.gomo.app.core.quest.domain.model.CompletionProof;
+import com.gomo.app.core.quest.exception.CompletionProofConstraintViolationException;
+import com.gomo.app.core.quest.exception.code.CompletionProofErrorCode;
 
 @DisplayName("[Domain unit]: 퀘스트 증명 생성 및 수정 테스트")
 public class CompletionProofTest {

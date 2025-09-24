@@ -13,13 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.IntegrationTestBase;
-import com.gomo.app.point.domain.model.Point;
-import com.gomo.app.point.domain.model.SourceType;
-import com.gomo.app.point.domain.model.TransactionType;
-import com.gomo.app.point.domain.model.TransactorId;
-import com.gomo.app.point.domain.repository.PointRepository;
-import com.gomo.app.point.domain.repository.PointWalletRepository;
-import com.gomo.app.point.domain.service.PointService;
+import com.gomo.app.core.point.domain.model.Point;
+import com.gomo.app.core.point.domain.model.SourceType;
+import com.gomo.app.core.point.domain.model.TransactionType;
+import com.gomo.app.core.point.domain.model.TransactorId;
+import com.gomo.app.core.point.domain.repository.PointRepository;
+import com.gomo.app.core.point.domain.repository.PointWalletRepository;
+import com.gomo.app.core.point.domain.service.PointService;
 import com.gomo.app.point.fixture.PointWalletFixture;
 
 @DisplayName("[Domain integration]: 포인트 DB 접근 테스트")

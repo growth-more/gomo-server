@@ -5,9 +5,9 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.member.domain.model.Handle;
-import com.gomo.app.member.exception.HandleConstraintViolationException;
-import com.gomo.app.member.exception.code.HandleErrorCode;
+import com.gomo.app.core.member.domain.model.Handle;
+import com.gomo.app.core.member.exception.HandleConstraintViolationException;
+import com.gomo.app.core.member.exception.code.HandleErrorCode;
 
 @DisplayName("[Domain unit]: 핸들 생성 및 수정 테스트")
 public class HandleTest {

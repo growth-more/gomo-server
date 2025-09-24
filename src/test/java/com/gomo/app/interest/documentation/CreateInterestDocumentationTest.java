@@ -19,8 +19,8 @@ import org.springframework.util.ResourceUtils;
 
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.interest.documentation.snippet.CreateInterestSnippet;
-import com.gomo.app.interest.domain.repository.InterestRepository;
-import com.gomo.app.interest.exception.code.InterestNameErrorCode;
+import com.gomo.app.core.interest.domain.repository.InterestRepository;
+import com.gomo.app.core.interest.exception.code.InterestNameErrorCode;
 
 @DisplayName("[Presentation documentation]: 관심사 생성 테스트")
 public class CreateInterestDocumentationTest extends DocumentationTestBase {

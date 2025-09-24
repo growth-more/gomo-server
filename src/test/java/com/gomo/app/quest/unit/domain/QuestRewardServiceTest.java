@@ -12,13 +12,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.quest.domain.model.AssignQuestId;
-import com.gomo.app.quest.domain.model.PointReward;
-import com.gomo.app.quest.domain.model.QuestReward;
-import com.gomo.app.quest.domain.model.QuestType;
-import com.gomo.app.quest.domain.model.ScoreReward;
-import com.gomo.app.quest.domain.service.QuestRewardService;
-import com.gomo.app.quest.infrastructure.InMemoryQuestRewardPolicyProvider;
+import com.gomo.app.core.quest.domain.model.AssignQuestId;
+import com.gomo.app.core.quest.domain.model.PointReward;
+import com.gomo.app.core.quest.domain.model.QuestReward;
+import com.gomo.app.core.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.domain.model.ScoreReward;
+import com.gomo.app.core.quest.domain.service.QuestRewardService;
+import com.gomo.app.core.quest.infrastructure.InMemoryQuestRewardPolicyProvider;
 
 @DisplayName("[Domain integration]: 퀘스트 보상 생성 테스트")
 @ExtendWith(MockitoExtension.class)
