@@ -24,7 +24,7 @@ import com.gomo.app.survey.domain.repository.SurveyQuestionRepository;
 import com.gomo.app.survey.fixture.SurveyItemFixture;
 import com.gomo.app.survey.fixture.SurveyQuestionFixture;
 import com.gomo.app.survey.presentation.request.CreateSurveyResultRequest;
-import com.gomo.app.survey.presentation.request.SelectedSurveyItem;
+import com.gomo.app.survey.presentation.request.SelectedSurveyItemRequest;
 
 @DisplayName("[Presentation documentation]: 설문 결과 생성 테스트")
 public class CreateSurveyAnswerDocumentationTest extends DocumentationTestBase {
@@ -71,12 +71,12 @@ public class CreateSurveyAnswerDocumentationTest extends DocumentationTestBase {
 	private @NotNull CreateSurveyResultRequest createRequest() {
 		return CreateSurveyResultRequest.of(
 			List.of(
-				SelectedSurveyItem.of(
+				SelectedSurveyItemRequest.of(
 					surveyQuestion.getId().getId(),
 					surveyItem1.getId().getId(),
 					surveyItem1.getContent(),
 					null
-				), SelectedSurveyItem.of(
+				), SelectedSurveyItemRequest.of(
 					surveyQuestion.getId().getId(),
 					surveyItem2.getId().getId(),
 					surveyItem2.getContent(),

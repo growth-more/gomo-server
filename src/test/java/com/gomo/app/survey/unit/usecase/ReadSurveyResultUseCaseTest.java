@@ -13,11 +13,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.survey.application.ReadSurveyQuestionUseCase;
+import com.gomo.app.survey.application.SurveyQuestionDto;
 import com.gomo.app.survey.domain.repository.SurveyItemRepository;
 import com.gomo.app.survey.domain.repository.SurveyQuestionRepository;
 import com.gomo.app.survey.fixture.SurveyItemFixture;
 import com.gomo.app.survey.fixture.SurveyQuestionFixture;
-import com.gomo.app.survey.presentation.response.ListSurveyQuestionResponse;
 
 @DisplayName("[Application unit]: 설문 조회 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -37,10 +37,8 @@ public class ReadSurveyResultUseCaseTest {
 	void find_survey() {
 		doReturn(List.of(SurveyQuestionFixture.surveyQuestion())).when(surveyQuestionRepository).findAll();
 		doReturn(List.of(SurveyItemFixture.surveyItem(), SurveyItemFixture.surveyItem())).when(surveyItemRepository).findAllBySurveyQuestionId(any());
-
-		ListSurveyQuestionResponse expected = sut.findAll();
-
-		assertThat(expected.getSurveyQuestions()).hasSize(1);
-		assertThat(expected.getSurveyQuestions().get(0).getSurveyItems()).hasSize(2);
+		List<SurveyQuestionDto> expected = sut.findAll();
+		assertThat(expected).hasSize(1);
+		assertThat(expected.get(0).surveyItems()).hasSize(2);
 	}
 }

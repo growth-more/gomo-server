@@ -14,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.point.application.ReadBalanceUseCase;
 import com.gomo.app.point.domain.model.Balance;
-import com.gomo.app.point.domain.model.TransactorId;
 import com.gomo.app.point.domain.service.PointWalletService;
 import com.gomo.app.point.presentation.response.ReadBalanceResponse;
 
@@ -33,7 +32,7 @@ public class ReadBalanceUseCaseTest {
 	void find_balance_by_transactor_id() {
 		doReturn(Balance.of(1000)).when(pointWalletService).findBalance(any());
 
-		ReadBalanceResponse actual = sut.find(TransactorId.of(UUID.randomUUID()));
+		ReadBalanceResponse actual = sut.find(UUID.randomUUID());
 
 		assertThat(actual.getAmount()).isEqualTo(1000);
 	}

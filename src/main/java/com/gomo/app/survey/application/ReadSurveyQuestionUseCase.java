@@ -3,13 +3,8 @@ package com.gomo.app.survey.application;
 import java.util.List;
 
 import com.gomo.app.common.ApplicationService;
-import com.gomo.app.survey.domain.model.SurveyItem;
-import com.gomo.app.survey.domain.model.SurveyQuestion;
 import com.gomo.app.survey.domain.repository.SurveyItemRepository;
 import com.gomo.app.survey.domain.repository.SurveyQuestionRepository;
-import com.gomo.app.survey.presentation.response.ListSurveyQuestionResponse;
-import com.gomo.app.survey.presentation.response.ReadSurveyItemResponse;
-import com.gomo.app.survey.presentation.response.ReadSurveyQuestionResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,21 +15,13 @@ public class ReadSurveyQuestionUseCase {
 	private final SurveyQuestionRepository surveyQuestionRepository;
 	private final SurveyItemRepository surveyItemRepository;
 
-	public ListSurveyQuestionResponse findAll() {
-		List<SurveyQuestion> questions = surveyQuestionRepository.findAll();
-
-		List<ReadSurveyQuestionResponse> questionResponses = questions.stream()
+	public List<SurveyQuestionDto> findAll() {
+		return surveyQuestionRepository.findAll().stream()
 			.map(question -> {
-				List<SurveyItem> items = surveyItemRepository.findAllBySurveyQuestionId(question.getId());
-
-				List<ReadSurveyItemResponse> itemResponses = items.stream()
-					.map(ReadSurveyItemResponse::of)
+				List<SurveyItemDto> surveyItems = surveyItemRepository.findAllBySurveyQuestionId(question.getId()).stream()
+					.map(SurveyItemDto::from)
 					.toList();
-
-				return ReadSurveyQuestionResponse.of(question, itemResponses);
-			})
-			.toList();
-
-		return ListSurveyQuestionResponse.of(questionResponses);
+				return SurveyQuestionDto.from(question, surveyItems);
+			}).toList();
 	}
 }

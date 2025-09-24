@@ -1,5 +1,7 @@
 package com.gomo.app.point.application;
 
+import java.util.UUID;
+
 import com.gomo.app.common.ApplicationService;
 import com.gomo.app.point.domain.model.Balance;
 import com.gomo.app.point.domain.model.TransactorId;
@@ -14,8 +16,8 @@ public class ReadBalanceUseCase {
 
 	private final PointWalletService pointWalletService;
 
-	public ReadBalanceResponse find(TransactorId transactorId) {
-		Balance balance = pointWalletService.findBalance(transactorId);
+	public ReadBalanceResponse find(UUID transactorId) {
+		Balance balance = pointWalletService.findBalance(TransactorId.of(transactorId));
 		return ReadBalanceResponse.of(balance);
 	}
 }

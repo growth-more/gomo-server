@@ -1,5 +1,7 @@
 package com.gomo.app.survey.domain.model;
 
+import java.util.UUID;
+
 import com.gomo.app.common.BaseAudit;
 import com.gomo.app.displayorder.DisplayOrder;
 import com.gomo.app.displayorder.OrderChangeable;
@@ -23,7 +25,8 @@ public class SurveyQuestion extends BaseAudit implements OrderChangeable {
 	private String content;
 	private DisplayOrder displayOrder;
 
-	protected SurveyQuestion() {}
+	protected SurveyQuestion() {
+	}
 
 	private SurveyQuestion(
 		SurveyQuestionId id,
@@ -49,6 +52,11 @@ public class SurveyQuestion extends BaseAudit implements OrderChangeable {
 		return new SurveyQuestion(surveyQuestionId, questionSelectType, isRequired, content, displayOrder);
 	}
 
+	public UUID id() {
+		return id.getId();
+	}
+
 	@Override
-	public void changeOrder(DisplayOrder displayOrder) {}
+	public void changeOrder(DisplayOrder displayOrder) {
+	}
 }

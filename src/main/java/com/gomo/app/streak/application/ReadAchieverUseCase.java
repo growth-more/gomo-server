@@ -1,5 +1,7 @@
 package com.gomo.app.streak.application;
 
+import java.util.UUID;
+
 import com.gomo.app.common.ApplicationService;
 import com.gomo.app.streak.domain.model.Achiever;
 import com.gomo.app.streak.domain.model.AchieverId;
@@ -14,8 +16,8 @@ public class ReadAchieverUseCase {
 
 	private final AchieverService achieverService;
 
-	public ReadAchieverResponse find(AchieverId achieverId) {
-		Achiever achiever = achieverService.find(achieverId);
+	public ReadAchieverResponse find(UUID achieverId) {
+		Achiever achiever = achieverService.find(AchieverId.of(achieverId));
 		return ReadAchieverResponse.of(achiever);
 	}
 }
