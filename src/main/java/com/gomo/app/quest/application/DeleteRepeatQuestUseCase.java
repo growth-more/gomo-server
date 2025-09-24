@@ -19,10 +19,9 @@ public class DeleteRepeatQuestUseCase {
 	private final RepeatQuestRepository repeatQuestRepository;
 
 	@AuditLog(action = "DELETE_REPEAT_QUEST")
-	public void delete(UUID accessorId, RepeatQuestId repeatQuestId) {
-		RepeatQuest repeatQuest = repeatQuestService.find(repeatQuestId);
-		repeatQuest.validateAuthority(accessorId);
-
+	public void delete(UUID participantId, UUID repeatQuestId) {
+		RepeatQuest repeatQuest = repeatQuestService.find(RepeatQuestId.of(repeatQuestId));
+		repeatQuest.validateAuthority(participantId);
 		repeatQuestRepository.delete(repeatQuest);
 	}
 }

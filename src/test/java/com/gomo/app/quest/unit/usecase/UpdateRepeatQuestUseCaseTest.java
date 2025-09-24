@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.quest.application.UpdateRepeatQuestUseCase;
+import com.gomo.app.quest.application.port.command.UpdateRepeatQuestCommand;
 import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.domain.model.RepeatQuest;
 import com.gomo.app.quest.domain.model.RepeatQuestId;
@@ -23,7 +24,6 @@ import com.gomo.app.quest.exception.RepeatQuestAccessDeniedException;
 import com.gomo.app.quest.exception.code.QuestTypeErrorCode;
 import com.gomo.app.quest.exception.code.RepeatQuestErrorCode;
 import com.gomo.app.quest.fixture.RepeatQuestFixture;
-import com.gomo.app.quest.presentation.request.UpdateRepeatQuestRequest;
 
 @DisplayName("[Application unit]: 반복 퀘스트 수정 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -40,9 +40,7 @@ public class UpdateRepeatQuestUseCaseTest {
 	void update_repeat_quest() {
 		RepeatQuest repeatQuest = RepeatQuestFixture.repeatQuest(QuestType.DAILY);
 		doReturn(repeatQuest).when(repeatQuestService).find(any(RepeatQuestId.class));
-
-		sut.update(repeatQuest.getQuest().getParticipantId().getId(), RepeatQuestId.of(UUID.randomUUID()), createMockRequest(QuestType.DAILY));
-
+		sut.update(getUpdateRepeatQuestCommand(repeatQuest.getQuest().getParticipantId().getId(), QuestType.DAILY.name()));
 		assertThat(repeatQuest.getQuest().getSubjectName().toString()).isEqualTo("updated subject name");
 	}
 
@@ -51,9 +49,7 @@ public class UpdateRepeatQuestUseCaseTest {
 	void update_repeat_quest_with_not_participant() {
 		RepeatQuest repeatQuest = RepeatQuestFixture.repeatQuest(QuestType.DAILY);
 		doReturn(repeatQuest).when(repeatQuestService).find(any(RepeatQuestId.class));
-
-		assertThatThrownBy(
-			() -> sut.update(UUID.randomUUID(), RepeatQuestId.of(UUID.randomUUID()), createMockRequest(QuestType.WEEKLY)))
+		assertThatThrownBy(() -> sut.update(getUpdateRepeatQuestCommand(UUID.randomUUID(), QuestType.WEEKLY.name())))
 			.isInstanceOf(RepeatQuestAccessDeniedException.class)
 			.hasMessageContaining(RepeatQuestErrorCode.ACCESS_DENIED.getMessage());
 	}
@@ -63,14 +59,12 @@ public class UpdateRepeatQuestUseCaseTest {
 	void update_repeat_quest_with_different_type() {
 		RepeatQuest repeatQuest = RepeatQuestFixture.repeatQuest(QuestType.DAILY);
 		doReturn(repeatQuest).when(repeatQuestService).find(any(RepeatQuestId.class));
-
-		assertThatThrownBy(
-			() -> sut.update(repeatQuest.getQuest().getParticipantId().getId(), RepeatQuestId.of(UUID.randomUUID()), createMockRequest(QuestType.WEEKLY)))
+		assertThatThrownBy(() -> sut.update(getUpdateRepeatQuestCommand(repeatQuest.getQuest().getParticipantId().getId(), QuestType.WEEKLY.name())))
 			.isInstanceOf(QuestTypeConstraintViolationException.class)
 			.hasMessageContaining(QuestTypeErrorCode.MISMATCHED.getMessage());
 	}
 
-	private static @NotNull UpdateRepeatQuestRequest createMockRequest(QuestType questType) {
-		return UpdateRepeatQuestRequest.of(UUID.randomUUID(), "updated subject name", questType, "updated quest content");
+	private static @NotNull UpdateRepeatQuestCommand getUpdateRepeatQuestCommand(UUID participantId, String questType) {
+		return UpdateRepeatQuestCommand.of(participantId, UUID.randomUUID(), UUID.randomUUID(), "updated subject name", questType, "updated quest content");
 	}
 }

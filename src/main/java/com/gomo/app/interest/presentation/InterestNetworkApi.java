@@ -18,6 +18,8 @@ import com.gomo.app.common.authentication.AuthInfo;
 import com.gomo.app.interest.application.CreateInterestRelationUseCase;
 import com.gomo.app.interest.application.DeleteInterestRelationUseCase;
 import com.gomo.app.interest.application.ReadInterestNetworkUseCase;
+import com.gomo.app.interest.application.port.dto.CreateInterestRelationDto;
+import com.gomo.app.interest.application.port.dto.InterestNetworkDto;
 import com.gomo.app.interest.presentation.request.CreateInterestRelationRequest;
 import com.gomo.app.interest.presentation.response.CreateInterestRelationResponse;
 import com.gomo.app.interest.presentation.response.InterestNetworkResponse;
@@ -35,14 +37,14 @@ public class InterestNetworkApi {
 
 	@PostMapping("/relations")
 	public ResponseEntity<CreateInterestRelationResponse> createRelation(@Auth AuthInfo authInfo, @RequestBody CreateInterestRelationRequest request) {
-		CreateInterestRelationResponse response = createInterestRelationUseCase.create(authInfo.getMemberId(), request);
-		return ResponseEntity.status(CREATED).body(response);
+		CreateInterestRelationDto dto = createInterestRelationUseCase.create(authInfo.getMemberId(), request.getParentInterestId(), request.getChildInterestId());
+		return ResponseEntity.status(CREATED).body(CreateInterestRelationResponse.of(dto.id()));
 	}
 
 	@GetMapping
 	public ResponseEntity<InterestNetworkResponse> find(@Auth AuthInfo authInfo) {
-		InterestNetworkResponse response = readInterestNetworkUseCase.find(authInfo.getMemberId());
-		return ResponseEntity.ok(response);
+		InterestNetworkDto interestNetworkDto = readInterestNetworkUseCase.find(authInfo.getMemberId());
+		return ResponseEntity.ok(InterestNetworkResponse.from(interestNetworkDto));
 	}
 
 	@DeleteMapping("/relations/{id}")

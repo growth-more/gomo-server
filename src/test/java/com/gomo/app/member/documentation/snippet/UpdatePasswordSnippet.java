@@ -21,7 +21,7 @@ public class UpdatePasswordSnippet {
 
 	private static final Snippet REQUEST_FIELDS = requestFields(
 		fieldWithPath("originPassword").type(JsonFieldType.STRING).description("현재 비밀번호"),
-		fieldWithPath("updatedPassword").type(JsonFieldType.STRING).description("새로운 비밀번호")
+		fieldWithPath("newPassword").type(JsonFieldType.STRING).description("새로운 비밀번호")
 	);
 
 	public static RestDocumentationFilter create() {

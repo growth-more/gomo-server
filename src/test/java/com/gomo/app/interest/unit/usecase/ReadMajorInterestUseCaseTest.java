@@ -13,14 +13,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.interest.application.ReadMajorInterestUseCase;
-import com.gomo.app.interest.fixture.InterestFixture;
-import com.gomo.app.interest.fixture.MajorInterestFixture;
+import com.gomo.app.interest.application.port.dto.MajorInterestDto;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.MajorInterest;
 import com.gomo.app.interest.domain.model.RegistrantId;
 import com.gomo.app.interest.domain.repository.InterestRepository;
 import com.gomo.app.interest.domain.repository.MajorInterestRepository;
-import com.gomo.app.interest.presentation.response.ListMajorInterestResponse;
+import com.gomo.app.interest.fixture.InterestFixture;
+import com.gomo.app.interest.fixture.MajorInterestFixture;
 
 @DisplayName("[Application unit]: 주요 관심사 조회 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -44,9 +44,9 @@ public class ReadMajorInterestUseCaseTest {
 		doReturn(interests).when(interestRepository).findAllByIdIsIn(any());
 		doReturn(List.of(expected1, expected2)).when(majorInterestRepository).findAllByRegistrantIdOrderByDisplayOrder(any(RegistrantId.class));
 
-		ListMajorInterestResponse response = sut.findAll(expected1.getRegistrantId().getId());
+		List<MajorInterestDto> actual = sut.findAll(expected1.getRegistrantId().getId());
 
-		assertThat(response.getMajorInterests())
+		assertThat(actual)
 			.hasSize(2)
 			.extracting("id", "interestId", "name")
 			.containsExactly(

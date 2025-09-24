@@ -19,9 +19,9 @@ public class DeleteAssignQuestUseCase {
 	private final AssignQuestRepository assignQuestRepository;
 
 	@AuditLog(action = "DELETE_ASSIGN_QUEST")
-	public void delete(UUID accessorId, AssignQuestId assignQuestId) {
-		AssignQuest assignQuest = assignQuestService.find(assignQuestId);
-		assignQuest.validateAuthority(accessorId);
+	public void delete(UUID participantId, UUID assignQuestId) {
+		AssignQuest assignQuest = assignQuestService.find(AssignQuestId.of(assignQuestId));
+		assignQuest.validateAuthority(participantId);
 		assignQuest.ensureNotConfirmed();
 		assignQuest.ensureNotCompleted();
 		assignQuestRepository.delete(assignQuest);

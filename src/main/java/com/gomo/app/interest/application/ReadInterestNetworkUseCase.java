@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 
 import com.gomo.app.common.ApplicationService;
+import com.gomo.app.interest.application.port.dto.InterestDto;
+import com.gomo.app.interest.application.port.dto.InterestNetworkDto;
+import com.gomo.app.interest.application.port.dto.InterestRelationDto;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.MajorInterest;
@@ -15,9 +18,6 @@ import com.gomo.app.interest.domain.model.RegistrantId;
 import com.gomo.app.interest.domain.repository.InterestRelationRepository;
 import com.gomo.app.interest.domain.repository.InterestRepository;
 import com.gomo.app.interest.domain.repository.MajorInterestRepository;
-import com.gomo.app.interest.presentation.response.InterestNetworkResponse;
-import com.gomo.app.interest.presentation.response.ReadInterestRelationResponse;
-import com.gomo.app.interest.presentation.response.ReadInterestResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -29,17 +29,15 @@ public class ReadInterestNetworkUseCase {
 	private final MajorInterestRepository majorInterestRepository;
 	private final InterestRelationRepository interestRelationRepository;
 
-	public InterestNetworkResponse find(UUID accessorId) {
-		RegistrantId registrantId = RegistrantId.of(accessorId);
-		List<ReadInterestResponse> interestResponses = getReadInterestResponses(registrantId);
-		List<ReadInterestRelationResponse> relationResponses = interestRelationRepository.findAllByRegistrantId(registrantId).stream()
-			.map(ReadInterestRelationResponse::of)
-			.toList();
-		return InterestNetworkResponse.of(interestResponses, relationResponses);
+	public InterestNetworkDto find(UUID registrantId) {
+		RegistrantId targetId = RegistrantId.of(registrantId);
+		List<InterestDto> interestDtos = getInterestDtos(targetId);
+		List<InterestRelationDto> relationDtos = getRelationDtos(targetId);
+		return InterestNetworkDto.of(interestDtos, relationDtos);
 	}
 
 	@NotNull
-	private List<ReadInterestResponse> getReadInterestResponses(RegistrantId registrantId) {
+	private List<InterestDto> getInterestDtos(RegistrantId registrantId) {
 		List<Interest> interests = interestRepository.findAllByRegistrantId(registrantId);
 		List<InterestId> interestIds = interests.stream().map(Interest::getId).toList();
 		Map<UUID, UUID> majorInterestMap = majorInterestRepository.findAllByRegistrantIdAndInterestIdIn(registrantId, interestIds).stream()
@@ -47,7 +45,14 @@ public class ReadInterestNetworkUseCase {
 
 		return interests.stream().map(interest -> {
 			UUID majorInterestId = majorInterestMap.get(interest.uuid());
-			return ReadInterestResponse.of(interest, majorInterestId);
+			return InterestDto.of(interest, majorInterestId);
 		}).toList();
+	}
+
+	@NotNull
+	private List<InterestRelationDto> getRelationDtos(RegistrantId id) {
+		return interestRelationRepository.findAllByRegistrantId(id).stream()
+			.map(InterestRelationDto::from)
+			.toList();
 	}
 }

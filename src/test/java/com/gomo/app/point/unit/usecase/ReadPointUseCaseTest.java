@@ -15,7 +15,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.common.dto.PageRequest;
 import com.gomo.app.point.application.ReadPointUseCase;
-import com.gomo.app.point.domain.model.TransactorId;
 import com.gomo.app.point.domain.repository.PointRepository;
 import com.gomo.app.point.fixture.PointFixture;
 import com.gomo.app.point.presentation.response.ListPointResponse;
@@ -34,9 +33,7 @@ public class ReadPointUseCaseTest {
 	@Test
 	void find_points() {
 		doReturn(List.of(PointFixture.point(), PointFixture.point())).when(pointRepository).findAllByTransactorId(any(), any(), eq(10));
-
-		ListPointResponse actual = sut.findAll(TransactorId.of(UUID.randomUUID()), PageRequest.of(10, null));
-
+		ListPointResponse actual = sut.findAll(UUID.randomUUID(), PageRequest.of(10, null));
 		assertThat(actual.getPoints().size()).isEqualTo(2);
 		assertThat(actual.getLastElementId()).isNotNull();
 	}
@@ -45,9 +42,7 @@ public class ReadPointUseCaseTest {
 	@Test
 	void find_empty_points() {
 		doReturn(List.of()).when(pointRepository).findAllByTransactorId(any(), any(), eq(10));
-
-		ListPointResponse actual = sut.findAll(TransactorId.of(UUID.randomUUID()), PageRequest.of(10, null));
-
+		ListPointResponse actual = sut.findAll(UUID.randomUUID(), PageRequest.of(10, null));
 		assertThat(actual.getLastElementId()).isNull();
 	}
 }

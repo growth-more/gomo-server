@@ -45,6 +45,10 @@ public class Password {
 		return new Password(encodedPassword, false);
 	}
 
+	public static Password forOAuth(String memberId) {
+		return new Password("OAuth_" + memberId, false);
+	}
+
 	public Password encodedWith(PasswordService passwordService) {
 		String encodedPassword = passwordService.encode(this.password);
 		return ofEncoded(encodedPassword);

@@ -17,9 +17,9 @@ public class DeleteInterestRelationUseCase {
 	private final InterestRelationService interestRelationService;
 
 	@AuditLog(action = "DELETE_INTEREST_RELATION")
-	public void delete(UUID accessorId, UUID interestRelationId) {
+	public void delete(UUID registrantId, UUID interestRelationId) {
 		InterestRelation interestRelation = interestRelationService.find(InterestRelationId.of(interestRelationId));
-		interestRelation.validateAuthority(accessorId);
+		interestRelation.validateAuthority(registrantId);
 		interestRelationService.delete(interestRelation);
 	}
 }

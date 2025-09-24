@@ -39,7 +39,8 @@ public class RepeatQuest extends BaseAudit implements OrderChangeable, Authoriza
 	@Embedded
 	private DisplayOrder displayOrder;
 
-	protected RepeatQuest() {}
+	protected RepeatQuest() {
+	}
 
 	private RepeatQuest(
 		RepeatQuestId id,
@@ -59,18 +60,16 @@ public class RepeatQuest extends BaseAudit implements OrderChangeable, Authoriza
 		return new RepeatQuest(id, quest, displayOrder);
 	}
 
+	public UUID id() {
+		return this.id.getId();
+	}
+
 	public void updateQuest(SubjectId subjectId, SubjectName subjectName, QuestType questType, QuestContent content) {
 		this.quest = this.quest.update(subjectId, subjectName, questType, content);
 	}
 
 	public AssignQuest createAssignQuest(DisplayOrder displayOrder, LocalDateTime startDateTime) {
-		return AssignQuest.of(
-			AssignQuestId.of(UUIDGenerator.generate()),
-			this.quest.copy(),
-			true,
-			displayOrder,
-			startDateTime
-		);
+		return AssignQuest.of(AssignQuestId.of(UUIDGenerator.generate()), this.quest.copy(), true, displayOrder, startDateTime);
 	}
 
 	public boolean isSameQuestType(QuestType questType) {
@@ -84,7 +83,7 @@ public class RepeatQuest extends BaseAudit implements OrderChangeable, Authoriza
 
 	@Override
 	public void validateAuthority(UUID accessorId) {
-		if(!this.quest.isAccessibleBy(accessorId)) {
+		if (!this.quest.isAccessibleBy(accessorId)) {
 			throw new RepeatQuestAccessDeniedException(RepeatQuestErrorCode.ACCESS_DENIED);
 		}
 	}

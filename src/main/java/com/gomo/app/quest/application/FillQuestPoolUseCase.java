@@ -38,15 +38,10 @@ class FillQuestPoolUseCase implements FillQuestPoolPortIn {
 	@Override
 	public void fillForAllActiveParticipants(LocalDate lastLoginDateOfTargets, QuestType questType, int limit) {
 		List<ActiveParticipantDto> activeParticipants = readActiveParticipantPortOut.findAll(lastLoginDateOfTargets);
-
 		for (ActiveParticipantDto activeParticipant : activeParticipants) {
 			UUID participantId = activeParticipant.participantId();
 			List<CreateQuestContentCommand.Subject> subjects = readSubjectPortOut.findAll(participantId).stream()
-				.map(dto -> CreateQuestContentCommand.Subject.of(
-					dto.participantId(),
-					dto.subjectName(),
-					dto.level()
-				)).toList();
+				.map(dto -> CreateQuestContentCommand.Subject.of(dto.participantId(), dto.subjectName(), dto.level())).toList();
 
 			int existCount = (int)questPoolRepository.countByQuestParticipantIdAndProcessingStatus(ParticipantId.of(participantId), ProcessingStatus.UNUSED);
 			CreateQuestContentCommand command = CreateQuestContentCommand.of(participantId, subjects, questType.name(), limit - existCount);

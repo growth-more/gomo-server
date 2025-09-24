@@ -13,11 +13,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.gomo.app.survey.application.CreateSurveyResultCommand;
 import com.gomo.app.survey.application.CreateSurveyResultUseCase;
-import com.gomo.app.survey.domain.model.RespondentId;
+import com.gomo.app.survey.application.SurveyItemDto;
 import com.gomo.app.survey.domain.repository.SurveyResultRepository;
-import com.gomo.app.survey.presentation.request.CreateSurveyResultRequest;
-import com.gomo.app.survey.presentation.request.SelectedSurveyItem;
 
 @DisplayName("[Application unit]: 설문 결과 생성 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -32,19 +31,14 @@ public class CreateSurveyResultUseCaseTest {
 	@DisplayName("회원의 설문 결과를 생성한다.")
 	@Test
 	void create_survey_result() {
-		sut.create(RespondentId.of(UUID.randomUUID()), createRequest());
-
+		sut.create(CreateSurveyResultCommand.of(UUID.randomUUID(), getSurveyItems()));
 		verify(surveyResultRepository, times(1)).saveAll(anyList());
 	}
 
-	private static @NotNull CreateSurveyResultRequest createRequest() {
-		return CreateSurveyResultRequest.of(List.of(
-			SelectedSurveyItem.of(
-				UUID.randomUUID(),
-				UUID.randomUUID(),
-				"survey item content",
-				null
-				)
-		));
+	private static @NotNull List<SurveyItemDto> getSurveyItems() {
+		return List.of(
+			SurveyItemDto.withCustomAnswer(UUID.randomUUID(), UUID.randomUUID(), "survey item content", null, null),
+			SurveyItemDto.withCustomAnswer(UUID.randomUUID(), UUID.randomUUID(), "기타", null, "custom answer")
+		);
 	}
 }

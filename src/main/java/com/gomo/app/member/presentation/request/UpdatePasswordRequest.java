@@ -6,14 +6,14 @@ import lombok.Getter;
 public class UpdatePasswordRequest {
 
 	private String originPassword;
-	private String updatedPassword;
+	private String newPassword;
 
 	private UpdatePasswordRequest(
 		String originPassword,
-		String updatedPassword
+		String newPassword
 	) {
 		this.originPassword = originPassword;
-		this.updatedPassword = updatedPassword;
+		this.newPassword = newPassword;
 	}
 
 	public static UpdatePasswordRequest of(

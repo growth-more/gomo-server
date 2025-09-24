@@ -2,6 +2,8 @@ package com.gomo.app.survey.presentation.response;
 
 import java.util.List;
 
+import com.gomo.app.survey.application.SurveyQuestionDto;
+
 import lombok.Getter;
 
 @Getter
@@ -13,7 +15,7 @@ public class ListSurveyQuestionResponse {
 		this.surveyQuestions = surveyQuestions;
 	}
 
-	public static ListSurveyQuestionResponse of(List<ReadSurveyQuestionResponse> surveyQuestions) {
-		return new ListSurveyQuestionResponse(surveyQuestions);
+	public static ListSurveyQuestionResponse from(List<SurveyQuestionDto> surveyQuestions) {
+		return new ListSurveyQuestionResponse(surveyQuestions.stream().map(ReadSurveyQuestionResponse::from).toList());
 	}
 }

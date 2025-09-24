@@ -15,11 +15,7 @@ public class QuestQuota {
 	protected QuestQuota() {
 	}
 
-	private QuestQuota(
-		int dailyQuota,
-		int weeklyQuota,
-		int monthlyQuota
-	) {
+	private QuestQuota(int dailyQuota, int weeklyQuota, int monthlyQuota) {
 		this.dailyQuota = dailyQuota;
 		this.weeklyQuota = weeklyQuota;
 		this.monthlyQuota = monthlyQuota;
@@ -34,6 +30,14 @@ public class QuestQuota {
 			case QuestType.DAILY -> this.dailyQuota <= currentQuestCount;
 			case QuestType.WEEKLY -> this.weeklyQuota <= currentQuestCount;
 			case QuestType.MONTHLY -> this.monthlyQuota <= currentQuestCount;
+		};
+	}
+
+	public int getAvailableQuestSize(QuestType questType, int currentQuestCount) {
+		return switch (questType) {
+			case QuestType.DAILY -> this.dailyQuota - currentQuestCount;
+			case QuestType.WEEKLY -> this.weeklyQuota - currentQuestCount;
+			case QuestType.MONTHLY -> this.monthlyQuota - currentQuestCount;
 		};
 	}
 }

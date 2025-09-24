@@ -15,7 +15,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.streak.application.ReadStreakUseCase;
-import com.gomo.app.streak.domain.model.AchieverId;
 import com.gomo.app.streak.domain.model.Streak;
 import com.gomo.app.streak.domain.model.StreakType;
 import com.gomo.app.streak.domain.service.StreakService;
@@ -43,7 +42,7 @@ public class ReadStreakUseCaseTest {
 		doReturn(weeklyStreaks).when(streakService).findAllByStreakType(any(), eq(StreakType.WEEKLY), any(), any());
 		doReturn(monthlyStreaks).when(streakService).findAllByStreakType(any(), eq(StreakType.MONTHLY), any(), any());
 
-		ListStreakResponse actual = sut.findAll(AchieverId.of(UUID.randomUUID()), LocalDate.of(2025, 2, 6), LocalDate.of(2025, 2, 7));
+		ListStreakResponse actual = sut.findAll(UUID.randomUUID(), LocalDate.of(2025, 2, 6), LocalDate.of(2025, 2, 7));
 
 		assertThat(actual.getDailyStreaks().size()).isEqualTo(2);
 		assertThat(actual.getWeeklyStreaks().size()).isEqualTo(1);

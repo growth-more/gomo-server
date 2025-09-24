@@ -5,7 +5,6 @@ import static org.mockito.Mockito.*;
 
 import java.util.UUID;
 
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.event.EventEntryRepository;
 import com.gomo.app.quest.application.CompleteAssignQuestUseCase;
+import com.gomo.app.quest.application.port.command.CompleteAssignQuestCommand;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.model.PointReward;
@@ -24,7 +24,6 @@ import com.gomo.app.quest.domain.service.AssignQuestService;
 import com.gomo.app.quest.domain.service.QuestRewardService;
 import com.gomo.app.quest.exception.AssignQuestAccessDeniedException;
 import com.gomo.app.quest.fixture.AssignQuestFixture;
-import com.gomo.app.quest.presentation.request.CompleteAssignQuestRequest;
 
 @DisplayName("[Application unit]: 할당 퀘스트 완료 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -49,7 +48,7 @@ public class CompleteAssignQuestUseCaseTest {
 		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 		doReturn(QuestReward.of(assignQuest.getId(), ScoreReward.of(2), PointReward.of(10))).when(questRewardService).create(any(), any());
 
-		sut.complete(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID()), createRequest());
+		sut.complete(CompleteAssignQuestCommand.of(assignQuest.getQuest().getParticipantId().getId(), UUID.randomUUID(), "https://proof"));
 
 		assertThat(assignQuest.isCompleted()).isTrue();
 		verify(eventEntryRepository, times(1)).saveAll(any());
@@ -62,7 +61,7 @@ public class CompleteAssignQuestUseCaseTest {
 		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 
 		assertThatThrownBy(
-			() -> sut.complete(UUID.randomUUID(), AssignQuestId.of(UUID.randomUUID()), createRequest()))
+			() -> sut.complete(CompleteAssignQuestCommand.of(UUID.randomUUID(), UUID.randomUUID(), "https://proof")))
 			.isInstanceOf(AssignQuestAccessDeniedException.class)
 			.hasMessageContaining("Access denied for the assign quest");
 	}
@@ -74,12 +73,8 @@ public class CompleteAssignQuestUseCaseTest {
 		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 		doReturn(QuestReward.of(assignQuest.getId(), ScoreReward.of(2), PointReward.of(10))).when(questRewardService).create(any(), any());
 
-		sut.complete(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID()), createRequest());
+		sut.complete(CompleteAssignQuestCommand.of(assignQuest.getQuest().getParticipantId().getId(), UUID.randomUUID(), "https://proof"));
 
 		verify(eventEntryRepository, times(1)).saveAll(any());
-	}
-
-	private static @NotNull CompleteAssignQuestRequest createRequest() {
-		return CompleteAssignQuestRequest.of("https://proof");
 	}
 }

@@ -15,7 +15,8 @@ import org.junit.jupiter.api.Test;
 import com.gomo.app.displayorder.DisplayOrder;
 import com.gomo.app.displayorder.OrderChangeable;
 import com.gomo.app.displayorder.OrderChanger;
-import com.gomo.app.interest.presentation.request.UpdateOrderRequest;
+import com.gomo.app.displayorder.OrderUpdateOrderChangeableCommand;
+import com.gomo.app.displayorder.UpdatedOrderDto;
 
 import lombok.Getter;
 
@@ -29,12 +30,12 @@ public class OrderChangerTest {
 	@DisplayName("정렬 순서를 변경한다.")
 	@Test
 	void change_display_order() {
-		Map<UUID, OrderChangeable> candidates = getOrderChangeableMap();
-		List<UpdateOrderRequest> changedOrders = getRequests();
+		Map<UUID, OrderChangeable> originOrderChangeableMap = getOrderChangeableMap();
+		List<UpdatedOrderDto> updatedOrders = getUpdatedOrderDtos();
 
-		OrderChanger.change(candidates, changedOrders);
+		OrderChanger.change(OrderUpdateOrderChangeableCommand.of(originOrderChangeableMap, updatedOrders));
 
-		assertThat(candidates.values())
+		assertThat(originOrderChangeableMap.values())
 			.extracting(candidate -> ((MockOrderChangeable)candidate).getDisplayOrder())
 			.containsExactly(DisplayOrder.of(3), DisplayOrder.of(2), DisplayOrder.of(1));
 	}
@@ -42,12 +43,12 @@ public class OrderChangerTest {
 	@DisplayName("정렬 대상이 존재하지 않으면 변경에 실패한다.")
 	@Test
 	void change_display_order_not_same_size() {
-		Map<UUID, OrderChangeable> candidates = getOrderChangeableMap();
-		List<UpdateOrderRequest> changedOrders = getRequests();
+		Map<UUID, OrderChangeable> originOrderChangeableMap = getOrderChangeableMap();
+		List<UpdatedOrderDto> updatedOrders = getUpdatedOrderDtos();
 
-		changedOrders.add(UpdateOrderRequest.of(UUID.randomUUID(), 4));
+		updatedOrders.add(UpdatedOrderDto.of(UUID.randomUUID(), 4));
 
-		assertThatThrownBy(() -> OrderChanger.change(candidates, changedOrders))
+		assertThatThrownBy(() -> OrderChanger.change(OrderUpdateOrderChangeableCommand.of(originOrderChangeableMap, updatedOrders)))
 			.isInstanceOf(NullPointerException.class);
 	}
 
@@ -59,12 +60,12 @@ public class OrderChangerTest {
 		return map;
 	}
 
-	private @NotNull List<UpdateOrderRequest> getRequests() {
-		List<UpdateOrderRequest> requests = new ArrayList<>();
-		requests.add(UpdateOrderRequest.of(SECOND_CANDIDATE_ID, 2));
-		requests.add(UpdateOrderRequest.of(THIRD_CANDIDATE_ID, 1));
-		requests.add(UpdateOrderRequest.of(FIRST_CANDIDATE_ID, 3));
-		return requests;
+	private @NotNull List<UpdatedOrderDto> getUpdatedOrderDtos() {
+		List<UpdatedOrderDto> dtos = new ArrayList<>();
+		dtos.add(UpdatedOrderDto.of(SECOND_CANDIDATE_ID, 2));
+		dtos.add(UpdatedOrderDto.of(THIRD_CANDIDATE_ID, 1));
+		dtos.add(UpdatedOrderDto.of(FIRST_CANDIDATE_ID, 3));
+		return dtos;
 	}
 
 	@Getter

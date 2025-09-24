@@ -1,11 +1,10 @@
 package com.gomo.app.quest.application;
 
-import java.util.UUID;
-
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.ApplicationService;
 import com.gomo.app.logging.AuditLog;
+import com.gomo.app.quest.application.port.command.UpdateAssignQuestCommand;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.model.QuestContent;
@@ -13,7 +12,6 @@ import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.domain.model.SubjectId;
 import com.gomo.app.quest.domain.model.SubjectName;
 import com.gomo.app.quest.domain.service.AssignQuestService;
-import com.gomo.app.quest.presentation.request.UpdateAssignQuestRequest;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,20 +23,20 @@ public class UpdateAssignQuestUseCase {
 	private final AssignQuestService assignQuestService;
 
 	@AuditLog(action = "UPDATE_ASSIGN_QUEST")
-	public void update(UUID accessorId, AssignQuestId assignQuestId, UpdateAssignQuestRequest request) {
-		AssignQuest assignQuest = assignQuestService.find(assignQuestId);
-		assignQuest.validateAuthority(accessorId);
+	public void update(UpdateAssignQuestCommand command) {
+		AssignQuest assignQuest = assignQuestService.find(AssignQuestId.of(command.assignQuestId()));
+		assignQuest.validateAuthority(command.participantId());
 
-		QuestType requestedQuestType = request.getQuestType();
+		QuestType requestedQuestType = QuestType.valueOf(command.questType());
 		assignQuest.ensureSameQuestType(requestedQuestType);
 		assignQuest.ensureNotConfirmed();
 		assignQuest.ensureNotCompleted();
 
 		assignQuest.updateQuest(
-			SubjectId.of(request.getSubjectId()),
-			SubjectName.of(request.getSubjectName()),
+			SubjectId.of(command.subjectId()),
+			SubjectName.of(command.subjectName()),
 			requestedQuestType,
-			QuestContent.of(request.getContent())
+			QuestContent.of(command.content())
 		);
 	}
 }

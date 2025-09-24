@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.interest.presentation.request.UpdateOrderRequest;
+import com.gomo.app.displayorder.UpdatedOrderDto;
 import com.gomo.app.quest.documentation.snippet.OrderUpdateAssignQuestSnippet;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.QuestType;
@@ -62,10 +62,10 @@ public class OrderUpdateAssignQuestDocumentationTest extends DocumentationTestBa
 
 	private @NotNull OrderUpdateAssignQuestRequest getRequest() {
 		return OrderUpdateAssignQuestRequest.of(
-			QuestType.DAILY,
+			QuestType.DAILY.name(),
 			List.of(
-				UpdateOrderRequest.of(assignQuest1.getId().getId(), 2),
-				UpdateOrderRequest.of(assignQuest2.getId().getId(), 1)
+				UpdatedOrderDto.of(assignQuest1.getId().getId(), 2),
+				UpdatedOrderDto.of(assignQuest2.getId().getId(), 1)
 			)
 		);
 	}

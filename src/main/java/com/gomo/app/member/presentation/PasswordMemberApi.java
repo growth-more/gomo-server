@@ -25,13 +25,13 @@ public class PasswordMemberApi {
 
 	@PutMapping
 	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @RequestBody UpdatePasswordRequest request) {
-		updatePasswordUseCase.update(authInfo.getMemberId(), request);
+		updatePasswordUseCase.update(authInfo.getMemberId(), request.getOriginPassword(), request.getNewPassword());
 		return ResponseEntity.noContent().build();
 	}
 
 	@PutMapping("/reset")
 	public ResponseEntity<Void> reset(@RequestBody ResetPasswordRequest request) {
-		resetPasswordUseCase.reset(request);
+		resetPasswordUseCase.reset(request.getEmail(), request.getNewPassword());
 		return ResponseEntity.noContent().build();
 	}
 }

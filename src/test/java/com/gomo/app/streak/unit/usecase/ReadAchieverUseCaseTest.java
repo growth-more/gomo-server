@@ -13,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.streak.application.ReadAchieverUseCase;
-import com.gomo.app.streak.domain.model.AchieverId;
 import com.gomo.app.streak.domain.service.AchieverService;
 import com.gomo.app.streak.fixture.AchieverFixture;
 import com.gomo.app.streak.presentation.response.ReadAchieverResponse;
@@ -32,7 +31,7 @@ public class ReadAchieverUseCaseTest {
 	@Test
 	void create_achiever() {
 		doReturn(AchieverFixture.achiever()).when(achieverService).find(any());
-		ReadAchieverResponse actual = sut.find(AchieverId.of(UUID.randomUUID()));
+		ReadAchieverResponse actual = sut.find(UUID.randomUUID());
 		assertThat(actual).isNotNull();
 	}
 }

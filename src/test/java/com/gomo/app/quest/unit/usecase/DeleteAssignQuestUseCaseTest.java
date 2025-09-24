@@ -42,7 +42,7 @@ public class DeleteAssignQuestUseCaseTest {
 		AssignQuest assignQuest = AssignQuestFixture.assignQuest();
 		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 
-		sut.delete(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID()));
+		sut.delete(assignQuest.getQuest().getParticipantId().getId(), UUID.randomUUID());
 
 		verify(assignQuestRepository, times(1)).delete(any(AssignQuest.class));
 	}
@@ -54,7 +54,7 @@ public class DeleteAssignQuestUseCaseTest {
 		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 
 		assertThatThrownBy(
-			() -> sut.delete(UUID.randomUUID(), AssignQuestId.of(UUID.randomUUID())))
+			() -> sut.delete(UUID.randomUUID(), UUID.randomUUID()))
 			.isInstanceOf(AssignQuestAccessDeniedException.class)
 			.hasMessageContaining(AssignQuestErrorCode.ACCESS_DENIED.getMessage());
 	}
@@ -66,7 +66,7 @@ public class DeleteAssignQuestUseCaseTest {
 		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 
 		assertThatThrownBy(
-			() -> sut.delete(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID())))
+			() -> sut.delete(assignQuest.getQuest().getParticipantId().getId(), UUID.randomUUID()))
 			.isInstanceOf(AssignQuestConstraintViolationException.class)
 			.hasMessageContaining(AssignQuestErrorCode.ALREADY_CONFIRMED.getMessage());
 	}
@@ -78,7 +78,7 @@ public class DeleteAssignQuestUseCaseTest {
 		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 
 		assertThatThrownBy(
-			() -> sut.delete(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID())))
+			() -> sut.delete(assignQuest.getQuest().getParticipantId().getId(), UUID.randomUUID()))
 			.isInstanceOf(AssignQuestConstraintViolationException.class)
 			.hasMessageContaining(AssignQuestErrorCode.ALREADY_COMPLETED.getMessage());
 	}

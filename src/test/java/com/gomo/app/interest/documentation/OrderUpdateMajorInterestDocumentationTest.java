@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
+import com.gomo.app.displayorder.UpdatedOrderDto;
 import com.gomo.app.interest.documentation.snippet.OrderUpdateMajorInterestSnippet;
 import com.gomo.app.interest.domain.repository.InterestRepository;
 import com.gomo.app.interest.domain.repository.MajorInterestRepository;
@@ -24,7 +25,6 @@ import com.gomo.app.interest.presentation.InterestApi;
 import com.gomo.app.interest.presentation.MajorInterestApi;
 import com.gomo.app.interest.presentation.request.CreateInterestRequest;
 import com.gomo.app.interest.presentation.request.OrderUpdateMajorInterestRequest;
-import com.gomo.app.interest.presentation.request.UpdateOrderRequest;
 
 @DisplayName("[Presentation documentation]: 주요 관심사 정렬 순서 변경 테스트")
 public class OrderUpdateMajorInterestDocumentationTest extends DocumentationTestBase {
@@ -76,8 +76,8 @@ public class OrderUpdateMajorInterestDocumentationTest extends DocumentationTest
 	private @NotNull OrderUpdateMajorInterestRequest getRequest() {
 		return OrderUpdateMajorInterestRequest.of(
 			List.of(
-				UpdateOrderRequest.of(majorInterest1Id, 2),
-				UpdateOrderRequest.of(majorInterest2Id, 1)
+				UpdatedOrderDto.of(majorInterest1Id, 2),
+				UpdatedOrderDto.of(majorInterest2Id, 1)
 			)
 		);
 	}

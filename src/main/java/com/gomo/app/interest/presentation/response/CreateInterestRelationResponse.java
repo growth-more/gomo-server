@@ -2,8 +2,6 @@ package com.gomo.app.interest.presentation.response;
 
 import java.util.UUID;
 
-import com.gomo.app.interest.domain.model.InterestRelationId;
-
 import lombok.Getter;
 
 @Getter
@@ -15,7 +13,7 @@ public class CreateInterestRelationResponse {
 		this.id = id;
 	}
 
-	public static CreateInterestRelationResponse of(InterestRelationId id) {
-		return new CreateInterestRelationResponse(id.getId());
+	public static CreateInterestRelationResponse of(UUID id) {
+		return new CreateInterestRelationResponse(id);
 	}
 }

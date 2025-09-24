@@ -11,7 +11,6 @@ import com.gomo.app.common.Presentation;
 import com.gomo.app.common.authentication.Auth;
 import com.gomo.app.common.authentication.AuthInfo;
 import com.gomo.app.streak.application.ReadStreakUseCase;
-import com.gomo.app.streak.domain.model.AchieverId;
 import com.gomo.app.streak.presentation.response.ListStreakResponse;
 
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,7 @@ public class StreakApi {
 
 	@GetMapping
 	public ResponseEntity<ListStreakResponse> findAllByStreakType(@Auth AuthInfo authInfo, @RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
-		ListStreakResponse response = readStreakUseCase.findAll(AchieverId.of(authInfo.getMemberId()), startDate, endDate);
+		ListStreakResponse response = readStreakUseCase.findAll(authInfo.getMemberId(), startDate, endDate);
 		return ResponseEntity.ok(response);
 	}
 }

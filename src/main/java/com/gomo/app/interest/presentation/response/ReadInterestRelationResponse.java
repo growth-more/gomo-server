@@ -2,7 +2,7 @@ package com.gomo.app.interest.presentation.response;
 
 import java.util.UUID;
 
-import com.gomo.app.interest.domain.model.InterestRelation;
+import com.gomo.app.interest.application.port.dto.InterestRelationDto;
 
 import lombok.Getter;
 
@@ -26,12 +26,12 @@ public class ReadInterestRelationResponse {
 		this.childInterestId = childInterestId;
 	}
 
-	public static ReadInterestRelationResponse of(InterestRelation interestRelation) {
+	public static ReadInterestRelationResponse from(InterestRelationDto interestRelationDto) {
 		return new ReadInterestRelationResponse(
-			interestRelation.getId().getId(),
-			interestRelation.getRegistrantId().getId(),
-			interestRelation.getParentInterestId().getId(),
-			interestRelation.getChildInterestId().getId()
+			interestRelationDto.id(),
+			interestRelationDto.registrantId(),
+			interestRelationDto.parentInterestId(),
+			interestRelationDto.childInterestId()
 		);
 	}
 }

@@ -2,6 +2,7 @@ package com.gomo.app.streak.application;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -20,11 +21,11 @@ public class ReadStreakUseCase {
 
 	private final StreakService streakService;
 
-	public ListStreakResponse findAll(AchieverId achieverId, LocalDate startDate, LocalDate endDate) {
-		List<ReadStreakResponse> dailyStreaks = findStreaksByType(achieverId, StreakType.DAILY, startDate, endDate);
-		List<ReadStreakResponse> weeklyStreaks = findStreaksByType(achieverId, StreakType.WEEKLY, startDate, endDate);
-		List<ReadStreakResponse> monthlyStreaks = findStreaksByType(achieverId, StreakType.MONTHLY, startDate, endDate);
-
+	public ListStreakResponse findAll(UUID achieverId, LocalDate startDate, LocalDate endDate) {
+		AchieverId targetId = AchieverId.of(achieverId);
+		List<ReadStreakResponse> dailyStreaks = findStreaksByType(targetId, StreakType.DAILY, startDate, endDate);
+		List<ReadStreakResponse> weeklyStreaks = findStreaksByType(targetId, StreakType.WEEKLY, startDate, endDate);
+		List<ReadStreakResponse> monthlyStreaks = findStreaksByType(targetId, StreakType.MONTHLY, startDate, endDate);
 		return ListStreakResponse.of(dailyStreaks, weeklyStreaks, monthlyStreaks);
 	}
 

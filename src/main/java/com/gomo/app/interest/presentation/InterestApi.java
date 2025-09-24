@@ -23,6 +23,7 @@ import com.gomo.app.interest.application.CreateInterestUseCase;
 import com.gomo.app.interest.application.DeleteInterestUseCase;
 import com.gomo.app.interest.application.UpdateInterestUseCase;
 import com.gomo.app.interest.application.port.ReadInterestPortIn;
+import com.gomo.app.interest.application.port.dto.CreateInterestDto;
 import com.gomo.app.interest.application.port.dto.InterestDto;
 import com.gomo.app.interest.presentation.request.CreateInterestRequest;
 import com.gomo.app.interest.presentation.request.UpdateInterestRequest;
@@ -44,27 +45,27 @@ public class InterestApi {
 
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<CreateInterestResponse> create(@Auth AuthInfo authInfo, @ModelAttribute CreateInterestRequest request) {
-		CreateInterestResponse response = createInterestUseCase.create(authInfo.getMemberId(), request);
-		return ResponseEntity.status(CREATED).body(response);
+		CreateInterestDto dto = createInterestUseCase.create(request.toCommand(authInfo.getMemberId()));
+		return ResponseEntity.status(CREATED).body(CreateInterestResponse.of(dto.id()));
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<ReadInterestResponse> find(@PathVariable("id") UUID interestId) {
 		InterestDto dto = readInterestPortIn.find(interestId);
-		return ResponseEntity.status(OK).body(ReadInterestResponse.of(dto));
+		return ResponseEntity.status(OK).body(ReadInterestResponse.from(dto));
 	}
 
 	@GetMapping
 	public ResponseEntity<ListInterestResponse> list(@Auth AuthInfo authInfo) {
 		List<ReadInterestResponse> responses = readInterestPortIn.findAll(authInfo.getMemberId()).stream()
-			.map(ReadInterestResponse::of)
+			.map(ReadInterestResponse::from)
 			.toList();
 		return ResponseEntity.status(OK).body(ListInterestResponse.of(responses));
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @PathVariable("id") UUID interestId, @RequestBody UpdateInterestRequest request) {
-		updateInterestUseCase.update(authInfo.getMemberId(), interestId, request);
+		updateInterestUseCase.update(request.toCommand(authInfo.getMemberId(), interestId));
 		return ResponseEntity.noContent().build();
 	}
 

@@ -1,19 +1,27 @@
 package com.gomo.app.interest.presentation.request;
 
 import java.util.List;
+import java.util.UUID;
+
+import com.gomo.app.displayorder.UpdatedOrderDto;
+import com.gomo.app.interest.application.port.command.OrderUpdateMajorInterestCommand;
 
 import lombok.Getter;
 
 @Getter
 public class OrderUpdateMajorInterestRequest {
 
-	private List<UpdateOrderRequest> updateOrderRequests;
+	private List<UpdatedOrderDto> updatedOrders;
 
-	private OrderUpdateMajorInterestRequest(List<UpdateOrderRequest> updateOrderRequests) {
-		this.updateOrderRequests = updateOrderRequests;
+	private OrderUpdateMajorInterestRequest(List<UpdatedOrderDto> updatedOrders) {
+		this.updatedOrders = updatedOrders;
 	}
 
-	public static OrderUpdateMajorInterestRequest of(List<UpdateOrderRequest> updatedOrders) {
+	public static OrderUpdateMajorInterestRequest of(List<UpdatedOrderDto> updatedOrders) {
 		return new OrderUpdateMajorInterestRequest(updatedOrders);
+	}
+
+	public OrderUpdateMajorInterestCommand toCommand(UUID registrantId) {
+		return OrderUpdateMajorInterestCommand.of(registrantId, updatedOrders);
 	}
 }

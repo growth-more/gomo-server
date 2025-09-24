@@ -6,19 +6,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.ApplicationService;
 import com.gomo.app.common.util.UUIDGenerator;
-import com.gomo.app.image.ImageService;
-import com.gomo.app.interest.application.translator.RegistrantTranslator;
+import com.gomo.app.interest.application.port.ReadRegistrantPortOut;
+import com.gomo.app.interest.application.port.UploadLogoPortOut;
+import com.gomo.app.interest.application.port.command.CreateInterestCommand;
+import com.gomo.app.interest.application.port.dto.CreateInterestDto;
+import com.gomo.app.interest.application.port.dto.LogoDto;
+import com.gomo.app.interest.application.port.dto.RegistrantDto;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestId;
+import com.gomo.app.interest.domain.model.InterestName;
 import com.gomo.app.interest.domain.model.Logo;
 import com.gomo.app.interest.domain.model.Registrant;
 import com.gomo.app.interest.domain.model.RegistrantId;
 import com.gomo.app.interest.domain.repository.InterestRepository;
-import com.gomo.app.interest.presentation.request.CreateInterestRequest;
-import com.gomo.app.interest.presentation.response.CreateInterestResponse;
 import com.gomo.app.logging.AuditLog;
-import com.gomo.app.member.domain.model.MemberId;
-import com.gomo.app.member.domain.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,21 +28,28 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class CreateInterestUseCase {
 
-	private final MemberService memberService;
-	private final ImageService imageService;
+	private final ReadRegistrantPortOut readRegistrantPortOut;
+	private final UploadLogoPortOut uploadLogoPortOut;
 	private final InterestRepository interestRepository;
 
 	@AuditLog(action = "CREATE_INTEREST")
-	public CreateInterestResponse create(UUID registrantId, CreateInterestRequest request) {
-		ensureNotExceedInterestQuota(registrantId);
-		String logoUrl = imageService.uploadImage(request.getLogo());
-		Interest interest = request.toDomain(InterestId.of(UUIDGenerator.generate()), RegistrantId.of(registrantId), Logo.of(logoUrl));
+	public CreateInterestDto create(CreateInterestCommand command) {
+		ensureNotExceedInterestQuota(command.registrantId());
+		LogoDto logoDto = uploadLogoPortOut.upload(command.logoFile());
+		Interest interest = Interest.of(
+			InterestId.of(UUIDGenerator.generate()),
+			RegistrantId.of(command.registrantId()),
+			InterestName.of(command.name()),
+			Logo.of(logoDto.url()),
+			command.colorCode()
+		);
 		Interest savedInterest = interestRepository.save(interest);
-		return CreateInterestResponse.of(savedInterest.getId());
+		return CreateInterestDto.of(savedInterest.uuid());
 	}
 
 	private void ensureNotExceedInterestQuota(UUID registrantId) {
-		Registrant registrant = RegistrantTranslator.from(memberService.find(MemberId.of(registrantId)));
+		RegistrantDto dto = readRegistrantPortOut.find(registrantId);
+		Registrant registrant = Registrant.of(RegistrantId.of(dto.id()), dto.subscriptionPlan());
 		long interestCount = interestRepository.countAllByRegistrantId(registrant.getId());
 		registrant.validateInterestQuota(interestCount);
 	}

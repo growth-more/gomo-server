@@ -35,11 +35,7 @@ public class QuestProperty {
 	protected QuestProperty() {
 	}
 
-	public QuestProperty(
-		DailyThreshold dailyThreshold,
-		WeeklyThreshold weeklyThreshold,
-		MonthlyThreshold monthlyThreshold
-	) {
+	public QuestProperty(DailyThreshold dailyThreshold, WeeklyThreshold weeklyThreshold, MonthlyThreshold monthlyThreshold) {
 		this.dailyThreshold = dailyThreshold;
 		this.weeklyThreshold = weeklyThreshold;
 		this.monthlyThreshold = monthlyThreshold;
@@ -49,11 +45,11 @@ public class QuestProperty {
 		return new QuestProperty(DailyThreshold.of(5), WeeklyThreshold.of(5), MonthlyThreshold.of(5));
 	}
 
-	public static QuestProperty update(
-		DailyThreshold dailyThreshold,
-		WeeklyThreshold weeklyThreshold,
-		MonthlyThreshold monthlyThreshold
-	) {
+	public static QuestProperty of(int dailyThreshold, int weeklyThreshold, int monthlyThreshold) {
+		return new QuestProperty(DailyThreshold.of(dailyThreshold), WeeklyThreshold.of(weeklyThreshold), MonthlyThreshold.of(monthlyThreshold));
+	}
+
+	public static QuestProperty update(DailyThreshold dailyThreshold, WeeklyThreshold weeklyThreshold, MonthlyThreshold monthlyThreshold) {
 		return new QuestProperty(dailyThreshold, weeklyThreshold, monthlyThreshold);
 	}
 }

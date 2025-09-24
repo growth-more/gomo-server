@@ -9,14 +9,13 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.gomo.app.image.ImageService;
+import com.gomo.app.image.service.ImageService;
 import com.gomo.app.interest.domain.model.RegistrantId;
 import com.gomo.app.interest.domain.repository.InterestRelationRepository;
 import com.gomo.app.interest.domain.repository.InterestRepository;
 import com.gomo.app.interest.domain.repository.MajorInterestRepository;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.repository.MemberRepository;
-import com.gomo.app.member.domain.service.MemberService;
 import com.gomo.app.point.domain.model.TransactorId;
 import com.gomo.app.point.domain.repository.PointRepository;
 import com.gomo.app.point.domain.repository.PointWalletRepository;
@@ -32,7 +31,6 @@ import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
 public class MemberCleanupScheduler {
-
 
 	private final ImageService imageService;
 	private final PointRepository pointRepository;
@@ -88,8 +86,8 @@ public class MemberCleanupScheduler {
 		achieverRepository.deleteByAchieverId(AchieverId.of(member.uuid()));
 
 		// 이미지 파일 삭제
-		imageService.deleteImage(member.getProfileImage().getUrl());
-		imageService.deleteImage(member.getProfileBanner().getUrl());
+		imageService.delete(member.getProfileImage().getUrl());
+		imageService.delete(member.getProfileBanner().getUrl());
 
 		// member 최종 삭제
 		memberRepository.deleteById(member.getId());

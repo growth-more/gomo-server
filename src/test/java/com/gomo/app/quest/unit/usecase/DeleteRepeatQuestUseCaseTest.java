@@ -40,7 +40,7 @@ public class DeleteRepeatQuestUseCaseTest {
 		RepeatQuest repeatQuest = RepeatQuestFixture.repeatQuest();
 		doReturn(repeatQuest).when(repeatQuestService).find(any(RepeatQuestId.class));
 
-		sut.delete(repeatQuest.getQuest().getParticipantId().getId(), RepeatQuestId.of(UUID.randomUUID()));
+		sut.delete(repeatQuest.getQuest().getParticipantId().getId(), UUID.randomUUID());
 
 		verify(repeatQuestRepository, times(1)).delete(any());
 	}
@@ -52,7 +52,7 @@ public class DeleteRepeatQuestUseCaseTest {
 		doReturn(repeatQuest).when(repeatQuestService).find(any(RepeatQuestId.class));
 
 		assertThatThrownBy(
-			() -> sut.delete(UUID.randomUUID(), RepeatQuestId.of(UUID.randomUUID())))
+			() -> sut.delete(UUID.randomUUID(), UUID.randomUUID()))
 			.isInstanceOf(RepeatQuestAccessDeniedException.class)
 			.hasMessageContaining(RepeatQuestErrorCode.ACCESS_DENIED.getMessage());
 	}

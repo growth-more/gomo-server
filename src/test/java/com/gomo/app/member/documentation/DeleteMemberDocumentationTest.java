@@ -14,9 +14,9 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import com.gomo.app.auth.application.LoginMemberUseCase;
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.member.application.CreateMemberUseCase;
+import com.gomo.app.member.application.port.command.CreateMemberCommand;
 import com.gomo.app.member.documentation.snippet.DeleteMemberSnippet;
 import com.gomo.app.member.domain.model.LoginProvider;
-import com.gomo.app.member.presentation.request.CreateMemberRequest;
 
 @DisplayName("[Presentation documentation]: 회원 탈퇴 테스트")
 public class DeleteMemberDocumentationTest extends DocumentationTestBase {
@@ -26,13 +26,6 @@ public class DeleteMemberDocumentationTest extends DocumentationTestBase {
 	private final RestDocumentationFilter filter = DeleteMemberSnippet.create();
 	private final RestDocumentationFilter errorFilter = DeleteMemberSnippet.createError();
 
-	private final String EMAIL = "user_delete@test.com";
-	private final String PASSWORD = "userDelete123@";
-	private final String HANDLE = "@deletetester";
-	private final String NAME = "deleteTester";
-	private final String MOTTO = "MyMotto";
-	private static final LoginProvider LOGIN_PROVIDER = LoginProvider.EMAIL;
-
 	@Autowired
 	private CreateMemberUseCase createMemberUseCase;
 
@@ -41,10 +34,11 @@ public class DeleteMemberDocumentationTest extends DocumentationTestBase {
 
 	@BeforeEach
 	void setUp() {
-		CreateMemberRequest createMemberRequest = CreateMemberRequest.of(EMAIL, PASSWORD, HANDLE, NAME, MOTTO, LOGIN_PROVIDER);
-		createMemberUseCase.create(createMemberRequest);
-
-		this.accessToken = loginMemberUseCase.login(EMAIL, PASSWORD).getAuthToken().getAccessToken();
+		String email = "user_delete@test.com";
+		String password = "userDelete123@";
+		CreateMemberCommand command = CreateMemberCommand.of(email, password, "@deletetester", "deleteTester", "MyMotto", LoginProvider.EMAIL.name());
+		createMemberUseCase.create(command);
+		this.accessToken = loginMemberUseCase.login(email, password).getAuthToken().getAccessToken();
 	}
 
 	@DisplayName("사용자가 회원 탈퇴를 요청한다.")

@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class CreateEmailAuthCodeRequest {
-	private String email;
+	private final String email;
 
 	private CreateEmailAuthCodeRequest(String email) {
 		this.email = email;

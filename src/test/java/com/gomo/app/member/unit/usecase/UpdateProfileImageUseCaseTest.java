@@ -11,12 +11,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 
-import com.gomo.app.image.ImageService;
+import com.gomo.app.interest.application.port.UploadLogoPortOut;
+import com.gomo.app.interest.application.port.dto.LogoDto;
 import com.gomo.app.member.application.UpdateProfileImageUseCase;
+import com.gomo.app.member.application.port.dto.UpdateProfileImageDto;
 import com.gomo.app.member.common.fixture.MemberFixture;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.service.MemberService;
-import com.gomo.app.member.presentation.response.UpdateProfileImageResponse;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Application Unit]: 프로필 이미지 수정 기능 테스트")
@@ -29,7 +30,7 @@ public class UpdateProfileImageUseCaseTest {
 	private MemberService memberService;
 
 	@Mock
-	private ImageService imageService;
+	private UploadLogoPortOut uploadLogoPortOut;
 
 	private static final String NEW_IMAGE_URL = "https://example.com/profile.jpg";
 
@@ -38,12 +39,12 @@ public class UpdateProfileImageUseCaseTest {
 	void update_profile_image() {
 		Member member = MemberFixture.member();
 		MockMultipartFile request = new MockMultipartFile("banner", "mock image data".getBytes());
-		UpdateProfileImageResponse expected = UpdateProfileImageResponse.of(NEW_IMAGE_URL);
+		UpdateProfileImageDto expected = UpdateProfileImageDto.of(NEW_IMAGE_URL);
 
 		doReturn(member).when(memberService).find(member.getId());
-		doReturn(NEW_IMAGE_URL).when(imageService).uploadImage(any(MockMultipartFile.class));
+		doReturn(LogoDto.of(NEW_IMAGE_URL)).when(uploadLogoPortOut).upload(any(MockMultipartFile.class));
 
-		UpdateProfileImageResponse actual = sut.update(member.uuid(), request);
+		UpdateProfileImageDto actual = sut.update(member.uuid(), request);
 
 		assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
 	}

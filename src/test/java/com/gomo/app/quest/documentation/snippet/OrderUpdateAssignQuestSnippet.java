@@ -23,9 +23,9 @@ public class OrderUpdateAssignQuestSnippet {
 
 	private static final Snippet REQUEST_FIELDS = requestFields(
 		fieldWithPath("questType").type(JsonFieldType.STRING).description("정렬 순서를 변경할 퀘스트 타입: `DAILY`, `WEEKLY`, `MONTHLY`"),
-		fieldWithPath("updateOrderRequests").type(JsonFieldType.ARRAY).description("정렬 순서 변경 요청 목록"),
-		fieldWithPath("updateOrderRequests[].id").type(JsonFieldType.STRING).description("변경 대상 할당 퀘스트 아이디"),
-		fieldWithPath("updateOrderRequests[].displayOrder").type(JsonFieldType.NUMBER).description("새로운 정렬 순서 (0부터 시작)")
+		fieldWithPath("updatedOrders").type(JsonFieldType.ARRAY).description("정렬 순서 변경 요청 목록"),
+		fieldWithPath("updatedOrders[].orderChangeableId").type(JsonFieldType.STRING).description("변경 대상 할당 퀘스트 아이디"),
+		fieldWithPath("updatedOrders[].displayOrder").type(JsonFieldType.NUMBER).description("새로운 정렬 순서 (0부터 시작)")
 	);
 
 	public static RestDocumentationFilter create() {

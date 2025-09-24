@@ -11,13 +11,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.gomo.app.image.ImageService;
+import com.gomo.app.image.port.DeleteImagePortIn;
 import com.gomo.app.interest.application.UpdateLogoUseCase;
-import com.gomo.app.interest.fixture.InterestFixture;
+import com.gomo.app.interest.application.port.UploadLogoPortOut;
+import com.gomo.app.interest.application.port.dto.LogoDto;
 import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.Logo;
 import com.gomo.app.interest.domain.service.InterestService;
+import com.gomo.app.interest.fixture.InterestFixture;
 
 @DisplayName("[Application unit]: 관심사 로고 수정 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -30,28 +33,33 @@ public class UpdateLogoUseCaseTest {
 	private InterestService interestService;
 
 	@Mock
-	private ImageService imageService;
+	private UploadLogoPortOut uploadLogoPortOut;
+
+	@Mock
+	private DeleteImagePortIn deleteImagePortIn;
 
 	@DisplayName("사용자가 등록해둔 관심사 로고를 새로운 로고로 변경한다.")
 	@Test
 	void update_interest() {
 		doReturn(InterestFixture.create()).when(interestService).find(any(InterestId.class));
+		doReturn(LogoDto.of("logoUrl")).when(uploadLogoPortOut).upload(any(MultipartFile.class));
 
-		sut.update(InterestId.of(UUID.randomUUID()), new MockMultipartFile("logo", "mock image data".getBytes()));
+		sut.update(InterestId.of(UUID.randomUUID()), new MockMultipartFile("logoFile", "mock image data".getBytes()));
 
 		verify(interestService, times(1)).find(any(InterestId.class));
-		verify(imageService, times(1)).uploadImage(any(MockMultipartFile.class));
-		verify(imageService, times(1)).deleteImage(any(String.class));
+		verify(uploadLogoPortOut, times(1)).upload(any(MockMultipartFile.class));
+		verify(deleteImagePortIn, times(1)).delete(any(String.class));
 	}
 
 	@DisplayName("기본 관심사 로고를 새로운 로고로 변경한다.")
 	@Test
 	void update_interest_by_unauthorized_accessor() {
 		doReturn(InterestFixture.create(Logo.of(null))).when(interestService).find(any(InterestId.class));
+		doReturn(LogoDto.of("logoUrl")).when(uploadLogoPortOut).upload(any(MultipartFile.class));
 
-		sut.update(InterestId.of(UUID.randomUUID()), new MockMultipartFile("logo", "mock image data".getBytes()));
+		sut.update(InterestId.of(UUID.randomUUID()), new MockMultipartFile("logoFile", "mock image data".getBytes()));
 
 		verify(interestService, times(1)).find(any(InterestId.class));
-		verify(imageService, times(1)).uploadImage(any(MockMultipartFile.class));
+		verify(uploadLogoPortOut, times(1)).upload(any(MockMultipartFile.class));
 	}
 }

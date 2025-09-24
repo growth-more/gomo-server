@@ -1,5 +1,9 @@
 package com.gomo.app.quest.presentation.request;
 
+import java.util.UUID;
+
+import com.gomo.app.quest.application.port.command.CompleteAssignQuestCommand;
+
 import lombok.Getter;
 
 @Getter
@@ -13,5 +17,9 @@ public class CompleteAssignQuestRequest {
 
 	public static CompleteAssignQuestRequest of(String proof) {
 		return new CompleteAssignQuestRequest(proof);
+	}
+
+	public CompleteAssignQuestCommand toCommand(UUID participantId, UUID assignQuestId) {
+		return new CompleteAssignQuestCommand(participantId, assignQuestId, proof);
 	}
 }

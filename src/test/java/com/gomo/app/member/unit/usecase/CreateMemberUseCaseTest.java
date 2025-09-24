@@ -13,13 +13,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.member.application.CreateMemberUseCase;
+import com.gomo.app.member.application.port.command.CreateMemberCommand;
+import com.gomo.app.member.application.port.dto.CreateMemberDto;
 import com.gomo.app.member.common.fixture.MemberFixture;
 import com.gomo.app.member.domain.model.Member;
 import com.gomo.app.member.domain.repository.MemberRepository;
 import com.gomo.app.member.domain.service.MemberService;
 import com.gomo.app.member.domain.service.PasswordService;
-import com.gomo.app.member.presentation.request.CreateMemberRequest;
-import com.gomo.app.member.presentation.response.CreateMemberResponse;
 import com.gomo.app.point.domain.model.PointWallet;
 import com.gomo.app.point.domain.model.PointWalletId;
 import com.gomo.app.point.domain.model.TransactorId;
@@ -61,15 +61,15 @@ public class CreateMemberUseCaseTest {
 		doReturn(member).when(memberRepository).save(any(Member.class));
 		doReturn(pointWallet).when(pointWalletRepository).save(any(PointWallet.class));
 
-		CreateMemberResponse actual = sut.create(CreateMemberRequest.of(
+		CreateMemberDto dto = sut.create(CreateMemberCommand.of(
 			member.getEmail().getEmail(),
 			member.getPassword().getPassword(),
 			member.getHandle().getHandle(),
 			member.getName().getName(),
 			member.getMotto().getMotto(),
-			member.getLoginProvider()
+			member.getLoginProvider().name()
 		));
 
-		assertThat(actual).usingRecursiveComparison().isEqualTo(CreateMemberResponse.of(member.getId()));
+		assertThat(dto.id()).isEqualTo(member.uuid());
 	}
 }

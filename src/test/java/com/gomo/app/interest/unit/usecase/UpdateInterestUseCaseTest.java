@@ -13,11 +13,11 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.interest.application.UpdateInterestUseCase;
-import com.gomo.app.interest.fixture.InterestFixture;
+import com.gomo.app.interest.application.port.command.UpdateInterestCommand;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.service.InterestService;
-import com.gomo.app.interest.presentation.request.UpdateInterestRequest;
+import com.gomo.app.interest.fixture.InterestFixture;
 
 @DisplayName("[Application unit]: 관심사 수정 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -35,7 +35,7 @@ public class UpdateInterestUseCaseTest {
 		Interest interest = InterestFixture.create();
 		doReturn(interest).when(interestService).find(any(InterestId.class));
 
-		sut.update(interest.getRegistrantId().getId(), interest.uuid(), UpdateInterestRequest.of("name", "#FF0000"));
+		sut.update(UpdateInterestCommand.of(interest.registrantUuid(), interest.uuid(), "name", "#FF0000"));
 
 		verify(interestService, times(1)).find(any(InterestId.class));
 	}
@@ -46,7 +46,7 @@ public class UpdateInterestUseCaseTest {
 		Interest interest = Mockito.mock(Interest.class);
 		doReturn(interest).when(interestService).find(any(InterestId.class));
 
-		sut.update(UUID.randomUUID(), UUID.randomUUID(), UpdateInterestRequest.of("name", "#FF0000"));
+		sut.update(UpdateInterestCommand.of(UUID.randomUUID(), UUID.randomUUID(), "name", "#FF0000"));
 
 		verify(interest, times(1)).validateAuthority(any(UUID.class));
 	}

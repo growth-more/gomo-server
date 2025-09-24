@@ -8,7 +8,6 @@ import org.jetbrains.annotations.Nullable;
 
 import com.gomo.app.common.ApplicationService;
 import com.gomo.app.common.dto.PageRequest;
-import com.gomo.app.point.domain.model.TransactorId;
 import com.gomo.app.point.domain.repository.PointRepository;
 import com.gomo.app.point.presentation.response.ListPointResponse;
 import com.gomo.app.point.presentation.response.ReadPointResponse;
@@ -21,7 +20,7 @@ public class ReadPointUseCase {
 
 	private final PointRepository pointRepository;
 
-	public ListPointResponse findAll(TransactorId transactorId, PageRequest pageRequest) {
+	public ListPointResponse findAll(UUID transactorId, PageRequest pageRequest) {
 		List<ReadPointResponse> responses = pointRepository.findAllByTransactorId(
 				transactorId.toString(),
 				Optional.ofNullable(pageRequest.getLastElementId()).map(UUID::toString).orElse(null),
@@ -35,7 +34,7 @@ public class ReadPointUseCase {
 
 	@Nullable
 	private UUID getLastElementId(List<ReadPointResponse> responses) {
-		if(responses.isEmpty()) {
+		if (responses.isEmpty()) {
 			return null;
 		}
 		return responses.getLast().getId();

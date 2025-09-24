@@ -14,14 +14,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.quest.application.ReadRepeatQuestUseCase;
-import com.gomo.app.quest.domain.model.ParticipantId;
+import com.gomo.app.quest.application.port.dto.ListRepeatQuestDto;
 import com.gomo.app.quest.domain.model.QuestType;
 import com.gomo.app.quest.domain.model.RepeatQuest;
 import com.gomo.app.quest.domain.repository.QuestRewardPolicyRepository;
 import com.gomo.app.quest.domain.repository.RepeatQuestRepository;
 import com.gomo.app.quest.fixture.QuestRewardPolicyFixture;
 import com.gomo.app.quest.fixture.RepeatQuestFixture;
-import com.gomo.app.quest.presentation.response.ListRepeatQuestResponse;
 
 @DisplayName("[Application unit]: 반복 퀘스트 조회 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -49,22 +48,14 @@ public class ReadRepeatQuestUseCaseTest {
 		doReturn(weeklyQuests).when(repeatQuestRepository).findRepeatQuestsByQuestType(any(), eq(QuestType.WEEKLY));
 		doReturn(monthlyQuests).when(repeatQuestRepository).findRepeatQuestsByQuestType(any(), eq(QuestType.MONTHLY));
 
-		ListRepeatQuestResponse actual = sut.findAll(ParticipantId.of(UUID.randomUUID()));
+		ListRepeatQuestDto actual = sut.findAll(UUID.randomUUID());
 
-		assertThat(actual.getDailyQuests().size()).isEqualTo(2);
-		assertThat(actual.getWeeklyQuests().size()).isEqualTo(1);
-		assertThat(actual.getMonthlyQuests().size()).isEqualTo(0);
-		assertThat(actual.getDailyQuests())
-			.extracting("point")
-			.containsExactly(10, 10);
-		assertThat(actual.getDailyQuests())
-			.extracting("score")
-			.containsExactly(2, 2);
-		assertThat(actual.getWeeklyQuests())
-			.extracting("point")
-			.containsExactly(150);
-		assertThat(actual.getWeeklyQuests())
-			.extracting("score")
-			.containsExactly(20);
+		assertThat(actual.dailyQuests().size()).isEqualTo(2);
+		assertThat(actual.weeklyQuests().size()).isEqualTo(1);
+		assertThat(actual.monthlyQuests().size()).isEqualTo(0);
+		assertThat(actual.dailyQuests()).extracting("point").containsExactly(10, 10);
+		assertThat(actual.dailyQuests()).extracting("score").containsExactly(2, 2);
+		assertThat(actual.weeklyQuests()).extracting("point").containsExactly(150);
+		assertThat(actual.weeklyQuests()).extracting("score").containsExactly(20);
 	}
 }

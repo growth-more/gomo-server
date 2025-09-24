@@ -25,7 +25,7 @@ public class CreateInterestSnippet {
 	private static final Snippet REQUEST_PARTS = requestParts(
 		partWithName("name").description("관심사 이름"),
 		partWithName("colorCode").description("색상 코드 (ex: #0000FF)"),
-		partWithName("logo").description("로고 이미지 파일")
+		partWithName("logoFile").description("로고 이미지 파일")
 	);
 
 	private static final Snippet RESPONSE_FIELDS = responseFields(

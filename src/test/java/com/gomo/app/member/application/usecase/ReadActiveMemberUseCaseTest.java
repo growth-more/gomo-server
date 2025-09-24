@@ -14,7 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.member.application.port.dto.MemberDto;
+import com.gomo.app.member.application.port.dto.ActiveMemberDto;
 import com.gomo.app.member.common.fixture.MemberFixture;
 import com.gomo.app.member.domain.repository.MemberRepository;
 
@@ -32,7 +32,7 @@ class ReadActiveMemberUseCaseTest {
 	@Test
 	void read_active_member() {
 		doReturn(List.of(MemberFixture.member(), MemberFixture.member())).when(memberRepository).findByActivateStatusAndLastLoginDateTimeGreaterThanEqual(any(), any());
-		List<MemberDto> actual = sut.findAll(LocalDate.now());
+		List<ActiveMemberDto> actual = sut.findAll(LocalDate.now());
 		assertThat(actual.size()).isEqualTo(2);
 	}
 }

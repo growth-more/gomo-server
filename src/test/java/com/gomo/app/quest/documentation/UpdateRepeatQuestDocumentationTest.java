@@ -57,7 +57,7 @@ public class UpdateRepeatQuestDocumentationTest extends DocumentationTestBase {
 			.body(UpdateRepeatQuestRequest.of(
 				UUID.randomUUID(),
 				"subject name",
-				QuestType.DAILY,
+				QuestType.DAILY.name(),
 				"quest content"))
 			.when()
 			.put("/quests/repeats/{id}", repeatQuestId)
@@ -74,7 +74,7 @@ public class UpdateRepeatQuestDocumentationTest extends DocumentationTestBase {
 			.body(UpdateRepeatQuestRequest.of(
 				UUID.randomUUID(),
 				"subject name",
-				QuestType.DAILY,
+				QuestType.DAILY.name(),
 				" "))
 			.when()
 			.put("/quests/repeats/{id}", repeatQuestId)
@@ -88,6 +88,6 @@ public class UpdateRepeatQuestDocumentationTest extends DocumentationTestBase {
 	}
 
 	private static @NotNull CreateRepeatQuestRequest getCreateRepeatQuestRequest() {
-		return CreateRepeatQuestRequest.of(UUID.randomUUID(), "subject name", QuestType.DAILY, "quest content");
+		return CreateRepeatQuestRequest.of(UUID.randomUUID(), "subject name", QuestType.DAILY.name(), "quest content");
 	}
 }

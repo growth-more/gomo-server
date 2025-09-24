@@ -1,9 +1,8 @@
 package com.gomo.app.member.application;
 
-import com.gomo.app.auth.presentation.request.VerifyEmailAuthCodeRequest;
-import com.gomo.app.auth.presentation.response.VerifyEmailAuthCodeResponse;
 import com.gomo.app.common.ApplicationService;
 import com.gomo.app.logging.AuditLog;
+import com.gomo.app.member.application.port.dto.VerifyEmailAuthCodeDto;
 import com.gomo.app.member.domain.service.EmailAuthCodeService;
 import com.gomo.app.member.exception.MemberAuthenticationFailedException;
 import com.gomo.app.member.exception.code.MemberErrorCode;
@@ -17,12 +16,16 @@ public class VerifyEmailAuthCodeUseCase {
 	private final EmailAuthCodeService emailAuthCodeService;
 
 	@AuditLog(action = "VERIFY_EMAIL_CODE")
-	public VerifyEmailAuthCodeResponse verify(VerifyEmailAuthCodeRequest request) {
-		String storedCode = emailAuthCodeService.find(request.getEmail());
-		if (!storedCode.equals(request.getCode()) || request.getEmail() == null) {
+	public VerifyEmailAuthCodeDto verify(String email, String authCode) {
+		ensureCorrectAuthCode(email, authCode);
+		emailAuthCodeService.remove(email);
+		return VerifyEmailAuthCodeDto.of(email);
+	}
+
+	private void ensureCorrectAuthCode(String email, String authCode) {
+		String storedCode = emailAuthCodeService.find(email);
+		if (!storedCode.equals(authCode) || email == null) {
 			throw new MemberAuthenticationFailedException(MemberErrorCode.AUTHENTICATION_FAILED);
 		}
-		emailAuthCodeService.remove(request.getEmail());
-		return VerifyEmailAuthCodeResponse.of(request.getEmail());
 	}
 }

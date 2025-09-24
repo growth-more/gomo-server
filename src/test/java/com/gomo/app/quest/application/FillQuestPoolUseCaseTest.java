@@ -45,8 +45,8 @@ public class FillQuestPoolUseCaseTest {
 	@Test
 	void fill_quest_pool_for_active_participants() {
 		List<ActiveParticipantDto> activeParticipants = List.of(
-			ActiveParticipantDto.of(UUID.randomUUID()),
-			ActiveParticipantDto.of(UUID.randomUUID())
+			ActiveParticipantDto.of(UUID.randomUUID(), 5, 5, 5),
+			ActiveParticipantDto.of(UUID.randomUUID(), 5, 5, 5)
 		);
 
 		List<SubjectDto> subjects = List.of(

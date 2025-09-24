@@ -3,12 +3,12 @@ package com.gomo.app.interest.application;
 import java.util.UUID;
 
 import com.gomo.app.common.ApplicationService;
+import com.gomo.app.interest.application.port.dto.CreateMajorInterestDto;
 import com.gomo.app.interest.domain.model.Interest;
 import com.gomo.app.interest.domain.model.InterestId;
 import com.gomo.app.interest.domain.model.MajorInterest;
 import com.gomo.app.interest.domain.service.InterestService;
 import com.gomo.app.interest.domain.service.MajorInterestService;
-import com.gomo.app.interest.presentation.response.CreateMajorInterestResponse;
 import com.gomo.app.logging.AuditLog;
 
 import lombok.RequiredArgsConstructor;
@@ -21,10 +21,10 @@ public class CreateMajorInterestUseCase {
 	private final MajorInterestService majorInterestService;
 
 	@AuditLog(action = "CREATE_MAJOR_INTEREST")
-	public CreateMajorInterestResponse create(UUID accessorId, UUID interestId) {
+	public CreateMajorInterestDto create(UUID registrantId, UUID interestId) {
 		Interest interest = interestService.find(InterestId.of(interestId));
-		interest.validateAuthority(accessorId);
+		interest.validateAuthority(registrantId);
 		MajorInterest majorInterest = majorInterestService.create(interest);
-		return CreateMajorInterestResponse.of(majorInterest.uuid());
+		return CreateMajorInterestDto.of(majorInterest.uuid());
 	}
 }

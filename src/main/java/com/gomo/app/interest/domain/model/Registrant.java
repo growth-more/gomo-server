@@ -18,7 +18,7 @@ public class Registrant {
 	protected Registrant() {
 	}
 
-	public Registrant(
+	private Registrant(
 		RegistrantId id,
 		InterestQuota interestQuota
 	) {
@@ -26,15 +26,22 @@ public class Registrant {
 		this.interestQuota = interestQuota;
 	}
 
-	public UUID uuid() {
-		return this.id.getId();
-	}
-
 	public static Registrant of(
 		RegistrantId id,
-		InterestQuota interestQuota
+		String subscriptionPlan
 	) {
+		InterestQuota interestQuota = null;
+		switch (subscriptionPlan) {
+			case "FREE" -> interestQuota = InterestQuota.FREE;
+			case "BASIC" -> interestQuota = InterestQuota.BASIC;
+			case "PREMIUM" -> interestQuota = InterestQuota.PREMIUM;
+			default -> throw new IllegalArgumentException("Unknown subscription plan: " + subscriptionPlan);
+		}
 		return new Registrant(id, interestQuota);
+	}
+
+	public UUID uuid() {
+		return this.id.getId();
 	}
 
 	public void validateInterestQuota(long interestCount) {

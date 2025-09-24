@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.quest.application.UpdateAssignQuestUseCase;
+import com.gomo.app.quest.application.port.command.UpdateAssignQuestCommand;
 import com.gomo.app.quest.domain.model.AssignQuest;
 import com.gomo.app.quest.domain.model.AssignQuestId;
 import com.gomo.app.quest.domain.model.CompletionProof;
@@ -25,7 +26,6 @@ import com.gomo.app.quest.exception.QuestTypeConstraintViolationException;
 import com.gomo.app.quest.exception.code.AssignQuestErrorCode;
 import com.gomo.app.quest.exception.code.QuestTypeErrorCode;
 import com.gomo.app.quest.fixture.AssignQuestFixture;
-import com.gomo.app.quest.presentation.request.UpdateAssignQuestRequest;
 
 @DisplayName("[Application unit]: 할당 퀘스트 수정 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -42,9 +42,7 @@ public class UpdateAssignQuestUseCaseTest {
 	void update_assign_quest() {
 		AssignQuest assignQuest = AssignQuestFixture.assignQuest(QuestType.DAILY);
 		doReturn(assignQuest).when(assignQuestService).find(any());
-
-		sut.update(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID()), createMockRequest(QuestType.DAILY));
-
+		sut.update(getUpdateAssignQuestCommand(assignQuest.getQuest().getParticipantId().getId(), QuestType.DAILY.name()));
 		assertThat(assignQuest.getQuest().getSubjectName().toString()).isEqualTo("updated subject name");
 	}
 
@@ -54,8 +52,7 @@ public class UpdateAssignQuestUseCaseTest {
 		AssignQuest assignQuest = AssignQuestFixture.assignQuest(QuestType.DAILY);
 		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 
-		assertThatThrownBy(
-			() -> sut.update(UUID.randomUUID(), AssignQuestId.of(UUID.randomUUID()), createMockRequest(QuestType.WEEKLY)))
+		assertThatThrownBy(() -> sut.update(getUpdateAssignQuestCommand(UUID.randomUUID(), QuestType.WEEKLY.name())))
 			.isInstanceOf(AssignQuestAccessDeniedException.class)
 			.hasMessageContaining("Access denied for the assign quest");
 	}
@@ -66,8 +63,7 @@ public class UpdateAssignQuestUseCaseTest {
 		AssignQuest assignQuest = AssignQuestFixture.assignQuest(QuestType.DAILY);
 		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 
-		assertThatThrownBy(
-			() -> sut.update(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID()), createMockRequest(QuestType.WEEKLY)))
+		assertThatThrownBy(() -> sut.update(getUpdateAssignQuestCommand(assignQuest.getQuest().getParticipantId().getId(), QuestType.WEEKLY.name())))
 			.isInstanceOf(QuestTypeConstraintViolationException.class)
 			.hasMessageContaining(QuestTypeErrorCode.MISMATCHED.getMessage());
 	}
@@ -78,8 +74,7 @@ public class UpdateAssignQuestUseCaseTest {
 		AssignQuest assignQuest = AssignQuestFixture.assignQuest(true);
 		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 
-		assertThatThrownBy(
-			() -> sut.update(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID()), createMockRequest(QuestType.DAILY)))
+		assertThatThrownBy(() -> sut.update(getUpdateAssignQuestCommand(assignQuest.getQuest().getParticipantId().getId(), QuestType.DAILY.name())))
 			.isInstanceOf(AssignQuestConstraintViolationException.class)
 			.hasMessageContaining(AssignQuestErrorCode.ALREADY_CONFIRMED.getMessage());
 	}
@@ -90,13 +85,12 @@ public class UpdateAssignQuestUseCaseTest {
 		AssignQuest assignQuest = AssignQuestFixture.assignQuest(false, true, CompletionProof.createDefault());
 		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 
-		assertThatThrownBy(
-			() -> sut.update(assignQuest.getQuest().getParticipantId().getId(), AssignQuestId.of(UUID.randomUUID()), createMockRequest(QuestType.DAILY)))
+		assertThatThrownBy(() -> sut.update(getUpdateAssignQuestCommand(assignQuest.getQuest().getParticipantId().getId(), QuestType.DAILY.name())))
 			.isInstanceOf(AssignQuestConstraintViolationException.class)
 			.hasMessageContaining(AssignQuestErrorCode.ALREADY_COMPLETED.getMessage());
 	}
 
-	private static @NotNull UpdateAssignQuestRequest createMockRequest(QuestType questType) {
-		return UpdateAssignQuestRequest.of(UUID.randomUUID(), "updated subject name", questType, "updated quest content");
+	private static @NotNull UpdateAssignQuestCommand getUpdateAssignQuestCommand(UUID participantId, String questType) {
+		return UpdateAssignQuestCommand.of(participantId, UUID.randomUUID(), UUID.randomUUID(), "updated subject name", questType, "updated quest content");
 	}
 }
