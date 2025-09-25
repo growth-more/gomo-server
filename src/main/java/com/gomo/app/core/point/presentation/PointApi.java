@@ -5,14 +5,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.gomo.app.common.Presentation;
-import com.gomo.app.support.auth.Auth;
-import com.gomo.app.support.auth.AuthInfo;
-import com.gomo.app.common.dto.PageRequest;
+import com.gomo.app.common.arch.Presentation;
+import com.gomo.app.common.web.PageRequest;
 import com.gomo.app.core.point.application.ReadBalanceUseCase;
 import com.gomo.app.core.point.application.ReadPointUseCase;
 import com.gomo.app.core.point.presentation.response.ListPointResponse;
 import com.gomo.app.core.point.presentation.response.ReadBalanceResponse;
+import com.gomo.app.support.auth.presentation.security.Auth;
+import com.gomo.app.support.auth.presentation.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 

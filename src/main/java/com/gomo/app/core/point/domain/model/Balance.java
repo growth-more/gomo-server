@@ -1,6 +1,6 @@
 package com.gomo.app.core.point.domain.model;
 
-import com.gomo.app.common.ValueObject;
+import com.gomo.app.common.arch.ValueObject;
 import com.gomo.app.core.point.exception.InsufficientBalanceException;
 import com.gomo.app.core.point.exception.code.BalanceErrorCode;
 

@@ -2,7 +2,7 @@ package com.gomo.app.core.interest.application;
 
 import java.util.UUID;
 
-import com.gomo.app.common.ApplicationService;
+import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.core.interest.domain.model.InterestRelation;
 import com.gomo.app.core.interest.domain.model.InterestRelationId;
 import com.gomo.app.core.interest.domain.service.InterestRelationService;

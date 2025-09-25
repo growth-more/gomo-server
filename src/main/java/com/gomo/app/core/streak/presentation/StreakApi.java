@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.gomo.app.common.Presentation;
-import com.gomo.app.support.auth.Auth;
-import com.gomo.app.support.auth.AuthInfo;
+import com.gomo.app.common.arch.Presentation;
+import com.gomo.app.support.auth.presentation.security.Auth;
+import com.gomo.app.support.auth.presentation.security.AuthInfo;
 import com.gomo.app.core.streak.application.ReadStreakUseCase;
 import com.gomo.app.core.streak.presentation.response.ListStreakResponse;
 

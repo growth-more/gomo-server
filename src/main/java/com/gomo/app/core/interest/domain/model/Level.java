@@ -1,6 +1,6 @@
 package com.gomo.app.core.interest.domain.model;
 
-import com.gomo.app.common.ValueObject;
+import com.gomo.app.common.arch.ValueObject;
 import com.gomo.app.core.interest.exception.LevelConstraintViolationException;
 import com.gomo.app.core.interest.exception.code.LevelErrorCode;
 

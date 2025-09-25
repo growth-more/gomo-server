@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gomo.app.common.DomainService;
+import com.gomo.app.common.arch.DomainService;
 import com.gomo.app.core.streak.domain.model.Achiever;
 import com.gomo.app.core.streak.domain.model.AchieverId;
 import com.gomo.app.core.streak.domain.model.Streak;

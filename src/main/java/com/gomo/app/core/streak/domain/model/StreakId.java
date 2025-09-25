@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
-import com.gomo.app.common.ValueObject;
+import com.gomo.app.common.arch.ValueObject;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;

@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gomo.app.common.ApplicationService;
+import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.common.displayorder.OrderChangeable;
 import com.gomo.app.common.displayorder.OrderChanger;
 import com.gomo.app.common.displayorder.OrderUpdateOrderChangeableCommand;

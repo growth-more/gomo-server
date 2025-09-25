@@ -1,0 +1,65 @@
+package com.gomo.app.core.quest.application.usecase;
+
+import static org.mockito.Mockito.*;
+
+import java.util.List;
+import java.util.UUID;
+
+import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.gomo.app.common.displayorder.OrderChanger;
+import com.gomo.app.common.displayorder.UpdatedOrderDto;
+import com.gomo.app.core.quest.application.port.command.OrderUpdateRepeatQuestCommand;
+import com.gomo.app.core.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.domain.model.RepeatQuest;
+import com.gomo.app.core.quest.domain.repository.RepeatQuestRepository;
+import com.gomo.app.core.quest.fixture.RepeatQuestFixture;
+
+@DisplayName("[Application unit]: 반복 퀘스트 정렬 순서 변경 테스트")
+@ExtendWith(MockitoExtension.class)
+public class OrderUpdateRepeatQuestUseCaseTest {
+
+	@InjectMocks
+	private OrderUpdateRepeatQuestUseCase sut;
+
+	@Mock
+	private RepeatQuestRepository repeatQuestRepository;
+
+	@DisplayName("반복 퀘스트의 정렬 순서를 변경한다.")
+	@Test
+	void update_repeat_quest_display_order() {
+		doReturn(getRepeatQuests()).when(repeatQuestRepository).findRepeatQuestsByQuestType(any(), any());
+
+		try (MockedStatic<OrderChanger> mockedOrderChanger = mockStatic(OrderChanger.class)) {
+			sut.update(
+				OrderUpdateRepeatQuestCommand.of(
+					UUID.randomUUID(),
+					QuestType.DAILY.name(),
+					List.of(
+						UpdatedOrderDto.of(UUID.randomUUID(), 1),
+						UpdatedOrderDto.of(UUID.randomUUID(), 2),
+						UpdatedOrderDto.of(UUID.randomUUID(), 3)
+					)
+				)
+			);
+
+			verify(repeatQuestRepository, times(1)).findRepeatQuestsByQuestType(any(), any());
+			mockedOrderChanger.verify(() -> OrderChanger.change(any()), times(1));
+		}
+	}
+
+	private static @NotNull List<RepeatQuest> getRepeatQuests() {
+		return List.of(
+			RepeatQuestFixture.repeatQuest(1),
+			RepeatQuestFixture.repeatQuest(2),
+			RepeatQuestFixture.repeatQuest(3)
+		);
+	}
+}

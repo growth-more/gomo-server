@@ -4,8 +4,8 @@ import static com.gomo.app.core.interest.exception.code.InterestRelationErrorCod
 
 import java.util.UUID;
 
-import com.gomo.app.common.Authorizable;
-import com.gomo.app.common.BaseAudit;
+import com.gomo.app.common.arch.Authorizable;
+import com.gomo.app.common.jpa.BaseAudit;
 import com.gomo.app.core.interest.exception.InterestRelationAccessDeniedException;
 
 import jakarta.persistence.AttributeOverride;
@@ -41,7 +41,8 @@ public class InterestRelation extends BaseAudit implements Authorizable {
 	})
 	private ChildInterestId childInterestId;
 
-	protected InterestRelation() {}
+	protected InterestRelation() {
+	}
 
 	private InterestRelation(
 		InterestRelationId id,
@@ -82,7 +83,7 @@ public class InterestRelation extends BaseAudit implements Authorizable {
 
 	@Override
 	public void validateAuthority(UUID accessorId) {
-		if(!accessorId.equals(registrantId.getId())) {
+		if (!accessorId.equals(registrantId.getId())) {
 			throw new InterestRelationAccessDeniedException(ACCESS_DENIED);
 		}
 	}

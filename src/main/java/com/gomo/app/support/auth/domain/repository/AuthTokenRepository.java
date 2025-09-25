@@ -3,9 +3,10 @@ package com.gomo.app.support.auth.domain.repository;
 import java.util.UUID;
 
 public interface AuthTokenRepository {
-	void setRefreshToken(UUID memberId, String refreshToken);
 
-	String getRefreshToken(UUID memberId);
+	void setRefreshToken(UUID principalId, String refreshToken);
 
-	void deleteRefreshToken(UUID memberId);
+	String getRefreshToken(UUID principalId);
+
+	void deleteRefreshToken(UUID principalId);
 }

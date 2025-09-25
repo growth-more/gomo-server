@@ -1,6 +1,6 @@
 package com.gomo.app.core.quest.domain.model;
 
-import com.gomo.app.common.ValueObject;
+import com.gomo.app.common.arch.ValueObject;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

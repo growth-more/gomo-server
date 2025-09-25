@@ -2,7 +2,7 @@ package com.gomo.app.core.member.application.usecase;
 
 import java.util.UUID;
 
-import com.gomo.app.common.ApplicationService;
+import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.core.member.application.port.ReadMemberPortIn;
 import com.gomo.app.core.member.application.port.dto.MemberDto;
 import com.gomo.app.core.member.domain.model.Member;
@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @ApplicationService
-public class ReadMemberUseCase implements ReadMemberPortIn {
+class ReadMemberUseCase implements ReadMemberPortIn {
 
 	private final MemberService memberService;
 	private final PointWalletService pointWalletService;

@@ -2,7 +2,7 @@ package com.gomo.app.core.streak.application;
 
 import java.util.UUID;
 
-import com.gomo.app.common.ApplicationService;
+import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.core.streak.domain.model.Achiever;
 import com.gomo.app.core.streak.domain.model.AchieverId;
 import com.gomo.app.core.streak.domain.service.AchieverService;

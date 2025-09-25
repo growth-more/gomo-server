@@ -2,7 +2,7 @@ package com.gomo.app.core.interest.domain.service;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.gomo.app.common.DomainService;
+import com.gomo.app.common.arch.DomainService;
 import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.common.displayorder.DisplayOrder;
 import com.gomo.app.core.interest.domain.model.Interest;

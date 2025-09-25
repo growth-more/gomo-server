@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.gomo.app.common.ApplicationService;
+import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.core.streak.domain.model.AchieverId;
 import com.gomo.app.core.streak.domain.model.StreakType;
 import com.gomo.app.core.streak.domain.service.StreakService;

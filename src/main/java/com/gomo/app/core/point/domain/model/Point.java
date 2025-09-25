@@ -2,7 +2,7 @@ package com.gomo.app.core.point.domain.model;
 
 import java.time.LocalDateTime;
 
-import com.gomo.app.common.BaseAudit;
+import com.gomo.app.common.jpa.BaseAudit;
 import com.gomo.app.core.point.exception.PointConstraintViolationException;
 import com.gomo.app.core.point.exception.code.PointErrorCode;
 
@@ -38,7 +38,8 @@ public class Point extends BaseAudit {
 	private String description;
 	private LocalDateTime transactionDateTime;
 
-	protected Point() {}
+	protected Point() {
+	}
 
 	private Point(
 		PointId id,
@@ -72,7 +73,7 @@ public class Point extends BaseAudit {
 	}
 
 	private void ensureAmountNotNegative(int amount) {
-		if(amount < 0) {
+		if (amount < 0) {
 			throw new PointConstraintViolationException(PointErrorCode.NEGATIVE);
 		}
 	}

@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
-import com.gomo.app.common.ApplicationService;
+import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.core.member.application.port.ReadActiveMemberPortIn;
 import com.gomo.app.core.member.application.port.dto.ActiveMemberDto;
 import com.gomo.app.core.member.domain.model.ActivateStatus;

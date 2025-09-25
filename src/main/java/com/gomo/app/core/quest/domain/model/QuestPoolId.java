@@ -3,7 +3,7 @@ package com.gomo.app.core.quest.domain.model;
 import java.io.Serializable;
 import java.util.UUID;
 
-import com.gomo.app.common.ValueObject;
+import com.gomo.app.common.arch.ValueObject;
 
 import jakarta.persistence.Embeddable;
 import lombok.EqualsAndHashCode;

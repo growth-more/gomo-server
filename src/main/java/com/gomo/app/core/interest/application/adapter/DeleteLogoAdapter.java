@@ -1,6 +1,6 @@
 package com.gomo.app.core.interest.application.adapter;
 
-import com.gomo.app.common.Adapter;
+import com.gomo.app.common.arch.Adapter;
 import com.gomo.app.core.interest.application.port.DeleteLogoPortOut;
 import com.gomo.app.support.image.port.DeleteImagePortIn;
 

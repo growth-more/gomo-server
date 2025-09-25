@@ -37,7 +37,7 @@ public class RedisConfiguration {
 	}
 
 	@Bean
-	@Qualifier("emailAuth")
+	@Qualifier("authCode")
 	LettuceConnectionFactory redisConnectionFactoryEmail() {
 		return createConnectionFactory(1);
 	}
@@ -49,8 +49,8 @@ public class RedisConfiguration {
 	}
 
 	@Bean
-	@Qualifier("emailAuthRedisTemplate")
-	public RedisTemplate<String, Object> emailAuthRedisTemplate(@Qualifier("emailAuth") RedisConnectionFactory emailAuthRedisConnectionFactory) {
+	@Qualifier("authCodeRedisTemplate")
+	public RedisTemplate<String, Object> authCodeRedisTemplate(@Qualifier("authCode") RedisConnectionFactory emailAuthRedisConnectionFactory) {
 		RedisTemplate<String, Object> template = new RedisTemplate<>();
 		template.setConnectionFactory(emailAuthRedisConnectionFactory);
 		template.setKeySerializer(new StringRedisSerializer());

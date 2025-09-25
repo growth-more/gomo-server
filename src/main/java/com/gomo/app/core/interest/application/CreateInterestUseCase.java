@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gomo.app.common.ApplicationService;
+import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.core.interest.application.port.ReadRegistrantPortOut;
 import com.gomo.app.core.interest.application.port.UploadLogoPortOut;

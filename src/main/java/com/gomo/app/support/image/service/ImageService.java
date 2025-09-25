@@ -11,10 +11,11 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.gomo.app.common.ApplicationService;
+import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.support.image.exception.ImageErrorCode;
 import com.gomo.app.support.image.exception.ImageProcessingException;
 import com.gomo.app.support.image.port.DeleteImagePortIn;
+import com.gomo.app.support.image.port.ReadImagePortIn;
 import com.gomo.app.support.image.port.UploadImagePortIn;
 import com.gomo.app.support.image.port.dto.UploadImageDto;
 
@@ -29,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @ApplicationService
-public class ImageService implements UploadImagePortIn, DeleteImagePortIn {
+class ImageService implements UploadImagePortIn, ReadImagePortIn, DeleteImagePortIn {
 
 	private final MinioClient minioClient;
 
@@ -38,21 +39,6 @@ public class ImageService implements UploadImagePortIn, DeleteImagePortIn {
 
 	@Value("${minio.bucket-name}")
 	private String bucketName;
-
-	public Set<String> readAllImages() {
-		Set<String> images = new HashSet<>();
-		try {
-			Iterable<Result<Item>> results = minioClient.listObjects(
-				ListObjectsArgs.builder().bucket(bucketName).recursive(true).build()
-			);
-			for (Result<Item> result : results) {
-				images.add(getImageUrl(result.get().objectName()));
-			}
-		} catch (MinioException | IOException | NoSuchAlgorithmException | InvalidKeyException e) {
-			throw new ImageProcessingException(ImageErrorCode.READ_FAIL, e);
-		}
-		return images;
-	}
 
 	@Override
 	public UploadImageDto upload(MultipartFile file) {
@@ -75,6 +61,22 @@ public class ImageService implements UploadImagePortIn, DeleteImagePortIn {
 		}
 
 		return UploadImageDto.of(String.format("%s/%s/%s", endpoint, bucketName, fileName));
+	}
+
+	@Override
+	public Set<String> readAllImages() {
+		Set<String> images = new HashSet<>();
+		try {
+			Iterable<Result<Item>> results = minioClient.listObjects(
+				ListObjectsArgs.builder().bucket(bucketName).recursive(true).build()
+			);
+			for (Result<Item> result : results) {
+				images.add(getImageUrl(result.get().objectName()));
+			}
+		} catch (MinioException | IOException | NoSuchAlgorithmException | InvalidKeyException e) {
+			throw new ImageProcessingException(ImageErrorCode.READ_FAIL, e);
+		}
+		return images;
 	}
 
 	public void delete(String imageUrl) {

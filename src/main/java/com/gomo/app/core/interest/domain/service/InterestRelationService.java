@@ -11,7 +11,7 @@ import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gomo.app.common.DomainService;
+import com.gomo.app.common.arch.DomainService;
 import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.core.interest.domain.model.ChildInterestId;
 import com.gomo.app.core.interest.domain.model.Interest;

@@ -13,7 +13,7 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import com.gomo.app.auth.documentation.snippet.CreateEmailAuthCodeSnippet;
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.core.member.exception.code.EmailErrorCode;
-import com.gomo.app.support.auth.presentation.request.CreateEmailAuthCodeRequest;
+import com.gomo.app.core.member.presentation.request.CreateEmailCodeRequest;
 
 @DisplayName("[Presentation Documentation]: 이메일 인증 코드 테스트")
 public class CreateEmailAuthCodeDocumentationTest extends DocumentationTestBase {
@@ -29,7 +29,7 @@ public class CreateEmailAuthCodeDocumentationTest extends DocumentationTestBase 
 		given(this.specification).filter(filter)
 			.log().all()
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.body(CreateEmailAuthCodeRequest.of("test@test.com"))
+			.body(CreateEmailCodeRequest.of("test@test.com"))
 			.when()
 			.post(EMAIL_AUTH_URL)
 			.then()
@@ -41,7 +41,7 @@ public class CreateEmailAuthCodeDocumentationTest extends DocumentationTestBase 
 	void create_auth_code_with_duplicated_email() {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.body(CreateEmailAuthCodeRequest.of(super.sessionEmail))
+			.body(CreateEmailCodeRequest.of(super.sessionEmail))
 			.when()
 			.post(EMAIL_AUTH_URL)
 			.then()

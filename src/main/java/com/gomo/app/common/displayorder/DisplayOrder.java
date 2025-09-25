@@ -1,6 +1,6 @@
 package com.gomo.app.common.displayorder;
 
-import com.gomo.app.common.ValueObject;
+import com.gomo.app.common.arch.ValueObject;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;

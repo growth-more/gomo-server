@@ -6,8 +6,8 @@ import java.util.UUID;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.gomo.app.common.ApplicationService;
-import com.gomo.app.common.dto.PageRequest;
+import com.gomo.app.common.arch.ApplicationService;
+import com.gomo.app.common.web.PageRequest;
 import com.gomo.app.core.point.domain.repository.PointRepository;
 import com.gomo.app.core.point.presentation.response.ListPointResponse;
 import com.gomo.app.core.point.presentation.response.ReadPointResponse;

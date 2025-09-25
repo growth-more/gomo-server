@@ -3,11 +3,11 @@ package com.gomo.app.core.quest.domain.model;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.gomo.app.common.Authorizable;
-import com.gomo.app.common.BaseAudit;
-import com.gomo.app.common.util.UUIDGenerator;
+import com.gomo.app.common.arch.Authorizable;
 import com.gomo.app.common.displayorder.DisplayOrder;
 import com.gomo.app.common.displayorder.OrderChangeable;
+import com.gomo.app.common.jpa.BaseAudit;
+import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.core.quest.exception.RepeatQuestAccessDeniedException;
 import com.gomo.app.core.quest.exception.code.RepeatQuestErrorCode;
 

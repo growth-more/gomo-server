@@ -3,7 +3,7 @@ package com.gomo.app.core.member.domain.service;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.gomo.app.common.DomainService;
+import com.gomo.app.common.arch.DomainService;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;

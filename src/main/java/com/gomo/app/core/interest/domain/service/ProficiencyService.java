@@ -9,7 +9,7 @@ import java.util.Set;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gomo.app.common.DomainService;
+import com.gomo.app.common.arch.DomainService;
 import com.gomo.app.core.interest.domain.model.Interest;
 import com.gomo.app.core.interest.domain.model.InterestId;
 import com.gomo.app.core.interest.domain.model.InterestRelation;

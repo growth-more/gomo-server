@@ -7,8 +7,8 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.gomo.app.common.converter.OctetStreamReadMsgConverter;
-import com.gomo.app.support.auth.AuthArgumentResolver;
+import com.gomo.app.common.web.OctetStreamReadMsgConverter;
+import com.gomo.app.support.auth.presentation.security.AuthArgumentResolver;
 
 import lombok.RequiredArgsConstructor;
 

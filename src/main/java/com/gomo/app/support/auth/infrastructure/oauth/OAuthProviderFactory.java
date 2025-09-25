@@ -4,6 +4,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
+import com.gomo.app.support.auth.infrastructure.oauth.provider.OAuthProvider;
+
 import lombok.RequiredArgsConstructor;
 
 @Component

@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.gomo.app.common.ApplicationService;
+import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.core.interest.application.port.dto.InterestDto;
 import com.gomo.app.core.interest.application.port.dto.InterestNetworkDto;
 import com.gomo.app.core.interest.application.port.dto.InterestRelationDto;

@@ -1,6 +1,6 @@
 package com.gomo.app.core.streak.domain.model;
 
-import com.gomo.app.common.BaseAudit;
+import com.gomo.app.common.jpa.BaseAudit;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;

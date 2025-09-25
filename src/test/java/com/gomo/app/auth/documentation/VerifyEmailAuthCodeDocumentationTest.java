@@ -15,10 +15,10 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.auth.documentation.snippet.VerifyEmailAuthCodeSnippet;
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.core.member.domain.repository.EmailAuthCodeRepository;
 import com.gomo.app.core.member.exception.code.MemberErrorCode;
-import com.gomo.app.support.auth.presentation.EmailAuthCodeApi;
-import com.gomo.app.support.auth.presentation.request.CreateEmailAuthCodeRequest;
+import com.gomo.app.core.member.presentation.EmailCodeApi;
+import com.gomo.app.core.member.presentation.request.CreateEmailCodeRequest;
+import com.gomo.app.support.auth.domain.repository.AuthCodeRepository;
 
 @DisplayName("[Presentation Documentation]: 이메일 인증 코드 테스트")
 public class VerifyEmailAuthCodeDocumentationTest extends DocumentationTestBase {
@@ -31,22 +31,22 @@ public class VerifyEmailAuthCodeDocumentationTest extends DocumentationTestBase 
 	private static final String EMAIL = "test@test.com";
 
 	@Autowired
-	EmailAuthCodeApi emailAuthCodeApi;
+	EmailCodeApi emailCodeApi;
 
 	@Autowired
-	EmailAuthCodeRepository emailAuthCodeRepository;
+	AuthCodeRepository authCodeRepository;
 
 	private String AUTHCODE = "";
 
 	@BeforeEach
 	void setup() {
 		createAuthCode(EMAIL);
-		AUTHCODE = emailAuthCodeRepository.findByEmail(EMAIL).get();
+		AUTHCODE = authCodeRepository.findByEmail(EMAIL).get();
 	}
 
 	@AfterEach
 	void teardown() {
-		emailAuthCodeRepository.delete(EMAIL);
+		authCodeRepository.delete(EMAIL);
 	}
 
 	@DisplayName("사용자가 올바른 인증코드를 이용하여 검증한다.")
@@ -81,7 +81,7 @@ public class VerifyEmailAuthCodeDocumentationTest extends DocumentationTestBase 
 	}
 
 	private void createAuthCode(String email) {
-		emailAuthCodeApi.createEmailAuthCode(CreateEmailAuthCodeRequest.of(email));
+		emailCodeApi.create(CreateEmailCodeRequest.of(email));
 	}
 
 }

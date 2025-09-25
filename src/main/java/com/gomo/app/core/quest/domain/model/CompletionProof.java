@@ -2,7 +2,7 @@ package com.gomo.app.core.quest.domain.model;
 
 import java.util.Objects;
 
-import com.gomo.app.common.ValueObject;
+import com.gomo.app.common.arch.ValueObject;
 import com.gomo.app.core.quest.exception.CompletionProofConstraintViolationException;
 import com.gomo.app.core.quest.exception.code.CompletionProofErrorCode;
 

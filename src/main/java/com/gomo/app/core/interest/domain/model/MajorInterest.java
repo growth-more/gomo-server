@@ -4,10 +4,10 @@ import static com.gomo.app.core.interest.exception.code.MajorInterestErrorCode.*
 
 import java.util.UUID;
 
-import com.gomo.app.common.Authorizable;
-import com.gomo.app.common.BaseAudit;
+import com.gomo.app.common.arch.Authorizable;
 import com.gomo.app.common.displayorder.DisplayOrder;
 import com.gomo.app.common.displayorder.OrderChangeable;
+import com.gomo.app.common.jpa.BaseAudit;
 import com.gomo.app.core.interest.exception.MajorInterestAccessDeniedException;
 
 import jakarta.persistence.AttributeOverride;

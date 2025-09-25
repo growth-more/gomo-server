@@ -2,9 +2,9 @@ package com.gomo.app.core.survey.domain.model;
 
 import java.util.UUID;
 
-import com.gomo.app.common.BaseAudit;
 import com.gomo.app.common.displayorder.DisplayOrder;
 import com.gomo.app.common.displayorder.OrderChangeable;
+import com.gomo.app.common.jpa.BaseAudit;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;

@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.gomo.app.common.DomainService;
+import com.gomo.app.common.arch.DomainService;
 import com.gomo.app.common.util.DateRangeCalculator;
 import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.common.displayorder.DisplayOrder;

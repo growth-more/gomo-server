@@ -2,7 +2,7 @@ package com.gomo.app.core.interest.domain.model;
 
 import java.util.regex.Pattern;
 
-import com.gomo.app.common.ValueObject;
+import com.gomo.app.common.arch.ValueObject;
 import com.gomo.app.core.interest.exception.InterestNameConstraintViolationException;
 import com.gomo.app.core.interest.exception.code.InterestNameErrorCode;
 

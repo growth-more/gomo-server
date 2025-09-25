@@ -1,6 +1,6 @@
 package com.gomo.app.support.llm.application;
 
-import com.gomo.app.common.ApplicationService;
+import com.gomo.app.common.arch.ApplicationService;
 
 @ApplicationService
 class GeminiGenerateTextUseCase implements GenerateTextPortIn {

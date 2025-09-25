@@ -1,6 +1,6 @@
 package com.gomo.app.core.quest.domain.service;
 
-import com.gomo.app.common.DomainService;
+import com.gomo.app.common.arch.DomainService;
 import com.gomo.app.core.quest.domain.model.AssignQuestId;
 import com.gomo.app.core.quest.domain.model.PointReward;
 import com.gomo.app.core.quest.domain.model.QuestReward;

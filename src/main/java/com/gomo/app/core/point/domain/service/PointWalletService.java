@@ -2,7 +2,7 @@ package com.gomo.app.core.point.domain.service;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gomo.app.common.DomainService;
+import com.gomo.app.common.arch.DomainService;
 import com.gomo.app.core.point.domain.model.Balance;
 import com.gomo.app.core.point.domain.model.PointWallet;
 import com.gomo.app.core.point.domain.model.TransactionType;

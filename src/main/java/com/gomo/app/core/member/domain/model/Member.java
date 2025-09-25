@@ -3,8 +3,9 @@ package com.gomo.app.core.member.domain.model;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.gomo.app.common.LogicalDeleteBaseAudit;
-import com.gomo.app.core.member.domain.service.PasswordService;
+import com.gomo.app.common.jpa.LogicalDeleteBaseAudit;
+import com.gomo.app.core.member.exception.ActivateStatusException;
+import com.gomo.app.core.member.exception.code.ActivateStatusErrorCode;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
@@ -73,23 +74,9 @@ public class Member extends LogicalDeleteBaseAudit {
 	protected Member() {
 	}
 
-	public Member(
-		MemberId id,
-		Email email,
-		Password password,
-		Handle handle,
-		MemberName name,
-		Motto motto,
-		ProfileImage profileImage,
-		ProfileBanner profileBanner,
-		QuestProperty questProperty,
-		LoginProvider loginProvider,
-		RoleType roleType,
-		SubscriptionPlan subscriptionPlan,
-		ActivateStatus activateStatus,
-		LocalDateTime signUpDateTime,
-		LocalDateTime lastLoginDateTime
-	) {
+	public Member(MemberId id, Email email, Password password, Handle handle, MemberName name, Motto motto, ProfileImage profileImage, ProfileBanner profileBanner,
+		QuestProperty questProperty, LoginProvider loginProvider, RoleType roleType, SubscriptionPlan subscriptionPlan, ActivateStatus activateStatus,
+		LocalDateTime signUpDateTime, LocalDateTime lastLoginDateTime) {
 		this.id = id;
 		this.email = email;
 		this.password = password;
@@ -111,8 +98,12 @@ public class Member extends LogicalDeleteBaseAudit {
 		return this.id.getId();
 	}
 
-	public void updatePassword(Password rawNew, PasswordService passwordService) {
-		this.password = rawNew.encodedWith(passwordService);
+	public String password() {
+		return this.password.getPassword();
+	}
+
+	public void updatePassword(Password encoded) {
+		this.password = encoded;
 	}
 
 	public void updateHandle(String handle) {
@@ -161,23 +152,15 @@ public class Member extends LogicalDeleteBaseAudit {
 		this.lastLoginDateTime = lastLoginDateTime;
 	}
 
-	public void login(PasswordService passwordService, Password inputPassword) {
-		this.password.verifyWith(passwordService, inputPassword);
+	public void validateActive() {
+		switch (this.activateStatus) {
+			case DELETED -> throw new ActivateStatusException(ActivateStatusErrorCode.DELETED);
+			case BLOCKED -> throw new ActivateStatusException(ActivateStatusErrorCode.BLOCKED);
+		}
 	}
 
-	public static Member of(
-		MemberId id,
-		Email email,
-		Password password,
-		Handle handle,
-		MemberName memberName,
-		Motto motto,
-		LoginProvider loginProvider
-	) {
-		return new Member(id, email, password, handle, memberName, motto, ProfileImage.createDefault(),
-			ProfileBanner.createDefault(), QuestProperty.createDefault(),
-			loginProvider,
-			RoleType.ROLE_MEMBER, SubscriptionPlan.FREE, ActivateStatus.ACTIVE, LocalDateTime.now(), null
-		);
+	public static Member of(MemberId id, Email email, Password password, Handle handle, MemberName memberName, Motto motto, LoginProvider loginProvider) {
+		return new Member(id, email, password, handle, memberName, motto, ProfileImage.createDefault(), ProfileBanner.createDefault(), QuestProperty.createDefault(),
+			loginProvider, RoleType.ROLE_MEMBER, SubscriptionPlan.FREE, ActivateStatus.ACTIVE, LocalDateTime.now(), null);
 	}
 }

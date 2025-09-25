@@ -13,38 +13,26 @@ public class CreateMemberRequest {
 	private String name;
 	private String motto;
 	private String loginProvider;
+	private String temporaryToken;
 
 	private CreateMemberRequest() {
 	}
 
-	private CreateMemberRequest(
-		String email,
-		String rawPassword,
-		String handle,
-		String name,
-		String motto,
-		String loginProvider
-	) {
+	private CreateMemberRequest(String email, String rawPassword, String handle, String name, String motto, String loginProvider, String temporaryToken) {
 		this.email = email;
 		this.rawPassword = rawPassword;
 		this.handle = handle;
 		this.name = name;
 		this.motto = motto;
 		this.loginProvider = loginProvider;
+		this.temporaryToken = temporaryToken;
 	}
 
-	public static CreateMemberRequest of(
-		String email,
-		String rawPassword,
-		String handle,
-		String name,
-		String motto,
-		String loginProvider
-	) {
-		return new CreateMemberRequest(email, rawPassword, handle, name, motto, loginProvider);
+	public static CreateMemberRequest of(String email, String rawPassword, String handle, String name, String motto, String loginProvider, String temporaryToken) {
+		return new CreateMemberRequest(email, rawPassword, handle, name, motto, loginProvider, temporaryToken);
 	}
 
 	public CreateMemberCommand toCommand() {
-		return CreateMemberCommand.of(email, rawPassword, handle, name, motto, loginProvider);
+		return CreateMemberCommand.of(email, rawPassword, handle, name, motto, loginProvider, temporaryToken);
 	}
 }

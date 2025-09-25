@@ -3,7 +3,7 @@ package com.gomo.app.core.interest.application;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.gomo.app.common.ApplicationService;
+import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.core.interest.application.port.UploadLogoPortOut;
 import com.gomo.app.core.interest.application.port.dto.LogoDto;
 import com.gomo.app.core.interest.domain.model.Interest;

@@ -3,7 +3,7 @@ package com.gomo.app.core.member.domain.model;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-import com.gomo.app.common.ValueObject;
+import com.gomo.app.common.arch.ValueObject;
 import com.gomo.app.core.member.exception.HandleConstraintViolationException;
 import com.gomo.app.core.member.exception.code.HandleErrorCode;
 

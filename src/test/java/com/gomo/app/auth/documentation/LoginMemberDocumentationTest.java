@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.auth.documentation.snippet.LoginMemberSnippet;
-import com.gomo.app.support.auth.presentation.request.LoginMemberRequest;
 import com.gomo.app.common.DocumentationTestBase;
+import com.gomo.app.support.auth.presentation.request.LoginRequest;
 
 @DisplayName("[Presentation Documentation]: 회원 로그인 테스트")
 public class LoginMemberDocumentationTest extends DocumentationTestBase {
@@ -29,7 +29,7 @@ public class LoginMemberDocumentationTest extends DocumentationTestBase {
 	void login_member() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.body(LoginMemberRequest.of(EMAIL, PASSWORD))
+			.body(LoginRequest.of(EMAIL, PASSWORD))
 			.when()
 			.post(LOGIN_URL)
 			.then()

@@ -3,7 +3,7 @@ package com.gomo.app.core.quest.application.adapter;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.gomo.app.common.Adapter;
+import com.gomo.app.common.arch.Adapter;
 import com.gomo.app.core.member.application.port.ReadActiveMemberPortIn;
 import com.gomo.app.core.quest.application.port.ReadActiveParticipantPortOut;
 import com.gomo.app.core.quest.application.port.dto.ActiveParticipantDto;

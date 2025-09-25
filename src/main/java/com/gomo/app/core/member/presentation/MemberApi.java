@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.gomo.app.common.Presentation;
-import com.gomo.app.support.auth.Auth;
-import com.gomo.app.support.auth.AuthInfo;
-import com.gomo.app.core.member.application.CreateMemberUseCase;
-import com.gomo.app.core.member.application.DeleteMemberUseCase;
-import com.gomo.app.core.member.application.UpdateMemberUseCase;
+import com.gomo.app.common.arch.Presentation;
+import com.gomo.app.support.auth.presentation.security.Auth;
+import com.gomo.app.support.auth.presentation.security.AuthInfo;
+import com.gomo.app.core.member.application.usecase.CreateMemberUseCase;
+import com.gomo.app.core.member.application.usecase.DeleteMemberUseCase;
+import com.gomo.app.core.member.application.usecase.UpdateMemberUseCase;
 import com.gomo.app.core.member.application.port.ReadMemberPortIn;
 import com.gomo.app.core.member.application.port.dto.CreateMemberDto;
 import com.gomo.app.core.member.application.port.dto.MemberDto;

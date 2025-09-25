@@ -1,12 +1,8 @@
 package com.gomo.app.core.member.domain.model;
 
-import static com.gomo.app.core.member.exception.code.MemberErrorCode.*;
-
 import java.util.regex.Pattern;
 
-import com.gomo.app.common.ValueObject;
-import com.gomo.app.core.member.domain.service.PasswordService;
-import com.gomo.app.core.member.exception.MemberAuthenticationFailedException;
+import com.gomo.app.common.arch.ValueObject;
 import com.gomo.app.core.member.exception.PasswordConstraintViolationException;
 import com.gomo.app.core.member.exception.code.PasswordErrorCode;
 
@@ -24,6 +20,7 @@ public class Password {
 		"^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!])[A-Za-z\\d@#$%^&+=!]+$");
 
 	private String password;
+	// todo jhl221123: raw 를 상태로 전환해야합니다.
 
 	protected Password() {
 	}
@@ -47,17 +44,6 @@ public class Password {
 
 	public static Password forOAuth(String memberId) {
 		return new Password("OAuth_" + memberId, false);
-	}
-
-	public Password encodedWith(PasswordService passwordService) {
-		String encodedPassword = passwordService.encode(this.password);
-		return ofEncoded(encodedPassword);
-	}
-
-	public void verifyWith(PasswordService passwordService, Password inputPassword) {
-		if (!passwordService.matches(inputPassword.getPassword(), this.password)) {
-			throw new MemberAuthenticationFailedException(AUTHENTICATION_FAILED);
-		}
 	}
 
 	private static void ensureNotBlank(String password) {

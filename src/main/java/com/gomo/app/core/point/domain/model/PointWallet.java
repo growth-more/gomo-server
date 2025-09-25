@@ -1,6 +1,6 @@
 package com.gomo.app.core.point.domain.model;
 
-import com.gomo.app.common.BaseAudit;
+import com.gomo.app.common.jpa.BaseAudit;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
@@ -29,7 +29,8 @@ public class PointWallet extends BaseAudit {
 	})
 	private Balance balance;
 
-	protected PointWallet() {}
+	protected PointWallet() {
+	}
 
 	private PointWallet(
 		PointWalletId id,

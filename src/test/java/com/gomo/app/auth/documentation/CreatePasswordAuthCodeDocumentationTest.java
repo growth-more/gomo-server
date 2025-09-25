@@ -11,9 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.auth.documentation.snippet.CreatePasswordAuthCodeSnippet;
-import com.gomo.app.support.auth.presentation.request.CreateEmailAuthCodeRequest;
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.core.member.exception.code.MemberErrorCode;
+import com.gomo.app.core.member.presentation.request.CreateEmailCodeRequest;
 
 @DisplayName("[Presentation Documentation]: 이메일 인증 코드 테스트")
 public class CreatePasswordAuthCodeDocumentationTest extends DocumentationTestBase {
@@ -29,7 +29,7 @@ public class CreatePasswordAuthCodeDocumentationTest extends DocumentationTestBa
 		given(this.specification).filter(filter)
 			.log().all()
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.body(CreateEmailAuthCodeRequest.of(super.sessionEmail))
+			.body(CreateEmailCodeRequest.of(super.sessionEmail))
 			.when()
 			.post(EMAIL_AUTH_URL)
 			.then()
@@ -41,7 +41,7 @@ public class CreatePasswordAuthCodeDocumentationTest extends DocumentationTestBa
 	void create_auth_code_with_nonexistent_email() {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.body(CreateEmailAuthCodeRequest.of("nonexistent@naver.com"))
+			.body(CreateEmailCodeRequest.of("nonexistent@naver.com"))
 			.when()
 			.post(EMAIL_AUTH_URL)
 			.then()

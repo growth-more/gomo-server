@@ -2,7 +2,7 @@ package com.gomo.app.core.survey.domain.model;
 
 import java.util.regex.Pattern;
 
-import com.gomo.app.common.ValueObject;
+import com.gomo.app.common.arch.ValueObject;
 import com.gomo.app.core.survey.exception.SurveyResultConstraintViolationException;
 import com.gomo.app.core.survey.exception.SurveyResultErrorCode;
 

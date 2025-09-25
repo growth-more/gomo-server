@@ -2,7 +2,7 @@ package com.gomo.app.core.interest.application.adapter;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.gomo.app.common.Adapter;
+import com.gomo.app.common.arch.Adapter;
 import com.gomo.app.core.interest.application.port.UploadLogoPortOut;
 import com.gomo.app.core.interest.application.port.dto.LogoDto;
 import com.gomo.app.support.image.port.UploadImagePortIn;

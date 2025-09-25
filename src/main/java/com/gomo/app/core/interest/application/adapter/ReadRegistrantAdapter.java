@@ -2,7 +2,7 @@ package com.gomo.app.core.interest.application.adapter;
 
 import java.util.UUID;
 
-import com.gomo.app.common.Adapter;
+import com.gomo.app.common.arch.Adapter;
 import com.gomo.app.core.interest.application.port.ReadRegistrantPortOut;
 import com.gomo.app.core.interest.application.port.dto.RegistrantDto;
 import com.gomo.app.core.member.application.port.ReadMemberPortIn;

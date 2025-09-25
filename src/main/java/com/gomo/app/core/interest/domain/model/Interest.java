@@ -2,8 +2,8 @@ package com.gomo.app.core.interest.domain.model;
 
 import java.util.UUID;
 
-import com.gomo.app.common.Authorizable;
-import com.gomo.app.common.BaseAudit;
+import com.gomo.app.common.arch.Authorizable;
+import com.gomo.app.common.jpa.BaseAudit;
 import com.gomo.app.core.interest.exception.InterestAccessDeniedException;
 import com.gomo.app.core.interest.exception.code.InterestErrorCode;
 
@@ -42,7 +42,6 @@ public class Interest extends BaseAudit implements Authorizable {
 		@AttributeOverride(name = "url", column = @Column(name = "logo_url")),
 	})
 	private Logo logo;
-
 
 	private String colorCode;
 
@@ -105,7 +104,7 @@ public class Interest extends BaseAudit implements Authorizable {
 
 	@Override
 	public void validateAuthority(UUID accessorId) {
-		if(!accessorId.equals(this.registrantId.getId())) {
+		if (!accessorId.equals(this.registrantId.getId())) {
 			throw new InterestAccessDeniedException(InterestErrorCode.ACCESS_DENIED);
 		}
 	}

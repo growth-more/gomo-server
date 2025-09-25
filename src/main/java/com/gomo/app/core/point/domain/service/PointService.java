@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gomo.app.common.DomainService;
+import com.gomo.app.common.arch.DomainService;
 import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.core.point.domain.model.Point;
 import com.gomo.app.core.point.domain.model.PointId;

@@ -1,6 +1,6 @@
 package com.gomo.app.support.auth.domain.model;
 
-import com.gomo.app.common.ValueObject;
+import com.gomo.app.common.arch.ValueObject;
 
 import lombok.Getter;
 
@@ -10,9 +10,6 @@ public class AuthToken {
 
 	private String accessToken;
 	private String refreshToken;
-
-	protected AuthToken() {
-	}
 
 	private AuthToken(String accessToken, String refreshToken) {
 		this.accessToken = accessToken;

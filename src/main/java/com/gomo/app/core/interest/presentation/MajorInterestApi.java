@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.gomo.app.common.Presentation;
-import com.gomo.app.support.auth.Auth;
-import com.gomo.app.support.auth.AuthInfo;
+import com.gomo.app.common.arch.Presentation;
+import com.gomo.app.support.auth.presentation.security.Auth;
+import com.gomo.app.support.auth.presentation.security.AuthInfo;
 import com.gomo.app.core.interest.application.CreateMajorInterestUseCase;
 import com.gomo.app.core.interest.application.DeleteMajorInterestUseCase;
 import com.gomo.app.core.interest.application.ReadMajorInterestUseCase;

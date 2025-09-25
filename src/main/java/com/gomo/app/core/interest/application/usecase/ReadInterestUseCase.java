@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import com.gomo.app.common.ApplicationService;
+import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.core.interest.application.port.ReadInterestPortIn;
 import com.gomo.app.core.interest.application.port.dto.InterestDto;
 import com.gomo.app.core.interest.domain.model.Interest;

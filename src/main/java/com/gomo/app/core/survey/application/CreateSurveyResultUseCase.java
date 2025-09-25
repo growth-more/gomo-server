@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gomo.app.common.ApplicationService;
+import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.support.logging.AuditLog;
 import com.gomo.app.core.survey.domain.model.RespondentId;
 import com.gomo.app.core.survey.domain.model.SurveyItemId;

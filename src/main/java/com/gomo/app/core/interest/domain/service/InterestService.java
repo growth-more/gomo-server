@@ -1,6 +1,6 @@
 package com.gomo.app.core.interest.domain.service;
 
-import com.gomo.app.common.DomainService;
+import com.gomo.app.common.arch.DomainService;
 import com.gomo.app.core.interest.domain.model.Interest;
 import com.gomo.app.core.interest.domain.model.InterestId;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;

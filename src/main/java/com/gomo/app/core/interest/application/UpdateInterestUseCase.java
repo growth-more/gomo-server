@@ -2,7 +2,7 @@ package com.gomo.app.core.interest.application;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gomo.app.common.ApplicationService;
+import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.core.interest.application.port.command.UpdateInterestCommand;
 import com.gomo.app.core.interest.domain.model.Interest;
 import com.gomo.app.core.interest.domain.model.InterestId;
