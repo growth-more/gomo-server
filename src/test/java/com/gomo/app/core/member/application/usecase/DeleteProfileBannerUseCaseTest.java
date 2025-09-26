@@ -30,7 +30,7 @@ public class DeleteProfileBannerUseCaseTest {
 		Member member = MemberFixture.member();
 		doReturn(member).when(memberService).find(member.getId());
 
-		sut.delete(member.uuid());
+		sut.delete(member.id());
 
 		assertThat(member.getProfileBanner().getUrl()).isEqualTo("DEFAULT_IMAGE");
 	}

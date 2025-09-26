@@ -94,7 +94,7 @@ public class Member extends LogicalDeleteBaseAudit {
 		this.lastLoginDateTime = lastLoginDateTime;
 	}
 
-	public UUID uuid() {
+	public UUID id() {
 		return this.id.getId();
 	}
 

@@ -69,21 +69,21 @@ public class MemberCleanupScheduler {
 	private void deleteMemberAndRelatedData(Member member) {
 
 		// Quest 관련 데이터 삭제
-		assignQuestRepository.deleteAllByParticipantId(ParticipantId.of(member.uuid()));
-		repeatQuestRepository.deleteAllByParticipantId(ParticipantId.of(member.uuid()));
+		assignQuestRepository.deleteAllByParticipantId(ParticipantId.of(member.id()));
+		repeatQuestRepository.deleteAllByParticipantId(ParticipantId.of(member.id()));
 
 		// Interest 관련 데이터 삭제
-		interestRelationRepository.deleteAllByRegistrantId(RegistrantId.of(member.uuid()));
-		majorInterestRepository.deleteAllByRegistrantId(RegistrantId.of(member.uuid()));
-		interestRepository.deleteAllByRegistrantId(RegistrantId.of(member.uuid()));
+		interestRelationRepository.deleteAllByRegistrantId(RegistrantId.of(member.id()));
+		majorInterestRepository.deleteAllByRegistrantId(RegistrantId.of(member.id()));
+		interestRepository.deleteAllByRegistrantId(RegistrantId.of(member.id()));
 
 		// Point 관련 데이터 삭제
-		pointRepository.deleteAllByTransactorId(TransactorId.of(member.uuid()));
-		pointWalletRepository.deletePointWalletByTransactorId(TransactorId.of(member.uuid()));
+		pointRepository.deleteAllByTransactorId(TransactorId.of(member.id()));
+		pointWalletRepository.deletePointWalletByTransactorId(TransactorId.of(member.id()));
 
 		// Streak 관련 데이터 삭제
-		streakRepository.deleteAllByAchieverId(AchieverId.of(member.uuid()));
-		achieverRepository.deleteByAchieverId(AchieverId.of(member.uuid()));
+		streakRepository.deleteAllByAchieverId(AchieverId.of(member.id()));
+		achieverRepository.deleteByAchieverId(AchieverId.of(member.id()));
 
 		// 이미지 파일 삭제
 		deleteImagePortIn.delete(member.getProfileImage().getUrl());

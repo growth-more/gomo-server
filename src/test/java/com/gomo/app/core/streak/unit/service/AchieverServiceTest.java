@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,14 +26,6 @@ public class AchieverServiceTest {
 
 	@Mock
 	private AchieverRepository achieverRepository;
-
-	@DisplayName("성취자를 생성한다.")
-	@Test
-	void create_achiever() {
-		doReturn(AchieverFixture.achiever()).when(achieverRepository).save(any());
-		Achiever result = sut.create(UUID.randomUUID());
-		assertThat(result).isNotNull();
-	}
 
 	@DisplayName("성취자를 조회한다.")
 	@Test

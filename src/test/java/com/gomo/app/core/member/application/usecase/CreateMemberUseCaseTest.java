@@ -20,11 +20,11 @@ import com.gomo.app.core.member.common.fixture.MemberFixture;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
 import com.gomo.app.core.member.domain.service.MemberService;
+import com.gomo.app.core.point.application.port.CreatePointWalletPortIn;
 import com.gomo.app.core.point.domain.model.PointWallet;
 import com.gomo.app.core.point.domain.model.PointWalletId;
 import com.gomo.app.core.point.domain.model.TransactorId;
-import com.gomo.app.core.point.domain.repository.PointWalletRepository;
-import com.gomo.app.core.streak.domain.service.AchieverService;
+import com.gomo.app.core.streak.application.port.CreateAchieverPortIn;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Application unit] : 멤버 생성 테스트")
@@ -34,35 +34,34 @@ public class CreateMemberUseCaseTest {
 	CreateMemberUseCase sut;
 
 	@Mock
-	MemberService memberService;
+	VerifyJwtPortIn verifyJwtPortIn;
 
 	@Mock
 	PasswordAdapter passwordAdapter;
 
 	@Mock
+	MemberService memberService;
+
+	@Mock
 	MemberRepository memberRepository;
 
 	@Mock
-	PointWalletRepository pointWalletRepository;
+	CreatePointWalletPortIn createPointWalletPortIn;
 
 	@Mock
-	AchieverService achieverService;
-
-	@Mock
-	VerifyJwtPortIn verifyJwtPortIn;
+	CreateAchieverPortIn createAchieverPortIn;
 
 	@DisplayName("회원을 등록한다")
 	@Test
 	void create_member() {
 		Member member = MemberFixture.member();
 		PointWalletId pointWalletId = PointWalletId.of(UUID.randomUUID());
-		PointWallet pointWallet = PointWallet.createDefault(pointWalletId, TransactorId.of(member.uuid()));
+		PointWallet pointWallet = PointWallet.createDefault(pointWalletId, TransactorId.of(member.id()));
 
 		doNothing().when(memberService).checkEmailDuplicated(any());
 		doNothing().when(memberService).checkHandleDuplicated(any());
 		doReturn(member.getPassword().getPassword()).when(passwordAdapter).encode(anyString());
 		doReturn(member).when(memberRepository).save(any(Member.class));
-		doReturn(pointWallet).when(pointWalletRepository).save(any(PointWallet.class));
 
 		CreateMemberDto dto = sut.create(CreateMemberCommand.of(
 			member.getEmail().getEmail(),
@@ -74,6 +73,8 @@ public class CreateMemberUseCaseTest {
 			"temporaryToken"
 		));
 
-		assertThat(dto.id()).isEqualTo(member.uuid());
+		assertThat(dto.id()).isEqualTo(member.id());
+		verify(createPointWalletPortIn, times(1)).create(any());
+		verify(createAchieverPortIn, times(1)).create(any());
 	}
 }

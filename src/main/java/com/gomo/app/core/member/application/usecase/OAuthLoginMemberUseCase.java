@@ -29,7 +29,7 @@ public class OAuthLoginMemberUseCase implements OAuthLoginMemberPortIn {
 			member -> {
 				member.validateActive();
 				member.updateLastLoginDateTime(LocalDateTime.now());
-				return member.uuid();
+				return member.id();
 			}
 		);
 	}

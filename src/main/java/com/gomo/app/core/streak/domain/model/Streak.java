@@ -1,6 +1,7 @@
 package com.gomo.app.core.streak.domain.model;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
@@ -30,15 +31,10 @@ public class Streak {
 	private LocalDate filledDate;
 	private int completedQuestCount;
 
-	protected Streak() {}
+	protected Streak() {
+	}
 
-	private Streak(
-		StreakId id,
-		AchieverId achieverId,
-		StreakType streakType,
-		LocalDate filledDate,
-		int completedQuestCount
-	) {
+	private Streak(StreakId id, AchieverId achieverId, StreakType streakType, LocalDate filledDate, int completedQuestCount) {
 		this.id = id;
 		this.achieverId = achieverId;
 		this.streakType = streakType;
@@ -46,14 +42,12 @@ public class Streak {
 		this.completedQuestCount = completedQuestCount;
 	}
 
-	public static Streak of(
-		StreakId id,
-		AchieverId achieverId,
-		StreakType streakType,
-		LocalDate filledDate,
-		int completedQuestCount
-	) {
+	public static Streak of(StreakId id, AchieverId achieverId, StreakType streakType, LocalDate filledDate, int completedQuestCount) {
 		return new Streak(id, achieverId, streakType, filledDate, completedQuestCount);
+	}
+
+	public UUID id() {
+		return this.id.getId();
 	}
 
 	public void increaseCompletedQuestCount() {

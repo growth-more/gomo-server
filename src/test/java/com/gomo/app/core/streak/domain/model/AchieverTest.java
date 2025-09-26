@@ -14,7 +14,7 @@ class AchieverTest {
 	@Test
 	void increase_current_streak_days() {
 		Achiever achiever = AchieverFixture.achiever(0, 0);
-		achiever.adjustStreakDays(true);
+		achiever.updateStreakDays(true);
 		assertThat(achiever.getCurrentStreakDays()).isEqualTo(1);
 	}
 
@@ -22,7 +22,7 @@ class AchieverTest {
 	@Test
 	void update_longest_streak_days() {
 		Achiever achiever = AchieverFixture.achiever(0, 0);
-		achiever.adjustStreakDays(true);
+		achiever.updateStreakDays(true);
 		assertThat(achiever.getLongestStreakDays()).isEqualTo(1);
 	}
 
@@ -30,7 +30,7 @@ class AchieverTest {
 	@Test
 	void initialize_current_streak_days() {
 		Achiever achiever = AchieverFixture.achiever(3, 3);
-		achiever.adjustStreakDays(false);
+		achiever.updateStreakDays(false);
 		assertThat(achiever.getCurrentStreakDays()).isEqualTo(1);
 		assertThat(achiever.getLongestStreakDays()).isEqualTo(3);
 	}

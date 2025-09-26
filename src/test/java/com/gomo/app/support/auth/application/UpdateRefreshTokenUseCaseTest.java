@@ -44,11 +44,11 @@ public class UpdateRefreshTokenUseCaseTest {
 	void renew_refresh_token_successfully() {
 		Member member = MemberFixture.member();
 		AuthToken authToken = AuthToken.of("access", "refresh");
-		AuthTokenDto expected = AuthTokenDto.of(member.uuid(), authToken.getAccessToken(), authToken.getRefreshToken(), 1L);
+		AuthTokenDto expected = AuthTokenDto.of(member.id(), authToken.getAccessToken(), authToken.getRefreshToken(), 1L);
 
-		doReturn(member.uuid().toString()).when(verifyJwtPortIn).extractSubject(anyString());
-		doReturn(REFRESH_TOKEN).when(authTokenRepository).getRefreshToken(member.uuid());
-		doReturn(authToken).when(createAuthTokenInternalService).create(member.uuid());
+		doReturn(member.id().toString()).when(verifyJwtPortIn).extractSubject(anyString());
+		doReturn(REFRESH_TOKEN).when(authTokenRepository).getRefreshToken(member.id());
+		doReturn(authToken).when(createAuthTokenInternalService).create(member.id());
 		doReturn(1L).when(verifyJwtPortIn).extractExpirationTime(anyString());
 
 		AuthTokenDto actual = sut.update(REFRESH_TOKEN);
@@ -68,8 +68,8 @@ public class UpdateRefreshTokenUseCaseTest {
 	@Test
 	void renew_refresh_token_with_wrong_token() {
 		Member member = MemberFixture.member();
-		doReturn(member.uuid().toString()).when(verifyJwtPortIn).extractSubject(anyString());
-		doReturn(REFRESH_TOKEN_WRONG).when(authTokenRepository).getRefreshToken(member.uuid());
+		doReturn(member.id().toString()).when(verifyJwtPortIn).extractSubject(anyString());
+		doReturn(REFRESH_TOKEN_WRONG).when(authTokenRepository).getRefreshToken(member.id());
 
 		assertThatThrownBy(() -> sut.update(REFRESH_TOKEN))
 			.isInstanceOf(AuthenticationFailException.class)

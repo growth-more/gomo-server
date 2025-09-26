@@ -1,5 +1,7 @@
 package com.gomo.app.core.point.domain.model;
 
+import java.util.UUID;
+
 import com.gomo.app.common.jpa.BaseAudit;
 
 import jakarta.persistence.AttributeOverride;
@@ -32,11 +34,7 @@ public class PointWallet extends BaseAudit {
 	protected PointWallet() {
 	}
 
-	private PointWallet(
-		PointWalletId id,
-		TransactorId transactorId,
-		Balance balance
-	) {
+	private PointWallet(PointWalletId id, TransactorId transactorId, Balance balance) {
 		this.id = id;
 		this.transactorId = transactorId;
 		this.balance = balance;
@@ -46,12 +44,12 @@ public class PointWallet extends BaseAudit {
 		return new PointWallet(id, transactorId, Balance.of(0));
 	}
 
-	public static PointWallet of(
-		PointWalletId id,
-		TransactorId transactorId,
-		Balance balance
-	) {
+	public static PointWallet of(PointWalletId id, TransactorId transactorId, Balance balance) {
 		return new PointWallet(id, transactorId, balance);
+	}
+
+	public UUID id() {
+		return this.id.getId();
 	}
 
 	public void adjustBalance(int deltaAmount) {

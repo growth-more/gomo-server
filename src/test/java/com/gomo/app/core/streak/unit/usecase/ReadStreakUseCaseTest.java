@@ -15,11 +15,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.streak.application.ReadStreakUseCase;
+import com.gomo.app.core.streak.application.port.dto.ListStreakDto;
 import com.gomo.app.core.streak.domain.model.Streak;
 import com.gomo.app.core.streak.domain.model.StreakType;
 import com.gomo.app.core.streak.domain.service.StreakService;
 import com.gomo.app.core.streak.fixture.StreakFixture;
-import com.gomo.app.core.streak.presentation.response.ListStreakResponse;
 
 @DisplayName("[Application unit]: 스트릭 조회 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -42,10 +42,10 @@ public class ReadStreakUseCaseTest {
 		doReturn(weeklyStreaks).when(streakService).findAllByStreakType(any(), eq(StreakType.WEEKLY), any(), any());
 		doReturn(monthlyStreaks).when(streakService).findAllByStreakType(any(), eq(StreakType.MONTHLY), any(), any());
 
-		ListStreakResponse actual = sut.findAll(UUID.randomUUID(), LocalDate.of(2025, 2, 6), LocalDate.of(2025, 2, 7));
+		ListStreakDto actual = sut.findAll(UUID.randomUUID(), LocalDate.of(2025, 2, 6), LocalDate.of(2025, 2, 7));
 
-		assertThat(actual.getDailyStreaks().size()).isEqualTo(2);
-		assertThat(actual.getWeeklyStreaks().size()).isEqualTo(1);
-		assertThat(actual.getMonthlyStreaks().size()).isEqualTo(0);
+		assertThat(actual.dailyStreaks().size()).isEqualTo(2);
+		assertThat(actual.weeklyStreaks().size()).isEqualTo(1);
+		assertThat(actual.monthlyStreaks().size()).isEqualTo(0);
 	}
 }

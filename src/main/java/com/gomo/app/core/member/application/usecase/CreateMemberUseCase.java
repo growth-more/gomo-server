@@ -16,11 +16,8 @@ import com.gomo.app.core.member.domain.model.Motto;
 import com.gomo.app.core.member.domain.model.Password;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
 import com.gomo.app.core.member.domain.service.MemberService;
-import com.gomo.app.core.point.domain.model.PointWallet;
-import com.gomo.app.core.point.domain.model.PointWalletId;
-import com.gomo.app.core.point.domain.model.TransactorId;
-import com.gomo.app.core.point.domain.repository.PointWalletRepository;
-import com.gomo.app.core.streak.domain.service.AchieverService;
+import com.gomo.app.core.point.application.port.CreatePointWalletPortIn;
+import com.gomo.app.core.streak.application.port.CreateAchieverPortIn;
 import com.gomo.app.support.logging.AuditLog;
 import com.gomo.app.support.logging.Timed;
 
@@ -33,11 +30,11 @@ import lombok.RequiredArgsConstructor;
 public class CreateMemberUseCase {
 
 	private final VerifyJwtPortIn verifyJwtPortIn;
-	private final MemberService memberService;
 	private final EncodePasswordPortOut encodePasswordPortOut;
+	private final MemberService memberService;
 	private final MemberRepository memberRepository;
-	private final PointWalletRepository pointWalletRepository;
-	private final AchieverService achieverService;
+	private final CreatePointWalletPortIn createPointWalletPortIn;
+	private final CreateAchieverPortIn createAchieverPortIn;
 
 	@AuditLog(action = "CREATE_MEMBER")
 	@Timed
@@ -65,9 +62,8 @@ public class CreateMemberUseCase {
 			LoginProvider.valueOf(command.loginProvider())
 		);
 		Member savedMember = memberRepository.save(member);
-		PointWallet pointWallet = PointWallet.createDefault(PointWalletId.of(UUIDGenerator.generate()), TransactorId.of(savedMember.uuid()));
-		pointWalletRepository.save(pointWallet);
-		achieverService.create(savedMember.uuid());
-		return CreateMemberDto.of(savedMember.uuid());
+		createPointWalletPortIn.create(savedMember.id());
+		createAchieverPortIn.create(savedMember.id());
+		return CreateMemberDto.of(savedMember.id());
 	}
 }

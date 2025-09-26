@@ -7,11 +7,11 @@ import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 
 import com.gomo.app.common.arch.ApplicationService;
+import com.gomo.app.core.streak.application.port.dto.ListStreakDto;
+import com.gomo.app.core.streak.application.port.dto.StreakDto;
 import com.gomo.app.core.streak.domain.model.AchieverId;
 import com.gomo.app.core.streak.domain.model.StreakType;
 import com.gomo.app.core.streak.domain.service.StreakService;
-import com.gomo.app.core.streak.presentation.response.ListStreakResponse;
-import com.gomo.app.core.streak.presentation.response.ReadStreakResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,18 +21,18 @@ public class ReadStreakUseCase {
 
 	private final StreakService streakService;
 
-	public ListStreakResponse findAll(UUID achieverId, LocalDate startDate, LocalDate endDate) {
+	public ListStreakDto findAll(UUID achieverId, LocalDate startDate, LocalDate endDate) {
 		AchieverId targetId = AchieverId.of(achieverId);
-		List<ReadStreakResponse> dailyStreaks = findStreaksByType(targetId, StreakType.DAILY, startDate, endDate);
-		List<ReadStreakResponse> weeklyStreaks = findStreaksByType(targetId, StreakType.WEEKLY, startDate, endDate);
-		List<ReadStreakResponse> monthlyStreaks = findStreaksByType(targetId, StreakType.MONTHLY, startDate, endDate);
-		return ListStreakResponse.of(dailyStreaks, weeklyStreaks, monthlyStreaks);
+		List<StreakDto> dailyStreaks = findStreaksByType(targetId, StreakType.DAILY, startDate, endDate);
+		List<StreakDto> weeklyStreaks = findStreaksByType(targetId, StreakType.WEEKLY, startDate, endDate);
+		List<StreakDto> monthlyStreaks = findStreaksByType(targetId, StreakType.MONTHLY, startDate, endDate);
+		return ListStreakDto.of(dailyStreaks, weeklyStreaks, monthlyStreaks);
 	}
 
 	@NotNull
-	private List<ReadStreakResponse> findStreaksByType(AchieverId achieverId, StreakType streakType, LocalDate startDate, LocalDate endDate) {
+	private List<StreakDto> findStreaksByType(AchieverId achieverId, StreakType streakType, LocalDate startDate, LocalDate endDate) {
 		return streakService.findAllByStreakType(achieverId, streakType, startDate, endDate).stream()
-			.map(ReadStreakResponse::of)
+			.map(StreakDto::from)
 			.toList();
 	}
 }

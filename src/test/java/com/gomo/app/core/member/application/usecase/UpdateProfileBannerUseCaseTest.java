@@ -43,7 +43,7 @@ public class UpdateProfileBannerUseCaseTest {
 		doReturn(member).when(memberService).find(member.getId());
 		doReturn(LogoDto.of(NEW_IMAGE_URL)).when(uploadLogoPortOut).upload(any(MockMultipartFile.class));
 
-		UpdateProfileBannerDto actual = sut.update(member.uuid(), request);
+		UpdateProfileBannerDto actual = sut.update(member.id(), request);
 
 		assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
 	}

@@ -10,11 +10,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.support.auth.domain.repository.AuthTokenRepository;
 import com.gomo.app.core.member.common.fixture.MemberFixture;
 import com.gomo.app.core.member.domain.model.ActivateStatus;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.service.MemberService;
+import com.gomo.app.support.auth.domain.repository.AuthTokenRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Application Unit]: 멤버 삭제 테스트")
@@ -34,9 +34,9 @@ public class DeleteMemberUseCaseTest {
 	void delete_member_successfully() {
 		Member member = MemberFixture.member();
 		doReturn(member).when(memberService).find(member.getId());
-		doNothing().when(authTokenRepository).deleteRefreshToken(member.uuid());
+		doNothing().when(authTokenRepository).deleteRefreshToken(member.id());
 
-		sut.delete(member.uuid());
+		sut.delete(member.id());
 
 		assertThat(member.getActivateStatus()).isEqualTo(ActivateStatus.DELETED);
 	}

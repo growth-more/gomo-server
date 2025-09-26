@@ -30,7 +30,7 @@ public class UpdateQuestPropertyUseCaseTest {
 	@Test
 	void update_quest_property() {
 		Member member = MemberFixture.member();
-		UpdateQuestPropertyCommand command = UpdateQuestPropertyCommand.of(member.uuid(), 1, 3, 5);
+		UpdateQuestPropertyCommand command = UpdateQuestPropertyCommand.of(member.id(), 1, 3, 5);
 		QuestProperty expected = command.toDomain();
 		doReturn(member).when(memberService).find(member.getId());
 

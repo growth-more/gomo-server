@@ -2,32 +2,24 @@ package com.gomo.app.core.streak.presentation.response;
 
 import java.util.UUID;
 
-import com.gomo.app.core.streak.domain.model.Achiever;
+import com.gomo.app.core.streak.application.port.dto.AchieverDto;
 
 import lombok.Getter;
 
 @Getter
 public class ReadAchieverResponse {
 
-	private UUID id;
-	private int longestStreakDays;
-	private int currentStreakDays;
+	private final UUID id;
+	private final int longestStreakDays;
+	private final int currentStreakDays;
 
-	private ReadAchieverResponse(
-		UUID id,
-		int longestStreakDays,
-		int currentStreakDays
-	) {
+	private ReadAchieverResponse(UUID id, int longestStreakDays, int currentStreakDays) {
 		this.id = id;
 		this.longestStreakDays = longestStreakDays;
 		this.currentStreakDays = currentStreakDays;
 	}
 
-	public static ReadAchieverResponse of(Achiever achiever) {
-		return new ReadAchieverResponse(
-			achiever.getId().getId(),
-			achiever.getLongestStreakDays(),
-			achiever.getCurrentStreakDays()
-		);
+	public static ReadAchieverResponse from(AchieverDto dto) {
+		return new ReadAchieverResponse(dto.id(), dto.longestStreakDays(), dto.currentStreakDays());
 	}
 }

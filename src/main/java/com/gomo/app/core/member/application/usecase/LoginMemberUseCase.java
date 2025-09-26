@@ -33,7 +33,7 @@ public class LoginMemberUseCase implements LoginMemberPortIn {
 		ensureCorrectPassword(member, password);
 		member.validateActive();
 		member.updateLastLoginDateTime(LocalDateTime.now());
-		return member.uuid();
+		return member.id();
 	}
 
 	private void ensureCorrectPassword(Member member, String inputPassword) {

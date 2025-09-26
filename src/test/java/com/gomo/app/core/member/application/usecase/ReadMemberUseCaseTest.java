@@ -12,13 +12,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.member.application.port.dto.MemberDto;
+import com.gomo.app.core.member.common.fixture.MemberFixture;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.model.MemberId;
 import com.gomo.app.core.member.domain.service.MemberService;
 import com.gomo.app.core.point.domain.model.Balance;
 import com.gomo.app.core.point.domain.model.TransactorId;
 import com.gomo.app.core.point.domain.service.PointWalletService;
-import com.gomo.app.core.member.common.fixture.MemberFixture;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Application unit]: 멤버 조회 테스트")
@@ -45,7 +45,7 @@ public class ReadMemberUseCaseTest {
 		doReturn(member).when(memberService).find(any(MemberId.class));
 		doReturn(balance).when(pointWalletService).findBalance(any(TransactorId.class));
 
-		MemberDto actual = sut.find(member.uuid());
+		MemberDto actual = sut.find(member.id());
 
 		assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
 	}

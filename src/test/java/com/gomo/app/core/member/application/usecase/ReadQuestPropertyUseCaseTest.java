@@ -32,7 +32,7 @@ public class ReadQuestPropertyUseCaseTest {
 		QuestPropertyDto expected = QuestPropertyDto.from(member.getQuestProperty());
 		doReturn(member).when(memberService).find(member.getId());
 
-		QuestPropertyDto actual = sut.find(member.uuid());
+		QuestPropertyDto actual = sut.find(member.id());
 
 		assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
 	}

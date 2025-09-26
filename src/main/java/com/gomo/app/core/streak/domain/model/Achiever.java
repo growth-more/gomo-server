@@ -1,5 +1,7 @@
 package com.gomo.app.core.streak.domain.model;
 
+import java.util.UUID;
+
 import com.gomo.app.common.jpa.BaseAudit;
 
 import jakarta.persistence.EmbeddedId;
@@ -18,11 +20,7 @@ public class Achiever extends BaseAudit {
 	protected Achiever() {
 	}
 
-	public Achiever(
-		AchieverId id,
-		int currentStreakDays,
-		int longestStreakDays
-	) {
+	public Achiever(AchieverId id, int currentStreakDays, int longestStreakDays) {
 		this.id = id;
 		this.currentStreakDays = currentStreakDays;
 		this.longestStreakDays = longestStreakDays;
@@ -32,7 +30,11 @@ public class Achiever extends BaseAudit {
 		return new Achiever(id, 0, 0);
 	}
 
-	public void adjustStreakDays(boolean isFilledPriorDay) {
+	public UUID id() {
+		return id.getId();
+	}
+
+	public void updateStreakDays(boolean isFilledPriorDay) {
 		currentStreakDays = isFilledPriorDay ? currentStreakDays + 1 : 1;
 		longestStreakDays = Math.max(longestStreakDays, currentStreakDays);
 	}
