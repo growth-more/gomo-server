@@ -30,8 +30,8 @@ public class UpdateMemberUseCaseTest {
 		Member member = MemberFixture.member();
 		doReturn(member).when(memberService).find(member.getId());
 		sut.update(member.id(), "NEW_NAME", "NEW_MOTTO");
-		assertThat(member.getName().getName()).isEqualTo("NEW_NAME");
-		assertThat(member.getMotto().getMotto()).isEqualTo("NEW_MOTTO");
+		assertThat(member.name()).isEqualTo("NEW_NAME");
+		assertThat(member.motto()).isEqualTo("NEW_MOTTO");
 	}
 
 	// TODO: <nurdy-kim> 회원 수정 로직 보완이 필요합니다.

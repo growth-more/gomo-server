@@ -86,8 +86,8 @@ public class MemberCleanupScheduler {
 		achieverRepository.deleteByAchieverId(AchieverId.of(member.id()));
 
 		// 이미지 파일 삭제
-		deleteImagePortIn.delete(member.getProfileImage().getUrl());
-		deleteImagePortIn.delete(member.getProfileBanner().getUrl());
+		deleteImagePortIn.delete(member.profileImageUrl());
+		deleteImagePortIn.delete(member.profileBannerUrl());
 
 		// member 최종 삭제
 		memberRepository.deleteById(member.getId());

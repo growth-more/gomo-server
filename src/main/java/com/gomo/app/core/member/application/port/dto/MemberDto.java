@@ -12,12 +12,12 @@ public record MemberDto(UUID id, String email, String handle, String name, Strin
 	public static MemberDto from(Member member, int availablePoints) {
 		return new MemberDto(
 			member.id(),
-			member.getEmail().getEmail(),
-			member.getHandle().getHandle(),
-			member.getName().getName(),
-			member.getMotto().getMotto(),
-			member.getProfileImage().getUrl(),
-			member.getProfileBanner().getUrl(),
+			member.email(),
+			member.handle(),
+			member.name(),
+			member.motto(),
+			member.profileImageUrl(),
+			member.profileBannerUrl(),
 			member.getLoginProvider().name(),
 			member.getRoleType().name(),
 			member.getSubscriptionPlan().name(),

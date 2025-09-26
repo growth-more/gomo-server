@@ -14,7 +14,7 @@ import com.gomo.app.core.member.common.fixture.MemberFixture;
 import com.gomo.app.core.member.domain.model.ActivateStatus;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.service.MemberService;
-import com.gomo.app.support.auth.domain.repository.AuthTokenRepository;
+import com.gomo.app.support.auth.application.port.DeleteAuthTokenPortIn;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Application Unit]: 멤버 삭제 테스트")
@@ -27,14 +27,14 @@ public class DeleteMemberUseCaseTest {
 	private MemberService memberService;
 
 	@Mock
-	private AuthTokenRepository authTokenRepository;
+	private DeleteAuthTokenPortIn deleteAuthTokenPortIn;
 
 	@DisplayName("멤버 삭제 테스트")
 	@Test
 	void delete_member_successfully() {
 		Member member = MemberFixture.member();
 		doReturn(member).when(memberService).find(member.getId());
-		doNothing().when(authTokenRepository).deleteRefreshToken(member.id());
+		doNothing().when(deleteAuthTokenPortIn).deleteRefreshToken(member.id());
 
 		sut.delete(member.id());
 

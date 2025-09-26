@@ -1,7 +1,10 @@
 package com.gomo.app.core.member.application.usecase;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
+
+import java.util.UUID;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,28 +13,31 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.gomo.app.core.member.application.port.VerifyPasswordPortOut;
 import com.gomo.app.core.member.common.fixture.MemberFixture;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.service.MemberService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("[Application Unit]: 멤버 프로필 배너 삭제 테스트")
-public class DeleteProfileBannerUseCaseTest {
+@DisplayName("[Application unit]: 회원 로그인 테스트")
+class LoginMemberUseCaseTest {
 
 	@InjectMocks
-	DeleteProfileBannerUseCase sut;
+	LoginMemberUseCase sut;
 
 	@Mock
 	MemberService memberService;
 
-	@DisplayName("프로필 배너 삭제 테스트")
+	@Mock
+	VerifyPasswordPortOut verifyPasswordPortOut;
+
+	@DisplayName("회원 정보를 확인하고, 로그인 날짜를 갱신한다.")
 	@Test
-	void delete_profile_banner() {
+	void login_member() {
 		Member member = MemberFixture.member();
-		doReturn(member).when(memberService).find(member.getId());
-
-		sut.delete(member.id());
-
-		assertThat(member.profileBannerUrl()).isEqualTo("DEFAULT_IMAGE");
+		doReturn(member).when(memberService).findByEmail(any());
+		doReturn(true).when(verifyPasswordPortOut).matches(any(), any());
+		UUID actual = sut.authenticate(member.email(), member.password());
+		assertThat(actual).isEqualTo(member.id());
 	}
 }

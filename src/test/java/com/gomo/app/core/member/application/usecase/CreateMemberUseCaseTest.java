@@ -64,11 +64,11 @@ public class CreateMemberUseCaseTest {
 		doReturn(member).when(memberRepository).save(any(Member.class));
 
 		CreateMemberDto dto = sut.create(CreateMemberCommand.of(
-			member.getEmail().getEmail(),
-			member.getPassword().getPassword(),
-			member.getHandle().getHandle(),
-			member.getName().getName(),
-			member.getMotto().getMotto(),
+			member.email(),
+			member.password(),
+			member.handle(),
+			member.name(),
+			member.motto(),
 			member.getLoginProvider().name(),
 			"temporaryToken"
 		));

@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @ApplicationService
 @Transactional
-public class LoginMemberUseCase implements LoginMemberPortIn {
+class LoginMemberUseCase implements LoginMemberPortIn {
 
 	private final MemberService memberService;
 	private final VerifyPasswordPortOut verifyPasswordPortOut;

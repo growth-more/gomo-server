@@ -29,9 +29,7 @@ public class DeleteProfileImageUseCaseTest {
 	void delete_profile_image() {
 		Member member = MemberFixture.member();
 		doReturn(member).when(memberService).find(member.getId());
-
 		sut.delete(member.id());
-
-		assertThat(member.getProfileImage().getUrl()).isEqualTo("DEFAULT_IMAGE");
+		assertThat(member.profileImageUrl()).isEqualTo("DEFAULT_IMAGE");
 	}
 }

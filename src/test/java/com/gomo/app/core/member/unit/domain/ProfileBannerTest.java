@@ -46,9 +46,7 @@ public class ProfileBannerTest {
 	@Test
 	void create_member_with_default_banner() {
 		Member member = Member.of(ID, EMAIL, PASSWORD, HANDLE, MEMBER_NAME, MOTTO, LOGIN_PROVIDER);
-
-		assertThat(member.getProfileBanner().getUrl())
-			.isEqualTo(DEFAULT_IMAGE);
+		assertThat(member.profileBannerUrl()).isEqualTo(DEFAULT_IMAGE);
 	}
 
 	@DisplayName("프로필 배너를 업데이트 한다.")
@@ -56,9 +54,7 @@ public class ProfileBannerTest {
 	void update_member_banner() {
 		Member member = Member.of(ID, EMAIL, PASSWORD, HANDLE, MEMBER_NAME, MOTTO, LOGIN_PROVIDER);
 		member.updateProfileBanner("https://mini-io/updated_banner.png");
-
-		assertThat(member.getProfileBanner().getUrl())
-			.isEqualTo("https://mini-io/updated_banner.png");
+		assertThat(member.profileBannerUrl()).isEqualTo("https://mini-io/updated_banner.png");
 	}
 
 	@DisplayName("프로필 배너를 삭제하면 기본 이미지로 수정된다.")
@@ -66,8 +62,6 @@ public class ProfileBannerTest {
 	void delete_member_banner() {
 		Member member = Member.of(ID, EMAIL, PASSWORD, HANDLE, MEMBER_NAME, MOTTO, LOGIN_PROVIDER);
 		member.delete();
-
-		assertThat(member.getProfileImage().getUrl())
-			.isEqualTo(DEFAULT_IMAGE);
+		assertThat(member.profileImageUrl()).isEqualTo(DEFAULT_IMAGE);
 	}
 }

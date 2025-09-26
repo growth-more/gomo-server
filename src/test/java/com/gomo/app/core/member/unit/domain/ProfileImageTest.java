@@ -46,8 +46,7 @@ public class ProfileImageTest {
 	@Test
 	void create_member_with_default_profile() {
 		Member member = Member.of(ID, EMAIL, PASSWORD, HANDLE, MEMBER_NAME, MOTTO, LOGIN_PROVIDER);
-
-		assertThat(member.getProfileImage().getUrl()).isEqualTo(DEFAULT_IMAGE);
+		assertThat(member.profileImageUrl()).isEqualTo(DEFAULT_IMAGE);
 	}
 
 	@DisplayName("프로필 이미지를 업데이트 한다.")
@@ -55,8 +54,7 @@ public class ProfileImageTest {
 	void update_member_profile() {
 		Member member = Member.of(ID, EMAIL, PASSWORD, HANDLE, MEMBER_NAME, MOTTO, LOGIN_PROVIDER);
 		member.updateProfileImage("https://mini-io/updated_profile.png");
-
-		assertThat(member.getProfileImage().getUrl()).isEqualTo("https://mini-io/updated_profile.png");
+		assertThat(member.profileImageUrl()).isEqualTo("https://mini-io/updated_profile.png");
 	}
 
 	@DisplayName("프로필 이미지를 삭제하면 기본 이미지로 수정된다.")
@@ -64,7 +62,6 @@ public class ProfileImageTest {
 	void delete_member_profile() {
 		Member member = Member.of(ID, EMAIL, PASSWORD, HANDLE, MEMBER_NAME, MOTTO, LOGIN_PROVIDER);
 		member.delete();
-
-		assertThat(member.getProfileImage().getUrl()).isEqualTo(DEFAULT_IMAGE);
+		assertThat(member.profileImageUrl()).isEqualTo(DEFAULT_IMAGE);
 	}
 }

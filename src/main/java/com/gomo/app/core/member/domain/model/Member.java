@@ -98,8 +98,32 @@ public class Member extends LogicalDeleteBaseAudit {
 		return this.id.getId();
 	}
 
+	public String email() {
+		return this.email.getEmail();
+	}
+
 	public String password() {
 		return this.password.getPassword();
+	}
+
+	public String handle() {
+		return this.handle.getHandle();
+	}
+
+	public String name() {
+		return this.name.getName();
+	}
+
+	public String motto() {
+		return this.motto.getMotto();
+	}
+
+	public String profileImageUrl() {
+		return this.profileImage.getUrl();
+	}
+
+	public String profileBannerUrl() {
+		return this.profileBanner.getUrl();
 	}
 
 	public void updatePassword(Password encoded) {

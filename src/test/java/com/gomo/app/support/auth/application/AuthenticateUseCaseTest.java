@@ -45,7 +45,7 @@ public class AuthenticateUseCaseTest {
 		doReturn(authToken).when(createAuthTokenInternalService).create(any());
 		doReturn(1L).when(verifyJwtPortIn).extractExpirationTime(anyString());
 
-		AuthTokenDto actual = sut.authenticate(member.getEmail().getEmail(), member.getPassword().getPassword());
+		AuthTokenDto actual = sut.authenticate(member.email(), member.password());
 
 		assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
 	}
