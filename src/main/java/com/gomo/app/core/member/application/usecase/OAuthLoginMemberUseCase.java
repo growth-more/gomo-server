@@ -8,7 +8,6 @@ import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.core.member.application.port.OAuthLoginMemberPortIn;
 import com.gomo.app.core.member.domain.model.Email;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
-import com.gomo.app.core.member.domain.service.MemberService;
 import com.gomo.app.support.logging.AuditLog;
 
 import jakarta.transaction.Transactional;
@@ -21,7 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public class OAuthLoginMemberUseCase implements OAuthLoginMemberPortIn {
 
-	private final MemberService memberService;
 	private final MemberRepository memberRepository;
 
 	@AuditLog(action = "OAUTH_AUTHENTICATE_MEMBER")
@@ -29,7 +27,7 @@ public class OAuthLoginMemberUseCase implements OAuthLoginMemberPortIn {
 	public Optional<UUID> oauthAuthenticate(String email) {
 		return memberRepository.findByEmail(Email.of(email)).map(
 			member -> {
-				memberService.checkActivated(member);
+				member.validateActive();
 				member.updateLastLoginDateTime(LocalDateTime.now());
 				return member.uuid();
 			}

@@ -16,7 +16,7 @@ import com.gomo.app.support.auth.presentation.request.LoginRequest;
 @DisplayName("[Presentation Documentation]: 회원 로그인 테스트")
 public class LoginMemberDocumentationTest extends DocumentationTestBase {
 
-	private static final String LOGIN_URL = "/members/login";
+	private static final String URL = "/auth/login";
 
 	private final RestDocumentationFilter filter = LoginMemberSnippet.create();
 	private final RestDocumentationFilter errorFilter = LoginMemberSnippet.createError();
@@ -31,9 +31,8 @@ public class LoginMemberDocumentationTest extends DocumentationTestBase {
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.body(LoginRequest.of(EMAIL, PASSWORD))
 			.when()
-			.post(LOGIN_URL)
+			.post(URL)
 			.then()
 			.statusCode(OK.value());
 	}
-
 }

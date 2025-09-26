@@ -15,7 +15,7 @@ import com.gomo.app.common.constant.ErrorResponseFields;
 
 public class RefreshTokenSnippet {
 
-	private static final String IDENTIFIER = "member-token-refresh";
+	private static final String IDENTIFIER = "update-refresh-token";
 
 	private static final Snippet REQUEST_HEADERS = requestHeaders(
 		headerWithName(CONTENT_TYPE).description("Content-Type: `application/json` (요청 본문은 비어있음)")
@@ -26,8 +26,8 @@ public class RefreshTokenSnippet {
 	);
 
 	private static final Snippet RESPONSE_FIELDS = responseFields(
-		fieldWithPath("memberId").type(JsonFieldType.STRING).description("회원 식별자 ID (UUID)"),
-		fieldWithPath("token").type(JsonFieldType.STRING).description("새로 발급된 JWT Access Token")
+		fieldWithPath("principalId").type(JsonFieldType.STRING).description("회원 식별자 ID (UUID)"),
+		fieldWithPath("accessToken").type(JsonFieldType.STRING).description("새로 발급된 JWT Access Token")
 	);
 
 	public static RestDocumentationFilter create() {

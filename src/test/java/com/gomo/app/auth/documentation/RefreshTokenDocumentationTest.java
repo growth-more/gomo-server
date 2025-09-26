@@ -15,7 +15,7 @@ import com.gomo.app.common.DocumentationTestBase;
 @DisplayName("[Presentation Documentation]: Refresh Token 재발급 테스트")
 public class RefreshTokenDocumentationTest extends DocumentationTestBase {
 
-	private static final String REFRESH_TOKEN_URL = "/members/refresh";
+	private static final String REFRESH_TOKEN_URL = "/auth/refresh";
 
 	private final RestDocumentationFilter filter = RefreshTokenSnippet.create();
 	private final RestDocumentationFilter errorFilter = RefreshTokenSnippet.createError();

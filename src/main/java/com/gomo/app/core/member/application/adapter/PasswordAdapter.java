@@ -20,7 +20,7 @@ public class PasswordAdapter implements EncodePasswordPortOut, VerifyPasswordPor
 	}
 
 	@Override
-	public boolean matches(String originPassword, String inputPassword) {
-		return passwordEncoder.matches(originPassword, inputPassword);
+	public boolean matches(String rawPassword, String encodedPassword) {
+		return passwordEncoder.matches(rawPassword, encodedPassword);
 	}
 }

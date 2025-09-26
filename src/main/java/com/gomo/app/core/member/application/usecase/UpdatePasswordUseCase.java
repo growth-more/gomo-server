@@ -29,13 +29,13 @@ public class UpdatePasswordUseCase {
 	@AuditLog(action = "UPDATE_PASSWORD")
 	public void update(UUID memberId, String originPassword, String newPassword) {
 		Member member = memberService.find(MemberId.of(memberId));
-		ensureCorrectPassword(originPassword, member);
+		ensureCorrectPassword(member, originPassword);
 		String encoded = encodePasswordPortOut.encode(Password.ofRaw(newPassword).getPassword());
 		member.updatePassword(Password.ofEncoded(encoded));
 	}
 
-	private void ensureCorrectPassword(String originPassword, Member member) {
-		if (!verifyPasswordPortOut.matches(member.password(), Password.ofRaw(originPassword).getPassword())) {
+	private void ensureCorrectPassword(Member member, String originPassword) {
+		if (!verifyPasswordPortOut.matches(Password.ofRaw(originPassword).getPassword(), member.password())) {
 			throw new MemberAuthenticationFailedException(AUTHENTICATION_FAILED);
 		}
 	}

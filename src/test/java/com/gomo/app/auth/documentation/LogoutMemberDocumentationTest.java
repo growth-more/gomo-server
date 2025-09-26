@@ -14,7 +14,7 @@ import com.gomo.app.common.DocumentationTestBase;
 
 @DisplayName("[Presentation Documentation]: 회원 로그아웃 테스트")
 public class LogoutMemberDocumentationTest extends DocumentationTestBase {
-	private static final String LOGOUT_MEMBER_URL = "/members/logout";
+	private static final String LOGOUT_MEMBER_URL = "/auth/logout";
 
 	private final RestDocumentationFilter filter = LogoutMemberSnippet.create();
 	private final RestDocumentationFilter errorFilter = LogoutMemberSnippet.createError();

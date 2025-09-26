@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.gomo.app.common.jwt.port.VerifyJwtPortIn;
 import com.gomo.app.core.member.application.adapter.PasswordAdapter;
 import com.gomo.app.core.member.application.port.command.CreateMemberCommand;
 import com.gomo.app.core.member.application.port.dto.CreateMemberDto;
@@ -47,6 +48,9 @@ public class CreateMemberUseCaseTest {
 	@Mock
 	AchieverService achieverService;
 
+	@Mock
+	VerifyJwtPortIn verifyJwtPortIn;
+
 	@DisplayName("회원을 등록한다")
 	@Test
 	void create_member() {
@@ -66,7 +70,8 @@ public class CreateMemberUseCaseTest {
 			member.getHandle().getHandle(),
 			member.getName().getName(),
 			member.getMotto().getMotto(),
-			member.getLoginProvider().name()
+			member.getLoginProvider().name(),
+			"temporaryToken"
 		));
 
 		assertThat(dto.id()).isEqualTo(member.uuid());

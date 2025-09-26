@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional
 @ApplicationService
-public class CreateAuthCodeUseCase implements CreateAuthCodePortIn {
+class CreateAuthCodeUseCase implements CreateAuthCodePortIn {
 
 	private final SendAuthCodePortOut sendAuthCodePortOut;
 	private final AuthCodeRepository authCodeRepository;

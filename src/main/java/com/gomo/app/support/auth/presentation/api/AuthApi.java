@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gomo.app.common.arch.Presentation;
-import com.gomo.app.support.auth.application.AuthPrincipalUseCase;
+import com.gomo.app.support.auth.application.AuthenticateUseCase;
 import com.gomo.app.support.auth.application.DeleteRefreshTokenUseCase;
 import com.gomo.app.support.auth.application.UpdateRefreshTokenUseCase;
+import com.gomo.app.support.auth.application.port.dto.AuthTokenDto;
 import com.gomo.app.support.auth.presentation.request.LoginRequest;
-import com.gomo.app.support.auth.presentation.response.AuthTokenResponse;
-import com.gomo.app.support.auth.presentation.response.LoginResponse;
+import com.gomo.app.support.auth.presentation.response.AccessTokenResponse;
 import com.gomo.app.support.auth.presentation.security.Auth;
 import com.gomo.app.support.auth.presentation.security.AuthInfo;
 
@@ -28,24 +28,23 @@ import lombok.RequiredArgsConstructor;
 @Presentation
 public class AuthApi {
 
-	private final AuthPrincipalUseCase authPrincipalUseCase;
+	private final AuthenticateUseCase authenticateUseCase;
 	private final UpdateRefreshTokenUseCase updateRefreshTokenUseCase;
 	private final DeleteRefreshTokenUseCase deleteRefreshTokenUseCase;
 
 	@PostMapping("/login")
-	public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
-		AuthTokenResponse tokens = authPrincipalUseCase.authenticate(request.getEmail(), request.getPassword());
-		ResponseCookie cookie = createResponseCookie(tokens.getAuthToken().getRefreshToken(), tokens.getExpiresIn());
-		return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
-			.body(LoginResponse.of(tokens.getMemberId(), tokens.getAuthToken().getAccessToken()));
+	public ResponseEntity<AccessTokenResponse> login(@RequestBody LoginRequest request) {
+		AuthTokenDto authTokenDto = authenticateUseCase.authenticate(request.getEmail(), request.getPassword());
+		ResponseCookie cookie = createResponseCookie(authTokenDto.refreshToken(), authTokenDto.expiresIn());
+		return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(AccessTokenResponse.of(authTokenDto.principalId(), authTokenDto.accessToken()));
 	}
 
 	@PostMapping("/refresh")
-	public ResponseEntity<LoginResponse> refresh(@CookieValue(name = "refreshToken", required = false) String refreshToken) {
-		AuthTokenResponse tokens = updateRefreshTokenUseCase.update(refreshToken);
-		ResponseCookie cookie = createResponseCookie(tokens.getAuthToken().getRefreshToken(), tokens.getExpiresIn());
+	public ResponseEntity<AccessTokenResponse> refresh(@CookieValue(name = "refreshToken", required = false) String refreshToken) {
+		AuthTokenDto authTokenDto = updateRefreshTokenUseCase.update(refreshToken);
+		ResponseCookie cookie = createResponseCookie(authTokenDto.refreshToken(), authTokenDto.expiresIn());
 		return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
-			.body(LoginResponse.of(tokens.getMemberId(), tokens.getAuthToken().getAccessToken()));
+			.body(AccessTokenResponse.of(authTokenDto.principalId(), authTokenDto.accessToken()));
 	}
 
 	@GetMapping("/logout")

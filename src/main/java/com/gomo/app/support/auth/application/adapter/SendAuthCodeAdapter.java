@@ -3,17 +3,17 @@ package com.gomo.app.support.auth.application.adapter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Service;
 
+import com.gomo.app.common.arch.Adapter;
 import com.gomo.app.support.auth.application.port.SendAuthCodePortOut;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 
-@Service
 @RequiredArgsConstructor
-public class SendAuthCodeAdapter implements SendAuthCodePortOut {
+@Adapter
+class SendAuthCodeAdapter implements SendAuthCodePortOut {
 
 	@Value("${spring.mail.username}")
 	String USERNAME;

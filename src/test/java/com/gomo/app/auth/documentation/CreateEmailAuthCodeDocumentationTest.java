@@ -18,36 +18,35 @@ import com.gomo.app.core.member.presentation.request.CreateEmailCodeRequest;
 @DisplayName("[Presentation Documentation]: 이메일 인증 코드 테스트")
 public class CreateEmailAuthCodeDocumentationTest extends DocumentationTestBase {
 
-	private static final String EMAIL_AUTH_URL = "/auth/codes/generate/emails";
+	private static final String URL = "/members/emails/codes/signup";
 
 	private final RestDocumentationFilter filter = CreateEmailAuthCodeSnippet.create();
 	private final RestDocumentationFilter errorFilter = CreateEmailAuthCodeSnippet.createError();
 
-	@DisplayName("이메일 인증 코드 생성을 요청한다.")
+	@DisplayName("회원가입을 위해 이메일 인증 코드 생성을 요청한다.")
 	@Test
 	void create_auth_code() {
 		given(this.specification).filter(filter)
-			.log().all()
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.body(CreateEmailCodeRequest.of("test@test.com"))
 			.when()
-			.post(EMAIL_AUTH_URL)
+			.post(URL)
 			.then()
 			.statusCode(CREATED.value());
 	}
 
-	@DisplayName("중복된 이메일로 인증한다")
+	@DisplayName("이미 가입된 이메일로 인증 코드 생성을 요청한다")
 	@Test
 	void create_auth_code_with_duplicated_email() {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.body(CreateEmailCodeRequest.of(super.sessionEmail))
 			.when()
-			.post(EMAIL_AUTH_URL)
+			.post(URL)
 			.then()
 			.statusCode(EmailErrorCode.DUPLICATED.getHttpStatus())
 			.body("timestamp", instanceOf(String.class))
-			.body("path", equalTo(EMAIL_AUTH_URL))
+			.body("path", equalTo(URL))
 			.body("httpStatus", equalTo(EmailErrorCode.DUPLICATED.getHttpStatus()))
 			.body("code", equalTo(EmailErrorCode.DUPLICATED.getErrorCode()))
 			.body("message", equalTo(EmailErrorCode.DUPLICATED.getMessage()));

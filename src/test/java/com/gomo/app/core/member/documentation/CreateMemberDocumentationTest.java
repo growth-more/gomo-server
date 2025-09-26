@@ -37,9 +37,11 @@ public class CreateMemberDocumentationTest extends DocumentationTestBase {
 	@DisplayName("사용자를 등록한다.")
 	@Test
 	void create_member() {
+		String email = "gomotest3@naver.com";
+		String temporaryToken = generateJwtPortIn.generateTemporaryToken(email, 300);
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.body(CreateMemberRequest.of("gomotest3@naver.com", "Test123@", "@GOMOTEST3", "gomotest3", "TEST MOTTO", LoginProvider.EMAIL.name()))
+			.body(CreateMemberRequest.of(email, "Test123@", "@GOMOTEST3", "gomotest3", "TEST MOTTO", LoginProvider.EMAIL.name(), temporaryToken))
 			.when()
 			.post(CREATE_MEMBER_URL)
 			.then()

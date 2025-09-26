@@ -30,14 +30,14 @@ public class LoginMemberUseCase implements LoginMemberPortIn {
 	@Override
 	public UUID authenticate(String email, String password) {
 		Member member = memberService.findByEmail(Email.of(email));
-		memberService.checkActivated(member);
-		ensureCorrectPassword(password, member);
+		ensureCorrectPassword(member, password);
+		member.validateActive();
 		member.updateLastLoginDateTime(LocalDateTime.now());
 		return member.uuid();
 	}
 
-	private void ensureCorrectPassword(String originPassword, Member member) {
-		if (!verifyPasswordPortOut.matches(member.password(), Password.ofRaw(originPassword).getPassword())) {
+	private void ensureCorrectPassword(Member member, String inputPassword) {
+		if (!verifyPasswordPortOut.matches(Password.ofRaw(inputPassword).getPassword(), member.password())) {
 			throw new MemberAuthenticationFailedException(AUTHENTICATION_FAILED);
 		}
 	}

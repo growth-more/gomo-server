@@ -11,8 +11,8 @@ import com.gomo.app.support.auth.domain.repository.AuthCodeRepository;
 
 import lombok.RequiredArgsConstructor;
 
-@Repository
 @RequiredArgsConstructor
+@Repository
 public class RedisAuthCodeRepository implements AuthCodeRepository {
 
 	@Qualifier("authCodeRedisTemplate")

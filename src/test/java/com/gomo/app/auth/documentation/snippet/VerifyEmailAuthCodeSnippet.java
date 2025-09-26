@@ -1,9 +1,11 @@
 package com.gomo.app.auth.documentation.snippet;
 
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.*;
 
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import org.springframework.restdocs.snippet.Snippet;
 
@@ -17,12 +19,17 @@ public class VerifyEmailAuthCodeSnippet {
 		parameterWithName("code").description("이메일로 발송된 인증 코드")
 	);
 
+	private static final Snippet RESPONSE_FIELDS = responseFields(
+		fieldWithPath("temporaryToken").type(JsonFieldType.STRING).description("인증된 이메일임을 확인하기 위한 임시 코드")
+	);
+
 	public static RestDocumentationFilter create() {
 		return document(
 			IDENTIFIER,
 			preprocessRequest(prettyPrint()),
 			preprocessResponse(prettyPrint()),
-			QUERY_PARAMETERS
+			QUERY_PARAMETERS,
+			RESPONSE_FIELDS
 		);
 	}
 

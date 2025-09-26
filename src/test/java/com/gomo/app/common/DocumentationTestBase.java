@@ -20,6 +20,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gomo.app.common.config.RestAssureConfig;
+import com.gomo.app.common.jwt.port.GenerateJwtPortIn;
 import com.gomo.app.core.member.domain.model.LoginProvider;
 import com.gomo.app.core.member.domain.model.MemberId;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
@@ -46,6 +47,9 @@ public abstract class DocumentationTestBase {
 
 	@Autowired
 	MemberApi memberApi;
+
+	@Autowired
+	protected GenerateJwtPortIn generateJwtPortIn;
 
 	@Autowired
 	AuthApi authApi;
@@ -76,11 +80,12 @@ public abstract class DocumentationTestBase {
 
 		sessionEmail = "testmember@naver.com";
 		sessionHandle = "@Test";
-		memberApi.create(CreateMemberRequest.of(sessionEmail, "Test1234@", sessionHandle, "testname", "testmotto", LoginProvider.EMAIL.name()));
+		String temporaryToken = generateJwtPortIn.generateTemporaryToken(sessionEmail, 300);
+		memberApi.create(CreateMemberRequest.of(sessionEmail, "Test1234@", sessionHandle, "testname", "testmotto", LoginProvider.EMAIL.name(), temporaryToken));
 		var tokenResponse = this.authApi.login(LoginRequest.of(sessionEmail, "Test1234@"));
-		this.sessionMemberId = tokenResponse.getBody().getMemberId();
+		this.sessionMemberId = tokenResponse.getBody().getPrincipalId();
 		this.authInfo = AuthInfo.of(sessionMemberId);
-		this.accessToken = tokenResponse.getBody().getToken().toString();
+		this.accessToken = tokenResponse.getBody().getAccessToken().toString();
 		this.refreshToken = extractTokenFromCookie(tokenResponse.getHeaders().get(HttpHeaders.SET_COOKIE));
 		initMockHttpServletRequest(accessToken);
 	}

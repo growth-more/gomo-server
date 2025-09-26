@@ -4,11 +4,9 @@ import java.util.Random;
 
 import com.gomo.app.common.arch.ValueObject;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
-@EqualsAndHashCode
 @ValueObject
 public class AuthCode {
 

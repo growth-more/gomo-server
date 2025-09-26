@@ -8,8 +8,8 @@ import lombok.Getter;
 @ValueObject
 public class AuthToken {
 
-	private String accessToken;
-	private String refreshToken;
+	private final String accessToken;
+	private final String refreshToken;
 
 	private AuthToken(String accessToken, String refreshToken) {
 		this.accessToken = accessToken;

@@ -1,6 +1,7 @@
-package com.gomo.app.auth.unit.usecase;
+package com.gomo.app.support.auth.application;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 import java.util.UUID;
@@ -13,16 +14,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.common.jwt.port.GenerateJwtPortIn;
-import com.gomo.app.support.auth.application.CreateAuthTokenUseCase;
 import com.gomo.app.support.auth.domain.model.AuthToken;
 import com.gomo.app.support.auth.domain.repository.AuthTokenRepository;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Application Unit]: 인증 토큰 발급 테스트")
-public class CreateAuthTokenUseCaseTest {
+public class CreateAuthTokenInternalServiceTest {
 
 	@InjectMocks
-	CreateAuthTokenUseCase sut;
+	CreateAuthTokenInternalService sut;
 
 	@Mock
 	private GenerateJwtPortIn generateJwtPortIn;
@@ -33,7 +33,6 @@ public class CreateAuthTokenUseCaseTest {
 	@DisplayName("인증토큰 발급에 성공한다.")
 	@Test
 	void create_auth_token_success() {
-
 		AuthToken expected = AuthToken.of("access", "refresh");
 
 		doReturn("access").when(generateJwtPortIn).generateAccessToken(any());

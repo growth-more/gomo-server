@@ -1,6 +1,7 @@
-package com.gomo.app.auth.unit.usecase;
+package com.gomo.app.support.auth.application;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.DisplayName;
@@ -13,13 +14,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.gomo.app.common.jwt.port.VerifyJwtPortIn;
 import com.gomo.app.core.member.common.fixture.MemberFixture;
 import com.gomo.app.core.member.domain.model.Member;
-import com.gomo.app.core.member.exception.MemberAuthenticationFailedException;
-import com.gomo.app.core.member.exception.code.MemberErrorCode;
-import com.gomo.app.support.auth.application.CreateAuthTokenUseCase;
-import com.gomo.app.support.auth.application.UpdateRefreshTokenUseCase;
+import com.gomo.app.support.auth.application.port.dto.AuthTokenDto;
 import com.gomo.app.support.auth.domain.model.AuthToken;
 import com.gomo.app.support.auth.domain.repository.AuthTokenRepository;
-import com.gomo.app.support.auth.presentation.response.AuthTokenResponse;
+import com.gomo.app.support.auth.exception.AuthErrorCode;
+import com.gomo.app.support.auth.exception.AuthenticationFailException;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Application Unit]: Refresh 토큰 재발급 테스트")
@@ -29,7 +28,7 @@ public class UpdateRefreshTokenUseCaseTest {
 	UpdateRefreshTokenUseCase sut;
 
 	@Mock
-	private CreateAuthTokenUseCase createAuthTokenUseCase;
+	private CreateAuthTokenInternalService createAuthTokenInternalService;
 
 	@Mock
 	private VerifyJwtPortIn verifyJwtPortIn;
@@ -45,14 +44,14 @@ public class UpdateRefreshTokenUseCaseTest {
 	void renew_refresh_token_successfully() {
 		Member member = MemberFixture.member();
 		AuthToken authToken = AuthToken.of("access", "refresh");
-		AuthTokenResponse expected = AuthTokenResponse.of(member.uuid(), authToken, 1L);
+		AuthTokenDto expected = AuthTokenDto.of(member.uuid(), authToken.getAccessToken(), authToken.getRefreshToken(), 1L);
 
 		doReturn(member.uuid().toString()).when(verifyJwtPortIn).extractSubject(anyString());
 		doReturn(REFRESH_TOKEN).when(authTokenRepository).getRefreshToken(member.uuid());
-		doReturn(authToken).when(createAuthTokenUseCase).create(member.uuid());
+		doReturn(authToken).when(createAuthTokenInternalService).create(member.uuid());
 		doReturn(1L).when(verifyJwtPortIn).extractExpirationTime(anyString());
 
-		AuthTokenResponse actual = sut.update(REFRESH_TOKEN);
+		AuthTokenDto actual = sut.update(REFRESH_TOKEN);
 
 		assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
 	}
@@ -61,8 +60,8 @@ public class UpdateRefreshTokenUseCaseTest {
 	@Test
 	void renew_refresh_token_with_null() {
 		assertThatThrownBy(() -> sut.update(null))
-			.isInstanceOf(MemberAuthenticationFailedException.class)
-			.hasMessageContaining(MemberErrorCode.AUTHENTICATION_FAILED.getMessage());
+			.isInstanceOf(AuthenticationFailException.class)
+			.hasMessageContaining(AuthErrorCode.MISSING_REFRESH_TOKEN.getMessage());
 	}
 
 	@DisplayName("Refresh 토큰이 저장된 값과 다를 경우 재발급에 실패한다.")
@@ -73,7 +72,7 @@ public class UpdateRefreshTokenUseCaseTest {
 		doReturn(REFRESH_TOKEN_WRONG).when(authTokenRepository).getRefreshToken(member.uuid());
 
 		assertThatThrownBy(() -> sut.update(REFRESH_TOKEN))
-			.isInstanceOf(MemberAuthenticationFailedException.class)
-			.hasMessageContaining(MemberErrorCode.AUTHENTICATION_FAILED.getMessage());
+			.isInstanceOf(AuthenticationFailException.class)
+			.hasMessageContaining(AuthErrorCode.INVALID_REFRESH_TOKEN.getMessage());
 	}
 }

@@ -1,7 +1,8 @@
 package com.gomo.app.support.auth.infrastructure.oauth.provider;
 
-import com.gomo.app.core.member.domain.model.OAuthUserInfo;
+import com.gomo.app.support.auth.domain.model.OAuthPrincipal;
 
 public interface OAuthProvider {
-	OAuthUserInfo authenticate(String code);
+	
+	OAuthPrincipal authenticate(String code);
 }

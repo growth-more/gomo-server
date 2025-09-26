@@ -8,8 +8,8 @@ import com.gomo.app.support.auth.infrastructure.oauth.provider.OAuthProvider;
 
 import lombok.RequiredArgsConstructor;
 
-@Component
 @RequiredArgsConstructor
+@Component
 public class OAuthProviderFactory {
 
 	private final Map<String, OAuthProvider> providers;

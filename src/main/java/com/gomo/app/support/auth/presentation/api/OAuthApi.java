@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gomo.app.common.arch.Presentation;
-import com.gomo.app.support.auth.application.OAuthPrincipalUseCase;
+import com.gomo.app.support.auth.application.OAuthUseCase;
 import com.gomo.app.support.auth.presentation.response.OAuthResponse;
-import com.gomo.app.support.auth.presentation.response.OAuthTokenResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,19 +21,14 @@ import lombok.RequiredArgsConstructor;
 @Presentation
 public class OAuthApi {
 
-	private final OAuthPrincipalUseCase oauthPrincipalUseCase;
+	private final OAuthUseCase oauthUseCase;
 
 	@GetMapping("/{provider}")
 	public ResponseEntity<OAuthResponse> getUserInformation(@PathVariable String provider, @RequestParam String code) {
-		OAuthTokenResponse tokens = oauthPrincipalUseCase.getUserInformation(provider, code);
-		ResponseCookie cookie;
-		if (tokens.getAuthToken() != null) {
-			cookie = createResponseCookie(tokens.getAuthToken().getRefreshToken(), tokens.getExpiresIn());
-			return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
-				.body(OAuthResponse.of(tokens.getAuthToken().getAccessToken(), tokens.getUserInfo()));
-		} else {
-			return ResponseEntity.ok().body(OAuthResponse.of(null, tokens.getUserInfo()));
-		}
+		return oauthUseCase.findPrincipal(provider, code).map(oAuthTokenDto -> {
+			ResponseCookie cookie = createResponseCookie(oAuthTokenDto.refreshToken(), oAuthTokenDto.expiresIn());
+			return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(OAuthResponse.from(oAuthTokenDto));
+		}).orElseGet(() -> ResponseEntity.ok().body(OAuthResponse.none()));
 	}
 
 	private ResponseCookie createResponseCookie(String refreshToken, long expiresIn) {

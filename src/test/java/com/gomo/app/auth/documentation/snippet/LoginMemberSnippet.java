@@ -26,8 +26,8 @@ public class LoginMemberSnippet {
 	);
 
 	private static final Snippet RESPONSE_FIELDS = responseFields(
-		fieldWithPath("memberId").type(JsonFieldType.STRING).description("회원 식별자 ID (UUID)"),
-		fieldWithPath("token").type(JsonFieldType.STRING).description("Access Token")
+		fieldWithPath("principalId").type(JsonFieldType.STRING).description("회원 식별자 ID (UUID)"),
+		fieldWithPath("accessToken").type(JsonFieldType.STRING).description("Access Token")
 	);
 
 	public static RestDocumentationFilter create() {

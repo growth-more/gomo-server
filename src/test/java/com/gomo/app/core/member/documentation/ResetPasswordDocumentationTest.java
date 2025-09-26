@@ -35,9 +35,11 @@ public class ResetPasswordDocumentationTest extends DocumentationTestBase {
 	@DisplayName("비밀번호를 초기화 한다.")
 	@Test
 	void update_password() {
+		String email = "testmember@naver.com";
+		String temporaryToken = generateJwtPortIn.generateTemporaryToken(email, 300);
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.body(ResetPasswordRequest.of("testmember@naver.com", "Test1234!"))
+			.body(ResetPasswordRequest.of(email, "Test1234!", temporaryToken))
 			.when()
 			.put(RESET_PASSWORD_URL)
 			.then()

@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional
 @ApplicationService
-public class CreateAuthTokenUseCase {
+class CreateAuthTokenInternalService {
 
 	private final GenerateJwtPortIn generateJwtPortIn;
 	private final AuthTokenRepository authTokenRepository;

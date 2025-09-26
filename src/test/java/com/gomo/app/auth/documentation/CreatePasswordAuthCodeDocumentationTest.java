@@ -18,20 +18,19 @@ import com.gomo.app.core.member.presentation.request.CreateEmailCodeRequest;
 @DisplayName("[Presentation Documentation]: 이메일 인증 코드 테스트")
 public class CreatePasswordAuthCodeDocumentationTest extends DocumentationTestBase {
 
-	private static final String EMAIL_AUTH_URL = "/auth/codes/generate/passwords";
+	private static final String URL = "/members/emails/codes/passwords/reset";
 
 	private final RestDocumentationFilter filter = CreatePasswordAuthCodeSnippet.create();
 	private final RestDocumentationFilter errorFilter = CreatePasswordAuthCodeSnippet.createError();
 
-	@DisplayName("이메일 인증 코드 생성을 요청한다.")
+	@DisplayName("비밀번호 초기화를 위해 이메일 인증 코드 생성을 요청한다.")
 	@Test
 	void create_auth_code() {
 		given(this.specification).filter(filter)
-			.log().all()
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.body(CreateEmailCodeRequest.of(super.sessionEmail))
 			.when()
-			.post(EMAIL_AUTH_URL)
+			.post(URL)
 			.then()
 			.statusCode(CREATED.value());
 	}
@@ -43,11 +42,11 @@ public class CreatePasswordAuthCodeDocumentationTest extends DocumentationTestBa
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.body(CreateEmailCodeRequest.of("nonexistent@naver.com"))
 			.when()
-			.post(EMAIL_AUTH_URL)
+			.post(URL)
 			.then()
 			.statusCode(MemberErrorCode.NOT_FOUND.getHttpStatus())
 			.body("timestamp", instanceOf(String.class))
-			.body("path", equalTo(EMAIL_AUTH_URL))
+			.body("path", equalTo(URL))
 			.body("httpStatus", equalTo(MemberErrorCode.NOT_FOUND.getHttpStatus()))
 			.body("code", equalTo(MemberErrorCode.NOT_FOUND.getErrorCode()))
 			.body("message", equalTo(MemberErrorCode.NOT_FOUND.getMessage()));

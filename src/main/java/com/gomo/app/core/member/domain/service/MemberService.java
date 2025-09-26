@@ -1,16 +1,10 @@
 package com.gomo.app.core.member.domain.service;
 
-import java.util.UUID;
-
 import com.gomo.app.common.arch.DomainService;
-import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.core.member.domain.model.Email;
 import com.gomo.app.core.member.domain.model.Handle;
-import com.gomo.app.core.member.domain.model.LoginProvider;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.model.MemberId;
-import com.gomo.app.core.member.domain.model.MemberName;
-import com.gomo.app.core.member.domain.model.OAuthUserInfo;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
 import com.gomo.app.core.member.exception.EmailDuplicatedException;
 import com.gomo.app.core.member.exception.HandleDuplicatedException;
@@ -19,7 +13,6 @@ import com.gomo.app.core.member.exception.code.EmailErrorCode;
 import com.gomo.app.core.member.exception.code.HandleErrorCode;
 import com.gomo.app.core.member.exception.code.MemberErrorCode;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -36,23 +29,6 @@ public class MemberService {
 	public Member findByEmail(Email email) {
 		return memberRepository.findByEmail(email)
 			.orElseThrow(() -> new MemberNotFoundException(MemberErrorCode.NOT_FOUND));
-	}
-
-	@Transactional
-	public Member oauthCreateMember(OAuthUserInfo userInfo, String provider) {
-		UUID uuid = UUIDGenerator.generate();
-
-		Member member = Member.of(
-			MemberId.of(uuid),
-			Email.of(userInfo.getEmail()),
-			null,
-			null,
-			MemberName.of(userInfo.getName()),
-			null,
-			LoginProvider.valueOf(provider.toUpperCase())
-		);
-
-		return memberRepository.save(member);
 	}
 
 	public void checkEmailDuplicated(Email email) {

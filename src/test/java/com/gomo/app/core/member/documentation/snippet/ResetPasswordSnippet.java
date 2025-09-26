@@ -20,7 +20,8 @@ public class ResetPasswordSnippet {
 
 	private static final Snippet REQUEST_FIELDS = requestFields(
 		fieldWithPath("email").type(JsonFieldType.STRING).description("비밀번호를 초기화할 계정의 이메일 주소"),
-		fieldWithPath("newPassword").type(JsonFieldType.STRING).description("새로운 비밀번호")
+		fieldWithPath("newPassword").type(JsonFieldType.STRING).description("새로운 비밀번호"),
+		fieldWithPath("temporaryToken").type(JsonFieldType.STRING).description("인증된 이메일임을 확인하기 위한 임시 코드")
 	);
 
 	public static RestDocumentationFilter create() {
