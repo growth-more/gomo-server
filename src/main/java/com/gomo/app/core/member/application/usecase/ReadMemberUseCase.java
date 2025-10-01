@@ -8,9 +8,7 @@ import com.gomo.app.core.member.application.port.dto.MemberDto;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.model.MemberId;
 import com.gomo.app.core.member.domain.service.MemberService;
-import com.gomo.app.core.point.domain.model.Balance;
-import com.gomo.app.core.point.domain.model.TransactorId;
-import com.gomo.app.core.point.domain.service.PointWalletService;
+import com.gomo.app.core.point.application.port.ReadBalancePortIn;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,13 +16,13 @@ import lombok.RequiredArgsConstructor;
 @ApplicationService
 class ReadMemberUseCase implements ReadMemberPortIn {
 
+	private final ReadBalancePortIn readBalancePortIn;
 	private final MemberService memberService;
-	private final PointWalletService pointWalletService;
 
 	@Override
 	public MemberDto find(UUID id) {
 		Member member = memberService.find(MemberId.of(id));
-		Balance balance = pointWalletService.findBalance(TransactorId.of(member.getId().getId()));
-		return MemberDto.from(member, balance.getAmount());
+		int balance = readBalancePortIn.find(member.getId().getId());
+		return MemberDto.from(member, balance);
 	}
 }

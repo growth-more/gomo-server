@@ -35,7 +35,7 @@ public class UpdateInterestUseCaseTest {
 		Interest interest = InterestFixture.create();
 		doReturn(interest).when(interestService).find(any(InterestId.class));
 
-		sut.update(UpdateInterestCommand.of(interest.registrantUuid(), interest.uuid(), "name", "#FF0000"));
+		sut.update(UpdateInterestCommand.of(interest.registrantId(), interest.id(), "name", "#FF0000"));
 
 		verify(interestService, times(1)).find(any(InterestId.class));
 	}

@@ -14,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.quest.application.port.ReadParticipantPortOut;
 import com.gomo.app.core.quest.application.port.command.CreateAssignQuestCommand;
-import com.gomo.app.core.quest.application.port.dto.CreateAssignQuestDto;
 import com.gomo.app.core.quest.application.port.dto.ParticipantDto;
 import com.gomo.app.core.quest.domain.model.AssignQuest;
 import com.gomo.app.core.quest.domain.model.QuestType;
@@ -47,10 +46,9 @@ public class CreateAssignQuestUseCaseTest {
 		doReturn(assignQuest).when(assignQuestService).create(any(), any());
 		doReturn(4L).when(assignQuestRepository).countParticipatingQuestByQuestType(any(), any(), any(), any());
 
-		CreateAssignQuestDto actual = sut.create(
-			CreateAssignQuestCommand.of(UUID.randomUUID(), UUID.randomUUID(), "subject name", QuestType.DAILY.name(), "quest content"));
+		UUID actual = sut.create(CreateAssignQuestCommand.of(UUID.randomUUID(), UUID.randomUUID(), "subject name", QuestType.DAILY.name(), "quest content"));
 
-		assertThat(actual.id()).isEqualTo(assignQuest.getId().getId());
+		assertThat(actual).isEqualTo(assignQuest.id());
 	}
 
 	@DisplayName("할당량을 초과하면 할당 퀘스트를 생성할 수 없다.")

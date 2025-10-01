@@ -30,7 +30,7 @@ class ReadInterestUseCase implements ReadInterestPortIn {
 	public InterestDto find(UUID interestId) {
 		Interest interest = interestService.find(InterestId.of(interestId));
 		UUID majorInterestId = majorInterestRepository.findByInterestId(InterestId.of(interestId))
-			.map(MajorInterest::uuid)
+			.map(MajorInterest::id)
 			.orElse(null);
 		return InterestDto.of(interest, majorInterestId);
 	}
@@ -40,10 +40,10 @@ class ReadInterestUseCase implements ReadInterestPortIn {
 		List<Interest> interests = interestRepository.findAllByRegistrantId(RegistrantId.of(registrantId));
 		List<InterestId> interestIds = interests.stream().map(Interest::getId).toList();
 		Map<UUID, UUID> majorInterestMap = majorInterestRepository.findAllByRegistrantIdAndInterestIdIn(RegistrantId.of(registrantId), interestIds).stream()
-			.collect(Collectors.toMap(MajorInterest::interestUuid, MajorInterest::uuid));
+			.collect(Collectors.toMap(MajorInterest::interestId, MajorInterest::id));
 
 		return interests.stream().map(interest -> {
-			UUID majorInterestId = majorInterestMap.get(interest.uuid());
+			UUID majorInterestId = majorInterestMap.get(interest.id());
 			return InterestDto.of(interest, majorInterestId);
 		}).toList();
 	}

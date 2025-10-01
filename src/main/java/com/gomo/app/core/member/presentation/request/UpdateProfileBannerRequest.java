@@ -7,10 +7,7 @@ import lombok.Getter;
 @Getter
 public class UpdateProfileBannerRequest {
 
-	private MultipartFile profileBanner;
-
-	private UpdateProfileBannerRequest() {
-	}
+	private final MultipartFile profileBanner;
 
 	public UpdateProfileBannerRequest(MultipartFile profileBanner) {
 		this.profileBanner = profileBanner;

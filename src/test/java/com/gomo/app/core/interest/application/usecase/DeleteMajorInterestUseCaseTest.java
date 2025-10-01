@@ -39,7 +39,7 @@ public class DeleteMajorInterestUseCaseTest {
 		MajorInterest majorInterest = MajorInterestFixture.majorInterest();
 		doReturn(majorInterest).when(majorInterestService).find(any(MajorInterestId.class));
 
-		sut.delete(majorInterest.getRegistrantId().getId(), majorInterest.uuid());
+		sut.delete(majorInterest.getRegistrantId().getId(), majorInterest.id());
 
 		verify(majorInterestRepository, times(1)).delete(any(MajorInterest.class));
 	}

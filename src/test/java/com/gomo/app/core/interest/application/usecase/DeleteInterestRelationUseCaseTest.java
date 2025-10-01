@@ -35,7 +35,7 @@ public class DeleteInterestRelationUseCaseTest {
 		InterestRelation interestRelation = InterestRelationFixture.create();
 		doReturn(interestRelation).when(interestRelationService).find(any(InterestRelationId.class));
 
-		sut.delete(interestRelation.registrantUuid(), interestRelation.uuid());
+		sut.delete(interestRelation.registrantId(), interestRelation.id());
 
 		verify(interestRelationService, times(1)).delete(any(InterestRelation.class));
 	}

@@ -11,11 +11,7 @@ public class ReadQuestPropertyResponse {
 	private final int weeklyThreshold;
 	private final int monthlyThreshold;
 
-	private ReadQuestPropertyResponse(
-		int dailyThreshold,
-		int weeklyThreshold,
-		int monthlyThreshold
-	) {
+	private ReadQuestPropertyResponse(int dailyThreshold, int weeklyThreshold, int monthlyThreshold) {
 		this.dailyThreshold = dailyThreshold;
 		this.weeklyThreshold = weeklyThreshold;
 		this.monthlyThreshold = monthlyThreshold;

@@ -18,7 +18,7 @@ import com.gomo.app.core.member.application.port.command.CreateMemberCommand;
 import com.gomo.app.core.member.application.usecase.CreateMemberUseCase;
 import com.gomo.app.core.member.documentation.snippet.DeleteMemberSnippet;
 import com.gomo.app.core.member.domain.model.LoginProvider;
-import com.gomo.app.support.auth.application.AuthenticateUseCase;
+import com.gomo.app.support.auth.application.usecase.AuthenticateUseCase;
 
 @DisplayName("[Presentation documentation]: 회원 탈퇴 테스트")
 public class DeleteMemberDocumentationTest extends DocumentationTestBase {

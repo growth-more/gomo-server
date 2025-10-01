@@ -14,13 +14,14 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gomo.app.core.interest.application.UpdateLogoUseCase;
-import com.gomo.app.core.interest.application.port.UploadLogoPortOut;
 import com.gomo.app.core.interest.application.port.dto.LogoDto;
 import com.gomo.app.core.interest.domain.model.InterestId;
 import com.gomo.app.core.interest.domain.model.Logo;
 import com.gomo.app.core.interest.domain.service.InterestService;
 import com.gomo.app.core.interest.fixture.InterestFixture;
 import com.gomo.app.support.image.port.DeleteImagePortIn;
+import com.gomo.app.support.image.port.UploadImagePortIn;
+import com.gomo.app.support.image.port.dto.UploadImageDto;
 
 @DisplayName("[Application unit]: 관심사 로고 수정 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -33,7 +34,7 @@ public class UpdateLogoUseCaseTest {
 	private InterestService interestService;
 
 	@Mock
-	private UploadLogoPortOut uploadLogoPortOut;
+	private UploadImagePortIn uploadImagePortIn;
 
 	@Mock
 	private DeleteImagePortIn deleteImagePortIn;
@@ -42,12 +43,12 @@ public class UpdateLogoUseCaseTest {
 	@Test
 	void update_interest() {
 		doReturn(InterestFixture.create()).when(interestService).find(any(InterestId.class));
-		doReturn(LogoDto.of("logoUrl")).when(uploadLogoPortOut).upload(any(MultipartFile.class));
+		doReturn(UploadImageDto.of("logoUrl")).when(uploadImagePortIn).upload(any(MultipartFile.class));
 
 		sut.update(InterestId.of(UUID.randomUUID()), new MockMultipartFile("logoFile", "mock image data".getBytes()));
 
 		verify(interestService, times(1)).find(any(InterestId.class));
-		verify(uploadLogoPortOut, times(1)).upload(any(MockMultipartFile.class));
+		verify(uploadImagePortIn, times(1)).upload(any(MockMultipartFile.class));
 		verify(deleteImagePortIn, times(1)).delete(any(String.class));
 	}
 
@@ -55,11 +56,11 @@ public class UpdateLogoUseCaseTest {
 	@Test
 	void update_interest_by_unauthorized_accessor() {
 		doReturn(InterestFixture.create(Logo.of(null))).when(interestService).find(any(InterestId.class));
-		doReturn(LogoDto.of("logoUrl")).when(uploadLogoPortOut).upload(any(MultipartFile.class));
+		doReturn(LogoDto.of("logoUrl")).when(uploadImagePortIn).upload(any(MultipartFile.class));
 
 		sut.update(InterestId.of(UUID.randomUUID()), new MockMultipartFile("logoFile", "mock image data".getBytes()));
 
 		verify(interestService, times(1)).find(any(InterestId.class));
-		verify(uploadLogoPortOut, times(1)).upload(any(MockMultipartFile.class));
+		verify(uploadImagePortIn, times(1)).upload(any(MockMultipartFile.class));
 	}
 }

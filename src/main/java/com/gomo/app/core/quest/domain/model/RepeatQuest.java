@@ -42,21 +42,13 @@ public class RepeatQuest extends BaseAudit implements OrderChangeable, Authoriza
 	protected RepeatQuest() {
 	}
 
-	private RepeatQuest(
-		RepeatQuestId id,
-		Quest quest,
-		DisplayOrder displayOrder
-	) {
+	private RepeatQuest(RepeatQuestId id, Quest quest, DisplayOrder displayOrder) {
 		this.id = id;
 		this.quest = quest;
 		this.displayOrder = displayOrder;
 	}
 
-	public static RepeatQuest of(
-		RepeatQuestId id,
-		Quest quest,
-		DisplayOrder displayOrder
-	) {
+	public static RepeatQuest of(RepeatQuestId id, Quest quest, DisplayOrder displayOrder) {
 		return new RepeatQuest(id, quest, displayOrder);
 	}
 

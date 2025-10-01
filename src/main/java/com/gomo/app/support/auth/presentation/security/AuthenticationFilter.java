@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.gomo.app.common.jwt.port.VerifyJwtPortIn;
-import com.gomo.app.config.AuthenticationFilterConfiguration;
+import com.gomo.app.config.AuthFilterConfiguration;
 
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
@@ -27,7 +27,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 	private static final String AUTHORIZATION_HEADER = "Authorization";
 	private static final String BEARER_TOKEN = "Bearer ";
 
-	private final AuthenticationFilterConfiguration config;
+	private final AuthFilterConfiguration config;
 	private final VerifyJwtPortIn verifyJwtPortIn;
 
 	@Override

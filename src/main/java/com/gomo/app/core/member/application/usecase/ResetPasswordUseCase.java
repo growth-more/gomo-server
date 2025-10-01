@@ -17,8 +17,8 @@ import lombok.RequiredArgsConstructor;
 public class ResetPasswordUseCase {
 
 	private final VerifyJwtPortIn verifyJwtPortIn;
-	private final MemberService memberService;
 	private final EncodePasswordPortOut encodePasswordPortOut;
+	private final MemberService memberService;
 
 	public void reset(String email, String newPassword, String temporaryToken) {
 		verifyJwtPortIn.validateToken(temporaryToken);

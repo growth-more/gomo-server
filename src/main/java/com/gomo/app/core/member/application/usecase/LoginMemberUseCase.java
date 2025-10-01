@@ -23,8 +23,8 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 class LoginMemberUseCase implements LoginMemberPortIn {
 
-	private final MemberService memberService;
 	private final VerifyPasswordPortOut verifyPasswordPortOut;
+	private final MemberService memberService;
 
 	@AuditLog(action = "AUTHENTICATE_MEMBER")
 	@Override

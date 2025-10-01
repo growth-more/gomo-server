@@ -4,5 +4,8 @@ import java.util.UUID;
 
 public interface CreatePointWalletPortIn {
 
+	/**
+	 * @return Created point wallet id
+	 */
 	UUID create(UUID transactorId);
 }

@@ -4,5 +4,8 @@ import java.util.UUID;
 
 public interface LoginMemberPortIn {
 
+	/**
+	 * @return authenticated member id
+	 */
 	UUID authenticate(String email, String password);
 }

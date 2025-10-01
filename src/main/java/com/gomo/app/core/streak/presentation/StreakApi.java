@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gomo.app.common.arch.Presentation;
-import com.gomo.app.core.streak.application.ReadStreakUseCase;
+import com.gomo.app.core.streak.application.usecase.ReadStreakUseCase;
 import com.gomo.app.core.streak.application.port.dto.ListStreakDto;
 import com.gomo.app.core.streak.presentation.response.ListStreakResponse;
 import com.gomo.app.support.auth.presentation.security.Auth;

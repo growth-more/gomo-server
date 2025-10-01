@@ -1,11 +1,12 @@
 package com.gomo.app.core.member.application.usecase;
 
+import java.util.UUID;
+
 import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.common.jwt.port.VerifyJwtPortIn;
 import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.core.member.application.port.EncodePasswordPortOut;
 import com.gomo.app.core.member.application.port.command.CreateMemberCommand;
-import com.gomo.app.core.member.application.port.dto.CreateMemberDto;
 import com.gomo.app.core.member.domain.model.Email;
 import com.gomo.app.core.member.domain.model.Handle;
 import com.gomo.app.core.member.domain.model.LoginProvider;
@@ -31,14 +32,14 @@ public class CreateMemberUseCase {
 
 	private final VerifyJwtPortIn verifyJwtPortIn;
 	private final EncodePasswordPortOut encodePasswordPortOut;
-	private final MemberService memberService;
-	private final MemberRepository memberRepository;
 	private final CreatePointWalletPortIn createPointWalletPortIn;
 	private final CreateAchieverPortIn createAchieverPortIn;
+	private final MemberService memberService;
+	private final MemberRepository memberRepository;
 
 	@AuditLog(action = "CREATE_MEMBER")
 	@Timed
-	public CreateMemberDto create(CreateMemberCommand command) {
+	public UUID create(CreateMemberCommand command) {
 		verifyJwtPortIn.validateToken(command.temporaryToken());
 
 		Email email = Email.of(command.email());
@@ -64,6 +65,6 @@ public class CreateMemberUseCase {
 		Member savedMember = memberRepository.save(member);
 		createPointWalletPortIn.create(savedMember.id());
 		createAchieverPortIn.create(savedMember.id());
-		return CreateMemberDto.of(savedMember.id());
+		return savedMember.id();
 	}
 }

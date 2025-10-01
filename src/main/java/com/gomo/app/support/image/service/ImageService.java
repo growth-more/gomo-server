@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -17,7 +18,6 @@ import com.gomo.app.support.image.exception.ImageProcessingException;
 import com.gomo.app.support.image.port.DeleteImagePortIn;
 import com.gomo.app.support.image.port.ReadImagePortIn;
 import com.gomo.app.support.image.port.UploadImagePortIn;
-import com.gomo.app.support.image.port.dto.UploadImageDto;
 
 import io.minio.ListObjectsArgs;
 import io.minio.MinioClient;
@@ -41,9 +41,9 @@ class ImageService implements UploadImagePortIn, ReadImagePortIn, DeleteImagePor
 	private String bucketName;
 
 	@Override
-	public UploadImageDto upload(MultipartFile file) {
+	public Optional<String> upload(MultipartFile file) {
 		if (file == null || file.isEmpty()) {
-			return UploadImageDto.of(null);
+			return Optional.empty();
 		}
 
 		String fileName = generateUniqueFileName(file);
@@ -60,7 +60,7 @@ class ImageService implements UploadImagePortIn, ReadImagePortIn, DeleteImagePor
 			throw new ImageProcessingException(ImageErrorCode.UPLOAD_FAIL, e);
 		}
 
-		return UploadImageDto.of(String.format("%s/%s/%s", endpoint, bucketName, fileName));
+		return Optional.of(String.format("%s/%s/%s", endpoint, bucketName, fileName));
 	}
 
 	@Override

@@ -52,8 +52,8 @@ public class InterestRelationRepositoryTest extends IntegrationTestBase {
 		InterestRelation depth1ToDepth2 = InterestRelationFixture.create(depth1, depth2);
 		interestRelationRepository.save(depth1ToDepth2);
 
-		boolean parentToChild = sut.existsRelationFor(depth1ToDepth2.parentUuid(), depth1ToDepth2.childUuid());
-		boolean childToParent = sut.existsRelationFor(depth1ToDepth2.childUuid(), depth1ToDepth2.parentUuid());
+		boolean parentToChild = sut.existsRelationFor(depth1ToDepth2.parentId(), depth1ToDepth2.childId());
+		boolean childToParent = sut.existsRelationFor(depth1ToDepth2.childId(), depth1ToDepth2.parentId());
 
 		assertThat(parentToChild).isTrue();
 		assertThat(childToParent).isTrue();
@@ -66,7 +66,7 @@ public class InterestRelationRepositoryTest extends IntegrationTestBase {
 		InterestRelation depth2ToDepth3 = InterestRelationFixture.create(depth2, depth3);
 		interestRelationRepository.saveAll(List.of(depth1ToDepth2, depth2ToDepth3));
 
-		List<InterestRelation> interestRelations = sut.findAllByInterestId(depth2.uuid());
+		List<InterestRelation> interestRelations = sut.findAllByInterestId(depth2.id());
 
 		assertThat(interestRelations).hasSize(2);
 		assertThat(interestRelations).extracting("id")

@@ -10,35 +10,22 @@ import lombok.Getter;
 @Getter
 public class ReadMemberResponse {
 
-	private UUID id;
-	private String email;
-	private String handle;
-	private String name;
-	private String motto;
-	private int availablePoints;
-	private String profileImageUrl;
-	private String profileBannerUrl;
-	private String loginProvider;
-	private String roleType;
-	private String subscriptionPlan;
-	private String activateStatus;
-	private LocalDateTime signUpDateTime;
+	private final UUID id;
+	private final String email;
+	private final String handle;
+	private final String name;
+	private final String motto;
+	private final int availablePoints;
+	private final String profileImageUrl;
+	private final String profileBannerUrl;
+	private final String loginProvider;
+	private final String roleType;
+	private final String subscriptionPlan;
+	private final String activateStatus;
+	private final LocalDateTime signUpDateTime;
 
-	private ReadMemberResponse(
-		UUID id,
-		String email,
-		String handle,
-		String name,
-		String motto,
-		int availablePoints,
-		String profileImageUrl,
-		String profileBannerUrl,
-		String loginProvider,
-		String roleType,
-		String subscriptionPlan,
-		String activateStatus,
-		LocalDateTime signUpDateTime
-	) {
+	private ReadMemberResponse(UUID id, String email, String handle, String name, String motto, int availablePoints, String profileImageUrl, String profileBannerUrl,
+		String loginProvider, String roleType, String subscriptionPlan, String activateStatus, LocalDateTime signUpDateTime) {
 		this.id = id;
 		this.email = email;
 		this.handle = handle;

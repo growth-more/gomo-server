@@ -14,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.quest.application.port.ReadParticipantPortOut;
 import com.gomo.app.core.quest.application.port.command.CreateRepeatQuestCommand;
-import com.gomo.app.core.quest.application.port.dto.CreateRepeatQuestDto;
 import com.gomo.app.core.quest.application.port.dto.ParticipantDto;
 import com.gomo.app.core.quest.domain.model.QuestType;
 import com.gomo.app.core.quest.domain.model.RepeatQuest;
@@ -47,10 +46,9 @@ public class CreateRepeatQuestUseCaseTest {
 		doReturn(repeatQuest).when(repeatQuestService).create(any(), any());
 		doReturn(4L).when(repeatQuestRepository).countByQuestParticipantIdAndQuestType(any(), any());
 
-		CreateRepeatQuestDto actual = sut.create(
-			CreateRepeatQuestCommand.of(UUID.randomUUID(), UUID.randomUUID(), "subject name", QuestType.DAILY.name(), "quest content"));
+		UUID actual = sut.create(CreateRepeatQuestCommand.of(UUID.randomUUID(), UUID.randomUUID(), "subject name", QuestType.DAILY.name(), "quest content"));
 
-		assertThat(actual.id()).isEqualTo(repeatQuest.getId().getId());
+		assertThat(actual).isEqualTo(repeatQuest.id());
 	}
 
 	@DisplayName("할당량을 초과하면 반복 퀘스트를 생성할 수 없다.")

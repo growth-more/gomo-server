@@ -13,15 +13,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gomo.app.common.arch.Presentation;
-import com.gomo.app.support.auth.presentation.security.Auth;
-import com.gomo.app.support.auth.presentation.security.AuthInfo;
 import com.gomo.app.core.interest.application.CreateMajorInterestUseCase;
 import com.gomo.app.core.interest.application.DeleteMajorInterestUseCase;
 import com.gomo.app.core.interest.application.ReadMajorInterestUseCase;
-import com.gomo.app.core.interest.application.port.dto.CreateMajorInterestDto;
 import com.gomo.app.core.interest.application.port.dto.MajorInterestDto;
 import com.gomo.app.core.interest.presentation.response.CreateMajorInterestResponse;
 import com.gomo.app.core.interest.presentation.response.ListMajorInterestResponse;
+import com.gomo.app.support.auth.presentation.security.Auth;
+import com.gomo.app.support.auth.presentation.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,8 +35,8 @@ public class MajorInterestApi {
 
 	@PostMapping("/{id}/majors")
 	public ResponseEntity<CreateMajorInterestResponse> create(@Auth AuthInfo authInfo, @PathVariable("id") UUID interestId) {
-		CreateMajorInterestDto dto = createMajorInterestUseCase.create(authInfo.getMemberId(), interestId);
-		return ResponseEntity.status(CREATED).body(CreateMajorInterestResponse.of(dto.id()));
+		UUID majorInterestId = createMajorInterestUseCase.create(authInfo.getMemberId(), interestId);
+		return ResponseEntity.status(CREATED).body(CreateMajorInterestResponse.of(majorInterestId));
 	}
 
 	@GetMapping("/majors")

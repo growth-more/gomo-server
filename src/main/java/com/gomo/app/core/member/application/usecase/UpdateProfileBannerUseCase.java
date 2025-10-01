@@ -6,13 +6,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gomo.app.common.arch.ApplicationService;
-import com.gomo.app.core.interest.application.port.UploadLogoPortOut;
-import com.gomo.app.core.interest.application.port.dto.LogoDto;
-import com.gomo.app.support.logging.AuditLog;
 import com.gomo.app.core.member.application.port.dto.UpdateProfileBannerDto;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.model.MemberId;
 import com.gomo.app.core.member.domain.service.MemberService;
+import com.gomo.app.support.image.port.UploadImagePortIn;
+import com.gomo.app.support.logging.AuditLog;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,14 +20,14 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class UpdateProfileBannerUseCase {
 
+	private final UploadImagePortIn uploadImagePortIn;
 	private final MemberService memberService;
-	private final UploadLogoPortOut uploadLogoPortOut;
 
 	@AuditLog(action = "UPDATE_PROFILE_BANNER")
 	public UpdateProfileBannerDto update(UUID memberId, MultipartFile profileBanner) {
 		Member member = memberService.find(MemberId.of(memberId));
-		LogoDto logoDto = uploadLogoPortOut.upload(profileBanner);
-		member.updateProfileBanner(logoDto.url());
-		return UpdateProfileBannerDto.of(logoDto.url());
+		String bannerUrl = uploadImagePortIn.upload(profileBanner).orElse(null);
+		member.updateProfileBanner(bannerUrl);
+		return UpdateProfileBannerDto.of(bannerUrl);
 	}
 }

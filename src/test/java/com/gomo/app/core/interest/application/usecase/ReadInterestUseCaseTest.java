@@ -51,7 +51,7 @@ public class ReadInterestUseCaseTest {
 		doReturn(expected).when(interestService).find(any(InterestId.class));
 		doReturn(Optional.of(majorInterest)).when(majorInterestRepository).findByInterestId(any());
 
-		InterestDto actual = sut.find(expected.uuid());
+		InterestDto actual = sut.find(expected.id());
 
 		assertThat(actual)
 			.extracting("id", "registrantId", "name", "logoUrl", "majorInterestId")
@@ -60,7 +60,7 @@ public class ReadInterestUseCaseTest {
 				expected.getRegistrantId().getId(),
 				expected.getName().toString(),
 				expected.getLogo().getUrl(),
-				majorInterest.uuid()
+				majorInterest.id()
 			);
 	}
 
@@ -78,7 +78,7 @@ public class ReadInterestUseCaseTest {
 		assertThat(actual)
 			.hasSize(2)
 			.extracting("id", "registrantId", "name", "logoUrl", "majorInterestId")
-			.containsExactly(createTuple(expected1, majorInterest.uuid()), createTuple(expected2, null));
+			.containsExactly(createTuple(expected1, majorInterest.id()), createTuple(expected2, null));
 	}
 
 	private @NotNull Tuple createTuple(Interest interest, UUID majorInterestId) {

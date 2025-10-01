@@ -13,16 +13,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gomo.app.common.arch.Presentation;
-import com.gomo.app.support.auth.presentation.security.Auth;
-import com.gomo.app.support.auth.presentation.security.AuthInfo;
 import com.gomo.app.core.interest.application.CreateInterestRelationUseCase;
 import com.gomo.app.core.interest.application.DeleteInterestRelationUseCase;
 import com.gomo.app.core.interest.application.ReadInterestNetworkUseCase;
-import com.gomo.app.core.interest.application.port.dto.CreateInterestRelationDto;
 import com.gomo.app.core.interest.application.port.dto.InterestNetworkDto;
 import com.gomo.app.core.interest.presentation.request.CreateInterestRelationRequest;
 import com.gomo.app.core.interest.presentation.response.CreateInterestRelationResponse;
 import com.gomo.app.core.interest.presentation.response.InterestNetworkResponse;
+import com.gomo.app.support.auth.presentation.security.Auth;
+import com.gomo.app.support.auth.presentation.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -37,8 +36,8 @@ public class InterestNetworkApi {
 
 	@PostMapping("/relations")
 	public ResponseEntity<CreateInterestRelationResponse> createRelation(@Auth AuthInfo authInfo, @RequestBody CreateInterestRelationRequest request) {
-		CreateInterestRelationDto dto = createInterestRelationUseCase.create(authInfo.getMemberId(), request.getParentInterestId(), request.getChildInterestId());
-		return ResponseEntity.status(CREATED).body(CreateInterestRelationResponse.of(dto.id()));
+		UUID relationId = createInterestRelationUseCase.create(authInfo.getMemberId(), request.getParentInterestId(), request.getChildInterestId());
+		return ResponseEntity.status(CREATED).body(CreateInterestRelationResponse.of(relationId));
 	}
 
 	@GetMapping

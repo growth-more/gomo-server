@@ -22,9 +22,9 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class UpdatePasswordUseCase {
 
-	private final MemberService memberService;
 	private final VerifyPasswordPortOut verifyPasswordPortOut;
 	private final EncodePasswordPortOut encodePasswordPortOut;
+	private final MemberService memberService;
 
 	@AuditLog(action = "UPDATE_PASSWORD")
 	public void update(UUID memberId, String originPassword, String newPassword) {

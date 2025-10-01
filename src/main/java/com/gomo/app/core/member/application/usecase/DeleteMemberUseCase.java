@@ -18,8 +18,8 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class DeleteMemberUseCase {
 
-	private final MemberService memberService;
 	private final DeleteAuthTokenPortIn deleteAuthTokenPortIn;
+	private final MemberService memberService;
 
 	@AuditLog(action = "DELETE_MEMBER")
 	public void delete(UUID memberId) {

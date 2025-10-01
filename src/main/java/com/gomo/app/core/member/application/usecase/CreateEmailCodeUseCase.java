@@ -12,8 +12,8 @@ import lombok.RequiredArgsConstructor;
 @ApplicationService
 public class CreateEmailCodeUseCase {
 
-	private final MemberService memberService;
 	private final CreateAuthCodePortIn createAuthCodePortIn;
+	private final MemberService memberService;
 
 	@AuditLog(action = "CREATE_SIGNUP_EMAIL_CODE")
 	public void createForSignUp(String email) {

@@ -1,5 +1,7 @@
 package com.gomo.app.core.member.presentation;
 
+import java.util.UUID;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,18 +12,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gomo.app.common.arch.Presentation;
-import com.gomo.app.support.auth.presentation.security.Auth;
-import com.gomo.app.support.auth.presentation.security.AuthInfo;
+import com.gomo.app.core.member.application.port.ReadMemberPortIn;
+import com.gomo.app.core.member.application.port.dto.MemberDto;
 import com.gomo.app.core.member.application.usecase.CreateMemberUseCase;
 import com.gomo.app.core.member.application.usecase.DeleteMemberUseCase;
 import com.gomo.app.core.member.application.usecase.UpdateMemberUseCase;
-import com.gomo.app.core.member.application.port.ReadMemberPortIn;
-import com.gomo.app.core.member.application.port.dto.CreateMemberDto;
-import com.gomo.app.core.member.application.port.dto.MemberDto;
 import com.gomo.app.core.member.presentation.request.CreateMemberRequest;
 import com.gomo.app.core.member.presentation.request.UpdateMemberRequest;
 import com.gomo.app.core.member.presentation.response.CreateMemberResponse;
 import com.gomo.app.core.member.presentation.response.ReadMemberResponse;
+import com.gomo.app.support.auth.presentation.security.Auth;
+import com.gomo.app.support.auth.presentation.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -37,8 +38,8 @@ public class MemberApi {
 
 	@PostMapping
 	public ResponseEntity<CreateMemberResponse> create(@RequestBody CreateMemberRequest request) {
-		CreateMemberDto dto = createMemberUseCase.create(request.toCommand());
-		return ResponseEntity.status(HttpStatus.CREATED).body(CreateMemberResponse.of(dto.id()));
+		UUID memberId = createMemberUseCase.create(request.toCommand());
+		return ResponseEntity.status(HttpStatus.CREATED).body(CreateMemberResponse.of(memberId));
 	}
 
 	@GetMapping

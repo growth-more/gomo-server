@@ -55,16 +55,8 @@ public class AssignQuest extends BaseAudit implements OrderChangeable, Authoriza
 	protected AssignQuest() {
 	}
 
-	public AssignQuest(
-		AssignQuestId id,
-		Quest quest,
-		CompletionProof proof,
-		boolean isConfirmed,
-		boolean isCompleted,
-		DisplayOrder displayOrder,
-		LocalDateTime startDateTime,
-		LocalDateTime completedDateTime
-	) {
+	public AssignQuest(AssignQuestId id, Quest quest, CompletionProof proof, boolean isConfirmed, boolean isCompleted, DisplayOrder displayOrder,
+		LocalDateTime startDateTime, LocalDateTime completedDateTime) {
 		this.id = id;
 		this.quest = quest;
 		this.proof = proof;
@@ -75,16 +67,8 @@ public class AssignQuest extends BaseAudit implements OrderChangeable, Authoriza
 		this.completedDateTime = completedDateTime;
 	}
 
-	public static AssignQuest of(
-		AssignQuestId id,
-		Quest quest,
-		boolean isConfirmed,
-		DisplayOrder displayOrder,
-		LocalDateTime startDateTime
-	) {
-		return new AssignQuest(
-			id, quest, CompletionProof.createDefault(), isConfirmed, NOT_COMPLETED, displayOrder, startDateTime, null
-		);
+	public static AssignQuest of(AssignQuestId id, Quest quest, boolean isConfirmed, DisplayOrder displayOrder, LocalDateTime startDateTime) {
+		return new AssignQuest(id, quest, CompletionProof.createDefault(), isConfirmed, NOT_COMPLETED, displayOrder, startDateTime, null);
 	}
 
 	public UUID id() {

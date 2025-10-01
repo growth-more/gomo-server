@@ -5,5 +5,8 @@ import java.util.UUID;
 
 public interface OAuthLoginMemberPortIn {
 
+	/**
+	 * @return authenticated member id, or null if none
+	 */
 	Optional<UUID> oauthAuthenticate(String email);
 }

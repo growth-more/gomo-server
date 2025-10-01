@@ -7,10 +7,7 @@ import lombok.Getter;
 @Getter
 public class UpdateProfileImageRequest {
 
-	private MultipartFile profileImage;
-
-	private UpdateProfileImageRequest() {
-	}
+	private final MultipartFile profileImage;
 
 	public UpdateProfileImageRequest(MultipartFile profileImage) {
 		this.profileImage = profileImage;

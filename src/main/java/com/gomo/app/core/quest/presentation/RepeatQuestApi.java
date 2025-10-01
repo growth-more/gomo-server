@@ -14,18 +14,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gomo.app.common.arch.Presentation;
-import com.gomo.app.support.auth.presentation.security.Auth;
-import com.gomo.app.support.auth.presentation.security.AuthInfo;
+import com.gomo.app.core.quest.application.port.dto.ListRepeatQuestDto;
 import com.gomo.app.core.quest.application.usecase.CreateRepeatQuestUseCase;
 import com.gomo.app.core.quest.application.usecase.DeleteRepeatQuestUseCase;
 import com.gomo.app.core.quest.application.usecase.ReadRepeatQuestUseCase;
 import com.gomo.app.core.quest.application.usecase.UpdateRepeatQuestUseCase;
-import com.gomo.app.core.quest.application.port.dto.CreateRepeatQuestDto;
-import com.gomo.app.core.quest.application.port.dto.ListRepeatQuestDto;
 import com.gomo.app.core.quest.presentation.request.CreateRepeatQuestRequest;
 import com.gomo.app.core.quest.presentation.request.UpdateRepeatQuestRequest;
 import com.gomo.app.core.quest.presentation.response.CreateRepeatQuestResponse;
 import com.gomo.app.core.quest.presentation.response.ListRepeatQuestResponse;
+import com.gomo.app.support.auth.presentation.security.Auth;
+import com.gomo.app.support.auth.presentation.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -41,8 +40,8 @@ public class RepeatQuestApi {
 
 	@PostMapping
 	public ResponseEntity<CreateRepeatQuestResponse> create(@Auth AuthInfo authInfo, @RequestBody CreateRepeatQuestRequest request) {
-		CreateRepeatQuestDto dto = createRepeatQuestUseCase.create(request.toCommand(authInfo.getMemberId()));
-		return ResponseEntity.status(CREATED).body(CreateRepeatQuestResponse.of(dto.id()));
+		UUID repeatQuestId = createRepeatQuestUseCase.create(request.toCommand(authInfo.getMemberId()));
+		return ResponseEntity.status(CREATED).body(CreateRepeatQuestResponse.of(repeatQuestId));
 	}
 
 	@GetMapping

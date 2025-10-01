@@ -7,16 +7,13 @@ import lombok.Getter;
 @Getter
 public class CreateMemberRequest {
 
-	private String email;
-	private String rawPassword;
-	private String handle;
-	private String name;
-	private String motto;
-	private String loginProvider;
-	private String temporaryToken;
-
-	private CreateMemberRequest() {
-	}
+	private final String email;
+	private final String rawPassword;
+	private final String handle;
+	private final String name;
+	private final String motto;
+	private final String loginProvider;
+	private final String temporaryToken;
 
 	private CreateMemberRequest(String email, String rawPassword, String handle, String name, String motto, String loginProvider, String temporaryToken) {
 		this.email = email;

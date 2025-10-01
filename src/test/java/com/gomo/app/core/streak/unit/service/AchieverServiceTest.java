@@ -32,7 +32,9 @@ public class AchieverServiceTest {
 	void find_achiever() {
 		Achiever achiever = AchieverFixture.achiever(3, 5);
 		doReturn(Optional.of(achiever)).when(achieverRepository).findById(any());
+
 		Achiever actual = sut.find(achiever.getId());
+
 		assertThat(actual.getCurrentStreakDays()).isEqualTo(3);
 		assertThat(actual.getLongestStreakDays()).isEqualTo(5);
 	}

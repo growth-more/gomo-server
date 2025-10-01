@@ -49,11 +49,7 @@ public class EventEntry {
 		this.timestamp = timestamp;
 	}
 
-	public static EventEntry of(
-		String eventType,
-		String payload,
-		long timestamp
-	) {
+	public static EventEntry of(String eventType, String payload, long timestamp) {
 		return new EventEntry(eventType, EventStatus.PENDING, payload, timestamp);
 	}
 

@@ -41,10 +41,10 @@ public class ReadInterestNetworkUseCase {
 		List<Interest> interests = interestRepository.findAllByRegistrantId(registrantId);
 		List<InterestId> interestIds = interests.stream().map(Interest::getId).toList();
 		Map<UUID, UUID> majorInterestMap = majorInterestRepository.findAllByRegistrantIdAndInterestIdIn(registrantId, interestIds).stream()
-			.collect(Collectors.toMap(MajorInterest::interestUuid, MajorInterest::uuid));
+			.collect(Collectors.toMap(MajorInterest::interestId, MajorInterest::id));
 
 		return interests.stream().map(interest -> {
-			UUID majorInterestId = majorInterestMap.get(interest.uuid());
+			UUID majorInterestId = majorInterestMap.get(interest.id());
 			return InterestDto.of(interest, majorInterestId);
 		}).toList();
 	}

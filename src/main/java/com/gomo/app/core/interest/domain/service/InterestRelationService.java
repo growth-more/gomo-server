@@ -39,7 +39,6 @@ public class InterestRelationService {
 	@Transactional
 	public InterestRelation create(RegistrantId registrantId, ParentInterestId parentInterestId, ChildInterestId childInterestId) {
 		ensureNotDuplicated(parentInterestId, childInterestId);
-
 		InterestRelation interestRelation = InterestRelation.of(
 			InterestRelationId.of(UUIDGenerator.generate()),
 			registrantId,

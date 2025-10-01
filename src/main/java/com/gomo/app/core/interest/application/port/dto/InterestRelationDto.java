@@ -8,10 +8,10 @@ public record InterestRelationDto(UUID id, UUID registrantId, UUID parentInteres
 
 	public static InterestRelationDto from(InterestRelation interestRelation) {
 		return new InterestRelationDto(
-			interestRelation.uuid(),
-			interestRelation.registrantUuid(),
-			interestRelation.parentUuid(),
-			interestRelation.childUuid()
+			interestRelation.id(),
+			interestRelation.registrantId(),
+			interestRelation.parentId(),
+			interestRelation.childId()
 		);
 	}
 }

@@ -17,19 +17,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gomo.app.common.arch.Presentation;
-import com.gomo.app.support.auth.presentation.security.Auth;
-import com.gomo.app.support.auth.presentation.security.AuthInfo;
 import com.gomo.app.core.interest.application.CreateInterestUseCase;
 import com.gomo.app.core.interest.application.DeleteInterestUseCase;
 import com.gomo.app.core.interest.application.UpdateInterestUseCase;
 import com.gomo.app.core.interest.application.port.ReadInterestPortIn;
-import com.gomo.app.core.interest.application.port.dto.CreateInterestDto;
 import com.gomo.app.core.interest.application.port.dto.InterestDto;
 import com.gomo.app.core.interest.presentation.request.CreateInterestRequest;
 import com.gomo.app.core.interest.presentation.request.UpdateInterestRequest;
 import com.gomo.app.core.interest.presentation.response.CreateInterestResponse;
 import com.gomo.app.core.interest.presentation.response.ListInterestResponse;
 import com.gomo.app.core.interest.presentation.response.ReadInterestResponse;
+import com.gomo.app.support.auth.presentation.security.Auth;
+import com.gomo.app.support.auth.presentation.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -45,8 +44,8 @@ public class InterestApi {
 
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<CreateInterestResponse> create(@Auth AuthInfo authInfo, @ModelAttribute CreateInterestRequest request) {
-		CreateInterestDto dto = createInterestUseCase.create(request.toCommand(authInfo.getMemberId()));
-		return ResponseEntity.status(CREATED).body(CreateInterestResponse.of(dto.id()));
+		UUID interestId = createInterestUseCase.create(request.toCommand(authInfo.getMemberId()));
+		return ResponseEntity.status(CREATED).body(CreateInterestResponse.of(interestId));
 	}
 
 	@GetMapping("/{id}")

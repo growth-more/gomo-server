@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gomo.app.common.arch.Presentation;
 import com.gomo.app.common.web.PageRequest;
-import com.gomo.app.core.point.application.ReadBalanceUseCase;
-import com.gomo.app.core.point.application.ReadPointUseCase;
+import com.gomo.app.core.point.application.port.ReadBalancePortIn;
+import com.gomo.app.core.point.application.port.dto.ListPointDto;
+import com.gomo.app.core.point.application.usecase.ReadPointUseCase;
 import com.gomo.app.core.point.presentation.response.ListPointResponse;
 import com.gomo.app.core.point.presentation.response.ReadBalanceResponse;
 import com.gomo.app.support.auth.presentation.security.Auth;
@@ -22,17 +23,17 @@ import lombok.RequiredArgsConstructor;
 public class PointApi {
 
 	private final ReadPointUseCase readPointUseCase;
-	private final ReadBalanceUseCase readBalanceUseCase;
+	private final ReadBalancePortIn readBalancePortIn;
 
 	@GetMapping
 	public ResponseEntity<ListPointResponse> findAll(@Auth AuthInfo authInfo, @ModelAttribute PageRequest pageRequest) {
-		ListPointResponse response = readPointUseCase.findAll(authInfo.getMemberId(), pageRequest);
-		return ResponseEntity.ok(response);
+		ListPointDto dto = readPointUseCase.findAll(authInfo.getMemberId(), pageRequest);
+		return ResponseEntity.ok(ListPointResponse.from(dto));
 	}
 
 	@GetMapping("/balances")
-	public ResponseEntity<ReadBalanceResponse> findAll(@Auth AuthInfo authInfo) {
-		ReadBalanceResponse response = readBalanceUseCase.find(authInfo.getMemberId());
-		return ResponseEntity.ok(response);
+	public ResponseEntity<ReadBalanceResponse> findBalance(@Auth AuthInfo authInfo) {
+		int balance = readBalancePortIn.find(authInfo.getMemberId());
+		return ResponseEntity.ok(ReadBalanceResponse.of(balance));
 	}
 }

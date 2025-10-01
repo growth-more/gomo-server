@@ -3,7 +3,6 @@ package com.gomo.app.core.interest.application;
 import java.util.UUID;
 
 import com.gomo.app.common.arch.ApplicationService;
-import com.gomo.app.core.interest.application.port.dto.CreateMajorInterestDto;
 import com.gomo.app.core.interest.domain.model.Interest;
 import com.gomo.app.core.interest.domain.model.InterestId;
 import com.gomo.app.core.interest.domain.model.MajorInterest;
@@ -21,10 +20,10 @@ public class CreateMajorInterestUseCase {
 	private final MajorInterestService majorInterestService;
 
 	@AuditLog(action = "CREATE_MAJOR_INTEREST")
-	public CreateMajorInterestDto create(UUID registrantId, UUID interestId) {
+	public UUID create(UUID registrantId, UUID interestId) {
 		Interest interest = interestService.find(InterestId.of(interestId));
 		interest.validateAuthority(registrantId);
 		MajorInterest majorInterest = majorInterestService.create(interest);
-		return CreateMajorInterestDto.of(majorInterest.uuid());
+		return majorInterest.id();
 	}
 }

@@ -43,36 +43,26 @@ public class MajorInterest extends BaseAudit implements OrderChangeable, Authori
 	protected MajorInterest() {
 	}
 
-	private MajorInterest(
-		MajorInterestId id,
-		RegistrantId registrantId,
-		InterestId interestId,
-		DisplayOrder displayOrder
-	) {
+	private MajorInterest(MajorInterestId id, RegistrantId registrantId, InterestId interestId, DisplayOrder displayOrder) {
 		this.id = id;
 		this.registrantId = registrantId;
 		this.interestId = interestId;
 		this.displayOrder = displayOrder;
 	}
 
-	public static MajorInterest of(
-		MajorInterestId id,
-		RegistrantId registrantId,
-		InterestId interestId,
-		DisplayOrder displayOrder
-	) {
+	public static MajorInterest of(MajorInterestId id, RegistrantId registrantId, InterestId interestId, DisplayOrder displayOrder) {
 		return new MajorInterest(id, registrantId, interestId, displayOrder);
 	}
 
-	public UUID uuid() {
+	public UUID id() {
 		return this.id.getId();
 	}
 
-	public UUID interestUuid() {
+	public UUID interestId() {
 		return this.interestId.getId();
 	}
 
-	public UUID registrantUuid() {
+	public UUID registrantId() {
 		return this.registrantId.getId();
 	}
 

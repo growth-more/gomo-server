@@ -6,10 +6,8 @@ import java.util.UUID;
 
 import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.common.util.DateRangeCalculator;
-import com.gomo.app.support.logging.AuditLog;
 import com.gomo.app.core.quest.application.port.ReadParticipantPortOut;
 import com.gomo.app.core.quest.application.port.command.CreateAssignQuestCommand;
-import com.gomo.app.core.quest.application.port.dto.CreateAssignQuestDto;
 import com.gomo.app.core.quest.application.port.dto.ParticipantDto;
 import com.gomo.app.core.quest.domain.model.AssignQuest;
 import com.gomo.app.core.quest.domain.model.Participant;
@@ -22,6 +20,7 @@ import com.gomo.app.core.quest.domain.model.SubjectId;
 import com.gomo.app.core.quest.domain.model.SubjectName;
 import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.domain.service.AssignQuestService;
+import com.gomo.app.support.logging.AuditLog;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,7 +33,7 @@ public class CreateAssignQuestUseCase {
 	private final AssignQuestRepository assignQuestRepository;
 
 	@AuditLog(action = "CREATE_ASSIGN_QUEST")
-	public CreateAssignQuestDto create(CreateAssignQuestCommand command) {
+	public UUID create(CreateAssignQuestCommand command) {
 		UUID participantId = command.participantId();
 		QuestType questType = QuestType.valueOf(command.questType());
 		ensureNotExceedQuestQuota(participantId, questType);
@@ -46,7 +45,7 @@ public class CreateAssignQuestUseCase {
 			QuestContent.of(command.content())
 		);
 		AssignQuest savedAssignQuest = assignQuestService.create(ParticipantId.of(participantId), quest);
-		return CreateAssignQuestDto.of(savedAssignQuest.id());
+		return savedAssignQuest.id();
 	}
 
 	private void ensureNotExceedQuestQuota(UUID participantId, QuestType questType) {

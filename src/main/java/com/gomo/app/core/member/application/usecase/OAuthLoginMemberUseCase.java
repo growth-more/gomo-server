@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @ApplicationService
 @Transactional
-public class OAuthLoginMemberUseCase implements OAuthLoginMemberPortIn {
+class OAuthLoginMemberUseCase implements OAuthLoginMemberPortIn {
 
 	private final MemberRepository memberRepository;
 

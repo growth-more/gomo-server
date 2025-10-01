@@ -1,6 +1,7 @@
 package com.gomo.app.core.point.domain.model;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import com.gomo.app.common.jpa.BaseAudit;
 import com.gomo.app.core.point.exception.PointConstraintViolationException;
@@ -41,15 +42,8 @@ public class Point extends BaseAudit {
 	protected Point() {
 	}
 
-	private Point(
-		PointId id,
-		TransactorId transactorId,
-		SourceType sourceType,
-		TransactionType transactionType,
-		int amount,
-		String description,
-		LocalDateTime transactionDateTime
-	) {
+	private Point(PointId id, TransactorId transactorId, SourceType sourceType, TransactionType transactionType, int amount, String description,
+		LocalDateTime transactionDateTime) {
 		ensureAmountNotNegative(amount);
 		this.id = id;
 		this.transactorId = transactorId;
@@ -60,16 +54,13 @@ public class Point extends BaseAudit {
 		this.transactionDateTime = transactionDateTime;
 	}
 
-	public static Point of(
-		PointId id,
-		TransactorId transactorId,
-		SourceType sourceType,
-		TransactionType transactionType,
-		int amount,
-		String description,
-		LocalDateTime transactionDateTime
-	) {
+	public static Point of(PointId id, TransactorId transactorId, SourceType sourceType, TransactionType transactionType, int amount, String description,
+		LocalDateTime transactionDateTime) {
 		return new Point(id, transactorId, sourceType, transactionType, amount, description, transactionDateTime);
+	}
+
+	public UUID id() {
+		return id.getId();
 	}
 
 	private void ensureAmountNotNegative(int amount) {

@@ -14,7 +14,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.interest.application.DeleteInterestUseCase;
-import com.gomo.app.core.interest.application.port.DeleteLogoPortOut;
 import com.gomo.app.core.interest.domain.model.Interest;
 import com.gomo.app.core.interest.domain.model.InterestId;
 import com.gomo.app.core.interest.domain.model.InterestRelation;
@@ -25,6 +24,7 @@ import com.gomo.app.core.interest.domain.service.InterestRelationService;
 import com.gomo.app.core.interest.domain.service.InterestService;
 import com.gomo.app.core.interest.fixture.InterestFixture;
 import com.gomo.app.core.interest.fixture.InterestRelationFixture;
+import com.gomo.app.support.image.port.DeleteImagePortIn;
 
 @DisplayName("[Application unit]: 관심사 삭제 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -37,7 +37,7 @@ public class DeleteInterestUseCaseTest {
 	private InterestService interestService;
 
 	@Mock
-	private DeleteLogoPortOut deleteLogoPortOut;
+	private DeleteImagePortIn deleteImagePortIn;
 
 	@Mock
 	private InterestRelationService interestRelationService;
@@ -55,7 +55,7 @@ public class DeleteInterestUseCaseTest {
 		doReturn(interest).when(interestService).find(any(InterestId.class));
 		doReturn(List.of(InterestRelationFixture.create())).when(interestRelationService).findAllByInterestId(any(UUID.class));
 
-		sut.delete(interest.getRegistrantId().getId(), interest.uuid());
+		sut.delete(interest.getRegistrantId().getId(), interest.id());
 
 		verify(interestRepository, times(1)).delete(any());
 	}
@@ -80,9 +80,9 @@ public class DeleteInterestUseCaseTest {
 		doReturn(interest).when(interestService).find(any(InterestId.class));
 		doReturn(List.of(InterestRelationFixture.create())).when(interestRelationService).findAllByInterestId(any(UUID.class));
 
-		sut.delete(interest.getRegistrantId().getId(), interest.uuid());
+		sut.delete(interest.getRegistrantId().getId(), interest.id());
 
-		verify(deleteLogoPortOut, times(0)).delete(any());
+		verify(deleteImagePortIn, times(0)).delete(any());
 	}
 
 	@DisplayName("관심사의 로고가 사용자가 업로드한 로고라면 이미지는 삭제된다.")
@@ -92,9 +92,9 @@ public class DeleteInterestUseCaseTest {
 		doReturn(interest).when(interestService).find(any(InterestId.class));
 		doReturn(List.of(InterestRelationFixture.create())).when(interestRelationService).findAllByInterestId(any(UUID.class));
 
-		sut.delete(interest.getRegistrantId().getId(), interest.uuid());
+		sut.delete(interest.getRegistrantId().getId(), interest.id());
 
-		verify(deleteLogoPortOut, times(1)).delete(any());
+		verify(deleteImagePortIn, times(1)).delete(any());
 	}
 
 	@DisplayName("관심사를 삭제할 때, 주요 관심사도 함께 삭제된다.")
@@ -104,7 +104,7 @@ public class DeleteInterestUseCaseTest {
 		doReturn(interest).when(interestService).find(any(InterestId.class));
 		doReturn(List.of(InterestRelationFixture.create())).when(interestRelationService).findAllByInterestId(any(UUID.class));
 
-		sut.delete(interest.getRegistrantId().getId(), interest.uuid());
+		sut.delete(interest.getRegistrantId().getId(), interest.id());
 
 		verify(majorInterestRepository, times(1)).deleteByInterestId(any());
 	}
@@ -117,7 +117,7 @@ public class DeleteInterestUseCaseTest {
 		doReturn(interest).when(interestService).find(any(InterestId.class));
 		doReturn(interestRelations).when(interestRelationService).findAllByInterestId(any(UUID.class));
 
-		sut.delete(interest.getRegistrantId().getId(), interest.uuid());
+		sut.delete(interest.getRegistrantId().getId(), interest.id());
 
 		verify(interestRelationService, times(interestRelations.size())).delete(any());
 	}
@@ -129,7 +129,7 @@ public class DeleteInterestUseCaseTest {
 		doReturn(interest).when(interestService).find(any(InterestId.class));
 		doReturn(List.of()).when(interestRelationService).findAllByInterestId(any(UUID.class));
 
-		sut.delete(interest.getRegistrantId().getId(), interest.uuid());
+		sut.delete(interest.getRegistrantId().getId(), interest.id());
 
 		verify(interestRelationService, times(0)).delete(any());
 	}

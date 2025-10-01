@@ -14,18 +14,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gomo.app.common.arch.Presentation;
-import com.gomo.app.support.auth.presentation.security.Auth;
-import com.gomo.app.support.auth.presentation.security.AuthInfo;
+import com.gomo.app.core.quest.application.port.dto.ListAssignQuestDto;
 import com.gomo.app.core.quest.application.usecase.CreateAssignQuestUseCase;
 import com.gomo.app.core.quest.application.usecase.DeleteAssignQuestUseCase;
 import com.gomo.app.core.quest.application.usecase.ReadAssignQuestUseCase;
 import com.gomo.app.core.quest.application.usecase.UpdateAssignQuestUseCase;
-import com.gomo.app.core.quest.application.port.dto.CreateAssignQuestDto;
-import com.gomo.app.core.quest.application.port.dto.ListAssignQuestDto;
 import com.gomo.app.core.quest.presentation.request.CreateAssignQuestRequest;
 import com.gomo.app.core.quest.presentation.request.UpdateAssignQuestRequest;
 import com.gomo.app.core.quest.presentation.response.CreateAssignQuestResponse;
 import com.gomo.app.core.quest.presentation.response.ListAssignQuestResponse;
+import com.gomo.app.support.auth.presentation.security.Auth;
+import com.gomo.app.support.auth.presentation.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -41,8 +40,8 @@ public class AssignQuestApi {
 
 	@PostMapping
 	public ResponseEntity<CreateAssignQuestResponse> create(@Auth AuthInfo authInfo, @RequestBody CreateAssignQuestRequest request) {
-		CreateAssignQuestDto dto = createAssignQuestUseCase.create(request.toCommand(authInfo.getMemberId()));
-		return ResponseEntity.status(CREATED).body(CreateAssignQuestResponse.of(dto.id()));
+		UUID assignQuestId = createAssignQuestUseCase.create(request.toCommand(authInfo.getMemberId()));
+		return ResponseEntity.status(CREATED).body(CreateAssignQuestResponse.of(assignQuestId));
 	}
 
 	@GetMapping

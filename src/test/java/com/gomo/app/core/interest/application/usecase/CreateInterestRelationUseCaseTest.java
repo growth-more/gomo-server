@@ -3,6 +3,8 @@ package com.gomo.app.core.interest.application.usecase;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import java.util.UUID;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.interest.application.CreateInterestRelationUseCase;
-import com.gomo.app.core.interest.application.port.dto.CreateInterestRelationDto;
 import com.gomo.app.core.interest.domain.model.InterestRelation;
 import com.gomo.app.core.interest.domain.service.InterestRelationService;
 import com.gomo.app.core.interest.fixture.InterestRelationFixture;
@@ -32,12 +33,8 @@ public class CreateInterestRelationUseCaseTest {
 		InterestRelation interestRelation = InterestRelationFixture.create();
 		doReturn(interestRelation).when(interestRelationService).create(any(), any(), any());
 
-		CreateInterestRelationDto actual = sut.create(
-			interestRelation.registrantUuid(),
-			interestRelation.getParentInterestId().getId(),
-			interestRelation.getChildInterestId().getId()
-		);
+		UUID actual = sut.create(interestRelation.registrantId(), interestRelation.getParentInterestId().getId(), interestRelation.getChildInterestId().getId());
 
-		assertThat(actual.id()).isEqualTo(interestRelation.uuid());
+		assertThat(actual).isEqualTo(interestRelation.id());
 	}
 }

@@ -3,10 +3,8 @@ package com.gomo.app.core.quest.application.usecase;
 import java.util.UUID;
 
 import com.gomo.app.common.arch.ApplicationService;
-import com.gomo.app.support.logging.AuditLog;
 import com.gomo.app.core.quest.application.port.ReadParticipantPortOut;
 import com.gomo.app.core.quest.application.port.command.CreateRepeatQuestCommand;
-import com.gomo.app.core.quest.application.port.dto.CreateRepeatQuestDto;
 import com.gomo.app.core.quest.application.port.dto.ParticipantDto;
 import com.gomo.app.core.quest.domain.model.Participant;
 import com.gomo.app.core.quest.domain.model.ParticipantId;
@@ -19,6 +17,7 @@ import com.gomo.app.core.quest.domain.model.SubjectId;
 import com.gomo.app.core.quest.domain.model.SubjectName;
 import com.gomo.app.core.quest.domain.repository.RepeatQuestRepository;
 import com.gomo.app.core.quest.domain.service.RepeatQuestService;
+import com.gomo.app.support.logging.AuditLog;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,7 +30,7 @@ public class CreateRepeatQuestUseCase {
 	private final RepeatQuestRepository repeatQuestRepository;
 
 	@AuditLog(action = "CREATE_REPEAT_QUEST")
-	public CreateRepeatQuestDto create(CreateRepeatQuestCommand command) {
+	public UUID create(CreateRepeatQuestCommand command) {
 		UUID participantId = command.participantId();
 		QuestType questType = QuestType.valueOf(command.questType());
 		ensureNotExceedQuestQuota(participantId, questType);
@@ -43,7 +42,7 @@ public class CreateRepeatQuestUseCase {
 			QuestContent.of(command.content())
 		);
 		RepeatQuest savedRepeatQuest = repeatQuestService.create(ParticipantId.of(participantId), quest);
-		return CreateRepeatQuestDto.of(savedRepeatQuest.id());
+		return savedRepeatQuest.id();
 	}
 
 	private void ensureNotExceedQuestQuota(UUID participantId, QuestType questType) {

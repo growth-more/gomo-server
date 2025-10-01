@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gomo.app.common.arch.Presentation;
-import com.gomo.app.support.auth.application.AuthenticateUseCase;
-import com.gomo.app.support.auth.application.UpdateRefreshTokenUseCase;
 import com.gomo.app.support.auth.application.port.DeleteAuthTokenPortIn;
 import com.gomo.app.support.auth.application.port.dto.AuthTokenDto;
+import com.gomo.app.support.auth.application.usecase.AuthenticateUseCase;
+import com.gomo.app.support.auth.application.usecase.UpdateRefreshTokenUseCase;
 import com.gomo.app.support.auth.presentation.request.LoginRequest;
 import com.gomo.app.support.auth.presentation.response.AccessTokenResponse;
 import com.gomo.app.support.auth.presentation.security.Auth;

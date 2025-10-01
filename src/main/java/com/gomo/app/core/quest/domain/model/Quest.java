@@ -45,13 +45,7 @@ public class Quest {
 	protected Quest() {
 	}
 
-	private Quest(
-		ParticipantId participantId,
-		SubjectId subjectId,
-		SubjectName subjectName,
-		QuestType type,
-		QuestContent content
-	) {
+	private Quest(ParticipantId participantId, SubjectId subjectId, SubjectName subjectName, QuestType type, QuestContent content) {
 		this.participantId = participantId;
 		this.subjectId = subjectId;
 		this.subjectName = subjectName;
@@ -59,13 +53,7 @@ public class Quest {
 		this.content = content;
 	}
 
-	public static Quest of(
-		ParticipantId participantId,
-		SubjectId subjectId,
-		SubjectName subjectName,
-		QuestType type,
-		QuestContent content
-	) {
+	public static Quest of(ParticipantId participantId, SubjectId subjectId, SubjectName subjectName, QuestType type, QuestContent content) {
 		return new Quest(participantId, subjectId, subjectName, type, content);
 	}
 

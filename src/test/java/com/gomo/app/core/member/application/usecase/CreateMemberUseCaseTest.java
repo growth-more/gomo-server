@@ -15,7 +15,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.gomo.app.common.jwt.port.VerifyJwtPortIn;
 import com.gomo.app.core.member.application.adapter.PasswordAdapter;
 import com.gomo.app.core.member.application.port.command.CreateMemberCommand;
-import com.gomo.app.core.member.application.port.dto.CreateMemberDto;
 import com.gomo.app.core.member.common.fixture.MemberFixture;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
@@ -57,23 +56,16 @@ public class CreateMemberUseCaseTest {
 		Member member = MemberFixture.member();
 		PointWalletId pointWalletId = PointWalletId.of(UUID.randomUUID());
 		PointWallet pointWallet = PointWallet.createDefault(pointWalletId, TransactorId.of(member.id()));
-
 		doNothing().when(memberService).checkEmailDuplicated(any());
 		doNothing().when(memberService).checkHandleDuplicated(any());
 		doReturn(member.getPassword().getPassword()).when(passwordAdapter).encode(anyString());
 		doReturn(member).when(memberRepository).save(any(Member.class));
 
-		CreateMemberDto dto = sut.create(CreateMemberCommand.of(
-			member.email(),
-			member.password(),
-			member.handle(),
-			member.name(),
-			member.motto(),
-			member.getLoginProvider().name(),
-			"temporaryToken"
+		UUID actual = sut.create(CreateMemberCommand.of(
+			member.email(), member.password(), member.handle(), member.name(), member.motto(), member.getLoginProvider().name(), "temporaryToken"
 		));
 
-		assertThat(dto.id()).isEqualTo(member.id());
+		assertThat(actual).isEqualTo(member.id());
 		verify(createPointWalletPortIn, times(1)).create(any());
 		verify(createAchieverPortIn, times(1)).create(any());
 	}

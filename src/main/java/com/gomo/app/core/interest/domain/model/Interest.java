@@ -48,14 +48,7 @@ public class Interest extends BaseAudit implements Authorizable {
 	protected Interest() {
 	}
 
-	public Interest(
-		InterestId id,
-		RegistrantId registrantId,
-		Proficiency proficiency,
-		InterestName name,
-		Logo logo,
-		String colorCode
-	) {
+	public Interest(InterestId id, RegistrantId registrantId, Proficiency proficiency, InterestName name, Logo logo, String colorCode) {
 		this.id = id;
 		this.registrantId = registrantId;
 		this.proficiency = proficiency;
@@ -64,22 +57,20 @@ public class Interest extends BaseAudit implements Authorizable {
 		this.colorCode = colorCode;
 	}
 
-	public static Interest of(
-		InterestId id,
-		RegistrantId registrantId,
-		InterestName name,
-		Logo logo,
-		String colorCode
-	) {
+	public static Interest of(InterestId id, RegistrantId registrantId, InterestName name, Logo logo, String colorCode) {
 		return new Interest(id, registrantId, Proficiency.createDefault(), name, logo, colorCode);
 	}
 
-	public UUID uuid() {
+	public UUID id() {
 		return this.id.getId();
 	}
 
-	public UUID registrantUuid() {
+	public UUID registrantId() {
 		return this.registrantId.getId();
+	}
+
+	public String logoUrl() {
+		return this.logo.getUrl();
 	}
 
 	public void updateName(InterestName updatedName) {

@@ -1,10 +1,13 @@
 package com.gomo.app.support.image.port;
 
-import org.springframework.web.multipart.MultipartFile;
+import java.util.Optional;
 
-import com.gomo.app.support.image.port.dto.UploadImageDto;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface UploadImagePortIn {
 
-	UploadImageDto upload(MultipartFile file);
+	/**
+	 * @return image URL, or Optional.empty() if none
+	 */
+	Optional<String> upload(MultipartFile file);
 }

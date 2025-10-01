@@ -61,7 +61,7 @@ public class ReadInterestNetworkUseCaseTest {
 		assertThat(actual.interestDtos())
 			.hasSize(2)
 			.extracting("id", "registrantId", "name", "logoUrl", "proficiency.level", "proficiency.score", "proficiency.totalScore", "majorInterestId")
-			.containsExactly(createInterestTuple(expected1, majorInterest.uuid()), createInterestTuple(expected2, null));
+			.containsExactly(createInterestTuple(expected1, majorInterest.id()), createInterestTuple(expected2, null));
 
 		assertThat(actual.relationDtos())
 			.hasSize(1)
