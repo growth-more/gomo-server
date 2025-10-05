@@ -75,6 +75,18 @@ public class AssignQuest extends BaseAudit implements OrderChangeable, Authoriza
 		return this.id.getId();
 	}
 
+	public UUID participantId() {
+		return this.quest.getParticipantId().getId();
+	}
+
+	public UUID subjectId() {
+		return this.quest.getSubjectId().getId();
+	}
+
+	public QuestType questType() {
+		return this.quest.getType();
+	}
+
 	public void updateQuest(SubjectId subjectId, SubjectName subjectName, QuestType questType, QuestContent content) {
 		this.quest = this.quest.update(subjectId, subjectName, questType, content);
 	}

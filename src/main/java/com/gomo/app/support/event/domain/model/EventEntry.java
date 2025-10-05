@@ -1,4 +1,4 @@
-package com.gomo.app.support.event;
+package com.gomo.app.support.event.domain.model;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.gomo.app.common.event.EventStatus;
@@ -22,7 +22,7 @@ public class EventEntry {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String eventType;
+	private String eventName;
 
 	@Enumerated(EnumType.STRING)
 	private EventStatus eventStatus;
@@ -33,7 +33,7 @@ public class EventEntry {
 		try {
 			JsonNode jsonNode = JsonParser.parseNode(eventEntry);
 			this.id = jsonNode.get("id").asLong();
-			this.eventType = jsonNode.get("eventType").asText();
+			this.eventName = jsonNode.get("eventName").asText();
 			this.eventStatus = EventStatus.valueOf(jsonNode.get("eventStatus").asText());
 			this.payload = jsonNode.get("payload").asText();
 			this.timestamp = jsonNode.get("timestamp").asLong();
@@ -42,15 +42,15 @@ public class EventEntry {
 		}
 	}
 
-	private EventEntry(String eventType, EventStatus eventStatus, String payload, long timestamp) {
-		this.eventType = eventType;
+	private EventEntry(String eventName, EventStatus eventStatus, String payload, long timestamp) {
+		this.eventName = eventName;
 		this.eventStatus = eventStatus;
 		this.payload = payload;
 		this.timestamp = timestamp;
 	}
 
-	public static EventEntry of(String eventType, String payload, long timestamp) {
-		return new EventEntry(eventType, EventStatus.PENDING, payload, timestamp);
+	public static EventEntry of(String eventName, String payload, long timestamp) {
+		return new EventEntry(eventName, EventStatus.PENDING, payload, timestamp);
 	}
 
 	public void update(EventStatus newStatus) {

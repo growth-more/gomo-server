@@ -1,5 +1,6 @@
 package com.gomo.app.core.quest.presentation.request;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.gomo.app.core.quest.application.port.command.CompleteAssignQuestCommand;
@@ -19,7 +20,7 @@ public class CompleteAssignQuestRequest {
 		return new CompleteAssignQuestRequest(proof);
 	}
 
-	public CompleteAssignQuestCommand toCommand(UUID participantId, UUID assignQuestId) {
-		return new CompleteAssignQuestCommand(participantId, assignQuestId, proof);
+	public CompleteAssignQuestCommand toCommand(UUID participantId, UUID assignQuestId, LocalDateTime completedDateTime) {
+		return new CompleteAssignQuestCommand(participantId, assignQuestId, proof, completedDateTime);
 	}
 }
