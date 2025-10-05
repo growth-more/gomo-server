@@ -40,6 +40,6 @@ public class EmailCodeApi {
 	@GetMapping("/verify")
 	public ResponseEntity<VerifyEmailCodeResponse> verify(@ModelAttribute VerifyEmailCodeRequest request) {
 		String temporaryToken = verifyEmailCodeUseCase.verify(request.getEmail(), request.getCode());
-		return ResponseEntity.ok().body(VerifyEmailCodeResponse.of(temporaryToken));
+		return ResponseEntity.status(HttpStatus.OK).body(VerifyEmailCodeResponse.of(temporaryToken));
 	}
 }

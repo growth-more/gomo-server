@@ -3,6 +3,7 @@ package com.gomo.app.common;
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
@@ -62,6 +63,7 @@ public abstract class DocumentationTestBase {
 	protected String accessToken;
 	protected String refreshToken;
 	protected String sessionEmail;
+	protected String sessionPassword;
 	protected String sessionHandle;
 
 	protected DocumentationTestBase() {
@@ -72,22 +74,28 @@ public abstract class DocumentationTestBase {
 	void setUp(RestDocumentationContextProvider restDocumentation) {
 		this.specification = new RequestSpecBuilder()
 			.setPort(port)
-			.addFilter(
-				documentationConfiguration(restDocumentation)
-					.operationPreprocessors()
-			)
+			.addFilter(documentationConfiguration(restDocumentation).operationPreprocessors())
 			.build();
 
 		sessionEmail = "testmember@naver.com";
+		sessionPassword = "Test1234@";
 		sessionHandle = "@Test";
-		String temporaryToken = generateJwtPortIn.generateTemporaryToken(sessionEmail, 300);
-		memberApi.create(CreateMemberRequest.of(sessionEmail, "Test1234@", sessionHandle, "testname", "testmotto", LoginProvider.EMAIL.name(), temporaryToken));
-		var tokenResponse = this.authApi.login(LoginRequest.of(sessionEmail, "Test1234@"));
-		this.sessionMemberId = tokenResponse.getBody().getPrincipalId();
-		this.authInfo = AuthInfo.of(sessionMemberId);
-		this.accessToken = tokenResponse.getBody().getAccessToken().toString();
-		this.refreshToken = extractTokenFromCookie(tokenResponse.getHeaders().get(HttpHeaders.SET_COOKIE));
+		signup();
+		login();
 		initMockHttpServletRequest(accessToken);
+	}
+
+	private void login() {
+		var tokenResponse = this.authApi.login(LoginRequest.of(sessionEmail, sessionPassword));
+		this.sessionMemberId = Objects.requireNonNull(tokenResponse.getBody()).getPrincipalId();
+		this.authInfo = AuthInfo.of(sessionMemberId);
+		this.accessToken = tokenResponse.getBody().getAccessToken();
+		this.refreshToken = extractTokenFromCookie(tokenResponse.getHeaders().get(HttpHeaders.SET_COOKIE));
+	}
+
+	private void signup() {
+		String temporaryToken = generateJwtPortIn.generateTemporaryToken(sessionEmail, 300);
+		memberApi.create(CreateMemberRequest.of(sessionEmail, sessionPassword, sessionHandle, "testname", "testmotto", LoginProvider.EMAIL.name(), temporaryToken));
 	}
 
 	String extractTokenFromCookie(List<String> cookies) {

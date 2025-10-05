@@ -14,9 +14,9 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.auth.documentation.snippet.VerifyEmailAuthCodeSnippet;
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.core.member.exception.code.MemberErrorCode;
 import com.gomo.app.support.auth.application.port.CreateAuthCodePortIn;
 import com.gomo.app.support.auth.domain.repository.AuthCodeRepository;
+import com.gomo.app.support.auth.exception.AuthErrorCode;
 
 @DisplayName("[Presentation Documentation]: 이메일 인증 코드 테스트")
 public class VerifyEmailAuthCodeDocumentationTest extends DocumentationTestBase {
@@ -62,11 +62,11 @@ public class VerifyEmailAuthCodeDocumentationTest extends DocumentationTestBase 
 			.when()
 			.get(URL)
 			.then()
-			.statusCode(MemberErrorCode.AUTHENTICATION_FAILED.getHttpStatus())
+			.statusCode(AuthErrorCode.INVALID_AUTH_CODE.getHttpStatus())
 			.body("timestamp", instanceOf(String.class))
 			.body("path", equalTo(URL))
-			.body("httpStatus", equalTo(MemberErrorCode.AUTHENTICATION_FAILED.getHttpStatus()))
-			.body("code", equalTo(MemberErrorCode.AUTHENTICATION_FAILED.getErrorCode()))
-			.body("message", equalTo(MemberErrorCode.AUTHENTICATION_FAILED.getMessage()));
+			.body("httpStatus", equalTo(AuthErrorCode.INVALID_AUTH_CODE.getHttpStatus()))
+			.body("code", equalTo(AuthErrorCode.INVALID_AUTH_CODE.getErrorCode()))
+			.body("message", equalTo(AuthErrorCode.INVALID_AUTH_CODE.getMessage()));
 	}
 }

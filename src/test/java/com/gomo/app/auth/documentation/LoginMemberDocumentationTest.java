@@ -21,15 +21,12 @@ public class LoginMemberDocumentationTest extends DocumentationTestBase {
 	private final RestDocumentationFilter filter = LoginMemberSnippet.create();
 	private final RestDocumentationFilter errorFilter = LoginMemberSnippet.createError();
 
-	private static final String EMAIL = "testmember@naver.com";
-	private static final String PASSWORD = "Test1234@";
-
 	@DisplayName("로그인에 성공한다.")
 	@Test
 	void login_member() {
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.body(LoginRequest.of(EMAIL, PASSWORD))
+			.body(LoginRequest.of(sessionEmail, sessionPassword))
 			.when()
 			.post(URL)
 			.then()

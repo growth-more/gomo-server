@@ -11,7 +11,7 @@ import org.mockito.MockedStatic;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.gomo.app.common.event.EventStatus;
 import com.gomo.app.common.util.JsonParser;
-import com.gomo.app.support.event.EventEntry;
+import com.gomo.app.support.event.domain.model.EventEntry;
 
 @DisplayName("[Domain unit]: 이벤트 엔트리 생성 및 수정 테스트")
 class EventEntryTest {
@@ -20,14 +20,14 @@ class EventEntryTest {
 	@Test
 	void create_event_entry() {
 		try (MockedStatic<JsonParser> mockedJsonParser = mockStatic(JsonParser.class)) {
-			String json = "{ \"id\": 1, \"eventType\": \"TEST_EVENT\", \"eventStatus\": \"PENDING\", \"payload\": \"{}\", \"timestamp\": 123456789 }";
+			String json = "{ \"id\": 1, \"eventName\": \"TEST_EVENT\", \"eventStatus\": \"PENDING\", \"payload\": \"{}\", \"timestamp\": 123456789 }";
 			JsonNode mock = getMockJsonNode();
 			mockedJsonParser.when(() -> JsonParser.parseNode(json)).thenReturn(mock);
 
 			EventEntry eventEntry = new EventEntry(json);
 
 			assertThat(eventEntry.getId()).isEqualTo(1L);
-			assertThat(eventEntry.getEventType()).isEqualTo("TEST_EVENT");
+			assertThat(eventEntry.getEventName()).isEqualTo("TEST_EVENT");
 			assertThat(eventEntry.getEventStatus()).isEqualTo(EventStatus.PENDING);
 			assertThat(eventEntry.getPayload()).isEqualTo("{}");
 			assertThat(eventEntry.getTimestamp()).isEqualTo(123456789L);
@@ -38,7 +38,7 @@ class EventEntryTest {
 	@Test
 	void create_event_entry_with_json_parse_exception() {
 		try (MockedStatic<JsonParser> mockedJsonParser = mockStatic(JsonParser.class)) {
-			String json = "{ \"id\": 1, \"eventType\": \"TEST_EVENT\", \"eventStatus\": \"PENDING\", \"payload\": \"{}\", \"timestamp\": 123456789 }";
+			String json = "{ \"id\": 1, \"eventName\": \"TEST_EVENT\", \"eventStatus\": \"PENDING\", \"payload\": \"{}\", \"timestamp\": 123456789 }";
 			mockedJsonParser.when(() -> JsonParser.parseNode(json)).thenThrow(new RuntimeException("JSON parse exception"));
 
 			assertThatThrownBy(() -> new EventEntry(json))
@@ -52,7 +52,7 @@ class EventEntryTest {
 	void create_event_entry_with_factory_method() {
 		EventEntry eventEntry = EventEntry.of("TEST_EVENT", "{}", 123456789L);
 
-		assertThat(eventEntry.getEventType()).isEqualTo("TEST_EVENT");
+		assertThat(eventEntry.getEventName()).isEqualTo("TEST_EVENT");
 		assertThat(eventEntry.getPayload()).isEqualTo("{}");
 		assertThat(eventEntry.getTimestamp()).isEqualTo(123456789L);
 	}
@@ -77,7 +77,7 @@ class EventEntryTest {
 	private @NotNull JsonNode getMockJsonNode() {
 		JsonNode mock = mock(JsonNode.class);
 		JsonNode id = mock(JsonNode.class);
-		JsonNode eventType = mock(JsonNode.class);
+		JsonNode eventName = mock(JsonNode.class);
 		JsonNode eventStatus = mock(JsonNode.class);
 		JsonNode payload = mock(JsonNode.class);
 		JsonNode timestamp = mock(JsonNode.class);
@@ -85,8 +85,8 @@ class EventEntryTest {
 		when(mock.get("id")).thenReturn(id);
 		when(id.asLong()).thenReturn(1L);
 
-		when(mock.get("eventType")).thenReturn(eventType);
-		when(eventType.asText()).thenReturn("TEST_EVENT");
+		when(mock.get("eventName")).thenReturn(eventName);
+		when(eventName.asText()).thenReturn("TEST_EVENT");
 
 		when(mock.get("eventStatus")).thenReturn(eventStatus);
 		when(eventStatus.asText()).thenReturn("PENDING");

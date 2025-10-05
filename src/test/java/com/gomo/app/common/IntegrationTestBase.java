@@ -7,4 +7,3 @@ import org.springframework.test.context.ContextConfiguration;
 @ContextConfiguration(initializers = DatabaseContainerInitializer.class)
 public abstract class IntegrationTestBase {
 }
-

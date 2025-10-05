@@ -3,6 +3,8 @@ package com.gomo.app.core.member.application.usecase;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,7 +42,7 @@ public class UpdateProfileImageUseCaseTest {
 		UpdateProfileImageDto expected = UpdateProfileImageDto.of(NEW_IMAGE_URL);
 
 		doReturn(member).when(memberService).find(member.getId());
-		doReturn(NEW_IMAGE_URL).when(uploadImagePort).upload(any(MockMultipartFile.class));
+		doReturn(Optional.of(NEW_IMAGE_URL)).when(uploadImagePort).upload(any(MockMultipartFile.class));
 
 		UpdateProfileImageDto actual = sut.update(member.id(), request);
 

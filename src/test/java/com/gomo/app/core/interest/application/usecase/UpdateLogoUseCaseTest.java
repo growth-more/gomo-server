@@ -2,6 +2,7 @@ package com.gomo.app.core.interest.application.usecase;
 
 import static org.mockito.Mockito.*;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.DisplayName;
@@ -14,14 +15,12 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gomo.app.core.interest.application.UpdateLogoUseCase;
-import com.gomo.app.core.interest.application.port.dto.LogoDto;
 import com.gomo.app.core.interest.domain.model.InterestId;
 import com.gomo.app.core.interest.domain.model.Logo;
 import com.gomo.app.core.interest.domain.service.InterestService;
 import com.gomo.app.core.interest.fixture.InterestFixture;
 import com.gomo.app.support.image.port.DeleteImagePortIn;
 import com.gomo.app.support.image.port.UploadImagePortIn;
-import com.gomo.app.support.image.port.dto.UploadImageDto;
 
 @DisplayName("[Application unit]: 관심사 로고 수정 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -43,7 +42,7 @@ public class UpdateLogoUseCaseTest {
 	@Test
 	void update_interest() {
 		doReturn(InterestFixture.create()).when(interestService).find(any(InterestId.class));
-		doReturn(UploadImageDto.of("logoUrl")).when(uploadImagePortIn).upload(any(MultipartFile.class));
+		doReturn(Optional.of("logoUrl")).when(uploadImagePortIn).upload(any(MultipartFile.class));
 
 		sut.update(InterestId.of(UUID.randomUUID()), new MockMultipartFile("logoFile", "mock image data".getBytes()));
 
@@ -56,7 +55,7 @@ public class UpdateLogoUseCaseTest {
 	@Test
 	void update_interest_by_unauthorized_accessor() {
 		doReturn(InterestFixture.create(Logo.of(null))).when(interestService).find(any(InterestId.class));
-		doReturn(LogoDto.of("logoUrl")).when(uploadImagePortIn).upload(any(MultipartFile.class));
+		doReturn(Optional.of("logoUrl")).when(uploadImagePortIn).upload(any(MultipartFile.class));
 
 		sut.update(InterestId.of(UUID.randomUUID()), new MockMultipartFile("logoFile", "mock image data".getBytes()));
 

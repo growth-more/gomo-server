@@ -8,5 +8,12 @@ public interface GenerateJwtPortIn {
 
 	String generateRefreshToken(UUID subject);
 
+	/**
+	 * Generates a temporary token.
+	 *
+	 * @param subject token subject
+	 * @param expiration time in seconds
+	 * @return temporary token
+	 */
 	String generateTemporaryToken(String subject, long expiration);
 }

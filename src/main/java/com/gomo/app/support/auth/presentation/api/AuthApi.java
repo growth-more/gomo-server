@@ -1,5 +1,7 @@
 package com.gomo.app.support.auth.presentation.api;
 
+import static org.springframework.http.HttpStatus.*;
+
 import java.time.Duration;
 
 import org.springframework.http.HttpHeaders;
@@ -22,7 +24,9 @@ import com.gomo.app.support.auth.presentation.security.Auth;
 import com.gomo.app.support.auth.presentation.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/auth")
 @Presentation
@@ -36,7 +40,8 @@ public class AuthApi {
 	public ResponseEntity<AccessTokenResponse> login(@RequestBody LoginRequest request) {
 		AuthTokenDto authTokenDto = authenticateUseCase.authenticate(request.getEmail(), request.getPassword());
 		ResponseCookie cookie = createResponseCookie(authTokenDto.refreshToken(), authTokenDto.expiresIn());
-		return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(AccessTokenResponse.of(authTokenDto.principalId(), authTokenDto.accessToken()));
+		AccessTokenResponse body = AccessTokenResponse.of(authTokenDto.principalId(), authTokenDto.accessToken());
+		return ResponseEntity.status(OK).header(HttpHeaders.SET_COOKIE, cookie.toString()).body(body);
 	}
 
 	@PostMapping("/refresh")

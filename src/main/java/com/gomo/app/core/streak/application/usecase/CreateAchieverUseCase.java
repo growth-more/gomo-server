@@ -17,7 +17,7 @@ class CreateAchieverUseCase implements CreateAchieverPortIn {
 
 	private final AchieverRepository achieverRepository;
 
-	@AuditLog(action = "CREATE_STREAK")
+	@AuditLog(action = "CREATE_ACHIEVER")
 	@Override
 	public UUID create(UUID achieverId) {
 		Achiever savedAchiever = achieverRepository.save(Achiever.of(AchieverId.of(achieverId)));

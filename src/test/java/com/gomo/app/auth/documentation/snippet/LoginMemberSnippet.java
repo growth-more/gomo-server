@@ -14,7 +14,7 @@ import com.gomo.app.common.constant.ErrorResponseFields;
 
 public class LoginMemberSnippet {
 
-	private static final String IDENTIFIER = "member-login";
+	private static final String IDENTIFIER = "auth-login";
 
 	private static final Snippet REQUEST_HEADERS = requestHeaders(
 		headerWithName(CONTENT_TYPE).description("Content-Type: `application/json`")

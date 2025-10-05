@@ -82,6 +82,8 @@ dependencies {
     // spring rest docs
     asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+
     // swagger annotations for simulator APIs (will separate module later)
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9'
 
