@@ -63,6 +63,9 @@ dependencies {
     // redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+    // rabbitmq
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+
     // lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
@@ -94,6 +97,7 @@ dependencies {
     testImplementation 'io.rest-assured:rest-assured'
     testImplementation "org.testcontainers:testcontainers"
     testImplementation "org.testcontainers:mysql"
+    testImplementation "org.testcontainers:rabbitmq"
     testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
 }
 
