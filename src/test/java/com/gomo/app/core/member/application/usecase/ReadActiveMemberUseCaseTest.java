@@ -15,8 +15,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.member.application.port.dto.ActiveMemberDto;
-import com.gomo.app.core.member.common.fixture.MemberFixture;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
+import com.gomo.app.core.member.fixture.MemberFixture;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Application unit]: 활성화 멤버 조회 테스트")

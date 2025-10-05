@@ -11,9 +11,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.member.application.port.dto.QuestPropertyDto;
-import com.gomo.app.core.member.common.fixture.MemberFixture;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.service.MemberService;
+import com.gomo.app.core.member.fixture.MemberFixture;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Application unit]: 퀘스트 설정 조회 테스트")

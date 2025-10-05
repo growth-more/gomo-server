@@ -10,10 +10,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.core.member.common.fixture.MemberFixture;
 import com.gomo.app.core.member.domain.model.ActivateStatus;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.service.MemberService;
+import com.gomo.app.core.member.fixture.MemberFixture;
 import com.gomo.app.support.auth.application.port.DeleteAuthTokenPortIn;
 
 @ExtendWith(MockitoExtension.class)

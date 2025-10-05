@@ -14,9 +14,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 
 import com.gomo.app.core.member.application.port.dto.UpdateProfileImageDto;
-import com.gomo.app.core.member.common.fixture.MemberFixture;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.service.MemberService;
+import com.gomo.app.core.member.fixture.MemberFixture;
 import com.gomo.app.support.image.port.UploadImagePortIn;
 
 @ExtendWith(MockitoExtension.class)

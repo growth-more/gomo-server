@@ -14,9 +14,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.core.member.common.fixture.MemberFixture;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
+import com.gomo.app.core.member.fixture.MemberFixture;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("[Application unit]: OAuth 회원 로그인 테스트")

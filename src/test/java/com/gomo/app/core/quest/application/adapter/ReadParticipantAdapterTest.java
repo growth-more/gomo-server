@@ -14,7 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.member.application.port.ReadMemberPortIn;
 import com.gomo.app.core.member.application.port.dto.MemberDto;
-import com.gomo.app.core.member.common.fixture.MemberFixture;
+import com.gomo.app.core.member.fixture.MemberFixture;
 import com.gomo.app.core.quest.application.port.dto.ParticipantDto;
 
 @DisplayName("[Application unit]: MemberDto -> ParticipantDto 전환 테스트")

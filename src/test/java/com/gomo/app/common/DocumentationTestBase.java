@@ -3,7 +3,6 @@ package com.gomo.app.common;
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.*;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
@@ -12,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
@@ -29,6 +29,7 @@ import com.gomo.app.core.member.presentation.MemberApi;
 import com.gomo.app.core.member.presentation.request.CreateMemberRequest;
 import com.gomo.app.support.auth.presentation.api.AuthApi;
 import com.gomo.app.support.auth.presentation.request.LoginRequest;
+import com.gomo.app.support.auth.presentation.response.AccessTokenResponse;
 import com.gomo.app.support.auth.presentation.security.AuthInfo;
 import com.google.common.net.HttpHeaders;
 
@@ -47,13 +48,13 @@ public abstract class DocumentationTestBase {
 	protected ObjectMapper objectMapper;
 
 	@Autowired
-	MemberApi memberApi;
+	protected MemberApi memberApi;
 
 	@Autowired
 	protected GenerateJwtPortIn generateJwtPortIn;
 
 	@Autowired
-	AuthApi authApi;
+	protected AuthApi authApi;
 
 	@Autowired
 	private MemberRepository memberRepository;
@@ -80,25 +81,30 @@ public abstract class DocumentationTestBase {
 		sessionEmail = "testmember@naver.com";
 		sessionPassword = "Test1234@";
 		sessionHandle = "@Test";
-		signup();
-		login();
+		signup(sessionEmail, sessionPassword, sessionHandle);
+		sessionInit(login(sessionEmail, sessionPassword));
 		initMockHttpServletRequest(accessToken);
 	}
 
-	private void login() {
-		var tokenResponse = this.authApi.login(LoginRequest.of(sessionEmail, sessionPassword));
-		this.sessionMemberId = Objects.requireNonNull(tokenResponse.getBody()).getPrincipalId();
+	protected void signup(String email, String password, String handle) {
+		String temporaryToken = generateJwtPortIn.generateTemporaryToken(email, 300);
+		memberApi.create(CreateMemberRequest.of(email, password, handle, "testname", "testmotto", LoginProvider.EMAIL.name(), temporaryToken));
+	}
+
+	protected ResponseEntity<AccessTokenResponse> login(String email, String password) {
+		return this.authApi.login(LoginRequest.of(email, password));
+	}
+
+	protected void sessionInit(ResponseEntity<AccessTokenResponse> responseEntity) {
+		AccessTokenResponse responseBody = responseEntity.getBody();
+		List<String> cookies = responseEntity.getHeaders().get(HttpHeaders.SET_COOKIE);
+		this.sessionMemberId = responseBody.getPrincipalId();
 		this.authInfo = AuthInfo.of(sessionMemberId);
-		this.accessToken = tokenResponse.getBody().getAccessToken();
-		this.refreshToken = extractTokenFromCookie(tokenResponse.getHeaders().get(HttpHeaders.SET_COOKIE));
+		this.accessToken = responseBody.getAccessToken();
+		this.refreshToken = extractTokenFromCookie(cookies);
 	}
 
-	private void signup() {
-		String temporaryToken = generateJwtPortIn.generateTemporaryToken(sessionEmail, 300);
-		memberApi.create(CreateMemberRequest.of(sessionEmail, sessionPassword, sessionHandle, "testname", "testmotto", LoginProvider.EMAIL.name(), temporaryToken));
-	}
-
-	String extractTokenFromCookie(List<String> cookies) {
+	private String extractTokenFromCookie(List<String> cookies) {
 		if (cookies != null) {
 			for (String cookie : cookies) {
 				if (cookie.contains("refreshToken=")) {
@@ -116,10 +122,9 @@ public abstract class DocumentationTestBase {
 		memberRepository.deleteById(MemberId.of(sessionMemberId));
 	}
 
-	public static void initMockHttpServletRequest(String token) {
+	public void initMockHttpServletRequest(String token) {
 		MockHttpServletRequest mockRequest = new MockHttpServletRequest();
 		mockRequest.addHeader("Authorization", "Bearer " + token);
-
 		RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(mockRequest));
 	}
 }

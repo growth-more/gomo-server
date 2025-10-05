@@ -13,9 +13,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.common.jwt.port.VerifyJwtPortIn;
 import com.gomo.app.core.member.application.port.LoginMemberPortIn;
-import com.gomo.app.core.member.common.fixture.MemberFixture;
 import com.gomo.app.core.member.domain.model.ActivateStatus;
 import com.gomo.app.core.member.domain.model.Member;
+import com.gomo.app.core.member.fixture.MemberFixture;
 import com.gomo.app.support.auth.application.port.dto.AuthTokenDto;
 import com.gomo.app.support.auth.domain.model.AuthToken;
 
