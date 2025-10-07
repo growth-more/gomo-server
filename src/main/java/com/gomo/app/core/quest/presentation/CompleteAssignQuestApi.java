@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.gomo.app.common.arch.Presentation;
+import com.gomo.app.common.arch.CoreApi;
 import com.gomo.app.core.quest.application.usecase.CompleteAssignQuestUseCase;
 import com.gomo.app.core.quest.presentation.request.CompleteAssignQuestRequest;
 import com.gomo.app.support.auth.presentation.security.Auth;
@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RequestMapping("/quests/assigns/{id}/complete")
-@Presentation
+@CoreApi
 public class CompleteAssignQuestApi {
 
 	private final CompleteAssignQuestUseCase completeAssignQuestUseCase;

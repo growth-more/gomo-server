@@ -12,7 +12,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.core.interest.application.ReadMajorInterestUseCase;
 import com.gomo.app.core.interest.application.port.dto.MajorInterestDto;
 import com.gomo.app.core.interest.domain.model.Interest;
 import com.gomo.app.core.interest.domain.model.MajorInterest;

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.gomo.app.common.arch.Presentation;
+import com.gomo.app.common.arch.CoreApi;
 import com.gomo.app.core.quest.application.port.dto.ListRepeatQuestDto;
 import com.gomo.app.core.quest.application.usecase.CreateRepeatQuestUseCase;
 import com.gomo.app.core.quest.application.usecase.DeleteRepeatQuestUseCase;
@@ -30,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RequestMapping("/quests/repeats")
-@Presentation
+@CoreApi
 public class RepeatQuestApi {
 
 	private final CreateRepeatQuestUseCase createRepeatQuestUseCase;

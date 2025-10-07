@@ -33,11 +33,13 @@ import lombok.RequiredArgsConstructor;
 public class InterestRelationService {
 
 	private final ProficiencyService proficiencyService;
-	private final InterestService interestService;
 	private final InterestRelationRepository interestRelationRepository;
 
 	@Transactional
-	public InterestRelation create(RegistrantId registrantId, ParentInterestId parentInterestId, ChildInterestId childInterestId) {
+	public InterestRelation create(RegistrantId registrantId, Interest parentInterest, Interest childInterest) {
+		ParentInterestId parentInterestId = ParentInterestId.of(parentInterest.getId());
+		ChildInterestId childInterestId = ChildInterestId.of(childInterest.getId());
+
 		ensureNotDuplicated(parentInterestId, childInterestId);
 		InterestRelation interestRelation = InterestRelation.of(
 			InterestRelationId.of(UUIDGenerator.generate()),
@@ -47,7 +49,7 @@ public class InterestRelationService {
 		);
 		ensureDoesNotCreateCycle(registrantId, interestRelation);
 
-		enhanceProficiencyOfParentInterests(parentInterestId, childInterestId);
+		enhanceProficiencyOfParentInterests(parentInterest, childInterest);
 		return interestRelationRepository.save(interestRelation);
 	}
 
@@ -61,8 +63,8 @@ public class InterestRelationService {
 	}
 
 	@Transactional
-	public void delete(InterestRelation interestRelation) {
-		reduceProficiencyOfParentInterests(interestRelation.getParentInterestId(), interestRelation.getChildInterestId());
+	public void delete(InterestRelation interestRelation, Interest parentInterest, Interest childInterest) {
+		reduceProficiencyOfParentInterests(parentInterest, childInterest);
 		interestRelationRepository.delete(interestRelation);
 	}
 
@@ -130,13 +132,11 @@ public class InterestRelationService {
 		return visitedNodes.contains(currentNode);
 	}
 
-	private void enhanceProficiencyOfParentInterests(ParentInterestId parentInterestId, ChildInterestId childInterestId) {
-		Interest childInterest = interestService.find(childInterestId.toInterestId());
-		proficiencyService.adjust(parentInterestId.toInterestId(), childInterest.getProficiency().getTotalScore());
+	private void enhanceProficiencyOfParentInterests(Interest parentInterest, Interest childInterest) {
+		proficiencyService.adjust(parentInterest, childInterest.getProficiency().getTotalScore());
 	}
 
-	private void reduceProficiencyOfParentInterests(ParentInterestId parentInterestId, ChildInterestId childInterestId) {
-		Interest childInterest = interestService.find(childInterestId.toInterestId());
-		proficiencyService.adjust(parentInterestId.toInterestId(), -1 * childInterest.getProficiency().getTotalScore());
+	private void reduceProficiencyOfParentInterests(Interest parentInterest, Interest childInterest) {
+		proficiencyService.adjust(parentInterest, -1 * childInterest.getProficiency().getTotalScore());
 	}
 }

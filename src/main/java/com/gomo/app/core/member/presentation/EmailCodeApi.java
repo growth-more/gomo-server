@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.gomo.app.common.arch.Presentation;
+import com.gomo.app.common.arch.CoreApi;
 import com.gomo.app.core.member.application.usecase.CreateEmailCodeUseCase;
 import com.gomo.app.core.member.application.usecase.VerifyEmailCodeUseCase;
 import com.gomo.app.core.member.presentation.request.CreateEmailCodeRequest;
@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RequestMapping("/members/emails/codes")
-@Presentation
+@CoreApi
 public class EmailCodeApi {
 
 	private final CreateEmailCodeUseCase createEmailCodeUseCase;

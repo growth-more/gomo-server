@@ -14,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 
-import com.gomo.app.core.interest.application.CreateInterestUseCase;
 import com.gomo.app.core.interest.application.port.ReadRegistrantPortOut;
 import com.gomo.app.core.interest.application.port.command.CreateInterestCommand;
 import com.gomo.app.core.interest.application.port.dto.RegistrantDto;

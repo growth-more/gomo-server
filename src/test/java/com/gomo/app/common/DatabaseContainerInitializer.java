@@ -1,5 +1,8 @@
 package com.gomo.app.common;
 
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
+
 import org.flywaydb.core.Flyway;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
@@ -9,6 +12,9 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.containers.RabbitMQContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
 import com.zaxxer.hikari.HikariDataSource;
 
 // todo jhl221123: 자원별 컨테이너 초기화 로직을 분리해야 한다. 설정 파일을 개별로 초기화 가능한지 파악하는 것이 최우선이다.
@@ -49,6 +55,7 @@ public class DatabaseContainerInitializer implements ApplicationContextInitializ
 			.withReuse(true)
 			.waitingFor(Wait.forListeningPort());
 		rabbitMQContainer.start();
+		declareQueueOfRabbitMQ();
 	}
 
 	@Override
@@ -65,5 +72,25 @@ public class DatabaseContainerInitializer implements ApplicationContextInitializ
 			"spring.rabbitmq.password=" + rabbitMQContainer.getAdminPassword(),
 			"spring.rabbitmq.publisher-confirm-type=correlated"
 		).applyTo(context.getEnvironment());
+	}
+
+	private static void declareQueueOfRabbitMQ() {
+		try {
+			ConnectionFactory factory = new ConnectionFactory();
+			factory.setHost(rabbitMQContainer.getHost());
+			factory.setPort(rabbitMQContainer.getAmqpPort());
+			factory.setUsername(rabbitMQContainer.getAdminUsername());
+			factory.setPassword(rabbitMQContainer.getAdminPassword());
+
+			try (Connection connection = factory.newConnection();
+				 Channel channel = connection.createChannel()) {
+				// durable: true, exclusive: false, autoDelete: false, arguments: null
+				channel.queueDeclare("event.quest.completed.score", true, false, false, null);
+				channel.queueDeclare("event.quest.completed.streak", true, false, false, null);
+				channel.queueDeclare("event.quest.completed.point", true, false, false, null);
+			}
+		} catch (IOException | TimeoutException e) {
+			throw new RuntimeException("Failed to declare RabbitMQ queue for testing", e);
+		}
 	}
 }

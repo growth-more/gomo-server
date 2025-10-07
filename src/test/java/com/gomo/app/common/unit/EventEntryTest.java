@@ -69,9 +69,9 @@ class EventEntryTest {
 	@Test
 	void update_event_status() {
 		EventEntry eventEntry = EventEntry.of("TEST_EVENT", "{}", 123456789L);
-		eventEntry.update(EventStatus.COMPLETED);
+		eventEntry.update(EventStatus.PROCESSED);
 
-		assertThat(eventEntry.getEventStatus()).isEqualTo(EventStatus.COMPLETED);
+		assertThat(eventEntry.getEventStatus()).isEqualTo(EventStatus.PROCESSED);
 	}
 
 	private @NotNull JsonNode getMockJsonNode() {

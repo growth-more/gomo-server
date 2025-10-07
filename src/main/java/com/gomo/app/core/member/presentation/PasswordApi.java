@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.gomo.app.common.arch.Presentation;
+import com.gomo.app.common.arch.CoreApi;
 import com.gomo.app.core.member.application.usecase.ResetPasswordUseCase;
 import com.gomo.app.core.member.application.usecase.UpdatePasswordUseCase;
 import com.gomo.app.core.member.presentation.request.ResetPasswordRequest;
@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RequestMapping("/members/passwords")
-@Presentation
+@CoreApi
 public class PasswordApi {
 
 	private final UpdatePasswordUseCase updatePasswordUseCase;

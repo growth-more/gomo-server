@@ -34,7 +34,7 @@ class ForwardEventEntryUseCase implements ForwardEventEntryPortIn {
 			String routingKey = eventRouter.getRoutingKey(eventName);
 			String eventJson = JsonParser.toJson(entry);
 			messageBrokerPortOut.send(exchange, routingKey, eventJson);
-			entry.update(EventStatus.COMPLETED);
+			entry.update(EventStatus.PROCESSED);
 		}
 	}
 }

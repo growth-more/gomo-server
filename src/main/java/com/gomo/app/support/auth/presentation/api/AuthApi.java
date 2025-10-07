@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.gomo.app.common.arch.Presentation;
+import com.gomo.app.common.arch.CoreApi;
 import com.gomo.app.support.auth.application.port.DeleteAuthTokenPortIn;
 import com.gomo.app.support.auth.application.port.dto.AuthTokenDto;
 import com.gomo.app.support.auth.application.usecase.AuthenticateUseCase;
@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/auth")
-@Presentation
+@CoreApi
 public class AuthApi {
 
 	private final AuthenticateUseCase authenticateUseCase;

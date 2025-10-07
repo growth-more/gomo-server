@@ -17,8 +17,8 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;
-import com.gomo.app.core.interest.presentation.InterestApi;
-import com.gomo.app.core.interest.presentation.request.CreateInterestRequest;
+import com.gomo.app.core.interest.presentation.api.InterestApi;
+import com.gomo.app.core.interest.presentation.api.request.CreateInterestRequest;
 import com.gomo.app.core.member.presentation.QuestPropertyApi;
 import com.gomo.app.core.member.presentation.request.UpdateQuestPropertyRequest;
 import com.gomo.app.core.quest.documentation.snippet.CreateRepeatQuestSnippet;

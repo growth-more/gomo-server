@@ -7,18 +7,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.gomo.app.common.arch.Presentation;
-import com.gomo.app.support.auth.presentation.security.Auth;
-import com.gomo.app.support.auth.presentation.security.AuthInfo;
+import com.gomo.app.common.arch.CoreApi;
 import com.gomo.app.core.member.application.usecase.DeleteProfileBannerUseCase;
 import com.gomo.app.core.member.application.usecase.UpdateProfileBannerUseCase;
 import com.gomo.app.core.member.presentation.request.UpdateProfileBannerRequest;
+import com.gomo.app.support.auth.presentation.security.Auth;
+import com.gomo.app.support.auth.presentation.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RequestMapping("/members/images/banners")
-@Presentation
+@CoreApi
 public class ProfileBannerApi {
 
 	private final UpdateProfileBannerUseCase updateProfileBannerUseCase;

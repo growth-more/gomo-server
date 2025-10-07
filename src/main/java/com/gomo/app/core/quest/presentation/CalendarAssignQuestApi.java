@@ -8,20 +8,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.gomo.app.common.arch.Presentation;
-import com.gomo.app.support.auth.presentation.security.Auth;
-import com.gomo.app.support.auth.presentation.security.AuthInfo;
-import com.gomo.app.core.quest.application.usecase.CalendarAssignQuestUseCase;
+import com.gomo.app.common.arch.CoreApi;
 import com.gomo.app.core.quest.application.port.command.CalendarAssignQuestCommand;
 import com.gomo.app.core.quest.application.port.dto.CalendarAssignQuestDto;
+import com.gomo.app.core.quest.application.usecase.CalendarAssignQuestUseCase;
 import com.gomo.app.core.quest.presentation.response.CalendarAssignQuestResponse;
 import com.gomo.app.core.quest.presentation.response.ListCalendarAssignQuestResponse;
+import com.gomo.app.support.auth.presentation.security.Auth;
+import com.gomo.app.support.auth.presentation.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RequestMapping("/quests/assigns/calendars")
-@Presentation
+@CoreApi
 public class CalendarAssignQuestApi {
 
 	private final CalendarAssignQuestUseCase calendarAssignQuestUseCase;

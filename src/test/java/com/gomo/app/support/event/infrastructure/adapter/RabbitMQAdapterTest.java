@@ -11,6 +11,7 @@ import com.gomo.app.common.RabbitMQTestBase;
 import com.gomo.app.support.event.application.port.MessageBrokerPortOut;
 import com.rabbitmq.client.ShutdownSignalException;
 
+@DisplayName("[Infrastructure Integration]: RabbitMQ 접근 테스트")
 class RabbitMQAdapterTest extends RabbitMQTestBase {
 
 	@Autowired

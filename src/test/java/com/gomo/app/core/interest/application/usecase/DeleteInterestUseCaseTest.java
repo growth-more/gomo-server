@@ -13,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.core.interest.application.DeleteInterestUseCase;
 import com.gomo.app.core.interest.domain.model.Interest;
 import com.gomo.app.core.interest.domain.model.InterestId;
 import com.gomo.app.core.interest.domain.model.InterestRelation;
@@ -119,7 +118,7 @@ public class DeleteInterestUseCaseTest {
 
 		sut.delete(interest.getRegistrantId().getId(), interest.id());
 
-		verify(interestRelationService, times(interestRelations.size())).delete(any());
+		verify(interestRelationService, times(interestRelations.size())).delete(any(), any(), any());
 	}
 
 	@DisplayName("관심사를 삭제할 때, 관심사와 연결된 관계선이 없다면 관계선은 삭제하지 않는다.")
@@ -131,6 +130,6 @@ public class DeleteInterestUseCaseTest {
 
 		sut.delete(interest.getRegistrantId().getId(), interest.id());
 
-		verify(interestRelationService, times(0)).delete(any());
+		verify(interestRelationService, times(0)).delete(any(), any(), any());
 	}
 }

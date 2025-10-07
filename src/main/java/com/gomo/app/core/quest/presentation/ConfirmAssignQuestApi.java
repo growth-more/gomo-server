@@ -7,16 +7,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.gomo.app.common.arch.Presentation;
+import com.gomo.app.common.arch.CoreApi;
+import com.gomo.app.core.quest.application.usecase.ConfirmAssignQuestUseCase;
 import com.gomo.app.support.auth.presentation.security.Auth;
 import com.gomo.app.support.auth.presentation.security.AuthInfo;
-import com.gomo.app.core.quest.application.usecase.ConfirmAssignQuestUseCase;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RequestMapping("/quests/assigns/{id}/confirm")
-@Presentation
+@CoreApi
 public class ConfirmAssignQuestApi {
 
 	private final ConfirmAssignQuestUseCase confirmAssignQuestUseCase;

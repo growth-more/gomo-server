@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.gomo.app.common.arch.Presentation;
+import com.gomo.app.common.arch.CoreApi;
 import com.gomo.app.common.web.PageRequest;
 import com.gomo.app.core.point.application.port.ReadBalancePortIn;
 import com.gomo.app.core.point.application.port.dto.ListPointDto;
@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RequestMapping("/points")
-@Presentation
+@CoreApi
 public class PointApi {
 
 	private final ReadPointUseCase readPointUseCase;

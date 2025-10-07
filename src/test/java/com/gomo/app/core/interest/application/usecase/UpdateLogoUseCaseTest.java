@@ -14,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.gomo.app.core.interest.application.UpdateLogoUseCase;
 import com.gomo.app.core.interest.domain.model.InterestId;
 import com.gomo.app.core.interest.domain.model.Logo;
 import com.gomo.app.core.interest.domain.service.InterestService;

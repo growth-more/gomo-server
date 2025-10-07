@@ -10,20 +10,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.gomo.app.common.arch.Presentation;
-import com.gomo.app.support.auth.presentation.security.Auth;
-import com.gomo.app.support.auth.presentation.security.AuthInfo;
+import com.gomo.app.common.arch.CoreApi;
 import com.gomo.app.core.survey.application.CreateSurveyResultUseCase;
 import com.gomo.app.core.survey.application.ReadSurveyQuestionUseCase;
 import com.gomo.app.core.survey.application.SurveyQuestionDto;
 import com.gomo.app.core.survey.presentation.request.CreateSurveyResultRequest;
 import com.gomo.app.core.survey.presentation.response.ListSurveyQuestionResponse;
+import com.gomo.app.support.auth.presentation.security.Auth;
+import com.gomo.app.support.auth.presentation.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RequestMapping("/surveys")
-@Presentation
+@CoreApi
 public class SurveyApi {
 
 	private final CreateSurveyResultUseCase createSurveyResultUseCase;

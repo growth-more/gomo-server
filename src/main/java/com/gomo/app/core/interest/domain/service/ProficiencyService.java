@@ -13,9 +13,11 @@ import com.gomo.app.common.arch.DomainService;
 import com.gomo.app.core.interest.domain.model.Interest;
 import com.gomo.app.core.interest.domain.model.InterestId;
 import com.gomo.app.core.interest.domain.model.InterestRelation;
-import com.gomo.app.core.interest.domain.policy.InMemoryScoreThresholdPolicyProvider;
+import com.gomo.app.core.interest.domain.model.ProficiencyPolicies;
+import com.gomo.app.core.interest.domain.model.RegistrantId;
 import com.gomo.app.core.interest.domain.repository.InterestRelationRepository;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;
+import com.gomo.app.core.interest.domain.repository.ProficiencyPolicyRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,41 +25,38 @@ import lombok.RequiredArgsConstructor;
 @DomainService
 public class ProficiencyService {
 
-	private final InMemoryScoreThresholdPolicyProvider policyProvider;
-	private final InterestService interestService;
+	private final ProficiencyPolicyRepository proficiencyPolicyRepository;
 	private final InterestRepository interestRepository;
 	private final InterestRelationRepository interestRelationRepository;
 
 	@Transactional
-	public void adjust(InterestId interestId, int deltaTotalScore) {
-		int[] totalScoreForLevel = policyProvider.getTotalScoreForLevel();
-		int[] scoreThresholdPerLevel = policyProvider.getScoreThresholdPerLevel();
-		Map<InterestId, Set<Interest>> childToParentMap = buildChildToParentMap();
+	public void adjust(Interest interest, int deltaTotalScore) {
+		ProficiencyPolicies proficiencyPolicies = proficiencyPolicyRepository.getPolicies();
+		Map<InterestId, Set<Interest>> childToParentMap = buildChildToParentMap(interest.getRegistrantId());
 
-		Set<InterestId> enhancedIds = new HashSet<>();
-		ArrayDeque<Interest> queue = new ArrayDeque<>();
-		Interest interest = interestService.find(interestId);
-		queue.addLast(interest);
-		while (!queue.isEmpty()) {
-			Interest current = queue.removeFirst();
-			if (alreadyEnhancedInterest(current.getId(), enhancedIds)) {
+		Set<InterestId> adjustedIds = new HashSet<>();
+		ArrayDeque<Interest> candidateInterests = new ArrayDeque<>();
+		candidateInterests.addLast(interest);
+		while (!candidateInterests.isEmpty()) {
+			Interest current = candidateInterests.removeFirst();
+			if (alreadyAdjustedInterest(current.getId(), adjustedIds)) {
 				continue;
 			}
 
-			adjustProficiency(current, deltaTotalScore, enhancedIds, totalScoreForLevel, scoreThresholdPerLevel);
-			enqueueParents(childToParentMap.get(current.getId()), queue, enhancedIds);
+			adjustProficiency(current, deltaTotalScore, adjustedIds, proficiencyPolicies);
+			enqueueParents(childToParentMap.get(current.getId()), candidateInterests, adjustedIds);
 		}
 	}
 
-	private void adjustProficiency(Interest interest, int deltaTotalScore, Set<InterestId> enhancedIds, int[] totalScoreForLevel, int[] scoreThresholdPerLevel) {
-		interest.adjustProficiency(deltaTotalScore, totalScoreForLevel, scoreThresholdPerLevel);
-		enhancedIds.add(interest.getId());
+	private void adjustProficiency(Interest interest, int deltaTotalScore, Set<InterestId> adjustedIds, ProficiencyPolicies proficiencyPolicies) {
+		interest.adjustProficiency(deltaTotalScore, proficiencyPolicies);
+		adjustedIds.add(interest.getId());
 	}
 
-	private void enqueueParents(Set<Interest> parents, ArrayDeque<Interest> queue, Set<InterestId> enhancedIds) {
+	private void enqueueParents(Set<Interest> parents, ArrayDeque<Interest> queue, Set<InterestId> adjustedIds) {
 		if (existParentInterests(parents)) {
 			for (Interest parent : parents) {
-				if (!alreadyEnhancedInterest(parent.getId(), enhancedIds)) {
+				if (!alreadyAdjustedInterest(parent.getId(), adjustedIds)) {
 					queue.addLast(parent);
 				}
 			}
@@ -68,12 +67,12 @@ public class ProficiencyService {
 		return parents != null;
 	}
 
-	private boolean alreadyEnhancedInterest(InterestId currentId, Set<InterestId> enhancedIds) {
-		return enhancedIds.contains(currentId);
+	private boolean alreadyAdjustedInterest(InterestId currentId, Set<InterestId> adjustedIds) {
+		return adjustedIds.contains(currentId);
 	}
 
-	private Map<InterestId, Set<Interest>> buildChildToParentMap() {
-		List<InterestRelation> allRelations = interestRelationRepository.findAll();
+	private Map<InterestId, Set<Interest>> buildChildToParentMap(RegistrantId registrantId) {
+		List<InterestRelation> allRelations = interestRelationRepository.findAllByRegistrantId(registrantId);
 
 		Set<InterestId> interestIds = new HashSet<>();
 		for (InterestRelation relation : allRelations) {

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.gomo.app.common.arch.Presentation;
+import com.gomo.app.common.arch.CoreApi;
 import com.gomo.app.core.member.application.port.ReadMemberPortIn;
 import com.gomo.app.core.member.application.port.dto.MemberDto;
 import com.gomo.app.core.member.application.usecase.CreateMemberUseCase;
@@ -28,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RequestMapping("/members")
-@Presentation
+@CoreApi
 public class MemberApi {
 
 	private final CreateMemberUseCase createMemberUseCase;

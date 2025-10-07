@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.gomo.app.common.arch.Presentation;
+import com.gomo.app.common.arch.CoreApi;
 import com.gomo.app.support.auth.application.usecase.OAuthUseCase;
 import com.gomo.app.support.auth.presentation.response.OAuthResponse;
 
@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RequestMapping("/oauth/login")
-@Presentation
+@CoreApi
 public class OAuthApi {
 
 	private final OAuthUseCase oauthUseCase;
