@@ -1,4 +1,4 @@
-package com.gomo.app.core.point.unit;
+package com.gomo.app.core.point.domain.model;
 
 import static com.gomo.app.core.point.domain.model.SourceType.*;
 import static com.gomo.app.core.point.domain.model.TransactionType.*;
@@ -10,9 +10,6 @@ import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.core.point.domain.model.Point;
-import com.gomo.app.core.point.domain.model.PointId;
-import com.gomo.app.core.point.domain.model.TransactorId;
 import com.gomo.app.core.point.exception.PointConstraintViolationException;
 
 @DisplayName("[Domain unit]: 포인트 생성 테스트")

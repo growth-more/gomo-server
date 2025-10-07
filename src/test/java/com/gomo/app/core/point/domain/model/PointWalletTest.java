@@ -1,4 +1,4 @@
-package com.gomo.app.core.point.unit;
+package com.gomo.app.core.point.domain.model;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -6,11 +6,6 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import com.gomo.app.core.point.domain.model.Balance;
-import com.gomo.app.core.point.domain.model.PointWallet;
-import com.gomo.app.core.point.domain.model.PointWalletId;
-import com.gomo.app.core.point.domain.model.TransactorId;
 
 @DisplayName("[Domain unit]: 포인트 지갑 생성 및 수정 테스트")
 public class PointWalletTest {

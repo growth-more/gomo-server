@@ -24,10 +24,10 @@ import com.gomo.app.support.event.domain.model.EventEntry;
 
 @DisplayName("[Consumer unit]: 퀘스트 완료(점수) 이벤트 처리 테스트")
 @ExtendWith(MockitoExtension.class)
-class CompleteQuestEventConsumerTest {
+class CompleteQuestEventScoreConsumerTest {
 
 	@InjectMocks
-	private CompleteQuestEventConsumer sut;
+	private CompleteQuestEventScoreConsumer sut;
 
 	@Mock
 	private ProcessEventEntryPortIn processEventEntryPortIn;

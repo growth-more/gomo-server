@@ -1,4 +1,4 @@
-package com.gomo.app.core.point.documentation.snippet;
+package com.gomo.app.core.point.presentation.documentation.snippet;
 
 import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;

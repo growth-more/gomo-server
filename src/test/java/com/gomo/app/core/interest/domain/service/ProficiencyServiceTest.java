@@ -9,10 +9,11 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.common.IntegrationTestBase;
 import com.gomo.app.core.interest.domain.model.Interest;
 import com.gomo.app.core.interest.domain.model.InterestRelation;
 import com.gomo.app.core.interest.domain.model.LevelThresholdPolicy;
@@ -25,16 +26,14 @@ import com.gomo.app.core.interest.fixture.InterestFixture;
 import com.gomo.app.core.interest.fixture.InterestRelationFixture;
 
 @DisplayName("[Domain unit]: 숙련도 향상 테스트")
-public class ProficiencyServiceTest extends IntegrationTestBase {
+@ExtendWith(MockitoExtension.class)
+public class ProficiencyServiceTest {
 
 	@InjectMocks
 	private ProficiencyService sut;
 
 	@Mock
 	private ProficiencyPolicyRepository proficiencyPolicyRepository;
-
-	@Mock
-	private InterestService interestService;
 
 	@Mock
 	private InterestRepository interestRepository;
@@ -64,7 +63,6 @@ public class ProficiencyServiceTest extends IntegrationTestBase {
 
 		doReturn(List.of(depth1, depth2, depth3)).when(interestRepository).findAllById(any());
 		doReturn(List.of(depth1ToDepth2, depth2ToDepth3)).when(interestRelationRepository).findAllByRegistrantId(registrantId);
-		doReturn(depth3).when(interestService).find(any());
 
 		sut.adjust(depth3, 20);
 
@@ -84,7 +82,6 @@ public class ProficiencyServiceTest extends IntegrationTestBase {
 
 		doReturn(List.of(depth1, depth2, depth3)).when(interestRepository).findAllById(any());
 		doReturn(List.of(depth1ToDepth2, depth2ToDepth3)).when(interestRelationRepository).findAllByRegistrantId(registrantId);
-		doReturn(depth3).when(interestService).find(any());
 
 		sut.adjust(depth3, -5);
 

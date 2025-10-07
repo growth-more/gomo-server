@@ -16,13 +16,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @EventConsumer
-public class CompleteQuestEventConsumer {
+public class CompleteQuestEventScoreConsumer {
 
 	private final ProcessEventEntryPortIn processEventEntryPortIn;
 	private final AdjustProficiencyPortIn adjustProficiencyPortIn;
 
-	// todo jhl221123: try - catch 대신 AOP를 활용해 로깅 처리
-	@RabbitListener(queues = "event.quest.completed.score")
+	// TODO [2025-10-07] jhl221123 : try - catch 대신 AOP를 활용해 로깅 처리
+	@RabbitListener(queues = "event.quest.complete.score")
 	@Transactional(rollbackFor = Exception.class)
 	public void handleEvent(EventEntry eventEntry) {
 		String eventEntryId = String.valueOf(eventEntry.getId());
@@ -35,6 +35,7 @@ public class CompleteQuestEventConsumer {
 			CompleteQuestEvent event = JsonParser.fromJson(eventEntry.getPayload(), CompleteQuestEvent.class);
 			adjustProficiencyPortIn.adjust(event.getSubjectId(), event.getScoreReward());
 		} catch (Exception e) {
+			// TODO [2025-10-07] jhl221123 : 예외를 세부적으로 처리하고, 실패 전략을 구상해야 합니다.
 			log.error("[{}] Failed to process event id={}, error={}", consumerName, eventEntryId, e.getMessage());
 			throw e;
 		}

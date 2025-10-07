@@ -1,4 +1,4 @@
-package com.gomo.app.core.point.presentation.response;
+package com.gomo.app.core.point.presentation.api.response;
 
 import lombok.Getter;
 

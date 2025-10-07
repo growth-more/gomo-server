@@ -85,9 +85,9 @@ public class DatabaseContainerInitializer implements ApplicationContextInitializ
 			try (Connection connection = factory.newConnection();
 				 Channel channel = connection.createChannel()) {
 				// durable: true, exclusive: false, autoDelete: false, arguments: null
-				channel.queueDeclare("event.quest.completed.score", true, false, false, null);
-				channel.queueDeclare("event.quest.completed.streak", true, false, false, null);
-				channel.queueDeclare("event.quest.completed.point", true, false, false, null);
+				channel.queueDeclare("event.quest.complete.score", true, false, false, null);
+				channel.queueDeclare("event.quest.complete.streak", true, false, false, null);
+				channel.queueDeclare("event.quest.complete.point", true, false, false, null);
 			}
 		} catch (IOException | TimeoutException e) {
 			throw new RuntimeException("Failed to declare RabbitMQ queue for testing", e);

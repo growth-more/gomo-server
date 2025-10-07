@@ -1,4 +1,4 @@
-package com.gomo.app.core.point.integration;
+package com.gomo.app.core.point.infrastructure;
 
 import static org.assertj.core.api.Assertions.*;
 

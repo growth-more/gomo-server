@@ -1,4 +1,4 @@
-package com.gomo.app.core.point.documentation;
+package com.gomo.app.core.point.presentation.documentation;
 
 import static io.restassured.RestAssured.*;
 import static org.springframework.http.HttpHeaders.*;
@@ -11,7 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.core.point.documentation.snippet.ReadBalanceSnippet;
+import com.gomo.app.core.point.presentation.documentation.snippet.ReadBalanceSnippet;
 
 @DisplayName("[Presentation documentation]: 포인트 잔고 조회 테스트")
 public class ReadBalanceDocumentationTest extends DocumentationTestBase {

@@ -1,4 +1,4 @@
-package com.gomo.app.core.point.unit;
+package com.gomo.app.core.point.domain.service;
 
 import static org.mockito.Mockito.*;
 
@@ -15,12 +15,10 @@ import com.gomo.app.core.point.domain.model.SourceType;
 import com.gomo.app.core.point.domain.model.TransactionType;
 import com.gomo.app.core.point.domain.model.TransactorId;
 import com.gomo.app.core.point.domain.repository.PointRepository;
-import com.gomo.app.core.point.domain.service.PointService;
-import com.gomo.app.core.point.domain.service.PointWalletService;
 import com.gomo.app.core.point.fixture.PointFixture;
 
+@DisplayName("[Domain unit]: 포인트 생성 테스트")
 @ExtendWith(MockitoExtension.class)
-@DisplayName("[Domain integration]: 포인트 생성 테스트")
 public class PointServiceTest {
 
 	@InjectMocks
@@ -40,5 +38,4 @@ public class PointServiceTest {
 		verify(pointWalletService, times(1)).adjustPointBalance(any(), any(), eq(10));
 		verify(pointRepository, times(1)).save(any());
 	}
-
 }

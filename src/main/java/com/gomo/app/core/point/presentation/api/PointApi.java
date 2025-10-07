@@ -1,4 +1,4 @@
-package com.gomo.app.core.point.presentation;
+package com.gomo.app.core.point.presentation.api;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,8 +10,8 @@ import com.gomo.app.common.web.PageRequest;
 import com.gomo.app.core.point.application.port.ReadBalancePortIn;
 import com.gomo.app.core.point.application.port.dto.ListPointDto;
 import com.gomo.app.core.point.application.usecase.ReadPointUseCase;
-import com.gomo.app.core.point.presentation.response.ListPointResponse;
-import com.gomo.app.core.point.presentation.response.ReadBalanceResponse;
+import com.gomo.app.core.point.presentation.api.response.ListPointResponse;
+import com.gomo.app.core.point.presentation.api.response.ReadBalanceResponse;
 import com.gomo.app.support.auth.presentation.security.Auth;
 import com.gomo.app.support.auth.presentation.security.AuthInfo;
 
