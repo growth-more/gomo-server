@@ -14,7 +14,7 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.core.quest.documentation.snippet.CompleteAssignQuestSnippet;
-import com.gomo.app.core.quest.domain.model.AssignQuest;
+import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
 import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.fixture.AssignQuestFixture;
 import com.gomo.app.core.quest.presentation.request.CompleteAssignQuestRequest;

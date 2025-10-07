@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import com.gomo.app.common.event.Event;
 import com.gomo.app.common.event.EventRouting;
+import com.gomo.app.core.quest.domain.model.quest.QuestType;
 
 import lombok.Getter;
 
@@ -25,7 +26,7 @@ public class CompleteQuestEvent extends Event {
 
 	/**
 	 * The type of the completed quest.
-	 * Corresponds to the names in the {@link com.gomo.app.core.quest.domain.model.QuestType} enum (e.g., "DAILY", "WEEKLY").
+	 * Corresponds to the names in the {@link QuestType} enum (e.g., "DAILY", "WEEKLY").
 	 */
 	private final String questType;
 

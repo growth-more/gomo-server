@@ -6,7 +6,7 @@ import java.util.List;
 import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.core.quest.application.port.command.CalendarAssignQuestCommand;
 import com.gomo.app.core.quest.application.port.dto.CalendarAssignQuestDto;
-import com.gomo.app.core.quest.domain.model.ParticipantId;
+import com.gomo.app.core.quest.domain.model.participant.ParticipantId;
 import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 
 import lombok.RequiredArgsConstructor;

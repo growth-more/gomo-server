@@ -22,7 +22,7 @@ import com.gomo.app.core.interest.presentation.api.request.CreateInterestRequest
 import com.gomo.app.core.member.presentation.QuestPropertyApi;
 import com.gomo.app.core.member.presentation.request.UpdateQuestPropertyRequest;
 import com.gomo.app.core.quest.documentation.snippet.CreateRepeatQuestSnippet;
-import com.gomo.app.core.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.exception.code.QuestContentErrorCode;
 import com.gomo.app.core.quest.exception.code.QuestErrorCode;

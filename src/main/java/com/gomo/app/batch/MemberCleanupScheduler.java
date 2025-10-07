@@ -18,7 +18,7 @@ import com.gomo.app.core.member.domain.repository.MemberRepository;
 import com.gomo.app.core.point.domain.model.TransactorId;
 import com.gomo.app.core.point.domain.repository.PointRepository;
 import com.gomo.app.core.point.domain.repository.PointWalletRepository;
-import com.gomo.app.core.quest.domain.model.ParticipantId;
+import com.gomo.app.core.quest.domain.model.participant.ParticipantId;
 import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.domain.repository.RepeatQuestRepository;
 import com.gomo.app.core.streak.domain.model.AchieverId;

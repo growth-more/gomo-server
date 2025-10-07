@@ -1,6 +1,6 @@
 package com.gomo.app.core.quest.application.usecase;
 
-import static com.gomo.app.core.quest.domain.model.QuestType.*;
+import static com.gomo.app.core.quest.domain.model.quest.QuestType.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -17,8 +17,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.quest.application.port.command.CalendarAssignQuestCommand;
 import com.gomo.app.core.quest.application.port.dto.CalendarAssignQuestDto;
-import com.gomo.app.core.quest.domain.model.AssignQuest;
-import com.gomo.app.core.quest.domain.model.ParticipantId;
+import com.gomo.app.core.quest.domain.model.participant.ParticipantId;
+import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
 import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.fixture.AssignQuestFixture;
 

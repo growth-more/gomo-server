@@ -2,7 +2,7 @@ package com.gomo.app.core.quest.application.port;
 
 import java.time.LocalDate;
 
-import com.gomo.app.core.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.domain.model.quest.QuestType;
 
 public interface FillQuestPoolPortIn {
 

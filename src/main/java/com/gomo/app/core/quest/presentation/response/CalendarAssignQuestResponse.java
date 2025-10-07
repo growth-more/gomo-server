@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.gomo.app.core.quest.application.port.dto.CalendarAssignQuestDto;
-import com.gomo.app.core.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.domain.model.quest.QuestType;
 
 import lombok.Getter;
 

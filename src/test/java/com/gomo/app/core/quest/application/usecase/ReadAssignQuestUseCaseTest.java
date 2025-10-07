@@ -14,8 +14,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.quest.application.port.dto.ListAssignQuestDto;
-import com.gomo.app.core.quest.domain.model.AssignQuest;
-import com.gomo.app.core.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.domain.model.quest.QuestType;
+import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
 import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.domain.repository.QuestRewardPolicyRepository;
 import com.gomo.app.core.quest.fixture.AssignQuestFixture;

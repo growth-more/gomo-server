@@ -4,15 +4,15 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.gomo.app.common.displayorder.DisplayOrder;
-import com.gomo.app.core.quest.domain.model.AssignQuest;
-import com.gomo.app.core.quest.domain.model.AssignQuestId;
-import com.gomo.app.core.quest.domain.model.CompletionProof;
-import com.gomo.app.core.quest.domain.model.ParticipantId;
-import com.gomo.app.core.quest.domain.model.Quest;
-import com.gomo.app.core.quest.domain.model.QuestContent;
-import com.gomo.app.core.quest.domain.model.QuestType;
-import com.gomo.app.core.quest.domain.model.SubjectId;
-import com.gomo.app.core.quest.domain.model.SubjectName;
+import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
+import com.gomo.app.core.quest.domain.model.assign.AssignQuestId;
+import com.gomo.app.core.quest.domain.model.assign.CompletionProof;
+import com.gomo.app.core.quest.domain.model.participant.ParticipantId;
+import com.gomo.app.core.quest.domain.model.quest.Quest;
+import com.gomo.app.core.quest.domain.model.quest.QuestContent;
+import com.gomo.app.core.quest.domain.model.quest.QuestType;
+import com.gomo.app.core.quest.domain.model.subject.SubjectId;
+import com.gomo.app.core.quest.domain.model.subject.SubjectName;
 
 public class AssignQuestFixture {
 

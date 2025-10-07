@@ -19,7 +19,7 @@ import com.gomo.app.core.quest.application.port.ReadSubjectPortOut;
 import com.gomo.app.core.quest.application.port.dto.ActiveParticipantDto;
 import com.gomo.app.core.quest.application.port.dto.QuestContentDto;
 import com.gomo.app.core.quest.application.port.dto.SubjectDto;
-import com.gomo.app.core.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.repository.QuestPoolRepository;
 
 @DisplayName("[Application unit]: 퀘스트 풀 생성 테스트")

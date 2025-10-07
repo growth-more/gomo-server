@@ -18,7 +18,7 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.core.quest.documentation.snippet.UpdateRepeatQuestSnippet;
-import com.gomo.app.core.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.repository.RepeatQuestRepository;
 import com.gomo.app.core.quest.exception.code.QuestContentErrorCode;
 import com.gomo.app.core.quest.presentation.RepeatQuestApi;

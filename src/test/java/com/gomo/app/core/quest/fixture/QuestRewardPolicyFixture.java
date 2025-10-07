@@ -2,9 +2,9 @@ package com.gomo.app.core.quest.fixture;
 
 import java.util.List;
 
-import com.gomo.app.core.quest.domain.model.QuestPointPolicy;
-import com.gomo.app.core.quest.domain.model.QuestScorePolicy;
-import com.gomo.app.core.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.domain.model.quest.QuestType;
+import com.gomo.app.core.quest.domain.model.reward.policy.QuestPointPolicy;
+import com.gomo.app.core.quest.domain.model.reward.policy.QuestScorePolicy;
 
 public class QuestRewardPolicyFixture {
 

@@ -8,10 +8,10 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.gomo.app.core.quest.domain.model.AssignQuest;
-import com.gomo.app.core.quest.domain.model.AssignQuestId;
-import com.gomo.app.core.quest.domain.model.ParticipantId;
-import com.gomo.app.core.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.domain.model.participant.ParticipantId;
+import com.gomo.app.core.quest.domain.model.quest.QuestType;
+import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
+import com.gomo.app.core.quest.domain.model.assign.AssignQuestId;
 
 public interface AssignQuestRepository extends JpaRepository<AssignQuest, AssignQuestId> {
 

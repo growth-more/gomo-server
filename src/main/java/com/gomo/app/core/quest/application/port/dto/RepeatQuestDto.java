@@ -2,7 +2,7 @@ package com.gomo.app.core.quest.application.port.dto;
 
 import java.util.UUID;
 
-import com.gomo.app.core.quest.domain.model.RepeatQuest;
+import com.gomo.app.core.quest.domain.model.repeat.RepeatQuest;
 
 public record RepeatQuestDto(UUID id, UUID subjectId, String questType, int point, int score, String subjectName, String content, int displayOrder
 ) {

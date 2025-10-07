@@ -12,8 +12,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.core.quest.domain.model.RepeatQuest;
-import com.gomo.app.core.quest.domain.model.RepeatQuestId;
+import com.gomo.app.core.quest.domain.model.repeat.RepeatQuest;
+import com.gomo.app.core.quest.domain.model.repeat.RepeatQuestId;
 import com.gomo.app.core.quest.domain.repository.RepeatQuestRepository;
 import com.gomo.app.core.quest.domain.service.RepeatQuestService;
 import com.gomo.app.core.quest.exception.RepeatQuestAccessDeniedException;

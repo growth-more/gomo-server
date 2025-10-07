@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.gomo.app.core.quest.domain.model.ParticipantId;
-import com.gomo.app.core.quest.domain.model.ProcessingStatus;
-import com.gomo.app.core.quest.domain.model.QuestPool;
-import com.gomo.app.core.quest.domain.model.QuestPoolId;
-import com.gomo.app.core.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.domain.model.participant.ParticipantId;
+import com.gomo.app.core.quest.domain.model.pool.ProcessingStatus;
+import com.gomo.app.core.quest.domain.model.pool.QuestPool;
+import com.gomo.app.core.quest.domain.model.pool.QuestPoolId;
+import com.gomo.app.core.quest.domain.model.quest.QuestType;
 
 public interface QuestPoolRepository extends JpaRepository<QuestPool, QuestPoolId> {
 

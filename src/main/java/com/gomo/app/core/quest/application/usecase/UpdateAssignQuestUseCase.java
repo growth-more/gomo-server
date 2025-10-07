@@ -3,15 +3,15 @@ package com.gomo.app.core.quest.application.usecase;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.arch.ApplicationService;
-import com.gomo.app.support.logging.AuditLog;
 import com.gomo.app.core.quest.application.port.command.UpdateAssignQuestCommand;
-import com.gomo.app.core.quest.domain.model.AssignQuest;
-import com.gomo.app.core.quest.domain.model.AssignQuestId;
-import com.gomo.app.core.quest.domain.model.QuestContent;
-import com.gomo.app.core.quest.domain.model.QuestType;
-import com.gomo.app.core.quest.domain.model.SubjectId;
-import com.gomo.app.core.quest.domain.model.SubjectName;
+import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
+import com.gomo.app.core.quest.domain.model.assign.AssignQuestId;
+import com.gomo.app.core.quest.domain.model.quest.QuestContent;
+import com.gomo.app.core.quest.domain.model.quest.QuestType;
+import com.gomo.app.core.quest.domain.model.subject.SubjectId;
+import com.gomo.app.core.quest.domain.model.subject.SubjectName;
 import com.gomo.app.core.quest.domain.service.AssignQuestService;
+import com.gomo.app.support.logging.AuditLog;
 
 import lombok.RequiredArgsConstructor;
 

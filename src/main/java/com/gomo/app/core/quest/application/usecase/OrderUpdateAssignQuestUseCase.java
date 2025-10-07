@@ -14,8 +14,8 @@ import com.gomo.app.common.displayorder.OrderChanger;
 import com.gomo.app.common.displayorder.OrderUpdateOrderChangeableCommand;
 import com.gomo.app.support.logging.AuditLog;
 import com.gomo.app.core.quest.application.port.command.OrderUpdateAssignQuestCommand;
-import com.gomo.app.core.quest.domain.model.ParticipantId;
-import com.gomo.app.core.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.domain.model.participant.ParticipantId;
+import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 
 import lombok.RequiredArgsConstructor;

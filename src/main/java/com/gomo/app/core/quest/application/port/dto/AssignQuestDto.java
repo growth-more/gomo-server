@@ -3,7 +3,7 @@ package com.gomo.app.core.quest.application.port.dto;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.gomo.app.core.quest.domain.model.AssignQuest;
+import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
 
 public record AssignQuestDto(UUID id, UUID subjectId, String questType, int point, int score, String subjectName, String content, boolean isConfirmed,
 							 boolean isCompleted, String proof, LocalDateTime startDateTime, int displayOrder) {

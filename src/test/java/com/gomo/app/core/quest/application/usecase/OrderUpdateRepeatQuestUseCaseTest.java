@@ -17,8 +17,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.gomo.app.common.displayorder.OrderChanger;
 import com.gomo.app.common.displayorder.UpdatedOrderDto;
 import com.gomo.app.core.quest.application.port.command.OrderUpdateRepeatQuestCommand;
-import com.gomo.app.core.quest.domain.model.QuestType;
-import com.gomo.app.core.quest.domain.model.RepeatQuest;
+import com.gomo.app.core.quest.domain.model.quest.QuestType;
+import com.gomo.app.core.quest.domain.model.repeat.RepeatQuest;
 import com.gomo.app.core.quest.domain.repository.RepeatQuestRepository;
 import com.gomo.app.core.quest.fixture.RepeatQuestFixture;
 

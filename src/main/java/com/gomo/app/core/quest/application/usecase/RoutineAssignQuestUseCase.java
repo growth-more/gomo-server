@@ -1,6 +1,6 @@
 package com.gomo.app.core.quest.application.usecase;
 
-import static com.gomo.app.core.quest.domain.model.QuestType.*;
+import static com.gomo.app.core.quest.domain.model.quest.QuestType.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,14 +13,14 @@ import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.common.displayorder.DisplayOrder;
 import com.gomo.app.core.quest.application.port.ReadActiveParticipantPortOut;
 import com.gomo.app.core.quest.application.port.RoutineAssignQuestPortIn;
-import com.gomo.app.core.quest.domain.model.AssignQuest;
-import com.gomo.app.core.quest.domain.model.Participant;
-import com.gomo.app.core.quest.domain.model.ParticipantId;
-import com.gomo.app.core.quest.domain.model.ProcessingStatus;
-import com.gomo.app.core.quest.domain.model.QuestPool;
-import com.gomo.app.core.quest.domain.model.QuestQuota;
-import com.gomo.app.core.quest.domain.model.QuestType;
-import com.gomo.app.core.quest.domain.model.RepeatQuest;
+import com.gomo.app.core.quest.domain.model.participant.Participant;
+import com.gomo.app.core.quest.domain.model.participant.ParticipantId;
+import com.gomo.app.core.quest.domain.model.pool.ProcessingStatus;
+import com.gomo.app.core.quest.domain.model.pool.QuestPool;
+import com.gomo.app.core.quest.domain.model.participant.QuestQuota;
+import com.gomo.app.core.quest.domain.model.quest.QuestType;
+import com.gomo.app.core.quest.domain.model.repeat.RepeatQuest;
+import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
 import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.domain.repository.QuestPoolRepository;
 import com.gomo.app.core.quest.domain.repository.RepeatQuestRepository;

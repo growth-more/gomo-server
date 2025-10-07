@@ -3,8 +3,8 @@ package com.gomo.app.core.quest.application.port.dto;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.gomo.app.core.quest.domain.model.AssignQuest;
-import com.gomo.app.core.quest.domain.model.QuestType;
+import com.gomo.app.core.quest.domain.model.quest.QuestType;
+import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
 
 public record CalendarAssignQuestDto(UUID id, QuestType questType, String subjectName, String content, String proof, boolean isCompleted,
 									 LocalDateTime completedDateTime) {
