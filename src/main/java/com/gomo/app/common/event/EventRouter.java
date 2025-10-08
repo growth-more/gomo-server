@@ -1,4 +1,4 @@
-package com.gomo.app.support.event.infrastructure;
+package com.gomo.app.common.event;
 
 import java.util.Map;
 import java.util.Objects;
@@ -11,9 +11,6 @@ import org.springframework.context.annotation.ClassPathScanningCandidateComponen
 import org.springframework.core.type.filter.AssignableTypeFilter;
 import org.springframework.stereotype.Component;
 
-import com.gomo.app.common.event.Event;
-import com.gomo.app.common.event.EventRouting;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -21,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 public class EventRouter {
 
 	private static final String BASE_PACKAGE = "com.gomo";
-	
+
 	private final Map<String, Class<? extends Event>> eventMapByName;
 
 	public EventRouter() {

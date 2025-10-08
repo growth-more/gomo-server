@@ -26,7 +26,7 @@ class ProcessEventEntryUseCaseTest {
 	@DisplayName("처리한 EventEntry를 저장한다.")
 	@Test
 	void process_event_entry() {
-		sut.save("123", "ConsumerClassName");
+		sut.process("123", "ConsumerClassName");
 		verify(processedEventEntryRepository, times(1)).save(anyString(), anyString());
 	}
 

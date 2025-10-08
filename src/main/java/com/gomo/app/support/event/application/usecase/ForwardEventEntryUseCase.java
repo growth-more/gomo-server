@@ -5,13 +5,13 @@ import static com.gomo.app.common.event.EventStatus.*;
 import java.util.List;
 
 import com.gomo.app.common.arch.ApplicationService;
+import com.gomo.app.common.event.EventRouter;
 import com.gomo.app.common.event.EventStatus;
 import com.gomo.app.common.util.JsonParser;
 import com.gomo.app.support.event.application.port.ForwardEventEntryPortIn;
 import com.gomo.app.support.event.application.port.MessageBrokerPortOut;
 import com.gomo.app.support.event.domain.model.EventEntry;
 import com.gomo.app.support.event.domain.repository.EventEntryRepository;
-import com.gomo.app.support.event.infrastructure.EventRouter;
 
 import lombok.RequiredArgsConstructor;
 

@@ -9,7 +9,7 @@ public interface ProcessEventEntryPortIn {
 	 * @param consumerName The class name of the consumer that processed the event
 	 *                     (e.g., {@code MyConsumer.class.getName()}).
 	 */
-	void save(String eventEntryId, String consumerName);
+	void process(String eventEntryId, String consumerName);
 
 	/**
 	 * Checks if an event has already been processed by a specific consumer.

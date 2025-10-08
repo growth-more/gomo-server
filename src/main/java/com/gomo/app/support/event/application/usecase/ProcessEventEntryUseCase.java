@@ -13,7 +13,7 @@ class ProcessEventEntryUseCase implements ProcessEventEntryPortIn {
 	private final ProcessedEventEntryRepository processedEventEntryRepository;
 
 	@Override
-	public void save(String eventEntryId, String consumerName) {
+	public void process(String eventEntryId, String consumerName) {
 		processedEventEntryRepository.save(eventEntryId, consumerName);
 	}
 
