@@ -1,4 +1,4 @@
-package com.gomo.app.core.streak.presentation;
+package com.gomo.app.core.streak.presentation.api;
 
 import java.time.LocalDate;
 
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.gomo.app.common.arch.CoreApi;
 import com.gomo.app.core.streak.application.port.dto.ListStreakDto;
 import com.gomo.app.core.streak.application.usecase.ReadStreakUseCase;
-import com.gomo.app.core.streak.presentation.response.ListStreakResponse;
+import com.gomo.app.core.streak.presentation.api.response.ListStreakResponse;
 import com.gomo.app.support.auth.presentation.security.Auth;
 import com.gomo.app.support.auth.presentation.security.AuthInfo;
 

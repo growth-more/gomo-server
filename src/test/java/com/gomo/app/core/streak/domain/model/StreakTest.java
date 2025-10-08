@@ -1,4 +1,4 @@
-package com.gomo.app.core.streak.unit.domain;
+package com.gomo.app.core.streak.domain.model;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -7,11 +7,6 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import com.gomo.app.core.streak.domain.model.AchieverId;
-import com.gomo.app.core.streak.domain.model.Streak;
-import com.gomo.app.core.streak.domain.model.StreakId;
-import com.gomo.app.core.streak.domain.model.StreakType;
 
 @DisplayName("[Domain unit]: 스트릭 생성 테스트")
 public class StreakTest {

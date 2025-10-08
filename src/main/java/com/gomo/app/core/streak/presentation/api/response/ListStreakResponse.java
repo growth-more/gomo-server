@@ -1,4 +1,4 @@
-package com.gomo.app.core.streak.presentation.response;
+package com.gomo.app.core.streak.presentation.api.response;
 
 import java.util.List;
 

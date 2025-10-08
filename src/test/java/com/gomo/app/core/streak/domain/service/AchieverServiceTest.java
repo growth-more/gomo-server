@@ -1,4 +1,4 @@
-package com.gomo.app.core.streak.unit.service;
+package com.gomo.app.core.streak.domain.service;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -14,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.streak.domain.model.Achiever;
 import com.gomo.app.core.streak.domain.repository.AchieverRepository;
-import com.gomo.app.core.streak.domain.service.AchieverService;
 import com.gomo.app.core.streak.fixture.AchieverFixture;
 
 @DisplayName("[Domain unit]: 성취자 서비스 테스트")

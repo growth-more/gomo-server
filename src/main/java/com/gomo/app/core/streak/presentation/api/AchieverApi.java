@@ -1,4 +1,4 @@
-package com.gomo.app.core.streak.presentation;
+package com.gomo.app.core.streak.presentation.api;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.gomo.app.common.arch.CoreApi;
 import com.gomo.app.core.streak.application.port.dto.AchieverDto;
 import com.gomo.app.core.streak.application.usecase.ReadAchieverUseCase;
-import com.gomo.app.core.streak.presentation.response.ReadAchieverResponse;
+import com.gomo.app.core.streak.presentation.api.response.ReadAchieverResponse;
 import com.gomo.app.support.auth.presentation.security.Auth;
 import com.gomo.app.support.auth.presentation.security.AuthInfo;
 

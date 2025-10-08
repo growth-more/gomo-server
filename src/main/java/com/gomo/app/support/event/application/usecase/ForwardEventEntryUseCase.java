@@ -13,12 +13,10 @@ import com.gomo.app.support.event.domain.model.EventEntry;
 import com.gomo.app.support.event.domain.repository.EventEntryRepository;
 import com.gomo.app.support.event.infrastructure.EventRouter;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @ApplicationService
-@Transactional
 class ForwardEventEntryUseCase implements ForwardEventEntryPortIn {
 
 	private final EventEntryRepository eventEntryRepository;

@@ -30,6 +30,16 @@ public class StreakFixture {
 		);
 	}
 
+	public static Streak streak(int completedQuestCount) {
+		return Streak.of(
+			StreakId.of(UUID.randomUUID()),
+			AchieverId.of(UUID.randomUUID()),
+			StreakType.DAILY,
+			LocalDate.of(2025, 2, 5),
+			completedQuestCount
+		);
+	}
+
 	public static Streak streak(UUID achieverId, StreakType type, LocalDate filledDate) {
 		return Streak.of(
 			StreakId.of(UUID.randomUUID()),
