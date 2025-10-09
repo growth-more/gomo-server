@@ -14,10 +14,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.quest.application.port.command.UpdateAssignQuestCommand;
-import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuestId;
 import com.gomo.app.core.quest.domain.model.assign.CompletionProof;
+import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.service.AssignQuestService;
 import com.gomo.app.core.quest.exception.AssignQuestAccessDeniedException;
 import com.gomo.app.core.quest.exception.AssignQuestConstraintViolationException;
@@ -39,7 +39,7 @@ public class UpdateAssignQuestUseCaseTest {
 	@DisplayName("할당 퀘스트를 수정한다.")
 	@Test
 	void update_assign_quest() {
-		AssignQuest assignQuest = AssignQuestFixture.assignQuest(QuestType.DAILY);
+		AssignQuest assignQuest = AssignQuestFixture.create(QuestType.DAILY);
 		doReturn(assignQuest).when(assignQuestService).find(any());
 		sut.update(getUpdateAssignQuestCommand(assignQuest.getQuest().getParticipantId().getId(), QuestType.DAILY.name()));
 		assertThat(assignQuest.getQuest().getSubjectName().toString()).isEqualTo("updated subject name");
@@ -48,7 +48,7 @@ public class UpdateAssignQuestUseCaseTest {
 	@DisplayName("퀘스트 참여자가 아니면 할당 퀘스트를 수정할 수 없다.")
 	@Test
 	void update_assign_quest_with_not_participant() {
-		AssignQuest assignQuest = AssignQuestFixture.assignQuest(QuestType.DAILY);
+		AssignQuest assignQuest = AssignQuestFixture.create(QuestType.DAILY);
 		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 
 		assertThatThrownBy(() -> sut.update(getUpdateAssignQuestCommand(UUID.randomUUID(), QuestType.WEEKLY.name())))
@@ -59,7 +59,7 @@ public class UpdateAssignQuestUseCaseTest {
 	@DisplayName("할당 퀘스트를 다른 퀘스트 타입으로 수정할 수 없다.")
 	@Test
 	void update_assign_quest_with_different_type() {
-		AssignQuest assignQuest = AssignQuestFixture.assignQuest(QuestType.DAILY);
+		AssignQuest assignQuest = AssignQuestFixture.create(QuestType.DAILY);
 		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 
 		assertThatThrownBy(() -> sut.update(getUpdateAssignQuestCommand(assignQuest.getQuest().getParticipantId().getId(), QuestType.WEEKLY.name())))
@@ -70,7 +70,7 @@ public class UpdateAssignQuestUseCaseTest {
 	@DisplayName("이미 확정한 할당 퀘스트는 수정할 수 없다.")
 	@Test
 	void update_confirmed_assign_quest() {
-		AssignQuest assignQuest = AssignQuestFixture.assignQuest(true);
+		AssignQuest assignQuest = AssignQuestFixture.create(true);
 		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 
 		assertThatThrownBy(() -> sut.update(getUpdateAssignQuestCommand(assignQuest.getQuest().getParticipantId().getId(), QuestType.DAILY.name())))
@@ -81,7 +81,7 @@ public class UpdateAssignQuestUseCaseTest {
 	@DisplayName("이미 완료한 할당 퀘스트는 수정할 수 없다.")
 	@Test
 	void update_completed_assign_quest() {
-		AssignQuest assignQuest = AssignQuestFixture.assignQuest(false, true, CompletionProof.createDefault());
+		AssignQuest assignQuest = AssignQuestFixture.create(false, true, CompletionProof.createDefault());
 		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 
 		assertThatThrownBy(() -> sut.update(getUpdateAssignQuestCommand(assignQuest.getQuest().getParticipantId().getId(), QuestType.DAILY.name())))

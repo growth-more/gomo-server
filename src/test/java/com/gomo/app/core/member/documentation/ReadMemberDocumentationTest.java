@@ -10,8 +10,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.core.member.documentation.snippet.ReadMemberSnippet;
+import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation Documentation]: 사용자 정보 조회 테스트")
 public class ReadMemberDocumentationTest extends DocumentationTestBase {

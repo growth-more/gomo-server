@@ -19,12 +19,12 @@ import com.gomo.app.core.member.fixture.MemberFixture;
 import com.gomo.app.support.auth.application.port.dto.AuthTokenDto;
 import com.gomo.app.support.auth.domain.model.AuthToken;
 
-@ExtendWith(MockitoExtension.class)
 @DisplayName("[Application Unit]: 사용자 로그인 테스트")
+@ExtendWith(MockitoExtension.class)
 public class AuthenticateUseCaseTest {
 
 	@InjectMocks
-	AuthenticateUseCase sut;
+	private AuthenticateUseCase sut;
 
 	@Mock
 	private LoginMemberPortIn loginMemberPortIn;
@@ -38,7 +38,7 @@ public class AuthenticateUseCaseTest {
 	@DisplayName("사용자가 로그인에 성공한다.")
 	@Test
 	void authenticate_success() {
-		Member member = MemberFixture.member(ActivateStatus.ACTIVE);
+		Member member = MemberFixture.create(ActivateStatus.ACTIVE);
 		AuthToken authToken = AuthToken.of("access", "refresh");
 		AuthTokenDto expected = AuthTokenDto.of(member.id(), authToken.getAccessToken(), authToken.getRefreshToken(), 1L);
 		doReturn(member.id()).when(loginMemberPortIn).authenticate(anyString(), anyString());

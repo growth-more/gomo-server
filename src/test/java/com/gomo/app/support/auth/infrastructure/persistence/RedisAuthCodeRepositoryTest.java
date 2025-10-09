@@ -7,21 +7,21 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.gomo.app.common.IntegrationTestBase;
 import com.gomo.app.support.auth.domain.repository.AuthCodeRepository;
+import com.gomo.app.test.IntegrationTest;
 
 @DisplayName("[Domain Integration]: 이메일 인증코드 Redis DB 테스트")
-public class RedisAuthCodeRepositoryTest extends IntegrationTestBase {
-
-	@Autowired
-	AuthCodeRepository sut;
+@IntegrationTest
+public class RedisAuthCodeRepositoryTest {
 
 	private static final String EMAIL = "test@gamil.com";
-	private static final String CODE = "123456";
+
+	@Autowired
+	private AuthCodeRepository sut;
 
 	@BeforeEach
 	void setUp() {
-		sut.save(EMAIL, CODE);
+		sut.save(EMAIL, "123456");
 	}
 
 	@DisplayName("Redis에 저장된 인증코드를 조회 할 수 있다.")

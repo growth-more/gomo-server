@@ -15,18 +15,18 @@ import com.gomo.app.core.member.domain.service.MemberService;
 import com.gomo.app.core.member.fixture.MemberFixture;
 import com.gomo.app.support.auth.application.port.CreateAuthCodePortIn;
 
-@ExtendWith(MockitoExtension.class)
 @DisplayName("[Application unit] : 이메일 인증코드 생성 및 전송 테스트")
+@ExtendWith(MockitoExtension.class)
 public class CreateEmailCodeUseCaseTest {
 
 	@InjectMocks
-	CreateEmailCodeUseCase sut;
+	private CreateEmailCodeUseCase sut;
 
 	@Mock
-	MemberService memberService;
+	private MemberService memberService;
 
 	@Mock
-	CreateAuthCodePortIn createAuthCodePortIn;
+	private CreateAuthCodePortIn createAuthCodePortIn;
 
 	private static final String EMAIL = "test@gmail.com";
 
@@ -41,7 +41,7 @@ public class CreateEmailCodeUseCaseTest {
 	@DisplayName("비밀번호 초기화 관련 이메일 인증 코드를 생성한다.")
 	@Test
 	void create_email_auth_code_for_password_successfully() {
-		doReturn(MemberFixture.member()).when(memberService).findByEmail(any(Email.class));
+		doReturn(MemberFixture.create()).when(memberService).findByEmail(any(Email.class));
 		doNothing().when(createAuthCodePortIn).sendToEmail(anyString());
 		assertThatCode(() -> sut.createForPasswordReset(EMAIL)).doesNotThrowAnyException();
 	}

@@ -11,7 +11,7 @@ import com.gomo.app.core.quest.domain.model.subject.SubjectName;
 
 public class QuestFixture {
 
-	public static Quest quest() {
+	public static Quest create() {
 		return Quest.of(
 			ParticipantId.of(UUID.randomUUID()),
 			SubjectId.of(UUID.randomUUID()),
@@ -21,7 +21,7 @@ public class QuestFixture {
 		);
 	}
 
-	public static Quest quest(UUID participantId) {
+	public static Quest create(UUID participantId) {
 		return Quest.of(
 			ParticipantId.of(participantId),
 			SubjectId.of(UUID.randomUUID()),

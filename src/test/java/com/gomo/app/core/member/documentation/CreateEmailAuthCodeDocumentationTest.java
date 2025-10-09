@@ -10,10 +10,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.core.member.documentation.snippet.CreateEmailAuthCodeSnippet;
 import com.gomo.app.core.member.exception.code.EmailErrorCode;
 import com.gomo.app.core.member.presentation.request.CreateEmailCodeRequest;
+import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation Documentation]: 이메일 인증 코드 테스트")
 public class CreateEmailAuthCodeDocumentationTest extends DocumentationTestBase {

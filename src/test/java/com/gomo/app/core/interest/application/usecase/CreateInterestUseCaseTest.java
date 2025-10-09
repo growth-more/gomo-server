@@ -22,7 +22,7 @@ import com.gomo.app.core.interest.domain.model.InterestQuota;
 import com.gomo.app.core.interest.domain.model.RegistrantId;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;
 import com.gomo.app.core.interest.fixture.InterestFixture;
-import com.gomo.app.support.image.port.UploadImagePortIn;
+import com.gomo.app.support.image.application.port.UploadImagePortIn;
 
 @DisplayName("[Application unit]: 관심사 등록 테스트")
 @ExtendWith(MockitoExtension.class)

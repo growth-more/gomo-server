@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import com.gomo.app.core.interest.exception.ProficiencyAdjustFailureException;
 
+@DisplayName("[Domain unit]: 숙련도 정책 연산 테스트")
 class ProficiencyPoliciesTest {
 
 	@Test

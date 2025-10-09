@@ -15,8 +15,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.gomo.app.core.quest.application.port.ReadParticipantPortOut;
 import com.gomo.app.core.quest.application.port.command.CreateAssignQuestCommand;
 import com.gomo.app.core.quest.application.port.dto.ParticipantDto;
-import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
+import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.domain.service.AssignQuestService;
 import com.gomo.app.core.quest.fixture.AssignQuestFixture;
@@ -40,7 +40,7 @@ public class CreateAssignQuestUseCaseTest {
 	@DisplayName("할당 퀘스트를 생성한다.")
 	@Test
 	void create_assign_quest() {
-		AssignQuest assignQuest = AssignQuestFixture.assignQuest();
+		AssignQuest assignQuest = AssignQuestFixture.create();
 		ParticipantDto participantDto = ParticipantDto.of(UUID.randomUUID(), 5, 5, 5);
 		doReturn(participantDto).when(readParticipantPort).find(any());
 		doReturn(assignQuest).when(assignQuestService).create(any(), any());

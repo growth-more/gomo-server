@@ -13,8 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import org.springframework.util.ResourceUtils;
 
-import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.core.member.documentation.snippet.UpdateProfileImageSnippet;
+import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation Documentation]: 프로필 이미지 수정 테스트")
 public class UpdateProfileImageDocumentationTest extends DocumentationTestBase {

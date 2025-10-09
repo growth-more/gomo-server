@@ -10,7 +10,7 @@ import com.gomo.app.core.streak.domain.model.StreakType;
 
 public class StreakFixture {
 
-	public static Streak streak() {
+	public static Streak create() {
 		return Streak.of(
 			StreakId.of(UUID.randomUUID()),
 			AchieverId.of(UUID.randomUUID()),
@@ -20,7 +20,7 @@ public class StreakFixture {
 		);
 	}
 
-	public static Streak streak(StreakType type) {
+	public static Streak create(StreakType type) {
 		return Streak.of(
 			StreakId.of(UUID.randomUUID()),
 			AchieverId.of(UUID.randomUUID()),
@@ -30,7 +30,7 @@ public class StreakFixture {
 		);
 	}
 
-	public static Streak streak(int completedQuestCount) {
+	public static Streak create(int completedQuestCount) {
 		return Streak.of(
 			StreakId.of(UUID.randomUUID()),
 			AchieverId.of(UUID.randomUUID()),
@@ -40,7 +40,7 @@ public class StreakFixture {
 		);
 	}
 
-	public static Streak streak(UUID achieverId, StreakType type, LocalDate filledDate) {
+	public static Streak create(UUID achieverId, StreakType type, LocalDate filledDate) {
 		return Streak.of(
 			StreakId.of(UUID.randomUUID()),
 			AchieverId.of(achieverId),

@@ -8,14 +8,14 @@ import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.common.util.JsonParser;
 import com.gomo.app.common.util.TimestampGenerator;
 import com.gomo.app.core.quest.application.port.command.CompleteAssignQuestCommand;
-import com.gomo.app.core.quest.domain.model.reward.QuestReward;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuestId;
 import com.gomo.app.core.quest.domain.model.assign.CompletionProof;
+import com.gomo.app.core.quest.domain.model.reward.QuestReward;
 import com.gomo.app.core.quest.domain.service.AssignQuestService;
 import com.gomo.app.core.quest.domain.service.QuestRewardService;
 import com.gomo.app.core.quest.event.CompleteQuestEvent;
-import com.gomo.app.support.event.application.port.CreateEventEntryPortIn;
+import com.gomo.app.support.evententry.application.port.CreateEventEntryPortIn;
 import com.gomo.app.support.logging.AuditLog;
 
 import lombok.RequiredArgsConstructor;

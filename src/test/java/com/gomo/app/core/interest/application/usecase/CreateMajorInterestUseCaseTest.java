@@ -37,7 +37,7 @@ public class CreateMajorInterestUseCaseTest {
 	@DisplayName("주요 관심사를 등록한다.")
 	@Test
 	void create_major_interest() {
-		MajorInterest majorInterest = MajorInterestFixture.majorInterest();
+		MajorInterest majorInterest = MajorInterestFixture.create();
 		doReturn(InterestFixture.create(majorInterest.getRegistrantId())).when(interestService).find(any(InterestId.class));
 		doReturn(majorInterest).when(majorInterestService).create(any(Interest.class));
 

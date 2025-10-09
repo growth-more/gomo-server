@@ -9,8 +9,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.support.auth.documentation.snippet.LogoutMemberSnippet;
+import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation Documentation]: 회원 로그아웃 테스트")
 public class LogoutMemberDocumentationTest extends DocumentationTestBase {

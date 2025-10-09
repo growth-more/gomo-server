@@ -20,11 +20,10 @@ class ReadSubjectAdapter implements ReadSubjectPortOut {
 	public List<SubjectDto> findAll(UUID participantId) {
 		return readInterestPortIn.findAll(participantId).stream()
 			.map(dto -> SubjectDto.of(
-					dto.id(),
-					dto.registrantId(),
-					dto.name(),
-					dto.proficiency().level()
-				)
-			).toList();
+				dto.id(),
+				dto.registrantId(),
+				dto.name(),
+				dto.proficiency().level()
+			)).toList();
 	}
 }

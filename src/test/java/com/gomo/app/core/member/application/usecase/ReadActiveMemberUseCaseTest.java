@@ -18,8 +18,8 @@ import com.gomo.app.core.member.application.port.dto.ActiveMemberDto;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
 import com.gomo.app.core.member.fixture.MemberFixture;
 
-@ExtendWith(MockitoExtension.class)
 @DisplayName("[Application unit]: 활성화 멤버 조회 테스트")
+@ExtendWith(MockitoExtension.class)
 class ReadActiveMemberUseCaseTest {
 
 	@InjectMocks
@@ -31,7 +31,7 @@ class ReadActiveMemberUseCaseTest {
 	@DisplayName("활성화 멤버 조회에 성공한다")
 	@Test
 	void read_active_member() {
-		doReturn(List.of(MemberFixture.member(), MemberFixture.member())).when(memberRepository).findByActivateStatusAndLastLoginDateTimeGreaterThanEqual(any(), any());
+		doReturn(List.of(MemberFixture.create(), MemberFixture.create())).when(memberRepository).findByActivateStatusAndLastLoginDateTimeGreaterThanEqual(any(), any());
 		List<ActiveMemberDto> actual = sut.findAll(LocalDate.now());
 		assertThat(actual.size()).isEqualTo(2);
 	}

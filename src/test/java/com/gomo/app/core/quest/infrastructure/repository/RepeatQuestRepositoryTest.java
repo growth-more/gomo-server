@@ -12,15 +12,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gomo.app.common.IntegrationTestBase;
 import com.gomo.app.core.quest.domain.model.participant.ParticipantId;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.model.repeat.RepeatQuest;
 import com.gomo.app.core.quest.domain.repository.RepeatQuestRepository;
 import com.gomo.app.core.quest.fixture.RepeatQuestFixture;
+import com.gomo.app.test.IntegrationTest;
 
 @DisplayName("[Domain integration]: 반복 퀘스트 DB 접근 테스트")
-public class RepeatQuestRepositoryTest extends IntegrationTestBase {
+@IntegrationTest
+public class RepeatQuestRepositoryTest {
 
 	@Autowired
 	RepeatQuestRepository sut;
@@ -34,8 +35,8 @@ public class RepeatQuestRepositoryTest extends IntegrationTestBase {
 	@BeforeEach
 	public void setUp() {
 		participantId = UUID.randomUUID();
-		repeatQuest1 = RepeatQuestFixture.repeatQuest(participantId, 1);
-		repeatQuest2 = RepeatQuestFixture.repeatQuest(participantId, 2);
+		repeatQuest1 = RepeatQuestFixture.create(participantId, 1);
+		repeatQuest2 = RepeatQuestFixture.create(participantId, 2);
 		repeatQuestRepository.saveAll(List.of(repeatQuest1, repeatQuest2));
 	}
 

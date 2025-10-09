@@ -23,7 +23,7 @@ import com.gomo.app.core.member.domain.model.WeeklyThreshold;
 
 public class MemberFixture {
 
-	public static Member member() {
+	public static Member create() {
 		return Member.of(
 			MemberId.of(UUID.randomUUID()),
 			Email.of("test@naver.com"),
@@ -35,19 +35,7 @@ public class MemberFixture {
 		);
 	}
 
-	public static Member memberFromGoogle() {
-		return Member.of(
-			MemberId.of(UUID.randomUUID()),
-			Email.of("test@naver.com"),
-			null,
-			null,
-			null,
-			null,
-			LoginProvider.GOOGLE
-		);
-	}
-
-	public static Member member(int dailyQuestThreshold) {
+	public static Member create(int dailyQuestThreshold) {
 		return new Member(
 			MemberId.of(UUID.randomUUID()),
 			Email.of("test@naver.com"),
@@ -68,7 +56,7 @@ public class MemberFixture {
 		);
 	}
 
-	public static Member member(int dailyQuestThreshold, int weeklyQuestThreshold, int monthlyQuestThreshold) {
+	public static Member create(int dailyQuestThreshold, int weeklyQuestThreshold, int monthlyQuestThreshold) {
 		return new Member(
 			MemberId.of(UUID.randomUUID()),
 			Email.of("test@naver.com"),
@@ -89,7 +77,7 @@ public class MemberFixture {
 		);
 	}
 
-	public static Member member(SubscriptionPlan subscriptionPlan) {
+	public static Member create(SubscriptionPlan subscriptionPlan) {
 		return new Member(
 			MemberId.of(UUID.randomUUID()),
 			Email.of("test@naver.com"),
@@ -109,7 +97,7 @@ public class MemberFixture {
 		);
 	}
 
-	public static Member member(ActivateStatus status) {
+	public static Member create(ActivateStatus status) {
 		return new Member(
 			MemberId.of(UUID.randomUUID()),
 			Email.of("test@naver.com"),

@@ -19,11 +19,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import org.springframework.util.ResourceUtils;
 
-import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.core.interest.presentation.documentation.snippet.UpdateInterestLogoSnippet;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;
 import com.gomo.app.core.interest.presentation.api.InterestApi;
 import com.gomo.app.core.interest.presentation.api.request.CreateInterestRequest;
+import com.gomo.app.core.interest.presentation.documentation.snippet.UpdateInterestLogoSnippet;
+import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation documentation]: 관심사 로고 수정 테스트")
 public class UpdateInterestLogoDocumentationTest extends DocumentationTestBase {

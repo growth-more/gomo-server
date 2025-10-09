@@ -13,7 +13,7 @@ import com.gomo.app.core.interest.domain.repository.InterestRepository;
 import com.gomo.app.core.interest.domain.repository.MajorInterestRepository;
 import com.gomo.app.core.interest.domain.service.InterestRelationService;
 import com.gomo.app.core.interest.domain.service.InterestService;
-import com.gomo.app.support.image.port.DeleteImagePortIn;
+import com.gomo.app.support.image.application.port.DeleteImagePortIn;
 import com.gomo.app.support.logging.AuditLog;
 
 import lombok.RequiredArgsConstructor;

@@ -7,13 +7,13 @@ import org.springframework.stereotype.Component;
 
 import com.gomo.app.core.interest.domain.service.LogoService;
 import com.gomo.app.core.member.domain.service.ProfileImageService;
-import com.gomo.app.support.image.port.DeleteImagePortIn;
-import com.gomo.app.support.image.port.ReadImagePortIn;
+import com.gomo.app.support.image.application.port.DeleteImagePortIn;
+import com.gomo.app.support.image.application.port.ReadImagePortIn;
 
 import lombok.RequiredArgsConstructor;
 
-@Component
 @RequiredArgsConstructor
+@Component
 public class ImageCleanupScheduler {
 	private final ReadImagePortIn readImagePortIn;
 	private final DeleteImagePortIn deleteImagePortIn;
@@ -27,7 +27,7 @@ public class ImageCleanupScheduler {
 		Set<String> profileImages = profileImageService.getAllProfileImageUrl();
 		allImages.removeAll(profileImages);
 
-		Set<String> logoImages = logoService.getAllLogoUrl();
+		Set<String> logoImages = logoService.findAllUrls();
 		allImages.removeAll(logoImages);
 
 		for (String unusedImage : allImages) {

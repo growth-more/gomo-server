@@ -1,6 +1,6 @@
 package com.gomo.app.core.member.documentation.snippet;
 
-import static com.gomo.app.common.constant.ErrorResponseFields.*;
+import static com.gomo.app.test.ErrorResponseFields.*;
 import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;

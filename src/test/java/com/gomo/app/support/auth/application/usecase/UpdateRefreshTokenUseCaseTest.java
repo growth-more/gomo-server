@@ -20,12 +20,12 @@ import com.gomo.app.support.auth.domain.repository.AuthTokenRepository;
 import com.gomo.app.support.auth.exception.AuthErrorCode;
 import com.gomo.app.support.auth.exception.AuthenticationFailException;
 
-@ExtendWith(MockitoExtension.class)
 @DisplayName("[Application Unit]: Refresh 토큰 재발급 테스트")
+@ExtendWith(MockitoExtension.class)
 public class UpdateRefreshTokenUseCaseTest {
 
 	@InjectMocks
-	UpdateRefreshTokenUseCase sut;
+	private UpdateRefreshTokenUseCase sut;
 
 	@Mock
 	private CreateAuthTokenInternalService createAuthTokenInternalService;
@@ -42,7 +42,7 @@ public class UpdateRefreshTokenUseCaseTest {
 	@DisplayName("Refresh 토큰 재발급에 성공한다.")
 	@Test
 	void renew_refresh_token_successfully() {
-		Member member = MemberFixture.member();
+		Member member = MemberFixture.create();
 		AuthToken authToken = AuthToken.of("access", "refresh");
 		AuthTokenDto expected = AuthTokenDto.of(member.id(), authToken.getAccessToken(), authToken.getRefreshToken(), 1L);
 
@@ -67,7 +67,7 @@ public class UpdateRefreshTokenUseCaseTest {
 	@DisplayName("Refresh 토큰이 저장된 값과 다를 경우 재발급에 실패한다.")
 	@Test
 	void renew_refresh_token_with_wrong_token() {
-		Member member = MemberFixture.member();
+		Member member = MemberFixture.create();
 		doReturn(member.id().toString()).when(verifyJwtPortIn).extractSubject(anyString());
 		doReturn(REFRESH_TOKEN_WRONG).when(authTokenRepository).getRefreshToken(member.id());
 

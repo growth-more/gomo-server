@@ -37,12 +37,12 @@ public class ReadRepeatQuestUseCaseTest {
 	@DisplayName("반복 퀘스트 목록을 조회한다.")
 	@Test
 	void find_All() {
-		List<RepeatQuest> dailyQuests = List.of(RepeatQuestFixture.repeatQuest(QuestType.DAILY), RepeatQuestFixture.repeatQuest(QuestType.DAILY));
-		List<RepeatQuest> weeklyQuests = List.of(RepeatQuestFixture.repeatQuest(QuestType.WEEKLY));
+		List<RepeatQuest> dailyQuests = List.of(RepeatQuestFixture.create(QuestType.DAILY), RepeatQuestFixture.create(QuestType.DAILY));
+		List<RepeatQuest> weeklyQuests = List.of(RepeatQuestFixture.create(QuestType.WEEKLY));
 		List<RepeatQuest> monthlyQuests = List.of();
 
-		doReturn(QuestRewardPolicyFixture.point()).when(questRewardPolicyRepository).findPointPolicies();
-		doReturn(QuestRewardPolicyFixture.score()).when(questRewardPolicyRepository).findScorePolicies();
+		doReturn(QuestRewardPolicyFixture.points()).when(questRewardPolicyRepository).findPointPolicies();
+		doReturn(QuestRewardPolicyFixture.scores()).when(questRewardPolicyRepository).findScorePolicies();
 		doReturn(dailyQuests).when(repeatQuestRepository).findRepeatQuestsByQuestType(any(), eq(QuestType.DAILY));
 		doReturn(weeklyQuests).when(repeatQuestRepository).findRepeatQuestsByQuestType(any(), eq(QuestType.WEEKLY));
 		doReturn(monthlyQuests).when(repeatQuestRepository).findRepeatQuestsByQuestType(any(), eq(QuestType.MONTHLY));

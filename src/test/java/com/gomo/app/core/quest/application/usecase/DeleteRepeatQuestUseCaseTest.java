@@ -36,7 +36,7 @@ public class DeleteRepeatQuestUseCaseTest {
 	@DisplayName("반복 퀘스트를 삭제한다.")
 	@Test
 	void delete_repeat_quest() {
-		RepeatQuest repeatQuest = RepeatQuestFixture.repeatQuest();
+		RepeatQuest repeatQuest = RepeatQuestFixture.create();
 		doReturn(repeatQuest).when(repeatQuestService).find(any(RepeatQuestId.class));
 
 		sut.delete(repeatQuest.getQuest().getParticipantId().getId(), UUID.randomUUID());
@@ -47,7 +47,7 @@ public class DeleteRepeatQuestUseCaseTest {
 	@DisplayName("퀘스트 참여자가 아니면 반복 퀘스트를 삭제할 수 없다.")
 	@Test
 	void delete_repeat_quest_by_not_participant() {
-		RepeatQuest repeatQuest = RepeatQuestFixture.repeatQuest();
+		RepeatQuest repeatQuest = RepeatQuestFixture.create();
 		doReturn(repeatQuest).when(repeatQuestService).find(any(RepeatQuestId.class));
 
 		assertThatThrownBy(

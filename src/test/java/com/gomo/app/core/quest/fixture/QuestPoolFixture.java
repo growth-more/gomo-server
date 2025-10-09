@@ -15,7 +15,7 @@ import com.gomo.app.core.quest.domain.model.subject.SubjectName;
 
 public class QuestPoolFixture {
 
-	public static QuestPool questPool() {
+	public static QuestPool create() {
 		return QuestPool.of(
 			QuestPoolId.of(UUID.randomUUID()),
 			Quest.of(

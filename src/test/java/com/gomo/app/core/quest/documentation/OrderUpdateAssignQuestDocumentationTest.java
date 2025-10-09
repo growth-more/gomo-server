@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.displayorder.UpdatedOrderDto;
 import com.gomo.app.core.quest.documentation.snippet.OrderUpdateAssignQuestSnippet;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
@@ -24,6 +23,7 @@ import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.fixture.AssignQuestFixture;
 import com.gomo.app.core.quest.presentation.request.OrderUpdateAssignQuestRequest;
+import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation documentation]: 참여 중인 퀘스트 순서 변경 테스트")
 public class OrderUpdateAssignQuestDocumentationTest extends DocumentationTestBase {
@@ -37,8 +37,8 @@ public class OrderUpdateAssignQuestDocumentationTest extends DocumentationTestBa
 
 	@BeforeEach
 	public void setUp() {
-		assignQuest1 = AssignQuestFixture.assignQuest(sessionMemberId, 1, LocalDateTime.now());
-		assignQuest2 = AssignQuestFixture.assignQuest(sessionMemberId, 2, LocalDateTime.now());
+		assignQuest1 = AssignQuestFixture.create(sessionMemberId, 1, LocalDateTime.now());
+		assignQuest2 = AssignQuestFixture.create(sessionMemberId, 2, LocalDateTime.now());
 		assignQuestRepository.saveAll(List.of(assignQuest1, assignQuest2));
 	}
 

@@ -28,6 +28,4 @@ public interface MemberRepository extends JpaRepository<Member, MemberId> {
 
 	@Query("SELECT m.profileImage FROM Member m WHERE m.profileImage IS NOT NULL")
 	List<String> findAllByProfileImageUrl();
-
-	Optional<Member> findByEmailAndActivateStatus(Email email, ActivateStatus activateStatus);
 }

@@ -24,7 +24,7 @@ import com.gomo.app.core.point.fixture.PointWalletFixture;
 public class PointWalletServiceTest {
 
 	@InjectMocks
-	PointWalletService sut;
+	private PointWalletService sut;
 
 	@Mock
 	private PointWalletRepository pointWalletRepository;
@@ -32,7 +32,7 @@ public class PointWalletServiceTest {
 	@DisplayName("사용자의 포인트 잔고를 조회한다.")
 	@Test
 	void find_balance() {
-		PointWallet pointWallet = PointWalletFixture.point(UUID.randomUUID(), 1660);
+		PointWallet pointWallet = PointWalletFixture.create(UUID.randomUUID(), 1660);
 		doReturn(Optional.of((pointWallet))).when(pointWalletRepository).findByTransactorId(any());
 
 		Balance balance = sut.findBalance(pointWallet.getTransactorId());
@@ -43,7 +43,7 @@ public class PointWalletServiceTest {
 	@DisplayName("사용자 포인트 잔고가 증가한다.")
 	@Test
 	void enhance_balance() {
-		PointWallet pointWallet = PointWalletFixture.point(UUID.randomUUID(), 1660);
+		PointWallet pointWallet = PointWalletFixture.create(UUID.randomUUID(), 1660);
 		doReturn(Optional.of((pointWallet))).when(pointWalletRepository).findByTransactorId(any());
 
 		sut.adjustPointBalance(pointWallet.getTransactorId(), TransactionType.GAIN, 40);
@@ -55,7 +55,7 @@ public class PointWalletServiceTest {
 	@DisplayName("사용자 포인트 잔고가 감소한다.")
 	@Test
 	void reduce_balance() {
-		PointWallet pointWallet = PointWalletFixture.point(UUID.randomUUID(), 1660);
+		PointWallet pointWallet = PointWalletFixture.create(UUID.randomUUID(), 1660);
 		doReturn(Optional.of((pointWallet))).when(pointWalletRepository).findByTransactorId(any());
 
 		sut.adjustPointBalance(pointWallet.getTransactorId(), TransactionType.GAIN, -60);

@@ -8,8 +8,8 @@ import com.gomo.app.core.interest.domain.model.Interest;
 import com.gomo.app.core.interest.domain.model.InterestId;
 import com.gomo.app.core.interest.domain.model.Logo;
 import com.gomo.app.core.interest.domain.service.InterestService;
-import com.gomo.app.support.image.port.DeleteImagePortIn;
-import com.gomo.app.support.image.port.UploadImagePortIn;
+import com.gomo.app.support.image.application.port.DeleteImagePortIn;
+import com.gomo.app.support.image.application.port.UploadImagePortIn;
 import com.gomo.app.support.logging.AuditLog;
 
 import lombok.RequiredArgsConstructor;

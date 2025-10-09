@@ -9,33 +9,33 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.gomo.app.common.IntegrationTestBase;
 import com.gomo.app.support.auth.domain.repository.AuthTokenRepository;
+import com.gomo.app.test.IntegrationTest;
 
 @DisplayName("[Domain Integration]: Auth 토큰 Redis DB 테스트")
-public class RedisAuthTokenRepositoryTest extends IntegrationTestBase {
+@IntegrationTest
+public class RedisAuthTokenRepositoryTest {
+
+	private static final UUID TOKEN_ID = UUID.randomUUID();
 
 	@Autowired
-	AuthTokenRepository sut;
-
-	private static final UUID uuid = UUID.randomUUID();
-	private static final String REFRESH_TOKEN = "refresh_token";
+	private AuthTokenRepository sut;
 
 	@BeforeEach
 	void setUp() {
-		sut.setRefreshToken(uuid, REFRESH_TOKEN);
+		sut.setRefreshToken(TOKEN_ID, "refresh_token");
 	}
 
 	@DisplayName("Redis에 저장된 refresh token을 조회 할 수 있다.")
 	@Test
 	void read_refresh_token() {
-		assertThat(sut.getRefreshToken(uuid)).isEqualTo("refresh_token");
+		assertThat(sut.getRefreshToken(TOKEN_ID)).isEqualTo("refresh_token");
 	}
 
 	@DisplayName("Redis에 저장된 인증코드를 삭제 할 수 있다.")
 	@Test
 	void delete_email_auth_code() {
-		sut.deleteRefreshToken(uuid);
-		assertThat(sut.getRefreshToken(uuid)).isNullOrEmpty();
+		sut.deleteRefreshToken(TOKEN_ID);
+		assertThat(sut.getRefreshToken(TOKEN_ID)).isNullOrEmpty();
 	}
 }

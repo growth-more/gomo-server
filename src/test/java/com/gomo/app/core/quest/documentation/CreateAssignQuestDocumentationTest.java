@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.core.member.presentation.QuestPropertyApi;
 import com.gomo.app.core.member.presentation.request.UpdateQuestPropertyRequest;
 import com.gomo.app.core.quest.documentation.snippet.CreateAssignQuestSnippet;
@@ -23,6 +22,7 @@ import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.exception.code.QuestContentErrorCode;
 import com.gomo.app.core.quest.exception.code.QuestErrorCode;
 import com.gomo.app.core.quest.presentation.request.CreateAssignQuestRequest;
+import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation documentation]: 할당 퀘스트 생성 테스트")
 public class CreateAssignQuestDocumentationTest extends DocumentationTestBase {

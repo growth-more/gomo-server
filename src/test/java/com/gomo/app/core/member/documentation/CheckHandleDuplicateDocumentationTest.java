@@ -10,9 +10,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.core.member.documentation.snippet.CheckHandleDuplicateSnippet;
 import com.gomo.app.core.member.exception.code.HandleErrorCode;
+import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation Documentation]: 핸들 중복 테스트")
 public class CheckHandleDuplicateDocumentationTest extends DocumentationTestBase {
@@ -22,7 +22,7 @@ public class CheckHandleDuplicateDocumentationTest extends DocumentationTestBase
 	private final RestDocumentationFilter filter = CheckHandleDuplicateSnippet.create();
 	private final RestDocumentationFilter errorFilter = CheckHandleDuplicateSnippet.createError();
 
-	@DisplayName("사용자가 핸들을 검증에 성공한다.(중복X)")
+	@DisplayName("사용자가 핸들 검증에 성공한다.(중복X)")
 	@Test
 	void check_duplicate_handle_success() {
 		given(this.specification).filter(filter)
@@ -34,7 +34,7 @@ public class CheckHandleDuplicateDocumentationTest extends DocumentationTestBase
 			.statusCode(OK.value());
 	}
 
-	@DisplayName("사용자가 핸들을 검증에 실패한다.(중복)")
+	@DisplayName("사용자가 핸들 검증에 실패한다.(중복)")
 	@Test
 	void check_duplicate_handle_failure() {
 		given(this.specification).filter(errorFilter)

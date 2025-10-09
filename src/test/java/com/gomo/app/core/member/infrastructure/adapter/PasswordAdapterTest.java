@@ -11,18 +11,18 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+@DisplayName("[Infrastructure Unit]: PasswordService 테스트")
 @ExtendWith(MockitoExtension.class)
-@DisplayName("[Domain Unit]: PasswordService 테스트")
 public class PasswordAdapterTest {
 
 	private static final String RAW_PASSWORD = "password";
 	private static final String ENCODED_PASSWORD = "encoded_password";
 
 	@InjectMocks
-	PasswordAdapter sut;
+	private PasswordAdapter sut;
 
 	@Mock
-	PasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder;
 
 	@DisplayName("비밀번호를 인코딩한다")
 	@Test

@@ -14,7 +14,7 @@ import com.gomo.app.core.quest.domain.model.subject.SubjectName;
 
 public class RepeatQuestFixture {
 
-	public static RepeatQuest repeatQuest() {
+	public static RepeatQuest create() {
 		return RepeatQuest.of(
 			RepeatQuestId.of(UUID.randomUUID()),
 			Quest.of(
@@ -28,7 +28,7 @@ public class RepeatQuestFixture {
 		);
 	}
 
-	public static RepeatQuest repeatQuest(QuestType type) {
+	public static RepeatQuest create(QuestType type) {
 		return RepeatQuest.of(
 			RepeatQuestId.of(UUID.randomUUID()),
 			Quest.of(
@@ -42,7 +42,7 @@ public class RepeatQuestFixture {
 		);
 	}
 
-	public static RepeatQuest repeatQuest(int displayOrder) {
+	public static RepeatQuest create(int displayOrder) {
 		return RepeatQuest.of(
 			RepeatQuestId.of(UUID.randomUUID()),
 			Quest.of(
@@ -56,7 +56,7 @@ public class RepeatQuestFixture {
 		);
 	}
 
-	public static RepeatQuest repeatQuest(UUID participantId, int displayOrder) {
+	public static RepeatQuest create(UUID participantId, int displayOrder) {
 		return RepeatQuest.of(
 			RepeatQuestId.of(UUID.randomUUID()),
 			Quest.of(

@@ -13,8 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import org.springframework.util.ResourceUtils;
 
-import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.core.member.documentation.snippet.UpdateProfileBannerSnippet;
+import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation Documentation]: 프로필 배너 변경 테스트")
 public class UpdateProfileBannerDocumentationTest extends DocumentationTestBase {

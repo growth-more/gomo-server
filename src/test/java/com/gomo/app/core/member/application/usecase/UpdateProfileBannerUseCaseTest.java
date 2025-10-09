@@ -17,27 +17,27 @@ import com.gomo.app.core.member.application.port.dto.UpdateProfileBannerDto;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.service.MemberService;
 import com.gomo.app.core.member.fixture.MemberFixture;
-import com.gomo.app.support.image.port.UploadImagePortIn;
+import com.gomo.app.support.image.application.port.UploadImagePortIn;
 
-@ExtendWith(MockitoExtension.class)
 @DisplayName("[Application Unit]: 배너 이미지 수정 기능 테스트")
+@ExtendWith(MockitoExtension.class)
 public class UpdateProfileBannerUseCaseTest {
 
 	@InjectMocks
-	UpdateProfileBannerUseCase sut;
+	private UpdateProfileBannerUseCase sut;
 
 	@Mock
-	MemberService memberService;
+	private MemberService memberService;
 
 	@Mock
-	UploadImagePortIn uploadImagePortIn;
+	private UploadImagePortIn uploadImagePortIn;
 
 	private static final String NEW_IMAGE_URL = "https://example.com/profile.jpg";
 
 	@DisplayName("프로필 배너 이미지를 수정 한다.")
 	@Test
 	void update_profile_banner() {
-		Member member = MemberFixture.member();
+		Member member = MemberFixture.create();
 		MockMultipartFile request = new MockMultipartFile("banner", "mock image data".getBytes());
 		UpdateProfileBannerDto expected = UpdateProfileBannerDto.of(NEW_IMAGE_URL);
 

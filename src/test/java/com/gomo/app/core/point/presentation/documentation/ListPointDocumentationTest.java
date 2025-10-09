@@ -14,13 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.core.point.domain.model.SourceType;
 import com.gomo.app.core.point.domain.model.TransactionType;
 import com.gomo.app.core.point.domain.model.TransactorId;
 import com.gomo.app.core.point.domain.repository.PointRepository;
 import com.gomo.app.core.point.domain.service.PointService;
 import com.gomo.app.core.point.presentation.documentation.snippet.ListPointSnippet;
+import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation documentation]: 포인트 목록 조회 테스트")
 public class ListPointDocumentationTest extends DocumentationTestBase {

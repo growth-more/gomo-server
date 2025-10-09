@@ -35,7 +35,7 @@ public class DeleteMajorInterestUseCaseTest {
 	@DisplayName("주요 관심사를 삭제한다.")
 	@Test
 	void delete_interest() {
-		MajorInterest majorInterest = MajorInterestFixture.majorInterest();
+		MajorInterest majorInterest = MajorInterestFixture.create();
 		doReturn(majorInterest).when(majorInterestService).find(any(MajorInterestId.class));
 
 		sut.delete(majorInterest.getRegistrantId().getId(), majorInterest.id());

@@ -18,8 +18,8 @@ import com.gomo.app.core.member.domain.service.MemberService;
 import com.gomo.app.core.member.fixture.MemberFixture;
 import com.gomo.app.core.point.application.port.ReadBalancePortIn;
 
-@ExtendWith(MockitoExtension.class)
 @DisplayName("[Application unit]: 멤버 조회 테스트")
+@ExtendWith(MockitoExtension.class)
 public class ReadMemberUseCaseTest {
 
 	@InjectMocks
@@ -36,7 +36,7 @@ public class ReadMemberUseCaseTest {
 	@DisplayName("멤버 조회에 성공한다")
 	@Test
 	void read_member_successfully() {
-		Member member = MemberFixture.member();
+		Member member = MemberFixture.create();
 		MemberDto expected = MemberDto.from(member, BALANCE);
 
 		doReturn(member).when(memberService).find(any(MemberId.class));

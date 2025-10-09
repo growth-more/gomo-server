@@ -14,14 +14,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.core.interest.presentation.documentation.snippet.DeleteInterestRelationSnippet;
 import com.gomo.app.core.interest.domain.repository.InterestRelationRepository;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;
 import com.gomo.app.core.interest.presentation.api.InterestApi;
 import com.gomo.app.core.interest.presentation.api.InterestNetworkApi;
 import com.gomo.app.core.interest.presentation.api.request.CreateInterestRelationRequest;
 import com.gomo.app.core.interest.presentation.api.request.CreateInterestRequest;
+import com.gomo.app.core.interest.presentation.documentation.snippet.DeleteInterestRelationSnippet;
+import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation documentation]: 관심사 관계 삭제 테스트")
 public class DeleteInterestRelationDocumentationTest extends DocumentationTestBase {

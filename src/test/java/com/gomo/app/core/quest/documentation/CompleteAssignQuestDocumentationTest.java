@@ -12,12 +12,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.core.quest.documentation.snippet.CompleteAssignQuestSnippet;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
 import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.fixture.AssignQuestFixture;
 import com.gomo.app.core.quest.presentation.request.CompleteAssignQuestRequest;
+import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation documentation]: 참여 중인 퀘스트 완료 테스트")
 public class CompleteAssignQuestDocumentationTest extends DocumentationTestBase {
@@ -30,7 +30,7 @@ public class CompleteAssignQuestDocumentationTest extends DocumentationTestBase 
 
 	@BeforeEach
 	public void setUp() {
-		assignQuest = AssignQuestFixture.assignQuest(sessionMemberId, true);
+		assignQuest = AssignQuestFixture.create(sessionMemberId, true);
 		assignQuestRepository.save(assignQuest);
 	}
 

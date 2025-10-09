@@ -15,12 +15,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.core.quest.documentation.snippet.CalendarAssignQuestSnippet;
-import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
+import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.fixture.AssignQuestFixture;
+import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation documentation]: 할당 퀘스트 캘린더 조회 테스트")
 public class CalendarAssignQuestDocumentationTest extends DocumentationTestBase {
@@ -39,9 +39,9 @@ public class CalendarAssignQuestDocumentationTest extends DocumentationTestBase 
 	@Test
 	void calendar_not_completed_quest() {
 		LocalDateTime startDateTime = LocalDateTime.of(2025, 7, 16, 10, 0, 0);
-		AssignQuest dailyQuest = AssignQuestFixture.assignQuest(sessionMemberId, QuestType.DAILY, startDateTime);
-		AssignQuest weeklyQuest = AssignQuestFixture.assignQuest(sessionMemberId, QuestType.WEEKLY, startDateTime);
-		AssignQuest monthlyQuest = AssignQuestFixture.assignQuest(sessionMemberId, QuestType.MONTHLY, startDateTime);
+		AssignQuest dailyQuest = AssignQuestFixture.create(sessionMemberId, QuestType.DAILY, startDateTime);
+		AssignQuest weeklyQuest = AssignQuestFixture.create(sessionMemberId, QuestType.WEEKLY, startDateTime);
+		AssignQuest monthlyQuest = AssignQuestFixture.create(sessionMemberId, QuestType.MONTHLY, startDateTime);
 		assignQuestRepository.saveAll(List.of(dailyQuest, weeklyQuest, monthlyQuest));
 
 		given(this.specification).filter(filter)
@@ -61,9 +61,9 @@ public class CalendarAssignQuestDocumentationTest extends DocumentationTestBase 
 	@Test
 	void calendar_completed_quest() {
 		LocalDateTime completedDateTime = LocalDateTime.of(2025, 7, 16, 10, 0, 0);
-		AssignQuest dailyQuest = AssignQuestFixture.assignQuest(sessionMemberId, QuestType.DAILY, true, completedDateTime);
-		AssignQuest weeklyQuest = AssignQuestFixture.assignQuest(sessionMemberId, QuestType.WEEKLY, true, completedDateTime);
-		AssignQuest monthlyQuest = AssignQuestFixture.assignQuest(sessionMemberId, QuestType.MONTHLY, true, completedDateTime);
+		AssignQuest dailyQuest = AssignQuestFixture.create(sessionMemberId, QuestType.DAILY, true, completedDateTime);
+		AssignQuest weeklyQuest = AssignQuestFixture.create(sessionMemberId, QuestType.WEEKLY, true, completedDateTime);
+		AssignQuest monthlyQuest = AssignQuestFixture.create(sessionMemberId, QuestType.MONTHLY, true, completedDateTime);
 		assignQuestRepository.saveAll(List.of(dailyQuest, weeklyQuest, monthlyQuest));
 
 		given(this.specification).filter(filter)

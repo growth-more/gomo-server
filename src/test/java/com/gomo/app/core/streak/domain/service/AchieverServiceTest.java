@@ -29,7 +29,7 @@ public class AchieverServiceTest {
 	@DisplayName("성취자를 조회한다.")
 	@Test
 	void find_achiever() {
-		Achiever achiever = AchieverFixture.achiever(3, 5);
+		Achiever achiever = AchieverFixture.create(3, 5);
 		doReturn(Optional.of(achiever)).when(achieverRepository).findById(any());
 
 		Achiever actual = sut.find(achiever.getId());

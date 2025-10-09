@@ -20,15 +20,15 @@ import com.gomo.app.core.interest.exception.InterestNotFoundException;
 import com.gomo.app.core.interest.exception.code.InterestErrorCode;
 import com.gomo.app.core.interest.fixture.InterestFixture;
 
-@ExtendWith(MockitoExtension.class)
 @DisplayName("[Domain unit]: 관심사 조회 테스트")
+@ExtendWith(MockitoExtension.class)
 public class InterestServiceTest {
 
 	@InjectMocks
-	InterestService sut;
+	private InterestService sut;
 
 	@Mock
-	InterestRepository interestRepository;
+	private InterestRepository interestRepository;
 
 	@DisplayName("관심사를 조회한다.")
 	@Test

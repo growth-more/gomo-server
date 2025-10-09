@@ -18,8 +18,8 @@ import com.gomo.app.core.interest.domain.model.InterestId;
 import com.gomo.app.core.interest.domain.model.Logo;
 import com.gomo.app.core.interest.domain.service.InterestService;
 import com.gomo.app.core.interest.fixture.InterestFixture;
-import com.gomo.app.support.image.port.DeleteImagePortIn;
-import com.gomo.app.support.image.port.UploadImagePortIn;
+import com.gomo.app.support.image.application.port.DeleteImagePortIn;
+import com.gomo.app.support.image.application.port.UploadImagePortIn;
 
 @DisplayName("[Application unit]: 관심사 로고 수정 테스트")
 @ExtendWith(MockitoExtension.class)

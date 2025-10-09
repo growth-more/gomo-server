@@ -17,10 +17,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import org.springframework.util.ResourceUtils;
 
-import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.core.interest.presentation.documentation.snippet.CreateInterestSnippet;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;
 import com.gomo.app.core.interest.exception.code.InterestNameErrorCode;
+import com.gomo.app.core.interest.presentation.documentation.snippet.CreateInterestSnippet;
+import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation documentation]: 관심사 생성 테스트")
 public class CreateInterestDocumentationTest extends DocumentationTestBase {

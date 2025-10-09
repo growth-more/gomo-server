@@ -16,12 +16,12 @@ import com.gomo.app.core.member.domain.service.MemberService;
 import com.gomo.app.core.member.fixture.MemberFixture;
 import com.gomo.app.support.auth.application.port.DeleteAuthTokenPortIn;
 
-@ExtendWith(MockitoExtension.class)
 @DisplayName("[Application Unit]: 멤버 삭제 테스트")
+@ExtendWith(MockitoExtension.class)
 public class DeleteMemberUseCaseTest {
 
 	@InjectMocks
-	DeleteMemberUseCase sut;
+	private DeleteMemberUseCase sut;
 
 	@Mock
 	private MemberService memberService;
@@ -32,7 +32,7 @@ public class DeleteMemberUseCaseTest {
 	@DisplayName("멤버 삭제 테스트")
 	@Test
 	void delete_member_successfully() {
-		Member member = MemberFixture.member();
+		Member member = MemberFixture.create();
 		doReturn(member).when(memberService).find(member.getId());
 		doNothing().when(deleteAuthTokenPortIn).deleteRefreshToken(member.id());
 

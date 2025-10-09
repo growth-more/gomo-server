@@ -10,7 +10,7 @@ import com.gomo.app.core.member.application.port.dto.UpdateProfileImageDto;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.model.MemberId;
 import com.gomo.app.core.member.domain.service.MemberService;
-import com.gomo.app.support.image.port.UploadImagePortIn;
+import com.gomo.app.support.image.application.port.UploadImagePortIn;
 import com.gomo.app.support.logging.AuditLog;
 
 import lombok.RequiredArgsConstructor;

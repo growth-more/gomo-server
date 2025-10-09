@@ -16,12 +16,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.core.streak.domain.model.Streak;
 import com.gomo.app.core.streak.domain.model.StreakType;
 import com.gomo.app.core.streak.domain.repository.StreakRepository;
 import com.gomo.app.core.streak.fixture.StreakFixture;
 import com.gomo.app.core.streak.presentation.documentation.snippet.ListStreakSnippet;
+import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation documentation]: 스트릭 목록 조회 테스트")
 public class ListStreakDocumentationTest extends DocumentationTestBase {
@@ -36,9 +36,9 @@ public class ListStreakDocumentationTest extends DocumentationTestBase {
 
 	@BeforeEach
 	public void setUp() {
-		dailyStreak1 = StreakFixture.streak(sessionMemberId, StreakType.DAILY, LocalDate.of(2025, 1, 18));
-		dailyStreak2 = StreakFixture.streak(sessionMemberId, StreakType.DAILY, LocalDate.of(2025, 2, 6));
-		weeklyStreak = StreakFixture.streak(sessionMemberId, StreakType.WEEKLY, LocalDate.of(2025, 1, 20));
+		dailyStreak1 = StreakFixture.create(sessionMemberId, StreakType.DAILY, LocalDate.of(2025, 1, 18));
+		dailyStreak2 = StreakFixture.create(sessionMemberId, StreakType.DAILY, LocalDate.of(2025, 2, 6));
+		weeklyStreak = StreakFixture.create(sessionMemberId, StreakType.WEEKLY, LocalDate.of(2025, 1, 20));
 		streakRepository.saveAll(List.of(dailyStreak1, dailyStreak2, weeklyStreak));
 	}
 

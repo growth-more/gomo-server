@@ -10,7 +10,7 @@ import com.gomo.app.core.interest.domain.model.RegistrantId;
 
 public class MajorInterestFixture {
 
-	public static MajorInterest majorInterest() {
+	public static MajorInterest create() {
 		return MajorInterest.of(
 			MajorInterestId.of(UUID.randomUUID()),
 			RegistrantId.of(UUID.randomUUID()),
@@ -19,7 +19,7 @@ public class MajorInterestFixture {
 		);
 	}
 
-	public static MajorInterest majorInterest(int displayOrder) {
+	public static MajorInterest create(int displayOrder) {
 		return MajorInterest.of(
 			MajorInterestId.of(UUID.randomUUID()),
 			RegistrantId.of(UUID.randomUUID()),
@@ -28,7 +28,7 @@ public class MajorInterestFixture {
 		);
 	}
 
-	public static MajorInterest majorInterest(RegistrantId registrantId, InterestId interestId) {
+	public static MajorInterest create(RegistrantId registrantId, InterestId interestId) {
 		return MajorInterest.of(
 			MajorInterestId.of(UUID.randomUUID()),
 			registrantId,
@@ -37,7 +37,7 @@ public class MajorInterestFixture {
 		);
 	}
 
-	public static MajorInterest majorInterest(RegistrantId registrantId, InterestId interestId, int displayOrder) {
+	public static MajorInterest create(RegistrantId registrantId, InterestId interestId, int displayOrder) {
 		return MajorInterest.of(
 			MajorInterestId.of(UUID.randomUUID()),
 			registrantId,

@@ -12,11 +12,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.core.quest.documentation.snippet.DeleteAssignQuestSnippet;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
 import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.fixture.AssignQuestFixture;
+import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation documentation]: 참여 중인 퀘스트 삭제 테스트")
 public class DeleteAssignQuestDocumentationTest extends DocumentationTestBase {
@@ -29,7 +29,7 @@ public class DeleteAssignQuestDocumentationTest extends DocumentationTestBase {
 
 	@BeforeEach
 	public void setUp() {
-		assignQuest = AssignQuestFixture.assignQuest(sessionMemberId, false);
+		assignQuest = AssignQuestFixture.create(sessionMemberId, false);
 		assignQuestRepository.save(assignQuest);
 	}
 

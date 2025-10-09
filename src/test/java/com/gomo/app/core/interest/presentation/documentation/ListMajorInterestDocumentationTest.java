@@ -15,13 +15,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.core.interest.presentation.documentation.snippet.ListMajorInterestSnippet;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;
 import com.gomo.app.core.interest.domain.repository.MajorInterestRepository;
 import com.gomo.app.core.interest.presentation.api.InterestApi;
 import com.gomo.app.core.interest.presentation.api.MajorInterestApi;
 import com.gomo.app.core.interest.presentation.api.request.CreateInterestRequest;
+import com.gomo.app.core.interest.presentation.documentation.snippet.ListMajorInterestSnippet;
+import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation documentation]: 주요 관심사 목록 조회 테스트")
 public class ListMajorInterestDocumentationTest extends DocumentationTestBase {

@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-@ExtendWith(MockitoExtension.class)
 @DisplayName("[Domain unit]: 프로필 이미지 테스트")
+@ExtendWith(MockitoExtension.class)
 public class ProfileImageTest {
 
 	private Password PASSWORD;

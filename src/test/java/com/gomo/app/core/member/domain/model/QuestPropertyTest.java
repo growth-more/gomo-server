@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-@ExtendWith(MockitoExtension.class)
 @DisplayName("[Domain unit]: 퀘스트 설정 테스트")
+@ExtendWith(MockitoExtension.class)
 public class QuestPropertyTest {
 
 	@DisplayName("기본 퀘스트 설정을 생성한다.")

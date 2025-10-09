@@ -7,7 +7,7 @@ import com.gomo.app.core.streak.domain.model.AchieverId;
 
 public class AchieverFixture {
 
-	public static Achiever achiever() {
+	public static Achiever create() {
 		return new Achiever(
 			AchieverId.of(UUID.randomUUID()),
 			0,
@@ -15,7 +15,7 @@ public class AchieverFixture {
 		);
 	}
 
-	public static Achiever achiever(UUID achieverId) {
+	public static Achiever create(UUID achieverId) {
 		return new Achiever(
 			AchieverId.of(achieverId),
 			0,
@@ -23,7 +23,7 @@ public class AchieverFixture {
 		);
 	}
 
-	public static Achiever achiever(int currentStreakDays, int longestStreakDays) {
+	public static Achiever create(int currentStreakDays, int longestStreakDays) {
 		return new Achiever(
 			AchieverId.of(UUID.randomUUID()),
 			currentStreakDays,

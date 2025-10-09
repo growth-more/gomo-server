@@ -14,7 +14,7 @@ public class LogoService {
 
 	private final InterestRepository interestRepository;
 
-	public Set<String> getAllLogoUrl() {
+	public Set<String> findAllUrls() {
 		return new HashSet<>(interestRepository.findAllLogoUrl());
 	}
 }

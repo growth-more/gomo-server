@@ -10,7 +10,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import org.springframework.restdocs.snippet.Snippet;
 
-import com.gomo.app.common.constant.ErrorResponseFields;
+import com.gomo.app.test.ErrorResponseFields;
 
 public class CreateRepeatQuestSnippet {
 

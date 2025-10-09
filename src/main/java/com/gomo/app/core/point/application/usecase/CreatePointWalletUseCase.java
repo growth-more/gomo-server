@@ -19,6 +19,7 @@ class CreatePointWalletUseCase implements CreatePointWalletPortIn {
 
 	private final PointWalletRepository pointWalletRepository;
 
+	// TODO [2025-10-10] jhl221123 : 이미 해당 transactor의 포인트 지갑이 존재한다면 예외가 발생해야한다.
 	@AuditLog(action = "CREATE_POINT_WALLET")
 	@Override
 	public UUID create(UUID transactorId) {

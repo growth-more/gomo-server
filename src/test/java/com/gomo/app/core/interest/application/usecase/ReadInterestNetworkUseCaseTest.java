@@ -48,7 +48,7 @@ public class ReadInterestNetworkUseCaseTest {
 	void find_interest_network() {
 		Interest expected1 = InterestFixture.create();
 		Interest expected2 = InterestFixture.create();
-		MajorInterest majorInterest = MajorInterestFixture.majorInterest(expected1.getRegistrantId(), expected1.getId());
+		MajorInterest majorInterest = MajorInterestFixture.create(expected1.getRegistrantId(), expected1.getId());
 		doReturn(List.of(expected1, expected2)).when(interestRepository).findAllByRegistrantId(any(RegistrantId.class));
 		doReturn(List.of(majorInterest)).when(majorInterestRepository).findAllByRegistrantIdAndInterestIdIn(any(), any());
 

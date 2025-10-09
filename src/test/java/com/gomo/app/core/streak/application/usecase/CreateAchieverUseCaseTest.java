@@ -29,7 +29,7 @@ class CreateAchieverUseCaseTest {
 	@DisplayName("성취자를 생성한다.")
 	@Test
 	void create_achiever() {
-		doReturn(AchieverFixture.achiever()).when(achieverRepository).save(any());
+		doReturn(AchieverFixture.create()).when(achieverRepository).save(any());
 		UUID actual = sut.create(UUID.randomUUID());
 		assertThat(actual).isNotNull();
 	}

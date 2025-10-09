@@ -17,12 +17,12 @@ import com.gomo.app.common.jwt.port.GenerateJwtPortIn;
 import com.gomo.app.support.auth.domain.model.AuthToken;
 import com.gomo.app.support.auth.domain.repository.AuthTokenRepository;
 
-@ExtendWith(MockitoExtension.class)
 @DisplayName("[Application Unit]: 인증 토큰 발급 테스트")
+@ExtendWith(MockitoExtension.class)
 public class CreateAuthTokenInternalServiceTest {
 
 	@InjectMocks
-	CreateAuthTokenInternalService sut;
+	private CreateAuthTokenInternalService sut;
 
 	@Mock
 	private GenerateJwtPortIn generateJwtPortIn;

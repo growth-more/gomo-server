@@ -13,34 +13,30 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.core.member.domain.service.MemberService;
 import com.gomo.app.core.quest.domain.model.participant.ParticipantId;
 import com.gomo.app.core.quest.domain.model.repeat.RepeatQuest;
 import com.gomo.app.core.quest.domain.repository.RepeatQuestRepository;
 import com.gomo.app.core.quest.fixture.QuestFixture;
 import com.gomo.app.core.quest.fixture.RepeatQuestFixture;
 
-@ExtendWith(MockitoExtension.class)
 @DisplayName("[Domain unit]: 반복 퀘스트 생성 테스트")
+@ExtendWith(MockitoExtension.class)
 public class RepeatQuestServiceTest {
 
 	@InjectMocks
-	RepeatQuestService sut;
+	private RepeatQuestService sut;
 
 	@Mock
-	MemberService memberService;
-
-	@Mock
-	RepeatQuestRepository repeatQuestRepository;
+	private RepeatQuestRepository repeatQuestRepository;
 
 	@DisplayName("반복 퀘스트를 생성한다.")
 	@Test
 	void create_repeat_quest() {
-		RepeatQuest repeatQuest = RepeatQuestFixture.repeatQuest();
+		RepeatQuest repeatQuest = RepeatQuestFixture.create();
 		doReturn(4).when(repeatQuestRepository).findMaxDisplayOrderByQuestType(any(), any());
 		doReturn(repeatQuest).when(repeatQuestRepository).save(any());
 
-		RepeatQuest actual = sut.create(ParticipantId.of(UUID.randomUUID()), QuestFixture.quest());
+		RepeatQuest actual = sut.create(ParticipantId.of(UUID.randomUUID()), QuestFixture.create());
 
 		assertThat(actual.getId()).isEqualTo(repeatQuest.getId());
 	}
@@ -49,9 +45,9 @@ public class RepeatQuestServiceTest {
 	@Test
 	void create_repeat_quest_with_display_order() {
 		doReturn(4).when(repeatQuestRepository).findMaxDisplayOrderByQuestType(any(), any());
-		doReturn(RepeatQuestFixture.repeatQuest(4 + 1)).when(repeatQuestRepository).save(any());
+		doReturn(RepeatQuestFixture.create(4 + 1)).when(repeatQuestRepository).save(any());
 
-		RepeatQuest actual = sut.create(ParticipantId.of(UUID.randomUUID()), QuestFixture.quest());
+		RepeatQuest actual = sut.create(ParticipantId.of(UUID.randomUUID()), QuestFixture.create());
 
 		assertThat(actual.getDisplayOrder().getDisplayOrder()).isEqualTo(4 + 1);
 	}

@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.common.displayorder.UpdatedOrderDto;
 import com.gomo.app.core.quest.documentation.snippet.OrderUpdateRepeatQuestSnippet;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
@@ -23,6 +22,7 @@ import com.gomo.app.core.quest.domain.model.repeat.RepeatQuest;
 import com.gomo.app.core.quest.domain.repository.RepeatQuestRepository;
 import com.gomo.app.core.quest.fixture.RepeatQuestFixture;
 import com.gomo.app.core.quest.presentation.request.OrderUpdateRepeatQuestRequest;
+import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation documentation]: 반복 퀘스트 순서 변경 테스트")
 public class OrderUpdateRepeatQuestDocumentationTest extends DocumentationTestBase {
@@ -36,8 +36,8 @@ public class OrderUpdateRepeatQuestDocumentationTest extends DocumentationTestBa
 
 	@BeforeEach
 	public void setUp() {
-		repeatQuest1 = RepeatQuestFixture.repeatQuest(sessionMemberId, 1);
-		repeatQuest2 = RepeatQuestFixture.repeatQuest(sessionMemberId, 2);
+		repeatQuest1 = RepeatQuestFixture.create(sessionMemberId, 1);
+		repeatQuest2 = RepeatQuestFixture.create(sessionMemberId, 2);
 		repeatQuestRepository.saveAll(List.of(repeatQuest1, repeatQuest2));
 	}
 

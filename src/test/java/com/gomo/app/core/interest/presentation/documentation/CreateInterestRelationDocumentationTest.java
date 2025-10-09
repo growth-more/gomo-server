@@ -15,13 +15,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.common.DocumentationTestBase;
-import com.gomo.app.core.interest.presentation.documentation.snippet.CreateInterestRelationSnippet;
 import com.gomo.app.core.interest.domain.repository.InterestRelationRepository;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;
 import com.gomo.app.core.interest.presentation.api.InterestApi;
 import com.gomo.app.core.interest.presentation.api.request.CreateInterestRelationRequest;
 import com.gomo.app.core.interest.presentation.api.request.CreateInterestRequest;
+import com.gomo.app.core.interest.presentation.documentation.snippet.CreateInterestRelationSnippet;
+import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation documentation]: 관심사 관계 생성 테스트")
 public class CreateInterestRelationDocumentationTest extends DocumentationTestBase {

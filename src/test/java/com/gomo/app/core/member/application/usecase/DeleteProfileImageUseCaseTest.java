@@ -14,20 +14,20 @@ import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.service.MemberService;
 import com.gomo.app.core.member.fixture.MemberFixture;
 
-@ExtendWith(MockitoExtension.class)
 @DisplayName("[Application Unit]: 멤버 프로필 이미지 삭제 테스트")
+@ExtendWith(MockitoExtension.class)
 public class DeleteProfileImageUseCaseTest {
 
 	@InjectMocks
-	DeleteProfileImageUseCase sut;
+	private DeleteProfileImageUseCase sut;
 
 	@Mock
-	MemberService memberService;
+	private MemberService memberService;
 
 	@DisplayName("프로필 이미지 삭제 테스트")
 	@Test
 	void delete_profile_image() {
-		Member member = MemberFixture.member();
+		Member member = MemberFixture.create();
 		doReturn(member).when(memberService).find(member.getId());
 		sut.delete(member.id());
 		assertThat(member.profileImageUrl()).isEqualTo("DEFAULT_IMAGE");

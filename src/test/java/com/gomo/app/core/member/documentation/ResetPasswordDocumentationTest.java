@@ -11,10 +11,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.core.member.documentation.snippet.ResetPasswordSnippet;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
 import com.gomo.app.core.member.presentation.request.ResetPasswordRequest;
+import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation Documentation]: 비밀번호 초기화 테스트")
 public class ResetPasswordDocumentationTest extends DocumentationTestBase {

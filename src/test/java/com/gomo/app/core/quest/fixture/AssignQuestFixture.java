@@ -16,7 +16,7 @@ import com.gomo.app.core.quest.domain.model.subject.SubjectName;
 
 public class AssignQuestFixture {
 
-	public static AssignQuest assignQuest() {
+	public static AssignQuest create() {
 		return AssignQuest.of(
 			AssignQuestId.of(UUID.randomUUID()),
 			Quest.of(
@@ -32,7 +32,7 @@ public class AssignQuestFixture {
 		);
 	}
 
-	public static AssignQuest assignQuest(QuestType questType) {
+	public static AssignQuest create(QuestType questType) {
 		return AssignQuest.of(
 			AssignQuestId.of(UUID.randomUUID()),
 			Quest.of(
@@ -48,7 +48,7 @@ public class AssignQuestFixture {
 		);
 	}
 
-	public static AssignQuest assignQuest(UUID participantId, QuestType questType, LocalDateTime startDateTime) {
+	public static AssignQuest create(UUID participantId, QuestType questType, LocalDateTime startDateTime) {
 		return AssignQuest.of(
 			AssignQuestId.of(UUID.randomUUID()),
 			Quest.of(
@@ -64,7 +64,7 @@ public class AssignQuestFixture {
 		);
 	}
 
-	public static AssignQuest assignQuest(boolean isConfirm) {
+	public static AssignQuest create(boolean isConfirm) {
 		return AssignQuest.of(
 			AssignQuestId.of(UUID.randomUUID()),
 			Quest.of(
@@ -80,7 +80,7 @@ public class AssignQuestFixture {
 		);
 	}
 
-	public static AssignQuest assignQuest(UUID participantId, boolean isConfirm) {
+	public static AssignQuest create(UUID participantId, boolean isConfirm) {
 		return AssignQuest.of(
 			AssignQuestId.of(UUID.randomUUID()),
 			Quest.of(
@@ -96,7 +96,7 @@ public class AssignQuestFixture {
 		);
 	}
 
-	public static AssignQuest assignQuest(UUID participantId, boolean isConfirm, LocalDateTime startDateTime, int displayOrder) {
+	public static AssignQuest create(UUID participantId, boolean isConfirm, LocalDateTime startDateTime, int displayOrder) {
 		return AssignQuest.of(
 			AssignQuestId.of(UUID.randomUUID()),
 			Quest.of(
@@ -112,7 +112,7 @@ public class AssignQuestFixture {
 		);
 	}
 
-	public static AssignQuest assignQuest(boolean isConfirmed, boolean isCompleted, CompletionProof proof) {
+	public static AssignQuest create(boolean isConfirmed, boolean isCompleted, CompletionProof proof) {
 		return new AssignQuest(
 			AssignQuestId.of(UUID.randomUUID()),
 			Quest.of(
@@ -131,7 +131,7 @@ public class AssignQuestFixture {
 		);
 	}
 
-	public static AssignQuest assignQuest(UUID participantId, boolean isCompleted, CompletionProof proof, LocalDateTime startDateTime) {
+	public static AssignQuest create(UUID participantId, boolean isCompleted, CompletionProof proof, LocalDateTime startDateTime) {
 		return new AssignQuest(
 			AssignQuestId.of(UUID.randomUUID()),
 			Quest.of(
@@ -150,7 +150,7 @@ public class AssignQuestFixture {
 		);
 	}
 
-	public static AssignQuest assignQuest(UUID participantId, QuestType questType, boolean isCompleted, LocalDateTime completedDateTime) {
+	public static AssignQuest create(UUID participantId, QuestType questType, boolean isCompleted, LocalDateTime completedDateTime) {
 		return new AssignQuest(
 			AssignQuestId.of(UUID.randomUUID()),
 			Quest.of(
@@ -169,7 +169,7 @@ public class AssignQuestFixture {
 		);
 	}
 
-	public static AssignQuest assignQuest(UUID participantId, boolean isCompleted, CompletionProof proof, LocalDateTime startDateTime, LocalDateTime completedDateTime) {
+	public static AssignQuest create(UUID participantId, boolean isCompleted, CompletionProof proof, LocalDateTime startDateTime, LocalDateTime completedDateTime) {
 		return new AssignQuest(
 			AssignQuestId.of(UUID.randomUUID()),
 			Quest.of(
@@ -188,7 +188,7 @@ public class AssignQuestFixture {
 		);
 	}
 
-	public static AssignQuest assignQuest(int displayOrder) {
+	public static AssignQuest create(int displayOrder) {
 		return AssignQuest.of(
 			AssignQuestId.of(UUID.randomUUID()),
 			Quest.of(
@@ -204,7 +204,7 @@ public class AssignQuestFixture {
 		);
 	}
 
-	public static AssignQuest assignQuest(UUID participantId, int displayOrder, LocalDateTime dateTime) {
+	public static AssignQuest create(UUID participantId, int displayOrder, LocalDateTime dateTime) {
 		return AssignQuest.of(
 			AssignQuestId.of(UUID.randomUUID()),
 			Quest.of(

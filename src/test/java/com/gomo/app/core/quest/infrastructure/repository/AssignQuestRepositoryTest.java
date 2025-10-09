@@ -13,27 +13,24 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gomo.app.common.IntegrationTestBase;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
 import com.gomo.app.core.quest.domain.model.assign.CompletionProof;
 import com.gomo.app.core.quest.domain.model.participant.ParticipantId;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.fixture.AssignQuestFixture;
+import com.gomo.app.test.IntegrationTest;
 
 @DisplayName("[Domain integration]: 할당 퀘스트 DB 접근 테스트")
-public class AssignQuestRepositoryTest extends IntegrationTestBase {
+@IntegrationTest
+public class AssignQuestRepositoryTest {
 
 	@Autowired
-	AssignQuestRepository sut;
+	private AssignQuestRepository sut;
 
 	@Autowired
 	private AssignQuestRepository assignQuestRepository;
-	ParticipantId participantId;
-	AssignQuest notConfirmed;
-	AssignQuest confirmed;
-	AssignQuest completed1;
-	AssignQuest completed2;
+	private ParticipantId participantId;
 
 	@BeforeEach
 	public void setUp() {
@@ -41,15 +38,15 @@ public class AssignQuestRepositoryTest extends IntegrationTestBase {
 		participantId = ParticipantId.of(uuid);
 
 		LocalDateTime startDateTime1 = LocalDateTime.of(2025, 1, 21, 10, 0);
-		notConfirmed = AssignQuestFixture.assignQuest(uuid, false, startDateTime1, 1);
-		confirmed = AssignQuestFixture.assignQuest(uuid, true, startDateTime1, 2);
+		AssignQuest notConfirmed = AssignQuestFixture.create(uuid, false, startDateTime1, 1);
+		AssignQuest confirmed = AssignQuestFixture.create(uuid, true, startDateTime1, 2);
 
 		LocalDateTime completedDateTime1 = LocalDateTime.of(2025, 1, 21, 11, 0);
-		completed1 = AssignQuestFixture.assignQuest(uuid, true, CompletionProof.of("completed"), startDateTime1, completedDateTime1);
+		AssignQuest completed1 = AssignQuestFixture.create(uuid, true, CompletionProof.of("proof"), startDateTime1, completedDateTime1);
 
 		LocalDateTime startDateTime2 = LocalDateTime.of(2025, 1, 20, 10, 0);
 		LocalDateTime completedDateTime2 = LocalDateTime.of(2025, 1, 20, 11, 0);
-		completed2 = AssignQuestFixture.assignQuest(uuid, true, CompletionProof.of("completed"), startDateTime2, completedDateTime2);
+		AssignQuest completed2 = AssignQuestFixture.create(uuid, true, CompletionProof.of("proof"), startDateTime2, completedDateTime2);
 		assignQuestRepository.saveAll(List.of(notConfirmed, confirmed, completed1, completed2));
 	}
 

@@ -15,12 +15,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.core.quest.documentation.snippet.DeleteRepeatQuestSnippet;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.repository.RepeatQuestRepository;
 import com.gomo.app.core.quest.presentation.RepeatQuestApi;
 import com.gomo.app.core.quest.presentation.request.CreateRepeatQuestRequest;
+import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation documentation]: 반복 퀘스트 삭제 테스트")
 public class DeleteRepeatQuestDocumentationTest extends DocumentationTestBase {

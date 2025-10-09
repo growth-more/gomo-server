@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gomo.app.common.IntegrationTestBase;
 import com.gomo.app.core.interest.domain.model.Interest;
 import com.gomo.app.core.interest.domain.model.MajorInterest;
 import com.gomo.app.core.interest.domain.model.RegistrantId;
@@ -19,9 +18,11 @@ import com.gomo.app.core.interest.domain.repository.InterestRepository;
 import com.gomo.app.core.interest.domain.repository.MajorInterestRepository;
 import com.gomo.app.core.interest.fixture.InterestFixture;
 import com.gomo.app.core.interest.fixture.MajorInterestFixture;
+import com.gomo.app.test.IntegrationTest;
 
 @DisplayName("[Domain integration]: 주요 관심사 DB 접근 테스트")
-public class MajorInterestRepositoryTest extends IntegrationTestBase {
+@IntegrationTest
+public class MajorInterestRepositoryTest {
 
 	@Autowired
 	MajorInterestRepository sut;
@@ -47,8 +48,8 @@ public class MajorInterestRepositoryTest extends IntegrationTestBase {
 	@DisplayName("주요 관심사 목록의 마지막 정렬 순서를 조회한다.")
 	@Test
 	void count_all() {
-		MajorInterest majorInterest1 = MajorInterestFixture.majorInterest(registrantId, interest1.getId(), 1);
-		MajorInterest majorInterest2 = MajorInterestFixture.majorInterest(registrantId, interest2.getId(), 5);
+		MajorInterest majorInterest1 = MajorInterestFixture.create(registrantId, interest1.getId(), 1);
+		MajorInterest majorInterest2 = MajorInterestFixture.create(registrantId, interest2.getId(), 5);
 		majorInterestRepository.saveAll(List.of(majorInterest1, majorInterest2));
 
 		long actual = sut.findMaxDisplayOrder(registrantId);
@@ -60,7 +61,7 @@ public class MajorInterestRepositoryTest extends IntegrationTestBase {
 	@Transactional
 	@Test
 	void delete_major_interests() {
-		MajorInterest majorInterest = MajorInterestFixture.majorInterest(registrantId, interest1.getId());
+		MajorInterest majorInterest = MajorInterestFixture.create(registrantId, interest1.getId());
 		majorInterestRepository.save(majorInterest);
 		List<MajorInterest> majorInterests = sut.findAllByRegistrantIdOrderByDisplayOrder(registrantId);
 		assertThat(majorInterests.size()).isNotZero();

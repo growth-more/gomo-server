@@ -97,10 +97,13 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
     testImplementation 'io.rest-assured:rest-assured'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
+
+    // test container
     testImplementation "org.testcontainers:testcontainers"
     testImplementation "org.testcontainers:mysql"
     testImplementation "org.testcontainers:rabbitmq"
-    testImplementation 'org.springframework.restdocs:spring-restdocs-restassured'
+    testImplementation "org.testcontainers:minio"
 }
 
 ext {

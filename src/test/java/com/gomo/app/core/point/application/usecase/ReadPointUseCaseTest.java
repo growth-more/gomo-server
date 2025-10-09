@@ -31,7 +31,7 @@ public class ReadPointUseCaseTest {
 	@DisplayName("포인트 목록을 조회한다.")
 	@Test
 	void find_points() {
-		doReturn(List.of(PointFixture.point(), PointFixture.point())).when(pointRepository).findAllByTransactorId(any(), any(), eq(10));
+		doReturn(List.of(PointFixture.create(), PointFixture.create())).when(pointRepository).findAllByTransactorId(any(), any(), eq(10));
 
 		ListPointDto actual = sut.findAll(UUID.randomUUID(), PageRequest.of(10, null));
 

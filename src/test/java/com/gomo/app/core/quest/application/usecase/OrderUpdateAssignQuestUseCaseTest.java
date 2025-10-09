@@ -17,8 +17,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.gomo.app.common.displayorder.OrderChanger;
 import com.gomo.app.common.displayorder.UpdatedOrderDto;
 import com.gomo.app.core.quest.application.port.command.OrderUpdateAssignQuestCommand;
-import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
+import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.fixture.AssignQuestFixture;
 
@@ -57,9 +57,9 @@ public class OrderUpdateAssignQuestUseCaseTest {
 
 	private @NotNull List<AssignQuest> getParticipatingQuests() {
 		return List.of(
-			AssignQuestFixture.assignQuest(1),
-			AssignQuestFixture.assignQuest(2),
-			AssignQuestFixture.assignQuest(3)
+			AssignQuestFixture.create(1),
+			AssignQuestFixture.create(2),
+			AssignQuestFixture.create(3)
 		);
 	}
 }

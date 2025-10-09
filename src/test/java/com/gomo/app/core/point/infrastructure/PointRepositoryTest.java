@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gomo.app.common.IntegrationTestBase;
 import com.gomo.app.core.point.domain.model.Point;
 import com.gomo.app.core.point.domain.model.SourceType;
 import com.gomo.app.core.point.domain.model.TransactionType;
@@ -21,12 +20,14 @@ import com.gomo.app.core.point.domain.repository.PointRepository;
 import com.gomo.app.core.point.domain.repository.PointWalletRepository;
 import com.gomo.app.core.point.domain.service.PointService;
 import com.gomo.app.core.point.fixture.PointWalletFixture;
+import com.gomo.app.test.IntegrationTest;
 
 @DisplayName("[Domain integration]: 포인트 DB 접근 테스트")
-public class PointRepositoryTest extends IntegrationTestBase {
+@IntegrationTest
+public class PointRepositoryTest {
 
 	@Autowired
-	PointRepository sut;
+	private PointRepository sut;
 
 	@Autowired
 	private PointService pointService;
@@ -42,7 +43,7 @@ public class PointRepositoryTest extends IntegrationTestBase {
 	@BeforeEach
 	public void setUp() {
 		transactorId = UUID.randomUUID();
-		pointWalletRepository.save(PointWalletFixture.point(transactorId, 1660));
+		pointWalletRepository.save(PointWalletFixture.create(transactorId, 1660));
 		pointService.create(TransactorId.of(transactorId), SourceType.QUEST, TransactionType.GAIN, 10);
 		offsetId = pointService.create(TransactorId.of(transactorId), SourceType.QUEST, TransactionType.GAIN, 150);
 		pointService.create(TransactorId.of(transactorId), SourceType.QUEST, TransactionType.GAIN, 1500);

@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.core.survey.documentation.snippet.CreateSurveyAnswerSnippet;
 import com.gomo.app.core.survey.domain.model.SurveyItem;
 import com.gomo.app.core.survey.domain.model.SurveyQuestion;
@@ -25,6 +24,7 @@ import com.gomo.app.core.survey.fixture.SurveyItemFixture;
 import com.gomo.app.core.survey.fixture.SurveyQuestionFixture;
 import com.gomo.app.core.survey.presentation.request.CreateSurveyResultRequest;
 import com.gomo.app.core.survey.presentation.request.SelectedSurveyItemRequest;
+import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation documentation]: 설문 결과 생성 테스트")
 public class CreateSurveyAnswerDocumentationTest extends DocumentationTestBase {

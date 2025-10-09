@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.core.survey.documentation.snippet.ListSurveySnippet;
 import com.gomo.app.core.survey.domain.model.SurveyItem;
 import com.gomo.app.core.survey.domain.model.SurveyQuestion;
@@ -23,6 +22,7 @@ import com.gomo.app.core.survey.domain.repository.SurveyItemRepository;
 import com.gomo.app.core.survey.domain.repository.SurveyQuestionRepository;
 import com.gomo.app.core.survey.fixture.SurveyItemFixture;
 import com.gomo.app.core.survey.fixture.SurveyQuestionFixture;
+import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation documentation]: 설문 목록 조회 테스트")
 public class ListSurveyDocumentationTest extends DocumentationTestBase {

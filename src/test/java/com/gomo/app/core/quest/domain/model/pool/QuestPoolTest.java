@@ -17,7 +17,7 @@ class QuestPoolTest {
 	@DisplayName("퀘스트 풀을 생성한다.")
 	@Test
 	void create_quest_pool() {
-		QuestPool questPool = QuestPool.of(QuestPoolId.of(UUID.randomUUID()), QuestFixture.quest(), ProcessingStatus.UNUSED, SourceType.AI);
+		QuestPool questPool = QuestPool.of(QuestPoolId.of(UUID.randomUUID()), QuestFixture.create(), ProcessingStatus.UNUSED, SourceType.AI);
 
 		assertThat(questPool)
 			.extracting("processingStatus", "sourceType")
@@ -27,7 +27,7 @@ class QuestPoolTest {
 	@DisplayName("퀘스트 풀 처리 상태를 수정한다.")
 	@Test
 	void update_quest_pool_processing_status() {
-		QuestPool questPool = QuestPool.of(QuestPoolId.of(UUID.randomUUID()), QuestFixture.quest(), ProcessingStatus.UNUSED, SourceType.AI);
+		QuestPool questPool = QuestPool.of(QuestPoolId.of(UUID.randomUUID()), QuestFixture.create(), ProcessingStatus.UNUSED, SourceType.AI);
 		questPool.updateProcessingStatus(ProcessingStatus.ASSIGNED);
 		assertThat(questPool.getProcessingStatus()).isEqualTo(ProcessingStatus.ASSIGNED);
 	}
@@ -36,7 +36,7 @@ class QuestPoolTest {
 	@Test
 	void check_access_authority_by_participant() {
 		UUID participantId = UUID.randomUUID();
-		QuestPool questPool = QuestPool.of(QuestPoolId.of(UUID.randomUUID()), QuestFixture.quest(participantId), ProcessingStatus.UNUSED, SourceType.AI);
+		QuestPool questPool = QuestPool.of(QuestPoolId.of(UUID.randomUUID()), QuestFixture.create(participantId), ProcessingStatus.UNUSED, SourceType.AI);
 		assertDoesNotThrow(() -> questPool.validateAuthority(participantId));
 	}
 
@@ -44,7 +44,7 @@ class QuestPoolTest {
 	@Test
 	void check_access_authority_by_non_participant() {
 		UUID participantId = UUID.randomUUID();
-		QuestPool questPool = QuestPool.of(QuestPoolId.of(UUID.randomUUID()), QuestFixture.quest(participantId), ProcessingStatus.UNUSED, SourceType.AI);
+		QuestPool questPool = QuestPool.of(QuestPoolId.of(UUID.randomUUID()), QuestFixture.create(participantId), ProcessingStatus.UNUSED, SourceType.AI);
 
 		UUID otherId = UUID.randomUUID();
 		assertThatThrownBy(() -> questPool.validateAuthority(otherId)).isInstanceOf(QuestAccessDeniedException.class);

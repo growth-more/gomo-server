@@ -26,15 +26,15 @@ import com.gomo.app.core.member.exception.code.EmailErrorCode;
 import com.gomo.app.core.member.exception.code.HandleErrorCode;
 import com.gomo.app.core.member.exception.code.MemberErrorCode;
 
-@ExtendWith(MockitoExtension.class)
 @DisplayName("[Domain unit]: MemberService 테스트")
+@ExtendWith(MockitoExtension.class)
 public class MemberServiceTest {
 
 	@InjectMocks
-	MemberService sut;
+	private MemberService sut;
 
 	@Mock
-	MemberRepository memberRepository;
+	private MemberRepository memberRepository;
 
 	@DisplayName("회원 엔티티를 조회한다.")
 	@Test

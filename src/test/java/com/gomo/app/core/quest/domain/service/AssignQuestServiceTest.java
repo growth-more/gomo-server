@@ -23,25 +23,25 @@ import com.gomo.app.core.quest.exception.code.AssignQuestErrorCode;
 import com.gomo.app.core.quest.fixture.AssignQuestFixture;
 import com.gomo.app.core.quest.fixture.QuestFixture;
 
-@ExtendWith(MockitoExtension.class)
 @DisplayName("[Domain unit]: 할당 퀘스트 생성 테스트")
+@ExtendWith(MockitoExtension.class)
 public class AssignQuestServiceTest {
 
 	@InjectMocks
-	AssignQuestService sut;
+	private AssignQuestService sut;
 
 	@Mock
-	AssignQuestRepository assignQuestRepository;
+	private AssignQuestRepository assignQuestRepository;
 
 	@DisplayName("할당 퀘스트를 생성한다.")
 	@Test
 	void create_assign_quest() {
-		AssignQuest assignQuest = AssignQuestFixture.assignQuest();
+		AssignQuest assignQuest = AssignQuestFixture.create();
 
 		doReturn(4).when(assignQuestRepository).findMaxDisplayOrderOfParticipatingQuest(any(), any(), any(), any());
 		doReturn(assignQuest).when(assignQuestRepository).save(any());
 
-		AssignQuest actual = sut.create(ParticipantId.of(UUID.randomUUID()), QuestFixture.quest());
+		AssignQuest actual = sut.create(ParticipantId.of(UUID.randomUUID()), QuestFixture.create());
 
 		assertThat(actual.getId()).isEqualTo(assignQuest.getId());
 	}
@@ -50,9 +50,9 @@ public class AssignQuestServiceTest {
 	@Test
 	void create_assign_quest_with_display_order() {
 		doReturn(4).when(assignQuestRepository).findMaxDisplayOrderOfParticipatingQuest(any(), any(), any(), any());
-		doReturn(AssignQuestFixture.assignQuest(4 + 1)).when(assignQuestRepository).save(any());
+		doReturn(AssignQuestFixture.create(4 + 1)).when(assignQuestRepository).save(any());
 
-		AssignQuest actual = sut.create(ParticipantId.of(UUID.randomUUID()), QuestFixture.quest());
+		AssignQuest actual = sut.create(ParticipantId.of(UUID.randomUUID()), QuestFixture.create());
 
 		assertThat(actual.getDisplayOrder().getDisplayOrder()).isEqualTo(4 + 1);
 	}
@@ -60,7 +60,7 @@ public class AssignQuestServiceTest {
 	@DisplayName("할당 퀘스트를 조회한다.")
 	@Test
 	void find_assign_quest() {
-		AssignQuest assignQuest = AssignQuestFixture.assignQuest();
+		AssignQuest assignQuest = AssignQuestFixture.create();
 		doReturn(Optional.of(assignQuest)).when(assignQuestRepository).findById(any());
 
 		AssignQuest actual = sut.find(assignQuest.getId());

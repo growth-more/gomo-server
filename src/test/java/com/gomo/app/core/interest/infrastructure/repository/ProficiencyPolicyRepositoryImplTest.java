@@ -10,13 +10,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-import com.gomo.app.common.IntegrationTestBase;
 import com.gomo.app.core.interest.domain.model.LevelThresholdPolicy;
 import com.gomo.app.core.interest.domain.model.ProficiencyPolicies;
 import com.gomo.app.core.interest.domain.repository.LevelThresholdPolicyRepository;
+import com.gomo.app.test.IntegrationTest;
 
-@DisplayName("[Domain integration]: 레벨 구간 별 임계점수 조회 테스트")
-public class ProficiencyPolicyRepositoryImplTest extends IntegrationTestBase {
+@DisplayName("[Domain integration]: 숙련도 정책 초기화 테스트")
+@IntegrationTest
+public class ProficiencyPolicyRepositoryImplTest {
 
 	@InjectMocks
 	private ProficiencyPolicyRepositoryImpl sut;
@@ -28,8 +29,8 @@ public class ProficiencyPolicyRepositoryImplTest extends IntegrationTestBase {
 		return LevelThresholdPolicy.of(level, threshold);
 	}
 
-	@Test
 	@DisplayName("초기화 시 DB를 이용해 내부적으로 숙련도 정책을를 생성한다")
+	@Test
 	void initialize_should_fetch_policies() {
 		List<LevelThresholdPolicy> fakePolicies = List.of(
 			policy(0, 10),

@@ -33,8 +33,8 @@ public class ReadStreakUseCaseTest {
 	@DisplayName("스트릭 목록을 조회한다.")
 	@Test
 	void find_All() {
-		List<Streak> dailyStreaks = List.of(StreakFixture.streak(StreakType.DAILY), StreakFixture.streak(StreakType.DAILY));
-		List<Streak> weeklyStreaks = List.of(StreakFixture.streak(StreakType.WEEKLY));
+		List<Streak> dailyStreaks = List.of(StreakFixture.create(StreakType.DAILY), StreakFixture.create(StreakType.DAILY));
+		List<Streak> weeklyStreaks = List.of(StreakFixture.create(StreakType.WEEKLY));
 		List<Streak> monthlyStreaks = List.of();
 
 		doReturn(dailyStreaks).when(streakService).findAllByStreakType(any(), eq(StreakType.DAILY), any(), any());

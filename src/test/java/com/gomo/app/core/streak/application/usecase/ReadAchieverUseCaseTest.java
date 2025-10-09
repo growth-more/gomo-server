@@ -30,7 +30,7 @@ public class ReadAchieverUseCaseTest {
 	@DisplayName("성취자를 조회한다.")
 	@Test
 	void create_achiever() {
-		Achiever achiever = AchieverFixture.achiever();
+		Achiever achiever = AchieverFixture.create();
 		doReturn(achiever).when(achieverService).find(any());
 		AchieverDto actual = sut.find(UUID.randomUUID());
 		assertThat(actual).extracting("id", "longestStreakDays", "currentStreakDays")

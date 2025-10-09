@@ -24,7 +24,7 @@ import com.gomo.app.core.quest.domain.repository.RepeatQuestRepository;
 import com.gomo.app.core.streak.domain.model.AchieverId;
 import com.gomo.app.core.streak.domain.repository.AchieverRepository;
 import com.gomo.app.core.streak.domain.repository.StreakRepository;
-import com.gomo.app.support.image.port.DeleteImagePortIn;
+import com.gomo.app.support.image.application.port.DeleteImagePortIn;
 
 import lombok.RequiredArgsConstructor;
 

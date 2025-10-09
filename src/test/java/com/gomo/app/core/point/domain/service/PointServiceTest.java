@@ -22,18 +22,18 @@ import com.gomo.app.core.point.fixture.PointFixture;
 public class PointServiceTest {
 
 	@InjectMocks
-	PointService sut;
+	private PointService sut;
 
 	@Mock
-	PointWalletService pointWalletService;
+	private PointWalletService pointWalletService;
 
 	@Mock
-	PointRepository pointRepository;
+	private PointRepository pointRepository;
 
 	@DisplayName("포인트를 생성한다.")
 	@Test
 	void create_point() {
-		doReturn(PointFixture.point()).when(pointRepository).save(any());
+		doReturn(PointFixture.create()).when(pointRepository).save(any());
 		sut.create(TransactorId.of(UUID.randomUUID()), SourceType.QUEST, TransactionType.GAIN, 10);
 		verify(pointWalletService, times(1)).adjustPointBalance(any(), any(), eq(10));
 		verify(pointRepository, times(1)).save(any());

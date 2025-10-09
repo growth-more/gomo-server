@@ -40,7 +40,7 @@ public class CreateRepeatQuestUseCaseTest {
 	@DisplayName("반복 퀘스트를 생성한다.")
 	@Test
 	void create_repeat_quest() {
-		RepeatQuest repeatQuest = RepeatQuestFixture.repeatQuest();
+		RepeatQuest repeatQuest = RepeatQuestFixture.create();
 		ParticipantDto participantDto = ParticipantDto.of(UUID.randomUUID(), 5, 5, 5);
 		doReturn(participantDto).when(readParticipantPort).find(any());
 		doReturn(repeatQuest).when(repeatQuestService).create(any(), any());

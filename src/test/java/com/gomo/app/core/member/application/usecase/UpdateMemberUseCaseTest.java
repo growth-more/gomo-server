@@ -14,12 +14,12 @@ import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.service.MemberService;
 import com.gomo.app.core.member.fixture.MemberFixture;
 
-@ExtendWith(MockitoExtension.class)
 @DisplayName("[Application unit]: 멤버 수정(이름, 모토) 테스트")
+@ExtendWith(MockitoExtension.class)
 public class UpdateMemberUseCaseTest {
 
 	@InjectMocks
-	UpdateMemberUseCase sut;
+	private UpdateMemberUseCase sut;
 
 	@Mock
 	private MemberService memberService;
@@ -27,7 +27,7 @@ public class UpdateMemberUseCaseTest {
 	@DisplayName("회원 정보(모토, 이름)을 수정한다.")
 	@Test
 	void update_member_name_and_motto() {
-		Member member = MemberFixture.member();
+		Member member = MemberFixture.create();
 		doReturn(member).when(memberService).find(member.getId());
 		sut.update(member.id(), "NEW_NAME", "NEW_MOTTO");
 		assertThat(member.name()).isEqualTo("NEW_NAME");

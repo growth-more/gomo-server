@@ -23,7 +23,7 @@ import com.gomo.app.core.interest.domain.service.InterestRelationService;
 import com.gomo.app.core.interest.domain.service.InterestService;
 import com.gomo.app.core.interest.fixture.InterestFixture;
 import com.gomo.app.core.interest.fixture.InterestRelationFixture;
-import com.gomo.app.support.image.port.DeleteImagePortIn;
+import com.gomo.app.support.image.application.port.DeleteImagePortIn;
 
 @DisplayName("[Application unit]: 관심사 삭제 테스트")
 @ExtendWith(MockitoExtension.class)

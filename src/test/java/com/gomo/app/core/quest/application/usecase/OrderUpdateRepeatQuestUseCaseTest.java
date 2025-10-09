@@ -57,9 +57,9 @@ public class OrderUpdateRepeatQuestUseCaseTest {
 
 	private static @NotNull List<RepeatQuest> getRepeatQuests() {
 		return List.of(
-			RepeatQuestFixture.repeatQuest(1),
-			RepeatQuestFixture.repeatQuest(2),
-			RepeatQuestFixture.repeatQuest(3)
+			RepeatQuestFixture.create(1),
+			RepeatQuestFixture.create(2),
+			RepeatQuestFixture.create(3)
 		);
 	}
 }

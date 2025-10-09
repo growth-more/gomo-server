@@ -14,8 +14,8 @@ import com.gomo.app.core.member.exception.ActivateStatusException;
 import com.gomo.app.core.member.exception.code.ActivateStatusErrorCode;
 import com.gomo.app.core.member.fixture.MemberFixture;
 
-@ExtendWith(MockitoExtension.class)
 @DisplayName("[Domain unit]: 회원 테스트")
+@ExtendWith(MockitoExtension.class)
 public class MemberTest {
 
 	private static final MemberId ID = MemberId.of(UUID.randomUUID());
@@ -38,7 +38,7 @@ public class MemberTest {
 	@DisplayName("Memebr의 상태가 DELETED이다.")
 	@Test
 	void check_member_status_deleted() {
-		Member member = MemberFixture.member(ActivateStatus.DELETED);
+		Member member = MemberFixture.create(ActivateStatus.DELETED);
 		assertThatThrownBy(member::validateActive)
 			.isInstanceOf(ActivateStatusException.class)
 			.hasMessageContaining(ActivateStatusErrorCode.DELETED.getMessage());
@@ -48,7 +48,7 @@ public class MemberTest {
 	@DisplayName("Memebr의 상태가 BLOCKED이다.")
 	@Test
 	void check_member_status_blocked() {
-		Member member = MemberFixture.member(ActivateStatus.BLOCKED);
+		Member member = MemberFixture.create(ActivateStatus.BLOCKED);
 		assertThatThrownBy(member::validateActive)
 			.isInstanceOf(ActivateStatusException.class)
 			.hasMessageContaining(ActivateStatusErrorCode.BLOCKED.getMessage());
@@ -57,7 +57,7 @@ public class MemberTest {
 	@DisplayName("Memebr의 상태가 정상(ACTIVE)이다.")
 	@Test
 	void check_member_status_activated() {
-		Member member = MemberFixture.member(ActivateStatus.ACTIVE);
+		Member member = MemberFixture.create(ActivateStatus.ACTIVE);
 		assertThatNoException().isThrownBy(member::validateActive);
 	}
 }

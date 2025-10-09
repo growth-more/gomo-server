@@ -11,7 +11,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.gomo.app.common.IntegrationTestBase;
 import com.gomo.app.core.survey.domain.model.RespondentId;
 import com.gomo.app.core.survey.domain.model.SurveyItem;
 import com.gomo.app.core.survey.domain.model.SurveyQuestion;
@@ -21,9 +20,11 @@ import com.gomo.app.core.survey.domain.repository.SurveyQuestionRepository;
 import com.gomo.app.core.survey.domain.repository.SurveyResultRepository;
 import com.gomo.app.core.survey.fixture.SurveyItemFixture;
 import com.gomo.app.core.survey.fixture.SurveyQuestionFixture;
+import com.gomo.app.test.IntegrationTest;
 
 @DisplayName("[Domain integration]: 설문 결과 DB 접근 테스트")
-public class SurveyResultRepositoryTest extends IntegrationTestBase {
+@IntegrationTest
+public class SurveyResultRepositoryTest {
 
 	@Autowired
 	SurveyResultRepository sut;

@@ -22,27 +22,27 @@ import com.gomo.app.core.member.fixture.MemberFixture;
 import com.gomo.app.core.point.application.port.CreatePointWalletPortIn;
 import com.gomo.app.core.streak.application.port.CreateAchieverPortIn;
 
-@ExtendWith(MockitoExtension.class)
 @DisplayName("[Application unit] : 멤버 생성 테스트")
+@ExtendWith(MockitoExtension.class)
 public class CreateMemberUseCaseTest {
 
 	@InjectMocks
-	CreateMemberUseCase sut;
+	private CreateMemberUseCase sut;
 
 	@Mock
-	VerifyJwtPortIn verifyJwtPortIn;
+	private VerifyJwtPortIn verifyJwtPortIn;
 
 	@Mock
-	EncodePasswordPortOut encodePasswordPortOut;
+	private EncodePasswordPortOut encodePasswordPortOut;
 
 	@Mock
-	MemberService memberService;
+	private MemberService memberService;
 
 	@Mock
-	MemberRepository memberRepository;
+	private MemberRepository memberRepository;
 
 	@Mock
-	CreatePointWalletPortIn createPointWalletPortIn;
+	private CreatePointWalletPortIn createPointWalletPortIn;
 
 	@Mock
 	CreateAchieverPortIn createAchieverPortIn;
@@ -50,7 +50,7 @@ public class CreateMemberUseCaseTest {
 	@DisplayName("회원을 등록한다")
 	@Test
 	void create_member() {
-		Member member = MemberFixture.member();
+		Member member = MemberFixture.create();
 		doReturn(member.password()).when(encodePasswordPortOut).encode(anyString());
 		doReturn(member).when(memberRepository).save(any(Member.class));
 

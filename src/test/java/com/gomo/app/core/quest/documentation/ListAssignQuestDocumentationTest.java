@@ -16,12 +16,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.core.quest.documentation.snippet.ListAssignQuestSnippet;
-import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
+import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.fixture.AssignQuestFixture;
+import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation documentation]: 참여중인 퀘스트 조회 테스트")
 public class ListAssignQuestDocumentationTest extends DocumentationTestBase {
@@ -36,9 +36,9 @@ public class ListAssignQuestDocumentationTest extends DocumentationTestBase {
 
 	@BeforeEach
 	public void setUp() {
-		dailyQuest = AssignQuestFixture.assignQuest(sessionMemberId, QuestType.DAILY, LocalDateTime.now());
-		weeklyQuest = AssignQuestFixture.assignQuest(sessionMemberId, QuestType.WEEKLY, LocalDateTime.now());
-		monthlyQuest = AssignQuestFixture.assignQuest(sessionMemberId, QuestType.MONTHLY, LocalDateTime.now());
+		dailyQuest = AssignQuestFixture.create(sessionMemberId, QuestType.DAILY, LocalDateTime.now());
+		weeklyQuest = AssignQuestFixture.create(sessionMemberId, QuestType.WEEKLY, LocalDateTime.now());
+		monthlyQuest = AssignQuestFixture.create(sessionMemberId, QuestType.MONTHLY, LocalDateTime.now());
 		assignQuestRepository.saveAll(List.of(dailyQuest, weeklyQuest, monthlyQuest));
 	}
 

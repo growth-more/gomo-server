@@ -18,20 +18,20 @@ import com.gomo.app.core.interest.exception.MajorInterestDuplicatedException;
 import com.gomo.app.core.interest.fixture.InterestFixture;
 import com.gomo.app.core.interest.fixture.MajorInterestFixture;
 
-@ExtendWith(MockitoExtension.class)
 @DisplayName("[Domain unit]: 주요 관심사 생성 테스트")
+@ExtendWith(MockitoExtension.class)
 public class MajorInterestServiceTest {
 
 	@InjectMocks
-	MajorInterestService sut;
+	private MajorInterestService sut;
 
 	@Mock
-	MajorInterestRepository majorInterestRepository;
+	private MajorInterestRepository majorInterestRepository;
 
 	@DisplayName("주요 관심사를 생성한다.")
 	@Test
 	void create_major_interest() {
-		MajorInterest majorInterest = MajorInterestFixture.majorInterest();
+		MajorInterest majorInterest = MajorInterestFixture.create();
 
 		doReturn(4).when(majorInterestRepository).findMaxDisplayOrder(any());
 		doReturn(majorInterest).when(majorInterestRepository).save(any());
@@ -56,7 +56,7 @@ public class MajorInterestServiceTest {
 		int maxDisplayOrder = 4;
 
 		doReturn(maxDisplayOrder).when(majorInterestRepository).findMaxDisplayOrder(any());
-		doReturn(MajorInterestFixture.majorInterest(maxDisplayOrder + 1)).when(majorInterestRepository).save(any());
+		doReturn(MajorInterestFixture.create(maxDisplayOrder + 1)).when(majorInterestRepository).save(any());
 
 		MajorInterest actual = sut.create(InterestFixture.create());
 

@@ -12,11 +12,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.core.member.documentation.snippet.VerifyEmailAuthCodeSnippet;
 import com.gomo.app.support.auth.application.port.CreateAuthCodePortIn;
 import com.gomo.app.support.auth.domain.repository.AuthCodeRepository;
 import com.gomo.app.support.auth.exception.AuthErrorCode;
+import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation Documentation]: 이메일 인증 코드 테스트")
 public class VerifyEmailAuthCodeDocumentationTest extends DocumentationTestBase {

@@ -28,7 +28,7 @@ import com.gomo.app.core.interest.exception.code.InterestRelationErrorCode;
 import com.gomo.app.core.interest.fixture.InterestFixture;
 import com.gomo.app.core.interest.fixture.InterestRelationFixture;
 
-@DisplayName("[Domain integration]: 관심사 관계선 생성 테스트")
+@DisplayName("[Domain unit]: 관심사 관계선 생성 테스트")
 @ExtendWith(MockitoExtension.class)
 public class InterestRelationServiceTest {
 

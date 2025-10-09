@@ -15,12 +15,12 @@ import com.gomo.app.support.auth.application.port.VerifyAuthCodePortIn;
 import com.gomo.app.support.auth.exception.AuthErrorCode;
 import com.gomo.app.support.auth.exception.InvalidAuthCodeException;
 
-@ExtendWith(MockitoExtension.class)
 @DisplayName("[Application Unit]: Email 인증 검증 기능 테스트")
+@ExtendWith(MockitoExtension.class)
 public class VerifyEmailCodeUseCaseTest {
 
 	@InjectMocks
-	VerifyEmailCodeUseCase sut;
+	private VerifyEmailCodeUseCase sut;
 
 	@Mock
 	private VerifyAuthCodePortIn verifyAuthCodePortIn;

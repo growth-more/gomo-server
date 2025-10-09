@@ -15,12 +15,12 @@ import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.service.MemberService;
 import com.gomo.app.core.member.fixture.MemberFixture;
 
-@ExtendWith(MockitoExtension.class)
 @DisplayName("[Application unit]: 퀘스트 설정 조회 테스트")
+@ExtendWith(MockitoExtension.class)
 public class ReadQuestPropertyUseCaseTest {
 
 	@InjectMocks
-	ReadQuestPropertyUseCase sut;
+	private ReadQuestPropertyUseCase sut;
 
 	@Mock
 	private MemberService memberService;
@@ -28,7 +28,7 @@ public class ReadQuestPropertyUseCaseTest {
 	@DisplayName("회원의 퀘스트 설정 정보를 조회한다.")
 	@Test
 	void find_quest_property_successfully() {
-		Member member = MemberFixture.member(3);
+		Member member = MemberFixture.create(3);
 		QuestPropertyDto expected = QuestPropertyDto.from(member.getQuestProperty());
 		doReturn(member).when(memberService).find(member.getId());
 

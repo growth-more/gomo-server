@@ -18,20 +18,20 @@ import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
 import com.gomo.app.core.member.fixture.MemberFixture;
 
-@ExtendWith(MockitoExtension.class)
 @DisplayName("[Application unit]: OAuth 회원 로그인 테스트")
+@ExtendWith(MockitoExtension.class)
 class OAuthLoginMemberUseCaseTest {
 
 	@InjectMocks
-	OAuthLoginMemberUseCase sut;
+	private OAuthLoginMemberUseCase sut;
 
 	@Mock
-	MemberRepository memberRepository;
+	private MemberRepository memberRepository;
 
 	@DisplayName("회원을 조회하고, 로그인 날짜를 갱신한다.")
 	@Test
 	void oauth_login_member() {
-		Member member = MemberFixture.member();
+		Member member = MemberFixture.create();
 		doReturn(Optional.of(member)).when(memberRepository).findByEmail(any());
 		Optional<UUID> actual = sut.oauthAuthenticate(member.email());
 		assertThat(actual.isPresent()).isTrue();

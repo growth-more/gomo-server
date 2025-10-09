@@ -54,9 +54,9 @@ public class OrderUpdateMajorInterestUseCaseTest {
 
 	private @NotNull List<MajorInterest> getMajorInterests() {
 		return List.of(
-			MajorInterestFixture.majorInterest(),
-			MajorInterestFixture.majorInterest(),
-			MajorInterestFixture.majorInterest()
+			MajorInterestFixture.create(),
+			MajorInterestFixture.create(),
+			MajorInterestFixture.create()
 		);
 	}
 }

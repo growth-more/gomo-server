@@ -37,7 +37,7 @@ public class UpdateRepeatQuestUseCaseTest {
 	@DisplayName("반복 퀘스트를 수정한다.")
 	@Test
 	void update_repeat_quest() {
-		RepeatQuest repeatQuest = RepeatQuestFixture.repeatQuest(QuestType.DAILY);
+		RepeatQuest repeatQuest = RepeatQuestFixture.create(QuestType.DAILY);
 		doReturn(repeatQuest).when(repeatQuestService).find(any(RepeatQuestId.class));
 		sut.update(getUpdateRepeatQuestCommand(repeatQuest.getQuest().getParticipantId().getId(), QuestType.DAILY.name()));
 		assertThat(repeatQuest.getQuest().getSubjectName().toString()).isEqualTo("updated subject name");
@@ -46,7 +46,7 @@ public class UpdateRepeatQuestUseCaseTest {
 	@DisplayName("퀘스트 참여자가 아니면 할당 퀘스트를 수정할 수 없다.")
 	@Test
 	void update_repeat_quest_with_not_participant() {
-		RepeatQuest repeatQuest = RepeatQuestFixture.repeatQuest(QuestType.DAILY);
+		RepeatQuest repeatQuest = RepeatQuestFixture.create(QuestType.DAILY);
 		doReturn(repeatQuest).when(repeatQuestService).find(any(RepeatQuestId.class));
 		assertThatThrownBy(() -> sut.update(getUpdateRepeatQuestCommand(UUID.randomUUID(), QuestType.WEEKLY.name())))
 			.isInstanceOf(RepeatQuestAccessDeniedException.class)
@@ -56,7 +56,7 @@ public class UpdateRepeatQuestUseCaseTest {
 	@DisplayName("반복 퀘스트를 다른 퀘스트 타입으로 수정할 수 없다.")
 	@Test
 	void update_repeat_quest_with_different_type() {
-		RepeatQuest repeatQuest = RepeatQuestFixture.repeatQuest(QuestType.DAILY);
+		RepeatQuest repeatQuest = RepeatQuestFixture.create(QuestType.DAILY);
 		doReturn(repeatQuest).when(repeatQuestService).find(any(RepeatQuestId.class));
 		assertThatThrownBy(() -> sut.update(getUpdateRepeatQuestCommand(repeatQuest.getQuest().getParticipantId().getId(), QuestType.WEEKLY.name())))
 			.isInstanceOf(QuestTypeConstraintViolationException.class)

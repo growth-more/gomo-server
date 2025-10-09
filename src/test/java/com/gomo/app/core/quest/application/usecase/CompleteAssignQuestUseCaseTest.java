@@ -14,16 +14,16 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.quest.application.port.command.CompleteAssignQuestCommand;
+import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
+import com.gomo.app.core.quest.domain.model.assign.AssignQuestId;
 import com.gomo.app.core.quest.domain.model.reward.PointReward;
 import com.gomo.app.core.quest.domain.model.reward.QuestReward;
 import com.gomo.app.core.quest.domain.model.reward.ScoreReward;
-import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
-import com.gomo.app.core.quest.domain.model.assign.AssignQuestId;
 import com.gomo.app.core.quest.domain.service.AssignQuestService;
 import com.gomo.app.core.quest.domain.service.QuestRewardService;
 import com.gomo.app.core.quest.exception.AssignQuestAccessDeniedException;
 import com.gomo.app.core.quest.fixture.AssignQuestFixture;
-import com.gomo.app.support.event.application.port.CreateEventEntryPortIn;
+import com.gomo.app.support.evententry.application.port.CreateEventEntryPortIn;
 
 @DisplayName("[Application unit]: 할당 퀘스트 완료 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -44,7 +44,7 @@ public class CompleteAssignQuestUseCaseTest {
 	@DisplayName("할당 퀘스트를 완료한다.")
 	@Test
 	void complete_assign_quest() {
-		AssignQuest assignQuest = AssignQuestFixture.assignQuest(true);
+		AssignQuest assignQuest = AssignQuestFixture.create(true);
 		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 		doReturn(QuestReward.of(assignQuest.getId(), ScoreReward.of(2), PointReward.of(10))).when(questRewardService).create(any(), any());
 
@@ -58,7 +58,7 @@ public class CompleteAssignQuestUseCaseTest {
 	@DisplayName("퀘스트 참여자가 아니면 할당 퀘스트를 완료할 수 없다.")
 	@Test
 	void complete_assign_quest_with_not_participant() {
-		AssignQuest assignQuest = AssignQuestFixture.assignQuest(true);
+		AssignQuest assignQuest = AssignQuestFixture.create(true);
 		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 
 		assertThatThrownBy(
@@ -70,7 +70,7 @@ public class CompleteAssignQuestUseCaseTest {
 	@DisplayName("할당 퀘스트를 완료하면 퀘스트 보상 및 스트릭 이벤트가 발생한다.")
 	@Test
 	void complete_assign_quest_with_event() {
-		AssignQuest assignQuest = AssignQuestFixture.assignQuest(true);
+		AssignQuest assignQuest = AssignQuestFixture.create(true);
 		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 		doReturn(QuestReward.of(assignQuest.getId(), ScoreReward.of(2), PointReward.of(10))).when(questRewardService).create(any(), any());
 

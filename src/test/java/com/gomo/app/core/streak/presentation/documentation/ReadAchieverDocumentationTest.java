@@ -13,11 +13,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.core.streak.domain.model.Achiever;
 import com.gomo.app.core.streak.domain.repository.AchieverRepository;
 import com.gomo.app.core.streak.fixture.AchieverFixture;
 import com.gomo.app.core.streak.presentation.documentation.snippet.ReadAchieverSnippet;
+import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation documentation]: 성취자 조회 테스트")
 public class ReadAchieverDocumentationTest extends DocumentationTestBase {
@@ -29,7 +29,7 @@ public class ReadAchieverDocumentationTest extends DocumentationTestBase {
 
 	@BeforeEach
 	public void setUp() {
-		Achiever achiever = AchieverFixture.achiever(sessionMemberId);
+		Achiever achiever = AchieverFixture.create(sessionMemberId);
 		achieverRepository.save(achiever);
 	}
 

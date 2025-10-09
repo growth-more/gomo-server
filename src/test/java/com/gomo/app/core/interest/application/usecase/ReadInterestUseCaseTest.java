@@ -47,7 +47,7 @@ public class ReadInterestUseCaseTest {
 	@Test
 	void find_interest() {
 		Interest expected = InterestFixture.create();
-		MajorInterest majorInterest = MajorInterestFixture.majorInterest(expected.getRegistrantId(), expected.getId());
+		MajorInterest majorInterest = MajorInterestFixture.create(expected.getRegistrantId(), expected.getId());
 		doReturn(expected).when(interestService).find(any(InterestId.class));
 		doReturn(Optional.of(majorInterest)).when(majorInterestRepository).findByInterestId(any());
 
@@ -69,7 +69,7 @@ public class ReadInterestUseCaseTest {
 	void find_interest_list() {
 		Interest expected1 = InterestFixture.create();
 		Interest expected2 = InterestFixture.create();
-		MajorInterest majorInterest = MajorInterestFixture.majorInterest(expected1.getRegistrantId(), expected1.getId());
+		MajorInterest majorInterest = MajorInterestFixture.create(expected1.getRegistrantId(), expected1.getId());
 		doReturn(List.of(expected1, expected2)).when(interestRepository).findAllByRegistrantId(any(RegistrantId.class));
 		doReturn(List.of(majorInterest)).when(majorInterestRepository).findAllByRegistrantIdAndInterestIdIn(any(), any());
 

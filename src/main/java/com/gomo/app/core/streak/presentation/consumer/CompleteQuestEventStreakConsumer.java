@@ -6,8 +6,8 @@ import com.gomo.app.common.arch.EventConsumer;
 import com.gomo.app.common.util.JsonParser;
 import com.gomo.app.core.quest.event.CompleteQuestEvent;
 import com.gomo.app.core.streak.application.port.CreateStreakPortIn;
-import com.gomo.app.support.event.application.port.IdempotentEventEntryConsumer;
-import com.gomo.app.support.event.domain.model.EventEntry;
+import com.gomo.app.support.evententry.application.port.IdempotentEventEntryConsumer;
+import com.gomo.app.support.evententry.domain.model.EventEntry;
 
 import lombok.RequiredArgsConstructor;
 

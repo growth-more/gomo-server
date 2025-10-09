@@ -37,8 +37,8 @@ public class ReadMajorInterestUseCaseTest {
 	@DisplayName("주요 관심사 목록을 정렬 순서에 맞게 조회한다.")
 	@Test
 	void find_interest_by_display_order() {
-		MajorInterest expected1 = MajorInterestFixture.majorInterest();
-		MajorInterest expected2 = MajorInterestFixture.majorInterest();
+		MajorInterest expected1 = MajorInterestFixture.create();
+		MajorInterest expected2 = MajorInterestFixture.create();
 		List<Interest> interests = getInterests(expected1, expected2);
 		doReturn(interests).when(interestRepository).findAllByIdIsIn(any());
 		doReturn(List.of(expected1, expected2)).when(majorInterestRepository).findAllByRegistrantIdOrderByDisplayOrder(any(RegistrantId.class));

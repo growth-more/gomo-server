@@ -30,19 +30,19 @@ import com.gomo.app.core.streak.fixture.StreakFixture;
 public class StreakServiceTest {
 
 	@InjectMocks
-	StreakService sut;
+	private StreakService sut;
 
 	@Mock
-	AchieverService achieverService;
+	private AchieverService achieverService;
 
 	@Mock
-	StreakRepository streakRepository;
+	private StreakRepository streakRepository;
 
 	@DisplayName("스트릭이 없다면, 최초 스트릭을 생성한다.")
 	@Test
 	void create_initial_streak() {
 		Streak streak = Streak.of(StreakId.of(UUID.randomUUID()), AchieverId.of(UUID.randomUUID()), StreakType.DAILY, LocalDate.of(2025, 2, 5), 1);
-		doReturn(AchieverFixture.achiever()).when(achieverService).find(any());
+		doReturn(AchieverFixture.create()).when(achieverService).find(any());
 		doReturn(List.of()).when(streakRepository).findByAchieverIdAndFilledDate(any(), any());
 		doReturn(Optional.empty()).when(streakRepository).findByAchieverIdAndStreakTypeAndFilledDate(any(), any(), any());
 		doReturn(streak).when(streakRepository).save(any());
@@ -57,9 +57,9 @@ public class StreakServiceTest {
 	@Test
 	void update_exist_streak() {
 		Streak streak = Streak.of(StreakId.of(UUID.randomUUID()), AchieverId.of(UUID.randomUUID()), StreakType.DAILY, LocalDate.now(), 1);
-		doReturn(AchieverFixture.achiever()).when(achieverService).find(any());
+		doReturn(AchieverFixture.create()).when(achieverService).find(any());
 		doReturn(List.of()).when(streakRepository).findByAchieverIdAndFilledDate(any(), any());
-		doReturn(Optional.of(StreakFixture.streak(5))).when(streakRepository).findByAchieverIdAndStreakTypeAndFilledDate(any(), any(), any());
+		doReturn(Optional.of(StreakFixture.create(5))).when(streakRepository).findByAchieverIdAndStreakTypeAndFilledDate(any(), any(), any());
 
 		Streak actual = sut.fill(streak);
 
@@ -74,7 +74,7 @@ public class StreakServiceTest {
 		doReturn(List.of()).when(streakRepository).findByAchieverIdAndFilledDate(any(), any());
 		doReturn(Optional.empty()).when(streakRepository).findByAchieverIdAndStreakTypeAndFilledDate(any(), any(), any());
 
-		sut.fill(StreakFixture.streak());
+		sut.fill(StreakFixture.create());
 
 		verify(achiever, times(1)).updateStreakDays(eq(false));
 	}

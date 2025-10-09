@@ -11,7 +11,7 @@ import com.gomo.app.core.point.domain.model.TransactorId;
 
 public class PointFixture {
 
-	public static Point point() {
+	public static Point create() {
 		return Point.of(
 			PointId.of(UUID.randomUUID()),
 			TransactorId.of(UUID.randomUUID()),
@@ -23,7 +23,7 @@ public class PointFixture {
 		);
 	}
 
-	public static Point point(UUID transactionId) {
+	public static Point create(UUID transactionId) {
 		return Point.of(
 			PointId.of(UUID.randomUUID()),
 			TransactorId.of(UUID.randomUUID()),

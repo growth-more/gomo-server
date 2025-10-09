@@ -13,8 +13,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.gomo.app.core.member.exception.PasswordConstraintViolationException;
 import com.gomo.app.core.member.exception.code.PasswordErrorCode;
 
-@ExtendWith(MockitoExtension.class)
 @DisplayName("[Domain Unit]: 비밀번호 생성 및 수정 테스트")
+@ExtendWith(MockitoExtension.class)
 public class PasswordTest {
 
 	private static final String PASSWORD = "Test1234!";

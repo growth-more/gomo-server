@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.common.DocumentationTestBase;
 import com.gomo.app.core.quest.documentation.snippet.UpdateAssignQuestSnippet;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
@@ -23,6 +22,7 @@ import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.exception.code.QuestContentErrorCode;
 import com.gomo.app.core.quest.fixture.AssignQuestFixture;
 import com.gomo.app.core.quest.presentation.request.UpdateAssignQuestRequest;
+import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation documentation]: 참여 중인 퀘스트 수정 테스트")
 public class UpdateAssignQuestDocumentationTest extends DocumentationTestBase {
@@ -38,7 +38,7 @@ public class UpdateAssignQuestDocumentationTest extends DocumentationTestBase {
 
 	@BeforeEach
 	public void setUp() {
-		assignQuest = AssignQuestFixture.assignQuest(sessionMemberId, false);
+		assignQuest = AssignQuestFixture.create(sessionMemberId, false);
 		assignQuestRepository.save(assignQuest);
 	}
 

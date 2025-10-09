@@ -29,7 +29,7 @@ class ReadRegistrantAdapterTest {
 	@DisplayName("관심사 등록자를 조회한다.")
 	@Test
 	void find_registrant() {
-		MemberDto memberDto = MemberDto.from(MemberFixture.member(SubscriptionPlan.PREMIUM), 1000);
+		MemberDto memberDto = MemberDto.from(MemberFixture.create(SubscriptionPlan.PREMIUM), 1000);
 		doReturn(memberDto).when(readMemberPortIn).find(any());
 
 		RegistrantDto registrantDto = sut.find(memberDto.id());

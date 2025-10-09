@@ -8,16 +8,18 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.gomo.app.common.IntegrationTestBase;
 import com.gomo.app.core.interest.domain.model.LevelThresholdPolicy;
+import com.gomo.app.test.IntegrationTest;
 
-class LevelThresholdPolicyRepositoryImplTest extends IntegrationTestBase {
+@DisplayName("[Domain integration]: 레벨별 임계 점수 정책 DB 통합 테스트")
+@IntegrationTest
+class LevelThresholdPolicyRepositoryImplTest {
 
 	@Autowired
 	LevelThresholdPolicyRepositoryImpl repository;
 
-	@Test
 	@DisplayName("레벨별 임계 점수 정책 목록을 조회한다")
+	@Test
 	void find_all_policies() {
 		List<LevelThresholdPolicy> result = repository.findAll();
 		assertThat(result).hasSize(101);

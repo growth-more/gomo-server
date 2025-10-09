@@ -9,7 +9,15 @@ import com.gomo.app.core.point.domain.model.TransactorId;
 
 public class PointWalletFixture {
 
-	public static PointWallet point(UUID transactionId, int balance) {
+	public static PointWallet create() {
+		return PointWallet.of(
+			PointWalletId.of(UUID.randomUUID()),
+			TransactorId.of(UUID.randomUUID()),
+			Balance.of(1000)
+		);
+	}
+
+	public static PointWallet create(UUID transactionId, int balance) {
 		return PointWallet.of(
 			PointWalletId.of(UUID.randomUUID()),
 			TransactorId.of(transactionId),

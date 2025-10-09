@@ -12,9 +12,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuestId;
+import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.service.AssignQuestService;
 import com.gomo.app.core.quest.exception.AssignQuestAccessDeniedException;
 import com.gomo.app.core.quest.exception.code.AssignQuestErrorCode;
@@ -33,7 +33,7 @@ public class ConfirmAssignQuestUseCaseTest {
 	@DisplayName("할당 퀘스트를 확정한다.")
 	@Test
 	void confirm_assign_quest() {
-		AssignQuest assignQuest = AssignQuestFixture.assignQuest(QuestType.DAILY);
+		AssignQuest assignQuest = AssignQuestFixture.create(QuestType.DAILY);
 		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 
 		sut.confirm(assignQuest.getQuest().getParticipantId().getId(), UUID.randomUUID());
@@ -44,7 +44,7 @@ public class ConfirmAssignQuestUseCaseTest {
 	@DisplayName("퀘스트 참여자가 아니면 할당 퀘스트를 확정할 수 없다.")
 	@Test
 	void confirm_assign_quest_with_not_participant() {
-		AssignQuest assignQuest = AssignQuestFixture.assignQuest(QuestType.DAILY);
+		AssignQuest assignQuest = AssignQuestFixture.create(QuestType.DAILY);
 		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
 
 		assertThatThrownBy(
