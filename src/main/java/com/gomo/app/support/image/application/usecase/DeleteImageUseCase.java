@@ -1,0 +1,19 @@
+package com.gomo.app.support.image.application.usecase;
+
+import com.gomo.app.common.arch.ApplicationService;
+import com.gomo.app.support.image.application.port.DeleteImagePortIn;
+import com.gomo.app.support.image.application.port.ManageImagePortOut;
+
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+@ApplicationService
+public class DeleteImageUseCase implements DeleteImagePortIn {
+
+	private final ManageImagePortOut manageImagePortOut;
+
+	@Override
+	public void delete(String imageUrl) {
+		manageImagePortOut.delete(imageUrl);
+	}
+}

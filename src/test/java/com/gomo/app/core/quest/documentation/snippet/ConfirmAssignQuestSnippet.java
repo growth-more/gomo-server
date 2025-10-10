@@ -1,0 +1,46 @@
+package com.gomo.app.core.quest.documentation.snippet;
+
+import static org.springframework.http.HttpHeaders.*;
+import static org.springframework.restdocs.headers.HeaderDocumentation.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.*;
+
+import org.springframework.restdocs.restassured.RestDocumentationFilter;
+import org.springframework.restdocs.snippet.Snippet;
+
+import com.gomo.app.test.ErrorResponseFields;
+
+public class ConfirmAssignQuestSnippet {
+
+	private static final String IDENTIFIER = "quest-assign-confirm";
+
+	private static final Snippet REQUEST_HEADERS = requestHeaders(
+		headerWithName(AUTHORIZATION).description("JWT Access Token (Bearer)")
+	);
+
+	private static final Snippet PATH_PARAMETERS = pathParameters(
+		parameterWithName("id").description("확정할 할당 퀘스트의 ID (UUID)")
+	);
+
+	public static RestDocumentationFilter create() {
+		return document(
+			IDENTIFIER,
+			preprocessRequest(prettyPrint()),
+			preprocessResponse(prettyPrint()),
+			REQUEST_HEADERS,
+			PATH_PARAMETERS
+		);
+	}
+
+	public static RestDocumentationFilter createError() {
+		return document(
+			IDENTIFIER + "-error",
+			preprocessRequest(prettyPrint()),
+			preprocessResponse(prettyPrint()),
+			REQUEST_HEADERS,
+			PATH_PARAMETERS,
+			ErrorResponseFields.RESPONSE_FIELDS
+		);
+	}
+}
