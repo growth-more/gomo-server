@@ -10,32 +10,19 @@ import com.gomo.app.common.displayorder.OrderChangeable;
 import com.gomo.app.common.jpa.BaseAudit;
 import com.gomo.app.core.interest.exception.MajorInterestAccessDeniedException;
 
-import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.AttributeOverrides;
-import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Getter;
 
 @Getter
 @Entity
 public class MajorInterest extends BaseAudit implements OrderChangeable, Authorizable {
 
-	@EmbeddedId
-	private MajorInterestId id;
-
-	@Embedded
-	@AttributeOverrides({
-		@AttributeOverride(name = "id", column = @Column(name = "registrant_id"))
-	})
-	private RegistrantId registrantId;
-
-	@Embedded
-	@AttributeOverrides({
-		@AttributeOverride(name = "id", column = @Column(name = "interest_id"))
-	})
-	private InterestId interestId;
+	@Id
+	private UUID id;
+	private UUID registrantId;
+	private UUID interestId;
 
 	@Embedded
 	private DisplayOrder displayOrder;
@@ -43,27 +30,15 @@ public class MajorInterest extends BaseAudit implements OrderChangeable, Authori
 	protected MajorInterest() {
 	}
 
-	private MajorInterest(MajorInterestId id, RegistrantId registrantId, InterestId interestId, DisplayOrder displayOrder) {
+	private MajorInterest(UUID id, UUID registrantId, UUID interestId, DisplayOrder displayOrder) {
 		this.id = id;
 		this.registrantId = registrantId;
 		this.interestId = interestId;
 		this.displayOrder = displayOrder;
 	}
 
-	public static MajorInterest of(MajorInterestId id, RegistrantId registrantId, InterestId interestId, DisplayOrder displayOrder) {
+	public static MajorInterest of(UUID id, UUID registrantId, UUID interestId, DisplayOrder displayOrder) {
 		return new MajorInterest(id, registrantId, interestId, displayOrder);
-	}
-
-	public UUID id() {
-		return this.id.getId();
-	}
-
-	public UUID interestId() {
-		return this.interestId.getId();
-	}
-
-	public UUID registrantId() {
-		return this.registrantId.getId();
 	}
 
 	public int displayOrder() {
@@ -77,7 +52,7 @@ public class MajorInterest extends BaseAudit implements OrderChangeable, Authori
 
 	@Override
 	public void validateAuthority(UUID accessorId) {
-		if (!accessorId.equals(this.registrantId.getId())) {
+		if (!accessorId.equals(this.registrantId)) {
 			throw new MajorInterestAccessDeniedException(ACCESS_DENIED);
 		}
 	}

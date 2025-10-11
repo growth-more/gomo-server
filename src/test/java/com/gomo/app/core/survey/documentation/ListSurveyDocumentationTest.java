@@ -42,8 +42,8 @@ public class ListSurveyDocumentationTest extends DocumentationTestBase {
 	public void setUp() {
 		surveyQuestion = SurveyQuestionFixture.surveyQuestion();
 		surveyQuestionRepository.save(surveyQuestion);
-		surveyItem1 = SurveyItemFixture.surveyItem(surveyQuestion.getId().getId(), "직업은?", 1);
-		surveyItem2 = SurveyItemFixture.surveyItem(surveyQuestion.getId().getId(), "기타", 2);
+		surveyItem1 = SurveyItemFixture.surveyItem(surveyQuestion.getId(), "직업은?", 1);
+		surveyItem2 = SurveyItemFixture.surveyItem(surveyQuestion.getId(), "기타", 2);
 		surveyItemRepository.saveAll(List.of(surveyItem1, surveyItem2));
 	}
 

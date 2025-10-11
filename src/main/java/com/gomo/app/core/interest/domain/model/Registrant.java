@@ -12,25 +12,19 @@ import lombok.Getter;
 @ValueObject
 public class Registrant {
 
-	private RegistrantId id;
+	private UUID id;
 	private InterestQuota interestQuota;
 
 	protected Registrant() {
 	}
 
-	private Registrant(
-		RegistrantId id,
-		InterestQuota interestQuota
-	) {
+	private Registrant(UUID id, InterestQuota interestQuota) {
 		this.id = id;
 		this.interestQuota = interestQuota;
 	}
 
-	public static Registrant of(
-		RegistrantId id,
-		String subscriptionPlan
-	) {
-		InterestQuota interestQuota = null;
+	public static Registrant of(UUID id, String subscriptionPlan) {
+		InterestQuota interestQuota;
 		switch (subscriptionPlan) {
 			case "FREE" -> interestQuota = InterestQuota.FREE;
 			case "BASIC" -> interestQuota = InterestQuota.BASIC;
@@ -38,10 +32,6 @@ public class Registrant {
 			default -> throw new IllegalArgumentException("Unknown subscription plan: " + subscriptionPlan);
 		}
 		return new Registrant(id, interestQuota);
-	}
-
-	public UUID uuid() {
-		return this.id.getId();
 	}
 
 	public void validateInterestQuota(long interestCount) {

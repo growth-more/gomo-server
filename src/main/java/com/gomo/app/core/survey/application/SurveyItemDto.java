@@ -11,6 +11,6 @@ public record SurveyItemDto(UUID id, UUID surveyQuestionId, String content, Inte
 	}
 
 	public static SurveyItemDto from(SurveyItem surveyItem) {
-		return new SurveyItemDto(surveyItem.id(), surveyItem.surveyQuestionId(), surveyItem.getContent(), surveyItem.getDisplayOrder().getDisplayOrder(), null);
+		return new SurveyItemDto(surveyItem.getId(), surveyItem.getSurveyQuestionId(), surveyItem.getContent(), surveyItem.getDisplayOrder().getDisplayOrder(), null);
 	}
 }

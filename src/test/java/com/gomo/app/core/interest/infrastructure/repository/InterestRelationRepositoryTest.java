@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gomo.app.core.interest.domain.model.Interest;
 import com.gomo.app.core.interest.domain.model.InterestRelation;
-import com.gomo.app.core.interest.domain.model.RegistrantId;
 import com.gomo.app.core.interest.domain.repository.InterestRelationRepository;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;
 import com.gomo.app.core.interest.fixture.InterestFixture;
@@ -40,7 +39,7 @@ public class InterestRelationRepositoryTest {
 
 	@BeforeEach
 	public void setUp() {
-		RegistrantId registrantId = RegistrantId.of(UUID.randomUUID());
+		UUID registrantId = UUID.randomUUID();
 		depth1 = InterestFixture.create(registrantId, "depth1");
 		depth2 = InterestFixture.create(registrantId, "depth2");
 		depth3 = InterestFixture.create(registrantId, "depth3");
@@ -53,8 +52,8 @@ public class InterestRelationRepositoryTest {
 		InterestRelation depth1ToDepth2 = InterestRelationFixture.create(depth1, depth2);
 		interestRelationRepository.save(depth1ToDepth2);
 
-		boolean parentToChild = sut.existsRelationFor(depth1ToDepth2.parentId(), depth1ToDepth2.childId());
-		boolean childToParent = sut.existsRelationFor(depth1ToDepth2.childId(), depth1ToDepth2.parentId());
+		boolean parentToChild = sut.existsRelationFor(depth1ToDepth2.getParentInterestId(), depth1ToDepth2.getChildInterestId());
+		boolean childToParent = sut.existsRelationFor(depth1ToDepth2.getChildInterestId(), depth1ToDepth2.getParentInterestId());
 
 		assertThat(parentToChild).isTrue();
 		assertThat(childToParent).isTrue();
@@ -67,7 +66,7 @@ public class InterestRelationRepositoryTest {
 		InterestRelation depth2ToDepth3 = InterestRelationFixture.create(depth2, depth3);
 		interestRelationRepository.saveAll(List.of(depth1ToDepth2, depth2ToDepth3));
 
-		List<InterestRelation> interestRelations = sut.findAllByInterestId(depth2.id());
+		List<InterestRelation> interestRelations = sut.findAllByInterestId(depth2.getId());
 
 		assertThat(interestRelations).hasSize(2);
 		assertThat(interestRelations).extracting("id")

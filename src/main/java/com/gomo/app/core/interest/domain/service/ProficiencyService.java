@@ -6,15 +6,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.arch.DomainService;
 import com.gomo.app.core.interest.domain.model.Interest;
-import com.gomo.app.core.interest.domain.model.InterestId;
 import com.gomo.app.core.interest.domain.model.InterestRelation;
 import com.gomo.app.core.interest.domain.model.ProficiencyPolicies;
-import com.gomo.app.core.interest.domain.model.RegistrantId;
 import com.gomo.app.core.interest.domain.repository.InterestRelationRepository;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;
 import com.gomo.app.core.interest.domain.repository.ProficiencyPolicyRepository;
@@ -32,9 +31,9 @@ public class ProficiencyService {
 	@Transactional
 	public void adjust(Interest interest, int deltaTotalScore) {
 		ProficiencyPolicies proficiencyPolicies = proficiencyPolicyRepository.getPolicies();
-		Map<InterestId, Set<Interest>> childToParentMap = buildChildToParentMap(interest.getRegistrantId());
+		Map<UUID, Set<Interest>> childToParentMap = buildChildToParentMap(interest.getRegistrantId());
 
-		Set<InterestId> adjustedIds = new HashSet<>();
+		Set<UUID> adjustedIds = new HashSet<>();
 		ArrayDeque<Interest> candidateInterests = new ArrayDeque<>();
 		candidateInterests.addLast(interest);
 		while (!candidateInterests.isEmpty()) {
@@ -48,12 +47,12 @@ public class ProficiencyService {
 		}
 	}
 
-	private void adjustProficiency(Interest interest, int deltaTotalScore, Set<InterestId> adjustedIds, ProficiencyPolicies proficiencyPolicies) {
+	private void adjustProficiency(Interest interest, int deltaTotalScore, Set<UUID> adjustedIds, ProficiencyPolicies proficiencyPolicies) {
 		interest.adjustProficiency(deltaTotalScore, proficiencyPolicies);
 		adjustedIds.add(interest.getId());
 	}
 
-	private void enqueueParents(Set<Interest> parents, ArrayDeque<Interest> queue, Set<InterestId> adjustedIds) {
+	private void enqueueParents(Set<Interest> parents, ArrayDeque<Interest> queue, Set<UUID> adjustedIds) {
 		if (existParentInterests(parents)) {
 			for (Interest parent : parents) {
 				if (!alreadyAdjustedInterest(parent.getId(), adjustedIds)) {
@@ -67,29 +66,29 @@ public class ProficiencyService {
 		return parents != null;
 	}
 
-	private boolean alreadyAdjustedInterest(InterestId currentId, Set<InterestId> adjustedIds) {
+	private boolean alreadyAdjustedInterest(UUID currentId, Set<UUID> adjustedIds) {
 		return adjustedIds.contains(currentId);
 	}
 
-	private Map<InterestId, Set<Interest>> buildChildToParentMap(RegistrantId registrantId) {
+	private Map<UUID, Set<Interest>> buildChildToParentMap(UUID registrantId) {
 		List<InterestRelation> allRelations = interestRelationRepository.findAllByRegistrantId(registrantId);
 
-		Set<InterestId> interestIds = new HashSet<>();
+		Set<UUID> interestIds = new HashSet<>();
 		for (InterestRelation relation : allRelations) {
-			interestIds.add(relation.getChildInterestId().toInterestId());
-			interestIds.add(relation.getParentInterestId().toInterestId());
+			interestIds.add(relation.getChildInterestId());
+			interestIds.add(relation.getParentInterestId());
 		}
 
 		List<Interest> interests = interestRepository.findAllById(interestIds);
-		Map<InterestId, Interest> interestMap = new HashMap<>();
+		Map<UUID, Interest> interestMap = new HashMap<>();
 		for (Interest interest : interests) {
 			interestMap.put(interest.getId(), interest);
 		}
 
-		Map<InterestId, Set<Interest>> childToParentMap = new HashMap<>();
+		Map<UUID, Set<Interest>> childToParentMap = new HashMap<>();
 		for (InterestRelation relation : allRelations) {
-			InterestId childId = relation.getChildInterestId().toInterestId();
-			InterestId parentId = relation.getParentInterestId().toInterestId();
+			UUID childId = relation.getChildInterestId();
+			UUID parentId = relation.getParentInterestId();
 			childToParentMap.computeIfAbsent(childId, k -> new HashSet<>()).add(interestMap.get(parentId));
 		}
 

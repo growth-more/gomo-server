@@ -6,26 +6,18 @@ import com.gomo.app.common.displayorder.DisplayOrder;
 import com.gomo.app.common.displayorder.OrderChangeable;
 import com.gomo.app.common.jpa.BaseAudit;
 
-import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.AttributeOverrides;
-import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Getter;
 
 @Getter
 @Entity
 public class SurveyItem extends BaseAudit implements OrderChangeable {
 
-	@EmbeddedId
-	private SurveyItemId id;
-
-	@Embedded
-	@AttributeOverrides({
-		@AttributeOverride(name = "id", column = @Column(name = "survey_question_id"))
-	})
-	private SurveyQuestionId surveyQuestionId;
+	@Id
+	private UUID id;
+	private UUID surveyQuestionId;
 	private String content;
 
 	@Embedded
@@ -34,37 +26,19 @@ public class SurveyItem extends BaseAudit implements OrderChangeable {
 	protected SurveyItem() {
 	}
 
-	private SurveyItem(
-		SurveyItemId id,
-		SurveyQuestionId surveyQuestionId,
-		String content,
-		DisplayOrder displayOrder
-	) {
+	private SurveyItem(UUID id, UUID surveyQuestionId, String content, DisplayOrder displayOrder) {
 		this.id = id;
 		this.surveyQuestionId = surveyQuestionId;
 		this.content = content;
 		this.displayOrder = displayOrder;
 	}
 
-	public static SurveyItem of(
-		SurveyItemId id,
-		SurveyQuestionId surveyQuestionId,
-		String content,
-		DisplayOrder displayOrder
-	) {
+	public static SurveyItem of(UUID id, UUID surveyQuestionId, String content, DisplayOrder displayOrder) {
 		return new SurveyItem(id, surveyQuestionId, content, displayOrder);
-	}
-
-	public UUID id() {
-		return id.getId();
-	}
-
-	public UUID surveyQuestionId() {
-		return surveyQuestionId.getId();
 	}
 
 	@Override
 	public void changeOrder(DisplayOrder displayOrder) {
-
+		this.displayOrder = displayOrder;
 	}
 }

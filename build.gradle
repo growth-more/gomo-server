@@ -172,8 +172,11 @@ jacocoTestCoverageVerification {
                     'com.gomo.app.common.event.Event',
                     'com.gomo.app.common.domain.AuditorAwareImpl',
                     'com.gomo.app.common.domain.LogicalDeleteBaseAudit',
+                    'com.gomo.app.**.request.**',
+                    'com.gomo.app.**.response.**',
+                    'com.gomo.app.**.dto.**',
                     'com.gomo.app.**.exception.**',
-                    'com.gomo.app.**.*Id'
+                    'com.gomo.app.**.diagnositc.**',
             ]
         }
     }

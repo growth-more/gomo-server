@@ -5,9 +5,11 @@ import com.gomo.app.core.interest.exception.ScoreConstraintViolationException;
 import com.gomo.app.core.interest.exception.code.ScoreErrorCode;
 
 import jakarta.persistence.Embeddable;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
+@EqualsAndHashCode
 @Embeddable
 @ValueObject
 public class Score {
@@ -37,7 +39,7 @@ public class Score {
 	}
 
 	public int calculateIncreasedLevel(int scoreThreshold) {
-		if(hasReachedMaxScore()) {
+		if (hasReachedMaxScore()) {
 			return 0;
 		}
 
@@ -45,41 +47,24 @@ public class Score {
 	}
 
 	public Score trimExcess(int scoreThreshold) {
-		if(hasReachedMaxScore()) {
+		if (hasReachedMaxScore()) {
 			return new Score(MAXIMUM_SCORE);
 		}
 
-		if(this.score >= scoreThreshold) {
+		if (this.score >= scoreThreshold) {
 			return new Score(this.score - scoreThreshold);
 		}
 		return new Score(this.score);
 	}
 
 	private void validatePositive(int increment) {
-		if(increment <= 0) {
+		if (increment <= 0) {
 			throw new ScoreConstraintViolationException(ScoreErrorCode.NON_POSITIVE_INCREMENT);
 		}
 	}
 
 	private boolean hasReachedMaxScore() {
 		return this.score >= MAXIMUM_SCORE;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-		Score score = (Score)o;
-		return this.score == score.score;
-	}
-
-	@Override
-	public int hashCode() {
-		return score;
 	}
 
 	@Override

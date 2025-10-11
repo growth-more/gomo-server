@@ -10,9 +10,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.gomo.app.common.util.UUIDConverter;
-import com.gomo.app.core.survey.domain.model.RespondentId;
-import com.gomo.app.core.survey.domain.model.SurveyItemId;
-import com.gomo.app.core.survey.domain.model.SurveyQuestionId;
 import com.gomo.app.core.survey.domain.model.SurveyResult;
 import com.gomo.app.core.survey.domain.repository.SurveyResultRepository;
 
@@ -40,9 +37,9 @@ public class SurveyResultRepositoryImpl implements SurveyResultRepository {
 			public void setValues(PreparedStatement ps, int i) throws SQLException {
 				SurveyResult surveyResult = surveyResults.get(i);
 
-				ps.setBytes(1, UUIDConverter.uuidToBytes(surveyResult.getRespondentId().getId()));
-				ps.setBytes(2, UUIDConverter.uuidToBytes(surveyResult.getSurveyQuestionId().getId()));
-				ps.setBytes(3, UUIDConverter.uuidToBytes(surveyResult.getSurveyItemId().getId()));
+				ps.setBytes(1, UUIDConverter.uuidToBytes(surveyResult.getRespondentId()));
+				ps.setBytes(2, UUIDConverter.uuidToBytes(surveyResult.getSurveyQuestionId()));
+				ps.setBytes(3, UUIDConverter.uuidToBytes(surveyResult.getSurveyItemId()));
 				ps.setObject(4, surveyResult.getSurveyItemContent());
 				ps.setString(5, surveyResult.getCustomAnswer());
 			}
@@ -50,19 +47,19 @@ public class SurveyResultRepositoryImpl implements SurveyResultRepository {
 	}
 
 	@Override
-	public List<SurveyResult> findAllByRespondentId(UUID respondentId) {
+	public List<SurveyResult> findAllByRespondentId(UUID targetId) {
 		final String sql = "SELECT respondent_id, survey_question_id, survey_item_id, survey_item_content, custom_answer " +
 			"FROM survey_result WHERE respondent_id = ?";
 
-		return jdbcTemplate.query(sql, new Object[]{ UUIDConverter.uuidToBytes(respondentId) }, (rs, rowNum) -> {
-			UUID respondentUuid = UUIDConverter.bytesToUuid(rs.getBytes("respondent_id"));
-			UUID surveyQuestionUuid = UUIDConverter.bytesToUuid(rs.getBytes("survey_question_id"));
-			UUID surveyItemUuid = UUIDConverter.bytesToUuid(rs.getBytes("survey_item_id"));
+		return jdbcTemplate.query(sql, new Object[] {UUIDConverter.uuidToBytes(targetId)}, (rs, rowNum) -> {
+			UUID respondentId = UUIDConverter.bytesToUuid(rs.getBytes("respondent_id"));
+			UUID surveyQuestionId = UUIDConverter.bytesToUuid(rs.getBytes("survey_question_id"));
+			UUID surveyItemId = UUIDConverter.bytesToUuid(rs.getBytes("survey_item_id"));
 
 			return SurveyResult.of(
-				RespondentId.of(respondentUuid),
-				SurveyQuestionId.of(surveyQuestionUuid),
-				SurveyItemId.of(surveyItemUuid),
+				respondentId,
+				surveyQuestionId,
+				surveyItemId,
 				rs.getString("survey_item_content"),
 				rs.getString("custom_answer")
 			);

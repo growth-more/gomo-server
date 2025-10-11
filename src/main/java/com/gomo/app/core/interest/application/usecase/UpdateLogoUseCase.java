@@ -1,11 +1,12 @@
 package com.gomo.app.core.interest.application.usecase;
 
+import java.util.UUID;
+
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.core.interest.domain.model.Interest;
-import com.gomo.app.core.interest.domain.model.InterestId;
 import com.gomo.app.core.interest.domain.model.Logo;
 import com.gomo.app.core.interest.domain.service.InterestService;
 import com.gomo.app.support.image.application.port.DeleteImagePortIn;
@@ -24,7 +25,7 @@ public class UpdateLogoUseCase {
 	private final InterestService interestService;
 
 	@AuditLog(action = "UPDATE_INTEREST_LOGO")
-	public void update(InterestId interestId, MultipartFile updatedLogo) {
+	public void update(UUID interestId, MultipartFile updatedLogo) {
 		Interest interest = interestService.find(interestId);
 		String logoUrl = uploadImagePortIn.upload(updatedLogo).orElse(null);
 		deletePreviousLogo(interest);

@@ -18,8 +18,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.interest.domain.model.Interest;
 import com.gomo.app.core.interest.domain.model.InterestRelation;
-import com.gomo.app.core.interest.domain.model.InterestRelationId;
-import com.gomo.app.core.interest.domain.model.RegistrantId;
 import com.gomo.app.core.interest.domain.repository.InterestRelationRepository;
 import com.gomo.app.core.interest.exception.InterestRelationCycleException;
 import com.gomo.app.core.interest.exception.InterestRelationDuplicatedException;
@@ -44,7 +42,7 @@ public class InterestRelationServiceTest {
 	@DisplayName("관심사 관계선을 생성하면 상위 관심사의 총 점수가 하위 관심사의 총 점수 만큼 증가한다.")
 	@Test
 	void create_relation() {
-		RegistrantId registrantId = RegistrantId.of(UUID.randomUUID());
+		UUID registrantId = UUID.randomUUID();
 		Interest depth1 = InterestFixture.create(registrantId, "depth1");
 		Interest depth2 = InterestFixture.create(registrantId, "depth2");
 
@@ -60,7 +58,7 @@ public class InterestRelationServiceTest {
 	@DisplayName("관심사 관계선은 중복 생성할 수 없다.")
 	@Test
 	void create_duplicated_relation() {
-		RegistrantId registrantId = RegistrantId.of(UUID.randomUUID());
+		UUID registrantId = UUID.randomUUID();
 
 		doReturn(true).when(interestRelationRepository).existsRelationFor(any(), any());
 
@@ -73,7 +71,7 @@ public class InterestRelationServiceTest {
 	@Test
 	void create_no_cyclic_relation() {
 		// given: 1 -> 2, 2 -> 3, when: 1 -> 3
-		RegistrantId registrantId = RegistrantId.of(UUID.randomUUID());
+		UUID registrantId = UUID.randomUUID();
 		Interest depth1 = InterestFixture.create(registrantId, "depth1");
 		Interest depth2 = InterestFixture.create(registrantId, "depth2");
 		Interest depth3 = InterestFixture.create(registrantId, "depth3");
@@ -93,7 +91,7 @@ public class InterestRelationServiceTest {
 	@Test
 	void create_cyclic_relation() {
 		// given: 1 -> 2, 2 -> 3, when: 3 -> 1
-		RegistrantId registrantId = RegistrantId.of(UUID.randomUUID());
+		UUID registrantId = UUID.randomUUID();
 		Interest depth1 = InterestFixture.create(registrantId, "depth1");
 		Interest depth2 = InterestFixture.create(registrantId, "depth2");
 		Interest depth3 = InterestFixture.create(registrantId, "depth3");
@@ -127,7 +125,7 @@ public class InterestRelationServiceTest {
 	void find_nonexistent_relation() {
 		doReturn(Optional.empty()).when(interestRelationRepository).findById(any());
 
-		assertThatThrownBy(() -> sut.find(InterestRelationId.of(UUID.randomUUID())))
+		assertThatThrownBy(() -> sut.find(UUID.randomUUID()))
 			.isInstanceOf(InterestRelationNotFoundException.class)
 			.hasMessageContaining(InterestRelationErrorCode.NOT_FOUND.getMessage());
 	}

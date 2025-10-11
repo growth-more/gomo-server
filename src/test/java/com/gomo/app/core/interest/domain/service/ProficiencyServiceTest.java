@@ -18,7 +18,6 @@ import com.gomo.app.core.interest.domain.model.Interest;
 import com.gomo.app.core.interest.domain.model.InterestRelation;
 import com.gomo.app.core.interest.domain.model.LevelThresholdPolicy;
 import com.gomo.app.core.interest.domain.model.ProficiencyPolicies;
-import com.gomo.app.core.interest.domain.model.RegistrantId;
 import com.gomo.app.core.interest.domain.repository.InterestRelationRepository;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;
 import com.gomo.app.core.interest.domain.repository.ProficiencyPolicyRepository;
@@ -41,11 +40,11 @@ public class ProficiencyServiceTest {
 	@Mock
 	private InterestRelationRepository interestRelationRepository;
 
-	private RegistrantId registrantId;
+	private UUID registrantId;
 
 	@BeforeEach
 	public void setUp() {
-		registrantId = RegistrantId.of(UUID.randomUUID());
+		registrantId = UUID.randomUUID();
 		ProficiencyPolicies proficiencyPolicies = ProficiencyPolicies.from(
 			List.of(LevelThresholdPolicy.of(1, 40))
 		);

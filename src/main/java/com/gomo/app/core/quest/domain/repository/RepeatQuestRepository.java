@@ -13,8 +13,6 @@ import com.gomo.app.core.quest.domain.model.repeat.RepeatQuest;
 
 public interface RepeatQuestRepository extends JpaRepository<RepeatQuest, UUID> {
 
-	List<RepeatQuest> findByQuestParticipantId(UUID participantId);
-
 	long countByQuestParticipantIdAndQuestType(UUID participantId, QuestType questType);
 
 	@Query("select COALESCE(MAX(r.displayOrder.displayOrder), 0) from RepeatQuest r " +

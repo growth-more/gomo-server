@@ -42,8 +42,8 @@ public class CreateInterestRelationUseCaseTest {
 		doReturn(childInterest).when(interestService).find(childInterest.getId());
 		doReturn(interestRelation).when(interestRelationService).create(any(), any(), any());
 
-		UUID actual = sut.create(interestRelation.registrantId(), parentInterest.id(), childInterest.id());
+		UUID actual = sut.create(interestRelation.getRegistrantId(), parentInterest.getId(), childInterest.getId());
 
-		assertThat(actual).isEqualTo(interestRelation.id());
+		assertThat(actual).isEqualTo(interestRelation.getId());
 	}
 }

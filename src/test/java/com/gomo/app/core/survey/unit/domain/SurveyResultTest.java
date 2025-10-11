@@ -9,9 +9,6 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.core.survey.domain.model.RespondentId;
-import com.gomo.app.core.survey.domain.model.SurveyItemId;
-import com.gomo.app.core.survey.domain.model.SurveyQuestionId;
 import com.gomo.app.core.survey.domain.model.SurveyResult;
 import com.gomo.app.core.survey.exception.SurveyResultConstraintViolationException;
 import com.gomo.app.core.survey.exception.SurveyResultErrorCode;
@@ -19,9 +16,9 @@ import com.gomo.app.core.survey.exception.SurveyResultErrorCode;
 @DisplayName("[Domain unit]: 설문 결과 생성 테스트")
 public class SurveyResultTest {
 
-	private static final RespondentId RESPONDENT_ID = RespondentId.of(UUID.randomUUID());
-	private static final SurveyQuestionId SURVEY_QUESTION_ID = SurveyQuestionId.of(UUID.randomUUID());
-	private static final SurveyItemId SURVEY_ITEM_ID = SurveyItemId.of(UUID.randomUUID());
+	private static final UUID RESPONDENT_ID = UUID.randomUUID();
+	private static final UUID SURVEY_QUESTION_ID = UUID.randomUUID();
+	private static final UUID SURVEY_ITEM_ID = UUID.randomUUID();
 	private static final String NOT_OTHER_CONTENT = "survey item content";
 	private static final String OTHER = "기타";
 

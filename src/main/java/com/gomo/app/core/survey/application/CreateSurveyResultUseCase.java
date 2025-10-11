@@ -1,17 +1,15 @@
 package com.gomo.app.core.survey.application;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.arch.ApplicationService;
-import com.gomo.app.support.logging.AuditLog;
-import com.gomo.app.core.survey.domain.model.RespondentId;
-import com.gomo.app.core.survey.domain.model.SurveyItemId;
-import com.gomo.app.core.survey.domain.model.SurveyQuestionId;
 import com.gomo.app.core.survey.domain.model.SurveyResult;
 import com.gomo.app.core.survey.domain.repository.SurveyResultRepository;
+import com.gomo.app.support.logging.AuditLog;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,19 +22,19 @@ public class CreateSurveyResultUseCase {
 
 	@AuditLog(action = "CREATE_SURVEY_RESULT")
 	public void create(CreateSurveyResultCommand command) {
-		RespondentId targetId = RespondentId.of(command.respondentId());
+		UUID respondentId = command.respondentId();
 		List<SurveyResult> surveyResults = command.selectedSurveyItems().stream()
-			.map(selectedItem -> createSurveyResult(targetId, selectedItem))
+			.map(selectedItem -> createSurveyResult(respondentId, selectedItem))
 			.toList();
 		surveyResultRepository.saveAll(surveyResults);
 	}
 
 	@NotNull
-	private SurveyResult createSurveyResult(RespondentId respondentId, SurveyItemDto selectedItem) {
+	private SurveyResult createSurveyResult(UUID respondentId, SurveyItemDto selectedItem) {
 		return SurveyResult.of(
 			respondentId,
-			SurveyQuestionId.of(selectedItem.surveyQuestionId()),
-			SurveyItemId.of(selectedItem.id()),
+			selectedItem.surveyQuestionId(),
+			selectedItem.id(),
 			selectedItem.content(),
 			selectedItem.customAnswer()
 		);

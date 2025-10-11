@@ -13,8 +13,8 @@ public record MajorInterestDto(UUID id, UUID interestId, String name, String log
 
 	public static MajorInterestDto from(MajorInterest majorInterest, Interest interest) {
 		return new MajorInterestDto(
-			majorInterest.id(),
-			interest.id(),
+			majorInterest.getId(),
+			interest.getId(),
 			interest.getName().toString(),
 			interest.getLogo().getUrl(),
 			interest.getProficiency().getLevel().getLevel(),

@@ -13,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.interest.domain.model.MajorInterest;
-import com.gomo.app.core.interest.domain.model.MajorInterestId;
 import com.gomo.app.core.interest.domain.repository.MajorInterestRepository;
 import com.gomo.app.core.interest.domain.service.MajorInterestService;
 import com.gomo.app.core.interest.exception.MajorInterestAccessDeniedException;
@@ -36,9 +35,9 @@ public class DeleteMajorInterestUseCaseTest {
 	@Test
 	void delete_interest() {
 		MajorInterest majorInterest = MajorInterestFixture.create();
-		doReturn(majorInterest).when(majorInterestService).find(any(MajorInterestId.class));
+		doReturn(majorInterest).when(majorInterestService).find(any());
 
-		sut.delete(majorInterest.getRegistrantId().getId(), majorInterest.id());
+		sut.delete(majorInterest.getRegistrantId(), majorInterest.getId());
 
 		verify(majorInterestRepository, times(1)).delete(any(MajorInterest.class));
 	}
@@ -48,7 +47,7 @@ public class DeleteMajorInterestUseCaseTest {
 	void delete_interest_by_unauthorized_accessor() {
 		MajorInterest majorInterest = mock(MajorInterest.class);
 		doThrow(MajorInterestAccessDeniedException.class).when(majorInterest).validateAuthority(any(UUID.class));
-		doReturn(majorInterest).when(majorInterestService).find(any(MajorInterestId.class));
+		doReturn(majorInterest).when(majorInterestService).find(any());
 
 		assertThatThrownBy(() -> sut.delete(UUID.randomUUID(), UUID.randomUUID()))
 			.isInstanceOf(MajorInterestAccessDeniedException.class);

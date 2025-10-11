@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.core.interest.domain.model.Interest;
 import com.gomo.app.core.interest.domain.model.MajorInterest;
-import com.gomo.app.core.interest.domain.model.RegistrantId;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;
 import com.gomo.app.core.interest.domain.repository.MajorInterestRepository;
 import com.gomo.app.core.interest.fixture.InterestFixture;
@@ -33,13 +32,13 @@ public class MajorInterestRepositoryTest {
 	@Autowired
 	private MajorInterestRepository majorInterestRepository;
 
-	private RegistrantId registrantId;
+	private UUID registrantId;
 	private Interest interest1;
 	private Interest interest2;
 
 	@BeforeEach
 	public void setUp() {
-		registrantId = RegistrantId.of(UUID.randomUUID());
+		registrantId = UUID.randomUUID();
 		interest1 = InterestFixture.create(registrantId, "interest1");
 		interest2 = InterestFixture.create(registrantId, "interest2");
 		interestRepository.saveAll(List.of(interest1, interest2));

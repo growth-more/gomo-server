@@ -11,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.core.interest.domain.model.InterestId;
 import com.gomo.app.core.interest.domain.model.MajorInterest;
 import com.gomo.app.core.interest.domain.repository.MajorInterestRepository;
 import com.gomo.app.core.interest.exception.MajorInterestDuplicatedException;
@@ -44,7 +43,7 @@ public class MajorInterestServiceTest {
 	@DisplayName("이미 주요 관심사로 등록된 관심사는 중복해서 등록할 수 없다.")
 	@Test
 	void create_major_interest_with_already_existing_major_interest() {
-		doThrow(MajorInterestDuplicatedException.class).when(majorInterestRepository).findByInterestId(any(InterestId.class));
+		doThrow(MajorInterestDuplicatedException.class).when(majorInterestRepository).findByInterestId(any());
 
 		assertThatThrownBy(() -> sut.create(InterestFixture.create()))
 			.isInstanceOf(MajorInterestDuplicatedException.class);

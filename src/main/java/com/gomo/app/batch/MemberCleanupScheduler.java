@@ -9,7 +9,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.gomo.app.core.interest.domain.model.RegistrantId;
 import com.gomo.app.core.interest.domain.repository.InterestRelationRepository;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;
 import com.gomo.app.core.interest.domain.repository.MajorInterestRepository;
@@ -69,9 +68,9 @@ public class MemberCleanupScheduler {
 		repeatQuestRepository.deleteAllByParticipantId(member.getId());
 
 		// Interest 관련 데이터 삭제
-		interestRelationRepository.deleteAllByRegistrantId(RegistrantId.of(member.getId()));
-		majorInterestRepository.deleteAllByRegistrantId(RegistrantId.of(member.getId()));
-		interestRepository.deleteAllByRegistrantId(RegistrantId.of(member.getId()));
+		interestRelationRepository.deleteAllByRegistrantId(member.getId());
+		majorInterestRepository.deleteAllByRegistrantId(member.getId());
+		interestRepository.deleteAllByRegistrantId(member.getId());
 
 		// Point 관련 데이터 삭제
 		pointRepository.deleteAllByTransactorId(member.getId());

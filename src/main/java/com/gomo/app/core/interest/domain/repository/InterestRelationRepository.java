@@ -8,26 +8,24 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.gomo.app.core.interest.domain.model.InterestRelation;
-import com.gomo.app.core.interest.domain.model.InterestRelationId;
-import com.gomo.app.core.interest.domain.model.RegistrantId;
 
-public interface InterestRelationRepository extends JpaRepository<InterestRelation, InterestRelationId> {
+public interface InterestRelationRepository extends JpaRepository<InterestRelation, UUID> {
 
-	List<InterestRelation> findAllByRegistrantId(RegistrantId registrantId);
+	List<InterestRelation> findAllByRegistrantId(UUID registrantId);
 
 	@Query("select COUNT(ir) > 0 from InterestRelation ir "
-		+ "where (ir.parentInterestId.id = :firstInterestId "
-		+ "and ir.childInterestId.id = :secondInterestId) "
-		+ "or (ir.parentInterestId.id = :secondInterestId "
-		+ "and ir.childInterestId.id = :firstInterestId)")
+		+ "where (ir.parentInterestId = :firstInterestId "
+		+ "and ir.childInterestId = :secondInterestId) "
+		+ "or (ir.parentInterestId = :secondInterestId "
+		+ "and ir.childInterestId = :firstInterestId)")
 	boolean existsRelationFor(UUID firstInterestId, UUID secondInterestId);
 
 	@Query("select ir from InterestRelation ir "
-		+ "where ir.parentInterestId.id = :interestId "
-		+ "or ir.childInterestId.id = :interestId")
+		+ "where ir.parentInterestId = :interestId "
+		+ "or ir.childInterestId = :interestId")
 	List<InterestRelation> findAllByInterestId(UUID interestId);
 
 	@Modifying
 	@Query("DELETE FROM InterestRelation ir WHERE ir.registrantId = :registrantId")
-	void deleteAllByRegistrantId(RegistrantId registrantId);
+	void deleteAllByRegistrantId(UUID registrantId);
 }

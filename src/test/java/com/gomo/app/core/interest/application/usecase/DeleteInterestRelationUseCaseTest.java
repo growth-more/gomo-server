@@ -14,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.interest.domain.model.Interest;
 import com.gomo.app.core.interest.domain.model.InterestRelation;
-import com.gomo.app.core.interest.domain.model.InterestRelationId;
 import com.gomo.app.core.interest.domain.service.InterestRelationService;
 import com.gomo.app.core.interest.domain.service.InterestService;
 import com.gomo.app.core.interest.exception.InterestRelationAccessDeniedException;
@@ -42,9 +41,9 @@ public class DeleteInterestRelationUseCaseTest {
 		InterestRelation interestRelation = InterestRelationFixture.create(parentInterest, childInterest);
 		doReturn(parentInterest).when(interestService).find(parentInterest.getId());
 		doReturn(childInterest).when(interestService).find(childInterest.getId());
-		doReturn(interestRelation).when(interestRelationService).find(any(InterestRelationId.class));
+		doReturn(interestRelation).when(interestRelationService).find(any());
 
-		sut.delete(interestRelation.registrantId(), interestRelation.id());
+		sut.delete(interestRelation.getRegistrantId(), interestRelation.getId());
 
 		verify(interestRelationService, times(1)).delete(any(), any(), any());
 	}
@@ -53,7 +52,7 @@ public class DeleteInterestRelationUseCaseTest {
 	@Test
 	void delete_interest_by_unauthorized_accessor() {
 		InterestRelation interestRelation = mock(InterestRelation.class);
-		doReturn(interestRelation).when(interestRelationService).find(any(InterestRelationId.class));
+		doReturn(interestRelation).when(interestRelationService).find(any());
 		doThrow(InterestRelationAccessDeniedException.class).when(interestRelation).validateAuthority(any(UUID.class));
 
 		assertThatThrownBy(() -> sut.delete(UUID.randomUUID(), UUID.randomUUID())).isInstanceOf(InterestRelationAccessDeniedException.class);
