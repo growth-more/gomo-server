@@ -1,10 +1,11 @@
 package com.gomo.app.core.member.domain.service;
 
+import java.util.UUID;
+
 import com.gomo.app.common.arch.DomainService;
 import com.gomo.app.core.member.domain.model.Email;
 import com.gomo.app.core.member.domain.model.Handle;
 import com.gomo.app.core.member.domain.model.Member;
-import com.gomo.app.core.member.domain.model.MemberId;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
 import com.gomo.app.core.member.exception.EmailDuplicatedException;
 import com.gomo.app.core.member.exception.HandleDuplicatedException;
@@ -21,7 +22,7 @@ public class MemberService {
 
 	private final MemberRepository memberRepository;
 
-	public Member find(MemberId memberId) {
+	public Member find(UUID memberId) {
 		return memberRepository.findById(memberId)
 			.orElseThrow(() -> new MemberNotFoundException(MemberErrorCode.NOT_FOUND));
 	}

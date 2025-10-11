@@ -29,7 +29,7 @@ public class UpdateMemberUseCaseTest {
 	void update_member_name_and_motto() {
 		Member member = MemberFixture.create();
 		doReturn(member).when(memberService).find(member.getId());
-		sut.update(member.id(), "NEW_NAME", "NEW_MOTTO");
+		sut.update(member.getId(), "NEW_NAME", "NEW_MOTTO");
 		assertThat(member.name()).isEqualTo("NEW_NAME");
 		assertThat(member.motto()).isEqualTo("NEW_MOTTO");
 	}

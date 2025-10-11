@@ -21,7 +21,7 @@ public class ProfileImageTest {
 		PASSWORD = Password.ofRaw("Test1234!");
 	}
 
-	private static final MemberId ID = MemberId.of(UUID.randomUUID());
+	private static final UUID ID = UUID.randomUUID();
 	private static final Email EMAIL = Email.of("test@gmail.com");
 	private static final Handle HANDLE = Handle.of("@tester");
 	private static final MemberName MEMBER_NAME = MemberName.of("Tester");

@@ -40,8 +40,8 @@ public class AuthenticateUseCaseTest {
 	void authenticate_success() {
 		Member member = MemberFixture.create(ActivateStatus.ACTIVE);
 		AuthToken authToken = AuthToken.of("access", "refresh");
-		AuthTokenDto expected = AuthTokenDto.of(member.id(), authToken.getAccessToken(), authToken.getRefreshToken(), 1L);
-		doReturn(member.id()).when(loginMemberPortIn).authenticate(anyString(), anyString());
+		AuthTokenDto expected = AuthTokenDto.of(member.getId(), authToken.getAccessToken(), authToken.getRefreshToken(), 1L);
+		doReturn(member.getId()).when(loginMemberPortIn).authenticate(anyString(), anyString());
 		doReturn(authToken).when(createAuthTokenInternalService).create(any());
 		doReturn(1L).when(verifyJwtPortIn).extractExpirationTime(anyString());
 

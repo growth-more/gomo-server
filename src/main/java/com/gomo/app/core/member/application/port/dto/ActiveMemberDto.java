@@ -9,7 +9,7 @@ public record ActiveMemberDto(UUID id, String roleType, String subscriptionPlan,
 
 	public static ActiveMemberDto from(Member member) {
 		return new ActiveMemberDto(
-			member.id(),
+			member.getId(),
 			member.getRoleType().name(),
 			member.getSubscriptionPlan().name(),
 			member.getLastLoginDateTime(),

@@ -11,7 +11,6 @@ import com.gomo.app.core.member.domain.model.Email;
 import com.gomo.app.core.member.domain.model.Handle;
 import com.gomo.app.core.member.domain.model.LoginProvider;
 import com.gomo.app.core.member.domain.model.Member;
-import com.gomo.app.core.member.domain.model.MemberId;
 import com.gomo.app.core.member.domain.model.MemberName;
 import com.gomo.app.core.member.domain.model.Motto;
 import com.gomo.app.core.member.domain.model.Password;
@@ -48,7 +47,7 @@ public class CreateMemberUseCase {
 		Handle handle = Handle.of(command.handle());
 		memberService.checkHandleDuplicated(handle);
 
-		MemberId memberId = MemberId.of(UUIDGenerator.generate());
+		UUID memberId = UUIDGenerator.generate();
 		Password verifiedPassword = LoginProvider.EMAIL.name().equals(command.loginProvider())
 			? Password.ofRaw(command.rawPassword()) : Password.forOAuth(memberId.toString());
 		Password encodedPassword = Password.ofEncoded(encodePasswordPortIn.encode(verifiedPassword.getPassword()));
@@ -63,8 +62,8 @@ public class CreateMemberUseCase {
 			LoginProvider.valueOf(command.loginProvider())
 		);
 		Member savedMember = memberRepository.save(member);
-		createPointWalletPortIn.create(savedMember.id());
-		createAchieverPortIn.create(savedMember.id());
-		return savedMember.id();
+		createPointWalletPortIn.create(savedMember.getId());
+		createAchieverPortIn.create(savedMember.getId());
+		return savedMember.getId();
 	}
 }

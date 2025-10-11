@@ -13,7 +13,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.member.application.port.dto.MemberDto;
 import com.gomo.app.core.member.domain.model.Member;
-import com.gomo.app.core.member.domain.model.MemberId;
 import com.gomo.app.core.member.domain.service.MemberService;
 import com.gomo.app.core.member.fixture.MemberFixture;
 import com.gomo.app.core.point.application.port.ReadBalancePortIn;
@@ -39,10 +38,10 @@ public class ReadMemberUseCaseTest {
 		Member member = MemberFixture.create();
 		MemberDto expected = MemberDto.from(member, BALANCE);
 
-		doReturn(member).when(memberService).find(any(MemberId.class));
+		doReturn(member).when(memberService).find(any());
 		doReturn(BALANCE).when(readBalancePortIn).find(any());
 
-		MemberDto actual = sut.find(member.id());
+		MemberDto actual = sut.find(member.getId());
 
 		assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
 	}

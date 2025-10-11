@@ -9,7 +9,6 @@ import com.gomo.app.core.member.domain.model.Email;
 import com.gomo.app.core.member.domain.model.Handle;
 import com.gomo.app.core.member.domain.model.LoginProvider;
 import com.gomo.app.core.member.domain.model.Member;
-import com.gomo.app.core.member.domain.model.MemberId;
 import com.gomo.app.core.member.domain.model.MemberName;
 import com.gomo.app.core.member.domain.model.MonthlyThreshold;
 import com.gomo.app.core.member.domain.model.Motto;
@@ -25,7 +24,7 @@ public class MemberFixture {
 
 	public static Member create() {
 		return Member.of(
-			MemberId.of(UUID.randomUUID()),
+			UUID.randomUUID(),
 			Email.of("test@naver.com"),
 			Password.ofEncoded("Test123!"),
 			Handle.of("@gomo"),
@@ -37,7 +36,7 @@ public class MemberFixture {
 
 	public static Member create(int dailyQuestThreshold) {
 		return new Member(
-			MemberId.of(UUID.randomUUID()),
+			UUID.randomUUID(),
 			Email.of("test@naver.com"),
 			Password.ofEncoded("Test123!"),
 			Handle.of("@gomo"),
@@ -58,7 +57,7 @@ public class MemberFixture {
 
 	public static Member create(int dailyQuestThreshold, int weeklyQuestThreshold, int monthlyQuestThreshold) {
 		return new Member(
-			MemberId.of(UUID.randomUUID()),
+			UUID.randomUUID(),
 			Email.of("test@naver.com"),
 			Password.ofEncoded("Test123!"),
 			Handle.of("@gomo"),
@@ -79,7 +78,7 @@ public class MemberFixture {
 
 	public static Member create(SubscriptionPlan subscriptionPlan) {
 		return new Member(
-			MemberId.of(UUID.randomUUID()),
+			UUID.randomUUID(),
 			Email.of("test@naver.com"),
 			Password.ofEncoded("Test123!"),
 			Handle.of("@gomo"),
@@ -99,7 +98,7 @@ public class MemberFixture {
 
 	public static Member create(ActivateStatus status) {
 		return new Member(
-			MemberId.of(UUID.randomUUID()),
+			UUID.randomUUID(),
 			Email.of("test@naver.com"),
 			Password.ofEncoded("Test123!"),
 			Handle.of("@gomo"),

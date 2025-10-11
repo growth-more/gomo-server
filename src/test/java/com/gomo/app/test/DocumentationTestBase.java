@@ -19,7 +19,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.gomo.app.common.security.jwt.application.port.GenerateJwtPortIn;
 import com.gomo.app.core.member.domain.model.LoginProvider;
-import com.gomo.app.core.member.domain.model.MemberId;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
 import com.gomo.app.core.member.presentation.MemberApi;
 import com.gomo.app.core.member.presentation.request.CreateMemberRequest;
@@ -78,7 +77,7 @@ public abstract class DocumentationTestBase {
 
 	@AfterEach
 	void tearDown() {
-		memberRepository.deleteById(MemberId.of(sessionMemberId));
+		memberRepository.deleteById(sessionMemberId);
 	}
 
 	protected void signup(String email, String password, String handle) {
