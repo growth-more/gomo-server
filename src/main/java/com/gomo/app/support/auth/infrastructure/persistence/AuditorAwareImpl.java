@@ -8,7 +8,7 @@ import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import com.gomo.app.common.jwt.port.VerifyJwtPortIn;
+import com.gomo.app.common.security.jwt.application.port.VerifyJwtPortIn;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

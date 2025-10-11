@@ -3,7 +3,7 @@ package com.gomo.app.support.auth.application.usecase;
 import java.util.UUID;
 
 import com.gomo.app.common.arch.ApplicationService;
-import com.gomo.app.common.jwt.port.GenerateJwtPortIn;
+import com.gomo.app.common.security.jwt.application.port.GenerateJwtPortIn;
 import com.gomo.app.support.auth.domain.model.AuthToken;
 import com.gomo.app.support.auth.domain.repository.AuthTokenRepository;
 import com.gomo.app.support.logging.AuditLog;

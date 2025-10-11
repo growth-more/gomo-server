@@ -1,6 +1,6 @@
-package com.gomo.app.core.member.application.port;
+package com.gomo.app.common.security.encoder.application.port;
 
-public interface EncodePasswordPortOut {
+public interface EncodePasswordPortIn {
 
 	/**
 	 * Encodes a given plain-text password.

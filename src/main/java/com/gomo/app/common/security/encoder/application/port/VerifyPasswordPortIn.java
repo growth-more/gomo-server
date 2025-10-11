@@ -1,6 +1,6 @@
-package com.gomo.app.core.member.application.port;
+package com.gomo.app.common.security.encoder.application.port;
 
-public interface VerifyPasswordPortOut {
+public interface VerifyPasswordPortIn {
 
 	/**
 	 * Verifies if a raw password matches a stored, encoded password.

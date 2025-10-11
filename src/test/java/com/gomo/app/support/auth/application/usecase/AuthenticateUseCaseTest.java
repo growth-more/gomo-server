@@ -11,7 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.common.jwt.port.VerifyJwtPortIn;
+import com.gomo.app.common.security.jwt.application.port.VerifyJwtPortIn;
 import com.gomo.app.core.member.application.port.LoginMemberPortIn;
 import com.gomo.app.core.member.domain.model.ActivateStatus;
 import com.gomo.app.core.member.domain.model.Member;

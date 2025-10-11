@@ -3,9 +3,9 @@ package com.gomo.app.core.member.application.usecase;
 import java.util.UUID;
 
 import com.gomo.app.common.arch.ApplicationService;
-import com.gomo.app.common.jwt.port.VerifyJwtPortIn;
+import com.gomo.app.common.security.encoder.application.port.EncodePasswordPortIn;
+import com.gomo.app.common.security.jwt.application.port.VerifyJwtPortIn;
 import com.gomo.app.common.util.UUIDGenerator;
-import com.gomo.app.core.member.application.port.EncodePasswordPortOut;
 import com.gomo.app.core.member.application.port.command.CreateMemberCommand;
 import com.gomo.app.core.member.domain.model.Email;
 import com.gomo.app.core.member.domain.model.Handle;
@@ -31,7 +31,7 @@ import lombok.RequiredArgsConstructor;
 public class CreateMemberUseCase {
 
 	private final VerifyJwtPortIn verifyJwtPortIn;
-	private final EncodePasswordPortOut encodePasswordPortOut;
+	private final EncodePasswordPortIn encodePasswordPortIn;
 	private final CreatePointWalletPortIn createPointWalletPortIn;
 	private final CreateAchieverPortIn createAchieverPortIn;
 	private final MemberService memberService;
@@ -51,7 +51,7 @@ public class CreateMemberUseCase {
 		MemberId memberId = MemberId.of(UUIDGenerator.generate());
 		Password verifiedPassword = LoginProvider.EMAIL.name().equals(command.loginProvider())
 			? Password.ofRaw(command.rawPassword()) : Password.forOAuth(memberId.toString());
-		Password encodedPassword = Password.ofEncoded(encodePasswordPortOut.encode(verifiedPassword.getPassword()));
+		Password encodedPassword = Password.ofEncoded(encodePasswordPortIn.encode(verifiedPassword.getPassword()));
 
 		Member member = Member.of(
 			memberId,

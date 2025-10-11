@@ -17,7 +17,7 @@ import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.gomo.app.common.jwt.port.GenerateJwtPortIn;
+import com.gomo.app.common.security.jwt.application.port.GenerateJwtPortIn;
 import com.gomo.app.core.member.domain.model.LoginProvider;
 import com.gomo.app.core.member.domain.model.MemberId;
 import com.gomo.app.core.member.domain.repository.MemberRepository;

@@ -1,4 +1,4 @@
-package com.gomo.app.core.member.infrastructure.adapter;
+package com.gomo.app.common.security.encoder.application;
 
 import static org.assertj.core.api.AssertionsForClassTypes.*;
 import static org.mockito.Mockito.*;
@@ -11,15 +11,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@DisplayName("[Infrastructure Unit]: PasswordService 테스트")
+@DisplayName("[Application Unit]: PasswordService 테스트")
 @ExtendWith(MockitoExtension.class)
-public class PasswordAdapterTest {
+public class PasswordEncodeUseCaseTest {
 
 	private static final String RAW_PASSWORD = "password";
 	private static final String ENCODED_PASSWORD = "encoded_password";
 
 	@InjectMocks
-	private PasswordAdapter sut;
+	private PasswordEncodeUseCase sut;
 
 	@Mock
 	private PasswordEncoder passwordEncoder;

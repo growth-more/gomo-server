@@ -1,4 +1,4 @@
-package com.gomo.app.common.jwt;
+package com.gomo.app.common.security.jwt.application;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
@@ -10,8 +10,8 @@ import javax.crypto.spec.SecretKeySpec;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.gomo.app.common.arch.ApplicationService;
-import com.gomo.app.common.jwt.port.GenerateJwtPortIn;
-import com.gomo.app.common.jwt.port.VerifyJwtPortIn;
+import com.gomo.app.common.security.jwt.application.port.GenerateJwtPortIn;
+import com.gomo.app.common.security.jwt.application.port.VerifyJwtPortIn;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
