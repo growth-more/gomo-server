@@ -1,4 +1,4 @@
-package com.gomo.app.common.jwt.port;
+package com.gomo.app.common.security.jwt.application.port;
 
 import java.util.UUID;
 

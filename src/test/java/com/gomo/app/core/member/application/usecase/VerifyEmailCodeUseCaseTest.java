@@ -10,7 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.common.jwt.port.GenerateJwtPortIn;
+import com.gomo.app.common.security.jwt.application.port.GenerateJwtPortIn;
 import com.gomo.app.support.auth.application.port.VerifyAuthCodePortIn;
 import com.gomo.app.support.auth.exception.AuthErrorCode;
 import com.gomo.app.support.auth.exception.InvalidAuthCodeException;

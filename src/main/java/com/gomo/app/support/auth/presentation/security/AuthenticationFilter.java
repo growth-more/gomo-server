@@ -8,7 +8,7 @@ import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.gomo.app.common.jwt.port.VerifyJwtPortIn;
+import com.gomo.app.common.security.jwt.application.port.VerifyJwtPortIn;
 import com.gomo.app.config.AuthFilterConfiguration;
 
 import io.jsonwebtoken.JwtException;

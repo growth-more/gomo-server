@@ -5,8 +5,8 @@ import static com.gomo.app.core.member.exception.code.MemberErrorCode.*;
 import java.util.UUID;
 
 import com.gomo.app.common.arch.ApplicationService;
-import com.gomo.app.core.member.application.port.EncodePasswordPortOut;
-import com.gomo.app.core.member.application.port.VerifyPasswordPortOut;
+import com.gomo.app.common.security.encoder.application.port.EncodePasswordPortIn;
+import com.gomo.app.common.security.encoder.application.port.VerifyPasswordPortIn;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.model.MemberId;
 import com.gomo.app.core.member.domain.model.Password;
@@ -22,20 +22,20 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class UpdatePasswordUseCase {
 
-	private final VerifyPasswordPortOut verifyPasswordPortOut;
-	private final EncodePasswordPortOut encodePasswordPortOut;
+	private final VerifyPasswordPortIn verifyPasswordPortIn;
+	private final EncodePasswordPortIn encodePasswordPortIn;
 	private final MemberService memberService;
 
 	@AuditLog(action = "UPDATE_PASSWORD")
 	public void update(UUID memberId, String originPassword, String newPassword) {
 		Member member = memberService.find(MemberId.of(memberId));
 		ensureCorrectPassword(member, originPassword);
-		String encoded = encodePasswordPortOut.encode(Password.ofRaw(newPassword).getPassword());
+		String encoded = encodePasswordPortIn.encode(Password.ofRaw(newPassword).getPassword());
 		member.updatePassword(Password.ofEncoded(encoded));
 	}
 
 	private void ensureCorrectPassword(Member member, String originPassword) {
-		if (!verifyPasswordPortOut.matches(Password.ofRaw(originPassword).getPassword(), member.password())) {
+		if (!verifyPasswordPortIn.matches(Password.ofRaw(originPassword).getPassword(), member.password())) {
 			throw new MemberAuthenticationFailedException(AUTHENTICATION_FAILED);
 		}
 	}

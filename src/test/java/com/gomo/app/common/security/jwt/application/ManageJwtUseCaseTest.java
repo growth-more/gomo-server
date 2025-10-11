@@ -1,4 +1,4 @@
-package com.gomo.app.common.jwt;
+package com.gomo.app.common.security.jwt.application;
 
 import static org.assertj.core.api.Assertions.*;
 

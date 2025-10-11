@@ -1,16 +1,16 @@
-package com.gomo.app.core.member.infrastructure.adapter;
+package com.gomo.app.common.security.encoder.application;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.gomo.app.common.arch.Adapter;
-import com.gomo.app.core.member.application.port.EncodePasswordPortOut;
-import com.gomo.app.core.member.application.port.VerifyPasswordPortOut;
+import com.gomo.app.common.arch.ApplicationService;
+import com.gomo.app.common.security.encoder.application.port.EncodePasswordPortIn;
+import com.gomo.app.common.security.encoder.application.port.VerifyPasswordPortIn;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@Adapter
-class PasswordAdapter implements EncodePasswordPortOut, VerifyPasswordPortOut {
+@ApplicationService
+class PasswordEncodeUseCase implements EncodePasswordPortIn, VerifyPasswordPortIn {
 
 	private final PasswordEncoder passwordEncoder;
 

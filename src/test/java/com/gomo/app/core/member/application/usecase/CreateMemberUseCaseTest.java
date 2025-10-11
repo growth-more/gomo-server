@@ -12,8 +12,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.common.jwt.port.VerifyJwtPortIn;
-import com.gomo.app.core.member.application.port.EncodePasswordPortOut;
+import com.gomo.app.common.security.encoder.application.port.EncodePasswordPortIn;
+import com.gomo.app.common.security.jwt.application.port.VerifyJwtPortIn;
 import com.gomo.app.core.member.application.port.command.CreateMemberCommand;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
@@ -33,7 +33,7 @@ public class CreateMemberUseCaseTest {
 	private VerifyJwtPortIn verifyJwtPortIn;
 
 	@Mock
-	private EncodePasswordPortOut encodePasswordPortOut;
+	private EncodePasswordPortIn encodePasswordPortIn;
 
 	@Mock
 	private MemberService memberService;
@@ -51,7 +51,7 @@ public class CreateMemberUseCaseTest {
 	@Test
 	void create_member() {
 		Member member = MemberFixture.create();
-		doReturn(member.password()).when(encodePasswordPortOut).encode(anyString());
+		doReturn(member.password()).when(encodePasswordPortIn).encode(anyString());
 		doReturn(member).when(memberRepository).save(any(Member.class));
 
 		UUID actual = sut.create(CreateMemberCommand.of(

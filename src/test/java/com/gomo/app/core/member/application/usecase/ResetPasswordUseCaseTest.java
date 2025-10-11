@@ -11,8 +11,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.common.jwt.port.VerifyJwtPortIn;
-import com.gomo.app.core.member.application.port.EncodePasswordPortOut;
+import com.gomo.app.common.security.encoder.application.port.EncodePasswordPortIn;
+import com.gomo.app.common.security.jwt.application.port.VerifyJwtPortIn;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.service.MemberService;
 import com.gomo.app.core.member.fixture.MemberFixture;
@@ -28,7 +28,7 @@ class ResetPasswordUseCaseTest {
 	private VerifyJwtPortIn verifyJwtPortIn;
 
 	@Mock
-	private EncodePasswordPortOut encodePasswordPortOut;
+	private EncodePasswordPortIn encodePasswordPortIn;
 
 	@Mock
 	private MemberService memberService;
@@ -39,7 +39,7 @@ class ResetPasswordUseCaseTest {
 		Member member = MemberFixture.create();
 		String encoded = "encoded_password";
 		doReturn(member).when(memberService).findByEmail(any());
-		doReturn(encoded).when(encodePasswordPortOut).encode(any());
+		doReturn(encoded).when(encodePasswordPortIn).encode(any());
 
 		sut.reset(member.email(), "New1234@", "temporaryToken");
 

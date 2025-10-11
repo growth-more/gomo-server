@@ -12,8 +12,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.core.member.application.port.EncodePasswordPortOut;
-import com.gomo.app.core.member.application.port.VerifyPasswordPortOut;
+import com.gomo.app.common.security.encoder.application.port.EncodePasswordPortIn;
+import com.gomo.app.common.security.encoder.application.port.VerifyPasswordPortIn;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.service.MemberService;
 import com.gomo.app.core.member.exception.MemberAuthenticationFailedException;
@@ -27,10 +27,10 @@ class UpdatePasswordUseCaseTest {
 	private UpdatePasswordUseCase sut;
 
 	@Mock
-	private VerifyPasswordPortOut verifyPasswordPortOut;
+	private VerifyPasswordPortIn verifyPasswordPortIn;
 
 	@Mock
-	private EncodePasswordPortOut encodePasswordPortOut;
+	private EncodePasswordPortIn encodePasswordPortIn;
 
 	@Mock
 	private MemberService memberService;
@@ -41,8 +41,8 @@ class UpdatePasswordUseCaseTest {
 		Member member = MemberFixture.create();
 		String encoded = "encoded_password";
 		doReturn(member).when(memberService).find(any());
-		doReturn(true).when(verifyPasswordPortOut).matches(any(), any());
-		doReturn(encoded).when(encodePasswordPortOut).encode(any());
+		doReturn(true).when(verifyPasswordPortIn).matches(any(), any());
+		doReturn(encoded).when(encodePasswordPortIn).encode(any());
 
 		sut.update(member.id(), "Origin123@", "New1234@");
 
@@ -54,7 +54,7 @@ class UpdatePasswordUseCaseTest {
 	void update_password_with_wrong_password() {
 		Member member = MemberFixture.create();
 		doReturn(member).when(memberService).find(any());
-		doReturn(false).when(verifyPasswordPortOut).matches(any(), any());
+		doReturn(false).when(verifyPasswordPortIn).matches(any(), any());
 
 		assertThatThrownBy(() -> sut.update(member.id(), "Origin123@", "New1234@"))
 			.isInstanceOf(MemberAuthenticationFailedException.class)

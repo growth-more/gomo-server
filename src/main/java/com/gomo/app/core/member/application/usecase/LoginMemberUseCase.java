@@ -6,8 +6,8 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.gomo.app.common.arch.ApplicationService;
+import com.gomo.app.common.security.encoder.application.port.VerifyPasswordPortIn;
 import com.gomo.app.core.member.application.port.LoginMemberPortIn;
-import com.gomo.app.core.member.application.port.VerifyPasswordPortOut;
 import com.gomo.app.core.member.domain.model.Email;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.model.Password;
@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 class LoginMemberUseCase implements LoginMemberPortIn {
 
-	private final VerifyPasswordPortOut verifyPasswordPortOut;
+	private final VerifyPasswordPortIn verifyPasswordPortIn;
 	private final MemberService memberService;
 
 	@AuditLog(action = "AUTHENTICATE_MEMBER")
@@ -37,7 +37,7 @@ class LoginMemberUseCase implements LoginMemberPortIn {
 	}
 
 	private void ensureCorrectPassword(Member member, String inputPassword) {
-		if (!verifyPasswordPortOut.matches(Password.ofRaw(inputPassword).getPassword(), member.password())) {
+		if (!verifyPasswordPortIn.matches(Password.ofRaw(inputPassword).getPassword(), member.password())) {
 			throw new MemberAuthenticationFailedException(AUTHENTICATION_FAILED);
 		}
 	}

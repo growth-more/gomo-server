@@ -13,7 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.core.member.application.port.VerifyPasswordPortOut;
+import com.gomo.app.common.security.encoder.application.port.VerifyPasswordPortIn;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.service.MemberService;
 import com.gomo.app.core.member.fixture.MemberFixture;
@@ -29,14 +29,14 @@ class LoginMemberUseCaseTest {
 	private MemberService memberService;
 
 	@Mock
-	private VerifyPasswordPortOut verifyPasswordPortOut;
+	private VerifyPasswordPortIn verifyPasswordPortIn;
 
 	@DisplayName("회원 정보를 확인하고, 로그인 날짜를 갱신한다.")
 	@Test
 	void login_member() {
 		Member member = MemberFixture.create();
 		doReturn(member).when(memberService).findByEmail(any());
-		doReturn(true).when(verifyPasswordPortOut).matches(any(), any());
+		doReturn(true).when(verifyPasswordPortIn).matches(any(), any());
 		UUID actual = sut.authenticate(member.email(), member.password());
 		assertThat(actual).isEqualTo(member.id());
 	}
