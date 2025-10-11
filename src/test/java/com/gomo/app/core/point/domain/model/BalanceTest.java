@@ -12,8 +12,8 @@ import com.gomo.app.core.point.exception.InsufficientBalanceException;
 @DisplayName("[Domain unit]: 잔고 생성 및 조정 테스트")
 public class BalanceTest {
 
-	private static final PointWalletId POINT_WALLET_ID = PointWalletId.of(UUID.randomUUID());
-	private static final TransactorId TRANSACTOR_ID = TransactorId.of(UUID.randomUUID());
+	private static final UUID POINT_WALLET_ID = UUID.randomUUID();
+	private static final UUID TRANSACTOR_ID = UUID.randomUUID();
 
 	@DisplayName("잔고를 생성한다.")
 	@Test

@@ -34,9 +34,9 @@ public class DeleteMemberUseCaseTest {
 	void delete_member_successfully() {
 		Member member = MemberFixture.create();
 		doReturn(member).when(memberService).find(member.getId());
-		doNothing().when(deleteAuthTokenPortIn).deleteRefreshToken(member.id());
+		doNothing().when(deleteAuthTokenPortIn).deleteRefreshToken(member.getId());
 
-		sut.delete(member.id());
+		sut.delete(member.getId());
 
 		assertThat(member.getActivateStatus()).isEqualTo(ActivateStatus.DELETED);
 	}

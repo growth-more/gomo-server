@@ -45,7 +45,7 @@ public class DeleteAssignQuestDocumentationTest extends DocumentationTestBase {
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.when()
-			.delete("/quests/assigns/{id}", assignQuest.getId().getId())
+			.delete("/quests/assigns/{id}", assignQuest.getId())
 			.then()
 			.statusCode(NO_CONTENT.value());
 	}

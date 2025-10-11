@@ -12,7 +12,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.core.quest.domain.model.assign.AssignQuestId;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.model.reward.PointReward;
 import com.gomo.app.core.quest.domain.model.reward.QuestReward;
@@ -35,7 +34,7 @@ public class QuestRewardServiceTest {
 		doReturn(ScoreReward.of(2)).when(inMemoryQuestRewardPolicyProvider).findScoreReward(any());
 		doReturn(PointReward.of(10)).when(inMemoryQuestRewardPolicyProvider).findPointReward(any());
 
-		QuestReward questReward = sut.create(AssignQuestId.of(UUID.randomUUID()), QuestType.DAILY);
+		QuestReward questReward = sut.create(UUID.randomUUID(), QuestType.DAILY);
 
 		assertThat(questReward.getScoreReward().getScore()).isEqualTo(2);
 		assertThat(questReward.getPointReward().getAmount()).isEqualTo(10);
@@ -47,7 +46,7 @@ public class QuestRewardServiceTest {
 		doReturn(ScoreReward.of(20)).when(inMemoryQuestRewardPolicyProvider).findScoreReward(any());
 		doReturn(PointReward.of(150)).when(inMemoryQuestRewardPolicyProvider).findPointReward(any());
 
-		QuestReward questReward = sut.create(AssignQuestId.of(UUID.randomUUID()), QuestType.WEEKLY);
+		QuestReward questReward = sut.create(UUID.randomUUID(), QuestType.WEEKLY);
 
 		assertThat(questReward.getScoreReward().getScore()).isEqualTo(20);
 		assertThat(questReward.getPointReward().getAmount()).isEqualTo(150);
@@ -59,7 +58,7 @@ public class QuestRewardServiceTest {
 		doReturn(ScoreReward.of(100)).when(inMemoryQuestRewardPolicyProvider).findScoreReward(any());
 		doReturn(PointReward.of(1500)).when(inMemoryQuestRewardPolicyProvider).findPointReward(any());
 
-		QuestReward questReward = sut.create(AssignQuestId.of(UUID.randomUUID()), QuestType.MONTHLY);
+		QuestReward questReward = sut.create(UUID.randomUUID(), QuestType.MONTHLY);
 
 		assertThat(questReward.getScoreReward().getScore()).isEqualTo(100);
 		assertThat(questReward.getPointReward().getAmount()).isEqualTo(1500);

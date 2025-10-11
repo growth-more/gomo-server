@@ -8,7 +8,7 @@ public record InterestDto(UUID id, UUID registrantId, Proficiency proficiency, S
 
 	public static InterestDto of(Interest interest, UUID majorInterestId) {
 		return new InterestDto(
-			interest.id(),
+			interest.getId(),
 			interest.registrantId(),
 			Proficiency.of(
 				interest.getProficiency().level(),

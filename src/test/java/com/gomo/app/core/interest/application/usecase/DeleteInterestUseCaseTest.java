@@ -14,7 +14,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.interest.domain.model.Interest;
-import com.gomo.app.core.interest.domain.model.InterestId;
 import com.gomo.app.core.interest.domain.model.InterestRelation;
 import com.gomo.app.core.interest.domain.model.Logo;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;
@@ -51,10 +50,10 @@ public class DeleteInterestUseCaseTest {
 	@Test
 	void delete_interest() {
 		Interest interest = InterestFixture.create();
-		doReturn(interest).when(interestService).find(any(InterestId.class));
+		doReturn(interest).when(interestService).find(any());
 		doReturn(List.of(InterestRelationFixture.create())).when(interestRelationService).findAllByInterestId(any(UUID.class));
 
-		sut.delete(interest.getRegistrantId().getId(), interest.id());
+		sut.delete(interest.getRegistrantId(), interest.getId());
 
 		verify(interestRepository, times(1)).delete(any());
 	}
@@ -63,7 +62,7 @@ public class DeleteInterestUseCaseTest {
 	@Test
 	void delete_interest_by_unauthorized_accessor() {
 		Interest interest = Mockito.mock(Interest.class);
-		doReturn(interest).when(interestService).find(any(InterestId.class));
+		doReturn(interest).when(interestService).find(any());
 		doReturn(Logo.of("logoFile")).when(interest).getLogo();
 		doReturn(List.of(InterestRelationFixture.create())).when(interestRelationService).findAllByInterestId(any(UUID.class));
 
@@ -76,10 +75,10 @@ public class DeleteInterestUseCaseTest {
 	@Test
 	void does_not_delete_interest_logo() {
 		Interest interest = InterestFixture.create(Logo.of(null));
-		doReturn(interest).when(interestService).find(any(InterestId.class));
+		doReturn(interest).when(interestService).find(any());
 		doReturn(List.of(InterestRelationFixture.create())).when(interestRelationService).findAllByInterestId(any(UUID.class));
 
-		sut.delete(interest.getRegistrantId().getId(), interest.id());
+		sut.delete(interest.getRegistrantId(), interest.getId());
 
 		verify(deleteImagePortIn, times(0)).delete(any());
 	}
@@ -88,10 +87,10 @@ public class DeleteInterestUseCaseTest {
 	@Test
 	void delete_interest_logo() {
 		Interest interest = InterestFixture.create();
-		doReturn(interest).when(interestService).find(any(InterestId.class));
+		doReturn(interest).when(interestService).find(any());
 		doReturn(List.of(InterestRelationFixture.create())).when(interestRelationService).findAllByInterestId(any(UUID.class));
 
-		sut.delete(interest.getRegistrantId().getId(), interest.id());
+		sut.delete(interest.getRegistrantId(), interest.getId());
 
 		verify(deleteImagePortIn, times(1)).delete(any());
 	}
@@ -100,10 +99,10 @@ public class DeleteInterestUseCaseTest {
 	@Test
 	void delete_major_interest() {
 		Interest interest = InterestFixture.create();
-		doReturn(interest).when(interestService).find(any(InterestId.class));
+		doReturn(interest).when(interestService).find(any());
 		doReturn(List.of(InterestRelationFixture.create())).when(interestRelationService).findAllByInterestId(any(UUID.class));
 
-		sut.delete(interest.getRegistrantId().getId(), interest.id());
+		sut.delete(interest.getRegistrantId(), interest.getId());
 
 		verify(majorInterestRepository, times(1)).deleteByInterestId(any());
 	}
@@ -113,10 +112,10 @@ public class DeleteInterestUseCaseTest {
 	void delete_major_interest_relation() {
 		Interest interest = InterestFixture.create();
 		List<InterestRelation> interestRelations = List.of(InterestRelationFixture.create());
-		doReturn(interest).when(interestService).find(any(InterestId.class));
+		doReturn(interest).when(interestService).find(any());
 		doReturn(interestRelations).when(interestRelationService).findAllByInterestId(any(UUID.class));
 
-		sut.delete(interest.getRegistrantId().getId(), interest.id());
+		sut.delete(interest.getRegistrantId(), interest.getId());
 
 		verify(interestRelationService, times(interestRelations.size())).delete(any(), any(), any());
 	}
@@ -125,10 +124,10 @@ public class DeleteInterestUseCaseTest {
 	@Test
 	void does_not_delete_major_interest_relation() {
 		Interest interest = InterestFixture.create();
-		doReturn(interest).when(interestService).find(any(InterestId.class));
+		doReturn(interest).when(interestService).find(any());
 		doReturn(List.of()).when(interestRelationService).findAllByInterestId(any(UUID.class));
 
-		sut.delete(interest.getRegistrantId().getId(), interest.id());
+		sut.delete(interest.getRegistrantId(), interest.getId());
 
 		verify(interestRelationService, times(0)).delete(any(), any(), any());
 	}

@@ -8,10 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gomo.app.common.arch.DomainService;
 import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.core.point.domain.model.Point;
-import com.gomo.app.core.point.domain.model.PointId;
 import com.gomo.app.core.point.domain.model.SourceType;
 import com.gomo.app.core.point.domain.model.TransactionType;
-import com.gomo.app.core.point.domain.model.TransactorId;
 import com.gomo.app.core.point.domain.repository.PointRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -24,9 +22,9 @@ public class PointService {
 	private final PointRepository pointRepository;
 
 	@Transactional
-	public UUID create(TransactorId transactorId, SourceType sourceType, TransactionType transactionType, int amount) {
+	public UUID create(UUID transactorId, SourceType sourceType, TransactionType transactionType, int amount) {
 		Point point = Point.of(
-			PointId.of(UUIDGenerator.generate()),
+			UUIDGenerator.generate(),
 			transactorId,
 			sourceType,
 			transactionType,
@@ -37,6 +35,6 @@ public class PointService {
 
 		pointWalletService.adjustPointBalance(transactorId, transactionType, amount);
 		Point savedPoint = pointRepository.save(point);
-		return savedPoint.getId().getId();
+		return savedPoint.getId();
 	}
 }

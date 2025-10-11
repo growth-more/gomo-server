@@ -19,7 +19,6 @@ import com.gomo.app.core.interest.application.port.command.CreateInterestCommand
 import com.gomo.app.core.interest.application.port.dto.RegistrantDto;
 import com.gomo.app.core.interest.domain.model.Interest;
 import com.gomo.app.core.interest.domain.model.InterestQuota;
-import com.gomo.app.core.interest.domain.model.RegistrantId;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;
 import com.gomo.app.core.interest.fixture.InterestFixture;
 import com.gomo.app.support.image.application.port.UploadImagePortIn;
@@ -46,13 +45,13 @@ public class CreateInterestUseCaseTest {
 		Interest interest = InterestFixture.create();
 		doReturn(RegistrantDto.of(UUID.randomUUID(), "BASIC")).when(readRegistrantPortOut).find(any());
 		doReturn(Optional.of(interest.logoUrl())).when(uploadImagePortIn).upload(any(MockMultipartFile.class));
-		doReturn((long)(InterestQuota.BASIC.getMaxCount() - 1)).when(interestRepository).countAllByRegistrantId(any(RegistrantId.class));
+		doReturn((long)(InterestQuota.BASIC.getMaxCount() - 1)).when(interestRepository).countAllByRegistrantId(any());
 		doReturn(interest).when(interestRepository).save(any(Interest.class));
 
 		UUID actual = sut.create(CreateInterestCommand.of(
 			interest.registrantId(), interest.getName().toString(), "#0000FF", new MockMultipartFile("logoFile", "mock image data".getBytes())
 		));
 
-		assertThat(actual).isEqualTo(interest.id());
+		assertThat(actual).isEqualTo(interest.getId());
 	}
 }

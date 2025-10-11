@@ -15,8 +15,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
-import com.gomo.app.core.quest.domain.model.assign.AssignQuestId;
-import com.gomo.app.core.quest.domain.model.participant.ParticipantId;
 import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.exception.AssignQuestNotFoundException;
 import com.gomo.app.core.quest.exception.code.AssignQuestErrorCode;
@@ -41,7 +39,7 @@ public class AssignQuestServiceTest {
 		doReturn(4).when(assignQuestRepository).findMaxDisplayOrderOfParticipatingQuest(any(), any(), any(), any());
 		doReturn(assignQuest).when(assignQuestRepository).save(any());
 
-		AssignQuest actual = sut.create(ParticipantId.of(UUID.randomUUID()), QuestFixture.create());
+		AssignQuest actual = sut.create(UUID.randomUUID(), QuestFixture.create());
 
 		assertThat(actual.getId()).isEqualTo(assignQuest.getId());
 	}
@@ -52,7 +50,7 @@ public class AssignQuestServiceTest {
 		doReturn(4).when(assignQuestRepository).findMaxDisplayOrderOfParticipatingQuest(any(), any(), any(), any());
 		doReturn(AssignQuestFixture.create(4 + 1)).when(assignQuestRepository).save(any());
 
-		AssignQuest actual = sut.create(ParticipantId.of(UUID.randomUUID()), QuestFixture.create());
+		AssignQuest actual = sut.create(UUID.randomUUID(), QuestFixture.create());
 
 		assertThat(actual.getDisplayOrder().getDisplayOrder()).isEqualTo(4 + 1);
 	}
@@ -73,7 +71,7 @@ public class AssignQuestServiceTest {
 	void find_nonexistent_assign_quest() {
 		doReturn(Optional.empty()).when(assignQuestRepository).findById(any());
 
-		assertThatThrownBy(() -> sut.find(AssignQuestId.of(UUID.randomUUID())))
+		assertThatThrownBy(() -> sut.find(UUID.randomUUID()))
 			.isInstanceOf(AssignQuestNotFoundException.class)
 			.hasMessageContaining(AssignQuestErrorCode.NOT_FOUND.getMessage());
 	}

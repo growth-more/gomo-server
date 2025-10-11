@@ -13,10 +13,10 @@ import com.gomo.app.core.interest.exception.MajorInterestAccessDeniedException;
 @DisplayName("[Domain unit]: 주요 관심사 생성 및 수정 테스트")
 public class MajorInterestTest {
 
-	private static final MajorInterestId ID = MajorInterestId.of(UUID.randomUUID());
-	private static final RegistrantId REGISTRANT_ID = RegistrantId.of(UUID.randomUUID());
-	private static final RegistrantId UNAUTHORIZED_ID = RegistrantId.of(UUID.randomUUID());
-	private static final InterestId INTEREST_ID = InterestId.of(UUID.randomUUID());
+	private static final UUID ID = UUID.randomUUID();
+	private static final UUID REGISTRANT_ID = UUID.randomUUID();
+	private static final UUID UNAUTHORIZED_ID = UUID.randomUUID();
+	private static final UUID INTEREST_ID = UUID.randomUUID();
 	private static final DisplayOrder DISPLAY_ORDER = DisplayOrder.of(1);
 
 	@DisplayName("주요 관심사를 생성한다.")
@@ -44,7 +44,7 @@ public class MajorInterestTest {
 	@Test
 	void access_major_interest() {
 		MajorInterest majorInterest = MajorInterest.of(ID, REGISTRANT_ID, INTEREST_ID, DISPLAY_ORDER);
-		majorInterest.validateAuthority(REGISTRANT_ID.getId());
+		majorInterest.validateAuthority(REGISTRANT_ID);
 	}
 
 	@DisplayName("주요 관심사는 등록한 사람이 아니면 접근할 수 없다.")
@@ -52,7 +52,7 @@ public class MajorInterestTest {
 	void access_denied_major_interest() {
 		MajorInterest majorInterest = MajorInterest.of(ID, REGISTRANT_ID, INTEREST_ID, DISPLAY_ORDER);
 
-		assertThatThrownBy(() -> majorInterest.validateAuthority(UNAUTHORIZED_ID.getId()))
+		assertThatThrownBy(() -> majorInterest.validateAuthority(UNAUTHORIZED_ID))
 			.isInstanceOf(MajorInterestAccessDeniedException.class)
 			.hasMessageContaining("Access denied for the major interest");
 	}

@@ -15,8 +15,8 @@ import com.gomo.app.core.point.exception.PointConstraintViolationException;
 @DisplayName("[Domain unit]: 포인트 생성 테스트")
 public class PointTest {
 
-	private static final PointId POINT_ID = PointId.of(UUID.randomUUID());
-	private static final TransactorId TRANSACTOR_ID = TransactorId.of(UUID.randomUUID());
+	private static final UUID POINT_ID = UUID.randomUUID();
+	private static final UUID TRANSACTOR_ID = UUID.randomUUID();
 
 	@DisplayName("포인트를 생성한다.")
 	@Test

@@ -14,9 +14,9 @@ import com.gomo.app.core.interest.exception.InterestAccessDeniedException;
 @DisplayName("[Domain unit]: 관심사 생성 및 수정 테스트")
 public class InterestTest {
 
-	private static final InterestId ID = InterestId.of(UUID.randomUUID());
-	private static final RegistrantId REGISTRANT_ID = RegistrantId.of(UUID.randomUUID());
-	private static final RegistrantId UNAUTHORIZED_ID = RegistrantId.of(UUID.randomUUID());
+	private static final UUID ID = UUID.randomUUID();
+	private static final UUID REGISTRANT_ID = UUID.randomUUID();
+	private static final UUID UNAUTHORIZED_ID = UUID.randomUUID();
 	private static final InterestName NAME = InterestName.of("interest name");
 	private static final Logo LOGO = Logo.of("https://image.nurdykim.me/gomo/logo-param.png");
 	private static final String COLOR_CODE = "#0000FF";
@@ -96,7 +96,7 @@ public class InterestTest {
 	@Test
 	void access_interest() {
 		Interest interest = Interest.of(ID, REGISTRANT_ID, NAME, LOGO, COLOR_CODE);
-		interest.validateAuthority(REGISTRANT_ID.getId());
+		interest.validateAuthority(REGISTRANT_ID);
 	}
 
 	@DisplayName("관심사를 등록한 사람이 아니면 접근할 수 없다.")
@@ -104,7 +104,7 @@ public class InterestTest {
 	void access_denied_interest() {
 		Interest interest = Interest.of(ID, REGISTRANT_ID, NAME, LOGO, COLOR_CODE);
 
-		assertThatThrownBy(() -> interest.validateAuthority(UNAUTHORIZED_ID.getId()))
+		assertThatThrownBy(() -> interest.validateAuthority(UNAUTHORIZED_ID))
 			.isInstanceOf(InterestAccessDeniedException.class)
 			.hasMessageContaining("Access denied for the interest");
 	}

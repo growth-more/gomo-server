@@ -9,8 +9,8 @@ public record RepeatQuestDto(UUID id, UUID subjectId, String questType, int poin
 
 	public static RepeatQuestDto from(RepeatQuest repeatQuest, int point, int score) {
 		return new RepeatQuestDto(
-			repeatQuest.getId().getId(),
-			repeatQuest.getQuest().getSubjectId().getId(),
+			repeatQuest.getId(),
+			repeatQuest.getQuest().getSubjectId(),
 			repeatQuest.getQuest().getType().name(),
 			point,
 			score,

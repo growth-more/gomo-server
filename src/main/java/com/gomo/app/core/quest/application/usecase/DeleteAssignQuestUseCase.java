@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
-import com.gomo.app.core.quest.domain.model.assign.AssignQuestId;
 import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.domain.service.AssignQuestService;
 import com.gomo.app.support.logging.AuditLog;
@@ -20,7 +19,7 @@ public class DeleteAssignQuestUseCase {
 
 	@AuditLog(action = "DELETE_ASSIGN_QUEST")
 	public void delete(UUID participantId, UUID assignQuestId) {
-		AssignQuest assignQuest = assignQuestService.find(AssignQuestId.of(assignQuestId));
+		AssignQuest assignQuest = assignQuestService.find(assignQuestId);
 		assignQuest.validateAuthority(participantId);
 		assignQuest.ensureNotConfirmed();
 		assignQuest.ensureNotCompleted();

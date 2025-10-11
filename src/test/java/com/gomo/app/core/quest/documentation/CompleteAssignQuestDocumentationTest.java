@@ -47,7 +47,7 @@ public class CompleteAssignQuestDocumentationTest extends DocumentationTestBase 
 			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.body(CompleteAssignQuestRequest.of("https://proof"))
 			.when()
-			.put("/quests/assigns/{id}/complete", assignQuest.getId().getId())
+			.put("/quests/assigns/{id}/complete", assignQuest.getId())
 			.then()
 			.statusCode(NO_CONTENT.value());
 	}

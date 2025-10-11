@@ -13,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.interest.domain.model.Interest;
-import com.gomo.app.core.interest.domain.model.InterestId;
 import com.gomo.app.core.interest.domain.model.MajorInterest;
 import com.gomo.app.core.interest.domain.service.InterestService;
 import com.gomo.app.core.interest.domain.service.MajorInterestService;
@@ -38,19 +37,19 @@ public class CreateMajorInterestUseCaseTest {
 	@Test
 	void create_major_interest() {
 		MajorInterest majorInterest = MajorInterestFixture.create();
-		doReturn(InterestFixture.create(majorInterest.getRegistrantId())).when(interestService).find(any(InterestId.class));
+		doReturn(InterestFixture.create(majorInterest.getRegistrantId())).when(interestService).find(any());
 		doReturn(majorInterest).when(majorInterestService).create(any(Interest.class));
 
-		UUID actual = sut.create(majorInterest.registrantId(), majorInterest.interestId());
+		UUID actual = sut.create(majorInterest.getRegistrantId(), majorInterest.getInterestId());
 
-		assertThat(actual).isEqualTo(majorInterest.id());
+		assertThat(actual).isEqualTo(majorInterest.getId());
 	}
 
 	@DisplayName("권한 없는 접근자는 주요 관심사를 등록할 수 없다.")
 	@Test
 	void create_major_interest_by_unauthorized_accessor() {
 		Interest interest = mock(Interest.class);
-		doReturn(interest).when(interestService).find(any(InterestId.class));
+		doReturn(interest).when(interestService).find(any());
 		doThrow(InterestAccessDeniedException.class).when(interest).validateAuthority(any(UUID.class));
 
 		assertThatThrownBy(() -> sut.create(UUID.randomUUID(), UUID.randomUUID())).isInstanceOf(InterestAccessDeniedException.class);

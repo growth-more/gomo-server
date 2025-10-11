@@ -1,8 +1,9 @@
 package com.gomo.app.core.streak.domain.service;
 
+import java.util.UUID;
+
 import com.gomo.app.common.arch.DomainService;
 import com.gomo.app.core.streak.domain.model.Achiever;
-import com.gomo.app.core.streak.domain.model.AchieverId;
 import com.gomo.app.core.streak.domain.repository.AchieverRepository;
 import com.gomo.app.core.streak.exception.AchieverErrorCode;
 import com.gomo.app.core.streak.exception.AchieverNotFoundException;
@@ -15,7 +16,7 @@ public class AchieverService {
 
 	private final AchieverRepository achieverRepository;
 
-	public Achiever find(AchieverId achieverId) {
+	public Achiever find(UUID achieverId) {
 		return achieverRepository.findById(achieverId).orElseThrow(() -> new AchieverNotFoundException(AchieverErrorCode.NOT_FOUND));
 	}
 }

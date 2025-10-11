@@ -17,7 +17,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.gomo.app.core.member.domain.model.Email;
 import com.gomo.app.core.member.domain.model.Handle;
 import com.gomo.app.core.member.domain.model.Member;
-import com.gomo.app.core.member.domain.model.MemberId;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
 import com.gomo.app.core.member.exception.EmailDuplicatedException;
 import com.gomo.app.core.member.exception.HandleDuplicatedException;
@@ -39,9 +38,9 @@ public class MemberServiceTest {
 	@DisplayName("회원 엔티티를 조회한다.")
 	@Test
 	void find_member() {
-		doReturn(Optional.of(mock(Member.class))).when(memberRepository).findById(any(MemberId.class));
+		doReturn(Optional.of(mock(Member.class))).when(memberRepository).findById(any());
 
-		Member actual = sut.find(MemberId.of(UUID.randomUUID()));
+		Member actual = sut.find(UUID.randomUUID());
 
 		assertThat(actual).isNotNull();
 	}
@@ -49,9 +48,9 @@ public class MemberServiceTest {
 	@DisplayName("존재하지 않는 회원 엔티티를 조회한다.")
 	@Test
 	void find_nonexistent_member() {
-		doReturn(Optional.empty()).when(memberRepository).findById(any(MemberId.class));
+		doReturn(Optional.empty()).when(memberRepository).findById(any());
 
-		assertThatThrownBy(() -> sut.find(MemberId.of(UUID.randomUUID())))
+		assertThatThrownBy(() -> sut.find(UUID.randomUUID()))
 			.isInstanceOf(MemberNotFoundException.class)
 			.hasMessageContaining(MemberErrorCode.NOT_FOUND.getMessage());
 	}

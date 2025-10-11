@@ -7,28 +7,19 @@ import com.gomo.app.common.jpa.BaseAudit;
 import com.gomo.app.core.point.exception.PointConstraintViolationException;
 import com.gomo.app.core.point.exception.code.PointErrorCode;
 
-import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.AttributeOverrides;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
 import lombok.Getter;
 
 @Getter
 @Entity
 public class Point extends BaseAudit {
 
-	@EmbeddedId
-	private PointId id;
-
-	@Embedded
-	@AttributeOverrides({
-		@AttributeOverride(name = "id", column = @Column(name = "transactor_id"))
-	})
-	private TransactorId transactorId;
+	@Id
+	private UUID id;
+	private UUID transactorId;
 
 	@Enumerated(value = EnumType.STRING)
 	private SourceType sourceType;
@@ -42,7 +33,7 @@ public class Point extends BaseAudit {
 	protected Point() {
 	}
 
-	private Point(PointId id, TransactorId transactorId, SourceType sourceType, TransactionType transactionType, int amount, String description,
+	private Point(UUID id, UUID transactorId, SourceType sourceType, TransactionType transactionType, int amount, String description,
 		LocalDateTime transactionDateTime) {
 		ensureAmountNotNegative(amount);
 		this.id = id;
@@ -54,13 +45,9 @@ public class Point extends BaseAudit {
 		this.transactionDateTime = transactionDateTime;
 	}
 
-	public static Point of(PointId id, TransactorId transactorId, SourceType sourceType, TransactionType transactionType, int amount, String description,
+	public static Point of(UUID id, UUID transactorId, SourceType sourceType, TransactionType transactionType, int amount, String description,
 		LocalDateTime transactionDateTime) {
 		return new Point(id, transactorId, sourceType, transactionType, amount, description, transactionDateTime);
-	}
-
-	public UUID id() {
-		return id.getId();
 	}
 
 	private void ensureAmountNotNegative(int amount) {

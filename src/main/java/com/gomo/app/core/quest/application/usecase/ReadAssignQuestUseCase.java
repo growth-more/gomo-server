@@ -8,7 +8,6 @@ import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.common.util.DateRangeCalculator;
 import com.gomo.app.core.quest.application.port.dto.AssignQuestDto;
 import com.gomo.app.core.quest.application.port.dto.ListAssignQuestDto;
-import com.gomo.app.core.quest.domain.model.participant.ParticipantId;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.model.reward.policy.QuestPointPolicy;
 import com.gomo.app.core.quest.domain.model.reward.policy.QuestScorePolicy;
@@ -27,22 +26,16 @@ public class ReadAssignQuestUseCase {
 	private final QuestRewardPolicyRepository questRewardPolicyRepository;
 
 	public ListAssignQuestDto findAll(UUID participantId) {
-		ParticipantId targetId = ParticipantId.of(participantId);
 		List<QuestPointPolicy> pointPolicies = questRewardPolicyRepository.findPointPolicies();
 		List<QuestScorePolicy> scorePolicies = questRewardPolicyRepository.findScorePolicies();
 
-		List<AssignQuestDto> dailyQuests = findAllByQuestType(targetId, QuestType.DAILY, pointPolicies, scorePolicies);
-		List<AssignQuestDto> weeklyQuests = findAllByQuestType(targetId, QuestType.WEEKLY, pointPolicies, scorePolicies);
-		List<AssignQuestDto> monthlyQuests = findAllByQuestType(targetId, QuestType.MONTHLY, pointPolicies, scorePolicies);
+		List<AssignQuestDto> dailyQuests = findAllByQuestType(participantId, QuestType.DAILY, pointPolicies, scorePolicies);
+		List<AssignQuestDto> weeklyQuests = findAllByQuestType(participantId, QuestType.WEEKLY, pointPolicies, scorePolicies);
+		List<AssignQuestDto> monthlyQuests = findAllByQuestType(participantId, QuestType.MONTHLY, pointPolicies, scorePolicies);
 		return ListAssignQuestDto.of(dailyQuests, weeklyQuests, monthlyQuests);
 	}
 
-	private List<AssignQuestDto> findAllByQuestType(
-		ParticipantId participantId,
-		QuestType questType,
-		List<QuestPointPolicy> pointPolicies,
-		List<QuestScorePolicy> scorePolicies
-	) {
+	private List<AssignQuestDto> findAllByQuestType(UUID participantId, QuestType questType, List<QuestPointPolicy> pointPolicies, List<QuestScorePolicy> scorePolicies) {
 		return assignQuestRepository.findParticipatingQuestByQuestType(
 				participantId,
 				questType,

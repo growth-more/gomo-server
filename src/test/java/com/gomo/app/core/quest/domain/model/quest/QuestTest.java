@@ -7,15 +7,13 @@ import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.core.quest.domain.model.participant.ParticipantId;
-import com.gomo.app.core.quest.domain.model.subject.SubjectId;
 import com.gomo.app.core.quest.domain.model.subject.SubjectName;
 
 @DisplayName("[Domain unit]: 퀘스트 생성 및 수정 테스트")
 public class QuestTest {
 
-	private static final ParticipantId PARTICIPANT_ID = ParticipantId.of(UUID.randomUUID());
-	private static final SubjectId SUBJECT_ID = SubjectId.of(UUID.randomUUID());
+	private static final UUID PARTICIPANT_ID = UUID.randomUUID();
+	private static final UUID SUBJECT_ID = UUID.randomUUID();
 	private static final SubjectName SUBJECT_NAME = SubjectName.of("subject name");
 	private static final QuestType QUEST_TYPE = QuestType.DAILY;
 	private static final QuestContent QUEST_CONTENT = QuestContent.of("question content");
@@ -45,7 +43,7 @@ public class QuestTest {
 	@Test
 	void check_access_authority_by_participant() {
 		Quest quest = Quest.of(PARTICIPANT_ID, SUBJECT_ID, SUBJECT_NAME, QUEST_TYPE, QUEST_CONTENT);
-		boolean actual = quest.isAccessibleBy(PARTICIPANT_ID.getId());
+		boolean actual = quest.isAccessibleBy(PARTICIPANT_ID);
 
 		assertThat(actual).isTrue();
 	}

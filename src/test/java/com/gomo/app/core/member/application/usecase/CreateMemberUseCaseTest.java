@@ -58,7 +58,7 @@ public class CreateMemberUseCaseTest {
 			member.email(), member.password(), member.handle(), member.name(), member.motto(), member.getLoginProvider().name(), "temporaryToken"
 		));
 
-		assertThat(actual).isEqualTo(member.id());
+		assertThat(actual).isEqualTo(member.getId());
 		verify(verifyJwtPortIn, times(1)).validateToken(any());
 		verify(memberService, times(1)).checkEmailDuplicated(any());
 		verify(memberService, times(1)).checkHandleDuplicated(any());

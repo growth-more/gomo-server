@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gomo.app.core.point.domain.model.Point;
 import com.gomo.app.core.point.domain.model.SourceType;
 import com.gomo.app.core.point.domain.model.TransactionType;
-import com.gomo.app.core.point.domain.model.TransactorId;
 import com.gomo.app.core.point.domain.repository.PointRepository;
 import com.gomo.app.core.point.domain.repository.PointWalletRepository;
 import com.gomo.app.core.point.domain.service.PointService;
@@ -44,9 +43,9 @@ public class PointRepositoryTest {
 	public void setUp() {
 		transactorId = UUID.randomUUID();
 		pointWalletRepository.save(PointWalletFixture.create(transactorId, 1660));
-		pointService.create(TransactorId.of(transactorId), SourceType.QUEST, TransactionType.GAIN, 10);
-		offsetId = pointService.create(TransactorId.of(transactorId), SourceType.QUEST, TransactionType.GAIN, 150);
-		pointService.create(TransactorId.of(transactorId), SourceType.QUEST, TransactionType.GAIN, 1500);
+		pointService.create(transactorId, SourceType.QUEST, TransactionType.GAIN, 10);
+		offsetId = pointService.create(transactorId, SourceType.QUEST, TransactionType.GAIN, 150);
+		pointService.create(transactorId, SourceType.QUEST, TransactionType.GAIN, 1500);
 	}
 
 	@AfterEach
@@ -108,10 +107,8 @@ public class PointRepositoryTest {
 	@Transactional
 	@Test
 	void delete_all_points() {
+		sut.deleteAllByTransactorId(transactorId);
 
-		sut.deleteAllByTransactorId(TransactorId.of(transactorId));
-
-		assertThat(sut.findAllByTransactorId(String.valueOf(transactorId), null, 100).size())
-			.isZero();
+		assertThat(sut.findAllByTransactorId(String.valueOf(transactorId), null, 100).size()).isZero();
 	}
 }

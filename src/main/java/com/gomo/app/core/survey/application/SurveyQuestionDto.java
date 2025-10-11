@@ -12,6 +12,6 @@ public record SurveyQuestionDto(UUID id, String questionSelectType, boolean isRe
 	}
 
 	public static SurveyQuestionDto from(SurveyQuestion question, List<SurveyItemDto> surveyItems) {
-		return new SurveyQuestionDto(question.id(), question.getQuestionSelectType().name(), question.isRequired(), question.getContent(), surveyItems);
+		return new SurveyQuestionDto(question.getId(), question.getQuestionSelectType().name(), question.isRequired(), question.getContent(), surveyItems);
 	}
 }

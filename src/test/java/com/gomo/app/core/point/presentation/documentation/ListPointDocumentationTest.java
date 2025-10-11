@@ -16,7 +16,6 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.core.point.domain.model.SourceType;
 import com.gomo.app.core.point.domain.model.TransactionType;
-import com.gomo.app.core.point.domain.model.TransactorId;
 import com.gomo.app.core.point.domain.repository.PointRepository;
 import com.gomo.app.core.point.domain.service.PointService;
 import com.gomo.app.core.point.presentation.documentation.snippet.ListPointSnippet;
@@ -35,9 +34,9 @@ public class ListPointDocumentationTest extends DocumentationTestBase {
 
 	@BeforeEach
 	public void setUp() {
-		pointService.create(TransactorId.of(sessionMemberId), SourceType.QUEST, TransactionType.GAIN, 10);
-		pointService.create(TransactorId.of(sessionMemberId), SourceType.QUEST, TransactionType.GAIN, 150);
-		pointService.create(TransactorId.of(sessionMemberId), SourceType.QUEST, TransactionType.GAIN, 1500);
+		pointService.create(sessionMemberId, SourceType.QUEST, TransactionType.GAIN, 10);
+		pointService.create(sessionMemberId, SourceType.QUEST, TransactionType.GAIN, 150);
+		pointService.create(sessionMemberId, SourceType.QUEST, TransactionType.GAIN, 1500);
 	}
 
 	@AfterEach

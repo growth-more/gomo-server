@@ -44,8 +44,8 @@ public class CreateSurveyAnswerDocumentationTest extends DocumentationTestBase {
 	public void setUp() {
 		surveyQuestion = SurveyQuestionFixture.surveyQuestion();
 		surveyQuestionRepository.save(surveyQuestion);
-		surveyItem1 = SurveyItemFixture.surveyItem(surveyQuestion.getId().getId(), "직업은?", 1);
-		surveyItem2 = SurveyItemFixture.surveyItem(surveyQuestion.getId().getId(), "기타", 2);
+		surveyItem1 = SurveyItemFixture.surveyItem(surveyQuestion.getId(), "직업은?", 1);
+		surveyItem2 = SurveyItemFixture.surveyItem(surveyQuestion.getId(), "기타", 2);
 		surveyItemRepository.saveAll(List.of(surveyItem1, surveyItem2));
 	}
 
@@ -72,13 +72,13 @@ public class CreateSurveyAnswerDocumentationTest extends DocumentationTestBase {
 		return CreateSurveyResultRequest.of(
 			List.of(
 				SelectedSurveyItemRequest.of(
-					surveyQuestion.getId().getId(),
-					surveyItem1.getId().getId(),
+					surveyQuestion.getId(),
+					surveyItem1.getId(),
 					surveyItem1.getContent(),
 					null
 				), SelectedSurveyItemRequest.of(
-					surveyQuestion.getId().getId(),
-					surveyItem2.getId().getId(),
+					surveyQuestion.getId(),
+					surveyItem2.getId(),
 					surveyItem2.getContent(),
 					"custom answer"
 				)

@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.core.interest.domain.model.Interest;
-import com.gomo.app.core.interest.domain.model.InterestId;
 import com.gomo.app.core.interest.domain.model.InterestRelation;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;
 import com.gomo.app.core.interest.domain.repository.MajorInterestRepository;
@@ -39,11 +38,11 @@ public class DeleteInterestUseCase {
 	 */
 	@AuditLog(action = "DELETE_INTEREST")
 	public void delete(UUID registrantId, UUID interestId) {
-		Interest interest = interestService.find(InterestId.of(interestId));
+		Interest interest = interestService.find(interestId);
 		interest.validateAuthority(registrantId);
 
 		deleteLogoUrl(interest);
-		deleteMajorInterest(InterestId.of(interestId));
+		deleteMajorInterest(interestId);
 		deleteInterestRelations(interestId);
 		interestRepository.delete(interest);
 	}
@@ -54,7 +53,7 @@ public class DeleteInterestUseCase {
 		}
 	}
 
-	private void deleteMajorInterest(InterestId interestId) {
+	private void deleteMajorInterest(UUID interestId) {
 		majorInterestRepository.deleteByInterestId(interestId);
 	}
 
@@ -62,8 +61,8 @@ public class DeleteInterestUseCase {
 		List<InterestRelation> interestRelations = interestRelationService.findAllByInterestId(interestId);
 		if (!interestRelations.isEmpty()) {
 			for (InterestRelation relation : interestRelations) {
-				Interest parentInterest = interestService.find(relation.getParentInterestId().toInterestId());
-				Interest childInterest = interestService.find(relation.getChildInterestId().toInterestId());
+				Interest parentInterest = interestService.find(relation.getParentInterestId());
+				Interest childInterest = interestService.find(relation.getChildInterestId());
 				interestRelationService.delete(relation, parentInterest, childInterest);
 			}
 		}

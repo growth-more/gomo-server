@@ -63,8 +63,8 @@ public class OrderUpdateRepeatQuestDocumentationTest extends DocumentationTestBa
 		return OrderUpdateRepeatQuestRequest.of(
 			QuestType.DAILY.name(),
 			List.of(
-				UpdatedOrderDto.of(repeatQuest1.getId().getId(), 2),
-				UpdatedOrderDto.of(repeatQuest2.getId().getId(), 1)
+				UpdatedOrderDto.of(repeatQuest1.getId(), 2),
+				UpdatedOrderDto.of(repeatQuest2.getId(), 1)
 			)
 		);
 	}

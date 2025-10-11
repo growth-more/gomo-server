@@ -14,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.gomo.app.core.interest.domain.model.InterestId;
 import com.gomo.app.core.interest.domain.model.Logo;
 import com.gomo.app.core.interest.domain.service.InterestService;
 import com.gomo.app.core.interest.fixture.InterestFixture;
@@ -40,12 +39,12 @@ public class UpdateLogoUseCaseTest {
 	@DisplayName("사용자가 등록해둔 관심사 로고를 새로운 로고로 변경한다.")
 	@Test
 	void update_interest() {
-		doReturn(InterestFixture.create()).when(interestService).find(any(InterestId.class));
+		doReturn(InterestFixture.create()).when(interestService).find(any());
 		doReturn(Optional.of("logoUrl")).when(uploadImagePortIn).upload(any(MultipartFile.class));
 
-		sut.update(InterestId.of(UUID.randomUUID()), new MockMultipartFile("logoFile", "mock image data".getBytes()));
+		sut.update(UUID.randomUUID(), new MockMultipartFile("logoFile", "mock image data".getBytes()));
 
-		verify(interestService, times(1)).find(any(InterestId.class));
+		verify(interestService, times(1)).find(any());
 		verify(uploadImagePortIn, times(1)).upload(any(MockMultipartFile.class));
 		verify(deleteImagePortIn, times(1)).delete(any(String.class));
 	}
@@ -53,12 +52,12 @@ public class UpdateLogoUseCaseTest {
 	@DisplayName("기본 관심사 로고를 새로운 로고로 변경한다.")
 	@Test
 	void update_interest_by_unauthorized_accessor() {
-		doReturn(InterestFixture.create(Logo.of(null))).when(interestService).find(any(InterestId.class));
+		doReturn(InterestFixture.create(Logo.of(null))).when(interestService).find(any());
 		doReturn(Optional.of("logoUrl")).when(uploadImagePortIn).upload(any(MultipartFile.class));
 
-		sut.update(InterestId.of(UUID.randomUUID()), new MockMultipartFile("logoFile", "mock image data".getBytes()));
+		sut.update(UUID.randomUUID(), new MockMultipartFile("logoFile", "mock image data".getBytes()));
 
-		verify(interestService, times(1)).find(any(InterestId.class));
+		verify(interestService, times(1)).find(any());
 		verify(uploadImagePortIn, times(1)).upload(any(MockMultipartFile.class));
 	}
 }

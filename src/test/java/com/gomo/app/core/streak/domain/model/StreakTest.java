@@ -11,8 +11,8 @@ import org.junit.jupiter.api.Test;
 @DisplayName("[Domain unit]: 스트릭 생성 테스트")
 public class StreakTest {
 
-	private static final StreakId STREAK_ID = StreakId.of(UUID.randomUUID());
-	private static final AchieverId ACHIEVER_ID = AchieverId.of(UUID.randomUUID());
+	private static final UUID STREAK_ID = UUID.randomUUID();
+	private static final UUID ACHIEVER_ID = UUID.randomUUID();
 	private static final LocalDate FILLED_DATE = LocalDate.of(2025, 2, 5);
 	private static final int COMPLETED_QUEST_COUNT = 1;
 

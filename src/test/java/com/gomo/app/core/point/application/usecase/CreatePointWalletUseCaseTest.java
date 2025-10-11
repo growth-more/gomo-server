@@ -35,6 +35,6 @@ class CreatePointWalletUseCaseTest {
 
 		UUID actual = sut.create(UUID.randomUUID());
 
-		assertThat(actual).isEqualTo(pointWallet.id());
+		assertThat(actual).isEqualTo(pointWallet.getId());
 	}
 }

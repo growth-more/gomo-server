@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 @DisplayName("[Domain unit]: 포인트 지갑 생성 및 수정 테스트")
 public class PointWalletTest {
 
-	private static final PointWalletId POINT_WALLET_ID = PointWalletId.of(UUID.randomUUID());
-	private static final TransactorId TRANSACTOR_ID = TransactorId.of(UUID.randomUUID());
+	private static final UUID POINT_WALLET_ID = UUID.randomUUID();
+	private static final UUID TRANSACTOR_ID = UUID.randomUUID();
 
 	@DisplayName("포인트 지갑을 생성한다.")
 	@Test

@@ -5,9 +5,11 @@ import com.gomo.app.core.interest.exception.LevelConstraintViolationException;
 import com.gomo.app.core.interest.exception.code.LevelErrorCode;
 
 import jakarta.persistence.Embeddable;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
+@EqualsAndHashCode
 @Embeddable
 @ValueObject
 public class Level {
@@ -41,34 +43,15 @@ public class Level {
 	}
 
 	private void ensureNotNegative(int level) {
-		if(level < 0) {
+		if (level < 0) {
 			throw new LevelConstraintViolationException(LevelErrorCode.NEGATIVE);
 		}
 	}
 
 	private void ensureNotExceedMaximum(int level) {
-		if(level > MAXIMUM_LEVEL) {
+		if (level > MAXIMUM_LEVEL) {
 			throw new LevelConstraintViolationException(LevelErrorCode.EXCEED_MAXIMUM);
 		}
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-		Level level = (Level)o;
-		return this.level == level.level && scoreThreshold == level.scoreThreshold;
-	}
-
-	@Override
-	public int hashCode() {
-		int result = level;
-		result = 31 * result + scoreThreshold;
-		return result;
 	}
 
 	@Override

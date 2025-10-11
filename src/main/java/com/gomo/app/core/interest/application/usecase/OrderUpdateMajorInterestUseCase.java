@@ -11,7 +11,6 @@ import com.gomo.app.common.displayorder.OrderChangeable;
 import com.gomo.app.common.displayorder.OrderChanger;
 import com.gomo.app.common.displayorder.OrderUpdateOrderChangeableCommand;
 import com.gomo.app.core.interest.application.port.command.OrderUpdateMajorInterestCommand;
-import com.gomo.app.core.interest.domain.model.RegistrantId;
 import com.gomo.app.core.interest.domain.repository.MajorInterestRepository;
 import com.gomo.app.support.logging.AuditLog;
 
@@ -26,9 +25,9 @@ public class OrderUpdateMajorInterestUseCase {
 
 	@AuditLog(action = "UPDATE_MAJOR_INTEREST_ORDER")
 	public void update(OrderUpdateMajorInterestCommand command) {
-		Map<UUID, OrderChangeable> majorInterestMap = majorInterestRepository.findAllByRegistrantIdOrderByDisplayOrder(RegistrantId.of(command.registrantId())).stream()
+		Map<UUID, OrderChangeable> majorInterestMap = majorInterestRepository.findAllByRegistrantIdOrderByDisplayOrder(command.registrantId()).stream()
 			.collect(Collectors.toMap(
-				majorInterest -> majorInterest.id(),
+				majorInterest -> majorInterest.getId(),
 				majorInterest -> majorInterest
 			));
 

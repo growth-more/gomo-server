@@ -6,7 +6,6 @@ import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.core.member.application.port.ReadMemberPortIn;
 import com.gomo.app.core.member.application.port.dto.MemberDto;
 import com.gomo.app.core.member.domain.model.Member;
-import com.gomo.app.core.member.domain.model.MemberId;
 import com.gomo.app.core.member.domain.service.MemberService;
 import com.gomo.app.core.point.application.port.ReadBalancePortIn;
 
@@ -21,8 +20,8 @@ class ReadMemberUseCase implements ReadMemberPortIn {
 
 	@Override
 	public MemberDto find(UUID id) {
-		Member member = memberService.find(MemberId.of(id));
-		int balance = readBalancePortIn.find(member.getId().getId());
+		Member member = memberService.find(id);
+		int balance = readBalancePortIn.find(member.getId());
 		return MemberDto.from(member, balance);
 	}
 }

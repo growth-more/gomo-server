@@ -14,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.interest.domain.model.Interest;
-import com.gomo.app.core.interest.domain.model.InterestId;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;
 import com.gomo.app.core.interest.exception.InterestNotFoundException;
 import com.gomo.app.core.interest.exception.code.InterestErrorCode;
@@ -46,7 +45,7 @@ public class InterestServiceTest {
 	void read_nonexistent_interest() {
 		doReturn(Optional.empty()).when(interestRepository).findById(any());
 
-		assertThatThrownBy(() -> sut.find(InterestId.of(UUID.randomUUID())))
+		assertThatThrownBy(() -> sut.find(UUID.randomUUID()))
 			.isInstanceOf(InterestNotFoundException.class)
 			.hasMessageContaining(InterestErrorCode.NOT_FOUND.getMessage());
 	}

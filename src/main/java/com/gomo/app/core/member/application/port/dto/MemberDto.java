@@ -11,7 +11,7 @@ public record MemberDto(UUID id, String email, String handle, String name, Strin
 
 	public static MemberDto from(Member member, int availablePoints) {
 		return new MemberDto(
-			member.id(),
+			member.getId(),
 			member.email(),
 			member.handle(),
 			member.name(),

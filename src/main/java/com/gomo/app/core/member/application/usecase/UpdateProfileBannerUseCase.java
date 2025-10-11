@@ -8,7 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.core.member.application.port.dto.UpdateProfileBannerDto;
 import com.gomo.app.core.member.domain.model.Member;
-import com.gomo.app.core.member.domain.model.MemberId;
 import com.gomo.app.core.member.domain.service.MemberService;
 import com.gomo.app.support.image.application.port.UploadImagePortIn;
 import com.gomo.app.support.logging.AuditLog;
@@ -25,7 +24,7 @@ public class UpdateProfileBannerUseCase {
 
 	@AuditLog(action = "UPDATE_PROFILE_BANNER")
 	public UpdateProfileBannerDto update(UUID memberId, MultipartFile profileBanner) {
-		Member member = memberService.find(MemberId.of(memberId));
+		Member member = memberService.find(memberId);
 		String bannerUrl = uploadImagePortIn.upload(profileBanner).orElse(null);
 		member.updateProfileBanner(bannerUrl);
 		return UpdateProfileBannerDto.of(bannerUrl);

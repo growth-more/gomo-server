@@ -31,7 +31,7 @@ public class UpdateHandleUseCaseTest {
 	void update_handle_success() {
 		Member member = MemberFixture.create();
 		doReturn(member).when(memberService).find(member.getId());
-		sut.update(member.id(), UPDATED_HANDLE);
+		sut.update(member.getId(), UPDATED_HANDLE);
 		assertThat(member.handle()).isEqualTo(UPDATED_HANDLE);
 	}
 }

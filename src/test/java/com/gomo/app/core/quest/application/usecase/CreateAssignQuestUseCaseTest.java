@@ -48,7 +48,7 @@ public class CreateAssignQuestUseCaseTest {
 
 		UUID actual = sut.create(CreateAssignQuestCommand.of(UUID.randomUUID(), UUID.randomUUID(), "subject name", QuestType.DAILY.name(), "quest content"));
 
-		assertThat(actual).isEqualTo(assignQuest.id());
+		assertThat(actual).isEqualTo(assignQuest.getId());
 	}
 
 	@DisplayName("할당량을 초과하면 할당 퀘스트를 생성할 수 없다.")

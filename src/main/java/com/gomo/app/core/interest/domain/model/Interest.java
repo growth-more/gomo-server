@@ -11,22 +11,17 @@ import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Getter;
 
 @Getter
 @Entity
 public class Interest extends BaseAudit implements Authorizable {
 
-	@EmbeddedId
-	private InterestId id;
-
-	@Embedded
-	@AttributeOverrides({
-		@AttributeOverride(name = "id", column = @Column(name = "registrant_id"))
-	})
-	private RegistrantId registrantId;
+	@Id
+	private UUID id;
+	private UUID registrantId;
 
 	@Embedded
 	private Proficiency proficiency;
@@ -48,7 +43,7 @@ public class Interest extends BaseAudit implements Authorizable {
 	protected Interest() {
 	}
 
-	public Interest(InterestId id, RegistrantId registrantId, Proficiency proficiency, InterestName name, Logo logo, String colorCode) {
+	public Interest(UUID id, UUID registrantId, Proficiency proficiency, InterestName name, Logo logo, String colorCode) {
 		this.id = id;
 		this.registrantId = registrantId;
 		this.proficiency = proficiency;
@@ -57,16 +52,16 @@ public class Interest extends BaseAudit implements Authorizable {
 		this.colorCode = colorCode;
 	}
 
-	public static Interest of(InterestId id, RegistrantId registrantId, InterestName name, Logo logo, String colorCode) {
+	public static Interest of(UUID id, UUID registrantId, InterestName name, Logo logo, String colorCode) {
 		return new Interest(id, registrantId, Proficiency.createDefault(), name, logo, colorCode);
 	}
 
-	public UUID id() {
-		return this.id.getId();
+	public UUID registrantId() {
+		return this.registrantId;
 	}
 
-	public UUID registrantId() {
-		return this.registrantId.getId();
+	public String name() {
+		return this.name.getInterestName();
 	}
 
 	public String logoUrl() {
@@ -95,7 +90,7 @@ public class Interest extends BaseAudit implements Authorizable {
 
 	@Override
 	public void validateAuthority(UUID accessorId) {
-		if (!accessorId.equals(this.registrantId.getId())) {
+		if (!accessorId.equals(this.registrantId)) {
 			throw new InterestAccessDeniedException(InterestErrorCode.ACCESS_DENIED);
 		}
 	}

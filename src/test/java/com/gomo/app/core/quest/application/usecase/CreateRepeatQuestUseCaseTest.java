@@ -48,7 +48,7 @@ public class CreateRepeatQuestUseCaseTest {
 
 		UUID actual = sut.create(CreateRepeatQuestCommand.of(UUID.randomUUID(), UUID.randomUUID(), "subject name", QuestType.DAILY.name(), "quest content"));
 
-		assertThat(actual).isEqualTo(repeatQuest.id());
+		assertThat(actual).isEqualTo(repeatQuest.getId());
 	}
 
 	@DisplayName("할당량을 초과하면 반복 퀘스트를 생성할 수 없다.")

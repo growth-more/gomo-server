@@ -9,9 +9,7 @@ import java.util.stream.Collectors;
 import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.core.interest.application.port.dto.MajorInterestDto;
 import com.gomo.app.core.interest.domain.model.Interest;
-import com.gomo.app.core.interest.domain.model.InterestId;
 import com.gomo.app.core.interest.domain.model.MajorInterest;
-import com.gomo.app.core.interest.domain.model.RegistrantId;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;
 import com.gomo.app.core.interest.domain.repository.MajorInterestRepository;
 
@@ -25,8 +23,8 @@ public class ReadMajorInterestUseCase {
 	private final InterestRepository interestRepository;
 
 	public List<MajorInterestDto> findAll(UUID registrantId) {
-		List<MajorInterest> majorInterests = majorInterestRepository.findAllByRegistrantIdOrderByDisplayOrder(RegistrantId.of(registrantId));
-		Map<InterestId, MajorInterest> majorInterestMap = majorInterests.stream()
+		List<MajorInterest> majorInterests = majorInterestRepository.findAllByRegistrantIdOrderByDisplayOrder(registrantId);
+		Map<UUID, MajorInterest> majorInterestMap = majorInterests.stream()
 			.collect((Collectors.toMap(MajorInterest::getInterestId, Function.identity())));
 
 		List<Interest> interests = interestRepository.findAllByIdIsIn(majorInterestMap.keySet());

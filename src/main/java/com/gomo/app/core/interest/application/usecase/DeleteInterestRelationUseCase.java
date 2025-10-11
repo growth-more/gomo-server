@@ -5,7 +5,6 @@ import java.util.UUID;
 import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.core.interest.domain.model.Interest;
 import com.gomo.app.core.interest.domain.model.InterestRelation;
-import com.gomo.app.core.interest.domain.model.InterestRelationId;
 import com.gomo.app.core.interest.domain.service.InterestRelationService;
 import com.gomo.app.core.interest.domain.service.InterestService;
 import com.gomo.app.support.logging.AuditLog;
@@ -21,10 +20,10 @@ public class DeleteInterestRelationUseCase {
 
 	@AuditLog(action = "DELETE_INTEREST_RELATION")
 	public void delete(UUID registrantId, UUID interestRelationId) {
-		InterestRelation interestRelation = interestRelationService.find(InterestRelationId.of(interestRelationId));
+		InterestRelation interestRelation = interestRelationService.find(interestRelationId);
 		interestRelation.validateAuthority(registrantId);
-		Interest parentInterest = interestService.find(interestRelation.getParentInterestId().toInterestId());
-		Interest childInterest = interestService.find(interestRelation.getChildInterestId().toInterestId());
+		Interest parentInterest = interestService.find(interestRelation.getParentInterestId());
+		Interest childInterest = interestService.find(interestRelation.getChildInterestId());
 		interestRelationService.delete(interestRelation, parentInterest, childInterest);
 	}
 }

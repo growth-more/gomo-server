@@ -3,28 +3,19 @@ package com.gomo.app.core.streak.domain.model;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.AttributeOverrides;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
 import lombok.Getter;
 
 @Getter
 @Entity
 public class Streak {
 
-	@EmbeddedId
-	private StreakId id;
-
-	@Embedded
-	@AttributeOverrides({
-		@AttributeOverride(name = "id", column = @Column(name = "achiever_id"))
-	})
-	private AchieverId achieverId;
+	@Id
+	private UUID id;
+	private UUID achieverId;
 
 	@Enumerated(value = EnumType.STRING)
 	private StreakType streakType;
@@ -34,7 +25,7 @@ public class Streak {
 	protected Streak() {
 	}
 
-	private Streak(StreakId id, AchieverId achieverId, StreakType streakType, LocalDate filledDate, int completedQuestCount) {
+	private Streak(UUID id, UUID achieverId, StreakType streakType, LocalDate filledDate, int completedQuestCount) {
 		this.id = id;
 		this.achieverId = achieverId;
 		this.streakType = streakType;
@@ -42,12 +33,8 @@ public class Streak {
 		this.completedQuestCount = completedQuestCount;
 	}
 
-	public static Streak of(StreakId id, AchieverId achieverId, StreakType streakType, LocalDate filledDate, int completedQuestCount) {
+	public static Streak of(UUID id, UUID achieverId, StreakType streakType, LocalDate filledDate, int completedQuestCount) {
 		return new Streak(id, achieverId, streakType, filledDate, completedQuestCount);
-	}
-
-	public UUID id() {
-		return this.id.getId();
 	}
 
 	public void increaseCompletedQuestCount() {

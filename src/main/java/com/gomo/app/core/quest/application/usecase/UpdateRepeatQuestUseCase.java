@@ -7,8 +7,6 @@ import com.gomo.app.core.quest.application.port.command.UpdateRepeatQuestCommand
 import com.gomo.app.core.quest.domain.model.quest.QuestContent;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.model.repeat.RepeatQuest;
-import com.gomo.app.core.quest.domain.model.repeat.RepeatQuestId;
-import com.gomo.app.core.quest.domain.model.subject.SubjectId;
 import com.gomo.app.core.quest.domain.model.subject.SubjectName;
 import com.gomo.app.core.quest.domain.service.RepeatQuestService;
 import com.gomo.app.core.quest.exception.QuestTypeConstraintViolationException;
@@ -26,13 +24,13 @@ public class UpdateRepeatQuestUseCase {
 
 	@AuditLog(action = "UPDATE_REPEAT_QUEST")
 	public void update(UpdateRepeatQuestCommand command) {
-		RepeatQuest repeatQuest = repeatQuestService.find(RepeatQuestId.of(command.repeatQuestId()));
+		RepeatQuest repeatQuest = repeatQuestService.find(command.repeatQuestId());
 		repeatQuest.validateAuthority(command.participantId());
 		QuestType requestedQuestType = QuestType.valueOf(command.questType());
 		ensureSameQuestType(repeatQuest, requestedQuestType);
 
 		repeatQuest.updateQuest(
-			SubjectId.of(command.subjectId()),
+			command.subjectId(),
 			SubjectName.of(command.subjectName()),
 			requestedQuestType,
 			QuestContent.of(command.content())

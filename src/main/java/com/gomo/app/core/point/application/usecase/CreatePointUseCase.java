@@ -6,7 +6,6 @@ import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.core.point.application.port.CreatePointPortIn;
 import com.gomo.app.core.point.domain.model.SourceType;
 import com.gomo.app.core.point.domain.model.TransactionType;
-import com.gomo.app.core.point.domain.model.TransactorId;
 import com.gomo.app.core.point.domain.service.PointService;
 
 import lombok.RequiredArgsConstructor;
@@ -19,6 +18,6 @@ class CreatePointUseCase implements CreatePointPortIn {
 
 	@Override
 	public void create(UUID transactorId, String sourceType, String transactionType, int amount) {
-		pointService.create(TransactorId.of(transactorId), SourceType.valueOf(sourceType), TransactionType.valueOf(transactionType), amount);
+		pointService.create(transactorId, SourceType.valueOf(sourceType), TransactionType.valueOf(transactionType), amount);
 	}
 }

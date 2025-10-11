@@ -12,9 +12,7 @@ import com.gomo.app.core.interest.application.port.dto.InterestDto;
 import com.gomo.app.core.interest.application.port.dto.InterestNetworkDto;
 import com.gomo.app.core.interest.application.port.dto.InterestRelationDto;
 import com.gomo.app.core.interest.domain.model.Interest;
-import com.gomo.app.core.interest.domain.model.InterestId;
 import com.gomo.app.core.interest.domain.model.MajorInterest;
-import com.gomo.app.core.interest.domain.model.RegistrantId;
 import com.gomo.app.core.interest.domain.repository.InterestRelationRepository;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;
 import com.gomo.app.core.interest.domain.repository.MajorInterestRepository;
@@ -30,27 +28,26 @@ public class ReadInterestNetworkUseCase {
 	private final InterestRelationRepository interestRelationRepository;
 
 	public InterestNetworkDto find(UUID registrantId) {
-		RegistrantId targetId = RegistrantId.of(registrantId);
-		List<InterestDto> interestDtos = getInterestDtos(targetId);
-		List<InterestRelationDto> relationDtos = getRelationDtos(targetId);
+		List<InterestDto> interestDtos = getInterestDtos(registrantId);
+		List<InterestRelationDto> relationDtos = getRelationDtos(registrantId);
 		return InterestNetworkDto.of(interestDtos, relationDtos);
 	}
 
 	@NotNull
-	private List<InterestDto> getInterestDtos(RegistrantId registrantId) {
+	private List<InterestDto> getInterestDtos(UUID registrantId) {
 		List<Interest> interests = interestRepository.findAllByRegistrantId(registrantId);
-		List<InterestId> interestIds = interests.stream().map(Interest::getId).toList();
+		List<UUID> interestIds = interests.stream().map(Interest::getId).toList();
 		Map<UUID, UUID> majorInterestMap = majorInterestRepository.findAllByRegistrantIdAndInterestIdIn(registrantId, interestIds).stream()
-			.collect(Collectors.toMap(MajorInterest::interestId, MajorInterest::id));
+			.collect(Collectors.toMap(MajorInterest::getInterestId, MajorInterest::getId));
 
 		return interests.stream().map(interest -> {
-			UUID majorInterestId = majorInterestMap.get(interest.id());
+			UUID majorInterestId = majorInterestMap.get(interest.getId());
 			return InterestDto.of(interest, majorInterestId);
 		}).toList();
 	}
 
 	@NotNull
-	private List<InterestRelationDto> getRelationDtos(RegistrantId id) {
+	private List<InterestRelationDto> getRelationDtos(UUID id) {
 		return interestRelationRepository.findAllByRegistrantId(id).stream()
 			.map(InterestRelationDto::from)
 			.toList();

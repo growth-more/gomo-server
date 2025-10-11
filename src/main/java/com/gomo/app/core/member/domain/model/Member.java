@@ -11,18 +11,18 @@ import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
 import lombok.Getter;
 
 @Getter
 @Entity
 public class Member extends LogicalDeleteBaseAudit {
 
-	@EmbeddedId
-	private MemberId id;
+	@Id
+	private UUID id;
 
 	@Embedded
 	private Email email;
@@ -74,7 +74,7 @@ public class Member extends LogicalDeleteBaseAudit {
 	protected Member() {
 	}
 
-	public Member(MemberId id, Email email, Password password, Handle handle, MemberName name, Motto motto, ProfileImage profileImage, ProfileBanner profileBanner,
+	public Member(UUID id, Email email, Password password, Handle handle, MemberName name, Motto motto, ProfileImage profileImage, ProfileBanner profileBanner,
 		QuestProperty questProperty, LoginProvider loginProvider, RoleType roleType, SubscriptionPlan subscriptionPlan, ActivateStatus activateStatus,
 		LocalDateTime signUpDateTime, LocalDateTime lastLoginDateTime) {
 		this.id = id;
@@ -92,10 +92,6 @@ public class Member extends LogicalDeleteBaseAudit {
 		this.activateStatus = activateStatus;
 		this.signUpDateTime = signUpDateTime;
 		this.lastLoginDateTime = lastLoginDateTime;
-	}
-
-	public UUID id() {
-		return this.id.getId();
 	}
 
 	public String email() {
@@ -183,7 +179,7 @@ public class Member extends LogicalDeleteBaseAudit {
 		}
 	}
 
-	public static Member of(MemberId id, Email email, Password password, Handle handle, MemberName memberName, Motto motto, LoginProvider loginProvider) {
+	public static Member of(UUID id, Email email, Password password, Handle handle, MemberName memberName, Motto motto, LoginProvider loginProvider) {
 		return new Member(id, email, password, handle, memberName, motto, ProfileImage.createDefault(), ProfileBanner.createDefault(), QuestProperty.createDefault(),
 			loginProvider, RoleType.ROLE_MEMBER, SubscriptionPlan.FREE, ActivateStatus.ACTIVE, LocalDateTime.now(), null);
 	}

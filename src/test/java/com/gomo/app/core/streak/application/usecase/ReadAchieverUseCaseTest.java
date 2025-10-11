@@ -34,6 +34,6 @@ public class ReadAchieverUseCaseTest {
 		doReturn(achiever).when(achieverService).find(any());
 		AchieverDto actual = sut.find(UUID.randomUUID());
 		assertThat(actual).extracting("id", "longestStreakDays", "currentStreakDays")
-			.containsExactly(achiever.id(), achiever.getLongestStreakDays(), achiever.getCurrentStreakDays());
+			.containsExactly(achiever.getId(), achiever.getLongestStreakDays(), achiever.getCurrentStreakDays());
 	}
 }

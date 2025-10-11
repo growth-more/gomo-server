@@ -44,7 +44,7 @@ class UpdatePasswordUseCaseTest {
 		doReturn(true).when(verifyPasswordPortIn).matches(any(), any());
 		doReturn(encoded).when(encodePasswordPortIn).encode(any());
 
-		sut.update(member.id(), "Origin123@", "New1234@");
+		sut.update(member.getId(), "Origin123@", "New1234@");
 
 		assertThat(member.password()).isEqualTo(encoded);
 	}
@@ -56,7 +56,7 @@ class UpdatePasswordUseCaseTest {
 		doReturn(member).when(memberService).find(any());
 		doReturn(false).when(verifyPasswordPortIn).matches(any(), any());
 
-		assertThatThrownBy(() -> sut.update(member.id(), "Origin123@", "New1234@"))
+		assertThatThrownBy(() -> sut.update(member.getId(), "Origin123@", "New1234@"))
 			.isInstanceOf(MemberAuthenticationFailedException.class)
 			.hasMessageContaining(AUTHENTICATION_FAILED.getMessage());
 	}

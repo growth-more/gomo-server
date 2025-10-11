@@ -5,7 +5,6 @@ import java.util.UUID;
 import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.core.point.application.port.ReadBalancePortIn;
 import com.gomo.app.core.point.domain.model.Balance;
-import com.gomo.app.core.point.domain.model.TransactorId;
 import com.gomo.app.core.point.domain.service.PointWalletService;
 
 import lombok.RequiredArgsConstructor;
@@ -18,7 +17,7 @@ class ReadBalanceUseCase implements ReadBalancePortIn {
 
 	@Override
 	public int find(UUID transactorId) {
-		Balance balance = pointWalletService.findBalance(TransactorId.of(transactorId));
+		Balance balance = pointWalletService.findBalance(transactorId);
 		return balance.getAmount();
 	}
 }

@@ -19,7 +19,6 @@ import com.gomo.app.core.interest.application.port.dto.InterestNetworkDto;
 import com.gomo.app.core.interest.domain.model.Interest;
 import com.gomo.app.core.interest.domain.model.InterestRelation;
 import com.gomo.app.core.interest.domain.model.MajorInterest;
-import com.gomo.app.core.interest.domain.model.RegistrantId;
 import com.gomo.app.core.interest.domain.repository.InterestRelationRepository;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;
 import com.gomo.app.core.interest.domain.repository.MajorInterestRepository;
@@ -49,18 +48,18 @@ public class ReadInterestNetworkUseCaseTest {
 		Interest expected1 = InterestFixture.create();
 		Interest expected2 = InterestFixture.create();
 		MajorInterest majorInterest = MajorInterestFixture.create(expected1.getRegistrantId(), expected1.getId());
-		doReturn(List.of(expected1, expected2)).when(interestRepository).findAllByRegistrantId(any(RegistrantId.class));
+		doReturn(List.of(expected1, expected2)).when(interestRepository).findAllByRegistrantId(any());
 		doReturn(List.of(majorInterest)).when(majorInterestRepository).findAllByRegistrantIdAndInterestIdIn(any(), any());
 
 		InterestRelation relation = InterestRelationFixture.create();
-		doReturn(List.of(relation)).when(interestRelationRepository).findAllByRegistrantId(any(RegistrantId.class));
+		doReturn(List.of(relation)).when(interestRelationRepository).findAllByRegistrantId(any());
 
-		InterestNetworkDto actual = sut.find(relation.getRegistrantId().getId());
+		InterestNetworkDto actual = sut.find(relation.getRegistrantId());
 
 		assertThat(actual.interestDtos())
 			.hasSize(2)
 			.extracting("id", "registrantId", "name", "logoUrl", "proficiency.level", "proficiency.score", "proficiency.totalScore", "majorInterestId")
-			.containsExactly(createInterestTuple(expected1, majorInterest.id()), createInterestTuple(expected2, null));
+			.containsExactly(createInterestTuple(expected1, majorInterest.getId()), createInterestTuple(expected2, null));
 
 		assertThat(actual.relationDtos())
 			.hasSize(1)
@@ -69,18 +68,18 @@ public class ReadInterestNetworkUseCaseTest {
 	}
 
 	private @NotNull Tuple createRelationTuple(InterestRelation relation) {
-		return tuple(relation.getId().getId(), relation.getRegistrantId().getId(), relation.getParentInterestId().getId(),
-			relation.getChildInterestId().getId());
+		return tuple(relation.getId(), relation.getRegistrantId(), relation.getParentInterestId(),
+			relation.getChildInterestId());
 	}
 
 	private @NotNull Tuple createInterestTuple(Interest interest, UUID majorInterestId) {
 		return tuple(
-			interest.getId().getId(),
-			interest.getRegistrantId().getId(),
-			interest.getName().toString(),
-			interest.getLogo().getUrl(),
-			interest.getProficiency().getLevel().getLevel(),
-			interest.getProficiency().getScore().getScore(),
+			interest.getId(),
+			interest.getRegistrantId(),
+			interest.name(),
+			interest.logoUrl(),
+			interest.getProficiency().level(),
+			interest.getProficiency().score(),
 			interest.getProficiency().getTotalScore(),
 			majorInterestId
 		);

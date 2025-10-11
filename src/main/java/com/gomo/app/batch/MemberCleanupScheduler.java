@@ -9,19 +9,15 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.gomo.app.core.interest.domain.model.RegistrantId;
 import com.gomo.app.core.interest.domain.repository.InterestRelationRepository;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;
 import com.gomo.app.core.interest.domain.repository.MajorInterestRepository;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
-import com.gomo.app.core.point.domain.model.TransactorId;
 import com.gomo.app.core.point.domain.repository.PointRepository;
 import com.gomo.app.core.point.domain.repository.PointWalletRepository;
-import com.gomo.app.core.quest.domain.model.participant.ParticipantId;
 import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.domain.repository.RepeatQuestRepository;
-import com.gomo.app.core.streak.domain.model.AchieverId;
 import com.gomo.app.core.streak.domain.repository.AchieverRepository;
 import com.gomo.app.core.streak.domain.repository.StreakRepository;
 import com.gomo.app.support.image.application.port.DeleteImagePortIn;
@@ -67,23 +63,22 @@ public class MemberCleanupScheduler {
 	}
 
 	private void deleteMemberAndRelatedData(Member member) {
-
 		// Quest 관련 데이터 삭제
-		assignQuestRepository.deleteAllByParticipantId(ParticipantId.of(member.id()));
-		repeatQuestRepository.deleteAllByParticipantId(ParticipantId.of(member.id()));
+		assignQuestRepository.deleteAllByParticipantId(member.getId());
+		repeatQuestRepository.deleteAllByParticipantId(member.getId());
 
 		// Interest 관련 데이터 삭제
-		interestRelationRepository.deleteAllByRegistrantId(RegistrantId.of(member.id()));
-		majorInterestRepository.deleteAllByRegistrantId(RegistrantId.of(member.id()));
-		interestRepository.deleteAllByRegistrantId(RegistrantId.of(member.id()));
+		interestRelationRepository.deleteAllByRegistrantId(member.getId());
+		majorInterestRepository.deleteAllByRegistrantId(member.getId());
+		interestRepository.deleteAllByRegistrantId(member.getId());
 
 		// Point 관련 데이터 삭제
-		pointRepository.deleteAllByTransactorId(TransactorId.of(member.id()));
-		pointWalletRepository.deletePointWalletByTransactorId(TransactorId.of(member.id()));
+		pointRepository.deleteAllByTransactorId(member.getId());
+		pointWalletRepository.deletePointWalletByTransactorId(member.getId());
 
 		// Streak 관련 데이터 삭제
-		streakRepository.deleteAllByAchieverId(AchieverId.of(member.id()));
-		achieverRepository.deleteByAchieverId(AchieverId.of(member.id()));
+		streakRepository.deleteAllByAchieverId(member.getId());
+		achieverRepository.deleteByAchieverId(member.getId());
 
 		// 이미지 파일 삭제
 		deleteImagePortIn.delete(member.profileImageUrl());

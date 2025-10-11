@@ -38,6 +38,6 @@ class LoginMemberUseCaseTest {
 		doReturn(member).when(memberService).findByEmail(any());
 		doReturn(true).when(verifyPasswordPortIn).matches(any(), any());
 		UUID actual = sut.authenticate(member.email(), member.password());
-		assertThat(actual).isEqualTo(member.id());
+		assertThat(actual).isEqualTo(member.getId());
 	}
 }

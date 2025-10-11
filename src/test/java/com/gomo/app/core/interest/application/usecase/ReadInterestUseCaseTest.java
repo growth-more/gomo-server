@@ -18,9 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.interest.application.port.dto.InterestDto;
 import com.gomo.app.core.interest.domain.model.Interest;
-import com.gomo.app.core.interest.domain.model.InterestId;
 import com.gomo.app.core.interest.domain.model.MajorInterest;
-import com.gomo.app.core.interest.domain.model.RegistrantId;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;
 import com.gomo.app.core.interest.domain.repository.MajorInterestRepository;
 import com.gomo.app.core.interest.domain.service.InterestService;
@@ -48,19 +46,19 @@ public class ReadInterestUseCaseTest {
 	void find_interest() {
 		Interest expected = InterestFixture.create();
 		MajorInterest majorInterest = MajorInterestFixture.create(expected.getRegistrantId(), expected.getId());
-		doReturn(expected).when(interestService).find(any(InterestId.class));
+		doReturn(expected).when(interestService).find(any());
 		doReturn(Optional.of(majorInterest)).when(majorInterestRepository).findByInterestId(any());
 
-		InterestDto actual = sut.find(expected.id());
+		InterestDto actual = sut.find(expected.getId());
 
 		assertThat(actual)
 			.extracting("id", "registrantId", "name", "logoUrl", "majorInterestId")
 			.containsExactly(
-				expected.getId().getId(),
-				expected.getRegistrantId().getId(),
+				expected.getId(),
+				expected.getRegistrantId(),
 				expected.getName().toString(),
 				expected.getLogo().getUrl(),
-				majorInterest.id()
+				majorInterest.getId()
 			);
 	}
 
@@ -70,21 +68,21 @@ public class ReadInterestUseCaseTest {
 		Interest expected1 = InterestFixture.create();
 		Interest expected2 = InterestFixture.create();
 		MajorInterest majorInterest = MajorInterestFixture.create(expected1.getRegistrantId(), expected1.getId());
-		doReturn(List.of(expected1, expected2)).when(interestRepository).findAllByRegistrantId(any(RegistrantId.class));
+		doReturn(List.of(expected1, expected2)).when(interestRepository).findAllByRegistrantId(any());
 		doReturn(List.of(majorInterest)).when(majorInterestRepository).findAllByRegistrantIdAndInterestIdIn(any(), any());
 
-		List<InterestDto> actual = sut.findAll(expected1.getRegistrantId().getId());
+		List<InterestDto> actual = sut.findAll(expected1.getRegistrantId());
 
 		assertThat(actual)
 			.hasSize(2)
 			.extracting("id", "registrantId", "name", "logoUrl", "majorInterestId")
-			.containsExactly(createTuple(expected1, majorInterest.id()), createTuple(expected2, null));
+			.containsExactly(createTuple(expected1, majorInterest.getId()), createTuple(expected2, null));
 	}
 
 	private @NotNull Tuple createTuple(Interest interest, UUID majorInterestId) {
 		return tuple(
-			interest.getId().getId(),
-			interest.getRegistrantId().getId(),
+			interest.getId(),
+			interest.getRegistrantId(),
 			interest.getName().toString(),
 			interest.getLogo().getUrl(),
 			majorInterestId

@@ -13,13 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.arch.DomainService;
 import com.gomo.app.common.util.UUIDGenerator;
-import com.gomo.app.core.interest.domain.model.ChildInterestId;
 import com.gomo.app.core.interest.domain.model.Interest;
-import com.gomo.app.core.interest.domain.model.InterestId;
 import com.gomo.app.core.interest.domain.model.InterestRelation;
-import com.gomo.app.core.interest.domain.model.InterestRelationId;
-import com.gomo.app.core.interest.domain.model.ParentInterestId;
-import com.gomo.app.core.interest.domain.model.RegistrantId;
 import com.gomo.app.core.interest.domain.repository.InterestRelationRepository;
 import com.gomo.app.core.interest.exception.InterestRelationCycleException;
 import com.gomo.app.core.interest.exception.InterestRelationDuplicatedException;
@@ -36,13 +31,13 @@ public class InterestRelationService {
 	private final InterestRelationRepository interestRelationRepository;
 
 	@Transactional
-	public InterestRelation create(RegistrantId registrantId, Interest parentInterest, Interest childInterest) {
-		ParentInterestId parentInterestId = ParentInterestId.of(parentInterest.getId());
-		ChildInterestId childInterestId = ChildInterestId.of(childInterest.getId());
+	public InterestRelation create(UUID registrantId, Interest parentInterest, Interest childInterest) {
+		UUID parentInterestId = parentInterest.getId();
+		UUID childInterestId = childInterest.getId();
 
 		ensureNotDuplicated(parentInterestId, childInterestId);
 		InterestRelation interestRelation = InterestRelation.of(
-			InterestRelationId.of(UUIDGenerator.generate()),
+			UUIDGenerator.generate(),
 			registrantId,
 			parentInterestId,
 			childInterestId
@@ -53,7 +48,7 @@ public class InterestRelationService {
 		return interestRelationRepository.save(interestRelation);
 	}
 
-	public InterestRelation find(InterestRelationId interestRelationId) {
+	public InterestRelation find(UUID interestRelationId) {
 		return interestRelationRepository.findById(interestRelationId)
 			.orElseThrow(() -> new InterestRelationNotFoundException(InterestRelationErrorCode.NOT_FOUND));
 	}
@@ -68,49 +63,49 @@ public class InterestRelationService {
 		interestRelationRepository.delete(interestRelation);
 	}
 
-	private void ensureNotDuplicated(ParentInterestId parentInterestId, ChildInterestId childInterestId) {
-		if (interestRelationRepository.existsRelationFor(parentInterestId.getId(), childInterestId.getId())) {
+	private void ensureNotDuplicated(UUID parentInterestId, UUID childInterestId) {
+		if (interestRelationRepository.existsRelationFor(parentInterestId, childInterestId)) {
 			throw new InterestRelationDuplicatedException(InterestRelationErrorCode.DUPLICATED);
 		}
 	}
 
-	private void ensureDoesNotCreateCycle(RegistrantId registrantId, InterestRelation proposedRelation) {
-		Map<InterestId, Set<InterestId>> interestGraph = buildInterestGraph(registrantId, proposedRelation);
-		InterestId startNode = proposedRelation.getParentInterestId().toInterestId();
+	private void ensureDoesNotCreateCycle(UUID registrantId, InterestRelation proposedRelation) {
+		Map<UUID, Set<UUID>> interestGraph = buildInterestGraph(registrantId, proposedRelation);
+		UUID startNode = proposedRelation.getParentInterestId();
 		ensureAcyclicGraph(startNode, interestGraph);
 	}
 
 	@NotNull
-	private Map<InterestId, Set<InterestId>> buildInterestGraph(RegistrantId registrantId, InterestRelation proposedRelation) {
+	private Map<UUID, Set<UUID>> buildInterestGraph(UUID registrantId, InterestRelation proposedRelation) {
 		List<InterestRelation> existingRelations = interestRelationRepository.findAllByRegistrantId(registrantId);
 		existingRelations.add(proposedRelation);
 
-		Map<InterestId, Set<InterestId>> interestGraph = new HashMap<>();
+		Map<UUID, Set<UUID>> interestGraph = new HashMap<>();
 		for (InterestRelation relation : existingRelations) {
-			InterestId parentId = relation.getParentInterestId().toInterestId();
-			InterestId childId = relation.getChildInterestId().toInterestId();
+			UUID parentId = relation.getParentInterestId();
+			UUID childId = relation.getChildInterestId();
 			interestGraph.computeIfAbsent(parentId, k -> new HashSet<>()).add(childId);
 		}
 
 		return interestGraph;
 	}
 
-	private void ensureAcyclicGraph(InterestId startNode, Map<InterestId, Set<InterestId>> interestGraph) {
-		ArrayDeque<InterestId> nodeQueue = new ArrayDeque<>();
-		Set<InterestId> visitedNodes = new HashSet<>();
+	private void ensureAcyclicGraph(UUID startNode, Map<UUID, Set<UUID>> interestGraph) {
+		ArrayDeque<UUID> nodeQueue = new ArrayDeque<>();
+		Set<UUID> visitedNodes = new HashSet<>();
 
 		nodeQueue.addLast(startNode);
 		while (!nodeQueue.isEmpty()) {
-			InterestId currentNode = nodeQueue.removeFirst();
+			UUID currentNode = nodeQueue.removeFirst();
 
 			if (isAlreadyVisited(visitedNodes, currentNode)) {
 				continue;
 			}
 			visitedNodes.add(currentNode);
 
-			Set<InterestId> neighbors = interestGraph.get(currentNode);
+			Set<UUID> neighbors = interestGraph.get(currentNode);
 			if (neighbors != null) {
-				for (InterestId neighbor : neighbors) {
+				for (UUID neighbor : neighbors) {
 					if (isCycleReturningToStart(neighbor, startNode)) {
 						throw new InterestRelationCycleException(InterestRelationErrorCode.UNEXPECTED_CYCLE);
 					}
@@ -124,11 +119,11 @@ public class InterestRelationService {
 		}
 	}
 
-	private boolean isCycleReturningToStart(InterestId neighbor, InterestId startNode) {
+	private boolean isCycleReturningToStart(UUID neighbor, UUID startNode) {
 		return neighbor.equals(startNode);
 	}
 
-	private boolean isAlreadyVisited(Set<InterestId> visitedNodes, InterestId currentNode) {
+	private boolean isAlreadyVisited(Set<UUID> visitedNodes, UUID currentNode) {
 		return visitedNodes.contains(currentNode);
 	}
 

@@ -1,6 +1,7 @@
 package com.gomo.app.core.point.domain.repository;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -8,10 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.gomo.app.core.point.domain.model.Point;
-import com.gomo.app.core.point.domain.model.PointId;
-import com.gomo.app.core.point.domain.model.TransactorId;
 
-public interface PointRepository extends JpaRepository<Point, PointId> {
+public interface PointRepository extends JpaRepository<Point, UUID> {
 
 	@Query(value = "select p.* from point p " +
 		"where p.transactor_id = UNHEX(REPLACE(:transactorId, '-', '')) " +
@@ -27,6 +26,6 @@ public interface PointRepository extends JpaRepository<Point, PointId> {
 
 	@Modifying
 	@Query("DELETE FROM Point p WHERE p.transactorId = :transactorId")
-	void deleteAllByTransactorId(TransactorId transactorId);
+	void deleteAllByTransactorId(UUID transactorId);
 
 }

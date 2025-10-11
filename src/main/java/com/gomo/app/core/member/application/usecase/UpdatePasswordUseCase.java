@@ -8,7 +8,6 @@ import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.common.security.encoder.application.port.EncodePasswordPortIn;
 import com.gomo.app.common.security.encoder.application.port.VerifyPasswordPortIn;
 import com.gomo.app.core.member.domain.model.Member;
-import com.gomo.app.core.member.domain.model.MemberId;
 import com.gomo.app.core.member.domain.model.Password;
 import com.gomo.app.core.member.domain.service.MemberService;
 import com.gomo.app.core.member.exception.MemberAuthenticationFailedException;
@@ -28,7 +27,7 @@ public class UpdatePasswordUseCase {
 
 	@AuditLog(action = "UPDATE_PASSWORD")
 	public void update(UUID memberId, String originPassword, String newPassword) {
-		Member member = memberService.find(MemberId.of(memberId));
+		Member member = memberService.find(memberId);
 		ensureCorrectPassword(member, originPassword);
 		String encoded = encodePasswordPortIn.encode(Password.ofRaw(newPassword).getPassword());
 		member.updatePassword(Password.ofEncoded(encoded));

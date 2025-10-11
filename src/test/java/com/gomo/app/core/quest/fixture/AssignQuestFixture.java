@@ -5,23 +5,20 @@ import java.util.UUID;
 
 import com.gomo.app.common.displayorder.DisplayOrder;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
-import com.gomo.app.core.quest.domain.model.assign.AssignQuestId;
 import com.gomo.app.core.quest.domain.model.assign.CompletionProof;
-import com.gomo.app.core.quest.domain.model.participant.ParticipantId;
 import com.gomo.app.core.quest.domain.model.quest.Quest;
 import com.gomo.app.core.quest.domain.model.quest.QuestContent;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
-import com.gomo.app.core.quest.domain.model.subject.SubjectId;
 import com.gomo.app.core.quest.domain.model.subject.SubjectName;
 
 public class AssignQuestFixture {
 
 	public static AssignQuest create() {
 		return AssignQuest.of(
-			AssignQuestId.of(UUID.randomUUID()),
+			UUID.randomUUID(),
 			Quest.of(
-				ParticipantId.of(UUID.randomUUID()),
-				SubjectId.of(UUID.randomUUID()),
+				UUID.randomUUID(),
+				UUID.randomUUID(),
 				SubjectName.of("subject name"),
 				QuestType.DAILY,
 				QuestContent.of("quest content")
@@ -34,10 +31,10 @@ public class AssignQuestFixture {
 
 	public static AssignQuest create(QuestType questType) {
 		return AssignQuest.of(
-			AssignQuestId.of(UUID.randomUUID()),
+			UUID.randomUUID(),
 			Quest.of(
-				ParticipantId.of(UUID.randomUUID()),
-				SubjectId.of(UUID.randomUUID()),
+				UUID.randomUUID(),
+				UUID.randomUUID(),
 				SubjectName.of("subject name"),
 				questType,
 				QuestContent.of("quest content")
@@ -50,10 +47,10 @@ public class AssignQuestFixture {
 
 	public static AssignQuest create(UUID participantId, QuestType questType, LocalDateTime startDateTime) {
 		return AssignQuest.of(
-			AssignQuestId.of(UUID.randomUUID()),
+			UUID.randomUUID(),
 			Quest.of(
-				ParticipantId.of(participantId),
-				SubjectId.of(UUID.randomUUID()),
+				participantId,
+				UUID.randomUUID(),
 				SubjectName.of("subject name"),
 				questType,
 				QuestContent.of("quest content")
@@ -66,10 +63,10 @@ public class AssignQuestFixture {
 
 	public static AssignQuest create(boolean isConfirm) {
 		return AssignQuest.of(
-			AssignQuestId.of(UUID.randomUUID()),
+			UUID.randomUUID(),
 			Quest.of(
-				ParticipantId.of(UUID.randomUUID()),
-				SubjectId.of(UUID.randomUUID()),
+				UUID.randomUUID(),
+				UUID.randomUUID(),
 				SubjectName.of("subject name"),
 				QuestType.DAILY,
 				QuestContent.of("quest content")
@@ -82,10 +79,10 @@ public class AssignQuestFixture {
 
 	public static AssignQuest create(UUID participantId, boolean isConfirm) {
 		return AssignQuest.of(
-			AssignQuestId.of(UUID.randomUUID()),
+			UUID.randomUUID(),
 			Quest.of(
-				ParticipantId.of(participantId),
-				SubjectId.of(UUID.randomUUID()),
+				participantId,
+				UUID.randomUUID(),
 				SubjectName.of("subject name"),
 				QuestType.DAILY,
 				QuestContent.of("quest content")
@@ -98,10 +95,10 @@ public class AssignQuestFixture {
 
 	public static AssignQuest create(UUID participantId, boolean isConfirm, LocalDateTime startDateTime, int displayOrder) {
 		return AssignQuest.of(
-			AssignQuestId.of(UUID.randomUUID()),
+			UUID.randomUUID(),
 			Quest.of(
-				ParticipantId.of(participantId),
-				SubjectId.of(UUID.randomUUID()),
+				participantId,
+				UUID.randomUUID(),
 				SubjectName.of("subject name"),
 				QuestType.DAILY,
 				QuestContent.of("quest content")
@@ -114,10 +111,10 @@ public class AssignQuestFixture {
 
 	public static AssignQuest create(boolean isConfirmed, boolean isCompleted, CompletionProof proof) {
 		return new AssignQuest(
-			AssignQuestId.of(UUID.randomUUID()),
+			UUID.randomUUID(),
 			Quest.of(
-				ParticipantId.of(UUID.randomUUID()),
-				SubjectId.of(UUID.randomUUID()),
+				UUID.randomUUID(),
+				UUID.randomUUID(),
 				SubjectName.of("subject name"),
 				QuestType.DAILY,
 				QuestContent.of("quest content")
@@ -133,10 +130,10 @@ public class AssignQuestFixture {
 
 	public static AssignQuest create(UUID participantId, boolean isCompleted, CompletionProof proof, LocalDateTime startDateTime) {
 		return new AssignQuest(
-			AssignQuestId.of(UUID.randomUUID()),
+			UUID.randomUUID(),
 			Quest.of(
-				ParticipantId.of(participantId),
-				SubjectId.of(UUID.randomUUID()),
+				participantId,
+				UUID.randomUUID(),
 				SubjectName.of("subject name"),
 				QuestType.DAILY,
 				QuestContent.of("quest content")
@@ -152,10 +149,10 @@ public class AssignQuestFixture {
 
 	public static AssignQuest create(UUID participantId, QuestType questType, boolean isCompleted, LocalDateTime completedDateTime) {
 		return new AssignQuest(
-			AssignQuestId.of(UUID.randomUUID()),
+			UUID.randomUUID(),
 			Quest.of(
-				ParticipantId.of(participantId),
-				SubjectId.of(UUID.randomUUID()),
+				participantId,
+				UUID.randomUUID(),
 				SubjectName.of("subject name"),
 				questType,
 				QuestContent.of("quest content")
@@ -171,10 +168,10 @@ public class AssignQuestFixture {
 
 	public static AssignQuest create(UUID participantId, boolean isCompleted, CompletionProof proof, LocalDateTime startDateTime, LocalDateTime completedDateTime) {
 		return new AssignQuest(
-			AssignQuestId.of(UUID.randomUUID()),
+			UUID.randomUUID(),
 			Quest.of(
-				ParticipantId.of(participantId),
-				SubjectId.of(UUID.randomUUID()),
+				participantId,
+				UUID.randomUUID(),
 				SubjectName.of("subject name"),
 				QuestType.DAILY,
 				QuestContent.of("quest content")
@@ -190,10 +187,10 @@ public class AssignQuestFixture {
 
 	public static AssignQuest create(int displayOrder) {
 		return AssignQuest.of(
-			AssignQuestId.of(UUID.randomUUID()),
+			UUID.randomUUID(),
 			Quest.of(
-				ParticipantId.of(UUID.randomUUID()),
-				SubjectId.of(UUID.randomUUID()),
+				UUID.randomUUID(),
+				UUID.randomUUID(),
 				SubjectName.of("subject name"),
 				QuestType.DAILY,
 				QuestContent.of("quest content")
@@ -206,10 +203,10 @@ public class AssignQuestFixture {
 
 	public static AssignQuest create(UUID participantId, int displayOrder, LocalDateTime dateTime) {
 		return AssignQuest.of(
-			AssignQuestId.of(UUID.randomUUID()),
+			UUID.randomUUID(),
 			Quest.of(
-				ParticipantId.of(participantId),
-				SubjectId.of(UUID.randomUUID()),
+				participantId,
+				UUID.randomUUID(),
 				SubjectName.of("subject name"),
 				QuestType.DAILY,
 				QuestContent.of("quest content")

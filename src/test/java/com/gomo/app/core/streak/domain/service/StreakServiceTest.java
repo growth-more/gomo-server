@@ -17,9 +17,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.streak.domain.model.Achiever;
-import com.gomo.app.core.streak.domain.model.AchieverId;
 import com.gomo.app.core.streak.domain.model.Streak;
-import com.gomo.app.core.streak.domain.model.StreakId;
 import com.gomo.app.core.streak.domain.model.StreakType;
 import com.gomo.app.core.streak.domain.repository.StreakRepository;
 import com.gomo.app.core.streak.fixture.AchieverFixture;
@@ -41,7 +39,7 @@ public class StreakServiceTest {
 	@DisplayName("스트릭이 없다면, 최초 스트릭을 생성한다.")
 	@Test
 	void create_initial_streak() {
-		Streak streak = Streak.of(StreakId.of(UUID.randomUUID()), AchieverId.of(UUID.randomUUID()), StreakType.DAILY, LocalDate.of(2025, 2, 5), 1);
+		Streak streak = Streak.of(UUID.randomUUID(), UUID.randomUUID(), StreakType.DAILY, LocalDate.of(2025, 2, 5), 1);
 		doReturn(AchieverFixture.create()).when(achieverService).find(any());
 		doReturn(List.of()).when(streakRepository).findByAchieverIdAndFilledDate(any(), any());
 		doReturn(Optional.empty()).when(streakRepository).findByAchieverIdAndStreakTypeAndFilledDate(any(), any(), any());
@@ -56,7 +54,7 @@ public class StreakServiceTest {
 	@DisplayName("이미 스트릭이 있다면, 기존 스트릭의 완료 퀘스트 개수를 증가시킨다.")
 	@Test
 	void update_exist_streak() {
-		Streak streak = Streak.of(StreakId.of(UUID.randomUUID()), AchieverId.of(UUID.randomUUID()), StreakType.DAILY, LocalDate.now(), 1);
+		Streak streak = Streak.of(UUID.randomUUID(), UUID.randomUUID(), StreakType.DAILY, LocalDate.now(), 1);
 		doReturn(AchieverFixture.create()).when(achieverService).find(any());
 		doReturn(List.of()).when(streakRepository).findByAchieverIdAndFilledDate(any(), any());
 		doReturn(Optional.of(StreakFixture.create(5))).when(streakRepository).findByAchieverIdAndStreakTypeAndFilledDate(any(), any(), any());
@@ -82,7 +80,7 @@ public class StreakServiceTest {
 	@DisplayName("타입, 날짜 별 스트릭 목록을 조회한다.")
 	@Test
 	void find_streaks_by_type() {
-		sut.findAllByStreakType(AchieverId.of(UUID.randomUUID()), StreakType.DAILY, LocalDate.now(), LocalDate.now());
+		sut.findAllByStreakType(UUID.randomUUID(), StreakType.DAILY, LocalDate.now(), LocalDate.now());
 		verify(streakRepository, times(1)).findByAchieverIdAndStreakTypeAndFilledDateBetween(any(), any(), any(), any());
 	}
 }

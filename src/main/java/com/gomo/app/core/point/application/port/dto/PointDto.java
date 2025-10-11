@@ -10,6 +10,6 @@ import com.gomo.app.core.point.domain.model.TransactionType;
 public record PointDto(UUID id, SourceType sourceType, TransactionType transactionType, int amount, String description, LocalDateTime transactionDateTime) {
 
 	public static PointDto from(Point point) {
-		return new PointDto(point.id(), point.getSourceType(), point.getTransactionType(), point.getAmount(), point.getDescription(), point.getTransactionDateTime());
+		return new PointDto(point.getId(), point.getSourceType(), point.getTransactionType(), point.getAmount(), point.getDescription(), point.getTransactionDateTime());
 	}
 }

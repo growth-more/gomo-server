@@ -6,9 +6,7 @@ import java.util.UUID;
 import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.core.streak.application.port.CreateStreakPortIn;
-import com.gomo.app.core.streak.domain.model.AchieverId;
 import com.gomo.app.core.streak.domain.model.Streak;
-import com.gomo.app.core.streak.domain.model.StreakId;
 import com.gomo.app.core.streak.domain.model.StreakType;
 import com.gomo.app.core.streak.domain.service.StreakService;
 
@@ -22,7 +20,7 @@ class CreateStreakUseCase implements CreateStreakPortIn {
 
 	@Override
 	public void create(UUID achieverId, String streakType, LocalDate creationDate) {
-		Streak streak = Streak.of(StreakId.of(UUIDGenerator.generate()), AchieverId.of(achieverId), StreakType.valueOf(streakType), creationDate, 1);
+		Streak streak = Streak.of(UUIDGenerator.generate(), achieverId, StreakType.valueOf(streakType), creationDate, 1);
 		streakService.fill(streak);
 	}
 }

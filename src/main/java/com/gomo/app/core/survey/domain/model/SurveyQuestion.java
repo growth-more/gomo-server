@@ -6,18 +6,18 @@ import com.gomo.app.common.displayorder.DisplayOrder;
 import com.gomo.app.common.displayorder.OrderChangeable;
 import com.gomo.app.common.jpa.BaseAudit;
 
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
 import lombok.Getter;
 
 @Getter
 @Entity
 public class SurveyQuestion extends BaseAudit implements OrderChangeable {
 
-	@EmbeddedId
-	private SurveyQuestionId id;
+	@Id
+	private UUID id;
 
 	@Enumerated(value = EnumType.STRING)
 	private QuestionSelectType questionSelectType;
@@ -28,13 +28,7 @@ public class SurveyQuestion extends BaseAudit implements OrderChangeable {
 	protected SurveyQuestion() {
 	}
 
-	private SurveyQuestion(
-		SurveyQuestionId id,
-		QuestionSelectType questionSelectType,
-		boolean isRequired,
-		String content,
-		DisplayOrder displayOrder
-	) {
+	private SurveyQuestion(UUID id, QuestionSelectType questionSelectType, boolean isRequired, String content, DisplayOrder displayOrder) {
 		this.id = id;
 		this.questionSelectType = questionSelectType;
 		this.isRequired = isRequired;
@@ -42,21 +36,12 @@ public class SurveyQuestion extends BaseAudit implements OrderChangeable {
 		this.displayOrder = displayOrder;
 	}
 
-	public static SurveyQuestion of(
-		SurveyQuestionId surveyQuestionId,
-		QuestionSelectType questionSelectType,
-		boolean isRequired,
-		String content,
-		DisplayOrder displayOrder
-	) {
+	public static SurveyQuestion of(UUID surveyQuestionId, QuestionSelectType questionSelectType, boolean isRequired, String content, DisplayOrder displayOrder) {
 		return new SurveyQuestion(surveyQuestionId, questionSelectType, isRequired, content, displayOrder);
-	}
-
-	public UUID id() {
-		return id.getId();
 	}
 
 	@Override
 	public void changeOrder(DisplayOrder displayOrder) {
+		this.displayOrder = displayOrder;
 	}
 }

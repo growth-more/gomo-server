@@ -11,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.gomo.app.common.arch.CoreApi;
 import com.gomo.app.core.interest.application.usecase.UpdateLogoUseCase;
-import com.gomo.app.core.interest.domain.model.InterestId;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,7 +23,7 @@ public class InterestLogoApi {
 
 	@PutMapping
 	public ResponseEntity<Void> update(@PathVariable("id") UUID interestId, @RequestPart MultipartFile updatedLogo) {
-		updateLogoUseCase.update(InterestId.of(interestId), updatedLogo);
+		updateLogoUseCase.update(interestId, updatedLogo);
 		return ResponseEntity.noContent().build();
 	}
 }

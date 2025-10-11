@@ -15,7 +15,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.quest.application.port.command.UpdateAssignQuestCommand;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
-import com.gomo.app.core.quest.domain.model.assign.AssignQuestId;
 import com.gomo.app.core.quest.domain.model.assign.CompletionProof;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.service.AssignQuestService;
@@ -41,7 +40,7 @@ public class UpdateAssignQuestUseCaseTest {
 	void update_assign_quest() {
 		AssignQuest assignQuest = AssignQuestFixture.create(QuestType.DAILY);
 		doReturn(assignQuest).when(assignQuestService).find(any());
-		sut.update(getUpdateAssignQuestCommand(assignQuest.getQuest().getParticipantId().getId(), QuestType.DAILY.name()));
+		sut.update(getUpdateAssignQuestCommand(assignQuest.getQuest().getParticipantId(), QuestType.DAILY.name()));
 		assertThat(assignQuest.getQuest().getSubjectName().toString()).isEqualTo("updated subject name");
 	}
 
@@ -49,7 +48,7 @@ public class UpdateAssignQuestUseCaseTest {
 	@Test
 	void update_assign_quest_with_not_participant() {
 		AssignQuest assignQuest = AssignQuestFixture.create(QuestType.DAILY);
-		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
+		doReturn(assignQuest).when(assignQuestService).find(any());
 
 		assertThatThrownBy(() -> sut.update(getUpdateAssignQuestCommand(UUID.randomUUID(), QuestType.WEEKLY.name())))
 			.isInstanceOf(AssignQuestAccessDeniedException.class)
@@ -60,9 +59,9 @@ public class UpdateAssignQuestUseCaseTest {
 	@Test
 	void update_assign_quest_with_different_type() {
 		AssignQuest assignQuest = AssignQuestFixture.create(QuestType.DAILY);
-		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
+		doReturn(assignQuest).when(assignQuestService).find(any());
 
-		assertThatThrownBy(() -> sut.update(getUpdateAssignQuestCommand(assignQuest.getQuest().getParticipantId().getId(), QuestType.WEEKLY.name())))
+		assertThatThrownBy(() -> sut.update(getUpdateAssignQuestCommand(assignQuest.getQuest().getParticipantId(), QuestType.WEEKLY.name())))
 			.isInstanceOf(QuestTypeConstraintViolationException.class)
 			.hasMessageContaining(QuestTypeErrorCode.MISMATCHED.getMessage());
 	}
@@ -71,9 +70,9 @@ public class UpdateAssignQuestUseCaseTest {
 	@Test
 	void update_confirmed_assign_quest() {
 		AssignQuest assignQuest = AssignQuestFixture.create(true);
-		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
+		doReturn(assignQuest).when(assignQuestService).find(any());
 
-		assertThatThrownBy(() -> sut.update(getUpdateAssignQuestCommand(assignQuest.getQuest().getParticipantId().getId(), QuestType.DAILY.name())))
+		assertThatThrownBy(() -> sut.update(getUpdateAssignQuestCommand(assignQuest.getQuest().getParticipantId(), QuestType.DAILY.name())))
 			.isInstanceOf(AssignQuestConstraintViolationException.class)
 			.hasMessageContaining(AssignQuestErrorCode.ALREADY_CONFIRMED.getMessage());
 	}
@@ -82,9 +81,9 @@ public class UpdateAssignQuestUseCaseTest {
 	@Test
 	void update_completed_assign_quest() {
 		AssignQuest assignQuest = AssignQuestFixture.create(false, true, CompletionProof.createDefault());
-		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
+		doReturn(assignQuest).when(assignQuestService).find(any());
 
-		assertThatThrownBy(() -> sut.update(getUpdateAssignQuestCommand(assignQuest.getQuest().getParticipantId().getId(), QuestType.DAILY.name())))
+		assertThatThrownBy(() -> sut.update(getUpdateAssignQuestCommand(assignQuest.getQuest().getParticipantId(), QuestType.DAILY.name())))
 			.isInstanceOf(AssignQuestConstraintViolationException.class)
 			.hasMessageContaining(AssignQuestErrorCode.ALREADY_COMPLETED.getMessage());
 	}
