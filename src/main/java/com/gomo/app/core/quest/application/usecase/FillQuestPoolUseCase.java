@@ -12,15 +12,12 @@ import com.gomo.app.core.quest.application.port.ReadActiveParticipantPortOut;
 import com.gomo.app.core.quest.application.port.ReadSubjectPortOut;
 import com.gomo.app.core.quest.application.port.command.CreateQuestContentCommand;
 import com.gomo.app.core.quest.application.port.dto.ActiveParticipantDto;
-import com.gomo.app.core.quest.domain.model.participant.ParticipantId;
 import com.gomo.app.core.quest.domain.model.pool.ProcessingStatus;
 import com.gomo.app.core.quest.domain.model.pool.QuestPool;
-import com.gomo.app.core.quest.domain.model.pool.QuestPoolId;
 import com.gomo.app.core.quest.domain.model.pool.SourceType;
 import com.gomo.app.core.quest.domain.model.quest.Quest;
 import com.gomo.app.core.quest.domain.model.quest.QuestContent;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
-import com.gomo.app.core.quest.domain.model.subject.SubjectId;
 import com.gomo.app.core.quest.domain.model.subject.SubjectName;
 import com.gomo.app.core.quest.domain.repository.QuestPoolRepository;
 
@@ -43,20 +40,20 @@ class FillQuestPoolUseCase implements FillQuestPoolPortIn {
 			List<CreateQuestContentCommand.Subject> subjects = readSubjectPortOut.findAll(participantId).stream()
 				.map(dto -> CreateQuestContentCommand.Subject.of(dto.participantId(), dto.subjectName(), dto.level())).toList();
 
-			int existCount = (int)questPoolRepository.countByQuestParticipantIdAndProcessingStatus(ParticipantId.of(participantId), ProcessingStatus.UNUSED);
+			int existCount = (int)questPoolRepository.countByQuestParticipantIdAndProcessingStatus(participantId, ProcessingStatus.UNUSED);
 			CreateQuestContentCommand command = CreateQuestContentCommand.of(participantId, subjects, questType.name(), limit - existCount);
 			List<QuestPool> questPools = createQuestContentPortOut.create(command).stream()
 				.map(dto -> {
 					Quest quest = Quest.of(
-						ParticipantId.of(dto.participantId()),
-						SubjectId.of(dto.subjectId()),
+						dto.participantId(),
+						dto.subjectId(),
 						SubjectName.of(dto.subjectName()),
 						QuestType.valueOf(dto.questType()),
 						QuestContent.of(dto.questContent())
 					);
 
 					return QuestPool.of(
-						QuestPoolId.of(UUIDGenerator.generate()),
+						UUIDGenerator.generate(),
 						quest,
 						ProcessingStatus.UNUSED,
 						SourceType.AI

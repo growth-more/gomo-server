@@ -8,7 +8,6 @@ import com.gomo.app.common.displayorder.DisplayOrder;
 import com.gomo.app.common.jpa.BaseAudit;
 import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
-import com.gomo.app.core.quest.domain.model.assign.AssignQuestId;
 import com.gomo.app.core.quest.domain.model.quest.Quest;
 import com.gomo.app.core.quest.exception.QuestAccessDeniedException;
 import com.gomo.app.core.quest.exception.code.QuestErrorCode;
@@ -17,18 +16,18 @@ import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
 import lombok.Getter;
 
 @Getter
 @Entity
 public class QuestPool extends BaseAudit implements Authorizable {
 
-	@EmbeddedId
-	private QuestPoolId id;
+	@Id
+	private UUID id;
 
 	@Embedded
 	@AttributeOverrides({
@@ -49,14 +48,14 @@ public class QuestPool extends BaseAudit implements Authorizable {
 	protected QuestPool() {
 	}
 
-	private QuestPool(QuestPoolId id, Quest quest, ProcessingStatus processingStatus, SourceType sourceType) {
+	private QuestPool(UUID id, Quest quest, ProcessingStatus processingStatus, SourceType sourceType) {
 		this.id = id;
 		this.quest = quest;
 		this.processingStatus = processingStatus;
 		this.sourceType = sourceType;
 	}
 
-	public static QuestPool of(QuestPoolId id, Quest quest, ProcessingStatus processingStatus, SourceType sourceType) {
+	public static QuestPool of(UUID id, Quest quest, ProcessingStatus processingStatus, SourceType sourceType) {
 		return new QuestPool(id, quest, processingStatus, sourceType);
 	}
 
@@ -65,7 +64,7 @@ public class QuestPool extends BaseAudit implements Authorizable {
 	}
 
 	public AssignQuest createAssignQuest(DisplayOrder displayOrder, LocalDateTime startDateTime) {
-		return AssignQuest.of(AssignQuestId.of(UUIDGenerator.generate()), this.quest.copy(), false, displayOrder, startDateTime);
+		return AssignQuest.of(UUIDGenerator.generate(), this.quest.copy(), false, displayOrder, startDateTime);
 	}
 
 	@Override

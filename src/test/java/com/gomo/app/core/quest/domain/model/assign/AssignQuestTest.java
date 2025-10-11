@@ -10,11 +10,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.gomo.app.common.displayorder.DisplayOrder;
-import com.gomo.app.core.quest.domain.model.participant.ParticipantId;
 import com.gomo.app.core.quest.domain.model.quest.Quest;
 import com.gomo.app.core.quest.domain.model.quest.QuestContent;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
-import com.gomo.app.core.quest.domain.model.subject.SubjectId;
 import com.gomo.app.core.quest.domain.model.subject.SubjectName;
 import com.gomo.app.core.quest.exception.AssignQuestAccessDeniedException;
 import com.gomo.app.core.quest.exception.AssignQuestConstraintViolationException;
@@ -25,9 +23,9 @@ import com.gomo.app.core.quest.exception.code.QuestTypeErrorCode;
 @DisplayName("[Domain unit]: 할당 퀘스트 생성 및 수정 테스트")
 public class AssignQuestTest {
 
-	private static final AssignQuestId ID = AssignQuestId.of(UUID.randomUUID());
-	private static final ParticipantId PARTICIPANT_ID = ParticipantId.of(UUID.randomUUID());
-	private static final SubjectId SUBJECT_ID = SubjectId.of(UUID.randomUUID());
+	private static final UUID ID = UUID.randomUUID();
+	private static final UUID PARTICIPANT_ID = UUID.randomUUID();
+	private static final UUID SUBJECT_ID = UUID.randomUUID();
 	private static final SubjectName SUBJECT_NAME = SubjectName.of("subject name");
 	private static final QuestContent QUEST_CONTENT = QuestContent.of("quest content");
 	private static final LocalDateTime NOW = LocalDateTime.now();
@@ -94,7 +92,7 @@ public class AssignQuestTest {
 			LocalDateTime.of(2025, 1, 31, 0, 0, 0, 0)
 		);
 
-		SubjectId updatedSubjectId = SubjectId.of(UUID.randomUUID());
+		UUID updatedSubjectId = UUID.randomUUID();
 		SubjectName updatedSubjectName = SubjectName.of("updated subject name");
 		QuestContent updatedContent = QUEST_CONTENT.update("updated quest content");
 		assignQuest.updateQuest(
@@ -289,7 +287,7 @@ public class AssignQuestTest {
 			LocalDateTime.of(2025, 1, 31, 0, 0, 0, 0)
 		);
 
-		assertDoesNotThrow(() -> assignQuest.validateAuthority(PARTICIPANT_ID.getId()));
+		assertDoesNotThrow(() -> assignQuest.validateAuthority(PARTICIPANT_ID));
 	}
 
 	@DisplayName("할당 퀘스트는 등록한 사람이 아니면 접근할 수 없다.")

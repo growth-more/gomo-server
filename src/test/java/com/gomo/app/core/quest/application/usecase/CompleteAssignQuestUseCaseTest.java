@@ -15,7 +15,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.quest.application.port.command.CompleteAssignQuestCommand;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
-import com.gomo.app.core.quest.domain.model.assign.AssignQuestId;
 import com.gomo.app.core.quest.domain.model.reward.PointReward;
 import com.gomo.app.core.quest.domain.model.reward.QuestReward;
 import com.gomo.app.core.quest.domain.model.reward.ScoreReward;
@@ -45,7 +44,7 @@ public class CompleteAssignQuestUseCaseTest {
 	@Test
 	void complete_assign_quest() {
 		AssignQuest assignQuest = AssignQuestFixture.create(true);
-		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
+		doReturn(assignQuest).when(assignQuestService).find(any());
 		doReturn(QuestReward.of(assignQuest.getId(), ScoreReward.of(2), PointReward.of(10))).when(questRewardService).create(any(), any());
 
 		LocalDateTime now = LocalDateTime.now();
@@ -59,7 +58,7 @@ public class CompleteAssignQuestUseCaseTest {
 	@Test
 	void complete_assign_quest_with_not_participant() {
 		AssignQuest assignQuest = AssignQuestFixture.create(true);
-		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
+		doReturn(assignQuest).when(assignQuestService).find(any());
 
 		assertThatThrownBy(
 			() -> sut.complete(CompleteAssignQuestCommand.of(UUID.randomUUID(), UUID.randomUUID(), "https://proof", LocalDateTime.now())))
@@ -71,7 +70,7 @@ public class CompleteAssignQuestUseCaseTest {
 	@Test
 	void complete_assign_quest_with_event() {
 		AssignQuest assignQuest = AssignQuestFixture.create(true);
-		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
+		doReturn(assignQuest).when(assignQuestService).find(any());
 		doReturn(QuestReward.of(assignQuest.getId(), ScoreReward.of(2), PointReward.of(10))).when(questRewardService).create(any(), any());
 
 		sut.complete(CompleteAssignQuestCommand.of(assignQuest.participantId(), UUID.randomUUID(), "https://proof", LocalDateTime.now()));

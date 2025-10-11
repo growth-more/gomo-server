@@ -13,28 +13,18 @@ import lombok.Getter;
 @ValueObject
 public class Participant {
 
-	private ParticipantId id;
+	private UUID id;
 	private QuestQuota questQuota;
 
 	protected Participant() {
 	}
 
-	private Participant(
-		ParticipantId id,
-		QuestQuota questQuota
-	) {
+	private Participant(UUID id, QuestQuota questQuota) {
 		this.id = id;
 		this.questQuota = questQuota;
 	}
 
-	public UUID uuid() {
-		return this.id.getId();
-	}
-
-	public static Participant of(
-		ParticipantId id,
-		QuestQuota questQuota
-	) {
+	public static Participant of(UUID id, QuestQuota questQuota) {
 		return new Participant(id, questQuota);
 	}
 

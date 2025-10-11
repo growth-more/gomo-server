@@ -13,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.quest.domain.model.repeat.RepeatQuest;
-import com.gomo.app.core.quest.domain.model.repeat.RepeatQuestId;
 import com.gomo.app.core.quest.domain.repository.RepeatQuestRepository;
 import com.gomo.app.core.quest.domain.service.RepeatQuestService;
 import com.gomo.app.core.quest.exception.RepeatQuestAccessDeniedException;
@@ -37,9 +36,9 @@ public class DeleteRepeatQuestUseCaseTest {
 	@Test
 	void delete_repeat_quest() {
 		RepeatQuest repeatQuest = RepeatQuestFixture.create();
-		doReturn(repeatQuest).when(repeatQuestService).find(any(RepeatQuestId.class));
+		doReturn(repeatQuest).when(repeatQuestService).find(any());
 
-		sut.delete(repeatQuest.getQuest().getParticipantId().getId(), UUID.randomUUID());
+		sut.delete(repeatQuest.getQuest().getParticipantId(), UUID.randomUUID());
 
 		verify(repeatQuestRepository, times(1)).delete(any());
 	}
@@ -48,7 +47,7 @@ public class DeleteRepeatQuestUseCaseTest {
 	@Test
 	void delete_repeat_quest_by_not_participant() {
 		RepeatQuest repeatQuest = RepeatQuestFixture.create();
-		doReturn(repeatQuest).when(repeatQuestService).find(any(RepeatQuestId.class));
+		doReturn(repeatQuest).when(repeatQuestService).find(any());
 
 		assertThatThrownBy(
 			() -> sut.delete(UUID.randomUUID(), UUID.randomUUID()))

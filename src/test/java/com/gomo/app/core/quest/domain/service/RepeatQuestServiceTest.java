@@ -13,7 +13,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.core.quest.domain.model.participant.ParticipantId;
 import com.gomo.app.core.quest.domain.model.repeat.RepeatQuest;
 import com.gomo.app.core.quest.domain.repository.RepeatQuestRepository;
 import com.gomo.app.core.quest.fixture.QuestFixture;
@@ -36,7 +35,7 @@ public class RepeatQuestServiceTest {
 		doReturn(4).when(repeatQuestRepository).findMaxDisplayOrderByQuestType(any(), any());
 		doReturn(repeatQuest).when(repeatQuestRepository).save(any());
 
-		RepeatQuest actual = sut.create(ParticipantId.of(UUID.randomUUID()), QuestFixture.create());
+		RepeatQuest actual = sut.create(UUID.randomUUID(), QuestFixture.create());
 
 		assertThat(actual.getId()).isEqualTo(repeatQuest.getId());
 	}
@@ -47,7 +46,7 @@ public class RepeatQuestServiceTest {
 		doReturn(4).when(repeatQuestRepository).findMaxDisplayOrderByQuestType(any(), any());
 		doReturn(RepeatQuestFixture.create(4 + 1)).when(repeatQuestRepository).save(any());
 
-		RepeatQuest actual = sut.create(ParticipantId.of(UUID.randomUUID()), QuestFixture.create());
+		RepeatQuest actual = sut.create(UUID.randomUUID(), QuestFixture.create());
 
 		assertThat(actual.getDisplayOrder().getDisplayOrder()).isEqualTo(4 + 1);
 	}

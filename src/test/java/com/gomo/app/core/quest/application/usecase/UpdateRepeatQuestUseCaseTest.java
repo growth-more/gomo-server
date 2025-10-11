@@ -16,7 +16,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.gomo.app.core.quest.application.port.command.UpdateRepeatQuestCommand;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.model.repeat.RepeatQuest;
-import com.gomo.app.core.quest.domain.model.repeat.RepeatQuestId;
 import com.gomo.app.core.quest.domain.service.RepeatQuestService;
 import com.gomo.app.core.quest.exception.QuestTypeConstraintViolationException;
 import com.gomo.app.core.quest.exception.RepeatQuestAccessDeniedException;
@@ -38,8 +37,8 @@ public class UpdateRepeatQuestUseCaseTest {
 	@Test
 	void update_repeat_quest() {
 		RepeatQuest repeatQuest = RepeatQuestFixture.create(QuestType.DAILY);
-		doReturn(repeatQuest).when(repeatQuestService).find(any(RepeatQuestId.class));
-		sut.update(getUpdateRepeatQuestCommand(repeatQuest.getQuest().getParticipantId().getId(), QuestType.DAILY.name()));
+		doReturn(repeatQuest).when(repeatQuestService).find(any());
+		sut.update(getUpdateRepeatQuestCommand(repeatQuest.getQuest().getParticipantId(), QuestType.DAILY.name()));
 		assertThat(repeatQuest.getQuest().getSubjectName().toString()).isEqualTo("updated subject name");
 	}
 
@@ -47,7 +46,7 @@ public class UpdateRepeatQuestUseCaseTest {
 	@Test
 	void update_repeat_quest_with_not_participant() {
 		RepeatQuest repeatQuest = RepeatQuestFixture.create(QuestType.DAILY);
-		doReturn(repeatQuest).when(repeatQuestService).find(any(RepeatQuestId.class));
+		doReturn(repeatQuest).when(repeatQuestService).find(any());
 		assertThatThrownBy(() -> sut.update(getUpdateRepeatQuestCommand(UUID.randomUUID(), QuestType.WEEKLY.name())))
 			.isInstanceOf(RepeatQuestAccessDeniedException.class)
 			.hasMessageContaining(RepeatQuestErrorCode.ACCESS_DENIED.getMessage());
@@ -57,8 +56,8 @@ public class UpdateRepeatQuestUseCaseTest {
 	@Test
 	void update_repeat_quest_with_different_type() {
 		RepeatQuest repeatQuest = RepeatQuestFixture.create(QuestType.DAILY);
-		doReturn(repeatQuest).when(repeatQuestService).find(any(RepeatQuestId.class));
-		assertThatThrownBy(() -> sut.update(getUpdateRepeatQuestCommand(repeatQuest.getQuest().getParticipantId().getId(), QuestType.WEEKLY.name())))
+		doReturn(repeatQuest).when(repeatQuestService).find(any());
+		assertThatThrownBy(() -> sut.update(getUpdateRepeatQuestCommand(repeatQuest.getQuest().getParticipantId(), QuestType.WEEKLY.name())))
 			.isInstanceOf(QuestTypeConstraintViolationException.class)
 			.hasMessageContaining(QuestTypeErrorCode.MISMATCHED.getMessage());
 	}

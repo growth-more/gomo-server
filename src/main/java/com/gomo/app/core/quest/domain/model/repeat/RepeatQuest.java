@@ -9,11 +9,9 @@ import com.gomo.app.common.displayorder.OrderChangeable;
 import com.gomo.app.common.jpa.BaseAudit;
 import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
-import com.gomo.app.core.quest.domain.model.assign.AssignQuestId;
 import com.gomo.app.core.quest.domain.model.quest.Quest;
 import com.gomo.app.core.quest.domain.model.quest.QuestContent;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
-import com.gomo.app.core.quest.domain.model.subject.SubjectId;
 import com.gomo.app.core.quest.domain.model.subject.SubjectName;
 import com.gomo.app.core.quest.exception.RepeatQuestAccessDeniedException;
 import com.gomo.app.core.quest.exception.code.RepeatQuestErrorCode;
@@ -22,16 +20,16 @@ import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Getter;
 
 @Getter
 @Entity
 public class RepeatQuest extends BaseAudit implements OrderChangeable, Authorizable {
 
-	@EmbeddedId
-	private RepeatQuestId id;
+	@Id
+	private UUID id;
 
 	@Embedded
 	@AttributeOverrides({
@@ -49,26 +47,22 @@ public class RepeatQuest extends BaseAudit implements OrderChangeable, Authoriza
 	protected RepeatQuest() {
 	}
 
-	private RepeatQuest(RepeatQuestId id, Quest quest, DisplayOrder displayOrder) {
+	private RepeatQuest(UUID id, Quest quest, DisplayOrder displayOrder) {
 		this.id = id;
 		this.quest = quest;
 		this.displayOrder = displayOrder;
 	}
 
-	public static RepeatQuest of(RepeatQuestId id, Quest quest, DisplayOrder displayOrder) {
+	public static RepeatQuest of(UUID id, Quest quest, DisplayOrder displayOrder) {
 		return new RepeatQuest(id, quest, displayOrder);
 	}
 
-	public UUID id() {
-		return this.id.getId();
-	}
-
-	public void updateQuest(SubjectId subjectId, SubjectName subjectName, QuestType questType, QuestContent content) {
+	public void updateQuest(UUID subjectId, SubjectName subjectName, QuestType questType, QuestContent content) {
 		this.quest = this.quest.update(subjectId, subjectName, questType, content);
 	}
 
 	public AssignQuest createAssignQuest(DisplayOrder displayOrder, LocalDateTime startDateTime) {
-		return AssignQuest.of(AssignQuestId.of(UUIDGenerator.generate()), this.quest.copy(), true, displayOrder, startDateTime);
+		return AssignQuest.of(UUIDGenerator.generate(), this.quest.copy(), true, displayOrder, startDateTime);
 	}
 
 	public boolean isSameQuestType(QuestType questType) {

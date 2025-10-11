@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
-import com.gomo.app.core.quest.domain.model.assign.AssignQuestId;
 import com.gomo.app.core.quest.domain.service.AssignQuestService;
 import com.gomo.app.support.logging.AuditLog;
 
@@ -21,7 +20,7 @@ public class ConfirmAssignQuestUseCase {
 
 	@AuditLog(action = "CONFIRM_ASSIGN_QUEST")
 	public void confirm(UUID accessorId, UUID assignQuestId) {
-		AssignQuest assignQuest = assignQuestService.find(AssignQuestId.of(assignQuestId));
+		AssignQuest assignQuest = assignQuestService.find(assignQuestId);
 		assignQuest.validateAuthority(accessorId);
 		assignQuest.confirm();
 	}

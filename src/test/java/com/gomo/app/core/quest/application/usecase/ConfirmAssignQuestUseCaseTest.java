@@ -13,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
-import com.gomo.app.core.quest.domain.model.assign.AssignQuestId;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.service.AssignQuestService;
 import com.gomo.app.core.quest.exception.AssignQuestAccessDeniedException;
@@ -34,9 +33,9 @@ public class ConfirmAssignQuestUseCaseTest {
 	@Test
 	void confirm_assign_quest() {
 		AssignQuest assignQuest = AssignQuestFixture.create(QuestType.DAILY);
-		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
+		doReturn(assignQuest).when(assignQuestService).find(any());
 
-		sut.confirm(assignQuest.getQuest().getParticipantId().getId(), UUID.randomUUID());
+		sut.confirm(assignQuest.getQuest().getParticipantId(), UUID.randomUUID());
 
 		assertThat(assignQuest.isConfirmed()).isTrue();
 	}
@@ -45,7 +44,7 @@ public class ConfirmAssignQuestUseCaseTest {
 	@Test
 	void confirm_assign_quest_with_not_participant() {
 		AssignQuest assignQuest = AssignQuestFixture.create(QuestType.DAILY);
-		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
+		doReturn(assignQuest).when(assignQuestService).find(any());
 
 		assertThatThrownBy(
 			() -> sut.confirm(UUID.randomUUID(), UUID.randomUUID()))

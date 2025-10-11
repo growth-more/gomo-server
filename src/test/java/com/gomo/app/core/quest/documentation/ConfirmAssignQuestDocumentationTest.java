@@ -45,7 +45,7 @@ public class ConfirmAssignQuestDocumentationTest extends DocumentationTestBase {
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.header(AUTHORIZATION, "Bearer " + accessToken)
 			.when()
-			.put("/quests/assigns/{id}/confirm", assignQuest.getId().getId())
+			.put("/quests/assigns/{id}/confirm", assignQuest.getId())
 			.then()
 			.statusCode(NO_CONTENT.value());
 	}

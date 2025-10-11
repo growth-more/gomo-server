@@ -10,18 +10,18 @@ public record AssignQuestDto(UUID id, UUID subjectId, String questType, int poin
 
 	public static AssignQuestDto from(AssignQuest assignQuest, int point, int score) {
 		return new AssignQuestDto(
-			assignQuest.id(),
-			assignQuest.getQuest().getSubjectId().getId(),
-			assignQuest.getQuest().getType().name(),
+			assignQuest.getId(),
+			assignQuest.subjectId(),
+			assignQuest.questType().name(),
 			point,
 			score,
-			assignQuest.getQuest().getSubjectName().toString(),
-			assignQuest.getQuest().getContent().getQuestContent(),
+			assignQuest.subjectName(),
+			assignQuest.content(),
 			assignQuest.isConfirmed(),
 			assignQuest.isCompleted(),
 			assignQuest.getProof().getUrl(),
 			assignQuest.getStartDateTime(),
-			assignQuest.getDisplayOrder().getDisplayOrder()
+			assignQuest.displayOrder()
 		);
 	}
 }

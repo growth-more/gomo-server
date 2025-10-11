@@ -1,7 +1,8 @@
 package com.gomo.app.core.quest.domain.model.reward;
 
+import java.util.UUID;
+
 import com.gomo.app.common.arch.ValueObject;
-import com.gomo.app.core.quest.domain.model.assign.AssignQuestId;
 
 import jakarta.persistence.Embedded;
 import lombok.Getter;
@@ -11,7 +12,7 @@ import lombok.Getter;
 public class QuestReward {
 
 	@Embedded
-	private AssignQuestId assignQuestId;
+	private UUID assignQuestId;
 
 	@Embedded
 	private ScoreReward scoreReward;
@@ -22,13 +23,13 @@ public class QuestReward {
 	protected QuestReward() {
 	}
 
-	private QuestReward(AssignQuestId assignQuestId, ScoreReward scoreReward, PointReward pointReward) {
+	private QuestReward(UUID assignQuestId, ScoreReward scoreReward, PointReward pointReward) {
 		this.assignQuestId = assignQuestId;
 		this.scoreReward = scoreReward;
 		this.pointReward = pointReward;
 	}
 
-	public static QuestReward of(AssignQuestId assignQuestId, ScoreReward scoreReward, PointReward pointReward) {
+	public static QuestReward of(UUID assignQuestId, ScoreReward scoreReward, PointReward pointReward) {
 		return new QuestReward(assignQuestId, scoreReward, pointReward);
 	}
 

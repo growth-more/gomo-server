@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gomo.app.core.quest.domain.model.participant.ParticipantId;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.model.repeat.RepeatQuest;
 import com.gomo.app.core.quest.domain.repository.RepeatQuestRepository;
@@ -49,7 +48,7 @@ public class RepeatQuestRepositoryTest {
 	@Test
 	void count_repeat_quest() {
 		long actual = sut.countByQuestParticipantIdAndQuestType(
-			ParticipantId.of(participantId),
+			participantId,
 			QuestType.DAILY
 		);
 
@@ -60,7 +59,7 @@ public class RepeatQuestRepositoryTest {
 	@Test
 	void find_max_order_repeat_quest() {
 		int actual = sut.findMaxDisplayOrderByQuestType(
-			ParticipantId.of(participantId),
+			participantId,
 			QuestType.DAILY
 		);
 
@@ -71,7 +70,7 @@ public class RepeatQuestRepositoryTest {
 	@Test
 	void find_repeat_quests() {
 		List<RepeatQuest> actual = sut.findRepeatQuestsByQuestType(
-			ParticipantId.of(participantId),
+			participantId,
 			QuestType.DAILY
 		);
 
@@ -83,10 +82,10 @@ public class RepeatQuestRepositoryTest {
 	@Test
 	void delete_all_repeat_quest() {
 
-		sut.deleteAllByParticipantId(ParticipantId.of(participantId));
+		sut.deleteAllByParticipantId(participantId);
 
-		assertThat(sut.countByQuestParticipantIdAndQuestType(ParticipantId.of(participantId), QuestType.DAILY)).isZero();
-		assertThat(sut.countByQuestParticipantIdAndQuestType(ParticipantId.of(participantId), QuestType.WEEKLY)).isZero();
-		assertThat(sut.countByQuestParticipantIdAndQuestType(ParticipantId.of(participantId), QuestType.MONTHLY)).isZero();
+		assertThat(sut.countByQuestParticipantIdAndQuestType(participantId, QuestType.DAILY)).isZero();
+		assertThat(sut.countByQuestParticipantIdAndQuestType(participantId, QuestType.WEEKLY)).isZero();
+		assertThat(sut.countByQuestParticipantIdAndQuestType(participantId, QuestType.MONTHLY)).isZero();
 	}
 }

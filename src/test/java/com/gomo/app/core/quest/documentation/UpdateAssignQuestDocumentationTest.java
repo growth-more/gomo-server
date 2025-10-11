@@ -60,7 +60,7 @@ public class UpdateAssignQuestDocumentationTest extends DocumentationTestBase {
 				"updated quest content"
 			))
 			.when()
-			.put("/quests/assigns/{id}", assignQuest.getId().getId())
+			.put("/quests/assigns/{id}", assignQuest.getId())
 			.then()
 			.statusCode(NO_CONTENT.value());
 	}
@@ -77,11 +77,11 @@ public class UpdateAssignQuestDocumentationTest extends DocumentationTestBase {
 				QuestType.DAILY.name(),
 				BLANK_QUEST_CONTENT))
 			.when()
-			.put("/quests/assigns/{id}", assignQuest.getId().getId())
+			.put("/quests/assigns/{id}", assignQuest.getId())
 			.then()
 			.statusCode(QuestContentErrorCode.BLANK.getHttpStatus())
 			.body("timestamp", instanceOf(String.class))
-			.body("path", equalTo("/quests/assigns/" + assignQuest.getId().getId()))
+			.body("path", equalTo("/quests/assigns/" + assignQuest.getId()))
 			.body("httpStatus", equalTo(QuestContentErrorCode.BLANK.getHttpStatus()))
 			.body("code", equalTo(QuestContentErrorCode.BLANK.getErrorCode()))
 			.body("message", equalTo(QuestContentErrorCode.BLANK.getMessage()));

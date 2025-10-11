@@ -4,34 +4,30 @@ import java.util.UUID;
 
 import com.gomo.app.common.jpa.BaseAudit;
 
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Getter;
 
 @Getter
 @Entity
 public class Achiever extends BaseAudit {
 
-	@EmbeddedId
-	private AchieverId id;
+	@Id
+	private UUID id;
 	private int currentStreakDays;
 	private int longestStreakDays;
 
 	protected Achiever() {
 	}
 
-	public Achiever(AchieverId id, int currentStreakDays, int longestStreakDays) {
+	public Achiever(UUID id, int currentStreakDays, int longestStreakDays) {
 		this.id = id;
 		this.currentStreakDays = currentStreakDays;
 		this.longestStreakDays = longestStreakDays;
 	}
 
-	public static Achiever of(AchieverId id) {
+	public static Achiever of(UUID id) {
 		return new Achiever(id, 0, 0);
-	}
-
-	public UUID id() {
-		return id.getId();
 	}
 
 	public void updateStreakDays(boolean isFilledPriorDay) {

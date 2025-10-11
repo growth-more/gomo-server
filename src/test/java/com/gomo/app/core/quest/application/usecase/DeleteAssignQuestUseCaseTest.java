@@ -13,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
-import com.gomo.app.core.quest.domain.model.assign.AssignQuestId;
 import com.gomo.app.core.quest.domain.model.assign.CompletionProof;
 import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.domain.service.AssignQuestService;
@@ -39,9 +38,9 @@ public class DeleteAssignQuestUseCaseTest {
 	@Test
 	void delete_assign_quest() {
 		AssignQuest assignQuest = AssignQuestFixture.create();
-		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
+		doReturn(assignQuest).when(assignQuestService).find(any());
 
-		sut.delete(assignQuest.getQuest().getParticipantId().getId(), UUID.randomUUID());
+		sut.delete(assignQuest.getQuest().getParticipantId(), UUID.randomUUID());
 
 		verify(assignQuestRepository, times(1)).delete(any(AssignQuest.class));
 	}
@@ -50,7 +49,7 @@ public class DeleteAssignQuestUseCaseTest {
 	@Test
 	void delete_assign_quest_by_not_participant() {
 		AssignQuest assignQuest = AssignQuestFixture.create();
-		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
+		doReturn(assignQuest).when(assignQuestService).find(any());
 
 		assertThatThrownBy(
 			() -> sut.delete(UUID.randomUUID(), UUID.randomUUID()))
@@ -62,10 +61,10 @@ public class DeleteAssignQuestUseCaseTest {
 	@Test
 	void delete_confirmed_assign_quest() {
 		AssignQuest assignQuest = AssignQuestFixture.create(true);
-		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
+		doReturn(assignQuest).when(assignQuestService).find(any());
 
 		assertThatThrownBy(
-			() -> sut.delete(assignQuest.getQuest().getParticipantId().getId(), UUID.randomUUID()))
+			() -> sut.delete(assignQuest.getQuest().getParticipantId(), UUID.randomUUID()))
 			.isInstanceOf(AssignQuestConstraintViolationException.class)
 			.hasMessageContaining(AssignQuestErrorCode.ALREADY_CONFIRMED.getMessage());
 	}
@@ -74,10 +73,10 @@ public class DeleteAssignQuestUseCaseTest {
 	@Test
 	void delete_completed_assign_quest() {
 		AssignQuest assignQuest = AssignQuestFixture.create(false, true, CompletionProof.createDefault());
-		doReturn(assignQuest).when(assignQuestService).find(any(AssignQuestId.class));
+		doReturn(assignQuest).when(assignQuestService).find(any());
 
 		assertThatThrownBy(
-			() -> sut.delete(assignQuest.getQuest().getParticipantId().getId(), UUID.randomUUID()))
+			() -> sut.delete(assignQuest.getQuest().getParticipantId(), UUID.randomUUID()))
 			.isInstanceOf(AssignQuestConstraintViolationException.class)
 			.hasMessageContaining(AssignQuestErrorCode.ALREADY_COMPLETED.getMessage());
 	}

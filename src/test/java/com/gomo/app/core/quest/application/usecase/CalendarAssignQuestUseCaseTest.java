@@ -18,7 +18,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.gomo.app.core.quest.application.port.command.CalendarAssignQuestCommand;
 import com.gomo.app.core.quest.application.port.dto.CalendarAssignQuestDto;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
-import com.gomo.app.core.quest.domain.model.participant.ParticipantId;
 import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.fixture.AssignQuestFixture;
 
@@ -36,7 +35,7 @@ public class CalendarAssignQuestUseCaseTest {
 	@Test
 	void find_completed_quest_for_month() {
 		List<AssignQuest> calendars = List.of(AssignQuestFixture.create(DAILY), AssignQuestFixture.create(WEEKLY));
-		ParticipantId participantId = ParticipantId.of(UUID.randomUUID());
+		UUID participantId = UUID.randomUUID();
 		LocalDateTime start = LocalDateTime.of(2025, 2, 1, 0, 0);
 		LocalDateTime end = start.plusMonths(1).minusSeconds(1);
 		doReturn(calendars).when(assignQuestRepository).findByQuestParticipantIdAndCompletedDateTimeBetween(
@@ -45,7 +44,7 @@ public class CalendarAssignQuestUseCaseTest {
 			eq(end)
 		);
 
-		List<CalendarAssignQuestDto> actual = sut.find(CalendarAssignQuestCommand.of(participantId.getId(), true, start, end));
+		List<CalendarAssignQuestDto> actual = sut.find(CalendarAssignQuestCommand.of(participantId, true, start, end));
 
 		assertThat(actual.size()).isEqualTo(2);
 	}
@@ -54,7 +53,7 @@ public class CalendarAssignQuestUseCaseTest {
 	@Test
 	void find_completed_quest_for_day() {
 		List<AssignQuest> calendars = List.of(AssignQuestFixture.create(DAILY), AssignQuestFixture.create(WEEKLY));
-		ParticipantId participantId = ParticipantId.of(UUID.randomUUID());
+		UUID participantId = UUID.randomUUID();
 		LocalDateTime start = LocalDateTime.of(2025, 2, 1, 0, 0);
 		LocalDateTime end = start.plusDays(1).minusSeconds(1);
 		doReturn(calendars).when(assignQuestRepository).findByQuestParticipantIdAndCompletedDateTimeBetween(
@@ -63,7 +62,7 @@ public class CalendarAssignQuestUseCaseTest {
 			eq(end)
 		);
 
-		List<CalendarAssignQuestDto> actual = sut.find(CalendarAssignQuestCommand.of(participantId.getId(), true, start, end));
+		List<CalendarAssignQuestDto> actual = sut.find(CalendarAssignQuestCommand.of(participantId, true, start, end));
 
 		assertThat(actual.size()).isEqualTo(2);
 	}
@@ -72,7 +71,7 @@ public class CalendarAssignQuestUseCaseTest {
 	@Test
 	void find_not_completed_quest_for_month() {
 		List<AssignQuest> calendars = List.of(AssignQuestFixture.create(DAILY), AssignQuestFixture.create(WEEKLY));
-		ParticipantId participantId = ParticipantId.of(UUID.randomUUID());
+		UUID participantId = UUID.randomUUID();
 		LocalDateTime start = LocalDateTime.of(2025, 2, 1, 0, 0);
 		LocalDateTime end = start.plusMonths(1).minusSeconds(1);
 		doReturn(calendars).when(assignQuestRepository).findByQuestParticipantIdAndStartDateTimeBetweenAndIsCompletedFalse(
@@ -81,7 +80,7 @@ public class CalendarAssignQuestUseCaseTest {
 			eq(end)
 		);
 
-		List<CalendarAssignQuestDto> actual = sut.find(CalendarAssignQuestCommand.of(participantId.getId(), false, start, end));
+		List<CalendarAssignQuestDto> actual = sut.find(CalendarAssignQuestCommand.of(participantId, false, start, end));
 
 		assertThat(actual.size()).isEqualTo(2);
 	}
@@ -90,7 +89,7 @@ public class CalendarAssignQuestUseCaseTest {
 	@Test
 	void find_not_completed_quest_for_day() {
 		List<AssignQuest> calendars = List.of(AssignQuestFixture.create(DAILY), AssignQuestFixture.create(WEEKLY));
-		ParticipantId participantId = ParticipantId.of(UUID.randomUUID());
+		UUID participantId = UUID.randomUUID();
 		LocalDateTime start = LocalDateTime.of(2025, 2, 1, 0, 0);
 		LocalDateTime end = start.plusDays(1).minusSeconds(1);
 		doReturn(calendars).when(assignQuestRepository).findByQuestParticipantIdAndStartDateTimeBetweenAndIsCompletedFalse(
@@ -99,7 +98,7 @@ public class CalendarAssignQuestUseCaseTest {
 			eq(end)
 		);
 
-		List<CalendarAssignQuestDto> actual = sut.find(CalendarAssignQuestCommand.of(participantId.getId(), false, start, end));
+		List<CalendarAssignQuestDto> actual = sut.find(CalendarAssignQuestCommand.of(participantId, false, start, end));
 
 		assertThat(actual.size()).isEqualTo(2);
 	}

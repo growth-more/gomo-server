@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
 import com.gomo.app.core.quest.domain.model.assign.CompletionProof;
-import com.gomo.app.core.quest.domain.model.participant.ParticipantId;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.fixture.AssignQuestFixture;
@@ -30,23 +29,22 @@ public class AssignQuestRepositoryTest {
 
 	@Autowired
 	private AssignQuestRepository assignQuestRepository;
-	private ParticipantId participantId;
+	private UUID participantId;
 
 	@BeforeEach
 	public void setUp() {
-		UUID uuid = UUID.randomUUID();
-		participantId = ParticipantId.of(uuid);
+		participantId = UUID.randomUUID();
 
 		LocalDateTime startDateTime1 = LocalDateTime.of(2025, 1, 21, 10, 0);
-		AssignQuest notConfirmed = AssignQuestFixture.create(uuid, false, startDateTime1, 1);
-		AssignQuest confirmed = AssignQuestFixture.create(uuid, true, startDateTime1, 2);
+		AssignQuest notConfirmed = AssignQuestFixture.create(participantId, false, startDateTime1, 1);
+		AssignQuest confirmed = AssignQuestFixture.create(participantId, true, startDateTime1, 2);
 
 		LocalDateTime completedDateTime1 = LocalDateTime.of(2025, 1, 21, 11, 0);
-		AssignQuest completed1 = AssignQuestFixture.create(uuid, true, CompletionProof.of("proof"), startDateTime1, completedDateTime1);
+		AssignQuest completed1 = AssignQuestFixture.create(participantId, true, CompletionProof.of("proof"), startDateTime1, completedDateTime1);
 
 		LocalDateTime startDateTime2 = LocalDateTime.of(2025, 1, 20, 10, 0);
 		LocalDateTime completedDateTime2 = LocalDateTime.of(2025, 1, 20, 11, 0);
-		AssignQuest completed2 = AssignQuestFixture.create(uuid, true, CompletionProof.of("proof"), startDateTime2, completedDateTime2);
+		AssignQuest completed2 = AssignQuestFixture.create(participantId, true, CompletionProof.of("proof"), startDateTime2, completedDateTime2);
 		assignQuestRepository.saveAll(List.of(notConfirmed, confirmed, completed1, completed2));
 	}
 

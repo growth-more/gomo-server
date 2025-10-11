@@ -11,20 +11,18 @@ import org.junit.jupiter.api.Test;
 
 import com.gomo.app.common.displayorder.DisplayOrder;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
-import com.gomo.app.core.quest.domain.model.participant.ParticipantId;
 import com.gomo.app.core.quest.domain.model.quest.Quest;
 import com.gomo.app.core.quest.domain.model.quest.QuestContent;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
-import com.gomo.app.core.quest.domain.model.subject.SubjectId;
 import com.gomo.app.core.quest.domain.model.subject.SubjectName;
 import com.gomo.app.core.quest.exception.RepeatQuestAccessDeniedException;
 
 @DisplayName("[Domain unit]: 반복 퀘스트 생성 및 수정 테스트")
 public class RepeatQuestTest {
 
-	private static final RepeatQuestId ID = RepeatQuestId.of(UUID.randomUUID());
-	private static final ParticipantId PARTICIPANT_ID = ParticipantId.of(UUID.randomUUID());
-	private static final SubjectId SUBJECT_ID = SubjectId.of(UUID.randomUUID());
+	private static final UUID ID = UUID.randomUUID();
+	private static final UUID PARTICIPANT_ID = UUID.randomUUID();
+	private static final UUID SUBJECT_ID = UUID.randomUUID();
 	private static final SubjectName SUBJECT_NAME = SubjectName.of("subject name");
 	private static final QuestContent QUEST_CONTENT = QuestContent.of("quest content");
 
@@ -55,7 +53,7 @@ public class RepeatQuestTest {
 			DisplayOrder.of(1)
 		);
 
-		SubjectId updatedSubjectId = SubjectId.of(UUID.randomUUID());
+		UUID updatedSubjectId = UUID.randomUUID();
 		SubjectName updatedSubjectName = SubjectName.of("updated subject name");
 		QuestContent updatedContent = QUEST_CONTENT.update("updated quest content");
 		repeatQuest.updateQuest(updatedSubjectId, updatedSubjectName, QuestType.WEEKLY, updatedContent);
@@ -154,7 +152,7 @@ public class RepeatQuestTest {
 			DisplayOrder.of(1)
 		);
 
-		assertDoesNotThrow(() -> repeatQuest.validateAuthority(PARTICIPANT_ID.getId()));
+		assertDoesNotThrow(() -> repeatQuest.validateAuthority(PARTICIPANT_ID));
 	}
 
 	@DisplayName("반복 퀘스트는 등록한 사람이 아니면 접근할 수 없다.")

@@ -10,7 +10,6 @@ import com.gomo.app.common.jpa.BaseAudit;
 import com.gomo.app.core.quest.domain.model.quest.Quest;
 import com.gomo.app.core.quest.domain.model.quest.QuestContent;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
-import com.gomo.app.core.quest.domain.model.subject.SubjectId;
 import com.gomo.app.core.quest.domain.model.subject.SubjectName;
 import com.gomo.app.core.quest.exception.AssignQuestAccessDeniedException;
 import com.gomo.app.core.quest.exception.AssignQuestConstraintViolationException;
@@ -22,8 +21,8 @@ import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Getter;
 
 @Getter
@@ -32,8 +31,8 @@ public class AssignQuest extends BaseAudit implements OrderChangeable, Authoriza
 
 	private static final boolean NOT_COMPLETED = false;
 
-	@EmbeddedId
-	private AssignQuestId id;
+	@Id
+	private UUID id;
 
 	@Embedded
 	@AttributeOverrides({
@@ -60,7 +59,7 @@ public class AssignQuest extends BaseAudit implements OrderChangeable, Authoriza
 	protected AssignQuest() {
 	}
 
-	public AssignQuest(AssignQuestId id, Quest quest, CompletionProof proof, boolean isConfirmed, boolean isCompleted, DisplayOrder displayOrder,
+	public AssignQuest(UUID id, Quest quest, CompletionProof proof, boolean isConfirmed, boolean isCompleted, DisplayOrder displayOrder,
 		LocalDateTime startDateTime, LocalDateTime completedDateTime) {
 		this.id = id;
 		this.quest = quest;
@@ -72,27 +71,35 @@ public class AssignQuest extends BaseAudit implements OrderChangeable, Authoriza
 		this.completedDateTime = completedDateTime;
 	}
 
-	public static AssignQuest of(AssignQuestId id, Quest quest, boolean isConfirmed, DisplayOrder displayOrder, LocalDateTime startDateTime) {
+	public static AssignQuest of(UUID id, Quest quest, boolean isConfirmed, DisplayOrder displayOrder, LocalDateTime startDateTime) {
 		return new AssignQuest(id, quest, CompletionProof.createDefault(), isConfirmed, NOT_COMPLETED, displayOrder, startDateTime, null);
 	}
 
-	public UUID id() {
-		return this.id.getId();
-	}
-
 	public UUID participantId() {
-		return this.quest.getParticipantId().getId();
+		return this.quest.getParticipantId();
 	}
 
 	public UUID subjectId() {
-		return this.quest.getSubjectId().getId();
+		return this.quest.getSubjectId();
+	}
+
+	public String subjectName() {
+		return this.quest.getSubjectName().getSubjectName();
 	}
 
 	public QuestType questType() {
 		return this.quest.getType();
 	}
 
-	public void updateQuest(SubjectId subjectId, SubjectName subjectName, QuestType questType, QuestContent content) {
+	public String content() {
+		return this.quest.getContent().getQuestContent();
+	}
+
+	public int displayOrder() {
+		return this.getDisplayOrder().getDisplayOrder();
+	}
+
+	public void updateQuest(UUID subjectId, SubjectName subjectName, QuestType questType, QuestContent content) {
 		this.quest = this.quest.update(subjectId, subjectName, questType, content);
 	}
 

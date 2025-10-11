@@ -2,19 +2,17 @@ package com.gomo.app.core.quest.fixture;
 
 import java.util.UUID;
 
-import com.gomo.app.core.quest.domain.model.participant.ParticipantId;
 import com.gomo.app.core.quest.domain.model.quest.Quest;
 import com.gomo.app.core.quest.domain.model.quest.QuestContent;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
-import com.gomo.app.core.quest.domain.model.subject.SubjectId;
 import com.gomo.app.core.quest.domain.model.subject.SubjectName;
 
 public class QuestFixture {
 
 	public static Quest create() {
 		return Quest.of(
-			ParticipantId.of(UUID.randomUUID()),
-			SubjectId.of(UUID.randomUUID()),
+			UUID.randomUUID(),
+			UUID.randomUUID(),
 			SubjectName.of("subject name"),
 			QuestType.DAILY,
 			QuestContent.of("quest content")
@@ -23,8 +21,8 @@ public class QuestFixture {
 
 	public static Quest create(UUID participantId) {
 		return Quest.of(
-			ParticipantId.of(participantId),
-			SubjectId.of(UUID.randomUUID()),
+			participantId,
+			UUID.randomUUID(),
 			SubjectName.of("subject name"),
 			QuestType.DAILY,
 			QuestContent.of("quest content")

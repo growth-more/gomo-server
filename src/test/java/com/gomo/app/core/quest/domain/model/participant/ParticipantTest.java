@@ -17,7 +17,7 @@ public class ParticipantTest {
 	@DisplayName("참여자의 퀘스트 수가 할당량을 초과하지 않는다.")
 	@Test
 	void not_exceed_quest_quota() {
-		Participant participant = Participant.of(ParticipantId.of(UUID.randomUUID()), QuestQuota.of(5, 5, 5));
+		Participant participant = Participant.of(UUID.randomUUID(), QuestQuota.of(5, 5, 5));
 
 		assertThatCode(() -> participant.validateQuestQuota(QuestType.DAILY, 4))
 			.doesNotThrowAnyException();
@@ -26,7 +26,7 @@ public class ParticipantTest {
 	@DisplayName("참여자의 퀘스트 수가 할당량을 초과한다.")
 	@Test
 	void exceed_quest_quota() {
-		Participant participant = Participant.of(ParticipantId.of(UUID.randomUUID()), QuestQuota.of(5, 5, 5));
+		Participant participant = Participant.of(UUID.randomUUID(), QuestQuota.of(5, 5, 5));
 
 		assertThatThrownBy(() -> participant.validateQuestQuota(QuestType.DAILY, 5))
 			.isInstanceOf(QuestConstraintViolationException.class)

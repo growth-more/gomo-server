@@ -6,7 +6,6 @@ import java.util.UUID;
 import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.core.quest.application.port.dto.ListRepeatQuestDto;
 import com.gomo.app.core.quest.application.port.dto.RepeatQuestDto;
-import com.gomo.app.core.quest.domain.model.participant.ParticipantId;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.model.reward.policy.QuestPointPolicy;
 import com.gomo.app.core.quest.domain.model.reward.policy.QuestScorePolicy;
@@ -25,18 +24,17 @@ public class ReadRepeatQuestUseCase {
 	private final QuestRewardPolicyRepository questRewardPolicyRepository;
 
 	public ListRepeatQuestDto findAll(UUID participantId) {
-		ParticipantId targetId = ParticipantId.of(participantId);
 		List<QuestPointPolicy> pointPolicies = questRewardPolicyRepository.findPointPolicies();
 		List<QuestScorePolicy> scorePolicies = questRewardPolicyRepository.findScorePolicies();
 
-		List<RepeatQuestDto> dailyRepeatQuests = findRepeatQuestResponses(targetId, QuestType.DAILY, pointPolicies, scorePolicies);
-		List<RepeatQuestDto> weeklyRepeatQuests = findRepeatQuestResponses(targetId, QuestType.WEEKLY, pointPolicies, scorePolicies);
-		List<RepeatQuestDto> monthlyRepeatQuests = findRepeatQuestResponses(targetId, QuestType.MONTHLY, pointPolicies, scorePolicies);
+		List<RepeatQuestDto> dailyRepeatQuests = findRepeatQuestResponses(participantId, QuestType.DAILY, pointPolicies, scorePolicies);
+		List<RepeatQuestDto> weeklyRepeatQuests = findRepeatQuestResponses(participantId, QuestType.WEEKLY, pointPolicies, scorePolicies);
+		List<RepeatQuestDto> monthlyRepeatQuests = findRepeatQuestResponses(participantId, QuestType.MONTHLY, pointPolicies, scorePolicies);
 		return ListRepeatQuestDto.of(dailyRepeatQuests, weeklyRepeatQuests, monthlyRepeatQuests);
 	}
 
 	private List<RepeatQuestDto> findRepeatQuestResponses(
-		ParticipantId participantId,
+		UUID participantId,
 		QuestType questType,
 		List<QuestPointPolicy> pointPolicies,
 		List<QuestScorePolicy> scorePolicies

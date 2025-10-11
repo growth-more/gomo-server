@@ -2,12 +2,12 @@ package com.gomo.app.core.streak.domain.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.arch.DomainService;
 import com.gomo.app.core.streak.domain.model.Achiever;
-import com.gomo.app.core.streak.domain.model.AchieverId;
 import com.gomo.app.core.streak.domain.model.Streak;
 import com.gomo.app.core.streak.domain.model.StreakType;
 import com.gomo.app.core.streak.domain.repository.StreakRepository;
@@ -33,7 +33,7 @@ public class StreakService {
 			}).orElseGet(() -> createInitialStreak(streak));
 	}
 
-	public List<Streak> findAllByStreakType(AchieverId achieverId, StreakType streakType, LocalDate startDate, LocalDate endDate) {
+	public List<Streak> findAllByStreakType(UUID achieverId, StreakType streakType, LocalDate startDate, LocalDate endDate) {
 		return streakRepository.findByAchieverIdAndStreakTypeAndFilledDateBetween(achieverId, streakType, startDate, endDate);
 	}
 

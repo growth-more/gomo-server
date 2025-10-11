@@ -5,6 +5,7 @@ import static com.gomo.app.core.quest.domain.model.quest.QuestType.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.PageRequest;
@@ -13,14 +14,13 @@ import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.common.displayorder.DisplayOrder;
 import com.gomo.app.core.quest.application.port.ReadActiveParticipantPortOut;
 import com.gomo.app.core.quest.application.port.RoutineAssignQuestPortIn;
+import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
 import com.gomo.app.core.quest.domain.model.participant.Participant;
-import com.gomo.app.core.quest.domain.model.participant.ParticipantId;
+import com.gomo.app.core.quest.domain.model.participant.QuestQuota;
 import com.gomo.app.core.quest.domain.model.pool.ProcessingStatus;
 import com.gomo.app.core.quest.domain.model.pool.QuestPool;
-import com.gomo.app.core.quest.domain.model.participant.QuestQuota;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.model.repeat.RepeatQuest;
-import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
 import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.domain.repository.QuestPoolRepository;
 import com.gomo.app.core.quest.domain.repository.RepeatQuestRepository;
@@ -41,12 +41,12 @@ class RoutineAssignQuestUseCase implements RoutineAssignQuestPortIn {
 		LocalDateTime startDateTime = LocalDateTime.now();
 		List<Participant> participants = readActiveParticipantPortOut.findAll(startDateTime.toLocalDate().minusDays(1)).stream()
 			.map(dto -> Participant.of(
-				ParticipantId.of(dto.participantId()),
+				dto.participantId(),
 				QuestQuota.of(dto.dailyQuota(), dto.weeklyQuota(), dto.monthlyQuota())
 			)).toList();
 
 		for (Participant participant : participants) {
-			ParticipantId participantId = ParticipantId.of(participant.uuid());
+			UUID participantId = participant.getId();
 			QuestType type = valueOf(questType);
 			List<RepeatQuest> repeatQuests = repeatQuestRepository.findRepeatQuestsByQuestType(participantId, type);
 			assignQuestRepository.saveAll(createParticipatingQuest(participant, startDateTime, type, repeatQuests));
@@ -55,7 +55,7 @@ class RoutineAssignQuestUseCase implements RoutineAssignQuestPortIn {
 
 	@NotNull
 	private List<AssignQuest> createParticipatingQuest(Participant participant, LocalDateTime startDateTime, QuestType questType, List<RepeatQuest> repeatQuests) {
-		ParticipantId participantId = ParticipantId.of(participant.uuid());
+		UUID participantId = participant.getId();
 		List<AssignQuest> participatingQuests = new ArrayList<>();
 		DisplayOrder displayOrder = DisplayOrder.of(1);
 

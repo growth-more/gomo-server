@@ -9,7 +9,6 @@ import com.gomo.app.common.util.JsonParser;
 import com.gomo.app.common.util.TimestampGenerator;
 import com.gomo.app.core.quest.application.port.command.CompleteAssignQuestCommand;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
-import com.gomo.app.core.quest.domain.model.assign.AssignQuestId;
 import com.gomo.app.core.quest.domain.model.assign.CompletionProof;
 import com.gomo.app.core.quest.domain.model.reward.QuestReward;
 import com.gomo.app.core.quest.domain.service.AssignQuestService;
@@ -33,7 +32,7 @@ public class CompleteAssignQuestUseCase {
 
 	@AuditLog(action = "COMPLETE_ASSIGN_QUEST")
 	public void complete(CompleteAssignQuestCommand command) {
-		AssignQuest assignQuest = assignQuestService.find(AssignQuestId.of(command.assignQuestId()));
+		AssignQuest assignQuest = assignQuestService.find(command.assignQuestId());
 		assignQuest.validateAuthority(command.participantId());
 		assignQuest.complete(CompletionProof.of(command.proof()), command.completedDateTime());
 		createQuestCompletionEvent(command.participantId(), assignQuest);
