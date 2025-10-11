@@ -15,7 +15,6 @@ import com.gomo.app.core.interest.domain.repository.InterestRepository;
 import com.gomo.app.core.interest.domain.repository.MajorInterestRepository;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
-import com.gomo.app.core.point.domain.model.TransactorId;
 import com.gomo.app.core.point.domain.repository.PointRepository;
 import com.gomo.app.core.point.domain.repository.PointWalletRepository;
 import com.gomo.app.core.quest.domain.model.participant.ParticipantId;
@@ -78,8 +77,8 @@ public class MemberCleanupScheduler {
 		interestRepository.deleteAllByRegistrantId(RegistrantId.of(member.id()));
 
 		// Point 관련 데이터 삭제
-		pointRepository.deleteAllByTransactorId(TransactorId.of(member.id()));
-		pointWalletRepository.deletePointWalletByTransactorId(TransactorId.of(member.id()));
+		pointRepository.deleteAllByTransactorId(member.id());
+		pointWalletRepository.deletePointWalletByTransactorId(member.id());
 
 		// Streak 관련 데이터 삭제
 		streakRepository.deleteAllByAchieverId(AchieverId.of(member.id()));

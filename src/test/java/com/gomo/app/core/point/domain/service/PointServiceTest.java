@@ -13,7 +13,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.point.domain.model.SourceType;
 import com.gomo.app.core.point.domain.model.TransactionType;
-import com.gomo.app.core.point.domain.model.TransactorId;
 import com.gomo.app.core.point.domain.repository.PointRepository;
 import com.gomo.app.core.point.fixture.PointFixture;
 
@@ -34,7 +33,7 @@ public class PointServiceTest {
 	@Test
 	void create_point() {
 		doReturn(PointFixture.create()).when(pointRepository).save(any());
-		sut.create(TransactorId.of(UUID.randomUUID()), SourceType.QUEST, TransactionType.GAIN, 10);
+		sut.create(UUID.randomUUID(), SourceType.QUEST, TransactionType.GAIN, 10);
 		verify(pointWalletService, times(1)).adjustPointBalance(any(), any(), eq(10));
 		verify(pointRepository, times(1)).save(any());
 	}

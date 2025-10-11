@@ -1,16 +1,15 @@
 package com.gomo.app.core.point.domain.repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.gomo.app.core.point.domain.model.PointWallet;
-import com.gomo.app.core.point.domain.model.PointWalletId;
-import com.gomo.app.core.point.domain.model.TransactorId;
 
-public interface PointWalletRepository extends JpaRepository<PointWallet, PointWalletId> {
+public interface PointWalletRepository extends JpaRepository<PointWallet, UUID> {
 
-	Optional<PointWallet> findByTransactorId(TransactorId transactorId);
+	Optional<PointWallet> findByTransactorId(UUID transactorId);
 
-	void deletePointWalletByTransactorId(TransactorId transactorId);
+	void deletePointWalletByTransactorId(UUID transactorId);
 }

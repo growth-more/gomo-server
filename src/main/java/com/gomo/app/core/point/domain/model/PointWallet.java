@@ -8,22 +8,17 @@ import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Getter;
 
 @Getter
 @Entity
 public class PointWallet extends BaseAudit {
 
-	@EmbeddedId
-	private PointWalletId id;
-
-	@Embedded
-	@AttributeOverrides({
-		@AttributeOverride(name = "id", column = @Column(name = "transactor_id"))
-	})
-	private TransactorId transactorId;
+	@Id
+	private UUID id;
+	private UUID transactorId;
 
 	@Embedded
 	@AttributeOverrides({
@@ -34,22 +29,18 @@ public class PointWallet extends BaseAudit {
 	protected PointWallet() {
 	}
 
-	private PointWallet(PointWalletId id, TransactorId transactorId, Balance balance) {
+	private PointWallet(UUID id, UUID transactorId, Balance balance) {
 		this.id = id;
 		this.transactorId = transactorId;
 		this.balance = balance;
 	}
 
-	public static PointWallet createDefault(PointWalletId id, TransactorId transactorId) {
+	public static PointWallet createDefault(UUID id, UUID transactorId) {
 		return new PointWallet(id, transactorId, Balance.of(0));
 	}
 
-	public static PointWallet of(PointWalletId id, TransactorId transactorId, Balance balance) {
+	public static PointWallet of(UUID id, UUID transactorId, Balance balance) {
 		return new PointWallet(id, transactorId, balance);
-	}
-
-	public UUID id() {
-		return this.id.getId();
 	}
 
 	public void adjustBalance(int deltaAmount) {

@@ -6,8 +6,6 @@ import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.core.point.application.port.CreatePointWalletPortIn;
 import com.gomo.app.core.point.domain.model.PointWallet;
-import com.gomo.app.core.point.domain.model.PointWalletId;
-import com.gomo.app.core.point.domain.model.TransactorId;
 import com.gomo.app.core.point.domain.repository.PointWalletRepository;
 import com.gomo.app.support.logging.AuditLog;
 
@@ -23,8 +21,8 @@ class CreatePointWalletUseCase implements CreatePointWalletPortIn {
 	@AuditLog(action = "CREATE_POINT_WALLET")
 	@Override
 	public UUID create(UUID transactorId) {
-		PointWallet pointWallet = PointWallet.createDefault(PointWalletId.of(UUIDGenerator.generate()), TransactorId.of(transactorId));
+		PointWallet pointWallet = PointWallet.createDefault(UUIDGenerator.generate(), transactorId);
 		PointWallet savedPointWallet = pointWalletRepository.save(pointWallet);
-		return savedPointWallet.id();
+		return savedPointWallet.getId();
 	}
 }
