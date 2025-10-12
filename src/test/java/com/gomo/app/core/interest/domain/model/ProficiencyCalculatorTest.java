@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import com.gomo.app.core.interest.exception.ProficiencyAdjustFailureException;
 
 @DisplayName("[Domain unit]: 숙련도 정책 연산 테스트")
-class ProficiencyCalculaterTest {
+class ProficiencyCalculatorTest {
 
 	@Test
 	@DisplayName("총점이 0이라면 숙련도는 첫 번째 레벨의 0점이다.")
@@ -18,9 +18,9 @@ class ProficiencyCalculaterTest {
 		List<LevelThresholdPolicy> levelThresholdPolicies = List.of(
 			LevelThresholdPolicy.of(1, 10)
 		);
-		ProficiencyCalculater proficiencyCalculater = ProficiencyCalculater.from(levelThresholdPolicies);
+		ProficiencyCalculator proficiencyCalculator = ProficiencyCalculator.from(levelThresholdPolicies);
 
-		Proficiency actual = proficiencyCalculater.calculateProficiency(0);
+		Proficiency actual = proficiencyCalculator.calculate(0);
 
 		assertThat(actual.level()).isEqualTo(1);
 		assertThat(actual.score()).isEqualTo(0);
@@ -33,9 +33,9 @@ class ProficiencyCalculaterTest {
 		List<LevelThresholdPolicy> levelThresholdPolicies = List.of(
 			LevelThresholdPolicy.of(1, 10)
 		);
-		ProficiencyCalculater proficiencyCalculater = ProficiencyCalculater.from(levelThresholdPolicies);
+		ProficiencyCalculator proficiencyCalculator = ProficiencyCalculator.from(levelThresholdPolicies);
 
-		Proficiency actual = proficiencyCalculater.calculateProficiency(5);
+		Proficiency actual = proficiencyCalculator.calculate(5);
 
 		assertThat(actual.level()).isEqualTo(1);
 		assertThat(actual.score()).isEqualTo(5);
@@ -50,9 +50,9 @@ class ProficiencyCalculaterTest {
 			LevelThresholdPolicy.of(2, 20),
 			LevelThresholdPolicy.of(3, 30)
 		);
-		ProficiencyCalculater proficiencyCalculater = ProficiencyCalculater.from(levelThresholdPolicies);
+		ProficiencyCalculator proficiencyCalculator = ProficiencyCalculator.from(levelThresholdPolicies);
 
-		Proficiency actual = proficiencyCalculater.calculateProficiency(10);
+		Proficiency actual = proficiencyCalculator.calculate(10);
 
 		assertThat(actual.level()).isEqualTo(2);
 		assertThat(actual.score()).isEqualTo(0);
@@ -68,9 +68,9 @@ class ProficiencyCalculaterTest {
 			LevelThresholdPolicy.of(3, 30),
 			LevelThresholdPolicy.of(4, 40)
 		);
-		ProficiencyCalculater proficiencyCalculater = ProficiencyCalculater.from(levelThresholdPolicies);
+		ProficiencyCalculator proficiencyCalculator = ProficiencyCalculator.from(levelThresholdPolicies);
 
-		Proficiency actual = proficiencyCalculater.calculateProficiency(31);
+		Proficiency actual = proficiencyCalculator.calculate(31);
 
 		assertThat(actual.level()).isEqualTo(3);
 		assertThat(actual.score()).isEqualTo(1);
@@ -85,9 +85,9 @@ class ProficiencyCalculaterTest {
 			LevelThresholdPolicy.of(2, 20),
 			LevelThresholdPolicy.of(3, 30)
 		);
-		ProficiencyCalculater proficiencyCalculater = ProficiencyCalculater.from(levelThresholdPolicies);
+		ProficiencyCalculator proficiencyCalculator = ProficiencyCalculator.from(levelThresholdPolicies);
 
-		Proficiency actual = proficiencyCalculater.calculateProficiency(100);
+		Proficiency actual = proficiencyCalculator.calculate(100);
 
 		assertThat(actual.level()).isEqualTo(3);
 		assertThat(actual.score()).isEqualTo(70);
@@ -97,14 +97,14 @@ class ProficiencyCalculaterTest {
 	@Test
 	@DisplayName("총점은 음수일 수 없다.")
 	void calculate_proficiency_with_negative_total_score() {
-		ProficiencyCalculater proficiencyCalculater = ProficiencyCalculater.from(List.of());
-		assertThatThrownBy(() -> proficiencyCalculater.calculateProficiency(-1)).isInstanceOf(ProficiencyAdjustFailureException.class);
+		ProficiencyCalculator proficiencyCalculator = ProficiencyCalculator.from(List.of());
+		assertThatThrownBy(() -> proficiencyCalculator.calculate(-1)).isInstanceOf(ProficiencyAdjustFailureException.class);
 	}
 
 	@Test
 	@DisplayName("정책 목록은 항상 초기화되어 있어야 한다.")
 	void initialize_policies() {
-		ProficiencyCalculater proficiencyCalculater = ProficiencyCalculater.from(List.of());
-		assertThatThrownBy(() -> proficiencyCalculater.calculateProficiency(10)).isInstanceOf(IllegalStateException.class);
+		ProficiencyCalculator proficiencyCalculator = ProficiencyCalculator.from(List.of());
+		assertThatThrownBy(() -> proficiencyCalculator.calculate(10)).isInstanceOf(IllegalStateException.class);
 	}
 }

@@ -4,13 +4,11 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.gomo.app.core.member.domain.model.ActivateStatus;
-import com.gomo.app.core.member.domain.model.DailyThreshold;
 import com.gomo.app.core.member.domain.model.Email;
 import com.gomo.app.core.member.domain.model.Handle;
 import com.gomo.app.core.member.domain.model.LoginProvider;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.model.MemberName;
-import com.gomo.app.core.member.domain.model.MonthlyThreshold;
 import com.gomo.app.core.member.domain.model.Motto;
 import com.gomo.app.core.member.domain.model.Password;
 import com.gomo.app.core.member.domain.model.ProfileBanner;
@@ -18,7 +16,6 @@ import com.gomo.app.core.member.domain.model.ProfileImage;
 import com.gomo.app.core.member.domain.model.QuestProperty;
 import com.gomo.app.core.member.domain.model.RoleType;
 import com.gomo.app.core.member.domain.model.SubscriptionPlan;
-import com.gomo.app.core.member.domain.model.WeeklyThreshold;
 
 public class MemberFixture {
 
@@ -44,8 +41,7 @@ public class MemberFixture {
 			Motto.of("test motto"),
 			ProfileImage.createDefault(),
 			ProfileBanner.createDefault(),
-			new QuestProperty(DailyThreshold.of(dailyQuestThreshold), WeeklyThreshold.createDefault(),
-				MonthlyThreshold.createDefault()),
+			QuestProperty.of(dailyQuestThreshold, 5, 5),
 			LoginProvider.EMAIL,
 			RoleType.ROLE_MEMBER,
 			SubscriptionPlan.FREE,
@@ -65,8 +61,7 @@ public class MemberFixture {
 			Motto.of("test motto"),
 			ProfileImage.createDefault(),
 			ProfileBanner.createDefault(),
-			new QuestProperty(DailyThreshold.of(dailyQuestThreshold), WeeklyThreshold.of(weeklyQuestThreshold),
-				MonthlyThreshold.of(monthlyQuestThreshold)),
+			QuestProperty.of(dailyQuestThreshold, weeklyQuestThreshold, monthlyQuestThreshold),
 			LoginProvider.EMAIL,
 			RoleType.ROLE_MEMBER,
 			SubscriptionPlan.FREE,

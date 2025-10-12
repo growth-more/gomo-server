@@ -17,10 +17,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.gomo.app.core.interest.domain.model.Interest;
 import com.gomo.app.core.interest.domain.model.InterestRelation;
 import com.gomo.app.core.interest.domain.model.LevelThresholdPolicy;
-import com.gomo.app.core.interest.domain.model.ProficiencyPolicies;
 import com.gomo.app.core.interest.domain.repository.InterestRelationRepository;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;
-import com.gomo.app.core.interest.domain.repository.ProficiencyPolicyRepository;
+import com.gomo.app.core.interest.domain.repository.LevelThresholdPolicyRepository;
 import com.gomo.app.core.interest.fixture.InterestFixture;
 import com.gomo.app.core.interest.fixture.InterestRelationFixture;
 
@@ -32,7 +31,7 @@ public class ProficiencyServiceTest {
 	private ProficiencyService sut;
 
 	@Mock
-	private ProficiencyPolicyRepository proficiencyPolicyRepository;
+	private LevelThresholdPolicyRepository levelThresholdPolicyRepository;
 
 	@Mock
 	private InterestRepository interestRepository;
@@ -45,10 +44,10 @@ public class ProficiencyServiceTest {
 	@BeforeEach
 	public void setUp() {
 		registrantId = UUID.randomUUID();
-		ProficiencyPolicies proficiencyPolicies = ProficiencyPolicies.from(
-			List.of(LevelThresholdPolicy.of(1, 40))
+		List<LevelThresholdPolicy> levelThresholdPolicies = List.of(
+			LevelThresholdPolicy.of(1, 40)
 		);
-		doReturn(proficiencyPolicies).when(proficiencyPolicyRepository).getPolicies();
+		doReturn(levelThresholdPolicies).when(levelThresholdPolicyRepository).findAll();
 	}
 
 	@DisplayName("하위 관심사의 숙련도가 향상된다면, 모든 상위 관심사의 숙련도도 동일한 수치만큼 향상된다.")
@@ -59,10 +58,10 @@ public class ProficiencyServiceTest {
 		Interest depth3 = InterestFixture.create(registrantId, "depth3", 5);
 		InterestRelation depth1ToDepth2 = InterestRelationFixture.create(depth1, depth2);
 		InterestRelation depth2ToDepth3 = InterestRelationFixture.create(depth2, depth3);
-
 		doReturn(List.of(depth1, depth2, depth3)).when(interestRepository).findAllById(any());
 		doReturn(List.of(depth1ToDepth2, depth2ToDepth3)).when(interestRelationRepository).findAllByRegistrantId(registrantId);
 
+		sut.initialize();
 		sut.adjust(depth3, 20);
 
 		assertThat(depth1.getProficiency().score()).isEqualTo(35);
@@ -82,6 +81,7 @@ public class ProficiencyServiceTest {
 		doReturn(List.of(depth1, depth2, depth3)).when(interestRepository).findAllById(any());
 		doReturn(List.of(depth1ToDepth2, depth2ToDepth3)).when(interestRelationRepository).findAllByRegistrantId(registrantId);
 
+		sut.initialize();
 		sut.adjust(depth3, -5);
 
 		assertThat(depth1.getProficiency().score()).isEqualTo(10);

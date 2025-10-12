@@ -114,8 +114,8 @@ public class InterestTest {
 	void enhance_interest_proficiency() {
 		Proficiency mockProficiency = mock(Proficiency.class);
 		Interest interest = new Interest(ID, REGISTRANT_ID, mockProficiency, NAME, LOGO, COLOR_CODE);
-		interest.adjustProficiency(10, Mockito.mock(ProficiencyPolicies.class));
+		interest.adjustProficiency(10, Mockito.mock(ProficiencyCalculator.class));
 
-		verify(mockProficiency, times(1)).adjust(anyInt(), any(ProficiencyPolicies.class));
+		verify(mockProficiency, times(1)).adjust(anyInt(), any(ProficiencyCalculator.class));
 	}
 }

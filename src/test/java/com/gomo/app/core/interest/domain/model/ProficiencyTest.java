@@ -23,10 +23,10 @@ public class ProficiencyTest {
 	@DisplayName("숙련도를 조정한다.")
 	@Test
 	void adjust_proficiency() {
-		ProficiencyPolicies mockPolicies = mock(ProficiencyPolicies.class);
+		ProficiencyCalculator mockPolicies = mock(ProficiencyCalculator.class);
 		Proficiency proficiency = Proficiency.createDefault();
 		proficiency.adjust(10, mockPolicies);
 
-		verify(mockPolicies, times(1)).calculateProficiency(anyInt());
+		verify(mockPolicies, times(1)).calculate(anyInt());
 	}
 }
