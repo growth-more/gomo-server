@@ -5,28 +5,21 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
-import com.gomo.app.core.quest.domain.model.reward.policy.QuestPointPolicy;
-import com.gomo.app.core.quest.domain.model.reward.policy.QuestScorePolicy;
+import com.gomo.app.core.quest.domain.model.reward.PointReward;
+import com.gomo.app.core.quest.domain.model.reward.QuestReward;
+import com.gomo.app.core.quest.domain.model.reward.QuestRewardPolicy;
+import com.gomo.app.core.quest.domain.model.reward.ScoreReward;
 import com.gomo.app.core.quest.domain.repository.QuestRewardPolicyRepository;
 
 @Repository
 public class InMemoryQuestRewardPolicyRepository implements QuestRewardPolicyRepository {
 
 	@Override
-	public List<QuestScorePolicy> findScorePolicies() {
+	public List<QuestRewardPolicy> findAll() {
 		return List.of(
-			QuestScorePolicy.of(QuestType.DAILY, 2),
-			QuestScorePolicy.of(QuestType.WEEKLY, 20),
-			QuestScorePolicy.of(QuestType.MONTHLY, 100)
-		);
-	}
-
-	@Override
-	public List<QuestPointPolicy> findPointPolicies() {
-		return List.of(
-			QuestPointPolicy.of(QuestType.DAILY, 10),
-			QuestPointPolicy.of(QuestType.WEEKLY, 150),
-			QuestPointPolicy.of(QuestType.MONTHLY, 1500)
+			QuestRewardPolicy.of(QuestType.DAILY, QuestReward.of(ScoreReward.of(2), PointReward.of(10))),
+			QuestRewardPolicy.of(QuestType.WEEKLY, QuestReward.of(ScoreReward.of(20), PointReward.of(150))),
+			QuestRewardPolicy.of(QuestType.MONTHLY, QuestReward.of(ScoreReward.of(100), PointReward.of(1500)))
 		);
 	}
 }

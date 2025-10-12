@@ -17,9 +17,9 @@ import com.gomo.app.core.quest.application.port.dto.ListAssignQuestDto;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
-import com.gomo.app.core.quest.domain.repository.QuestRewardPolicyRepository;
+import com.gomo.app.core.quest.domain.service.QuestRewardService;
 import com.gomo.app.core.quest.fixture.AssignQuestFixture;
-import com.gomo.app.core.quest.fixture.QuestRewardPolicyFixture;
+import com.gomo.app.core.quest.fixture.QuestRewardFixture;
 
 @DisplayName("[Application unit]: 현재 참여중인 퀘스트 조회 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -32,7 +32,7 @@ public class ReadAssignQuestUseCaseTest {
 	private AssignQuestRepository assignQuestRepository;
 
 	@Mock
-	private QuestRewardPolicyRepository questRewardPolicyRepository;
+	private QuestRewardService questRewardService;
 
 	@DisplayName("현재 참여중인 목록을 조회한다.")
 	@Test
@@ -40,8 +40,8 @@ public class ReadAssignQuestUseCaseTest {
 		List<AssignQuest> dailyQuests = List.of(AssignQuestFixture.create(QuestType.DAILY), AssignQuestFixture.create(QuestType.DAILY));
 		List<AssignQuest> weeklyQuests = List.of(AssignQuestFixture.create(QuestType.WEEKLY));
 		List<AssignQuest> monthlyQuests = List.of();
-		doReturn(QuestRewardPolicyFixture.points()).when(questRewardPolicyRepository).findPointPolicies();
-		doReturn(QuestRewardPolicyFixture.scores()).when(questRewardPolicyRepository).findScorePolicies();
+		doReturn(QuestRewardFixture.create(1, 10)).when(questRewardService).find(eq(QuestType.DAILY));
+		doReturn(QuestRewardFixture.create(2, 20)).when(questRewardService).find(eq(QuestType.WEEKLY));
 		doReturn(dailyQuests).when(assignQuestRepository).findParticipatingQuestByQuestType(any(), eq(QuestType.DAILY), any(), any());
 		doReturn(weeklyQuests).when(assignQuestRepository).findParticipatingQuestByQuestType(any(), eq(QuestType.WEEKLY), any(), any());
 		doReturn(monthlyQuests).when(assignQuestRepository).findParticipatingQuestByQuestType(any(), eq(QuestType.MONTHLY), any(), any());
@@ -49,11 +49,11 @@ public class ReadAssignQuestUseCaseTest {
 		ListAssignQuestDto actual = sut.findAll(UUID.randomUUID());
 
 		assertThat(actual.dailyQuests().size()).isEqualTo(2);
-		assertThat(actual.weeklyQuests().size()).isEqualTo(1);
-		assertThat(actual.monthlyQuests().size()).isEqualTo(0);
+		assertThat(actual.dailyQuests()).extracting("score").containsExactly(1, 1);
 		assertThat(actual.dailyQuests()).extracting("point").containsExactly(10, 10);
-		assertThat(actual.dailyQuests()).extracting("score").containsExactly(2, 2);
-		assertThat(actual.weeklyQuests()).extracting("point").containsExactly(150);
-		assertThat(actual.weeklyQuests()).extracting("score").containsExactly(20);
+		assertThat(actual.weeklyQuests().size()).isEqualTo(1);
+		assertThat(actual.weeklyQuests()).extracting("score").containsExactly(2);
+		assertThat(actual.weeklyQuests()).extracting("point").containsExactly(20);
+		assertThat(actual.monthlyQuests().size()).isEqualTo(0);
 	}
 }

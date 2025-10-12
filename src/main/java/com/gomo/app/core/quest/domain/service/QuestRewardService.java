@@ -1,25 +1,35 @@
 package com.gomo.app.core.quest.domain.service;
 
-import java.util.UUID;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import com.gomo.app.common.arch.DomainService;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
-import com.gomo.app.core.quest.domain.model.reward.PointReward;
 import com.gomo.app.core.quest.domain.model.reward.QuestReward;
-import com.gomo.app.core.quest.domain.model.reward.ScoreReward;
-import com.gomo.app.core.quest.domain.repository.QuestRewardRepository;
+import com.gomo.app.core.quest.domain.model.reward.QuestRewardPolicy;
+import com.gomo.app.core.quest.domain.repository.QuestRewardPolicyRepository;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @DomainService
 public class QuestRewardService {
 
-	private final QuestRewardRepository questRewardRepository;
+	private Map<QuestType, QuestRewardPolicy> rewardMap;
+	private final QuestRewardPolicyRepository questRewardPolicyRepository;
 
-	public QuestReward create(UUID assignQuestId, QuestType questType) {
-		ScoreReward scoreReward = questRewardRepository.findScoreReward(questType);
-		PointReward pointReward = questRewardRepository.findPointReward(questType);
-		return QuestReward.of(assignQuestId, scoreReward, pointReward);
+	@PostConstruct
+	protected void initializeCaches() {
+		rewardMap = questRewardPolicyRepository.findAll().stream()
+			.collect(Collectors.toMap(QuestRewardPolicy::questType, Function.identity()));
+	}
+
+	public QuestReward find(QuestType questType) {
+		if (rewardMap.containsKey(questType)) {
+			return rewardMap.get(questType).questReward();
+		}
+		throw new IllegalArgumentException("Unknown QuestType: " + questType);
 	}
 }
