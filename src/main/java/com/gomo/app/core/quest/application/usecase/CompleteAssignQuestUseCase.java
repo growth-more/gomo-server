@@ -39,14 +39,14 @@ public class CompleteAssignQuestUseCase {
 	}
 
 	private void createQuestCompletionEvent(UUID participantId, AssignQuest assignQuest) {
-		QuestReward questReward = questRewardService.create(assignQuest.getId(), assignQuest.questType());
+		QuestReward questReward = questRewardService.find(assignQuest.questType());
 		long timestamp = TimestampGenerator.generate();
 		CompleteQuestEvent completeQuestEvent = CompleteQuestEvent.of(
 			participantId,
 			assignQuest.subjectId(),
 			assignQuest.questType().name(),
-			questReward.scoreReward(),
-			questReward.pointReward(),
+			questReward.scoreValue(),
+			questReward.pointValue(),
 			assignQuest.getCompletedDateTime(),
 			timestamp
 		);

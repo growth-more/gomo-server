@@ -13,6 +13,6 @@ public class ScoreRewardTest {
 	void create_score_reward() {
 		ScoreReward scoreReward = ScoreReward.of(2);
 
-		assertThat(scoreReward.getScore()).isEqualTo(2);
+		assertThat(scoreReward.score()).isEqualTo(2);
 	}
 }

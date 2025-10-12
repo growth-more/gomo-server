@@ -16,9 +16,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.gomo.app.core.quest.application.port.dto.ListRepeatQuestDto;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.model.repeat.RepeatQuest;
-import com.gomo.app.core.quest.domain.repository.QuestRewardPolicyRepository;
 import com.gomo.app.core.quest.domain.repository.RepeatQuestRepository;
-import com.gomo.app.core.quest.fixture.QuestRewardPolicyFixture;
+import com.gomo.app.core.quest.domain.service.QuestRewardService;
+import com.gomo.app.core.quest.fixture.QuestRewardFixture;
 import com.gomo.app.core.quest.fixture.RepeatQuestFixture;
 
 @DisplayName("[Application unit]: 반복 퀘스트 조회 테스트")
@@ -32,7 +32,7 @@ public class ReadRepeatQuestUseCaseTest {
 	private RepeatQuestRepository repeatQuestRepository;
 
 	@Mock
-	private QuestRewardPolicyRepository questRewardPolicyRepository;
+	private QuestRewardService questRewardService;
 
 	@DisplayName("반복 퀘스트 목록을 조회한다.")
 	@Test
@@ -40,9 +40,8 @@ public class ReadRepeatQuestUseCaseTest {
 		List<RepeatQuest> dailyQuests = List.of(RepeatQuestFixture.create(QuestType.DAILY), RepeatQuestFixture.create(QuestType.DAILY));
 		List<RepeatQuest> weeklyQuests = List.of(RepeatQuestFixture.create(QuestType.WEEKLY));
 		List<RepeatQuest> monthlyQuests = List.of();
-
-		doReturn(QuestRewardPolicyFixture.points()).when(questRewardPolicyRepository).findPointPolicies();
-		doReturn(QuestRewardPolicyFixture.scores()).when(questRewardPolicyRepository).findScorePolicies();
+		doReturn(QuestRewardFixture.create(1, 10)).when(questRewardService).find(eq(QuestType.DAILY));
+		doReturn(QuestRewardFixture.create(2, 20)).when(questRewardService).find(eq(QuestType.WEEKLY));
 		doReturn(dailyQuests).when(repeatQuestRepository).findRepeatQuestsByQuestType(any(), eq(QuestType.DAILY));
 		doReturn(weeklyQuests).when(repeatQuestRepository).findRepeatQuestsByQuestType(any(), eq(QuestType.WEEKLY));
 		doReturn(monthlyQuests).when(repeatQuestRepository).findRepeatQuestsByQuestType(any(), eq(QuestType.MONTHLY));
@@ -50,11 +49,11 @@ public class ReadRepeatQuestUseCaseTest {
 		ListRepeatQuestDto actual = sut.findAll(UUID.randomUUID());
 
 		assertThat(actual.dailyQuests().size()).isEqualTo(2);
-		assertThat(actual.weeklyQuests().size()).isEqualTo(1);
-		assertThat(actual.monthlyQuests().size()).isEqualTo(0);
+		assertThat(actual.dailyQuests()).extracting("score").containsExactly(1, 1);
 		assertThat(actual.dailyQuests()).extracting("point").containsExactly(10, 10);
-		assertThat(actual.dailyQuests()).extracting("score").containsExactly(2, 2);
-		assertThat(actual.weeklyQuests()).extracting("point").containsExactly(150);
-		assertThat(actual.weeklyQuests()).extracting("score").containsExactly(20);
+		assertThat(actual.weeklyQuests().size()).isEqualTo(1);
+		assertThat(actual.weeklyQuests()).extracting("score").containsExactly(2);
+		assertThat(actual.weeklyQuests()).extracting("point").containsExactly(20);
+		assertThat(actual.monthlyQuests().size()).isEqualTo(0);
 	}
 }

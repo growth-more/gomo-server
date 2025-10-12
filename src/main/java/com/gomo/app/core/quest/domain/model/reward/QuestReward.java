@@ -1,43 +1,19 @@
 package com.gomo.app.core.quest.domain.model.reward;
 
-import java.util.UUID;
-
 import com.gomo.app.common.arch.ValueObject;
 
-import jakarta.persistence.Embedded;
-import lombok.Getter;
-
-@Getter
 @ValueObject
-public class QuestReward {
+public record QuestReward(ScoreReward scoreReward, PointReward pointReward) {
 
-	@Embedded
-	private UUID assignQuestId;
-
-	@Embedded
-	private ScoreReward scoreReward;
-
-	@Embedded
-	private PointReward pointReward;
-
-	protected QuestReward() {
+	public static QuestReward of(ScoreReward scoreReward, PointReward pointReward) {
+		return new QuestReward(scoreReward, pointReward);
 	}
 
-	private QuestReward(UUID assignQuestId, ScoreReward scoreReward, PointReward pointReward) {
-		this.assignQuestId = assignQuestId;
-		this.scoreReward = scoreReward;
-		this.pointReward = pointReward;
+	public int scoreValue() {
+		return this.scoreReward.score();
 	}
 
-	public static QuestReward of(UUID assignQuestId, ScoreReward scoreReward, PointReward pointReward) {
-		return new QuestReward(assignQuestId, scoreReward, pointReward);
-	}
-
-	public int scoreReward() {
-		return this.scoreReward.getScore();
-	}
-
-	public int pointReward() {
-		return this.pointReward.getAmount();
+	public int pointValue() {
+		return this.pointReward.amount();
 	}
 }

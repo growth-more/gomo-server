@@ -13,6 +13,6 @@ public class PointRewardTest {
 	void create_point_reward() {
 		PointReward pointReward = PointReward.of(10);
 
-		assertThat(pointReward.getAmount()).isEqualTo(10);
+		assertThat(pointReward.amount()).isEqualTo(10);
 	}
 }

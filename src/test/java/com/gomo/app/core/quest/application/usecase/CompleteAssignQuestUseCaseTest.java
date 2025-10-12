@@ -45,7 +45,7 @@ public class CompleteAssignQuestUseCaseTest {
 	void complete_assign_quest() {
 		AssignQuest assignQuest = AssignQuestFixture.create(true);
 		doReturn(assignQuest).when(assignQuestService).find(any());
-		doReturn(QuestReward.of(assignQuest.getId(), ScoreReward.of(2), PointReward.of(10))).when(questRewardService).create(any(), any());
+		doReturn(QuestReward.of(ScoreReward.of(2), PointReward.of(10))).when(questRewardService).find(any());
 
 		LocalDateTime now = LocalDateTime.now();
 		sut.complete(CompleteAssignQuestCommand.of(assignQuest.participantId(), UUID.randomUUID(), "https://proof", now));
@@ -71,7 +71,7 @@ public class CompleteAssignQuestUseCaseTest {
 	void complete_assign_quest_with_event() {
 		AssignQuest assignQuest = AssignQuestFixture.create(true);
 		doReturn(assignQuest).when(assignQuestService).find(any());
-		doReturn(QuestReward.of(assignQuest.getId(), ScoreReward.of(2), PointReward.of(10))).when(questRewardService).create(any(), any());
+		doReturn(QuestReward.of(ScoreReward.of(2), PointReward.of(10))).when(questRewardService).find(any());
 
 		sut.complete(CompleteAssignQuestCommand.of(assignQuest.participantId(), UUID.randomUUID(), "https://proof", LocalDateTime.now()));
 
