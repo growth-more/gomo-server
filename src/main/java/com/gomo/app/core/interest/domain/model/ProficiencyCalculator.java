@@ -8,16 +8,16 @@ import com.gomo.app.core.interest.exception.ProficiencyAdjustFailureException;
 import com.gomo.app.core.interest.exception.code.ProficiencyErrorCode;
 
 @ValueObject
-public class ProficiencyPolicies {
+public class ProficiencyCalculator {
 
 	private final List<CalculatedLevelPolicy> policies;
 
-	private ProficiencyPolicies(List<LevelThresholdPolicy> levelThresholdPolicies) {
+	private ProficiencyCalculator(List<LevelThresholdPolicy> levelThresholdPolicies) {
 		this.policies = convertToCalculatedPolicies(levelThresholdPolicies);
 	}
 
-	public static ProficiencyPolicies from(List<LevelThresholdPolicy> levelThresholdPolicies) {
-		return new ProficiencyPolicies(levelThresholdPolicies);
+	public static ProficiencyCalculator from(List<LevelThresholdPolicy> levelThresholdPolicies) {
+		return new ProficiencyCalculator(levelThresholdPolicies);
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class ProficiencyPolicies {
 
 		for (LevelThresholdPolicy policy : levelThresholdPolicies) {
 			calculatedPolicies.add(new CalculatedLevelPolicy(policy, cumulativeScore));
-			cumulativeScore += policy.getThresholdScore();
+			cumulativeScore += policy.thresholdScore();
 		}
 		return calculatedPolicies;
 	}
@@ -63,7 +63,7 @@ public class ProficiencyPolicies {
 	 * @throws ProficiencyAdjustFailureException if the total score is negative
 	 * @throws IllegalStateException if no matching policy is found for the given total score
 	 */
-	public Proficiency calculateProficiency(int totalScore) {
+	public Proficiency calculate(int totalScore) {
 		if (totalScore < 0) {
 			throw new ProficiencyAdjustFailureException(ProficiencyErrorCode.NEGATIVE_TOTAL_SCORE);
 		}
@@ -99,11 +99,11 @@ public class ProficiencyPolicies {
 	private record CalculatedLevelPolicy(LevelThresholdPolicy policy, int cumulativeScore) {
 
 		public int getLevel() {
-			return policy.getLevel();
+			return policy.level();
 		}
 
 		public int getThreshold() {
-			return policy.getThresholdScore();
+			return policy.thresholdScore();
 		}
 	}
 }
