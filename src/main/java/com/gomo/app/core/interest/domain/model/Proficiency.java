@@ -39,7 +39,7 @@ public class Proficiency {
 		return this.getScore().getScore();
 	}
 
-	public Proficiency adjust(int deltaTotalScore, ProficiencyPolicies proficiencyPolicies) {
-		return proficiencyPolicies.calculateProficiency(this.totalScore + deltaTotalScore);
+	public Proficiency adjust(int deltaTotalScore, ProficiencyCalculator proficiencyCalculator) {
+		return proficiencyCalculator.calculate(this.totalScore + deltaTotalScore);
 	}
 }

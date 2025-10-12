@@ -18,7 +18,7 @@ public class WeeklyThresholdTest {
 	@DisplayName("주간 퀘스트 제한을 생성한다.")
 	@Test
 	void create_weekly_threshold() {
-		WeeklyThreshold weeklyThreshold = WeeklyThreshold.of(10);
+		QuestProperty.WeeklyThreshold weeklyThreshold = QuestProperty.WeeklyThreshold.of(10);
 
 		assertThat(weeklyThreshold.getThreshold()).isEqualTo(10);
 	}
@@ -26,7 +26,7 @@ public class WeeklyThresholdTest {
 	@DisplayName("주간 크키의 일일 퀘스트 제한을 생성한다.")
 	@Test
 	void create_weekly_threshold_with_default_threshold() {
-		WeeklyThreshold weeklyThreshold = WeeklyThreshold.createDefault();
+		QuestProperty.WeeklyThreshold weeklyThreshold = QuestProperty.WeeklyThreshold.createDefault();
 
 		assertThat(weeklyThreshold.getThreshold()).isEqualTo(DEFAULT_THRESHOLD);
 	}
@@ -34,7 +34,7 @@ public class WeeklyThresholdTest {
 	@DisplayName("주간 크기의 일일 퀘스트 제한을 생성한다.")
 	@Test
 	void create_weekly_threshold_with_minimum_threshold() {
-		WeeklyThreshold weeklyThreshold = WeeklyThreshold.of(MINIMUM_THRESHOLD);
+		QuestProperty.WeeklyThreshold weeklyThreshold = QuestProperty.WeeklyThreshold.of(MINIMUM_THRESHOLD);
 
 		assertThat(weeklyThreshold.getThreshold()).isEqualTo(MINIMUM_THRESHOLD);
 	}
@@ -42,7 +42,7 @@ public class WeeklyThresholdTest {
 	@DisplayName("최솟값 보다 작은 주간 퀘스트 제한은 생성할 수 없다.")
 	@Test
 	void create_weekly_threshold_under_minimum_threshold() {
-		assertThatThrownBy(() -> WeeklyThreshold.of(MINIMUM_THRESHOLD - 1))
+		assertThatThrownBy(() -> QuestProperty.WeeklyThreshold.of(MINIMUM_THRESHOLD - 1))
 			.isInstanceOf(QuestPropertyConstraintViolationException.class)
 			.hasMessageContaining(QuestPropertyErrorCode.TOO_SMALL.getMessage());
 	}
@@ -50,7 +50,7 @@ public class WeeklyThresholdTest {
 	@DisplayName("최대 크기의 주간 퀘스트 제한을 생성한다.")
 	@Test
 	void create_weekly_threshold_with_maximum_threshold() {
-		WeeklyThreshold weeklyThreshold = WeeklyThreshold.of(MAXIMUM_THRESHOLD);
+		QuestProperty.WeeklyThreshold weeklyThreshold = QuestProperty.WeeklyThreshold.of(MAXIMUM_THRESHOLD);
 
 		assertThat(weeklyThreshold.getThreshold()).isEqualTo(MAXIMUM_THRESHOLD);
 	}
@@ -58,7 +58,7 @@ public class WeeklyThresholdTest {
 	@DisplayName("최대값 보다 큰 주간 퀘스트 제한은 생성할 수 없다.")
 	@Test
 	void create_weekly_threshold_over_maximum_threshold() {
-		assertThatThrownBy(() -> WeeklyThreshold.of(MAXIMUM_THRESHOLD + 1))
+		assertThatThrownBy(() -> QuestProperty.WeeklyThreshold.of(MAXIMUM_THRESHOLD + 1))
 			.isInstanceOf(QuestPropertyConstraintViolationException.class)
 			.hasMessageContaining(QuestPropertyErrorCode.TOO_LARGE.getMessage());
 	}
@@ -66,8 +66,8 @@ public class WeeklyThresholdTest {
 	@DisplayName("주간 퀘스트 제한을 수정한다.")
 	@Test
 	void update_weekly_threshold() {
-		WeeklyThreshold weeklyThreshold = WeeklyThreshold.of(10);
-		WeeklyThreshold updatedWeeklyThreshold = weeklyThreshold.update(11);
+		QuestProperty.WeeklyThreshold weeklyThreshold = QuestProperty.WeeklyThreshold.of(10);
+		QuestProperty.WeeklyThreshold updatedWeeklyThreshold = weeklyThreshold.update(11);
 
 		assertThat(updatedWeeklyThreshold.getThreshold()).isEqualTo(11);
 	}
@@ -75,8 +75,8 @@ public class WeeklyThresholdTest {
 	@DisplayName("최소 크기로 주간 퀘스트 제한을 수정한다.")
 	@Test
 	void update_weekly_threshold_with_minimum_threshold() {
-		WeeklyThreshold weeklyThreshold = WeeklyThreshold.of(10);
-		WeeklyThreshold updatedWeeklyThreshold = weeklyThreshold.update(MINIMUM_THRESHOLD);
+		QuestProperty.WeeklyThreshold weeklyThreshold = QuestProperty.WeeklyThreshold.of(10);
+		QuestProperty.WeeklyThreshold updatedWeeklyThreshold = weeklyThreshold.update(MINIMUM_THRESHOLD);
 
 		assertThat(updatedWeeklyThreshold.getThreshold()).isEqualTo(MINIMUM_THRESHOLD);
 	}
@@ -84,7 +84,7 @@ public class WeeklyThresholdTest {
 	@DisplayName("주간 퀘스트 제한은 최솟값 보다 작게 수정할 수 없다.")
 	@Test
 	void update_weekly_threshold_under_minimum_threshold() {
-		WeeklyThreshold weeklyThreshold = WeeklyThreshold.of(10);
+		QuestProperty.WeeklyThreshold weeklyThreshold = QuestProperty.WeeklyThreshold.of(10);
 
 		assertThatThrownBy(() -> weeklyThreshold.update(MINIMUM_THRESHOLD - 1))
 			.isInstanceOf(QuestPropertyConstraintViolationException.class)
@@ -94,8 +94,8 @@ public class WeeklyThresholdTest {
 	@DisplayName("최대 크기로 주간 퀘스트 제한을 수정한다.")
 	@Test
 	void update_weekly_threshold_with_maximum_threshold() {
-		WeeklyThreshold weeklyThreshold = WeeklyThreshold.of(10);
-		WeeklyThreshold updatedWeeklyThreshold = weeklyThreshold.update(MAXIMUM_THRESHOLD);
+		QuestProperty.WeeklyThreshold weeklyThreshold = QuestProperty.WeeklyThreshold.of(10);
+		QuestProperty.WeeklyThreshold updatedWeeklyThreshold = weeklyThreshold.update(MAXIMUM_THRESHOLD);
 
 		assertThat(updatedWeeklyThreshold.getThreshold()).isEqualTo(MAXIMUM_THRESHOLD);
 	}
@@ -103,7 +103,7 @@ public class WeeklyThresholdTest {
 	@DisplayName("주간 퀘스트 제한은 최대값 보다 크게 수정할 수 없다.")
 	@Test
 	void update_weekly_threshold_over_maximum_threshold() {
-		WeeklyThreshold weeklyThreshold = WeeklyThreshold.of(10);
+		QuestProperty.WeeklyThreshold weeklyThreshold = QuestProperty.WeeklyThreshold.of(10);
 
 		assertThatThrownBy(() -> weeklyThreshold.update(MAXIMUM_THRESHOLD + 1))
 			.isInstanceOf(QuestPropertyConstraintViolationException.class)

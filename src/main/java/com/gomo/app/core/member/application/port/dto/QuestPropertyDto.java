@@ -6,9 +6,9 @@ public record QuestPropertyDto(int dailyThreshold, int weeklyThreshold, int mont
 
 	public static QuestPropertyDto from(QuestProperty questProperty) {
 		return new QuestPropertyDto(
-			questProperty.getDailyThreshold().getThreshold(),
-			questProperty.getWeeklyThreshold().getThreshold(),
-			questProperty.getMonthlyThreshold().getThreshold()
+			questProperty.dailyThreshold(),
+			questProperty.weeklyThreshold(),
+			questProperty.monthlyThreshold()
 		);
 	}
 }

@@ -84,8 +84,8 @@ public class Interest extends BaseAudit implements Authorizable {
 		return this.logo.isDefault();
 	}
 
-	public void adjustProficiency(int deltaTotalScore, ProficiencyPolicies proficiencyPolicies) {
-		this.proficiency = this.proficiency.adjust(deltaTotalScore, proficiencyPolicies);
+	public void adjustProficiency(int deltaTotalScore, ProficiencyCalculator proficiencyCalculator) {
+		this.proficiency = this.proficiency.adjust(deltaTotalScore, proficiencyCalculator);
 	}
 
 	@Override

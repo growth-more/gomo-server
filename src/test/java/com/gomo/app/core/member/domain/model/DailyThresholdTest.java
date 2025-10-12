@@ -18,7 +18,7 @@ public class DailyThresholdTest {
 	@DisplayName("일일 퀘스트 제한을 생성한다.")
 	@Test
 	void create_daily_threshold() {
-		DailyThreshold dailyThreshold = DailyThreshold.of(10);
+		QuestProperty.DailyThreshold dailyThreshold = QuestProperty.DailyThreshold.of(10);
 
 		assertThat(dailyThreshold.getThreshold()).isEqualTo(10);
 	}
@@ -26,7 +26,7 @@ public class DailyThresholdTest {
 	@DisplayName("기본 크키의 일일 퀘스트 제한을 생성한다.")
 	@Test
 	void create_daily_threshold_with_default_threshold() {
-		DailyThreshold dailyThreshold = DailyThreshold.createDefault();
+		QuestProperty.DailyThreshold dailyThreshold = QuestProperty.DailyThreshold.createDefault();
 
 		assertThat(dailyThreshold.getThreshold()).isEqualTo(DEFAULT_THRESHOLD);
 	}
@@ -34,7 +34,7 @@ public class DailyThresholdTest {
 	@DisplayName("최소 크기의 일일 퀘스트 제한을 생성한다.")
 	@Test
 	void create_daily_threshold_with_minimum_threshold() {
-		DailyThreshold dailyThreshold = DailyThreshold.of(MINIMUM_THRESHOLD);
+		QuestProperty.DailyThreshold dailyThreshold = QuestProperty.DailyThreshold.of(MINIMUM_THRESHOLD);
 
 		assertThat(dailyThreshold.getThreshold()).isEqualTo(MINIMUM_THRESHOLD);
 	}
@@ -42,7 +42,7 @@ public class DailyThresholdTest {
 	@DisplayName("최솟값 보다 작은 일일 퀘스트 제한은 생성할 수 없다.")
 	@Test
 	void create_daily_threshold_under_minimum_threshold() {
-		assertThatThrownBy(() -> DailyThreshold.of(MINIMUM_THRESHOLD - 1))
+		assertThatThrownBy(() -> QuestProperty.DailyThreshold.of(MINIMUM_THRESHOLD - 1))
 			.isInstanceOf(QuestPropertyConstraintViolationException.class)
 			.hasMessageContaining(QuestPropertyErrorCode.TOO_SMALL.getMessage());
 	}
@@ -50,7 +50,7 @@ public class DailyThresholdTest {
 	@DisplayName("최대 크기의 일일 퀘스트 제한을 생성한다.")
 	@Test
 	void create_daily_threshold_with_maximum_threshold() {
-		DailyThreshold dailyThreshold = DailyThreshold.of(MAXIMUM_THRESHOLD);
+		QuestProperty.DailyThreshold dailyThreshold = QuestProperty.DailyThreshold.of(MAXIMUM_THRESHOLD);
 
 		assertThat(dailyThreshold.getThreshold()).isEqualTo(MAXIMUM_THRESHOLD);
 	}
@@ -58,7 +58,7 @@ public class DailyThresholdTest {
 	@DisplayName("최대값 보다 큰 일일 퀘스트 제한은 생성할 수 없다.")
 	@Test
 	void create_daily_threshold_over_maximum_threshold() {
-		assertThatThrownBy(() -> DailyThreshold.of(MAXIMUM_THRESHOLD + 1))
+		assertThatThrownBy(() -> QuestProperty.DailyThreshold.of(MAXIMUM_THRESHOLD + 1))
 			.isInstanceOf(QuestPropertyConstraintViolationException.class)
 			.hasMessageContaining(QuestPropertyErrorCode.TOO_LARGE.getMessage());
 	}
@@ -66,8 +66,8 @@ public class DailyThresholdTest {
 	@DisplayName("일일 퀘스트 제한을 수정한다.")
 	@Test
 	void update_daily_threshold() {
-		DailyThreshold dailyThreshold = DailyThreshold.of(10);
-		DailyThreshold updatedDailyThreshold = dailyThreshold.update(11);
+		QuestProperty.DailyThreshold dailyThreshold = QuestProperty.DailyThreshold.of(10);
+		QuestProperty.DailyThreshold updatedDailyThreshold = dailyThreshold.update(11);
 
 		assertThat(updatedDailyThreshold.getThreshold()).isEqualTo(11);
 	}
@@ -75,8 +75,8 @@ public class DailyThresholdTest {
 	@DisplayName("최소 크기로 일일 퀘스트 제한을 수정한다.")
 	@Test
 	void update_daily_threshold_with_minimum_threshold() {
-		DailyThreshold dailyThreshold = DailyThreshold.of(10);
-		DailyThreshold updatedDailyThreshold = dailyThreshold.update(MINIMUM_THRESHOLD);
+		QuestProperty.DailyThreshold dailyThreshold = QuestProperty.DailyThreshold.of(10);
+		QuestProperty.DailyThreshold updatedDailyThreshold = dailyThreshold.update(MINIMUM_THRESHOLD);
 
 		assertThat(updatedDailyThreshold.getThreshold()).isEqualTo(MINIMUM_THRESHOLD);
 	}
@@ -84,7 +84,7 @@ public class DailyThresholdTest {
 	@DisplayName("일일 퀘스트 제한은 최솟값 보다 작게 수정할 수 없다.")
 	@Test
 	void update_daily_threshold_under_minimum_threshold() {
-		DailyThreshold dailyThreshold = DailyThreshold.of(10);
+		QuestProperty.DailyThreshold dailyThreshold = QuestProperty.DailyThreshold.of(10);
 
 		assertThatThrownBy(() -> dailyThreshold.update(MINIMUM_THRESHOLD - 1))
 			.isInstanceOf(QuestPropertyConstraintViolationException.class)
@@ -94,8 +94,8 @@ public class DailyThresholdTest {
 	@DisplayName("최대 크기로 일일 퀘스트 제한을 수정한다.")
 	@Test
 	void update_daily_threshold_with_maximum_threshold() {
-		DailyThreshold dailyThreshold = DailyThreshold.of(10);
-		DailyThreshold updatedDailyThreshold = dailyThreshold.update(MAXIMUM_THRESHOLD);
+		QuestProperty.DailyThreshold dailyThreshold = QuestProperty.DailyThreshold.of(10);
+		QuestProperty.DailyThreshold updatedDailyThreshold = dailyThreshold.update(MAXIMUM_THRESHOLD);
 
 		assertThat(updatedDailyThreshold.getThreshold()).isEqualTo(MAXIMUM_THRESHOLD);
 	}
@@ -103,7 +103,7 @@ public class DailyThresholdTest {
 	@DisplayName("일일 퀘스트 제한은 최대값 보다 크게 수정할 수 없다.")
 	@Test
 	void update_daily_threshold_over_maximum_threshold() {
-		DailyThreshold dailyThreshold = DailyThreshold.of(10);
+		QuestProperty.DailyThreshold dailyThreshold = QuestProperty.DailyThreshold.of(10);
 
 		assertThatThrownBy(() -> dailyThreshold.update(MAXIMUM_THRESHOLD + 1))
 			.isInstanceOf(QuestPropertyConstraintViolationException.class)
