@@ -1,4 +1,4 @@
 package com.gomo.app.support.llm.application;
 
-public record GenerateTextDto() {
+public record GenerateTextDto(String generatedText) {
 }
