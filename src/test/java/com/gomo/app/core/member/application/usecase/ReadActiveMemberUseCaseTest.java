@@ -13,8 +13,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 import com.gomo.app.core.member.application.port.dto.ActiveMemberDto;
+import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
 import com.gomo.app.core.member.fixture.MemberFixture;
 
@@ -31,8 +35,12 @@ class ReadActiveMemberUseCaseTest {
 	@DisplayName("활성화 멤버 조회에 성공한다")
 	@Test
 	void read_active_member() {
-		doReturn(List.of(MemberFixture.create(), MemberFixture.create())).when(memberRepository).findByActivateStatusAndLastLoginDateTimeGreaterThanEqual(any(), any());
+		List<Member> members = List.of(MemberFixture.create(), MemberFixture.create());
+		Page<Member> memberPage = new PageImpl<>(members, PageRequest.of(0, 10), members.size());
+		doReturn(memberPage).when(memberRepository).findByActivateStatusAndLastLoginDateTimeGreaterThanEqual(any(), any(), any());
+
 		List<ActiveMemberDto> actual = sut.findAll(LocalDate.now());
+		
 		assertThat(actual.size()).isEqualTo(2);
 	}
 }
