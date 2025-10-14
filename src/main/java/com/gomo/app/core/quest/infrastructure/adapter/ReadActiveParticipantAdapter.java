@@ -17,8 +17,8 @@ class ReadActiveParticipantAdapter implements ReadActiveParticipantPortOut {
 	private final ReadActiveMemberPortIn readActiveMemberPortIn;
 
 	@Override
-	public List<ActiveParticipantDto> findAll(LocalDate lastLoginDate) {
-		return readActiveMemberPortIn.findAll(lastLoginDate).stream()
+	public List<ActiveParticipantDto> findAll(LocalDate loginCutoffDate) {
+		return readActiveMemberPortIn.findAll(loginCutoffDate).stream()
 			.map(activeMember -> ActiveParticipantDto.of(
 				activeMember.id(),
 				activeMember.questProperty().dailyThreshold(),

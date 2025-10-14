@@ -25,12 +25,11 @@ class LlmCreateQuestContentAdapter implements CreateQuestContentPortOut {
 		 */
 
 		return subjects.stream().map(subject -> QuestContentDto.of(
-				command.participantId(),
-				subject.id(),
-				subject.name(),
-				command.questType(),
-				"[Should replace] Quest related to " + subject.name()
-			)
-		).toList();
+			command.participantId(),
+			subject.id(),
+			subject.name(),
+			command.questType(),
+			"[Should replace] Quest related to " + subject.name()
+		)).toList();
 	}
 }
