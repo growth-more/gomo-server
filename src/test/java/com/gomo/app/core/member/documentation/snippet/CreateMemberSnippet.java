@@ -21,7 +21,7 @@ public class CreateMemberSnippet {
 
 	private static final Snippet REQUEST_FIELDS = requestFields(
 		fieldWithPath("email").type(JsonFieldType.STRING).description("회원 이메일"),
-		fieldWithPath("rawPassword").type(JsonFieldType.STRING).description("비밀번호"),
+		fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
 		fieldWithPath("handle").type(JsonFieldType.STRING).description("사용자 핸들 (고유 식별자, 예: @myhandle)"),
 		fieldWithPath("name").type(JsonFieldType.STRING).description("사용자 이름"),
 		fieldWithPath("motto").type(JsonFieldType.STRING).description("좌우명 또는 한 줄 소개"),

@@ -15,7 +15,10 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import com.gomo.app.core.member.documentation.snippet.CreateMemberSnippet;
 import com.gomo.app.core.member.domain.model.LoginProvider;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
+import com.gomo.app.core.member.presentation.EmailCodeApi;
+import com.gomo.app.core.member.presentation.request.CreateEmailCodeRequest;
 import com.gomo.app.core.member.presentation.request.CreateMemberRequest;
+import com.gomo.app.core.member.presentation.request.VerifyEmailCodeRequest;
 import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation Documentation]: 회원 생성 테스트")
@@ -25,6 +28,9 @@ public class CreateMemberDocumentationTest extends DocumentationTestBase {
 
 	private final RestDocumentationFilter filter = CreateMemberSnippet.create();
 	private final RestDocumentationFilter errorFilter = CreateMemberSnippet.createError();
+
+	@Autowired
+	private EmailCodeApi emailCodeApi;
 
 	@Autowired
 	private MemberRepository memberRepository;
@@ -38,7 +44,9 @@ public class CreateMemberDocumentationTest extends DocumentationTestBase {
 	@Test
 	void create_member() {
 		String email = "gomotest3@naver.com";
-		String temporaryToken = generateJwtPortIn.generateTemporaryToken(email, 300);
+		String emailCode = emailCodeApi.create(CreateEmailCodeRequest.of(email)).getBody().getCode();
+		String temporaryToken = emailCodeApi.verify(VerifyEmailCodeRequest.of(email, emailCode)).getBody().getTemporaryToken();
+
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.body(CreateMemberRequest.of(email, "Test123@", "@GOMOTEST3", "gomotest3", "TEST MOTTO", LoginProvider.EMAIL.name(), temporaryToken))

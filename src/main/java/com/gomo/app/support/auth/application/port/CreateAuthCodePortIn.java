@@ -9,5 +9,5 @@ public interface CreateAuthCodePortIn {
 	 * @throws InvalidEmailFormatException if the provided email format is invalid.
 	 * @throws RateLimitExceededException if requests are too frequent.
 	 */
-	void sendToEmail(String email);
+	String sendToEmail(String email);
 }

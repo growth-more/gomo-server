@@ -39,7 +39,9 @@ public class CreateMemberUseCase {
 	@AuditLog(action = "CREATE_MEMBER")
 	@Timed
 	public UUID create(CreateMemberCommand command) {
-		verifyJwtPortIn.validateToken(command.temporaryToken());
+		if (!verifyJwtPortIn.validateToken(command.temporaryToken())) {
+			throw new IllegalArgumentException("Invalid temporary token");
+		}
 
 		Email email = Email.of(command.email());
 		memberService.checkEmailDuplicated(email);

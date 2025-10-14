@@ -51,6 +51,7 @@ public class CreateMemberUseCaseTest {
 	@Test
 	void create_member() {
 		Member member = MemberFixture.create();
+		doReturn(true).when(verifyJwtPortIn).validateToken(anyString());
 		doReturn(member.password()).when(encodePasswordPortIn).encode(anyString());
 		doReturn(member).when(memberRepository).save(any(Member.class));
 
@@ -59,10 +60,20 @@ public class CreateMemberUseCaseTest {
 		));
 
 		assertThat(actual).isEqualTo(member.getId());
-		verify(verifyJwtPortIn, times(1)).validateToken(any());
 		verify(memberService, times(1)).checkEmailDuplicated(any());
 		verify(memberService, times(1)).checkHandleDuplicated(any());
 		verify(createPointWalletPortIn, times(1)).create(any());
 		verify(createAchieverPortIn, times(1)).create(any());
+	}
+
+	@DisplayName("임시 코드 검증에 실패한다.")
+	@Test
+	void fail_validate_temporary_code() {
+		Member member = MemberFixture.create();
+		CreateMemberCommand command = CreateMemberCommand.of(member.email(), member.password(), member.handle(), member.name(), member.motto(),
+			member.getLoginProvider().name(), null);
+		doReturn(false).when(verifyJwtPortIn).validateToken(null);
+
+		assertThatThrownBy(() -> sut.create(command)).isInstanceOf(IllegalArgumentException.class);
 	}
 }

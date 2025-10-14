@@ -16,14 +16,14 @@ public class CreateEmailCodeUseCase {
 	private final MemberService memberService;
 
 	@AuditLog(action = "CREATE_SIGNUP_EMAIL_CODE")
-	public void createForSignUp(String email) {
+	public String createForSignUp(String email) {
 		memberService.checkEmailDuplicated(Email.of(email));
-		createAuthCodePortIn.sendToEmail(email);
+		return createAuthCodePortIn.sendToEmail(email);
 	}
 
 	@AuditLog(action = "CREATE_PW_RESET_EMAIL_CODE")
-	public void createForPasswordReset(String email) {
+	public String createForPasswordReset(String email) {
 		memberService.findByEmail(Email.of(email));
-		createAuthCodePortIn.sendToEmail(email);
+		return createAuthCodePortIn.sendToEmail(email);
 	}
 }

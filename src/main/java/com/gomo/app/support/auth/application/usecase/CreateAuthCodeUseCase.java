@@ -22,9 +22,10 @@ class CreateAuthCodeUseCase implements CreateAuthCodePortIn {
 	// TODO [2025-10-10] jhl221123 : 빈번한 요청에 대비해야 합니다.
 	@AuditLog(action = "SEND_AUTH_CODE")
 	@Override
-	public void sendToEmail(String email) {
+	public String sendToEmail(String email) {
 		AuthCode authCode = AuthCode.generate();
 		authCodeRepository.save(email, authCode.getValue());
 		sendAuthCodePortOut.toEmail(email, authCode.getValue());
+		return authCode.getValue();
 	}
 }
