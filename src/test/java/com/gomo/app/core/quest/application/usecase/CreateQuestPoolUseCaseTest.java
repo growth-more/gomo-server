@@ -24,10 +24,10 @@ import com.gomo.app.core.quest.domain.repository.QuestPoolRepository;
 
 @DisplayName("[Application unit]: 퀘스트 풀 생성 테스트")
 @ExtendWith(MockitoExtension.class)
-public class FillQuestPoolUseCaseTest {
+public class CreateQuestPoolUseCaseTest {
 
 	@InjectMocks
-	private FillQuestPoolUseCase sut;
+	private CreateQuestPoolUseCase sut;
 
 	@Mock
 	private ReadActiveParticipantPortOut readActiveParticipantPortOut;
@@ -65,7 +65,7 @@ public class FillQuestPoolUseCaseTest {
 		doReturn(subjects).when(readSubjectPortOut).findAll(any());
 		doReturn(questContents).when(createQuestContentPortOut).create(any());
 
-		sut.fillForAllActiveParticipants(LocalDate.now(), QuestType.DAILY, 3);
+		sut.fillForActiveParticipants(LocalDate.now(), QuestType.DAILY, 3);
 
 		verify(questPoolRepository, times(activeParticipants.size())).saveAll(any());
 	}

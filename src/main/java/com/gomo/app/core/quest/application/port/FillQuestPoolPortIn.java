@@ -14,5 +14,5 @@ public interface FillQuestPoolPortIn {
 	 * @param questType              The specific type of quests to be generated (e.g., DAILY, WEEKLY).
 	 * @param limit                  The maximum number of quests to generate per participant.
 	 */
-	void fillForAllActiveParticipants(LocalDate lastLoginDateOfTargets, QuestType questType, int limit);
+	void fillForActiveParticipants(LocalDate lastLoginDateOfTargets, QuestType questType, int limit);
 }
