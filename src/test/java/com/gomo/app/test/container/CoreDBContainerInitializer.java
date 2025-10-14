@@ -9,23 +9,23 @@ import org.testcontainers.containers.wait.strategy.Wait;
 
 import com.zaxxer.hikari.HikariDataSource;
 
-public class MySQLContainerInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+public class CoreDBContainerInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
-	public static MySQLContainer<?> mysqlContainer;
+	public static MySQLContainer<?> coreMysqlContainer;
 
 	static {
-		mysqlContainer = new MySQLContainer<>("mysql:8.0.28")
+		coreMysqlContainer = new MySQLContainer<>("mysql:8.0.28")
 			.withDatabaseName("gomo")
 			.withUsername("gomo")
 			.withPassword("1111")
 			.withReuse(true)
 			.waitingFor(Wait.forListeningPort());
-		mysqlContainer.start();
+		coreMysqlContainer.start();
 
 		HikariDataSource ds = new HikariDataSource();
-		ds.setJdbcUrl(mysqlContainer.getJdbcUrl());
-		ds.setUsername(mysqlContainer.getUsername());
-		ds.setPassword(mysqlContainer.getPassword());
+		ds.setJdbcUrl(coreMysqlContainer.getJdbcUrl());
+		ds.setUsername(coreMysqlContainer.getUsername());
+		ds.setPassword(coreMysqlContainer.getPassword());
 
 		Flyway flyway = Flyway.configure()
 			.dataSource(ds)
@@ -37,9 +37,9 @@ public class MySQLContainerInitializer implements ApplicationContextInitializer<
 	@Override
 	public void initialize(ConfigurableApplicationContext context) {
 		TestPropertyValues.of(
-			"spring.datasource.url=" + mysqlContainer.getJdbcUrl(),
-			"spring.datasource.username=" + mysqlContainer.getUsername(),
-			"spring.datasource.password=" + mysqlContainer.getPassword()
+			"spring.datasource.core.url=" + coreMysqlContainer.getJdbcUrl(),
+			"spring.datasource.core.username=" + coreMysqlContainer.getUsername(),
+			"spring.datasource.core.password=" + coreMysqlContainer.getPassword()
 		).applyTo(context.getEnvironment());
 	}
 }
