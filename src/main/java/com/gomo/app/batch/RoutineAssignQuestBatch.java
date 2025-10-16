@@ -106,6 +106,7 @@ public class RoutineAssignQuestBatch {
 
 	@Bean
 	public ItemWriter<List<AssignQuest>> assignQuestWriter() {
+		// TODO [2025-10-17] jhl221123 : 성능을 고려해 bulk 작업이 가능한 JDBC를 사용해야합니다. 추후 JDBC adapter를 사용하는 quest 모듈의 서비스로 분리해야 합니다.
 		return chunk -> {
 			List<AssignQuest> allQuestsForChunk = chunk.getItems().stream()
 				.flatMap(List::stream)
