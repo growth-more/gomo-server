@@ -64,16 +64,16 @@ public class RoutineAssignQuestBatch {
 	@Bean
 	public Job routineAssignQuestJob() {
 		return new JobBuilder(JOB_NAME, jobRepository)
-			.start(assignQuestStep())
+			.start(routineAssignQuestStep())
 			.build();
 	}
 
 	@Bean
 	@JobScope
-	public Step assignQuestStep() {
+	public Step routineAssignQuestStep() {
 		return new StepBuilder("assignQuestStep", jobRepository)
 			.<Member, List<AssignQuest>>chunk(CHUNK_SIZE, transactionManager)
-			.reader(memberReader(null))
+			.reader(routineAssignQuestReader(null))
 			.processor(assignQuestProcessor(null))
 			.writer(assignQuestWriter())
 			.faultTolerant()
@@ -87,10 +87,10 @@ public class RoutineAssignQuestBatch {
 
 	@Bean
 	@StepScope
-	public RepositoryItemReader<Member> memberReader(@Value("#{jobParameters['questType']}") String questType) {
+	public RepositoryItemReader<Member> routineAssignQuestReader(@Value("#{jobParameters['questType']}") String questType) {
 		return new RepositoryItemReaderBuilder<Member>()
 			.name("memberReader")
-			.pageSize(10)
+			.pageSize(CHUNK_SIZE)
 			.methodName("findByActivateStatusAndLastLoginDateTimeGreaterThanEqual")
 			.repository(memberRepository)
 			.arguments(List.of(ActivateStatus.ACTIVE, getLoginCutoffDateTime(questType)))
