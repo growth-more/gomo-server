@@ -18,7 +18,7 @@ public class CompleteQuestEventScoreConsumer {
 	private final AdjustProficiencyPortIn adjustProficiencyPortIn;
 
 	@IdempotentEventEntryConsumer
-	@RabbitListener(queues = "event.quest.complete.score")
+	@RabbitListener(queues = "event.quest.assign.complete.score")
 	public void handleEvent(EventEntry eventEntry) {
 		CompleteQuestEvent event = JsonParser.fromJson(eventEntry.getPayload(), CompleteQuestEvent.class);
 		adjustProficiencyPortIn.adjust(event.getSubjectId(), event.getScoreReward());
