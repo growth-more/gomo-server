@@ -14,63 +14,65 @@ import com.gomo.app.core.quest.domain.model.quest.QuestType;
 @Configuration
 public class RoutineAssignQuestScheduler {
 
+	private static final String JOB_GROUP_NAME = "ROUTINE_ASSIGN_QUEST_JOBS";
+
 	@Bean
-	public JobDetail dailyQuestJobDetail() {
+	public JobDetail dailyRoutineAssignQuestJobDetail() {
 		return JobBuilder.newJob(RoutineAssignQuestLauncher.class)
-			.withIdentity("dailyQuestJob")
+			.withIdentity("dailyRoutineAssignQuestJobDetail", JOB_GROUP_NAME)
 			.usingJobData(jobDataMap(QuestType.DAILY.name()))
 			.storeDurably()
 			.build();
 	}
 
 	@Bean
-	public Trigger dailyQuestJobTrigger() {
+	public Trigger dailyRoutineAssignQuestJobTrigger() {
 		return TriggerBuilder.newTrigger()
-			.forJob(dailyQuestJobDetail())
-			.withIdentity("dailyQuestTrigger")
+			.forJob(dailyRoutineAssignQuestJobDetail())
+			.withIdentity("dailyRoutineAssignQuestJobTrigger", JOB_GROUP_NAME)
 			.withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(0, 0))
 			.build();
 	}
 
 	@Bean
-	public JobDetail weeklyQuestJobDetail() {
+	public JobDetail weeklyRoutineAssignQuestJobDetail() {
 		return JobBuilder.newJob(RoutineAssignQuestLauncher.class)
-			.withIdentity("weeklyQuestJob")
+			.withIdentity("weeklyRoutineAssignQuestJobDetail", JOB_GROUP_NAME)
 			.usingJobData(jobDataMap(QuestType.WEEKLY.name()))
 			.storeDurably()
 			.build();
 	}
 
 	@Bean
-	public Trigger weeklyQuestJobTrigger() {
+	public Trigger weeklyRoutineAssignQuestJobTrigger() {
 		return TriggerBuilder.newTrigger()
-			.forJob(weeklyQuestJobDetail())
-			.withIdentity("weeklyQuestTrigger")
+			.forJob(weeklyRoutineAssignQuestJobDetail())
+			.withIdentity("weeklyRoutineAssignQuestJobTrigger", JOB_GROUP_NAME)
 			.withSchedule(CronScheduleBuilder.weeklyOnDayAndHourAndMinute(1, 0, 0))
 			.build();
 	}
 
 	@Bean
-	public JobDetail monthlyQuestJobDetail() {
+	public JobDetail monthlyRoutineAssignQuestJobDetail() {
 		return JobBuilder.newJob(RoutineAssignQuestLauncher.class)
-			.withIdentity("monthlyQuestJob")
+			.withIdentity("monthlyRoutineAssignQuestJobDetail", JOB_GROUP_NAME)
 			.usingJobData(jobDataMap(QuestType.MONTHLY.name()))
 			.storeDurably()
 			.build();
 	}
 
 	@Bean
-	public Trigger monthlyQuestJobTrigger() {
+	public Trigger monthlyRoutineAssignQuestJobTrigger() {
 		return TriggerBuilder.newTrigger()
-			.forJob(monthlyQuestJobDetail())
-			.withIdentity("monthlyQuestTrigger")
+			.forJob(monthlyRoutineAssignQuestJobDetail())
+			.withIdentity("monthlyRoutineAssignQuestJobTrigger", JOB_GROUP_NAME)
 			.withSchedule(CronScheduleBuilder.monthlyOnDayAndHourAndMinute(1, 0, 0))
 			.build();
 	}
 
 	private JobDataMap jobDataMap(String questType) {
 		JobDataMap jobDataMap = new JobDataMap();
-		jobDataMap.put("jobName", "routineAssignQuestBatchJob");
+		jobDataMap.put("jobName", "routineAssignQuestJob");
 		jobDataMap.put("questType", questType);
 		return jobDataMap;
 	}

@@ -18,11 +18,11 @@ import lombok.extern.slf4j.Slf4j;
 public class RoutineAssignQuestLauncher extends QuartzJobBean {
 
 	private final JobLauncher jobLauncher;
-	private final Job routineAssignQuestBatchJob;
+	private final Job routineAssignQuestJob;
 
 	public RoutineAssignQuestLauncher(JobLauncher jobLauncher, @Qualifier("routineAssignQuestJob") Job routineAssignQuestJob) {
 		this.jobLauncher = jobLauncher;
-		this.routineAssignQuestBatchJob = routineAssignQuestJob;
+		this.routineAssignQuestJob = routineAssignQuestJob;
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class RoutineAssignQuestLauncher extends QuartzJobBean {
 			.toJobParameters();
 		try {
 			log.info("Starting job with parameters: {}", jobParameters);
-			jobLauncher.run(routineAssignQuestBatchJob, jobParameters);
+			jobLauncher.run(routineAssignQuestJob, jobParameters);
 		} catch (Exception e) {
 			log.error("Job execution failed", e);
 		}
