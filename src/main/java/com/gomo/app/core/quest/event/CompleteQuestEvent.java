@@ -9,7 +9,7 @@ import com.gomo.app.core.quest.domain.model.quest.QuestType;
 
 import lombok.Getter;
 
-@EventRouting(exchange = "event.quest", routingKey = "event.quest.completed")
+@EventRouting(exchange = "event.quest", routingKey = "event.quest.assign.complete")
 @Getter
 public class CompleteQuestEvent extends Event {
 	// todo [Architecture] jhl221123: 이벤트는 primitive type을 사용한다. 단, 타입이 필요한 상황이 발생하면 공개 언어 VO로 교체한다.
