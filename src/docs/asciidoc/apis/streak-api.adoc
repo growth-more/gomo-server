@@ -16,9 +16,9 @@ operation::streak-list-find[snippets='query-parameters']
 
 operation::streak-list-find[snippets='http-response,response-fields']
 
-==== 에러 응답
-
-operation::streak-list-find-error[snippets='http-response,response-fields']
+// ==== 에러 응답
+//
+// operation::streak-list-find-error[snippets='http-response,response-fields']
 
 '''
 
@@ -36,6 +36,6 @@ operation::achiever-read[snippets='request-headers']
 
 operation::achiever-read[snippets='http-response,response-fields']
 
-==== 에러 응답
-
-operation::achiever-read-error[snippets='http-response,response-fields']
+// ==== 에러 응답
+//
+// operation::achiever-read-error[snippets='http-response,response-fields']

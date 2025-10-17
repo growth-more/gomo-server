@@ -16,7 +16,7 @@ operation::quest-assign-calendar-find[snippets='query-parameters']
 
 operation::quest-assign-calendar-find[snippets='http-response,response-fields']
 
-==== 에러 응답
+// ==== 에러 응답
 
 // operation::quest-assign-calendar-find-error[snippets='http-response,response-fields']
 
@@ -44,7 +44,7 @@ operation::quest-assign-complete[snippets='http-request,request-fields']
 
 성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
 
-==== 에러 응답
+// ==== 에러 응답
 
 // operation::quest-assign-complete-error[snippets='http-response,response-fields']
 
@@ -69,7 +69,7 @@ operation::quest-assign-confirm[snippets='path-parameters']
 
 성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
 
-==== 에러 응답
+// ==== 에러 응답
 
 // operation::quest-assign-confirm-error[snippets='http-response,response-fields']
 
@@ -142,7 +142,7 @@ operation::quest-assign-delete[snippets='path-parameters']
 
 성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
 
-==== 에러 응답
+// ==== 에러 응답
 
 // operation::quest-assign-delete-error[snippets='http-response,response-fields']
 
@@ -167,7 +167,7 @@ operation::quest-repeat-delete[snippets='path-parameters']
 
 성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
 
-==== 에러 응답
+// ==== 에러 응답
 
 // operation::quest-repeat-delete-error[snippets='http-response,response-fields']
 
@@ -187,7 +187,7 @@ operation::quest-assign-list[snippets='request-headers']
 
 operation::quest-assign-list[snippets='http-response,response-fields']
 
-==== 에러 응답
+// ==== 에러 응답
 
 // operation::quest-assign-list-error[snippets='http-response,response-fields']
 
@@ -211,7 +211,7 @@ operation::quest-repeat-list[snippets='query-parameters']
 
 operation::quest-repeat-list[snippets='http-response,response-fields']
 
-==== 에러 응답
+// ==== 에러 응답
 
 // operation::quest-repeat-list-error[snippets='http-response,response-fields']
 
@@ -240,9 +240,9 @@ operation::quest-assign-order-update[snippets='http-request,request-fields']
 `DIS-ROO-001`: Order display must be positive +
 `DIS-ROO-002`: Order display increment must be positive
 
-==== 에러 응답
-
-operation::quest-assign-order-update-error[snippets='http-response,response-fields']
+// ==== 에러 응답
+//
+// operation::quest-assign-order-update-error[snippets='http-response,response-fields']
 
 '''
 
@@ -269,9 +269,9 @@ operation::quest-repeat-order-update[snippets='http-request,request-fields']
 `DIS-ROO-001`: Order display must be positive +
 `DIS-ROO-002`: Order display increment must be positive
 
-==== 에러 응답
-
-operation::quest-repeat-order-update-error[snippets='http-response,response-fields']
+// ==== 에러 응답
+//
+// operation::quest-repeat-order-update-error[snippets='http-response,response-fields']
 
 '''
 

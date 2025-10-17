@@ -64,9 +64,9 @@ operation::interest-relation-create[snippets='http-request,request-fields']
 
 operation::interest-relation-create[snippets='http-response,response-fields']
 
-==== 에러 응답
-
-operation::interest-relation-create-error[snippets='http-response,response-fields']
+// ==== 에러 응답
+//
+// operation::interest-relation-create-error[snippets='http-response,response-fields']
 
 '''
 
@@ -88,9 +88,9 @@ operation::interest-find-by-id[snippets='path-parameters']
 
 operation::interest-find-by-id[snippets='http-response,response-fields']
 
-==== 에러 응답
-
-operation::interest-find-by-id-error[snippets='http-response,response-fields']
+// ==== 에러 응답
+//
+// operation::interest-find-by-id-error[snippets='http-response,response-fields']
 
 '''
 
@@ -108,9 +108,9 @@ operation::interest-list[snippets='request-headers']
 
 operation::interest-list[snippets='http-response,response-fields']
 
-==== 에러 응답
-
-operation::interest-list-error[snippets='http-response,response-fields']
+// ==== 에러 응답
+//
+// operation::interest-list-error[snippets='http-response,response-fields']
 
 '''
 
@@ -128,9 +128,9 @@ operation::list_major_interest[snippets='request-headers']
 
 operation::list_major_interest[snippets='http-response,response-fields']
 
-==== 에러 응답
-
-operation::list_major_interest-error[snippets='http-response,response-fields']
+// ==== 에러 응답
+//
+// operation::list_major_interest-error[snippets='http-response,response-fields']
 
 '''
 
@@ -148,9 +148,9 @@ operation::interest-network-find[snippets='request-headers']
 
 operation::interest-network-find[snippets='http-response,response-fields']
 
-==== 에러 응답
-
-operation::interest-network-find-error[snippets='http-response,response-fields']
+// ==== 에러 응답
+//
+// operation::interest-network-find-error[snippets='http-response,response-fields']
 
 '''
 
@@ -190,15 +190,15 @@ ID에 해당하는 관심사의 로고 이미지를 수정합니다.
 
 ==== 요청 헤더
 
-operation::interest-logo-update[snippets='request-headers']
+operation::interest-logoFile-update[snippets='request-headers']
 
 ==== 경로 파라미터
 
-operation::interest-logo-update[snippets='path-parameters']
+operation::interest-logoFile-update[snippets='path-parameters']
 
 ==== 요청 파트 (multipart/form-data)
 
-operation::interest-logo-update[snippets='request-parts']
+operation::interest-logoFile-update[snippets='request-parts']
 
 ==== 성공 응답
 
@@ -206,7 +206,7 @@ operation::interest-logo-update[snippets='request-parts']
 
 ==== 에러 응답
 
-operation::interest-logo-update-error[snippets='http-response,response-fields']
+operation::interest-logoFile-update-error[snippets='http-response,response-fields']
 
 '''
 
@@ -228,9 +228,9 @@ operation::major-interest-order-update[snippets='http-request,request-fields']
 
 성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
 
-==== 에러 응답
-
-operation::major-interest-order-update-error[snippets='http-response,response-fields']
+// ==== 에러 응답
+//
+// operation::major-interest-order-update-error[snippets='http-response,response-fields']
 
 '''
 
@@ -252,9 +252,9 @@ operation::interest-delete[snippets='path-parameters']
 
 성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
 
-==== 에러 응답
-
-operation::interest-delete-error[snippets='http-response,response-fields']
+// ==== 에러 응답
+//
+// operation::interest-delete-error[snippets='http-response,response-fields']
 
 '''
 
@@ -276,9 +276,9 @@ operation::major-interest-delete[snippets='path-parameters']
 
 성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
 
-==== 에러 응답
-
-operation::major-interest-delete-error[snippets='http-response,response-fields']
+// ==== 에러 응답
+//
+// operation::major-interest-delete-error[snippets='http-response,response-fields']
 
 '''
 
@@ -300,6 +300,6 @@ operation::interest-relation-delete[snippets='path-parameters']
 
 성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
 
-==== 에러 응답 (예시: 존재하지 않는 ID)
-
-operation::interest-relation-delete-error[snippets='http-response,response-fields']
+// ==== 에러 응답 (예시: 존재하지 않는 ID)
+//
+// operation::interest-relation-delete-error[snippets='http-response,response-fields']

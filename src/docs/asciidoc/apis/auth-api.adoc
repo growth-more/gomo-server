@@ -1,74 +1,74 @@
 === 로그인
 
-`POST /members/login`
+`POST /auth/login`
 
 이메일과 비밀번호로 로그인하여 인증 토큰을 발급받습니다.
 
 ==== 요청 헤더
 
-operation::member-login[snippets='request-headers']
+operation::auth-login[snippets='request-headers']
 
 ==== 요청 본문 (JSON)
 
-operation::member-login[snippets='http-request,request-fields']
+operation::auth-login[snippets='http-request,request-fields']
 
 ==== 성공 응답
 
-operation::member-login[snippets='http-response,response-fields']
+operation::auth-login[snippets='http-response,response-fields']
 
-==== 에러 응답
-
-operation::member-login-error[snippets='http-response,response-fields']
+// ==== 에러 응답
+//
+// operation::auth-login-error[snippets='http-response,response-fields']
 
 '''
 
 === 로그아웃
 
-`GET /members/logout`
+`GET /auth/logout`
 
 현재 로그인된 사용자의 세션을 종료하고 인증 토큰을 무효화합니다.
 
 ==== 요청 헤더
 
-operation::member-logout[snippets='request-headers']
+operation::auth-logout[snippets='request-headers']
 
 ==== 성공 응답
 
 성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
 
-==== 에러 응답
-
-operation::member-logout-error[snippets='http-response,response-fields']
+// ==== 에러 응답
+//
+// operation::member-logout-error[snippets='http-response,response-fields']
 
 '''
 
 === Refresh Token 재발급
 
-`POST /members/refresh`
+`POST /auth/refresh`
 
 만료된 Access Token을 재발급받습니다. 요청 시 유효한 `refreshToken`을 쿠키에 담아 전송해야 합니다.
 
 ==== 요청 헤더
 
-operation::member-token-refresh[snippets='request-headers']
+operation::auth-update-refresh-token[snippets='request-headers']
 
 ==== 요청 쿠키
 
-operation::member-token-refresh[snippets='request-cookies']
+operation::auth-update-refresh-token[snippets='request-cookies']
 
 ==== 성공 응답
 
-operation::member-token-refresh[snippets='http-response,response-fields']
+operation::auth-update-refresh-token[snippets='http-response,response-fields']
 
-==== 에러 응답
-
-operation::member-token-refresh-error[snippets='http-response,response-fields']
+// ==== 에러 응답
+//
+// operation::auth-update-refresh-token-error[snippets='http-response,response-fields']
 
 '''
 
-=== 이메일 인증 코드 발송 (회원 등록 시)
+=== 이메일 인증 코드 발송 (회원 가입)
 
-`POST /auth/codes/generate/emails`
+`POST /members/emails/codes/signup`
 
 회원가입에 사용할 이메일 인증 코드를 요청한 이메일 주소로 발송합니다.
 
@@ -92,7 +92,7 @@ operation::member-email-auth-code-create-error[snippets='http-response,response-
 
 === 이메일 인증 코드 발송 (비밀번호 변경 시)
 
-`POST /auth/codes/generate/passwords`
+`POST /members/passwords/reset`
 
 비밀번호 찾기에 사용할 이메일 인증 코드를 요청한 이메일 주소로 발송합니다.
 
@@ -116,7 +116,7 @@ operation::member-password-auth-code-create-error[snippets='http-response,respon
 
 === 이메일 인증 코드 검증
 
-`GET /auth/codes/verify`
+`GET /members/emails/codes/verify`
 
 이메일로 발송된 인증 코드가 올바른지 검증합니다.
 

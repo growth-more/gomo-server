@@ -1,5 +1,7 @@
 package com.gomo.app.core.member.documentation.snippet;
 
+import static org.springframework.http.HttpHeaders.*;
+import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.*;
@@ -10,6 +12,10 @@ import org.springframework.restdocs.snippet.Snippet;
 
 public class ReadMemberSnippet {
 	private static final String IDENTIFIER = "member-read";
+
+	private static final Snippet REQUEST_HEADERS = requestHeaders(
+		headerWithName(AUTHORIZATION).description("JWT Access Token (Bearer)")
+	);
 
 	private static final Snippet RESPONSE_FIELDS = responseFields(
 		fieldWithPath("id").type(JsonFieldType.STRING).description("사용자 식별자(UUID)"),
@@ -32,6 +38,7 @@ public class ReadMemberSnippet {
 			IDENTIFIER,
 			preprocessRequest(prettyPrint()),
 			preprocessResponse(prettyPrint()),
+			REQUEST_HEADERS,
 			RESPONSE_FIELDS
 		);
 	}
