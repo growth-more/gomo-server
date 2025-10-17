@@ -16,9 +16,9 @@ operation::point-list[snippets='query-parameters']
 
 operation::point-list[snippets='http-response,response-fields']
 
-==== 에러 응답
-
-operation::point-list-error[snippets='http-response,response-fields']
+// ==== 에러 응답
+//
+// operation::point-list-error[snippets='http-response,response-fields']
 
 '''
 
@@ -36,6 +36,6 @@ operation::point-balance-read[snippets='request-headers']
 
 operation::point-balance-read[snippets='http-response,response-fields']
 
-==== 에러 응답
-
-operation::point-balance-read-error[snippets='http-response,response-fields']
+// ==== 에러 응답
+//
+// operation::point-balance-read-error[snippets='http-response,response-fields']
