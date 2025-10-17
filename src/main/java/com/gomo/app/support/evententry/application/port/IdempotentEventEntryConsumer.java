@@ -5,8 +5,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import com.gomo.app.support.evententry.domain.model.EventEntry;
+
 /**
  * Declares a policy that an event consumer method must be idempotent.
+ * This annotation is specifically used for events that are processed via the
+ * transactional outbox pattern using an {@link EventEntry}.
  * <p>
  * This annotation serves as a contract for the application layer. Any method marked
  * with {@code @IdempotentEventEntryConsumer} is guaranteed by the framework to be

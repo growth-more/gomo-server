@@ -43,19 +43,20 @@ public class IdempotentEventEntryConsumerAspect {
 		}
 
 		String eventEntryId = String.valueOf(eventEntry.getId());
-		String consumerName = joinPoint.getTarget().getClass().getName();
+		String consumerName = joinPoint.getTarget().getClass().getSimpleName();
 		try {
 			if (processEventEntryPortIn.isAlreadyProcessed(eventEntryId, consumerName)) {
-				log.debug("[{}] Event id={} has already been processed. Skipping.", consumerName, eventEntryId);
+				log.debug("[{}] EventEntry id={} has already been processed. Skipping.", consumerName, eventEntryId);
 				return null;
 			}
 			processEventEntryPortIn.process(eventEntryId, consumerName);
 
 			Object result = joinPoint.proceed();
-			log.info("[{}] Successfully processed event id={}", consumerName, eventEntryId);
+			log.info("[{}] Successfully processed EventEntry id={}", consumerName, eventEntryId);
 			return result;
 		} catch (Exception e) {
-			log.error("[{}] Failed to process event id={}, errorType={}, errorMessage={}", consumerName, eventEntryId, e.getClass().getSimpleName(), e.getMessage(), e);
+			log.error(
+				"[{}] Failed to process EventEntry id={}, errorType={}, errorMessage={}", consumerName, eventEntryId, e.getClass().getSimpleName(), e.getMessage(), e);
 			throw e;
 		}
 	}
