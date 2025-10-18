@@ -6,6 +6,8 @@ import java.util.UUID;
 import com.gomo.app.common.jpa.LogicalDeleteBaseAudit;
 import com.gomo.app.core.member.exception.ActivateStatusException;
 import com.gomo.app.core.member.exception.code.ActivateStatusErrorCode;
+import com.gomo.app.support.auth.exception.AuthErrorCode;
+import com.gomo.app.support.auth.exception.AuthenticationFailException;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
@@ -176,6 +178,12 @@ public class Member extends LogicalDeleteBaseAudit {
 		switch (this.activateStatus) {
 			case DELETED -> throw new ActivateStatusException(ActivateStatusErrorCode.DELETED);
 			case BLOCKED -> throw new ActivateStatusException(ActivateStatusErrorCode.BLOCKED);
+		}
+	}
+
+	public void validateLoginProviderIsEmail() {
+		if (this.loginProvider != LoginProvider.EMAIL){
+			throw new AuthenticationFailException(AuthErrorCode.UNSUPPORTED_LOGIN_METHOD);
 		}
 	}
 
