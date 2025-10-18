@@ -39,7 +39,7 @@ class RabbitMQClientTest {
 	@DisplayName("존재하지 않는 exchange로 메시지를 보낸다")
 	@Test
 	void send_message_nonexistent_exchange() {
-		// TODO [2025-10-09] jhl221123 : AmqpException 이 발생할 수도 있습니다. 추후 정확한 원인 파악 필요합니다.
+		// TODO [2025-10-09] jhl221123 : Flaky Test. AmqpException 이 발생할 수도 있습니다. 추후 정확한 원인 파악 필요합니다.
 		assertThrows(ShutdownSignalException.class, () -> rabbitMQClient.send("non.existent.exchange", TEST_ROUTING_KEY, "This will fail"));
 	}
 }
