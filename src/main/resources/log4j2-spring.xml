@@ -86,7 +86,7 @@
                 <AppenderRef ref="DEBUG_FILE"/>
                 <AppenderRef ref="TRACE_FILE"/>
             </Logger>
-            <Logger name="com.gomo.app.logging" level="trace" additivity="false">
+            <Logger name="com.gomo.app.support.logging" level="trace" additivity="false">
                 <AppenderRef ref="CONSOLE"/>
                 <AppenderRef ref="INFO_FILE"/>
                 <!--<AppenderRef ref="DEBUG_FILE"/>-->
@@ -99,7 +99,7 @@
                 <AppenderRef ref="CONSOLE"/>
                 <AppenderRef ref="INFO_FILE"/>
             </Root>
-            <Logger name="com.gomo.app" level="trace" additivity="false">
+            <Logger name="com.gomo.app" level="info" additivity="false">
                 <AppenderRef ref="CONSOLE"/>
                 <AppenderRef ref="INFO_FILE"/>
                 <AppenderRef ref="DEBUG_FILE"/>
@@ -108,13 +108,15 @@
             <Logger name="io.micrometer" level="warn" additivity="false">
                 <AppenderRef ref="CONSOLE"/>
                 <AppenderRef ref="INFO_FILE"/>
-                <AppenderRef ref="DEBUG_FILE"/>
-                <AppenderRef ref="TRACE_FILE"/>
             </Logger>
             <Logger name="org.springframework.boot.actuate" level="warn" additivity="false">
                 <AppenderRef ref="CONSOLE"/>
                 <AppenderRef ref="INFO_FILE"/>
-                <AppenderRef ref="DEBUG_FILE"/>
+            </Logger>
+            <Logger name="com.gomo.app.support.logging" level="trace" additivity="false">
+                <AppenderRef ref="CONSOLE"/>
+                <AppenderRef ref="INFO_FILE"/>
+                <!--<AppenderRef ref="DEBUG_FILE"/>-->
                 <AppenderRef ref="TRACE_FILE"/>
             </Logger>
         </SpringProfile>
@@ -133,16 +135,12 @@
             <Logger name="io.micrometer" level="warn" additivity="false">
                 <AppenderRef ref="CONSOLE"/>
                 <AppenderRef ref="INFO_FILE"/>
-                <AppenderRef ref="DEBUG_FILE"/>
-                <AppenderRef ref="TRACE_FILE"/>
             </Logger>
             <Logger name="org.springframework.boot.actuate" level="warn" additivity="false">
                 <AppenderRef ref="CONSOLE"/>
                 <AppenderRef ref="INFO_FILE"/>
-                <AppenderRef ref="DEBUG_FILE"/>
-                <AppenderRef ref="TRACE_FILE"/>
             </Logger>
-            <Logger name="com.gomo.app.logging" level="trace" additivity="false">
+            <Logger name="com.gomo.app.support.logging" level="trace" additivity="false">
                 <AppenderRef ref="CONSOLE"/>
                 <AppenderRef ref="INFO_FILE"/>
                 <!--<AppenderRef ref="DEBUG_FILE"/>-->
