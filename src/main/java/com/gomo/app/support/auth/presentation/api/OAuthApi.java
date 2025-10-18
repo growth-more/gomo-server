@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gomo.app.common.arch.CoreApi;
+import com.gomo.app.support.auth.application.port.dto.OAuthTokenDto;
 import com.gomo.app.support.auth.application.usecase.OAuthUseCase;
 import com.gomo.app.support.auth.presentation.response.OAuthResponse;
 
@@ -25,6 +26,7 @@ public class OAuthApi {
 
 	@GetMapping("/{provider}")
 	public ResponseEntity<OAuthResponse> getUserInformation(@PathVariable String provider, @RequestParam String code) {
+
 		return oauthUseCase.findPrincipal(provider, code).map(oAuthTokenDto -> {
 			ResponseCookie cookie = createResponseCookie(oAuthTokenDto.refreshToken(), oAuthTokenDto.expiresIn());
 			return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(OAuthResponse.from(oAuthTokenDto));
