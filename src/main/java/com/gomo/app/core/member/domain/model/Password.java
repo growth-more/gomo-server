@@ -16,11 +16,13 @@ public class Password {
 
 	private static final int MIN_PASSWORD_LENGTH = 8;
 	private static final int MAX_PASSWORD_LENGTH = 64;
-	private static final Pattern PASSWORD_RULE_PATTERN = Pattern.compile(
-		"^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!])[A-Za-z\\d@#$%^&+=!]+$");
+	private static final Pattern HAS_LOWERCASE = Pattern.compile(".*[a-z].*");
+	private static final Pattern HAS_UPPERCASE = Pattern.compile(".*[A-Z].*");
+	private static final Pattern HAS_DIGIT = Pattern.compile(".*\\d.*");
+	private static final Pattern HAS_SPECIAL_CHAR = Pattern.compile(".*[@#$%^&+=!].*");
+	private static final Pattern ALLOWED_CHARS_ONLY = Pattern.compile("^[A-Za-z\\d@#$%^&+=!]+$");
 
 	private String password;
-	// todo jhl221123: raw 를 상태로 전환해야합니다.
 
 	protected Password() {
 	}
@@ -63,8 +65,23 @@ public class Password {
 	}
 
 	private static void ensureValidPasswordRule(String password) {
-		if (!PASSWORD_RULE_PATTERN.matcher(password).matches()) {
-			// TODO jhl221123 : 금지 문자, 형식 위반(대/소문자, 특수, 숫자 최소 1개 포함)을 분리해야 합니다.
+		if (!HAS_LOWERCASE.matcher(password).matches()) {
+			throw new PasswordConstraintViolationException(PasswordErrorCode.NO_LOWERCASE);
+		}
+
+		if (!HAS_UPPERCASE.matcher(password).matches()) {
+			throw new PasswordConstraintViolationException(PasswordErrorCode.NO_UPPERCASE);
+		}
+
+		if (!HAS_DIGIT.matcher(password).matches()) {
+			throw new PasswordConstraintViolationException(PasswordErrorCode.NO_DIGIT);
+		}
+
+		if (!HAS_SPECIAL_CHAR.matcher(password).matches()) {
+			throw new PasswordConstraintViolationException(PasswordErrorCode.NO_SPECIAL_CHAR);
+		}
+
+		if (!ALLOWED_CHARS_ONLY.matcher(password).matches()) {
 			throw new PasswordConstraintViolationException(PasswordErrorCode.FORBIDDEN);
 		}
 	}

@@ -8,7 +8,11 @@ public enum PasswordErrorCode {
 	BLANK(422, "MEM-PAS-001", "Password must not be blank"),
 	TOO_SHORT(422, "MEM-PAS-002", "Password must be at least 8 characters"),
 	TOO_LONG(422, "MEM-PAS-003", "Password must not exceed 64 characters"),
-	FORBIDDEN(422, "MEM-PAS-004", "Password must not contain forbidden characters");
+	FORBIDDEN(422, "MEM-PAS-004", "Password must not contain forbidden characters"),
+	NO_LOWERCASE(422, "MEM-PAS-005", "Password must not contain forbidden characters"),
+	NO_UPPERCASE(422, "MEM-PAS-006", "Password must not contain forbidden characters"),
+	NO_DIGIT(422, "MEM-PAS-007", "Password must not contain forbidden characters"),
+	NO_SPECIAL_CHAR(422, "MEM-PAS-008", "Password must not contain forbidden characters");
 
 	private final int httpStatus;
 	private final String errorCode;
