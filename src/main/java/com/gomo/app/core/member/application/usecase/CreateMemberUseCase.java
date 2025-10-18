@@ -39,6 +39,7 @@ public class CreateMemberUseCase {
 	@AuditLog(action = "CREATE_MEMBER")
 	@Timed
 	public UUID create(CreateMemberCommand command) {
+		// TODO [2025-10-18] jhl221123 : jwt 형식 뿐 아니라 내부 이메일이 요청한 이메일과 같은지 검증이 필요합니다.
 		if (!verifyJwtPortIn.validateToken(command.temporaryToken())) {
 			throw new IllegalArgumentException("Invalid temporary token");
 		}
