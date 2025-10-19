@@ -32,6 +32,7 @@ class LoginMemberUseCase implements LoginMemberPortIn {
 		Member member = memberService.findByEmail(Email.of(email));
 		ensureCorrectPassword(member, password);
 		member.validateActive();
+		member.validateLoginProviderIsEmail();
 		member.updateLastLoginDateTime(LocalDateTime.now());
 		return member.getId();
 	}

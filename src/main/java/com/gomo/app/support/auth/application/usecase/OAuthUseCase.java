@@ -1,6 +1,7 @@
 package com.gomo.app.support.auth.application.usecase;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.common.security.jwt.application.port.VerifyJwtPortIn;
@@ -27,18 +28,27 @@ public class OAuthUseCase {
 	public Optional<OAuthTokenDto> findPrincipal(String providerName, String code) {
 		OAuthProvider provider = providerFactory.getProvider(providerName);
 		OAuthPrincipal principal = provider.authenticate(code);
-		return oAuthLoginMemberPortIn.oauthAuthenticate(principal.getEmail()).map(principalId -> {
-			AuthToken authToken = createAuthTokenInternalService.create(principalId);
-			long refreshExpirationTime = verifyJwtPortIn.extractExpirationTime(authToken.getRefreshToken());
-			return OAuthTokenDto.of(
-				principalId,
-				authToken.getAccessToken(),
-				authToken.getRefreshToken(),
-				refreshExpirationTime,
-				principal.getProvider().name(),
-				principal.getEmail(),
-				principal.getName()
-			);
-		});
+
+		return oAuthLoginMemberPortIn.oauthAuthenticate(principal.getEmail())
+			.map(principalId -> {
+				AuthToken authToken = createAuthTokenInternalService.create(principalId);
+				long refreshExpirationTime = verifyJwtPortIn.extractExpirationTime(authToken.getRefreshToken());
+				return OAuthTokenDto.withToken(
+					principalId,
+					authToken.getAccessToken(),
+					authToken.getRefreshToken(),
+					refreshExpirationTime,
+					principal.getProvider().name(),
+					principal.getEmail(),
+					principal.getName()
+				);
+			})
+			.or(() -> Optional.of(
+				OAuthTokenDto.withoutToken(
+					principal.getProvider().name(),
+					principal.getEmail(),
+					principal.getName()
+				)
+			));
 	}
 }

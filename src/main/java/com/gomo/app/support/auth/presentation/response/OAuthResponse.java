@@ -15,8 +15,8 @@ public class OAuthResponse {
 	}
 
 	public static OAuthResponse from(OAuthTokenDto oAuthTokenDto) {
-		if (oAuthTokenDto == null) {
-			return null;
+		if (oAuthTokenDto.accessToken() == null) {
+			return new OAuthResponse(null, OAuthPrincipalResponse.of(oAuthTokenDto.loginProvider(), oAuthTokenDto.email(), oAuthTokenDto.name()));
 		}
 		return new OAuthResponse(
 			oAuthTokenDto.accessToken(), OAuthPrincipalResponse.of(oAuthTokenDto.loginProvider(), oAuthTokenDto.email(), oAuthTokenDto.name()));
