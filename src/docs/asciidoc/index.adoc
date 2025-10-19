@@ -27,6 +27,10 @@ include::apis/member-api.adoc[]
 `MEM-PAS-002`: Password must be at least 8 characters +
 `MEM-PAS-003`: Password must not exceed 64 characters +
 `MEM-PAS-004`: Password must not contain forbidden characters +
+`MEM-PAS-005`: Password must not contain forbidden characters +
+`MEM-PAS-006`: Password must not contain forbidden characters +
+`MEM-PAS-007`: Password must not contain forbidden characters +
+`MEM-PAS-008`: Password must not contain forbidden characters +
 
 `MEM-HAN-001`: Handle must not be blank +
 `MEM-HAN-002`: Handle must be at least 3 characters +
@@ -48,6 +52,11 @@ include::apis/member-api.adoc[]
 `MEM-QUE-001`: Threshold must meet the minimum value +
 `MEM-QUE-002`: Threshold must meet the maximum value +
 `MEM-QUE-003`: Unexpected quest type +
+
+`AUT-ROO-001`: Auth code is incorrect +
+`AUT-ROO-002`: Refresh token not found +
+`AUT-ROO-003`: Refresh token is incorrect +
+`AUT-ROO-004`: OAuth member cannot login with password +
 
 [[interest-api]]
 == 관심사 (Interest) API

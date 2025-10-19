@@ -29,10 +29,8 @@ public class OAuthUseCase {
 		OAuthProvider provider = providerFactory.getProvider(providerName);
 		OAuthPrincipal principal = provider.authenticate(code);
 
-		Optional<UUID> principalIdOpt = oAuthLoginMemberPortIn.oauthAuthenticate(principal.getEmail());
-
-		return Optional.of(
-			principalIdOpt.map(principalId -> {
+		return oAuthLoginMemberPortIn.oauthAuthenticate(principal.getEmail())
+			.map(principalId -> {
 				AuthToken authToken = createAuthTokenInternalService.create(principalId);
 				long refreshExpirationTime = verifyJwtPortIn.extractExpirationTime(authToken.getRefreshToken());
 				return OAuthTokenDto.withToken(
@@ -44,11 +42,13 @@ public class OAuthUseCase {
 					principal.getEmail(),
 					principal.getName()
 				);
-			}).orElse(
-				OAuthTokenDto.withoutToken(principal.getProvider().name(),
+			})
+			.or(() -> Optional.of(
+				OAuthTokenDto.withoutToken(
+					principal.getProvider().name(),
 					principal.getEmail(),
-					principal.getName())
-			)
-		);
+					principal.getName()
+				)
+			));
 	}
 }
