@@ -27,10 +27,10 @@ include::apis/member-api.adoc[]
 `MEM-PAS-002`: Password must be at least 8 characters +
 `MEM-PAS-003`: Password must not exceed 64 characters +
 `MEM-PAS-004`: Password must not contain forbidden characters +
-`MEM-PAS-005`: Password must not contain forbidden characters +
-`MEM-PAS-006`: Password must not contain forbidden characters +
-`MEM-PAS-007`: Password must not contain forbidden characters +
-`MEM-PAS-008`: Password must not contain forbidden characters +
+`MEM-PAS-005`: Password must have at least one lower case characters +
+`MEM-PAS-006`: Password must have at least one upper case characters +
+`MEM-PAS-007`: Password must have at least one digit +
+`MEM-PAS-008`: Password must have at least one special characters("@#$%^&+=1) +
 
 `MEM-HAN-001`: Handle must not be blank +
 `MEM-HAN-002`: Handle must be at least 3 characters +

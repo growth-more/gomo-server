@@ -23,9 +23,9 @@ public class PasswordTest {
 	private static final String TOO_LONG_PASSWORD = Stream.generate(() -> PASSWORD).limit(65).collect(Collectors.joining());
 	private static final String NO_LOWERCASE_PASSWORD = "TEST1234!";
 	private static final String NO_UPPERCASE_PASSWORD = "test1234!";
-	private static final String NO_DIGIT_PASSWORD = "TESTTEST!";
-	private static final String NO_SPECIAL_CHAR_PASSWORD = "TEST12345";
-	private static final String FORBIDDEN_PASSWORD = "invalidpassword*";
+	private static final String NO_DIGIT_PASSWORD = "TESTtest!";
+	private static final String NO_SPECIAL_CHAR_PASSWORD = "Test12345";
+	private static final String FORBIDDEN_PASSWORD = "Invalidpassword1!*";
 
 	@DisplayName("평문 비밀번호를 생성한다.")
 	@Test
