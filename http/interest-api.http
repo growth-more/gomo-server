@@ -1,0 +1,19 @@
+### interest create
+POST http://localhost:8080/interests
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMTk5ZjdjYS1lNDhlLTdiNjktYTc3MS00YzUyZGJiYjM5MWMiLCJpYXQiOjE3NjA3OTg5MDIsImV4cCI6MTc2MDc5OTgwMn0.PJo79XKkBhgitFbvCt0rl36PyeRT-1tKvjQkAcjjIPA
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="name"
+
+test_interest1
+--boundary
+Content-Disposition: form-data; name="colorCode"
+
+#000000
+--boundary--
+
+### major interest create
+POST http://localhost:8080/interests/01993c30-3d40-72b4-84e2-b431931338ed/majors
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMTk5ZjBiZS0wOWRjLTdlNGEtOTg2ZS0yYTRmNWQzYWJiMGYiLCJpYXQiOjE3NjA3NDY2MTEsImV4cCI6MTc2MDc0NzUxMX0.cXaXef0uiNW67B2tcGDT1SGC_ulDHUL0UvnKMvxPj0E
+Content-Type: application/json
