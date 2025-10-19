@@ -36,8 +36,8 @@ public class LoggingFilter implements Filter {
 				MDC.put(REQUEST_ID.name(), String.valueOf(UUID.randomUUID()));
 				filterChain.doFilter(wrappedRequest, wrappedResponse);
 			} finally {
-				loggingRequest(wrappedRequest);
-				loggingResponse(wrappedResponse);
+				String userAgent = loggingRequest(wrappedRequest);
+				loggingResponse(wrappedResponse, userAgent);
 				wrappedResponse.copyBodyToResponse();
 				MDC.clear();
 			}
@@ -46,10 +46,10 @@ public class LoggingFilter implements Filter {
 		}
 	}
 
-	private void loggingRequest(ContentCachingRequestWrapper wrappedRequest) {
+	private String loggingRequest(ContentCachingRequestWrapper wrappedRequest) {
+		String userAgent = wrappedRequest.getHeader("User-Agent");
 		try {
 			String clientIp = getClientIp(wrappedRequest);
-			String userAgent = wrappedRequest.getHeader("User-Agent");
 			if (userAgent == null || userAgent.isBlank()) {
 				userAgent = "Unknown";
 			}
@@ -72,14 +72,17 @@ public class LoggingFilter implements Filter {
 		} catch (UnsupportedEncodingException e) {
 			log.warn("Failed to read request body", e);
 		}
+		return userAgent;
 	}
 
-	private void loggingResponse(ContentCachingResponseWrapper wrappedResponse) {
+	private void loggingResponse(ContentCachingResponseWrapper wrappedResponse, String userAgent) {
 		try {
 			int status = wrappedResponse.getStatus();
-			String body = new String(wrappedResponse.getContentAsByteArray(), wrappedResponse.getCharacterEncoding());
-			if (body.isBlank()) {
-				body = null;
+			String body;
+			if (userAgent.contains("Prometheus")) {
+				body = "prometheus health check message...";
+			} else {
+				body = new String(wrappedResponse.getContentAsByteArray(), wrappedResponse.getCharacterEncoding());
 			}
 			log.trace("response=[status={}, body={}]", status, body);
 		} catch (UnsupportedEncodingException e) {
