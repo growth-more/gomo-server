@@ -17,7 +17,7 @@ public class QuestContentTest {
 	private static final String QUEST_CONTENT = "quest content";
 	private static final String BLANK = "     ";
 	private static final String TOO_SHORT_NAME = "a";
-	private static final String TOO_LONG_NAME = Stream.generate(() -> "a").limit(31).collect(Collectors.joining());
+	private static final String TOO_LONG_NAME = Stream.generate(() -> "a").limit(51).collect(Collectors.joining());
 	private static final String FORBIDDEN_NAME = "[<>&';|{}[]()`]--*";
 
 	@DisplayName("퀘스트 내용을 생성한다.")
