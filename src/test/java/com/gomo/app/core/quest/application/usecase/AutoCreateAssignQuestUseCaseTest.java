@@ -23,10 +23,10 @@ import com.gomo.app.core.quest.fixture.RepeatQuestFixture;
 
 @DisplayName("[Domain integration]: 참여 퀘스트 생성 스케줄링 기능 테스트")
 @ExtendWith(MockitoExtension.class)
-public class RoutineAssignQuestUseCaseTest {
+public class AutoCreateAssignQuestUseCaseTest {
 
 	@InjectMocks
-	private RoutineAssignQuestUseCase sut;
+	private AutoCreateAssignQuestUseCase sut;
 
 	@Mock
 	private RepeatQuestRepository repeatQuestRepository;
@@ -40,7 +40,7 @@ public class RoutineAssignQuestUseCaseTest {
 	// TODO [2025-10-19] jhl221123 : Fake 기반으로 더 정교하게 테스트하도록 개선이 필요합니다.
 	@DisplayName("사용자가 등록한 반복 퀘스트와 퀘스트 풀을 기반으로 퀘스트 루틴을 실행한다.")
 	@Test
-	void execute_routine() {
+	void auto_create_assign_quests() {
 		List<ParticipantDto> participantDtos = List.of(
 			ParticipantDto.of(UUID.randomUUID(), 5, 5, 5),
 			ParticipantDto.of(UUID.randomUUID(), 10, 10, 10)

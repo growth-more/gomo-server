@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.common.displayorder.DisplayOrder;
-import com.gomo.app.core.quest.application.port.RoutineAssignQuestPortIn;
+import com.gomo.app.core.quest.application.port.AutoCreateAssignQuestPortIn;
 import com.gomo.app.core.quest.application.port.dto.ParticipantDto;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
 import com.gomo.app.core.quest.domain.model.participant.Participant;
@@ -27,22 +27,22 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Implements the {@link RoutineAssignQuestPortIn} use case.
+ * Implements the {@link AutoCreateAssignQuestPortIn} use case.
  * <p>
- * This service automatically generates {@link AssignQuest} entities for each participant.
+ * This service automatically creates {@link AssignQuest} entities for each participant.
  * It combines quests from two sources: user-defined {@link RepeatQuest}s and the general {@link QuestPool},
  * then saves them to the database in a single bulk operation.
  */
 @Slf4j
 @RequiredArgsConstructor
 @ApplicationService
-class RoutineAssignQuestUseCase implements RoutineAssignQuestPortIn {
+class AutoCreateAssignQuestUseCase implements AutoCreateAssignQuestPortIn {
 
 	private final RepeatQuestRepository repeatQuestRepository;
 	private final QuestPoolRepository questPoolRepository;
 	private final BulkAssignQuestRepository bulkAssignQuestRepository;
 
-	@AuditLog(action = "EXECUTE_ASSIGN_QUEST_CREATION_ROUTINE")
+	@AuditLog(action = "AUTO_CREATE_ASSIGN_QUESTS")
 	@Override
 	public void execute(List<ParticipantDto> participantDtos, String questType) {
 		LocalDateTime now = LocalDateTime.now();

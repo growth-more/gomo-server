@@ -1,4 +1,4 @@
-package com.gomo.app.batch;
+package com.gomo.app.batch.quest;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.core.SkipListener;
@@ -9,7 +9,7 @@ import com.gomo.app.core.quest.application.port.dto.ParticipantDto;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class RoutineAssignQuestSkipListener implements SkipListener<Member, ParticipantDto> {
+public class CreateAssignQuestSkipListener implements SkipListener<Member, ParticipantDto> {
 
 	@Override
 	public void onSkipInRead(@NotNull Throwable t) {

@@ -5,7 +5,7 @@ import java.util.List;
 import com.gomo.app.core.quest.application.port.dto.ParticipantDto;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
 
-public interface RoutineAssignQuestPortIn {
+public interface AutoCreateAssignQuestPortIn {
 
 	/**
 	 * Creates assign quests for a given list of participants based on a specified routine type.

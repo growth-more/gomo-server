@@ -15,6 +15,7 @@ public class CreateEmailCodeUseCase {
 	private final CreateAuthCodePortIn createAuthCodePortIn;
 	private final MemberService memberService;
 
+	// TODO [2025-10-19] jhl221123 : 코드를 반환하지 않고 테스트를 처리할 수 있도록 수정해야 합니다.
 	@AuditLog(action = "CREATE_SIGNUP_EMAIL_CODE")
 	public String createForSignUp(String email) {
 		memberService.checkEmailDuplicated(Email.of(email));

@@ -1,6 +1,6 @@
-package com.gomo.app.batch;
+package com.gomo.app.batch.quest;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.quartz.JobExecutionContext;
 import org.springframework.batch.core.Job;
@@ -15,14 +15,14 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class FillQuestPoolLauncher extends QuartzJobBean {
+public class RoutineAssignQuestLauncher extends QuartzJobBean {
 
 	private final JobLauncher jobLauncher;
-	private final Job fillQuestPoolJob;
+	private final Job routineAssignQuestJob;
 
-	public FillQuestPoolLauncher(JobLauncher jobLauncher, @Qualifier("fillQuestPoolJob") Job fillQuestPoolJob) {
+	public RoutineAssignQuestLauncher(JobLauncher jobLauncher, @Qualifier("routineAssignQuestJob") Job routineAssignQuestJob) {
 		this.jobLauncher = jobLauncher;
-		this.fillQuestPoolJob = fillQuestPoolJob;
+		this.routineAssignQuestJob = routineAssignQuestJob;
 	}
 
 	@Override
@@ -30,13 +30,13 @@ public class FillQuestPoolLauncher extends QuartzJobBean {
 		JobParameters jobParameters = new JobParametersBuilder()
 			.addString("questType", context.getJobDetail().getJobDataMap().getString("questType"))
 			.addLong("limitPerMember", context.getJobDetail().getJobDataMap().getLong("limitPerMember"))
-			.addString("timestamp", LocalDate.now().toString())
+			.addString("timestamp", LocalDateTime.now().toString())
 			.toJobParameters();
 		try {
 			log.info("Starting job with parameters: {}", jobParameters);
-			jobLauncher.run(fillQuestPoolJob, jobParameters);
+			jobLauncher.run(routineAssignQuestJob, jobParameters);
 		} catch (Exception e) {
-			log.error("Job execution failed", e);
+			log.error("Routine assign quest job execution failed", e);
 		}
 	}
 }

@@ -1,4 +1,4 @@
-package com.gomo.app.batch;
+package com.gomo.app.batch.quest;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,10 +24,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import com.gomo.app.batch.JobCompletionNotificationListener;
 import com.gomo.app.core.member.domain.model.ActivateStatus;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
-import com.gomo.app.core.quest.application.port.RoutineAssignQuestPortIn;
+import com.gomo.app.core.quest.application.port.AutoCreateAssignQuestPortIn;
 import com.gomo.app.core.quest.application.port.dto.ParticipantDto;
 
 /**
@@ -37,7 +38,7 @@ import com.gomo.app.core.quest.application.port.dto.ParticipantDto;
  * This is intended to be called by a scheduler.
  */
 @Configuration
-public class RoutineAssignQuestBatch {
+public class CreateAssignQuestConfig {
 
 	private static final String JOB_NAME = "assignQuestJob";
 	private static final int CHUNK_SIZE = 100;
@@ -45,45 +46,46 @@ public class RoutineAssignQuestBatch {
 	private final JobRepository jobRepository;
 	private final PlatformTransactionManager transactionManager;
 	private final MemberRepository memberRepository;
-	private final RoutineAssignQuestPortIn routineAssignQuestPortIn;
+	private final AutoCreateAssignQuestPortIn autoCreateAssignQuestPortIn;
 
-	public RoutineAssignQuestBatch(JobRepository jobRepository, @Qualifier("metaTransactionManager") PlatformTransactionManager metaTransactionManager,
-		MemberRepository memberRepository, RoutineAssignQuestPortIn routineAssignQuestPortIn) {
+	public CreateAssignQuestConfig(JobRepository jobRepository, @Qualifier("metaTransactionManager") PlatformTransactionManager metaTransactionManager,
+		MemberRepository memberRepository, AutoCreateAssignQuestPortIn autoCreateAssignQuestPortIn) {
 		this.jobRepository = jobRepository;
 		this.transactionManager = metaTransactionManager;
 		this.memberRepository = memberRepository;
-		this.routineAssignQuestPortIn = routineAssignQuestPortIn;
+		this.autoCreateAssignQuestPortIn = autoCreateAssignQuestPortIn;
 	}
 
 	@Bean
-	public Job routineAssignQuestJob() {
+	public Job createAssignQuestJob() {
 		return new JobBuilder(JOB_NAME, jobRepository)
-			.start(routineAssignQuestStep())
+			.listener(new JobCompletionNotificationListener())
+			.start(createAssignQuestStep())
 			.build();
 	}
 
 	@Bean
 	@JobScope
-	public Step routineAssignQuestStep() {
-		return new StepBuilder("assignQuestStep", jobRepository)
+	public Step createAssignQuestStep() {
+		return new StepBuilder("createAssignQuestStep", jobRepository)
 			.<Member, ParticipantDto>chunk(CHUNK_SIZE, transactionManager)
-			.reader(routineAssignQuestReader(null))
-			.processor(assignQuestProcessor())
-			.writer(assignQuestWriter(null))
+			.reader(createAssignQuestReader(null))
+			.processor(createAssignQuestProcessor())
+			.writer(createAssignQuestWriter(null))
 			.faultTolerant()
 			.retryLimit(3)
 			.retry(Exception.class) // TODO [2025-10-14] jhl221123 : 우선 모든 예외를 대상으로 하고, 추후 운영을 통해 범위를 좁혀야 합니다.
 			.skip(Exception.class)
 			.skipLimit(Integer.MAX_VALUE)
-			.listener(new RoutineAssignQuestSkipListener())
+			.listener(new CreateAssignQuestSkipListener())
 			.build();
 	}
 
 	@Bean
 	@StepScope
-	public RepositoryItemReader<Member> routineAssignQuestReader(@Value("#{jobParameters['questType']}") String questType) {
+	public RepositoryItemReader<Member> createAssignQuestReader(@Value("#{jobParameters['questType']}") String questType) {
 		return new RepositoryItemReaderBuilder<Member>()
-			.name("memberReader")
+			.name("createAssignQuestReader")
 			.pageSize(CHUNK_SIZE)
 			.methodName("findByActivateStatusAndLastLoginDateTimeGreaterThanEqual")
 			.repository(memberRepository)
@@ -93,7 +95,7 @@ public class RoutineAssignQuestBatch {
 	}
 
 	@Bean
-	public ItemProcessor<Member, ParticipantDto> assignQuestProcessor() {
+	public ItemProcessor<Member, ParticipantDto> createAssignQuestProcessor() {
 		return member -> ParticipantDto.of(
 			member.getId(),
 			member.getQuestProperty().dailyThreshold(),
@@ -104,10 +106,10 @@ public class RoutineAssignQuestBatch {
 
 	@Bean
 	@StepScope
-	public ItemWriter<ParticipantDto> assignQuestWriter(@Value("#{jobParameters['questType']}") String questType) {
+	public ItemWriter<ParticipantDto> createAssignQuestWriter(@Value("#{jobParameters['questType']}") String questType) {
 		return chunk -> {
 			List<ParticipantDto> participantDtos = new ArrayList<>(chunk.getItems());
-			routineAssignQuestPortIn.execute(participantDtos, questType);
+			autoCreateAssignQuestPortIn.execute(participantDtos, questType);
 		};
 	}
 

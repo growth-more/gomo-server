@@ -1,4 +1,4 @@
-package com.gomo.app.batch;
+package com.gomo.app.batch.quest;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.core.SkipListener;

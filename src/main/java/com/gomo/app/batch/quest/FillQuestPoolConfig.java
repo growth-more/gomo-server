@@ -1,4 +1,4 @@
-package com.gomo.app.batch;
+package com.gomo.app.batch.quest;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,6 +24,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import com.gomo.app.batch.JobCompletionNotificationListener;
 import com.gomo.app.core.member.domain.model.ActivateStatus;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
@@ -33,7 +34,7 @@ import com.gomo.app.core.quest.domain.model.participant.Participant;
 import com.gomo.app.core.quest.domain.model.participant.QuestQuota;
 
 @Configuration
-public class FillQuestPoolBatch {
+public class FillQuestPoolConfig {
 
 	private static final String JOB_NAME = "fillQuestPoolJob";
 	private static final int CHUNK_SIZE = 100;
@@ -43,7 +44,7 @@ public class FillQuestPoolBatch {
 	private final MemberRepository memberRepository;
 	private final PublishCreateQuestPoolPortIn publishCreateQuestPoolPortIn;
 
-	public FillQuestPoolBatch(JobRepository jobRepository, @Qualifier("metaTransactionManager") PlatformTransactionManager metaTransactionManager,
+	public FillQuestPoolConfig(JobRepository jobRepository, @Qualifier("metaTransactionManager") PlatformTransactionManager metaTransactionManager,
 		MemberRepository memberRepository, PublishCreateQuestPoolPortIn publishCreateQuestPoolPortIn) {
 		this.jobRepository = jobRepository;
 		this.transactionManager = metaTransactionManager;
@@ -54,6 +55,7 @@ public class FillQuestPoolBatch {
 	@Bean
 	public Job fillQuestPoolJob() {
 		return new JobBuilder(JOB_NAME, jobRepository)
+			.listener(new JobCompletionNotificationListener())
 			.start(fillQuestPoolStep())
 			.build();
 	}
