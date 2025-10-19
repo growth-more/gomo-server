@@ -39,7 +39,7 @@ class LlmCreateQuestContentAdapter implements CreateQuestContentPortOut {
 				subject.id(),
 				subject.name(),
 				command.questType(),
-				"Should replace. Quest related to " + subject.name()
+				subject.name() + " 임시 퀘스트"
 			)).toList();
 	}
 }
