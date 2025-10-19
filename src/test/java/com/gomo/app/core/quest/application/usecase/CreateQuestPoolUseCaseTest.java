@@ -2,7 +2,6 @@ package com.gomo.app.core.quest.application.usecase;
 
 import static org.mockito.Mockito.*;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,12 +13,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.quest.application.port.CreateQuestContentPortOut;
-import com.gomo.app.core.quest.application.port.ReadActiveParticipantPortOut;
-import com.gomo.app.core.quest.application.port.ReadSubjectPortOut;
-import com.gomo.app.core.quest.application.port.dto.ActiveParticipantDto;
+import com.gomo.app.core.quest.application.port.command.CreateQuestPoolCommand;
 import com.gomo.app.core.quest.application.port.dto.QuestContentDto;
-import com.gomo.app.core.quest.application.port.dto.SubjectDto;
-import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.repository.QuestPoolRepository;
 
 @DisplayName("[Application unit]: 퀘스트 풀 생성 테스트")
@@ -30,43 +25,89 @@ public class CreateQuestPoolUseCaseTest {
 	private CreateQuestPoolUseCase sut;
 
 	@Mock
-	private ReadActiveParticipantPortOut readActiveParticipantPortOut;
-
-	@Mock
-	private ReadSubjectPortOut readSubjectPortOut;
-
-	@Mock
 	private CreateQuestContentPortOut createQuestContentPortOut;
 
 	@Mock
 	private QuestPoolRepository questPoolRepository;
 
-	@DisplayName("지정된 타입, 개수만큼 전체 활성화 사용자의 퀘스트 풀을 생성한다.")
+	@DisplayName("지정된 타입, 개수만큼 사용자의 퀘스트 풀을 생성한다.")
 	@Test
-	void fill_quest_pool_for_active_participants() {
-		List<ActiveParticipantDto> activeParticipants = List.of(
-			ActiveParticipantDto.of(UUID.randomUUID(), 5, 5, 5),
-			ActiveParticipantDto.of(UUID.randomUUID(), 5, 5, 5)
-		);
-
-		List<SubjectDto> subjects = List.of(
-			SubjectDto.of(UUID.randomUUID(), UUID.randomUUID(), "name1", 10),
-			SubjectDto.of(UUID.randomUUID(), UUID.randomUUID(), "name2", 20),
-			SubjectDto.of(UUID.randomUUID(), UUID.randomUUID(), "name3", 30)
-		);
-
+	void create_quest_pool() {
 		List<QuestContentDto> questContents = List.of(
 			QuestContentDto.of(UUID.randomUUID(), UUID.randomUUID(), "name1", "DAILY", "content1"),
 			QuestContentDto.of(UUID.randomUUID(), UUID.randomUUID(), "name2", "DAILY", "content2"),
 			QuestContentDto.of(UUID.randomUUID(), UUID.randomUUID(), "name3", "DAILY", "content3")
 		);
-
-		doReturn(activeParticipants).when(readActiveParticipantPortOut).findAll(any());
-		doReturn(subjects).when(readSubjectPortOut).findAll(any());
+		doReturn(10L).when(questPoolRepository).countByQuestParticipantIdAndQuestTypeAndProcessingStatus(any(), any(), any());
 		doReturn(questContents).when(createQuestContentPortOut).create(any());
+		CreateQuestPoolCommand createQuestPoolCommand = CreateQuestPoolCommand.of(
+			UUID.randomUUID(),
+			List.of(
+				CreateQuestPoolCommand.Subject.of(UUID.randomUUID(), "name", 10),
+				CreateQuestPoolCommand.Subject.of(UUID.randomUUID(), "name", 15)
+			),
+			"DAILY",
+			20
+		);
 
-		sut.fillForActiveParticipants(LocalDate.now(), QuestType.DAILY, 3);
+		sut.create(createQuestPoolCommand);
 
-		verify(questPoolRepository, times(activeParticipants.size())).saveAll(any());
+		verify(questPoolRepository, times(1)).saveAll(any());
+	}
+
+	@DisplayName("생성하고자 하는 수만큼 이미 퀘스트 풀이 존재한다.")
+	@Test
+	void already_full_quest_pools() {
+		doReturn(20L).when(questPoolRepository).countByQuestParticipantIdAndQuestTypeAndProcessingStatus(any(), any(), any());
+		CreateQuestPoolCommand createQuestPoolCommand = CreateQuestPoolCommand.of(
+			UUID.randomUUID(),
+			List.of(
+				CreateQuestPoolCommand.Subject.of(UUID.randomUUID(), "name", 10),
+				CreateQuestPoolCommand.Subject.of(UUID.randomUUID(), "name", 15)
+			),
+			"DAILY",
+			20
+		);
+		sut.create(createQuestPoolCommand);
+
+		verify(questPoolRepository, times(0)).saveAll(any());
+	}
+
+	@DisplayName("생성하고자 하는 수보다 많이큼 이미 퀘스트 풀이 존재한다.")
+	@Test
+	void already_over_quest_pools() {
+		doReturn(30L).when(questPoolRepository).countByQuestParticipantIdAndQuestTypeAndProcessingStatus(any(), any(), any());
+		CreateQuestPoolCommand createQuestPoolCommand = CreateQuestPoolCommand.of(
+			UUID.randomUUID(),
+			List.of(
+				CreateQuestPoolCommand.Subject.of(UUID.randomUUID(), "name", 10),
+				CreateQuestPoolCommand.Subject.of(UUID.randomUUID(), "name", 15)
+			),
+			"DAILY",
+			20
+		);
+		sut.create(createQuestPoolCommand);
+
+		verify(questPoolRepository, times(0)).saveAll(any());
+	}
+
+	@DisplayName("요청한 사용자를 위한 퀘스트 내용이 하나도 생성되지 않으면, 퀘스트 풀 또한 저장되지 않는다.")
+	@Test
+	void no_create_quest_pool_for_participant() {
+		doReturn(10L).when(questPoolRepository).countByQuestParticipantIdAndQuestTypeAndProcessingStatus(any(), any(), any());
+		doReturn(List.of()).when(createQuestContentPortOut).create(any());
+		CreateQuestPoolCommand createQuestPoolCommand = CreateQuestPoolCommand.of(
+			UUID.randomUUID(),
+			List.of(
+				CreateQuestPoolCommand.Subject.of(UUID.randomUUID(), "name", 10),
+				CreateQuestPoolCommand.Subject.of(UUID.randomUUID(), "name", 15)
+			),
+			"DAILY",
+			20
+		);
+
+		sut.create(createQuestPoolCommand);
+
+		verify(questPoolRepository, times(0)).saveAll(any());
 	}
 }

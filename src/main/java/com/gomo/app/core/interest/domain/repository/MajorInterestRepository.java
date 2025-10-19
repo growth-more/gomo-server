@@ -16,6 +16,8 @@ public interface MajorInterestRepository extends JpaRepository<MajorInterest, UU
 
 	Optional<MajorInterest> findByInterestId(UUID interestId);
 
+	List<MajorInterest> findByInterestIdIn(Collection<UUID> interestIds);
+
 	@Query("select COALESCE(MAX(m.displayOrder.displayOrder), 0) from MajorInterest m " +
 		"where m.registrantId = :registrantId ")
 	int findMaxDisplayOrder(@Param("registrantId") UUID registrantId);

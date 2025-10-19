@@ -5,6 +5,7 @@ import static org.mockito.Mockito.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import org.assertj.core.groups.Tuple;
@@ -72,6 +73,23 @@ public class ReadInterestUseCaseTest {
 		doReturn(List.of(majorInterest)).when(majorInterestRepository).findAllByRegistrantIdAndInterestIdIn(any(), any());
 
 		List<InterestDto> actual = sut.findAll(expected1.getRegistrantId());
+
+		assertThat(actual)
+			.hasSize(2)
+			.extracting("id", "registrantId", "name", "logoUrl", "majorInterestId")
+			.containsExactly(createTuple(expected1, majorInterest.getId()), createTuple(expected2, null));
+	}
+
+	@DisplayName("등록자 아이디 목록으로 관심사 목록을 조회한다.")
+	@Test
+	void find_interest_list_by_registrant_ids() {
+		Interest expected1 = InterestFixture.create();
+		Interest expected2 = InterestFixture.create();
+		MajorInterest majorInterest = MajorInterestFixture.create(expected1.getRegistrantId(), expected1.getId());
+		doReturn(List.of(expected1, expected2)).when(interestRepository).findAllByRegistrantIdIn(any());
+		doReturn(List.of(majorInterest)).when(majorInterestRepository).findByInterestIdIn(any());
+
+		List<InterestDto> actual = sut.findAllByRegistrantIds(Set.of(expected1.getRegistrantId(), expected2.getRegistrantId()));
 
 		assertThat(actual)
 			.hasSize(2)

@@ -1,6 +1,7 @@
 package com.gomo.app.core.quest.infrastructure.adapter;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import com.gomo.app.common.arch.Adapter;
@@ -19,6 +20,17 @@ class ReadSubjectAdapter implements ReadSubjectPortOut {
 	@Override
 	public List<SubjectDto> findAll(UUID participantId) {
 		return readInterestPortIn.findAll(participantId).stream()
+			.map(dto -> SubjectDto.of(
+				dto.id(),
+				dto.registrantId(),
+				dto.name(),
+				dto.proficiency().level()
+			)).toList();
+	}
+
+	@Override
+	public List<SubjectDto> findAllByParticipantIds(Set<UUID> participantIds) {
+		return readInterestPortIn.findAllByRegistrantIds(participantIds).stream()
 			.map(dto -> SubjectDto.of(
 				dto.id(),
 				dto.registrantId(),

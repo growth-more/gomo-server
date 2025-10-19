@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * @param questType
+ * @param questType (
  * DAILY, WEEKLY, MONTHLY
  */
 public record CreateQuestContentCommand(UUID participantId, List<Subject> subjects, String questType, int count) {

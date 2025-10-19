@@ -4,10 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobScope;
@@ -15,6 +13,7 @@ import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
+import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.data.RepositoryItemReader;
 import org.springframework.batch.item.data.builder.RepositoryItemReaderBuilder;
@@ -25,16 +24,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import com.gomo.app.common.event.EventRouter;
-import com.gomo.app.common.util.JsonParser;
-import com.gomo.app.common.util.TimestampGenerator;
-import com.gomo.app.core.interest.domain.model.Interest;
-import com.gomo.app.core.interest.domain.repository.InterestRepository;
 import com.gomo.app.core.member.domain.model.ActivateStatus;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
-import com.gomo.app.core.quest.event.FillQuestPoolEvent;
-import com.gomo.app.support.messagebroker.application.port.PublishMessagePortIn;
+import com.gomo.app.core.quest.application.port.PublishCreateQuestPoolPortIn;
+import com.gomo.app.core.quest.application.port.command.PublishCreateQuestPoolCommand;
+import com.gomo.app.core.quest.domain.model.participant.Participant;
+import com.gomo.app.core.quest.domain.model.participant.QuestQuota;
 
 @Configuration
 public class FillQuestPoolBatch {
@@ -45,18 +41,14 @@ public class FillQuestPoolBatch {
 	private final JobRepository jobRepository;
 	private final PlatformTransactionManager transactionManager;
 	private final MemberRepository memberRepository;
-	private final InterestRepository interestRepository;
-	private final EventRouter eventRouter;
-	private final PublishMessagePortIn publishMessagePortIn;
+	private final PublishCreateQuestPoolPortIn publishCreateQuestPoolPortIn;
 
 	public FillQuestPoolBatch(JobRepository jobRepository, @Qualifier("metaTransactionManager") PlatformTransactionManager metaTransactionManager,
-		MemberRepository memberRepository, InterestRepository interestRepository, EventRouter eventRouter, PublishMessagePortIn publishMessagePortIn) {
+		MemberRepository memberRepository, PublishCreateQuestPoolPortIn publishCreateQuestPoolPortIn) {
 		this.jobRepository = jobRepository;
 		this.transactionManager = metaTransactionManager;
 		this.memberRepository = memberRepository;
-		this.interestRepository = interestRepository;
-		this.eventRouter = eventRouter;
-		this.publishMessagePortIn = publishMessagePortIn;
+		this.publishCreateQuestPoolPortIn = publishCreateQuestPoolPortIn;
 	}
 
 	@Bean
@@ -72,7 +64,7 @@ public class FillQuestPoolBatch {
 		return new StepBuilder("fillQuestPoolStep", jobRepository)
 			.<Member, Member>chunk(CHUNK_SIZE, transactionManager)
 			.reader(fillQuestPoolReader(null))
-			.writer(fillQuestPoolEventWriter(null))
+			.writer(fillQuestPoolEventWriter(null, null))
 			.faultTolerant()
 			.retryLimit(3)
 			.retry(Exception.class) // TODO [2025-10-14] jhl221123 : 우선 모든 예외를 대상으로 하고, 추후 운영을 통해 범위를 좁혀야 합니다.
@@ -97,32 +89,29 @@ public class FillQuestPoolBatch {
 
 	@Bean
 	@StepScope
-	public ItemWriter<Member> fillQuestPoolEventWriter(@Value("#{jobParameters['limitPerMember']}") Long limitPerMember) {
-		// TODO [2025-10-17] jhl221123 : 퀘스트 모듈의 서비스로 분리해야 합니다. 그리고 회원 가입 시에도 초기 quest pool을 채우기 위해 분리된 해당 서비스를 사용해야합니다.
+	public ItemWriter<Member> fillQuestPoolEventWriter(
+		@Value("#{jobParameters['limitPerMember']}") Long limitPerMember,
+		@Value("#{jobParameters['questType']}") String questType
+	) {
 		return chunk -> {
-			Set<UUID> memberIds = chunk.getItems().stream()
-				.map(Member::getId)
-				.collect(Collectors.toSet());
-
-			Map<UUID, List<Interest>> interestsByMemberId = interestRepository.findAllByRegistrantIdIn(memberIds).stream()
-				.collect(Collectors.groupingBy(Interest::getRegistrantId));
-
-			for (Member member : chunk.getItems()) {
-				UUID participantId = member.getId();
-				List<FillQuestPoolEvent.Subject> subjects = interestsByMemberId.getOrDefault(participantId, List.of()).stream()
-					.map(interest -> FillQuestPoolEvent.Subject.of(
-						interest.getId(),
-						interest.name(),
-						interest.getProficiency().level()))
-					.toList();
-
-				FillQuestPoolEvent fillQuestPoolEvent = FillQuestPoolEvent.of(participantId, subjects, limitPerMember, TimestampGenerator.generate());
-				String eventName = fillQuestPoolEvent.getClass().getSimpleName();
-				String exchange = eventRouter.getExchange(eventName);
-				String routingKey = eventRouter.getRoutingKey(eventName);
-				publishMessagePortIn.send(exchange, routingKey, JsonParser.toJson(fillQuestPoolEvent));
-			}
+			PublishCreateQuestPoolCommand command = PublishCreateQuestPoolCommand.of(createParticipants(chunk), questType, limitPerMember);
+			publishCreateQuestPoolPortIn.publish(command);
 		};
+	}
+
+	@NotNull
+	private List<Participant> createParticipants(Chunk<? extends Member> chunk) {
+		return chunk.getItems().stream()
+			.map(member ->
+				Participant.of(
+					member.getId(),
+					QuestQuota.of(
+						member.getQuestProperty().dailyThreshold(),
+						member.getQuestProperty().weeklyThreshold(),
+						member.getQuestProperty().monthlyThreshold()
+					)
+				)
+			).toList();
 	}
 
 	private LocalDateTime getLoginCutoffDateTime(String questType) {

@@ -1,6 +1,7 @@
 package com.gomo.app.core.interest.application.port;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import com.gomo.app.core.interest.application.port.dto.InterestDto;
@@ -25,4 +26,13 @@ public interface ReadInterestPortIn {
 	 *         registrant has no associated interests; this method does not return null.
 	 */
 	List<InterestDto> findAll(UUID registrantId);
+
+	/**
+	 * Retrieves a list of all interests associated with registrants.
+	 *
+	 * @param registrantIds The ids of the registrants (e.g., users) whose interests are to be retrieved.
+	 * @return A list of {@link InterestDto} objects. The list will be empty if the
+	 *         registrant has no associated interests; this method does not return null.
+	 */
+	List<InterestDto> findAllByRegistrantIds(Set<UUID> registrantIds);
 }
