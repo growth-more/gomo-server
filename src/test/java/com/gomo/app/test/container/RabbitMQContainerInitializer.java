@@ -53,7 +53,7 @@ public class RabbitMQContainerInitializer implements ApplicationContextInitializ
 				channel.queueDeclare("event.quest.assign.complete.score", true, false, false, null);
 				channel.queueDeclare("event.quest.assign.complete.streak", true, false, false, null);
 				channel.queueDeclare("event.quest.assign.complete.point", true, false, false, null);
-				channel.queueDeclare("event.quest.assign.complete.point", true, false, false, null);
+				channel.queueDeclare("event.quest.pool.fill", true, false, false, null);
 			}
 		} catch (IOException | TimeoutException e) {
 			throw new RuntimeException("Failed to declare RabbitMQ queue for testing", e);

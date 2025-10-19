@@ -18,7 +18,7 @@ class CreateAuthCodeUseCase implements CreateAuthCodePortIn {
 	private final SendAuthCodePortOut sendAuthCodePortOut;
 	private final AuthCodeRepository authCodeRepository;
 
-	// TODO [2025-10-10] jhl221123 : 회원 도메인에 이메일 검증을 요청해야 합니다.
+	// TODO [2025-10-10] jhl221123 : 회원 도메인에 이메일 검증(Email.of())을 요청해야 합니다.
 	// TODO [2025-10-10] jhl221123 : 빈번한 요청에 대비해야 합니다.
 	@AuditLog(action = "SEND_AUTH_CODE")
 	@Override

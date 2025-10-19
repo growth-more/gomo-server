@@ -2,6 +2,7 @@ package com.gomo.app.batch;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,10 +27,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import com.gomo.app.core.member.domain.model.ActivateStatus;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
-import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
-import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
-import com.gomo.app.core.quest.domain.repository.QuestPoolRepository;
-import com.gomo.app.core.quest.domain.repository.RepeatQuestRepository;
+import com.gomo.app.core.quest.application.port.RoutineAssignQuestPortIn;
+import com.gomo.app.core.quest.application.port.dto.ParticipantDto;
 
 /**
  * Creates assign quests for all active members for a specific routine cycle (e.g., daily, weekly).
@@ -46,19 +45,14 @@ public class RoutineAssignQuestBatch {
 	private final JobRepository jobRepository;
 	private final PlatformTransactionManager transactionManager;
 	private final MemberRepository memberRepository;
-	private final AssignQuestRepository assignQuestRepository;
-	private final RepeatQuestRepository repeatQuestRepository;
-	private final QuestPoolRepository questPoolRepository;
+	private final RoutineAssignQuestPortIn routineAssignQuestPortIn;
 
 	public RoutineAssignQuestBatch(JobRepository jobRepository, @Qualifier("metaTransactionManager") PlatformTransactionManager metaTransactionManager,
-		MemberRepository memberRepository, AssignQuestRepository assignQuestRepository, RepeatQuestRepository repeatQuestRepository,
-		QuestPoolRepository questPoolRepository) {
+		MemberRepository memberRepository, RoutineAssignQuestPortIn routineAssignQuestPortIn) {
 		this.jobRepository = jobRepository;
 		this.transactionManager = metaTransactionManager;
 		this.memberRepository = memberRepository;
-		this.assignQuestRepository = assignQuestRepository;
-		this.repeatQuestRepository = repeatQuestRepository;
-		this.questPoolRepository = questPoolRepository;
+		this.routineAssignQuestPortIn = routineAssignQuestPortIn;
 	}
 
 	@Bean
@@ -72,10 +66,10 @@ public class RoutineAssignQuestBatch {
 	@JobScope
 	public Step routineAssignQuestStep() {
 		return new StepBuilder("assignQuestStep", jobRepository)
-			.<Member, List<AssignQuest>>chunk(CHUNK_SIZE, transactionManager)
+			.<Member, ParticipantDto>chunk(CHUNK_SIZE, transactionManager)
 			.reader(routineAssignQuestReader(null))
-			.processor(assignQuestProcessor(null))
-			.writer(assignQuestWriter())
+			.processor(assignQuestProcessor())
+			.writer(assignQuestWriter(null))
 			.faultTolerant()
 			.retryLimit(3)
 			.retry(Exception.class) // TODO [2025-10-14] jhl221123 : 우선 모든 예외를 대상으로 하고, 추후 운영을 통해 범위를 좁혀야 합니다.
@@ -99,19 +93,21 @@ public class RoutineAssignQuestBatch {
 	}
 
 	@Bean
-	@StepScope
-	public ItemProcessor<Member, List<AssignQuest>> assignQuestProcessor(@Value("#{jobParameters['questType']}") String questType) {
-		return new RoutineAssignQuestProcessor(repeatQuestRepository, questPoolRepository, questType);
+	public ItemProcessor<Member, ParticipantDto> assignQuestProcessor() {
+		return member -> ParticipantDto.of(
+			member.getId(),
+			member.getQuestProperty().dailyThreshold(),
+			member.getQuestProperty().weeklyThreshold(),
+			member.getQuestProperty().monthlyThreshold()
+		);
 	}
 
 	@Bean
-	public ItemWriter<List<AssignQuest>> assignQuestWriter() {
-		// TODO [2025-10-17] jhl221123 : 성능을 고려해 bulk 작업이 가능한 JDBC를 사용해야합니다. 추후 JDBC adapter를 사용하는 quest 모듈의 서비스로 분리해야 합니다.
+	@StepScope
+	public ItemWriter<ParticipantDto> assignQuestWriter(@Value("#{jobParameters['questType']}") String questType) {
 		return chunk -> {
-			List<AssignQuest> allQuestsForChunk = chunk.getItems().stream()
-				.flatMap(List::stream)
-				.toList();
-			assignQuestRepository.saveAll(allQuestsForChunk);
+			List<ParticipantDto> participantDtos = new ArrayList<>(chunk.getItems());
+			routineAssignQuestPortIn.execute(participantDtos, questType);
 		};
 	}
 

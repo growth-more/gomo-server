@@ -216,4 +216,23 @@ public class AssignQuestFixture {
 			dateTime
 		);
 	}
+
+	public static AssignQuest create(LocalDateTime startDateTime, LocalDateTime completedDateTime) {
+		return new AssignQuest(
+			UUID.randomUUID(),
+			Quest.of(
+				UUID.randomUUID(),
+				UUID.randomUUID(),
+				SubjectName.of("subject name"),
+				QuestType.DAILY,
+				QuestContent.of("quest content")
+			),
+			CompletionProof.of("proof"),
+			true,
+			true,
+			DisplayOrder.of(1),
+			startDateTime,
+			completedDateTime
+		);
+	}
 }
