@@ -31,12 +31,6 @@ import com.gomo.app.core.member.domain.repository.MemberRepository;
 import com.gomo.app.core.quest.application.port.AutoCreateAssignQuestPortIn;
 import com.gomo.app.core.quest.application.port.dto.ParticipantDto;
 
-/**
- * Creates assign quests for all active members for a specific routine cycle (e.g., daily, weekly).
- * <p>
- * It creates both repeat quests and quest pool.
- * This is intended to be called by a scheduler.
- */
 @Configuration
 public class CreateAssignQuestConfig {
 
