@@ -22,8 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
-@ApplicationService
 @Transactional
+@ApplicationService
 public class CompleteAssignQuestUseCase {
 
 	private final AssignQuestService assignQuestService;

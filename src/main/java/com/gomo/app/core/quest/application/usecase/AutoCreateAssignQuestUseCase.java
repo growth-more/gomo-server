@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.jetbrains.annotations.NotNull;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.common.displayorder.DisplayOrder;
@@ -35,6 +36,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 @ApplicationService
 class AutoCreateAssignQuestUseCase implements AutoCreateAssignQuestPortIn {
 

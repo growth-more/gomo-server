@@ -11,8 +11,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@ApplicationService
 @Transactional
+@ApplicationService
 public class DeleteProfileImageUseCase {
 
 	private final MemberService memberService;

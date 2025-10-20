@@ -3,6 +3,8 @@ package com.gomo.app.core.streak.application.usecase;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.core.streak.application.port.CreateStreakPortIn;
@@ -13,6 +15,7 @@ import com.gomo.app.core.streak.domain.service.StreakService;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Transactional
 @ApplicationService
 class CreateStreakUseCase implements CreateStreakPortIn {
 

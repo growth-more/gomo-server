@@ -25,8 +25,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@ApplicationService
 @Transactional
+@ApplicationService
 public class CreateMemberUseCase {
 
 	private final VerifyJwtPortIn verifyJwtPortIn;

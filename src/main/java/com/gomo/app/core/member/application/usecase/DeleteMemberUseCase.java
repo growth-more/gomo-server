@@ -13,8 +13,8 @@ import com.gomo.app.support.logging.AuditLog;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@ApplicationService
 @Transactional
+@ApplicationService
 public class DeleteMemberUseCase {
 
 	private final DeleteAuthTokenPortIn deleteAuthTokenPortIn;

@@ -3,6 +3,8 @@ package com.gomo.app.core.quest.application.usecase;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.core.quest.application.port.CreateQuestContentPortOut;
@@ -24,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 @ApplicationService
 class CreateQuestPoolUseCase implements CreateQuestPoolPortIn {
 
@@ -68,7 +71,7 @@ class CreateQuestPoolUseCase implements CreateQuestPoolPortIn {
 					SourceType.AI
 				);
 			}).toList();
-		
+
 		if (questPools.isEmpty()) {
 			log.debug("No quest pools created for participant id={}", participantId);
 			return;

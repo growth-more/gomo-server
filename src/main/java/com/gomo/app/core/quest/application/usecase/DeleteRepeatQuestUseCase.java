@@ -2,6 +2,8 @@ package com.gomo.app.core.quest.application.usecase;
 
 import java.util.UUID;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.core.quest.domain.model.repeat.RepeatQuest;
 import com.gomo.app.core.quest.domain.repository.RepeatQuestRepository;
@@ -11,6 +13,7 @@ import com.gomo.app.support.logging.AuditLog;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Transactional
 @ApplicationService
 public class DeleteRepeatQuestUseCase {
 

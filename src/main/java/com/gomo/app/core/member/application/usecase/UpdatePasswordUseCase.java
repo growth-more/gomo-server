@@ -17,8 +17,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@ApplicationService
 @Transactional
+@ApplicationService
 public class UpdatePasswordUseCase {
 
 	private final VerifyPasswordPortIn verifyPasswordPortIn;
