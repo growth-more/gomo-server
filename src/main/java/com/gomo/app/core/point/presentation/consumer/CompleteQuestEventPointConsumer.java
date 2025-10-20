@@ -18,7 +18,7 @@ public class CompleteQuestEventPointConsumer {
 	private final CreatePointPortIn createPointPortIn;
 
 	@IdempotentEventEntryConsumer
-	@RabbitListener(queues = "event.quest.complete.point")
+	@RabbitListener(queues = "event.quest.assign.complete.point")
 	public void handleEvent(EventEntry eventEntry) {
 		CompleteQuestEvent event = JsonParser.fromJson(eventEntry.getPayload(), CompleteQuestEvent.class);
 		createPointPortIn.create(event.getParticipantId(), "QUEST", "GAIN", event.getPointReward());

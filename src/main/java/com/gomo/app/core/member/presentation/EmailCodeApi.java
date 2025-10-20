@@ -13,6 +13,7 @@ import com.gomo.app.core.member.application.usecase.CreateEmailCodeUseCase;
 import com.gomo.app.core.member.application.usecase.VerifyEmailCodeUseCase;
 import com.gomo.app.core.member.presentation.request.CreateEmailCodeRequest;
 import com.gomo.app.core.member.presentation.request.VerifyEmailCodeRequest;
+import com.gomo.app.core.member.presentation.response.CreateEmailCodeResponse;
 import com.gomo.app.core.member.presentation.response.VerifyEmailCodeResponse;
 
 import lombok.RequiredArgsConstructor;
@@ -26,15 +27,15 @@ public class EmailCodeApi {
 	private final VerifyEmailCodeUseCase verifyEmailCodeUseCase;
 
 	@PostMapping("/signup")
-	public ResponseEntity<Void> create(@RequestBody CreateEmailCodeRequest request) {
-		createEmailCodeUseCase.createForSignUp(request.getEmail());
-		return ResponseEntity.status(HttpStatus.CREATED).build();
+	public ResponseEntity<CreateEmailCodeResponse> create(@RequestBody CreateEmailCodeRequest request) {
+		String emailCode = createEmailCodeUseCase.createForSignUp(request.getEmail());
+		return ResponseEntity.status(HttpStatus.CREATED).body(CreateEmailCodeResponse.of(emailCode));
 	}
 
 	@PostMapping("/passwords/reset")
-	public ResponseEntity<Void> createForPassword(@RequestBody CreateEmailCodeRequest request) {
-		createEmailCodeUseCase.createForPasswordReset(request.getEmail());
-		return ResponseEntity.status(HttpStatus.CREATED).build();
+	public ResponseEntity<CreateEmailCodeResponse> createForPassword(@RequestBody CreateEmailCodeRequest request) {
+		String emailCode = createEmailCodeUseCase.createForPasswordReset(request.getEmail());
+		return ResponseEntity.status(HttpStatus.CREATED).body(CreateEmailCodeResponse.of(emailCode));
 	}
 
 	@GetMapping("/verify")

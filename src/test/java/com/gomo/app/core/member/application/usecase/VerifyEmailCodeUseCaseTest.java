@@ -36,7 +36,7 @@ public class VerifyEmailCodeUseCaseTest {
 	void verify_email_auth_code_successfully() {
 		sut.verify(EMAIL, AUTH_CODE_STORED);
 		verify(verifyAuthCodePortIn, times(1)).verify(EMAIL, AUTH_CODE_STORED);
-		verify(generateJwtPortIn, times(1)).generateTemporaryToken(EMAIL, 300);
+		verify(generateJwtPortIn, times(1)).generateTemporaryToken(EMAIL, 1800);
 	}
 
 	@DisplayName("이메일 검증코드가 null이면 검증에 실패한다")

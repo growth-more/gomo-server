@@ -25,8 +25,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@ApplicationService
 @Transactional
+@ApplicationService
 public class CreateMemberUseCase {
 
 	private final VerifyJwtPortIn verifyJwtPortIn;
@@ -39,7 +39,11 @@ public class CreateMemberUseCase {
 	@AuditLog(action = "CREATE_MEMBER")
 	@Timed
 	public UUID create(CreateMemberCommand command) {
-		verifyJwtPortIn.validateToken(command.temporaryToken());
+		// TODO [2025-10-18] jhl221123 : jwt 형식 뿐 아니라 내부 이메일이 요청한 이메일과 같은지 검증이 필요합니다.
+		// TODO [2025-10-19] jhl221123 : 커스텀 예외를 반환하도록 수정해야합니다.
+		if (!verifyJwtPortIn.validateToken(command.temporaryToken())) {
+			throw new IllegalArgumentException("Invalid temporary token");
+		}
 
 		Email email = Email.of(command.email());
 		memberService.checkEmailDuplicated(email);

@@ -38,12 +38,21 @@ class ResetPasswordUseCaseTest {
 	void reset_password() {
 		Member member = MemberFixture.create();
 		String encoded = "encoded_password";
+		doReturn(true).when(verifyJwtPortIn).validateToken(any());
 		doReturn(member).when(memberService).findByEmail(any());
 		doReturn(encoded).when(encodePasswordPortIn).encode(any());
 
 		sut.reset(member.email(), "New1234@", "temporaryToken");
 
 		assertThat(member.password()).isEqualTo(encoded);
-		verify(verifyJwtPortIn, times(1)).validateToken(anyString());
+	}
+
+	@DisplayName("임시 코드 검증에 실패한다.")
+	@Test
+	void fail_validate_temporary_code() {
+		Member member = MemberFixture.create();
+		doReturn(false).when(verifyJwtPortIn).validateToken(null);
+
+		assertThatThrownBy(() -> sut.reset(member.email(), "New1234@", null)).isInstanceOf(IllegalArgumentException.class);
 	}
 }

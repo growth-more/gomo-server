@@ -18,7 +18,7 @@ public class CompleteQuestEventStreakConsumer {
 	private final CreateStreakPortIn createStreakPortIn;
 
 	@IdempotentEventEntryConsumer
-	@RabbitListener(queues = "event.quest.complete.streak")
+	@RabbitListener(queues = "event.quest.assign.complete.streak")
 	public void handleEvent(EventEntry eventEntry) {
 		CompleteQuestEvent event = JsonParser.fromJson(eventEntry.getPayload(), CompleteQuestEvent.class);
 		createStreakPortIn.create(event.getParticipantId(), event.getQuestType(), event.getQuestCompletionTime().toLocalDate());

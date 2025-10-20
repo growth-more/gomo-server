@@ -91,6 +91,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 
+    // batch
+    implementation("org.springframework.boot:spring-boot-starter-batch")
+    implementation("org.springframework.boot:spring-boot-starter-quartz")
+
     // test
     testRuntimeOnly "org.junit.platform:junit-platform-launcher"
     testImplementation "org.springframework.boot:spring-boot-starter-test"

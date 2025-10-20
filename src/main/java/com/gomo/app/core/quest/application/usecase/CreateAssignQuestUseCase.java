@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.common.util.DateRangeCalculator;
 import com.gomo.app.core.quest.application.port.ReadParticipantPortOut;
@@ -23,6 +25,7 @@ import com.gomo.app.support.logging.AuditLog;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Transactional
 @ApplicationService
 public class CreateAssignQuestUseCase {
 

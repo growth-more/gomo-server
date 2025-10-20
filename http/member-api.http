@@ -1,0 +1,26 @@
+### member create
+POST http://localhost:8080/members
+Content-Type: application/json
+
+{
+  "email": "gomotest1@naver.com",
+  "password": "Test123@",
+  "handle": "@GOMOTEST1",
+  "name": "gomotest1",
+  "motto": "TEST MOTTO",
+  "loginProvider": "EMAIL"
+}
+
+### member login
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "gomotest1@naver.com",
+  "password": "Test123@"
+}
+
+### member logout
+GET http://localhost:8080/members/logout
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwMTk5NDJiNC1mMDA3LTc0MGQtYTZlNy04ZjMwZWE4MWQ0NWUiLCJpYXQiOjE3NTc4NTcwOTIsImV4cCI6MTc1Nzg1Nzk5Mn0.iAyRCvxbHrsbQGkzquobN1or_uFsmWJgyn9fNtH2Pjg
+Content-Type: application/json

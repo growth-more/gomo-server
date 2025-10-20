@@ -15,15 +15,16 @@ public class CreateEmailCodeUseCase {
 	private final CreateAuthCodePortIn createAuthCodePortIn;
 	private final MemberService memberService;
 
+	// TODO [2025-10-19] jhl221123 : 코드를 반환하지 않고 테스트를 처리할 수 있도록 수정해야 합니다.
 	@AuditLog(action = "CREATE_SIGNUP_EMAIL_CODE")
-	public void createForSignUp(String email) {
+	public String createForSignUp(String email) {
 		memberService.checkEmailDuplicated(Email.of(email));
-		createAuthCodePortIn.sendToEmail(email);
+		return createAuthCodePortIn.sendToEmail(email);
 	}
 
 	@AuditLog(action = "CREATE_PW_RESET_EMAIL_CODE")
-	public void createForPasswordReset(String email) {
+	public String createForPasswordReset(String email) {
 		memberService.findByEmail(Email.of(email));
-		createAuthCodePortIn.sendToEmail(email);
+		return createAuthCodePortIn.sendToEmail(email);
 	}
 }

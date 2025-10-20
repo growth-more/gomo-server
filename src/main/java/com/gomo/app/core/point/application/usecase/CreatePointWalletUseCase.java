@@ -2,6 +2,8 @@ package com.gomo.app.core.point.application.usecase;
 
 import java.util.UUID;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.core.point.application.port.CreatePointWalletPortIn;
@@ -12,6 +14,7 @@ import com.gomo.app.support.logging.AuditLog;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Transactional
 @ApplicationService
 class CreatePointWalletUseCase implements CreatePointWalletPortIn {
 

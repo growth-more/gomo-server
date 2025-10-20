@@ -12,8 +12,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@ApplicationService
 @Transactional
+@ApplicationService
 public class UpdateHandleUseCase {
 
 	private final MemberService memberService;

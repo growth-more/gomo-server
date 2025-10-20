@@ -13,8 +13,8 @@ import com.gomo.app.core.interest.domain.service.ProficiencyService;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@ApplicationService
 @Transactional
+@ApplicationService
 class AdjustProficiencyUseCase implements AdjustProficiencyPortIn {
 
 	private final InterestService interestService;

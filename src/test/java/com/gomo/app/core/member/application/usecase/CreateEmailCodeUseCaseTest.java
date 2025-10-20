@@ -33,16 +33,24 @@ public class CreateEmailCodeUseCaseTest {
 	@DisplayName("회원가입 관련 이메일 인증 코드를 생성한다.")
 	@Test
 	void create_email_auth_code_successfully() {
+		String authCode = "000000";
 		doNothing().when(memberService).checkEmailDuplicated(any(Email.class));
-		doNothing().when(createAuthCodePortIn).sendToEmail(anyString());
-		assertThatCode(() -> sut.createForSignUp(EMAIL)).doesNotThrowAnyException();
+		doReturn(authCode).when(createAuthCodePortIn).sendToEmail(anyString());
+
+		String actual = sut.createForSignUp(EMAIL);
+
+		assertThat(actual).isEqualTo(authCode);
 	}
 
 	@DisplayName("비밀번호 초기화 관련 이메일 인증 코드를 생성한다.")
 	@Test
 	void create_email_auth_code_for_password_successfully() {
+		String authCode = "000000";
 		doReturn(MemberFixture.create()).when(memberService).findByEmail(any(Email.class));
-		doNothing().when(createAuthCodePortIn).sendToEmail(anyString());
-		assertThatCode(() -> sut.createForPasswordReset(EMAIL)).doesNotThrowAnyException();
+		doReturn(authCode).when(createAuthCodePortIn).sendToEmail(anyString());
+
+		String actual = sut.createForPasswordReset(EMAIL);
+
+		assertThat(actual).isEqualTo(authCode);
 	}
 }

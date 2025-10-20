@@ -55,4 +55,12 @@ class ManageJwtUseCaseTest {
 
 		assertThat(actual).isFalse();
 	}
+
+	@DisplayName("null로 유효성을 검증한다.")
+	@Test
+	void validate_with_null_token() {
+		boolean actual = manageJwtUseCase.validateToken(null);
+
+		assertThat(actual).isFalse();
+	}
 }

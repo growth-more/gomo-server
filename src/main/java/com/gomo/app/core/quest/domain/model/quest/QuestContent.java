@@ -15,7 +15,7 @@ import lombok.Getter;
 public class QuestContent {
 
 	private static final int MINIMUM_CONTENT_LENGTH = 3;
-	private static final int MAXIMUM_CONTENT_LENGTH = 30;
+	private static final int MAXIMUM_CONTENT_LENGTH = 50;
 	private static final Pattern FORBIDDEN_PATTERN = Pattern.compile("[<>&\"';|\\\\{}\\[\\]()`]|(--|/\\*|\\*/)|[\u0000-\u001F\u007F]");
 
 	private String questContent;

@@ -14,6 +14,8 @@ public interface InterestRepository extends JpaRepository<Interest, UUID> {
 
 	List<Interest> findAllByRegistrantId(UUID registrantId);
 
+	List<Interest> findAllByRegistrantIdIn(Set<UUID> registrantIds);
+
 	List<Interest> findAllByIdIsIn(Set<UUID> interestIds);
 
 	// TODO <jhl221123> to <nurdy>: 값이 null이 아닌 데이터만 조회하기 때문에 메서드 이름 수정이 필요해 보입니다.

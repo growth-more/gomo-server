@@ -3,7 +3,6 @@ package com.gomo.app.core.member.infrastructure.repository;
 import static org.assertj.core.api.Assertions.*;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.AfterEach;
@@ -11,6 +10,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import com.gomo.app.core.member.domain.model.ActivateStatus;
 import com.gomo.app.core.member.domain.model.Email;
@@ -42,9 +43,10 @@ public class MemberRepositoryTest {
 	@DisplayName("활성화되어 있고, 어제까지 로그인한 사용자 목록을 조회한다.")
 	@Test
 	void find_active_and_login_member() {
-		List<Member> members = sut.findByActivateStatusAndLastLoginDateTimeGreaterThanEqual(
+		Page<Member> members = sut.findByActivateStatusAndLastLoginDateTimeGreaterThanEqual(
 			ActivateStatus.ACTIVE,
-			LocalDate.now().minusDays(1).atStartOfDay()
+			LocalDate.now().minusDays(1).atStartOfDay(),
+			PageRequest.of(0, 10)
 		);
 
 		assertThat(members).hasSize(1);

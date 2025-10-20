@@ -57,7 +57,7 @@ class IdempotentEventEntryConsumerAspectTest {
 		sut.testHandleEvent(eventEntry);
 
 		verify(mockBusinessLogic, times(1)).doSomething();
-		boolean isProcessed = processEventEntryPortIn.isAlreadyProcessed(String.valueOf(eventEntry.getId()), FakeConsumer.class.getName());
+		boolean isProcessed = processEventEntryPortIn.isAlreadyProcessed(String.valueOf(eventEntry.getId()), FakeConsumer.class.getSimpleName());
 		assertThat(isProcessed).isTrue();
 	}
 
@@ -65,7 +65,7 @@ class IdempotentEventEntryConsumerAspectTest {
 	@Test
 	void skip_duplicate_event_entry() {
 		EventEntry eventEntry = EventEntry.of("TestEvent", "payload", 2L);
-		processEventEntryPortIn.process(String.valueOf(eventEntry.getId()), FakeConsumer.class.getName());
+		processEventEntryPortIn.process(String.valueOf(eventEntry.getId()), FakeConsumer.class.getSimpleName());
 
 		sut.testHandleEvent(eventEntry);
 

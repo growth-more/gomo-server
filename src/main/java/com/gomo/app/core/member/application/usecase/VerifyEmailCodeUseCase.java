@@ -17,6 +17,6 @@ public class VerifyEmailCodeUseCase {
 	@AuditLog(action = "VERIFY_EMAIL_CODE")
 	public String verify(String email, String authCode) {
 		verifyAuthCodePortIn.verify(email, authCode);
-		return generateJwtPortIn.generateTemporaryToken(email, 300);
+		return generateJwtPortIn.generateTemporaryToken(email, 1800);
 	}
 }

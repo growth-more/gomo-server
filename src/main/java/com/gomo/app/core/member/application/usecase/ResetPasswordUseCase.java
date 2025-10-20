@@ -21,7 +21,10 @@ public class ResetPasswordUseCase {
 	private final MemberService memberService;
 
 	public void reset(String email, String newPassword, String temporaryToken) {
-		verifyJwtPortIn.validateToken(temporaryToken);
+		if (!verifyJwtPortIn.validateToken(temporaryToken)) {
+			throw new IllegalArgumentException("Invalid temporary token");
+		}
+
 		Member member = memberService.findByEmail(Email.of(email));
 		String encoded = encodePasswordPortIn.encode(Password.ofRaw(newPassword).getPassword());
 		member.updatePassword(Password.ofEncoded(encoded));
