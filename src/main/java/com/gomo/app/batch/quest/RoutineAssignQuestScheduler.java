@@ -20,7 +20,7 @@ public class RoutineAssignQuestScheduler {
 	@Bean
 	public JobDetail dailyRoutineAssignQuestJobDetail() {
 		return JobBuilder.newJob(RoutineAssignQuestLauncher.class)
-			.withIdentity("dailyQuestWorkflowJobDetail", JOB_GROUP_NAME)
+			.withIdentity("dailyRoutineAssignQuestJobDetail", JOB_GROUP_NAME)
 			.usingJobData(jobDataMap(QuestType.DAILY.name(), LIMIT_PER_MEMBER))
 			.storeDurably()
 			.build();
@@ -30,7 +30,7 @@ public class RoutineAssignQuestScheduler {
 	public Trigger dailyRoutineAssignQuestJobTrigger() {
 		return TriggerBuilder.newTrigger()
 			.forJob(dailyRoutineAssignQuestJobDetail())
-			.withIdentity("dailyQuestWorkflowJobTrigger", JOB_GROUP_NAME)
+			.withIdentity("dailyRoutineAssignQuestJobTrigger", JOB_GROUP_NAME)
 			.withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(0, 0))
 			.build();
 	}
@@ -39,7 +39,7 @@ public class RoutineAssignQuestScheduler {
 	@Bean
 	public JobDetail weeklyRoutineAssignQuestJobDetail() {
 		return JobBuilder.newJob(RoutineAssignQuestLauncher.class)
-			.withIdentity("weeklyQuestWorkflowJobDetail", JOB_GROUP_NAME)
+			.withIdentity("weeklyRoutineAssignQuestJobDetail", JOB_GROUP_NAME)
 			.usingJobData(jobDataMap(QuestType.WEEKLY.name(), LIMIT_PER_MEMBER))
 			.storeDurably()
 			.build();
@@ -49,7 +49,7 @@ public class RoutineAssignQuestScheduler {
 	public Trigger weeklyRoutineAssignQuestJobTrigger() {
 		return TriggerBuilder.newTrigger()
 			.forJob(weeklyRoutineAssignQuestJobDetail())
-			.withIdentity("weeklyQuestWorkflowJobTrigger", JOB_GROUP_NAME)
+			.withIdentity("weeklyRoutineAssignQuestJobTrigger", JOB_GROUP_NAME)
 			.withSchedule(CronScheduleBuilder.weeklyOnDayAndHourAndMinute(1, 0, 0))
 			.build();
 	}
@@ -58,7 +58,7 @@ public class RoutineAssignQuestScheduler {
 	@Bean
 	public JobDetail monthlyRoutineAssignQuestJobDetail() {
 		return JobBuilder.newJob(RoutineAssignQuestLauncher.class)
-			.withIdentity("monthlyQuestWorkflowJobDetail", JOB_GROUP_NAME)
+			.withIdentity("monthlyRoutineAssignQuestJobDetail", JOB_GROUP_NAME)
 			.usingJobData(jobDataMap(QuestType.MONTHLY.name(), LIMIT_PER_MEMBER))
 			.storeDurably()
 			.build();
@@ -68,7 +68,7 @@ public class RoutineAssignQuestScheduler {
 	public Trigger monthlyRoutineAssignQuestJobTrigger() {
 		return TriggerBuilder.newTrigger()
 			.forJob(monthlyRoutineAssignQuestJobDetail())
-			.withIdentity("monthlyQuestWorkflowJobTrigger", JOB_GROUP_NAME)
+			.withIdentity("monthlyRoutineAssignQuestJobTrigger", JOB_GROUP_NAME)
 			.withSchedule(CronScheduleBuilder.monthlyOnDayAndHourAndMinute(1, 0, 0))
 			.build();
 	}
