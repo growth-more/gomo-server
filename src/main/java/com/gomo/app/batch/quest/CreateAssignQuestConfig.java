@@ -6,11 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepScope;
-import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
@@ -24,7 +22,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import com.gomo.app.batch.JobCompletionNotificationListener;
 import com.gomo.app.core.member.domain.model.ActivateStatus;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
@@ -34,7 +31,6 @@ import com.gomo.app.core.quest.application.port.dto.ParticipantDto;
 @Configuration
 public class CreateAssignQuestConfig {
 
-	private static final String JOB_NAME = "assignQuestJob";
 	private static final int CHUNK_SIZE = 100;
 
 	private final JobRepository jobRepository;
@@ -48,14 +44,6 @@ public class CreateAssignQuestConfig {
 		this.transactionManager = metaTransactionManager;
 		this.memberRepository = memberRepository;
 		this.autoCreateAssignQuestPortIn = autoCreateAssignQuestPortIn;
-	}
-
-	@Bean
-	public Job createAssignQuestJob() {
-		return new JobBuilder(JOB_NAME, jobRepository)
-			.listener(new JobCompletionNotificationListener())
-			.start(createAssignQuestStep())
-			.build();
 	}
 
 	@Bean
