@@ -3,9 +3,10 @@ package com.gomo.app.core.quest.application.port.command;
 import java.util.List;
 import java.util.UUID;
 
+import com.gomo.app.core.quest.domain.model.quest.QuestType;
+
 /**
- * @param questType (
- * DAILY, WEEKLY, MONTHLY
+ * @param questType The quest type (e.g., "DAILY", "WEEKLY"); refer {@link QuestType}.
  */
 public record CreateQuestContentCommand(UUID participantId, List<Subject> subjects, String questType, int count) {
 
