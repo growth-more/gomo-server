@@ -55,13 +55,14 @@ class JdbcBulkAssignQuestRepositoryTest {
 	@DisplayName("AssignQuest의 완료일이 있다면 해당 날짜를 삽입한다.")
 	@Test
 	void save_all_with_completed_date() {
-		LocalDateTime now = LocalDateTime.now();
-		AssignQuest assignQuest = AssignQuestFixture.create(now, now);
+		LocalDateTime startDateTime = LocalDateTime.of(2025, 10, 20, 21, 0, 0);
+		LocalDateTime completedDateTime = LocalDateTime.of(2025, 10, 20, 21, 0, 0);
+		AssignQuest assignQuest = AssignQuestFixture.create(startDateTime, completedDateTime);
 
 		bulkAssignQuestRepository.saveAll(List.of(assignQuest));
 
 		Map<String, Object> actual = jdbcTemplate.queryForMap("SELECT * FROM assign_quest WHERE id = ?", UUIDConverter.uuidToBytes(assignQuest.getId()));
-		assertThat(actual.get("completed_date_time")).isEqualTo(now);
+		assertThat(actual.get("completed_date_time")).isEqualTo(completedDateTime);
 	}
 
 	@DisplayName("비어 있는 리스트를 전달하면 아무 작업도 수행하지 않는다.")
