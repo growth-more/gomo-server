@@ -60,4 +60,26 @@ public class MemberTest {
 		Member member = MemberFixture.create(ActivateStatus.ACTIVE);
 		assertThatNoException().isThrownBy(member::validateActive);
 	}
+
+	@DisplayName("Memebr의 기본 위젯 스냅샷이 생성된다.")
+	@Test
+	void create_member_with_widget_snapshot() {
+		Member member = MemberFixture.create();
+
+		Widget actual = member.getWidget();
+
+		assertThat(actual).isNotNull();
+		assertThat(actual.getSnapshot()).isNotNull();
+	}
+
+	@DisplayName("위젯 스냅샷을 수정한다.")
+	@Test
+	void update_widget_snapshot() {
+		Member member = MemberFixture.create();
+		String updatedSnapshot = "{ \"test\": \"test_snapshot\" }";
+
+		member.updateWidget(updatedSnapshot);
+
+		assertThat(member.getWidget().getSnapshot()).isEqualTo(updatedSnapshot);
+	}
 }

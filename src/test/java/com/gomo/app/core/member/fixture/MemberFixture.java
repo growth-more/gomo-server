@@ -16,6 +16,7 @@ import com.gomo.app.core.member.domain.model.ProfileImage;
 import com.gomo.app.core.member.domain.model.QuestProperty;
 import com.gomo.app.core.member.domain.model.RoleType;
 import com.gomo.app.core.member.domain.model.SubscriptionPlan;
+import com.gomo.app.core.member.domain.model.Widget;
 
 public class MemberFixture {
 
@@ -47,7 +48,8 @@ public class MemberFixture {
 			SubscriptionPlan.FREE,
 			ActivateStatus.ACTIVE,
 			LocalDateTime.now(),
-			null
+			null,
+			Widget.createDefault()
 		);
 	}
 
@@ -67,7 +69,8 @@ public class MemberFixture {
 			SubscriptionPlan.FREE,
 			ActivateStatus.ACTIVE,
 			LocalDateTime.now(),
-			null
+			null,
+			Widget.createDefault()
 		);
 	}
 
@@ -87,7 +90,8 @@ public class MemberFixture {
 			subscriptionPlan,
 			ActivateStatus.ACTIVE,
 			LocalDateTime.now(),
-			null
+			null,
+			Widget.createDefault()
 		);
 	}
 
@@ -107,7 +111,8 @@ public class MemberFixture {
 			SubscriptionPlan.FREE,
 			status,
 			LocalDateTime.now(),
-			null
+			null,
+			Widget.createDefault()
 		);
 	}
 }
