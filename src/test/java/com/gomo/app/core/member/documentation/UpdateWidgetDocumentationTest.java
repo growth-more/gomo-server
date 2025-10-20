@@ -13,7 +13,7 @@ import com.gomo.app.core.member.documentation.snippet.UpdateWidgetSnippet;
 import com.gomo.app.core.member.presentation.request.UpdateWidgetRequest;
 import com.gomo.app.test.DocumentationTestBase;
 
-@DisplayName("[Presentation Documentation]: 위젯 수정 테스트")
+@DisplayName("[Presentation Documentation]: 위젯 스냅샷 수정 테스트")
 class UpdateWidgetDocumentationTest extends DocumentationTestBase {
 
 	private static final String URL = "/members/widgets";

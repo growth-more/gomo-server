@@ -14,7 +14,7 @@ import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.service.MemberService;
 import com.gomo.app.core.member.fixture.MemberFixture;
 
-@DisplayName("[Application unit]: 위젯 업데이트 테스트")
+@DisplayName("[Application unit]: 위젯 스냅샷 수정 테스트")
 @ExtendWith(MockitoExtension.class)
 class UpdateWidgetUseCaseTest {
 
