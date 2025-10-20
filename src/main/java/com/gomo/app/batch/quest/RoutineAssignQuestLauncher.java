@@ -1,6 +1,6 @@
 package com.gomo.app.batch.quest;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import org.quartz.JobExecutionContext;
 import org.springframework.batch.core.Job;
@@ -30,7 +30,7 @@ public class RoutineAssignQuestLauncher extends QuartzJobBean {
 		JobParameters jobParameters = new JobParametersBuilder()
 			.addString("questType", context.getJobDetail().getJobDataMap().getString("questType"))
 			.addLong("limitPerMember", context.getJobDetail().getJobDataMap().getLong("limitPerMember"))
-			.addString("timestamp", LocalDateTime.now().toString())
+			.addString("timestamp", LocalDate.now().toString())
 			.toJobParameters();
 		try {
 			log.info("Starting job with parameters: {}", jobParameters);
