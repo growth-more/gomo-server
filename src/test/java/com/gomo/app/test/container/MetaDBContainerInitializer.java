@@ -18,6 +18,7 @@ public class MetaDBContainerInitializer implements ApplicationContextInitializer
 			.withUsername("gomo")
 			.withPassword("1111")
 			.withReuse(true)
+			.withUrlParam("serverTimezone", "Asia/Seoul")
 			.waitingFor(Wait.forListeningPort());
 		metaMysqlContainer.start();
 
