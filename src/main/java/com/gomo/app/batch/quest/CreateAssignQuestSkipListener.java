@@ -18,7 +18,7 @@ public class CreateAssignQuestSkipListener implements SkipListener<Member, Parti
 
 	@Override
 	public void onSkipInProcess(Member item, @NotNull Throwable t) {
-		log.error("Skipping process due to an error. Skipped member id: {}", item.getId(), t);
+		log.error("Skipping process due to an error. Skipped participant id: {}", item.getId(), t);
 	}
 
 	@Override

@@ -17,6 +17,6 @@ public class FillQuestPoolSkipListener implements SkipListener<Member, Member> {
 
 	@Override
 	public void onSkipInWrite(Member item, @NotNull Throwable t) {
-		log.error("Skipping write due to an error. Skipped member id: {}", item.getId(), t);
+		log.error("Skipping write due to an error. Skipped participant id: {}", item.getId(), t);
 	}
 }
