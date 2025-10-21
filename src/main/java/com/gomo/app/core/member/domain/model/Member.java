@@ -43,8 +43,7 @@ public class Member extends LogicalDeleteBaseAudit {
 
 	@Embedded
 	@AttributeOverrides({
-		@AttributeOverride(name = "url", column = @Column(name = "profile_image_url")),
-		@AttributeOverride(name = "originName", column = @Column(name = "profile_image_origin_name"))
+		@AttributeOverride(name = "url", column = @Column(name = "profile_image_url"))
 	})
 	private ProfileImage profileImage;
 
@@ -71,6 +70,12 @@ public class Member extends LogicalDeleteBaseAudit {
 	private ActivateStatus activateStatus;
 	private LocalDateTime signUpDateTime;
 	private LocalDateTime lastLoginDateTime;
+
+	@Embedded
+	@AttributeOverrides({
+		@AttributeOverride(name = "snapshot", column = @Column(name = "widget_snapshot"))
+	})
+	private Widget widget;
 	private LocalDateTime deletedAt;
 
 	protected Member() {
@@ -78,7 +83,7 @@ public class Member extends LogicalDeleteBaseAudit {
 
 	public Member(UUID id, Email email, Password password, Handle handle, MemberName name, Motto motto, ProfileImage profileImage, ProfileBanner profileBanner,
 		QuestProperty questProperty, LoginProvider loginProvider, RoleType roleType, SubscriptionPlan subscriptionPlan, ActivateStatus activateStatus,
-		LocalDateTime signUpDateTime, LocalDateTime lastLoginDateTime) {
+		LocalDateTime signUpDateTime, LocalDateTime lastLoginDateTime, Widget widget) {
 		this.id = id;
 		this.email = email;
 		this.password = password;
@@ -94,6 +99,7 @@ public class Member extends LogicalDeleteBaseAudit {
 		this.activateStatus = activateStatus;
 		this.signUpDateTime = signUpDateTime;
 		this.lastLoginDateTime = lastLoginDateTime;
+		this.widget = widget;
 	}
 
 	public String email() {
@@ -130,6 +136,10 @@ public class Member extends LogicalDeleteBaseAudit {
 
 	public void updateHandle(String handle) {
 		this.handle = this.handle.update(handle);
+	}
+
+	public void updateWidget(String snapshot) {
+		this.widget = this.widget.update(snapshot);
 	}
 
 	public void delete() {
@@ -182,13 +192,13 @@ public class Member extends LogicalDeleteBaseAudit {
 	}
 
 	public void validateLoginProviderIsEmail() {
-		if (this.loginProvider != LoginProvider.EMAIL){
+		if (this.loginProvider != LoginProvider.EMAIL) {
 			throw new AuthenticationFailException(AuthErrorCode.UNSUPPORTED_LOGIN_METHOD);
 		}
 	}
 
 	public static Member of(UUID id, Email email, Password password, Handle handle, MemberName memberName, Motto motto, LoginProvider loginProvider) {
 		return new Member(id, email, password, handle, memberName, motto, ProfileImage.createDefault(), ProfileBanner.createDefault(), QuestProperty.createDefault(),
-			loginProvider, RoleType.ROLE_MEMBER, SubscriptionPlan.FREE, ActivateStatus.ACTIVE, LocalDateTime.now(), null);
+			loginProvider, RoleType.ROLE_MEMBER, SubscriptionPlan.FREE, ActivateStatus.ACTIVE, LocalDateTime.now(), null, Widget.createDefault());
 	}
 }
