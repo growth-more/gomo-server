@@ -107,6 +107,28 @@ public class AssignQuestTest {
 			.containsExactly(PARTICIPANT_ID, updatedSubjectId, updatedSubjectName, QuestType.WEEKLY, updatedContent);
 	}
 
+	@DisplayName("퀘스트 복제 방식으로 할당 퀘스트를 수정한다.")
+	@Test
+	void update_assign_quest_by_quest() {
+		AssignQuest assignQuest = AssignQuest.of(
+			ID,
+			Quest.of(PARTICIPANT_ID, SUBJECT_ID, SUBJECT_NAME, QuestType.DAILY, QUEST_CONTENT),
+			false,
+			DisplayOrder.of(1),
+			LocalDateTime.of(2025, 1, 31, 0, 0, 0, 0)
+		);
+		UUID updatedSubjectId = UUID.randomUUID();
+		SubjectName updatedSubjectName = SubjectName.of("updated subject name");
+		QuestContent updatedContent = QUEST_CONTENT.update("updated quest content");
+		Quest quest = Quest.of(assignQuest.participantId(), updatedSubjectId, updatedSubjectName, QuestType.WEEKLY, updatedContent);
+
+		assignQuest.updateQuest(quest);
+
+		assertThat(assignQuest.getQuest())
+			.extracting("participantId", "subjectId", "subjectName", "type", "content")
+			.containsExactly(PARTICIPANT_ID, updatedSubjectId, updatedSubjectName, QuestType.WEEKLY, updatedContent);
+	}
+
 	@DisplayName("할당 퀘스트를 확정한다.")
 	@Test
 	void confirm_assign_quest() {
