@@ -103,6 +103,10 @@ public class AssignQuest extends BaseAudit implements OrderChangeable, Authoriza
 		this.quest = this.quest.update(subjectId, subjectName, questType, content);
 	}
 
+	public void updateQuest(Quest quest) {
+		this.quest = quest.copy();
+	}
+
 	public void confirm() {
 		this.isConfirmed = true;
 	}
