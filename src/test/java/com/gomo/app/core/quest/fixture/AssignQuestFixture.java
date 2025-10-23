@@ -235,4 +235,20 @@ public class AssignQuestFixture {
 			completedDateTime
 		);
 	}
+
+	public static AssignQuest create(QuestType questType, int displayOrder) {
+		return AssignQuest.of(
+			UUID.randomUUID(),
+			Quest.of(
+				UUID.randomUUID(),
+				UUID.randomUUID(),
+				SubjectName.of("subject name"),
+				questType,
+				QuestContent.of("quest content")
+			),
+			false,
+			DisplayOrder.of(displayOrder),
+			LocalDateTime.of(2025, 2, 2, 12, 51, 0)
+		);
+	}
 }

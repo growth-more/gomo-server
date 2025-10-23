@@ -119,7 +119,9 @@ include::apis/quest-api.adoc[]
 `QUE-CON-004`: Quest content must not contain forbidden characters +
 
 `QUE-COM-001`: Completion proof must not be blank +
-`QUE-COM-002`: Completion proof must not exceed 512 characters
+`QUE-COM-002`: Completion proof must not exceed 512 characters +
+
+`POO-ROO-001`: Quest pool not found
 
 [[streak-api]]
 == 스트릭 (Streak) API
