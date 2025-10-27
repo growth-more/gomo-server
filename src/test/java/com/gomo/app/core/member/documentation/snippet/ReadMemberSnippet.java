@@ -30,7 +30,8 @@ public class ReadMemberSnippet {
 		fieldWithPath("roleType").type(JsonFieldType.STRING).description("사용자 권한"),
 		fieldWithPath("subscriptionPlan").type(JsonFieldType.STRING).description("유료 플랜 등급"),
 		fieldWithPath("activateStatus").type(JsonFieldType.STRING).description("계정 활성화 상태"),
-		fieldWithPath("signUpDateTime").type(JsonFieldType.STRING).description("가입 날짜")
+		fieldWithPath("signUpDateTime").type(JsonFieldType.STRING).description("가입 날짜"),
+		fieldWithPath("widgetSnapshot").type(JsonFieldType.STRING).description("사용자 위젯 구성도")
 	);
 
 	public static RestDocumentationFilter create() {
