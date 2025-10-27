@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.core.member.documentation.snippet.VerifyEmailAuthCodeSnippet;
+import com.gomo.app.core.member.presentation.request.VerifyEmailCodeRequest;
 import com.gomo.app.support.auth.application.port.CreateAuthCodePortIn;
 import com.gomo.app.support.auth.domain.repository.AuthCodeRepository;
 import com.gomo.app.support.auth.exception.AuthErrorCode;
@@ -44,10 +45,9 @@ public class VerifyEmailAuthCodeDocumentationTest extends DocumentationTestBase 
 		String authCode = authCodeRepository.findByEmail(sessionEmail).get();
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.param("email", sessionEmail)
-			.param("code", authCode)
+			.body(VerifyEmailCodeRequest.of(sessionEmail, authCode))
 			.when()
-			.get(URL)
+			.post(URL)
 			.then()
 			.statusCode(OK.value());
 	}
@@ -57,10 +57,9 @@ public class VerifyEmailAuthCodeDocumentationTest extends DocumentationTestBase 
 	void verify_email_auth_code_with_incorrect_code() {
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.param("email", sessionEmail)
-			.param("code", "00000")
+			.body(VerifyEmailCodeRequest.of(sessionEmail, "000000"))
 			.when()
-			.get(URL)
+			.post(URL)
 			.then()
 			.statusCode(AuthErrorCode.INVALID_AUTH_CODE.getHttpStatus())
 			.body("timestamp", instanceOf(String.class))

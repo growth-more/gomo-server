@@ -2,7 +2,6 @@ package com.gomo.app.core.member.documentation.snippet;
 
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.*;
 
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -14,9 +13,9 @@ import com.gomo.app.test.ErrorResponseFields;
 public class VerifyEmailAuthCodeSnippet {
 	private static final String IDENTIFIER = "member-email-auth-code-verify";
 
-	private static final Snippet QUERY_PARAMETERS = queryParameters(
-		parameterWithName("email").description("인증 코드를 받은 이메일 주소"),
-		parameterWithName("code").description("이메일로 발송된 인증 코드")
+	private static final Snippet REQUEST_FIELDS = requestFields(
+		fieldWithPath("email").description("인증 코드를 받은 이메일 주소"),
+		fieldWithPath("code").description("이메일로 발송된 인증 코드")
 	);
 
 	private static final Snippet RESPONSE_FIELDS = responseFields(
@@ -28,7 +27,7 @@ public class VerifyEmailAuthCodeSnippet {
 			IDENTIFIER,
 			preprocessRequest(prettyPrint()),
 			preprocessResponse(prettyPrint()),
-			QUERY_PARAMETERS,
+			REQUEST_FIELDS,
 			RESPONSE_FIELDS
 		);
 	}
@@ -38,7 +37,7 @@ public class VerifyEmailAuthCodeSnippet {
 			IDENTIFIER + "-error",
 			preprocessRequest(prettyPrint()),
 			preprocessResponse(prettyPrint()),
-			QUERY_PARAMETERS,
+			REQUEST_FIELDS,
 			ErrorResponseFields.RESPONSE_FIELDS
 		);
 	}
