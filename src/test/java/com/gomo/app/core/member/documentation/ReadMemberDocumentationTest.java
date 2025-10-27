@@ -42,6 +42,7 @@ public class ReadMemberDocumentationTest extends DocumentationTestBase {
 			.body("roleType", equalTo("ROLE_MEMBER"))
 			.body("subscriptionPlan", equalTo("FREE"))
 			.body("activateStatus", equalTo("ACTIVE"))
-			.body("signUpDateTime", notNullValue());
+			.body("signUpDateTime", notNullValue())
+			.body("widgetSnapshot", notNullValue());
 	}
 }

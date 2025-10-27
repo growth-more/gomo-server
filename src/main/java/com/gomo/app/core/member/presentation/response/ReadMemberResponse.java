@@ -23,9 +23,10 @@ public class ReadMemberResponse {
 	private final String subscriptionPlan;
 	private final String activateStatus;
 	private final LocalDateTime signUpDateTime;
+	private final String widgetSnapshot;
 
 	private ReadMemberResponse(UUID id, String email, String handle, String name, String motto, int availablePoints, String profileImageUrl, String profileBannerUrl,
-		String loginProvider, String roleType, String subscriptionPlan, String activateStatus, LocalDateTime signUpDateTime) {
+		String loginProvider, String roleType, String subscriptionPlan, String activateStatus, LocalDateTime signUpDateTime, String widgetSnapshot) {
 		this.id = id;
 		this.email = email;
 		this.handle = handle;
@@ -39,6 +40,7 @@ public class ReadMemberResponse {
 		this.subscriptionPlan = subscriptionPlan;
 		this.activateStatus = activateStatus;
 		this.signUpDateTime = signUpDateTime;
+		this.widgetSnapshot = widgetSnapshot;
 	}
 
 	public static ReadMemberResponse of(MemberDto dto) {
@@ -55,7 +57,8 @@ public class ReadMemberResponse {
 			dto.roleType(),
 			dto.subscriptionPlan(),
 			dto.activateStatus(),
-			dto.signUpDateTime()
+			dto.signUpDateTime(),
+			dto.widgetSnapshot()
 		);
 	}
 }
