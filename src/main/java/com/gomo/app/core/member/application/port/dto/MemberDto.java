@@ -7,7 +7,7 @@ import com.gomo.app.core.member.domain.model.Member;
 
 public record MemberDto(UUID id, String email, String handle, String name, String motto, String profileImageUrl, String profileBannerUrl, String loginProvider,
 						String roleType, String subscriptionPlan, String activateStatus, QuestPropertyDto questProperty, int availablePoints,
-						LocalDateTime signUpDateTime, LocalDateTime lastLoginDateTime, LocalDateTime deletedAt) {
+						LocalDateTime signUpDateTime, LocalDateTime lastLoginDateTime, LocalDateTime deletedAt, String widgetSnapshot) {
 
 	public static MemberDto from(Member member, int availablePoints) {
 		return new MemberDto(
@@ -26,7 +26,8 @@ public record MemberDto(UUID id, String email, String handle, String name, Strin
 			availablePoints,
 			member.getSignUpDateTime(),
 			member.getLastLoginDateTime(),
-			member.getDeletedAt()
+			member.getDeletedAt(),
+			member.getWidget().getSnapshot()
 		);
 	}
 }
