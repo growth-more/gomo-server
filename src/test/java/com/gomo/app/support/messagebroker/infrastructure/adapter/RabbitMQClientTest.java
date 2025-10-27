@@ -13,7 +13,7 @@ import com.gomo.app.test.IntegrationTest;
 import com.gomo.app.test.WithRabbitMQ;
 import com.rabbitmq.client.ShutdownSignalException;
 
-@DisplayName("[Infrastructure Integration]: RabbitMQ 접근 테스트")
+@DisplayName("[Infrastructure Integration]: RabbitMQ 접근 테스트 (Flaky Test)")
 @IntegrationTest
 @WithRabbitMQ
 class RabbitMQClientTest {
