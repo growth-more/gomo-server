@@ -25,7 +25,7 @@ public class PasswordApi {
 
 	@PutMapping
 	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @RequestBody UpdatePasswordRequest request) {
-		updatePasswordUseCase.update(authInfo.getMemberId(), request.getOriginPassword(), request.getNewPassword());
+		updatePasswordUseCase.update(authInfo.getPrincipalId(), request.getOriginPassword(), request.getNewPassword());
 		return ResponseEntity.noContent().build();
 	}
 

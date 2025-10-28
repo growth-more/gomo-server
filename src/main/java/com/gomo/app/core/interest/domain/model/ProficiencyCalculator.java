@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gomo.app.common.arch.ValueObject;
-import com.gomo.app.core.interest.exception.ProficiencyAdjustFailureException;
-import com.gomo.app.core.interest.exception.code.ProficiencyErrorCode;
+import com.gomo.app.core.interest.domain.exception.ProficiencyAdjustFailureException;
+import com.gomo.app.core.interest.domain.exception.code.ProficiencyErrorCode;
 
 @ValueObject
 public class ProficiencyCalculator {

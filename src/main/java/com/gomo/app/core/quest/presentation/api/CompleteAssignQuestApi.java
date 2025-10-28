@@ -26,7 +26,7 @@ public class CompleteAssignQuestApi {
 
 	@PutMapping
 	public ResponseEntity<Void> complete(@Auth AuthInfo authInfo, @PathVariable("id") UUID assignQuestId, @RequestBody CompleteAssignQuestRequest request) {
-		completeAssignQuestUseCase.complete(request.toCommand(authInfo.getMemberId(), assignQuestId, LocalDateTime.now()));
+		completeAssignQuestUseCase.complete(request.toCommand(authInfo.getPrincipalId(), assignQuestId, LocalDateTime.now()));
 		return ResponseEntity.noContent().build();
 	}
 }

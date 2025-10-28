@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.gomo.app.common.arch.ApplicationService;
+import com.gomo.app.common.logging.AuditLog;
 import com.gomo.app.common.security.encoder.application.port.VerifyPasswordPortIn;
 import com.gomo.app.core.member.application.port.LoginMemberPortIn;
 import com.gomo.app.core.member.domain.model.Email;
@@ -13,7 +14,6 @@ import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.model.Password;
 import com.gomo.app.core.member.domain.service.MemberService;
 import com.gomo.app.core.member.exception.MemberAuthenticationFailedException;
-import com.gomo.app.support.logging.AuditLog;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

@@ -25,7 +25,7 @@ public class StreakApi {
 
 	@GetMapping
 	public ResponseEntity<ListStreakResponse> findAllByStreakType(@Auth AuthInfo authInfo, @RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
-		ListStreakDto dto = readStreakUseCase.findAll(authInfo.getMemberId(), startDate, endDate);
+		ListStreakDto dto = readStreakUseCase.findAll(authInfo.getPrincipalId(), startDate, endDate);
 		return ResponseEntity.ok(ListStreakResponse.from(dto));
 	}
 }

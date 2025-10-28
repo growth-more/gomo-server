@@ -26,13 +26,13 @@ public class ProfileBannerApi {
 
 	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @ModelAttribute UpdateProfileBannerRequest request) {
-		updateProfileBannerUseCase.update(authInfo.getMemberId(), request.getProfileBanner());
+		updateProfileBannerUseCase.update(authInfo.getPrincipalId(), request.getProfileBanner());
 		return ResponseEntity.noContent().build();
 	}
 
 	@DeleteMapping
 	public ResponseEntity<Void> delete(@Auth AuthInfo authInfo) {
-		deleteProfileBannerUseCase.delete(authInfo.getMemberId());
+		deleteProfileBannerUseCase.delete(authInfo.getPrincipalId());
 		return ResponseEntity.ok().build();
 	}
 }

@@ -1,9 +1,9 @@
 package com.gomo.app.support.auth.application.usecase;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import com.gomo.app.common.arch.ApplicationService;
+import com.gomo.app.common.logging.AuditLog;
 import com.gomo.app.common.security.jwt.application.port.VerifyJwtPortIn;
 import com.gomo.app.core.member.application.port.OAuthLoginMemberPortIn;
 import com.gomo.app.support.auth.application.port.dto.OAuthTokenDto;
@@ -11,7 +11,6 @@ import com.gomo.app.support.auth.domain.model.AuthToken;
 import com.gomo.app.support.auth.domain.model.OAuthPrincipal;
 import com.gomo.app.support.auth.infrastructure.oauth.OAuthProviderFactory;
 import com.gomo.app.support.auth.infrastructure.oauth.provider.OAuthProvider;
-import com.gomo.app.support.logging.AuditLog;
 
 import lombok.RequiredArgsConstructor;
 

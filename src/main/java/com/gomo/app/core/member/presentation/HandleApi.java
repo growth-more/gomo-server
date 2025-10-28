@@ -32,7 +32,7 @@ public class HandleApi {
 
 	@PutMapping
 	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @RequestBody UpdateHandleRequest request) {
-		updateHandleUseCase.update(authInfo.getMemberId(), request.getHandle());
+		updateHandleUseCase.update(authInfo.getPrincipalId(), request.getHandle());
 		return ResponseEntity.noContent().build();
 	}
 }

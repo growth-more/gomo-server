@@ -40,25 +40,25 @@ public class RepeatQuestApi {
 
 	@PostMapping
 	public ResponseEntity<CreateRepeatQuestResponse> create(@Auth AuthInfo authInfo, @RequestBody CreateRepeatQuestRequest request) {
-		UUID repeatQuestId = createRepeatQuestUseCase.create(request.toCommand(authInfo.getMemberId()));
+		UUID repeatQuestId = createRepeatQuestUseCase.create(request.toCommand(authInfo.getPrincipalId()));
 		return ResponseEntity.status(CREATED).body(CreateRepeatQuestResponse.of(repeatQuestId));
 	}
 
 	@GetMapping
 	public ResponseEntity<ListRepeatQuestResponse> findAll(@Auth AuthInfo authInfo) {
-		ListRepeatQuestDto dto = readRepeatQuestUseCase.findAll(authInfo.getMemberId());
+		ListRepeatQuestDto dto = readRepeatQuestUseCase.findAll(authInfo.getPrincipalId());
 		return ResponseEntity.ok(ListRepeatQuestResponse.from(dto));
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @PathVariable("id") UUID repeatQuestId, @RequestBody UpdateRepeatQuestRequest request) {
-		updateRepeatQuestUseCase.update(request.toCommand(authInfo.getMemberId(), repeatQuestId));
+		updateRepeatQuestUseCase.update(request.toCommand(authInfo.getPrincipalId(), repeatQuestId));
 		return ResponseEntity.noContent().build();
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> delete(@Auth AuthInfo authInfo, @PathVariable("id") UUID repeatQuestId) {
-		deleteRepeatQuestUseCase.delete(authInfo.getMemberId(), repeatQuestId);
+		deleteRepeatQuestUseCase.delete(authInfo.getPrincipalId(), repeatQuestId);
 		return ResponseEntity.noContent().build();
 	}
 }

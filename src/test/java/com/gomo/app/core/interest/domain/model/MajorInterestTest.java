@@ -8,7 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.gomo.app.common.displayorder.DisplayOrder;
-import com.gomo.app.core.interest.exception.MajorInterestAccessDeniedException;
+import com.gomo.app.core.interest.domain.exception.MajorInterestAccessDeniedException;
 
 @DisplayName("[Domain unit]: 주요 관심사 생성 및 수정 테스트")
 public class MajorInterestTest {

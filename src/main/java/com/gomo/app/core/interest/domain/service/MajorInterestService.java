@@ -7,12 +7,12 @@ import org.jetbrains.annotations.NotNull;
 import com.gomo.app.common.arch.DomainService;
 import com.gomo.app.common.displayorder.DisplayOrder;
 import com.gomo.app.common.util.UUIDGenerator;
+import com.gomo.app.core.interest.domain.exception.MajorInterestDuplicatedException;
+import com.gomo.app.core.interest.domain.exception.MajorInterestNotFoundException;
+import com.gomo.app.core.interest.domain.exception.code.MajorInterestErrorCode;
 import com.gomo.app.core.interest.domain.model.Interest;
 import com.gomo.app.core.interest.domain.model.MajorInterest;
 import com.gomo.app.core.interest.domain.repository.MajorInterestRepository;
-import com.gomo.app.core.interest.exception.MajorInterestDuplicatedException;
-import com.gomo.app.core.interest.exception.MajorInterestNotFoundException;
-import com.gomo.app.core.interest.exception.code.MajorInterestErrorCode;
 
 import lombok.RequiredArgsConstructor;
 

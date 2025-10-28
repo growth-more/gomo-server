@@ -15,17 +15,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
+import com.gomo.app.core.interest.adapter.in.api.InterestApi;
+import com.gomo.app.core.interest.adapter.in.api.request.CreateInterestRequest;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;
-import com.gomo.app.core.interest.presentation.api.InterestApi;
-import com.gomo.app.core.interest.presentation.api.request.CreateInterestRequest;
 import com.gomo.app.core.member.presentation.QuestPropertyApi;
 import com.gomo.app.core.member.presentation.request.UpdateQuestPropertyRequest;
-import com.gomo.app.core.quest.presentation.documentation.snippet.CreateRepeatQuestSnippet;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.exception.code.QuestContentErrorCode;
 import com.gomo.app.core.quest.exception.code.QuestErrorCode;
 import com.gomo.app.core.quest.presentation.api.request.CreateRepeatQuestRequest;
+import com.gomo.app.core.quest.presentation.documentation.snippet.CreateRepeatQuestSnippet;
 import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation documentation]: 반복 퀘스트 생성 테스트")

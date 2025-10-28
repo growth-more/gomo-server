@@ -3,9 +3,9 @@ package com.gomo.app.support.auth.application.usecase;
 import java.util.UUID;
 
 import com.gomo.app.common.arch.ApplicationService;
+import com.gomo.app.common.logging.AuditLog;
 import com.gomo.app.support.auth.application.port.DeleteAuthTokenPortIn;
 import com.gomo.app.support.auth.domain.repository.AuthTokenRepository;
-import com.gomo.app.support.logging.AuditLog;
 
 import lombok.RequiredArgsConstructor;
 

@@ -11,9 +11,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.gomo.app.core.interest.domain.exception.MajorInterestDuplicatedException;
 import com.gomo.app.core.interest.domain.model.MajorInterest;
 import com.gomo.app.core.interest.domain.repository.MajorInterestRepository;
-import com.gomo.app.core.interest.exception.MajorInterestDuplicatedException;
 import com.gomo.app.core.interest.fixture.InterestFixture;
 import com.gomo.app.core.interest.fixture.MajorInterestFixture;
 

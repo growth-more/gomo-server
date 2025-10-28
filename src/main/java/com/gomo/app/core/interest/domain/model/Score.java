@@ -1,8 +1,8 @@
 package com.gomo.app.core.interest.domain.model;
 
 import com.gomo.app.common.arch.ValueObject;
-import com.gomo.app.core.interest.exception.ScoreConstraintViolationException;
-import com.gomo.app.core.interest.exception.code.ScoreErrorCode;
+import com.gomo.app.core.interest.domain.exception.ScoreConstraintViolationException;
+import com.gomo.app.core.interest.domain.exception.code.ScoreErrorCode;
 
 import jakarta.persistence.Embeddable;
 import lombok.EqualsAndHashCode;

@@ -7,9 +7,9 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.arch.ApplicationService;
+import com.gomo.app.common.logging.AuditLog;
 import com.gomo.app.core.survey.domain.model.SurveyResult;
 import com.gomo.app.core.survey.domain.repository.SurveyResultRepository;
-import com.gomo.app.support.logging.AuditLog;
 
 import lombok.RequiredArgsConstructor;
 

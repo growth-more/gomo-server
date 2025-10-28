@@ -13,10 +13,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.gomo.app.core.interest.domain.exception.InterestNotFoundException;
+import com.gomo.app.core.interest.domain.exception.code.InterestErrorCode;
 import com.gomo.app.core.interest.domain.model.Interest;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;
-import com.gomo.app.core.interest.exception.InterestNotFoundException;
-import com.gomo.app.core.interest.exception.code.InterestErrorCode;
 import com.gomo.app.core.interest.fixture.InterestFixture;
 
 @DisplayName("[Domain unit]: 관심사 조회 테스트")

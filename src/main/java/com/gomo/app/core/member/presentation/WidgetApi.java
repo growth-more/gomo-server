@@ -22,7 +22,7 @@ public class WidgetApi {
 
 	@PutMapping
 	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @RequestBody UpdateWidgetRequest request) {
-		updateWidgetUseCase.update(authInfo.getMemberId(), request.getSnapshot());
+		updateWidgetUseCase.update(authInfo.getPrincipalId(), request.getSnapshot());
 		return ResponseEntity.noContent().build();
 	}
 }

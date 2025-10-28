@@ -26,7 +26,7 @@ public class ReRollAssignQuestApi {
 
 	@PostMapping
 	public ResponseEntity<ReadAssignQuestResponse> reRoll(@Auth AuthInfo authInfo, @RequestBody ReRollAssignQuestRequest request) {
-		AssignQuestDto assignQuestDto = reRollAssignQuestUseCase.reRoll(authInfo.getMemberId(), request.getAssignQuestId());
+		AssignQuestDto assignQuestDto = reRollAssignQuestUseCase.reRoll(authInfo.getPrincipalId(), request.getAssignQuestId());
 		return ResponseEntity.status(CREATED).body(ReadAssignQuestResponse.from(assignQuestDto));
 	}
 }

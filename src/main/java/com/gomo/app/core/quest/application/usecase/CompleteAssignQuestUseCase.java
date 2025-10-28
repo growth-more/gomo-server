@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.arch.ApplicationService;
+import com.gomo.app.common.logging.AuditLog;
 import com.gomo.app.common.util.JsonParser;
 import com.gomo.app.common.util.TimestampGenerator;
 import com.gomo.app.core.quest.application.port.command.CompleteAssignQuestCommand;
@@ -15,7 +16,6 @@ import com.gomo.app.core.quest.domain.service.AssignQuestService;
 import com.gomo.app.core.quest.domain.service.QuestRewardService;
 import com.gomo.app.core.quest.event.CompleteQuestEvent;
 import com.gomo.app.support.evententry.application.port.CreateEventEntryPortIn;
-import com.gomo.app.support.logging.AuditLog;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.arch.ApplicationService;
+import com.gomo.app.common.logging.AuditLog;
 import com.gomo.app.common.util.DateRangeCalculator;
 import com.gomo.app.core.quest.application.port.ReadParticipantPortOut;
 import com.gomo.app.core.quest.application.port.command.CreateAssignQuestCommand;
@@ -20,7 +21,6 @@ import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.model.subject.SubjectName;
 import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.domain.service.AssignQuestService;
-import com.gomo.app.support.logging.AuditLog;
 
 import lombok.RequiredArgsConstructor;
 

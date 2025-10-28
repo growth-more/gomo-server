@@ -23,7 +23,7 @@ public class ConfirmAssignQuestApi {
 
 	@PutMapping
 	public ResponseEntity<Void> confirm(@Auth AuthInfo authInfo, @PathVariable("id") UUID assignQuestId) {
-		confirmAssignQuestUseCase.confirm(authInfo.getMemberId(), assignQuestId);
+		confirmAssignQuestUseCase.confirm(authInfo.getPrincipalId(), assignQuestId);
 		return ResponseEntity.noContent().build();
 	}
 }

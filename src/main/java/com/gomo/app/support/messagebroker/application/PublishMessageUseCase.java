@@ -1,7 +1,7 @@
 package com.gomo.app.support.messagebroker.application;
 
 import com.gomo.app.common.arch.ApplicationService;
-import com.gomo.app.support.logging.AuditLog;
+import com.gomo.app.common.logging.AuditLog;
 import com.gomo.app.support.messagebroker.application.port.MessageBrokerClientPortOut;
 import com.gomo.app.support.messagebroker.application.port.PublishMessagePortIn;
 

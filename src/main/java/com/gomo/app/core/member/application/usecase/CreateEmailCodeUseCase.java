@@ -1,10 +1,10 @@
 package com.gomo.app.core.member.application.usecase;
 
 import com.gomo.app.common.arch.ApplicationService;
+import com.gomo.app.common.logging.AuditLog;
 import com.gomo.app.core.member.domain.model.Email;
 import com.gomo.app.core.member.domain.service.MemberService;
 import com.gomo.app.support.auth.application.port.CreateAuthCodePortIn;
-import com.gomo.app.support.logging.AuditLog;
 
 import lombok.RequiredArgsConstructor;
 

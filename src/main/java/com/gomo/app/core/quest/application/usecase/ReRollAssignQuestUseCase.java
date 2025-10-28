@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.arch.ApplicationService;
+import com.gomo.app.common.logging.AuditLog;
 import com.gomo.app.core.quest.application.port.dto.AssignQuestDto;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
 import com.gomo.app.core.quest.domain.model.pool.ProcessingStatus;
@@ -16,7 +17,6 @@ import com.gomo.app.core.quest.domain.service.AssignQuestService;
 import com.gomo.app.core.quest.domain.service.QuestRewardService;
 import com.gomo.app.core.quest.exception.QuestPoolNotFoundException;
 import com.gomo.app.core.quest.exception.code.QuestPoolErrorCode;
-import com.gomo.app.support.logging.AuditLog;
 
 import lombok.RequiredArgsConstructor;
 

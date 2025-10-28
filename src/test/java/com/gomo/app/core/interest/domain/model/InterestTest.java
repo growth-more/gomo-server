@@ -9,7 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import com.gomo.app.core.interest.exception.InterestAccessDeniedException;
+import com.gomo.app.core.interest.domain.exception.InterestAccessDeniedException;
 
 @DisplayName("[Domain unit]: 관심사 생성 및 수정 테스트")
 public class InterestTest {

@@ -16,13 +16,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.gomo.app.core.interest.domain.exception.InterestRelationCycleException;
+import com.gomo.app.core.interest.domain.exception.InterestRelationDuplicatedException;
+import com.gomo.app.core.interest.domain.exception.InterestRelationNotFoundException;
+import com.gomo.app.core.interest.domain.exception.code.InterestRelationErrorCode;
 import com.gomo.app.core.interest.domain.model.Interest;
 import com.gomo.app.core.interest.domain.model.InterestRelation;
 import com.gomo.app.core.interest.domain.repository.InterestRelationRepository;
-import com.gomo.app.core.interest.exception.InterestRelationCycleException;
-import com.gomo.app.core.interest.exception.InterestRelationDuplicatedException;
-import com.gomo.app.core.interest.exception.InterestRelationNotFoundException;
-import com.gomo.app.core.interest.exception.code.InterestRelationErrorCode;
 import com.gomo.app.core.interest.fixture.InterestFixture;
 import com.gomo.app.core.interest.fixture.InterestRelationFixture;
 

@@ -7,8 +7,8 @@ import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.core.interest.exception.InterestConstraintViolationException;
-import com.gomo.app.core.interest.exception.code.InterestErrorCode;
+import com.gomo.app.core.interest.domain.exception.InterestConstraintViolationException;
+import com.gomo.app.core.interest.domain.exception.code.InterestErrorCode;
 
 @DisplayName("[Domain unit]: 관심사 등록자 엔티티 테스트")
 public class RegistrantTest {

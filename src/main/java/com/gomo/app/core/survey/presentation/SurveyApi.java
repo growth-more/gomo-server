@@ -31,7 +31,7 @@ public class SurveyApi {
 
 	@PostMapping
 	public ResponseEntity<Void> createSurveyResult(@Auth AuthInfo authInfo, @RequestBody CreateSurveyResultRequest request) {
-		createSurveyResultUseCase.create(request.toCommand(authInfo.getMemberId()));
+		createSurveyResultUseCase.create(request.toCommand(authInfo.getPrincipalId()));
 		return ResponseEntity.status(CREATED).build();
 	}
 

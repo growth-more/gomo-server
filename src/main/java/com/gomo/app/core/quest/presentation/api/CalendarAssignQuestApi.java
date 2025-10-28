@@ -29,7 +29,7 @@ public class CalendarAssignQuestApi {
 	@GetMapping
 	public ResponseEntity<ListCalendarAssignQuestResponse> find(@Auth AuthInfo authInfo, @RequestParam boolean isCompleted,
 		@RequestParam LocalDateTime startDateTime, @RequestParam LocalDateTime endDateTime) {
-		CalendarAssignQuestCommand command = CalendarAssignQuestCommand.of(authInfo.getMemberId(), isCompleted, startDateTime, endDateTime);
+		CalendarAssignQuestCommand command = CalendarAssignQuestCommand.of(authInfo.getPrincipalId(), isCompleted, startDateTime, endDateTime);
 		List<CalendarAssignQuestDto> calendarDtos = calendarAssignQuestUseCase.find(command);
 		return ResponseEntity.ok(ListCalendarAssignQuestResponse.of(calendarDtos.stream().map(CalendarAssignQuestResponse::from).toList()));
 	}

@@ -54,7 +54,7 @@ public class AuthApi {
 
 	@GetMapping("/logout")
 	public ResponseEntity<Void> logout(@Auth AuthInfo authInfo) {
-		deleteAuthTokenPortIn.deleteRefreshToken(authInfo.getMemberId());
+		deleteAuthTokenPortIn.deleteRefreshToken(authInfo.getPrincipalId());
 		ResponseCookie cookie = createResponseCookie("", 0);
 		return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).build();
 	}

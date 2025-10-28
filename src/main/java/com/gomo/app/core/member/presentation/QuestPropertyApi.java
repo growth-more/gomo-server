@@ -27,13 +27,13 @@ public class QuestPropertyApi {
 
 	@GetMapping
 	public ResponseEntity<ReadQuestPropertyResponse> find(@Auth AuthInfo authInfo) {
-		QuestPropertyDto dto = readQuestPropertyUseCase.find(authInfo.getMemberId());
+		QuestPropertyDto dto = readQuestPropertyUseCase.find(authInfo.getPrincipalId());
 		return ResponseEntity.ok(ReadQuestPropertyResponse.of(dto));
 	}
 
 	@PutMapping
 	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @RequestBody UpdateQuestPropertyRequest request) {
-		updateQuestPropertyUseCase.update(request.toCommand(authInfo.getMemberId()));
+		updateQuestPropertyUseCase.update(request.toCommand(authInfo.getPrincipalId()));
 		return ResponseEntity.noContent().build();
 	}
 }

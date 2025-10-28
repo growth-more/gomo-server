@@ -26,13 +26,13 @@ public class ProfileImageApi {
 
 	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @ModelAttribute UpdateProfileImageRequest request) {
-		updateProfileImageUseCase.update(authInfo.getMemberId(), request.getProfileImage());
+		updateProfileImageUseCase.update(authInfo.getPrincipalId(), request.getProfileImage());
 		return ResponseEntity.noContent().build();
 	}
 
 	@DeleteMapping
 	public ResponseEntity<Void> delete(@Auth AuthInfo authInfo) {
-		deleteProfileImageUseCase.delete(authInfo.getMemberId());
+		deleteProfileImageUseCase.delete(authInfo.getPrincipalId());
 		return ResponseEntity.ok().build();
 	}
 }

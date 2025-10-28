@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import com.gomo.app.common.arch.Adapter;
-import com.gomo.app.core.interest.application.port.ReadInterestPortIn;
+import com.gomo.app.core.interest.application.port.in.ReadInterestUseCase;
 import com.gomo.app.core.quest.application.port.ReadSubjectPortOut;
 import com.gomo.app.core.quest.application.port.dto.SubjectDto;
 
@@ -15,11 +15,11 @@ import lombok.RequiredArgsConstructor;
 @Adapter
 class ReadSubjectAdapter implements ReadSubjectPortOut {
 
-	private final ReadInterestPortIn readInterestPortIn;
+	private final ReadInterestUseCase readInterestUseCase;
 
 	@Override
 	public List<SubjectDto> findAll(UUID participantId) {
-		return readInterestPortIn.findAll(participantId).stream()
+		return readInterestUseCase.findAll(participantId).stream()
 			.map(dto -> SubjectDto.of(
 				dto.id(),
 				dto.registrantId(),
@@ -30,7 +30,7 @@ class ReadSubjectAdapter implements ReadSubjectPortOut {
 
 	@Override
 	public List<SubjectDto> findAllByParticipantIds(Set<UUID> participantIds) {
-		return readInterestPortIn.findAllByRegistrantIds(participantIds).stream()
+		return readInterestUseCase.findAllByRegistrantIds(participantIds).stream()
 			.map(dto -> SubjectDto.of(
 				dto.id(),
 				dto.registrantId(),

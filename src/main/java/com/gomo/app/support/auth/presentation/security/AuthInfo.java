@@ -1,19 +1,19 @@
 package com.gomo.app.support.auth.presentation.security;
 
-import lombok.Getter;
-
 import java.util.UUID;
+
+import lombok.Getter;
 
 @Getter
 public class AuthInfo {
 
-	private UUID memberId;
+	private UUID principalId;
 
-	private AuthInfo(UUID memberId) {
-		this.memberId = memberId;
+	private AuthInfo(UUID principalId) {
+		this.principalId = principalId;
 	}
 
-	public static AuthInfo of(UUID memberId) {
-		return new AuthInfo(memberId);
+	public static AuthInfo of(UUID principalId) {
+		return new AuthInfo(principalId);
 	}
 }

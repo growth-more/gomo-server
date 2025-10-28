@@ -44,19 +44,19 @@ public class MemberApi {
 
 	@GetMapping
 	public ResponseEntity<ReadMemberResponse> read(@Auth AuthInfo authInfo) {
-		MemberDto dto = readMemberPortIn.find(authInfo.getMemberId());
+		MemberDto dto = readMemberPortIn.find(authInfo.getPrincipalId());
 		return ResponseEntity.ok(ReadMemberResponse.of(dto));
 	}
 
 	@PutMapping
 	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @RequestBody UpdateMemberRequest request) {
-		updateMemberUseCase.update(authInfo.getMemberId(), request.getName(), request.getMotto());
+		updateMemberUseCase.update(authInfo.getPrincipalId(), request.getName(), request.getMotto());
 		return ResponseEntity.noContent().build();
 	}
 
 	@DeleteMapping
 	public ResponseEntity<Void> delete(@Auth AuthInfo authInfo) {
-		deleteMemberUseCase.delete(authInfo.getMemberId());
+		deleteMemberUseCase.delete(authInfo.getPrincipalId());
 		return ResponseEntity.noContent().build();
 	}
 }

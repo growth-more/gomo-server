@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.common.displayorder.DisplayOrder;
+import com.gomo.app.common.logging.AuditLog;
 import com.gomo.app.core.quest.application.port.AutoCreateAssignQuestPortIn;
 import com.gomo.app.core.quest.application.port.dto.ParticipantDto;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
@@ -22,7 +23,6 @@ import com.gomo.app.core.quest.domain.model.repeat.RepeatQuest;
 import com.gomo.app.core.quest.domain.repository.BulkAssignQuestRepository;
 import com.gomo.app.core.quest.domain.repository.QuestPoolRepository;
 import com.gomo.app.core.quest.domain.repository.RepeatQuestRepository;
-import com.gomo.app.support.logging.AuditLog;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

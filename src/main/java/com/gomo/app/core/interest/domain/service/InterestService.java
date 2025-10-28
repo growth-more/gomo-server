@@ -3,10 +3,10 @@ package com.gomo.app.core.interest.domain.service;
 import java.util.UUID;
 
 import com.gomo.app.common.arch.DomainService;
+import com.gomo.app.core.interest.domain.exception.InterestNotFoundException;
+import com.gomo.app.core.interest.domain.exception.code.InterestErrorCode;
 import com.gomo.app.core.interest.domain.model.Interest;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;
-import com.gomo.app.core.interest.exception.InterestNotFoundException;
-import com.gomo.app.core.interest.exception.code.InterestErrorCode;
 
 import lombok.RequiredArgsConstructor;
 

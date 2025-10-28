@@ -7,6 +7,8 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.gomo.app.common.logging.AuditLog;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -15,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @Order(2)
 public class AuditLoggingAspect {
 
-	@Around("@annotation(com.gomo.app.support.logging.AuditLog)")
+	@Around("@annotation(com.gomo.app.common.logging.AuditLog)")
 	public Object logAuditAction(ProceedingJoinPoint joinPoint) throws Throwable {
 		MethodSignature signature = (MethodSignature)joinPoint.getSignature();
 		AuditLog auditLog = signature.getMethod().getAnnotation(AuditLog.class);

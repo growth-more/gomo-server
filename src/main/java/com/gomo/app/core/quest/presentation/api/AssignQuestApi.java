@@ -40,25 +40,25 @@ public class AssignQuestApi {
 
 	@PostMapping
 	public ResponseEntity<CreateAssignQuestResponse> create(@Auth AuthInfo authInfo, @RequestBody CreateAssignQuestRequest request) {
-		UUID assignQuestId = createAssignQuestUseCase.create(request.toCommand(authInfo.getMemberId()));
+		UUID assignQuestId = createAssignQuestUseCase.create(request.toCommand(authInfo.getPrincipalId()));
 		return ResponseEntity.status(CREATED).body(CreateAssignQuestResponse.of(assignQuestId));
 	}
 
 	@GetMapping
 	public ResponseEntity<ListAssignQuestResponse> findAll(@Auth AuthInfo authInfo) {
-		ListAssignQuestDto dto = readAssignQuestUseCase.findAll(authInfo.getMemberId());
+		ListAssignQuestDto dto = readAssignQuestUseCase.findAll(authInfo.getPrincipalId());
 		return ResponseEntity.ok(ListAssignQuestResponse.from(dto));
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @PathVariable("id") UUID assignQuestId, @RequestBody UpdateAssignQuestRequest request) {
-		updateAssignQuestUseCase.update(request.toCommand(authInfo.getMemberId(), assignQuestId));
+		updateAssignQuestUseCase.update(request.toCommand(authInfo.getPrincipalId(), assignQuestId));
 		return ResponseEntity.noContent().build();
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> delete(@Auth AuthInfo authInfo, @PathVariable("id") UUID assignQuestId) {
-		deleteAssignQuestUseCase.delete(authInfo.getMemberId(), assignQuestId);
+		deleteAssignQuestUseCase.delete(authInfo.getPrincipalId(), assignQuestId);
 		return ResponseEntity.noContent().build();
 	}
 }

@@ -3,6 +3,7 @@ package com.gomo.app.core.member.application.usecase;
 import java.util.UUID;
 
 import com.gomo.app.common.arch.ApplicationService;
+import com.gomo.app.common.logging.AuditLog;
 import com.gomo.app.common.security.encoder.application.port.EncodePasswordPortIn;
 import com.gomo.app.common.security.jwt.application.port.VerifyJwtPortIn;
 import com.gomo.app.common.util.UUIDGenerator;
@@ -18,7 +19,6 @@ import com.gomo.app.core.member.domain.repository.MemberRepository;
 import com.gomo.app.core.member.domain.service.MemberService;
 import com.gomo.app.core.point.application.port.CreatePointWalletPortIn;
 import com.gomo.app.core.streak.application.port.CreateAchieverPortIn;
-import com.gomo.app.support.logging.AuditLog;
 import com.gomo.app.support.logging.Timed;
 
 import jakarta.transaction.Transactional;

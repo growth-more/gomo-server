@@ -22,7 +22,7 @@ public class AchieverApi {
 
 	@GetMapping
 	public ResponseEntity<ReadAchieverResponse> find(@Auth AuthInfo authInfo) {
-		AchieverDto achieverDto = readAchieverUseCase.find(authInfo.getMemberId());
+		AchieverDto achieverDto = readAchieverUseCase.find(authInfo.getPrincipalId());
 		return ResponseEntity.ok(ReadAchieverResponse.from(achieverDto));
 	}
 }

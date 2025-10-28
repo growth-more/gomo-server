@@ -5,11 +5,11 @@ import java.util.UUID;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.arch.ApplicationService;
+import com.gomo.app.common.logging.AuditLog;
 import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.core.point.application.port.CreatePointWalletPortIn;
 import com.gomo.app.core.point.domain.model.PointWallet;
 import com.gomo.app.core.point.domain.repository.PointWalletRepository;
-import com.gomo.app.support.logging.AuditLog;
 
 import lombok.RequiredArgsConstructor;
 

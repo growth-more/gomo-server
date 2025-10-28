@@ -15,8 +15,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.core.interest.application.port.ReadInterestPortIn;
 import com.gomo.app.core.interest.application.port.dto.InterestDto;
+import com.gomo.app.core.interest.application.port.in.ReadInterestUseCase;
 import com.gomo.app.core.interest.fixture.InterestFixture;
 import com.gomo.app.core.quest.application.port.dto.SubjectDto;
 
@@ -28,7 +28,7 @@ class ReadSubjectAdapterTest {
 	private ReadSubjectAdapter sut;
 
 	@Mock
-	private ReadInterestPortIn readInterestPortIn;
+	private ReadInterestUseCase readInterestUseCase;
 
 	@DisplayName("참여자 식별자로 퀘스트 주제 목록을 조회한다.")
 	@Test
@@ -38,7 +38,7 @@ class ReadSubjectAdapterTest {
 			InterestDto.of(InterestFixture.create(), UUID.randomUUID()),
 			InterestDto.of(InterestFixture.create(), UUID.randomUUID())
 		);
-		doReturn(interestDtos).when(readInterestPortIn).findAll(any());
+		doReturn(interestDtos).when(readInterestUseCase).findAll(any());
 
 		List<SubjectDto> actual = sut.findAll(UUID.randomUUID());
 
@@ -48,7 +48,7 @@ class ReadSubjectAdapterTest {
 	@DisplayName("참여자 식별자로 조회한 목록이 비었다면 빈 목록을 반환한다.")
 	@Test
 	void find_all_by_participant_id_with_empty_list() {
-		doReturn(List.of()).when(readInterestPortIn).findAll(any());
+		doReturn(List.of()).when(readInterestUseCase).findAll(any());
 
 		List<SubjectDto> actual = sut.findAll(UUID.randomUUID());
 
@@ -63,7 +63,7 @@ class ReadSubjectAdapterTest {
 			InterestDto.of(InterestFixture.create(), UUID.randomUUID()),
 			InterestDto.of(InterestFixture.create(), UUID.randomUUID())
 		);
-		doReturn(interestDtos).when(readInterestPortIn).findAllByRegistrantIds(any());
+		doReturn(interestDtos).when(readInterestUseCase).findAllByRegistrantIds(any());
 
 		List<SubjectDto> actual = sut.findAllByParticipantIds(Set.of(UUID.randomUUID(), UUID.randomUUID()));
 
@@ -73,7 +73,7 @@ class ReadSubjectAdapterTest {
 	@DisplayName("참여자 식별자 목록으로 조회한 목록이 비었다면 빈 목록을 반환한다.")
 	@Test
 	void find_all_by_participant_ids_with_empty_list() {
-		doReturn(List.of()).when(readInterestPortIn).findAllByRegistrantIds(any());
+		doReturn(List.of()).when(readInterestUseCase).findAllByRegistrantIds(any());
 
 		List<SubjectDto> actual = sut.findAllByParticipantIds(Set.of(UUID.randomUUID(), UUID.randomUUID()));
 

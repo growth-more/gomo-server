@@ -22,7 +22,7 @@ public class OrderUpdateAssignQuestApi {
 
 	@PutMapping
 	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @RequestBody OrderUpdateAssignQuestRequest request) {
-		orderUpdateAssignQuestUseCase.update(request.toCommand(authInfo.getMemberId()));
+		orderUpdateAssignQuestUseCase.update(request.toCommand(authInfo.getPrincipalId()));
 		return ResponseEntity.noContent().build();
 	}
 }
