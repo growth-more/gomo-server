@@ -17,11 +17,11 @@ import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.gomo.app.common.security.jwt.application.port.GenerateJwtPortIn;
+import com.gomo.app.core.member.adapter.in.api.MemberApi;
+import com.gomo.app.core.member.adapter.in.api.request.CreateMemberRequest;
 import com.gomo.app.core.member.domain.model.LoginProvider;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
-import com.gomo.app.core.member.presentation.MemberApi;
-import com.gomo.app.core.member.presentation.request.CreateMemberRequest;
+import com.gomo.app.support.auth.application.port.JwtCreator;
 import com.gomo.app.support.auth.presentation.api.AuthApi;
 import com.gomo.app.support.auth.presentation.request.LoginRequest;
 import com.gomo.app.support.auth.presentation.response.AccessTokenResponse;
@@ -44,7 +44,7 @@ public abstract class DocumentationTestBase {
 	protected MemberApi memberApi;
 
 	@Autowired
-	protected GenerateJwtPortIn generateJwtPortIn;
+	protected JwtCreator jwtCreator;
 
 	@Autowired
 	protected AuthApi authApi;
@@ -81,7 +81,7 @@ public abstract class DocumentationTestBase {
 	}
 
 	protected void signup(String email, String password, String handle) {
-		String temporaryToken = generateJwtPortIn.generateTemporaryToken(email, 300);
+		String temporaryToken = jwtCreator.createTemporaryToken(email, 300);
 		memberApi.create(CreateMemberRequest.of(email, password, handle, "testname", "testmotto", LoginProvider.EMAIL.name(), temporaryToken));
 	}
 

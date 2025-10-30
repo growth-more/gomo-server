@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.common.logging.AuditLog;
-import com.gomo.app.common.security.jwt.application.port.VerifyJwtPortIn;
+import com.gomo.app.support.auth.application.port.JwtVerifier;
 import com.gomo.app.support.auth.application.port.dto.AuthTokenDto;
 import com.gomo.app.support.auth.domain.model.AuthToken;
 import com.gomo.app.support.auth.domain.repository.AuthTokenRepository;
@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class UpdateRefreshTokenUseCase {
 
 	private final CreateAuthTokenInternalService createAuthTokenInternalService;
-	private final VerifyJwtPortIn verifyJwtPortIn;
+	private final JwtVerifier jwtVerifier;
 	private final AuthTokenRepository authTokenRepository;
 
 	@AuditLog(action = "REFRESH_TOKEN_UPDATE")
@@ -27,14 +27,14 @@ public class UpdateRefreshTokenUseCase {
 			throw new AuthenticationFailException(AuthErrorCode.MISSING_REFRESH_TOKEN);
 		}
 
-		UUID principalId = UUID.fromString(verifyJwtPortIn.extractSubject(refreshToken));
+		UUID principalId = UUID.fromString(jwtVerifier.extractSubject(refreshToken));
 		String originRefreshToken = authTokenRepository.getRefreshToken(principalId);
 		if (!originRefreshToken.equals(refreshToken)) {
 			throw new AuthenticationFailException(AuthErrorCode.INVALID_REFRESH_TOKEN);
 		}
 
 		AuthToken authToken = createAuthTokenInternalService.create(principalId);
-		long refreshTokenExpirationTime = verifyJwtPortIn.extractExpirationTime(authToken.getRefreshToken());
+		long refreshTokenExpirationTime = jwtVerifier.extractExpirationTime(authToken.getRefreshToken());
 		return AuthTokenDto.of(principalId, authToken.getAccessToken(), authToken.getRefreshToken(), refreshTokenExpirationTime);
 	}
 }

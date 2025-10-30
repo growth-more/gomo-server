@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.common.logging.AuditLog;
-import com.gomo.app.common.security.jwt.application.port.GenerateJwtPortIn;
+import com.gomo.app.support.auth.application.port.JwtCreator;
 import com.gomo.app.support.auth.domain.model.AuthToken;
 import com.gomo.app.support.auth.domain.repository.AuthTokenRepository;
 
@@ -16,13 +16,13 @@ import lombok.RequiredArgsConstructor;
 @ApplicationService
 class CreateAuthTokenInternalService {
 
-	private final GenerateJwtPortIn generateJwtPortIn;
+	private final JwtCreator jwtCreator;
 	private final AuthTokenRepository authTokenRepository;
 
 	@AuditLog(action = "CREATE_AUTH_TOKEN")
 	public AuthToken create(UUID principalId) {
-		String accessToken = generateJwtPortIn.generateAccessToken(principalId);
-		String refreshToken = generateJwtPortIn.generateRefreshToken(principalId);
+		String accessToken = jwtCreator.createAccessToken(principalId);
+		String refreshToken = jwtCreator.createRefreshToken(principalId);
 		authTokenRepository.setRefreshToken(principalId, refreshToken);
 		return AuthToken.of(accessToken, refreshToken);
 	}

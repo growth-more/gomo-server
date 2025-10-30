@@ -12,8 +12,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.core.member.application.port.ReadMemberPortIn;
 import com.gomo.app.core.member.application.port.dto.MemberDto;
+import com.gomo.app.core.member.application.port.in.MemberReader;
 import com.gomo.app.core.member.fixture.MemberFixture;
 import com.gomo.app.core.quest.application.port.dto.ParticipantDto;
 
@@ -25,12 +25,12 @@ class ReadParticipantAdapterTest {
 	private ReadParticipantAdapter sut;
 
 	@Mock
-	private ReadMemberPortIn readMemberPortIn;
+	private MemberReader memberReader;
 
 	@DisplayName("회원의 퀘스트 설정에 따라 퀘스트 할당량이 결정된다.")
 	@Test
 	void member_to_participant() {
-		doReturn(MemberDto.from(MemberFixture.create(5, 6, 7), 1000)).when(readMemberPortIn).find(any());
+		doReturn(MemberDto.from(MemberFixture.create(5, 6, 7), 1000)).when(memberReader).read(any());
 		ParticipantDto dto = sut.find(UUID.randomUUID());
 		assertThat(dto)
 			.extracting("dailyQuota", "weeklyQuota", "monthlyQuota")

@@ -8,8 +8,8 @@ import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.gomo.app.common.security.jwt.application.port.VerifyJwtPortIn;
 import com.gomo.app.config.AuthFilterConfiguration;
+import com.gomo.app.support.auth.application.port.JwtVerifier;
 
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
@@ -28,7 +28,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 	private static final String BEARER_TOKEN = "Bearer ";
 
 	private final AuthFilterConfiguration config;
-	private final VerifyJwtPortIn verifyJwtPortIn;
+	private final JwtVerifier jwtVerifier;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -55,7 +55,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 		}
 		try {
 			token = token.substring(BEARER_TOKEN.length());
-			String memberId = verifyJwtPortIn.extractSubject(token);
+			String memberId = jwtVerifier.extractSubject(token);
 			MDC.put(MEMBER_ID.name(), memberId);
 			log.info("action=MEMBER_AUTHENTICATION, status=success, memberId={}", memberId);
 			request.setAttribute("memberId", memberId);

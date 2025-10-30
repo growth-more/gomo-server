@@ -13,7 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.common.security.jwt.application.port.GenerateJwtPortIn;
+import com.gomo.app.support.auth.application.port.JwtCreator;
 import com.gomo.app.support.auth.domain.model.AuthToken;
 import com.gomo.app.support.auth.domain.repository.AuthTokenRepository;
 
@@ -25,7 +25,7 @@ public class CreateAuthTokenInternalServiceTest {
 	private CreateAuthTokenInternalService sut;
 
 	@Mock
-	private GenerateJwtPortIn generateJwtPortIn;
+	private JwtCreator jwtCreator;
 
 	@Mock
 	private AuthTokenRepository authTokenRepository;
@@ -35,8 +35,8 @@ public class CreateAuthTokenInternalServiceTest {
 	void create_auth_token_success() {
 		AuthToken expected = AuthToken.of("access", "refresh");
 
-		doReturn("access").when(generateJwtPortIn).generateAccessToken(any());
-		doReturn("refresh").when(generateJwtPortIn).generateRefreshToken(any());
+		doReturn("access").when(jwtCreator).createAccessToken(any());
+		doReturn("refresh").when(jwtCreator).createRefreshToken(any());
 		doNothing().when(authTokenRepository).setRefreshToken(any(), anyString());
 
 		AuthToken actual = sut.create(UUID.randomUUID());

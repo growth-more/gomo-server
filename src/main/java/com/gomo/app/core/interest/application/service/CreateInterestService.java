@@ -10,8 +10,8 @@ import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.core.interest.application.port.command.CreateInterestCommand;
 import com.gomo.app.core.interest.application.port.dto.RegistrantDto;
 import com.gomo.app.core.interest.application.port.in.CreateInterestUseCase;
-import com.gomo.app.core.interest.application.port.out.ReadRegistrantPort;
-import com.gomo.app.core.interest.application.port.out.UploadLogoPort;
+import com.gomo.app.core.interest.application.port.out.LogoUploader;
+import com.gomo.app.core.interest.application.port.out.RegistrantReader;
 import com.gomo.app.core.interest.domain.model.Interest;
 import com.gomo.app.core.interest.domain.model.InterestName;
 import com.gomo.app.core.interest.domain.model.Logo;
@@ -25,14 +25,14 @@ import lombok.RequiredArgsConstructor;
 @ApplicationService
 class CreateInterestService implements CreateInterestUseCase {
 
-	private final ReadRegistrantPort readRegistrantPort;
-	private final UploadLogoPort uploadLogoPort;
+	private final RegistrantReader registrantReader;
+	private final LogoUploader logoUploader;
 	private final InterestRepository interestRepository;
 
 	@AuditLog(action = "CREATE_INTEREST")
 	public UUID create(CreateInterestCommand command) {
 		ensureNotExceedInterestQuota(command.registrantId());
-		String logoUrl = uploadLogoPort.upload(command.logoFile()).orElse(null);
+		String logoUrl = logoUploader.upload(command.logoFile()).orElse(null);
 		Interest interest = Interest.of(
 			UUIDGenerator.generate(),
 			command.registrantId(),
@@ -45,7 +45,7 @@ class CreateInterestService implements CreateInterestUseCase {
 	}
 
 	private void ensureNotExceedInterestQuota(UUID registrantId) {
-		RegistrantDto dto = readRegistrantPort.find(registrantId);
+		RegistrantDto dto = registrantReader.find(registrantId);
 		Registrant registrant = Registrant.of(dto.id(), dto.subscriptionPlan());
 		long interestCount = interestRepository.countAllByRegistrantId(registrant.getId());
 		registrant.validateInterestQuota(interestCount);

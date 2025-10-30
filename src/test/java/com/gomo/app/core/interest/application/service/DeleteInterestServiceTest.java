@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.core.interest.application.port.out.DeleteLogoPort;
+import com.gomo.app.core.interest.application.port.out.LogoDeleter;
 import com.gomo.app.core.interest.domain.model.Interest;
 import com.gomo.app.core.interest.domain.model.InterestRelation;
 import com.gomo.app.core.interest.domain.model.Logo;
@@ -35,7 +35,7 @@ public class DeleteInterestServiceTest {
 	private InterestService interestService;
 
 	@Mock
-	private DeleteLogoPort deleteLogoPort;
+	private LogoDeleter logoDeleter;
 
 	@Mock
 	private InterestRelationService interestRelationService;
@@ -80,7 +80,7 @@ public class DeleteInterestServiceTest {
 
 		sut.delete(interest.getRegistrantId(), interest.getId());
 
-		verify(deleteLogoPort, times(0)).delete(any());
+		verify(logoDeleter, times(0)).delete(any());
 	}
 
 	@DisplayName("관심사의 로고가 사용자가 업로드한 로고라면 이미지는 삭제된다.")
@@ -92,7 +92,7 @@ public class DeleteInterestServiceTest {
 
 		sut.delete(interest.getRegistrantId(), interest.getId());
 
-		verify(deleteLogoPort, times(1)).delete(any());
+		verify(logoDeleter, times(1)).delete(any());
 	}
 
 	@DisplayName("관심사를 삭제할 때, 주요 관심사도 함께 삭제된다.")

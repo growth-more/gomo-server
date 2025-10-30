@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.common.logging.AuditLog;
 import com.gomo.app.core.interest.application.port.in.DeleteInterestUseCase;
-import com.gomo.app.core.interest.application.port.out.DeleteLogoPort;
+import com.gomo.app.core.interest.application.port.out.LogoDeleter;
 import com.gomo.app.core.interest.domain.model.Interest;
 import com.gomo.app.core.interest.domain.model.InterestRelation;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;
@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 @ApplicationService
 class DeleteInterestService implements DeleteInterestUseCase {
 
-	private final DeleteLogoPort deleteLogoPort;
+	private final LogoDeleter logoDeleter;
 	private final MajorInterestRepository majorInterestRepository;
 	private final InterestRelationService interestRelationService;
 	private final InterestService interestService;
@@ -50,7 +50,7 @@ class DeleteInterestService implements DeleteInterestUseCase {
 
 	private void deleteLogoUrl(Interest interest) {
 		if (!interest.hasDefaultLogo()) {
-			deleteLogoPort.delete(interest.getLogo().getUrl());
+			logoDeleter.delete(interest.getLogo().getUrl());
 		}
 	}
 

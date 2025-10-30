@@ -8,7 +8,7 @@ import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import com.gomo.app.common.security.jwt.application.port.VerifyJwtPortIn;
+import com.gomo.app.support.auth.application.port.JwtVerifier;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class AuditorAwareImpl implements AuditorAware<String> {
 
 	private final ObjectProvider<HttpServletRequest> requestProvider;
-	private final VerifyJwtPortIn verifyJwtPortIn;
+	private final JwtVerifier jwtVerifier;
 
 	@Override
 	public Optional<String> getCurrentAuditor() {
@@ -29,10 +29,10 @@ public class AuditorAwareImpl implements AuditorAware<String> {
 		}
 
 		String token = extractTokenFromHeader(request);
-		if (!StringUtils.hasText(token) || !verifyJwtPortIn.validateToken(token)) {
+		if (!StringUtils.hasText(token) || !jwtVerifier.verify(token)) {
 			return Optional.of("SYSTEM");
 		}
-		String memberId = verifyJwtPortIn.extractSubject(token);
+		String memberId = jwtVerifier.extractSubject(token);
 		return Optional.of(memberId);
 	}
 

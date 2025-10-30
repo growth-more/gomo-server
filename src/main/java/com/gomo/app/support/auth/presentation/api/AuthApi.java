@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gomo.app.common.arch.CoreApi;
-import com.gomo.app.support.auth.application.port.DeleteAuthTokenPortIn;
+import com.gomo.app.support.auth.application.port.RefreshTokenDeleter;
 import com.gomo.app.support.auth.application.port.dto.AuthTokenDto;
 import com.gomo.app.support.auth.application.usecase.AuthenticateUseCase;
 import com.gomo.app.support.auth.application.usecase.UpdateRefreshTokenUseCase;
@@ -34,7 +34,7 @@ public class AuthApi {
 
 	private final AuthenticateUseCase authenticateUseCase;
 	private final UpdateRefreshTokenUseCase updateRefreshTokenUseCase;
-	private final DeleteAuthTokenPortIn deleteAuthTokenPortIn;
+	private final RefreshTokenDeleter refreshTokenDeleter;
 
 	@PostMapping("/login")
 	public ResponseEntity<AccessTokenResponse> login(@RequestBody LoginRequest request) {
@@ -54,7 +54,7 @@ public class AuthApi {
 
 	@GetMapping("/logout")
 	public ResponseEntity<Void> logout(@Auth AuthInfo authInfo) {
-		deleteAuthTokenPortIn.deleteRefreshToken(authInfo.getPrincipalId());
+		refreshTokenDeleter.delete(authInfo.getPrincipalId());
 		ResponseCookie cookie = createResponseCookie("", 0);
 		return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).build();
 	}

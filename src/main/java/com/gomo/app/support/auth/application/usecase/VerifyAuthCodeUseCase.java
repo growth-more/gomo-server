@@ -1,7 +1,7 @@
 package com.gomo.app.support.auth.application.usecase;
 
 import com.gomo.app.common.arch.ApplicationService;
-import com.gomo.app.support.auth.application.port.VerifyAuthCodePortIn;
+import com.gomo.app.support.auth.application.port.AuthCodeVerifier;
 import com.gomo.app.support.auth.domain.repository.AuthCodeRepository;
 import com.gomo.app.support.auth.exception.AuthErrorCode;
 import com.gomo.app.support.auth.exception.InvalidAuthCodeException;
@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @ApplicationService
-class VerifyAuthCodeUseCase implements VerifyAuthCodePortIn {
+class VerifyAuthCodeUseCase implements AuthCodeVerifier {
 
 	private final AuthCodeRepository authCodeRepository;
 

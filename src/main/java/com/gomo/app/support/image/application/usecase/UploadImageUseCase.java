@@ -5,14 +5,14 @@ import java.util.Optional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gomo.app.common.arch.ApplicationService;
+import com.gomo.app.support.image.application.port.ImageUploader;
 import com.gomo.app.support.image.application.port.ManageImagePortOut;
-import com.gomo.app.support.image.application.port.UploadImagePortIn;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @ApplicationService
-public class UploadImageUseCase implements UploadImagePortIn {
+public class UploadImageUseCase implements ImageUploader {
 
 	private final ManageImagePortOut manageImagePortOut;
 

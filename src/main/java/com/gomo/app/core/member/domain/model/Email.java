@@ -3,8 +3,8 @@ package com.gomo.app.core.member.domain.model;
 import java.util.regex.Pattern;
 
 import com.gomo.app.common.arch.ValueObject;
-import com.gomo.app.core.member.exception.EmailConstraintViolationException;
-import com.gomo.app.core.member.exception.code.EmailErrorCode;
+import com.gomo.app.core.member.domain.exception.EmailConstraintViolationException;
+import com.gomo.app.core.member.domain.exception.code.EmailErrorCode;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;

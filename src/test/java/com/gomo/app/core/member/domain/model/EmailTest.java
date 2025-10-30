@@ -5,8 +5,8 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.core.member.exception.EmailConstraintViolationException;
-import com.gomo.app.core.member.exception.code.EmailErrorCode;
+import com.gomo.app.core.member.domain.exception.EmailConstraintViolationException;
+import com.gomo.app.core.member.domain.exception.code.EmailErrorCode;
 
 @DisplayName("[Domain unit]: 이메일 생성 테스트")
 public class EmailTest {

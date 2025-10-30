@@ -3,8 +3,8 @@ package com.gomo.app.core.member.domain.model;
 import java.util.regex.Pattern;
 
 import com.gomo.app.common.arch.ValueObject;
-import com.gomo.app.core.member.exception.PasswordConstraintViolationException;
-import com.gomo.app.core.member.exception.code.PasswordErrorCode;
+import com.gomo.app.core.member.domain.exception.PasswordConstraintViolationException;
+import com.gomo.app.core.member.domain.exception.code.PasswordErrorCode;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;

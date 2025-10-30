@@ -20,7 +20,7 @@ import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.domain.repository.RepeatQuestRepository;
 import com.gomo.app.core.streak.domain.repository.AchieverRepository;
 import com.gomo.app.core.streak.domain.repository.StreakRepository;
-import com.gomo.app.support.image.application.port.DeleteImagePortIn;
+import com.gomo.app.support.image.application.port.ImageDeleter;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemberCleanupScheduler {
 
-	private final DeleteImagePortIn deleteImagePortIn;
+	private final ImageDeleter imageDeleter;
 	private final PointRepository pointRepository;
 	private final PointWalletRepository pointWalletRepository;
 	private final AssignQuestRepository assignQuestRepository;
@@ -81,8 +81,8 @@ public class MemberCleanupScheduler {
 		achieverRepository.deleteByAchieverId(member.getId());
 
 		// 이미지 파일 삭제
-		deleteImagePortIn.delete(member.profileImageUrl());
-		deleteImagePortIn.delete(member.profileBannerUrl());
+		imageDeleter.delete(member.profileImageUrl());
+		imageDeleter.delete(member.profileBannerUrl());
 
 		// member 최종 삭제
 		memberRepository.deleteById(member.getId());

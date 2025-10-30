@@ -16,8 +16,8 @@ import org.springframework.mock.web.MockMultipartFile;
 
 import com.gomo.app.core.interest.application.port.command.CreateInterestCommand;
 import com.gomo.app.core.interest.application.port.dto.RegistrantDto;
-import com.gomo.app.core.interest.application.port.out.ReadRegistrantPort;
-import com.gomo.app.core.interest.application.port.out.UploadLogoPort;
+import com.gomo.app.core.interest.application.port.out.LogoUploader;
+import com.gomo.app.core.interest.application.port.out.RegistrantReader;
 import com.gomo.app.core.interest.domain.model.Interest;
 import com.gomo.app.core.interest.domain.model.InterestQuota;
 import com.gomo.app.core.interest.domain.repository.InterestRepository;
@@ -31,10 +31,10 @@ public class CreateInterestServiceTest {
 	private CreateInterestService sut;
 
 	@Mock
-	private ReadRegistrantPort readRegistrantPort;
+	private RegistrantReader registrantReader;
 
 	@Mock
-	private UploadLogoPort uploadLogoPort;
+	private LogoUploader logoUploader;
 
 	@Mock
 	private InterestRepository interestRepository;
@@ -43,8 +43,8 @@ public class CreateInterestServiceTest {
 	@Test
 	void create_interest() {
 		Interest interest = InterestFixture.create();
-		doReturn(RegistrantDto.of(UUID.randomUUID(), "BASIC")).when(readRegistrantPort).find(any());
-		doReturn(Optional.of(interest.logoUrl())).when(uploadLogoPort).upload(any(MockMultipartFile.class));
+		doReturn(RegistrantDto.of(UUID.randomUUID(), "BASIC")).when(registrantReader).find(any());
+		doReturn(Optional.of(interest.logoUrl())).when(logoUploader).upload(any(MockMultipartFile.class));
 		doReturn((long)(InterestQuota.BASIC.getMaxCount() - 1)).when(interestRepository).countAllByRegistrantId(any());
 		doReturn(interest).when(interestRepository).save(any(Interest.class));
 

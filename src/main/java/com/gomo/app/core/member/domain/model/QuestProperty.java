@@ -1,8 +1,8 @@
 package com.gomo.app.core.member.domain.model;
 
 import com.gomo.app.common.arch.ValueObject;
-import com.gomo.app.core.member.exception.QuestPropertyConstraintViolationException;
-import com.gomo.app.core.member.exception.code.QuestPropertyErrorCode;
+import com.gomo.app.core.member.domain.exception.QuestPropertyConstraintViolationException;
+import com.gomo.app.core.member.domain.exception.code.QuestPropertyErrorCode;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;

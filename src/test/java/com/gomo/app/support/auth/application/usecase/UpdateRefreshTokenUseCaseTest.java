@@ -11,9 +11,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.common.security.jwt.application.port.VerifyJwtPortIn;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.fixture.MemberFixture;
+import com.gomo.app.support.auth.application.port.JwtVerifier;
 import com.gomo.app.support.auth.application.port.dto.AuthTokenDto;
 import com.gomo.app.support.auth.domain.model.AuthToken;
 import com.gomo.app.support.auth.domain.repository.AuthTokenRepository;
@@ -31,7 +31,7 @@ public class UpdateRefreshTokenUseCaseTest {
 	private CreateAuthTokenInternalService createAuthTokenInternalService;
 
 	@Mock
-	private VerifyJwtPortIn verifyJwtPortIn;
+	private JwtVerifier jwtVerifier;
 
 	@Mock
 	private AuthTokenRepository authTokenRepository;
@@ -46,10 +46,10 @@ public class UpdateRefreshTokenUseCaseTest {
 		AuthToken authToken = AuthToken.of("access", "refresh");
 		AuthTokenDto expected = AuthTokenDto.of(member.getId(), authToken.getAccessToken(), authToken.getRefreshToken(), 1L);
 
-		doReturn(member.getId().toString()).when(verifyJwtPortIn).extractSubject(anyString());
+		doReturn(member.getId().toString()).when(jwtVerifier).extractSubject(anyString());
 		doReturn(REFRESH_TOKEN).when(authTokenRepository).getRefreshToken(member.getId());
 		doReturn(authToken).when(createAuthTokenInternalService).create(member.getId());
-		doReturn(1L).when(verifyJwtPortIn).extractExpirationTime(anyString());
+		doReturn(1L).when(jwtVerifier).extractExpirationTime(anyString());
 
 		AuthTokenDto actual = sut.update(REFRESH_TOKEN);
 
@@ -68,7 +68,7 @@ public class UpdateRefreshTokenUseCaseTest {
 	@Test
 	void renew_refresh_token_with_wrong_token() {
 		Member member = MemberFixture.create();
-		doReturn(member.getId().toString()).when(verifyJwtPortIn).extractSubject(anyString());
+		doReturn(member.getId().toString()).when(jwtVerifier).extractSubject(anyString());
 		doReturn(REFRESH_TOKEN_WRONG).when(authTokenRepository).getRefreshToken(member.getId());
 
 		assertThatThrownBy(() -> sut.update(REFRESH_TOKEN))

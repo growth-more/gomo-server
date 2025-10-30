@@ -4,20 +4,20 @@ import java.util.UUID;
 
 import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.common.logging.AuditLog;
-import com.gomo.app.support.auth.application.port.DeleteAuthTokenPortIn;
+import com.gomo.app.support.auth.application.port.RefreshTokenDeleter;
 import com.gomo.app.support.auth.domain.repository.AuthTokenRepository;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @ApplicationService
-class DeleteRefreshTokenUseCase implements DeleteAuthTokenPortIn {
+class DeleteRefreshTokenUseCase implements RefreshTokenDeleter {
 
 	private final AuthTokenRepository authTokenRepository;
 
 	@AuditLog(action = "DELETE_REFRESH_TOKEN")
 	@Override
-	public void deleteRefreshToken(UUID principalId) {
+	public void delete(UUID principalId) {
 		authTokenRepository.deleteRefreshToken(principalId);
 	}
 }
