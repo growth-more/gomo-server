@@ -7,6 +7,8 @@ import static org.mockito.Mockito.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.gomo.app.core.interest.domain.service.ProficiencyCalculator;
+
 @DisplayName("[Domain unit]: 숙련도 생성 및 향상 테스트")
 public class ProficiencyTest {
 

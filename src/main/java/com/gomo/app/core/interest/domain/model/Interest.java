@@ -6,6 +6,7 @@ import com.gomo.app.common.arch.Authorizable;
 import com.gomo.app.common.jpa.BaseAudit;
 import com.gomo.app.core.interest.domain.exception.InterestAccessDeniedException;
 import com.gomo.app.core.interest.domain.exception.code.InterestErrorCode;
+import com.gomo.app.core.interest.domain.service.ProficiencyCalculator;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;

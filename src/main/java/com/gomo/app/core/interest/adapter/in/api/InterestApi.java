@@ -23,10 +23,10 @@ import com.gomo.app.core.interest.adapter.in.api.response.CreateInterestResponse
 import com.gomo.app.core.interest.adapter.in.api.response.ListInterestResponse;
 import com.gomo.app.core.interest.adapter.in.api.response.ReadInterestResponse;
 import com.gomo.app.core.interest.application.port.dto.InterestDto;
-import com.gomo.app.core.interest.application.port.in.CreateInterestUseCase;
-import com.gomo.app.core.interest.application.port.in.DeleteInterestUseCase;
-import com.gomo.app.core.interest.application.port.in.ReadInterestUseCase;
-import com.gomo.app.core.interest.application.port.in.UpdateInterestUseCase;
+import com.gomo.app.core.interest.application.port.in.InterestCreator;
+import com.gomo.app.core.interest.application.port.in.InterestDeleter;
+import com.gomo.app.core.interest.application.port.in.InterestReader;
+import com.gomo.app.core.interest.application.port.in.InterestUpdater;
 import com.gomo.app.support.auth.presentation.security.Auth;
 import com.gomo.app.support.auth.presentation.security.AuthInfo;
 
@@ -37,26 +37,26 @@ import lombok.RequiredArgsConstructor;
 @CoreApi
 public class InterestApi {
 
-	private final CreateInterestUseCase createInterestUseCase;
-	private final ReadInterestUseCase readInterestUseCase;
-	private final UpdateInterestUseCase updateInterestUseCase;
-	private final DeleteInterestUseCase deleteInterestUseCase;
+	private final InterestCreator interestCreator;
+	private final InterestReader interestReader;
+	private final InterestUpdater interestUpdater;
+	private final InterestDeleter interestDeleter;
 
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<CreateInterestResponse> create(@Auth AuthInfo authInfo, @ModelAttribute CreateInterestRequest request) {
-		UUID interestId = createInterestUseCase.create(request.toCommand(authInfo.getPrincipalId()));
+		UUID interestId = interestCreator.create(request.toCommand(authInfo.getPrincipalId()));
 		return ResponseEntity.status(CREATED).body(CreateInterestResponse.of(interestId));
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<ReadInterestResponse> find(@PathVariable("id") UUID interestId) {
-		InterestDto dto = readInterestUseCase.find(interestId);
+		InterestDto dto = interestReader.read(interestId);
 		return ResponseEntity.status(OK).body(ReadInterestResponse.from(dto));
 	}
 
 	@GetMapping
 	public ResponseEntity<ListInterestResponse> list(@Auth AuthInfo authInfo) {
-		List<ReadInterestResponse> responses = readInterestUseCase.findAll(authInfo.getPrincipalId()).stream()
+		List<ReadInterestResponse> responses = interestReader.readAll(authInfo.getPrincipalId()).stream()
 			.map(ReadInterestResponse::from)
 			.toList();
 		return ResponseEntity.status(OK).body(ListInterestResponse.of(responses));
@@ -64,13 +64,13 @@ public class InterestApi {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @PathVariable("id") UUID interestId, @RequestBody UpdateInterestRequest request) {
-		updateInterestUseCase.update(request.toCommand(authInfo.getPrincipalId(), interestId));
+		interestUpdater.update(request.toCommand(authInfo.getPrincipalId(), interestId));
 		return ResponseEntity.noContent().build();
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> delete(@Auth AuthInfo authInfo, @PathVariable("id") UUID interestId) {
-		deleteInterestUseCase.delete(authInfo.getPrincipalId(), interestId);
+		interestDeleter.delete(authInfo.getPrincipalId(), interestId);
 		return ResponseEntity.noContent().build();
 	}
 }

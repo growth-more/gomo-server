@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gomo.app.common.arch.CoreApi;
-import com.gomo.app.core.interest.application.port.in.UpdateLogoUseCase;
+import com.gomo.app.core.interest.application.port.in.LogoUpdater;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,11 +19,11 @@ import lombok.RequiredArgsConstructor;
 @CoreApi
 public class InterestLogoApi {
 
-	private final UpdateLogoUseCase updateLogoUseCase;
+	private final LogoUpdater logoUpdater;
 
 	@PutMapping
 	public ResponseEntity<Void> update(@PathVariable("id") UUID interestId, @RequestPart MultipartFile updatedLogo) {
-		updateLogoUseCase.update(interestId, updatedLogo);
+		logoUpdater.update(interestId, updatedLogo);
 		return ResponseEntity.noContent().build();
 	}
 }

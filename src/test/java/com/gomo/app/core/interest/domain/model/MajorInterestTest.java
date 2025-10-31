@@ -29,6 +29,15 @@ public class MajorInterestTest {
 			.containsExactly(ID, REGISTRANT_ID, INTEREST_ID, DISPLAY_ORDER);
 	}
 
+	@DisplayName("다음 순서의 주요 관심사를 생성한다.")
+	@Test
+	void create_next_major_interest() {
+		int displayOrder = DISPLAY_ORDER.getDisplayOrder();
+		MajorInterest majorInterest = MajorInterest.createNext(ID, REGISTRANT_ID, INTEREST_ID, displayOrder);
+
+		assertThat(majorInterest.displayOrder()).isEqualTo(displayOrder + 1);
+	}
+
 	@DisplayName("주요 관심사 정렬 순서를 변경한다.")
 	@Test
 	void update_major_interest_with_display_order() {

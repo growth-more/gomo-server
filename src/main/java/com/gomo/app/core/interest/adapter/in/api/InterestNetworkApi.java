@@ -17,9 +17,9 @@ import com.gomo.app.core.interest.adapter.in.api.request.CreateInterestRelationR
 import com.gomo.app.core.interest.adapter.in.api.response.CreateInterestRelationResponse;
 import com.gomo.app.core.interest.adapter.in.api.response.InterestNetworkResponse;
 import com.gomo.app.core.interest.application.port.dto.InterestNetworkDto;
-import com.gomo.app.core.interest.application.port.in.CreateInterestRelationUseCase;
-import com.gomo.app.core.interest.application.port.in.DeleteInterestRelationUseCase;
-import com.gomo.app.core.interest.application.port.in.ReadInterestNetworkUseCase;
+import com.gomo.app.core.interest.application.port.in.InterestNetworkReader;
+import com.gomo.app.core.interest.application.port.in.InterestRelationCreator;
+import com.gomo.app.core.interest.application.port.in.InterestRelationDeleter;
 import com.gomo.app.support.auth.presentation.security.Auth;
 import com.gomo.app.support.auth.presentation.security.AuthInfo;
 
@@ -30,25 +30,25 @@ import lombok.RequiredArgsConstructor;
 @CoreApi
 public class InterestNetworkApi {
 
-	private final CreateInterestRelationUseCase createInterestRelationUseCase;
-	private final ReadInterestNetworkUseCase readInterestNetworkUseCase;
-	private final DeleteInterestRelationUseCase deleteInterestRelationUseCase;
+	private final InterestRelationCreator interestRelationCreator;
+	private final InterestNetworkReader interestNetworkReader;
+	private final InterestRelationDeleter interestRelationDeleter;
 
 	@PostMapping("/relations")
 	public ResponseEntity<CreateInterestRelationResponse> createRelation(@Auth AuthInfo authInfo, @RequestBody CreateInterestRelationRequest request) {
-		UUID relationId = createInterestRelationUseCase.create(authInfo.getPrincipalId(), request.getParentInterestId(), request.getChildInterestId());
+		UUID relationId = interestRelationCreator.create(authInfo.getPrincipalId(), request.getParentInterestId(), request.getChildInterestId());
 		return ResponseEntity.status(CREATED).body(CreateInterestRelationResponse.of(relationId));
 	}
 
 	@GetMapping
 	public ResponseEntity<InterestNetworkResponse> find(@Auth AuthInfo authInfo) {
-		InterestNetworkDto interestNetworkDto = readInterestNetworkUseCase.find(authInfo.getPrincipalId());
+		InterestNetworkDto interestNetworkDto = interestNetworkReader.read(authInfo.getPrincipalId());
 		return ResponseEntity.ok(InterestNetworkResponse.from(interestNetworkDto));
 	}
 
 	@DeleteMapping("/relations/{id}")
 	public ResponseEntity<Void> deleteRelation(@Auth AuthInfo authInfo, @PathVariable("id") UUID interestRelationId) {
-		deleteInterestRelationUseCase.delete(authInfo.getPrincipalId(), interestRelationId);
+		interestRelationDeleter.delete(authInfo.getPrincipalId(), interestRelationId);
 		return ResponseEntity.noContent().build();
 	}
 }

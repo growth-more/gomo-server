@@ -41,6 +41,11 @@ public class MajorInterest extends BaseAudit implements OrderChangeable, Authori
 		return new MajorInterest(id, registrantId, interestId, displayOrder);
 	}
 
+	public static MajorInterest createNext(UUID id, UUID registrantId, UUID interestId, int currentHighestOrder) {
+		DisplayOrder nextOrder = DisplayOrder.of(currentHighestOrder + 1);
+		return MajorInterest.of(id, registrantId, interestId, nextOrder);
+	}
+
 	public int displayOrder() {
 		return this.displayOrder.getDisplayOrder();
 	}
