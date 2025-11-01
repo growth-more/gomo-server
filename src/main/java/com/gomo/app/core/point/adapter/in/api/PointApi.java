@@ -27,13 +27,13 @@ public class PointApi {
 
 	@GetMapping
 	public ResponseEntity<ListPointResponse> findAll(@Auth AuthInfo authInfo, @ModelAttribute PageRequest pageRequest) {
-		ListPointDto dto = pointReader.findAll(authInfo.getPrincipalId(), pageRequest);
+		ListPointDto dto = pointReader.readAll(authInfo.getPrincipalId(), pageRequest);
 		return ResponseEntity.ok(ListPointResponse.from(dto));
 	}
 
 	@GetMapping("/balances")
 	public ResponseEntity<ReadBalanceResponse> findBalance(@Auth AuthInfo authInfo) {
-		int balance = balanceReader.find(authInfo.getPrincipalId());
+		int balance = balanceReader.read(authInfo.getPrincipalId());
 		return ResponseEntity.ok(ReadBalanceResponse.of(balance));
 	}
 }

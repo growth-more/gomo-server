@@ -28,6 +28,6 @@ class PointBalanceClientTest {
 	void read_point_balance() {
 		sut.read(UUID.randomUUID());
 
-		verify(balanceReader, times(1)).find(any());
+		verify(balanceReader, times(1)).read(any());
 	}
 }

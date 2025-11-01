@@ -34,6 +34,7 @@ class PointWalletServiceTest {
 	@Test
 	void create_point_wallet() {
 		PointWallet pointWallet = PointWalletFixture.create();
+		doReturn(false).when(pointWalletRepository).existsByTransactorId(any());
 		doReturn(pointWallet).when(pointWalletRepository).save(any());
 
 		UUID actual = sut.create(UUID.randomUUID());
@@ -41,13 +42,21 @@ class PointWalletServiceTest {
 		assertThat(actual).isEqualTo(pointWallet.getId());
 	}
 
+	@DisplayName("포인트 지갑을 중복 생성한다.")
+	@Test
+	void create_duplicated_point_wallet() {
+		doReturn(true).when(pointWalletRepository).existsByTransactorId(any());
+
+		assertThatThrownBy(() -> sut.create(UUID.randomUUID())).isInstanceOf(IllegalStateException.class);
+	}
+
 	@DisplayName("사용자의 포인트 잔고를 조회한다.")
 	@Test
-	void find_balance() {
+	void read_balance() {
 		PointWallet pointWallet = PointWalletFixture.create(UUID.randomUUID(), 1660);
 		doReturn(Optional.of((pointWallet))).when(pointWalletRepository).findByTransactorId(any());
 
-		Balance balance = sut.findBalance(pointWallet.getTransactorId());
+		Balance balance = sut.readBalance(pointWallet.getTransactorId());
 
 		assertThat(balance.getAmount()).isEqualTo(pointWallet.getBalance().getAmount());
 	}

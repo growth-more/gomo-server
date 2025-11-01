@@ -13,5 +13,5 @@ public interface BalanceReader {
 	 * @return The current point balance as an integer.
 	 * @throws PointWalletNotFoundException if no wallet is found for the given transactor ID.
 	 */
-	int find(UUID transactorId);
+	int read(UUID transactorId);
 }

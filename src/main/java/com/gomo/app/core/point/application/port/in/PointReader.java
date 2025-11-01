@@ -15,5 +15,5 @@ public interface PointReader {
 	 * @return A {@link ListPointDto} containing the list of point transactions for the requested page.
 	 *         The list will be empty if there are no transactions; this method does not return null.
 	 */
-	ListPointDto findAll(UUID transactorId, PageRequest pageRequest);
+	ListPointDto readAll(UUID transactorId, PageRequest pageRequest);
 }

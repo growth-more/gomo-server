@@ -43,10 +43,10 @@ class PointServiceTest {
 
 	@DisplayName("포인트 목록을 조회한다.")
 	@Test
-	void find_points() {
+	void read_points() {
 		doReturn(List.of(PointFixture.create(), PointFixture.create())).when(pointRepository).findAllByTransactorId(any(), any(), any(), eq(10));
 
-		ListPointDto actual = sut.findAll(UUID.randomUUID(), PageRequest.of(10, null, null));
+		ListPointDto actual = sut.readAll(UUID.randomUUID(), PageRequest.of(10, null, null));
 
 		assertThat(actual.points().size()).isEqualTo(2);
 		assertThat(actual.lastElementId()).isNotNull();
@@ -54,10 +54,10 @@ class PointServiceTest {
 
 	@DisplayName("포인트 목록이 없다면, 마지막 원소는 null이 된다.")
 	@Test
-	void find_empty_points() {
+	void read_empty_points() {
 		doReturn(List.of()).when(pointRepository).findAllByTransactorId(any(), any(), any(), eq(10));
 
-		ListPointDto actual = sut.findAll(UUID.randomUUID(), PageRequest.of(10, null, null));
+		ListPointDto actual = sut.readAll(UUID.randomUUID(), PageRequest.of(10, null, null));
 
 		assertThat(actual.lastElementId()).isNull();
 	}

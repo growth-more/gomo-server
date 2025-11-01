@@ -40,16 +40,16 @@ class PointWalletService implements PointWalletCreator {
 	}
 
 	void adjustPointBalance(UUID transactorId, TransactionType transactionType, int deltaAmount) {
-		PointWallet pointWallet = findByTransactorId(transactorId);
+		PointWallet pointWallet = readByTransactorId(transactorId);
 		pointWallet.adjustBalance(transactionType.getOperationType() * deltaAmount);
 	}
 
-	Balance findBalance(UUID transactorId) {
-		PointWallet pointWallet = findByTransactorId(transactorId);
+	Balance readBalance(UUID transactorId) {
+		PointWallet pointWallet = readByTransactorId(transactorId);
 		return pointWallet.getBalance();
 	}
 
-	PointWallet findByTransactorId(UUID transactorId) {
+	PointWallet readByTransactorId(UUID transactorId) {
 		return pointWalletRepository.findByTransactorId(transactorId)
 			.orElseThrow(() -> new PointWalletNotFoundException(PointWalletErrorCode.NOT_FOUND));
 	}

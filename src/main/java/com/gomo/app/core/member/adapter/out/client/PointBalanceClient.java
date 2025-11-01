@@ -16,6 +16,6 @@ class PointBalanceClient implements PointBalanceReader {
 
 	@Override
 	public int read(UUID memberId) {
-		return balanceReader.find(memberId);
+		return balanceReader.read(memberId);
 	}
 }

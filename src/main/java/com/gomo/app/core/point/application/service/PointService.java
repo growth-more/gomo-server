@@ -51,7 +51,7 @@ class PointService implements PointCreator, PointReader {
 
 	@Override
 	@Transactional(readOnly = true)
-	public ListPointDto findAll(UUID transactorId, PageRequest pageRequest) {
+	public ListPointDto readAll(UUID transactorId, PageRequest pageRequest) {
 		List<PointDto> points = pointRepository.findAllByTransactorId(
 				transactorId.toString(),
 				pageRequest.getLastElementTime(),

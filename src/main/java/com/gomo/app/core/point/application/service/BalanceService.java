@@ -15,8 +15,8 @@ class BalanceService implements BalanceReader {
 	private final PointWalletService pointWalletService;
 
 	@Override
-	public int find(UUID transactorId) {
-		Balance balance = pointWalletService.findBalance(transactorId);
+	public int read(UUID transactorId) {
+		Balance balance = pointWalletService.readBalance(transactorId);
 		return balance.getAmount();
 	}
 }
