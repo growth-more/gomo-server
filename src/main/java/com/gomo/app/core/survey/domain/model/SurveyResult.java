@@ -4,8 +4,8 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 
 import com.gomo.app.common.arch.ValueObject;
-import com.gomo.app.core.survey.exception.SurveyResultConstraintViolationException;
-import com.gomo.app.core.survey.exception.SurveyResultErrorCode;
+import com.gomo.app.core.survey.domain.exception.SurveyResultConstraintViolationException;
+import com.gomo.app.core.survey.domain.exception.SurveyResultErrorCode;
 
 import lombok.Getter;
 
