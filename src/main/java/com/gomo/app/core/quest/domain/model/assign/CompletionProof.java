@@ -3,8 +3,8 @@ package com.gomo.app.core.quest.domain.model.assign;
 import java.util.Objects;
 
 import com.gomo.app.common.arch.ValueObject;
-import com.gomo.app.core.quest.exception.CompletionProofConstraintViolationException;
-import com.gomo.app.core.quest.exception.code.CompletionProofErrorCode;
+import com.gomo.app.core.quest.domain.exception.CompletionProofConstraintViolationException;
+import com.gomo.app.core.quest.domain.exception.code.CompletionProofErrorCode;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;

@@ -3,8 +3,8 @@ package com.gomo.app.core.quest.domain.model.quest;
 import java.util.regex.Pattern;
 
 import com.gomo.app.common.arch.ValueObject;
-import com.gomo.app.core.quest.exception.QuestContentConstraintViolationException;
-import com.gomo.app.core.quest.exception.code.QuestContentErrorCode;
+import com.gomo.app.core.quest.domain.exception.QuestContentConstraintViolationException;
+import com.gomo.app.core.quest.domain.exception.code.QuestContentErrorCode;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;

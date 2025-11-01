@@ -25,8 +25,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import com.gomo.app.core.member.domain.model.ActivateStatus;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
-import com.gomo.app.core.quest.application.port.AutoCreateAssignQuestPortIn;
 import com.gomo.app.core.quest.application.port.dto.ParticipantDto;
+import com.gomo.app.core.quest.application.port.in.AssignQuestRoutineCreator;
 
 @Configuration
 public class CreateAssignQuestConfig {
@@ -36,14 +36,14 @@ public class CreateAssignQuestConfig {
 	private final JobRepository jobRepository;
 	private final PlatformTransactionManager transactionManager;
 	private final MemberRepository memberRepository;
-	private final AutoCreateAssignQuestPortIn autoCreateAssignQuestPortIn;
+	private final AssignQuestRoutineCreator assignQuestRoutineCreator;
 
 	public CreateAssignQuestConfig(JobRepository jobRepository, @Qualifier("metaTransactionManager") PlatformTransactionManager metaTransactionManager,
-		MemberRepository memberRepository, AutoCreateAssignQuestPortIn autoCreateAssignQuestPortIn) {
+		MemberRepository memberRepository, AssignQuestRoutineCreator assignQuestRoutineCreator) {
 		this.jobRepository = jobRepository;
 		this.transactionManager = metaTransactionManager;
 		this.memberRepository = memberRepository;
-		this.autoCreateAssignQuestPortIn = autoCreateAssignQuestPortIn;
+		this.assignQuestRoutineCreator = assignQuestRoutineCreator;
 	}
 
 	@Bean
@@ -91,7 +91,7 @@ public class CreateAssignQuestConfig {
 	public ItemWriter<ParticipantDto> createAssignQuestWriter(@Value("#{jobParameters['questType']}") String questType) {
 		return chunk -> {
 			List<ParticipantDto> participantDtos = new ArrayList<>(chunk.getItems());
-			autoCreateAssignQuestPortIn.execute(participantDtos, questType);
+			assignQuestRoutineCreator.execute(participantDtos, questType);
 		};
 	}
 

@@ -15,7 +15,7 @@ import com.gomo.app.core.quest.domain.model.quest.Quest;
 import com.gomo.app.core.quest.domain.model.quest.QuestContent;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.model.subject.SubjectName;
-import com.gomo.app.core.quest.exception.RepeatQuestAccessDeniedException;
+import com.gomo.app.core.quest.domain.exception.RepeatQuestAccessDeniedException;
 
 @DisplayName("[Domain unit]: 반복 퀘스트 생성 및 수정 테스트")
 public class RepeatQuestTest {

@@ -9,8 +9,8 @@ import com.gomo.app.common.jpa.BaseAudit;
 import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
 import com.gomo.app.core.quest.domain.model.quest.Quest;
-import com.gomo.app.core.quest.exception.QuestAccessDeniedException;
-import com.gomo.app.core.quest.exception.code.QuestErrorCode;
+import com.gomo.app.core.quest.domain.exception.QuestAccessDeniedException;
+import com.gomo.app.core.quest.domain.exception.code.QuestErrorCode;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;

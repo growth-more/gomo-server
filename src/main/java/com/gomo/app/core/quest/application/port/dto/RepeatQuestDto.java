@@ -4,8 +4,7 @@ import java.util.UUID;
 
 import com.gomo.app.core.quest.domain.model.repeat.RepeatQuest;
 
-public record RepeatQuestDto(UUID id, UUID subjectId, String questType, int point, int score, String subjectName, String content, int displayOrder
-) {
+public record RepeatQuestDto(UUID id, UUID subjectId, String questType, int point, int score, String subjectName, String content, int displayOrder) {
 
 	public static RepeatQuestDto from(RepeatQuest repeatQuest, int point, int score) {
 		return new RepeatQuestDto(
