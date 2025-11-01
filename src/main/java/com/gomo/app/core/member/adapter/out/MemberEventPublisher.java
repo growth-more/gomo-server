@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import com.gomo.app.common.arch.Adapter;
 import com.gomo.app.core.member.application.port.out.MemberCreateEventPublisher;
-import com.gomo.app.core.point.application.port.CreatePointWalletPortIn;
+import com.gomo.app.core.point.application.port.in.PointWalletCreator;
 import com.gomo.app.core.streak.application.port.CreateAchieverPortIn;
 
 import lombok.RequiredArgsConstructor;
@@ -14,12 +14,12 @@ import lombok.RequiredArgsConstructor;
 @Adapter
 class MemberEventPublisher implements MemberCreateEventPublisher {
 
-	private final CreatePointWalletPortIn createPointWalletPortIn;
+	private final PointWalletCreator pointWalletCreator;
 	private final CreateAchieverPortIn createAchieverPortIn;
 
 	@Override
 	public void publish(UUID memberId) {
-		createPointWalletPortIn.create(memberId);
+		pointWalletCreator.create(memberId);
 		createAchieverPortIn.create(memberId);
 	}
 }

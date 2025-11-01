@@ -7,7 +7,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.core.point.exception.InsufficientBalanceException;
+import com.gomo.app.core.point.domain.exception.InsufficientBalanceException;
 
 @DisplayName("[Domain unit]: 잔고 생성 및 조정 테스트")
 public class BalanceTest {

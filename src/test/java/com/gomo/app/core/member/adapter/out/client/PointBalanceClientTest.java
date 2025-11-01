@@ -11,7 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.core.point.application.port.ReadBalancePortIn;
+import com.gomo.app.core.point.application.port.in.BalanceReader;
 
 @DisplayName("[Adapter Unit]: 포인트 잔고 조회 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -21,13 +21,13 @@ class PointBalanceClientTest {
 	private PointBalanceClient sut;
 
 	@Mock
-	private ReadBalancePortIn readBalancePortIn;
+	private BalanceReader balanceReader;
 
 	@DisplayName("포인트 잔고를 조회한다.")
 	@Test
 	void read_point_balance() {
 		sut.read(UUID.randomUUID());
 
-		verify(readBalancePortIn, times(1)).find(any());
+		verify(balanceReader, times(1)).find(any());
 	}
 }
