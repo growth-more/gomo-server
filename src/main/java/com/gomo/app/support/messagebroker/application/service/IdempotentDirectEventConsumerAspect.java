@@ -1,4 +1,4 @@
-package com.gomo.app.support.messagebroker.infrastructure.aspect;
+package com.gomo.app.support.messagebroker.application.service;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -33,7 +33,7 @@ public class IdempotentDirectEventConsumerAspect {
 	 * @return The result of the original method execution, or null if skipped.
 	 * @throws Throwable if the intercepted method throws an exception, triggering a transaction rollback.
 	 */
-	@Around("@annotation(com.gomo.app.support.messagebroker.application.port.IdempotentDirectEventConsumer)")
+	@Around("@annotation(com.gomo.app.support.messagebroker.application.port.in.IdempotentDirectEventConsumer)")
 	@Transactional(rollbackFor = Exception.class)
 	public Object handleEvent(ProceedingJoinPoint joinPoint) throws Throwable {
 		DirectEvent directEvent = findDirectEvent(joinPoint);

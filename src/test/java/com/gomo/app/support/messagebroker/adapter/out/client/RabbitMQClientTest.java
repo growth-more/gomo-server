@@ -1,4 +1,4 @@
-package com.gomo.app.support.messagebroker.infrastructure.adapter;
+package com.gomo.app.support.messagebroker.adapter.out.client;
 
 import static com.gomo.app.test.config.RabbitMQConfig.*;
 import static org.assertj.core.api.Assertions.*;

@@ -1,4 +1,4 @@
-package com.gomo.app.support.messagebroker.application.port;
+package com.gomo.app.support.messagebroker.application.port.in;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

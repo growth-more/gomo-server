@@ -18,7 +18,7 @@ import com.gomo.app.core.quest.application.port.in.QuestPoolEventPublisher;
 import com.gomo.app.core.quest.application.port.out.SubjectReader;
 import com.gomo.app.core.quest.domain.event.CreateQuestPoolEvent;
 import com.gomo.app.core.quest.domain.model.participant.Participant;
-import com.gomo.app.support.messagebroker.application.port.PublishMessagePortIn;
+import com.gomo.app.support.messagebroker.application.port.in.MessagePublisher;
 import com.gomo.app.support.messagebroker.domain.model.DirectEvent;
 
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ class QuestPoolEventService implements QuestPoolEventPublisher {
 
 	private final SubjectReader subjectReader;
 	private final EventRouter eventRouter;
-	private final PublishMessagePortIn publishMessagePortIn;
+	private final MessagePublisher messagePublisher;
 
 	@Override
 	@AuditLog(action = "QUEST_POOL_CREATE_EVENT_PUBLISH")
@@ -56,7 +56,7 @@ class QuestPoolEventService implements QuestPoolEventPublisher {
 			String exchange = eventRouter.getExchange(eventName);
 			String routingKey = eventRouter.getRoutingKey(eventName);
 			DirectEvent directEvent = DirectEvent.of(UUIDGenerator.generate(), eventName, JsonParser.toJson(event));
-			publishMessagePortIn.send(exchange, routingKey, JsonParser.toJson(directEvent));
+			messagePublisher.send(exchange, routingKey, JsonParser.toJson(directEvent));
 		}
 	}
 }

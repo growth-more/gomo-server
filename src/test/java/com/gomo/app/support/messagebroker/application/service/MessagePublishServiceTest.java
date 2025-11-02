@@ -1,4 +1,4 @@
-package com.gomo.app.support.messagebroker.application;
+package com.gomo.app.support.messagebroker.application.service;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
@@ -10,22 +10,22 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.support.messagebroker.application.port.MessageBrokerClientPortOut;
+import com.gomo.app.support.messagebroker.application.port.out.MessageBrokerManager;
 
 @DisplayName("[Application Unit]: 메시지 발행 테스트")
 @ExtendWith(MockitoExtension.class)
-class PublishMessageUseCaseTest {
+class MessagePublishServiceTest {
 
 	@InjectMocks
-	private PublishMessageUseCase sut;
+	private MessagePublishService sut;
 
 	@Mock
-	private MessageBrokerClientPortOut messageBrokerClientPortOut;
+	private MessageBrokerManager messageBrokerManager;
 
 	@DisplayName("이벤트를 발행한다.")
 	@Test
 	void process_event_entry() {
 		sut.send("destination", "key", "message");
-		verify(messageBrokerClientPortOut, times(1)).send(anyString(), anyString(), anyString());
+		verify(messageBrokerManager, times(1)).send(anyString(), anyString(), anyString());
 	}
 }

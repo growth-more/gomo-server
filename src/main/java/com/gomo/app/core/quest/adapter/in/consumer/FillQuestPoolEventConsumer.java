@@ -7,7 +7,7 @@ import com.gomo.app.common.util.JsonParser;
 import com.gomo.app.core.quest.application.port.command.CreateQuestPoolCommand;
 import com.gomo.app.core.quest.application.port.in.QuestPoolCreator;
 import com.gomo.app.core.quest.domain.event.CreateQuestPoolEvent;
-import com.gomo.app.support.messagebroker.application.port.IdempotentDirectEventConsumer;
+import com.gomo.app.support.messagebroker.application.port.in.IdempotentDirectEventConsumer;
 import com.gomo.app.support.messagebroker.domain.model.DirectEvent;
 
 import lombok.RequiredArgsConstructor;

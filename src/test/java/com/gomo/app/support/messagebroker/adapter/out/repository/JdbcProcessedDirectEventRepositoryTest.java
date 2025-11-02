@@ -1,4 +1,4 @@
-package com.gomo.app.support.messagebroker.infrastructure.adapter;
+package com.gomo.app.support.messagebroker.adapter.out.repository;
 
 import static org.assertj.core.api.Assertions.*;
 

@@ -1,4 +1,4 @@
-package com.gomo.app.support.messagebroker.infrastructure.aspect;
+package com.gomo.app.support.messagebroker.application.service;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,7 +19,7 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import com.gomo.app.support.messagebroker.application.port.IdempotentDirectEventConsumer;
+import com.gomo.app.support.messagebroker.application.port.in.IdempotentDirectEventConsumer;
 import com.gomo.app.support.messagebroker.domain.model.DirectEvent;
 import com.gomo.app.support.messagebroker.domain.repository.ProcessedDirectEventRepository;
 import com.gomo.app.test.IntegrationTest;

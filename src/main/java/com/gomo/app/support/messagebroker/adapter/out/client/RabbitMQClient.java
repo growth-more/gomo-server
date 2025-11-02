@@ -1,9 +1,9 @@
-package com.gomo.app.support.messagebroker.infrastructure.adapter;
+package com.gomo.app.support.messagebroker.adapter.out.client;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import com.gomo.app.common.arch.Adapter;
-import com.gomo.app.support.messagebroker.application.port.MessageBrokerClientPortOut;
+import com.gomo.app.support.messagebroker.application.port.out.MessageBrokerManager;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @Adapter
-class RabbitMQClient implements MessageBrokerClientPortOut {
+class RabbitMQClient implements MessageBrokerManager {
 
 	private final RabbitTemplate rabbitTemplate;
 
