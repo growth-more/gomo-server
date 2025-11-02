@@ -1,4 +1,4 @@
-package com.gomo.app.support.image.application.port;
+package com.gomo.app.support.image.application.port.out;
 
 import java.util.Set;
 
@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.gomo.app.support.image.exception.ImageProcessingException;
 
-public interface ManageImagePortOut {
+public interface ImageStore {
 
 	/**
 	 * Saves the given image file to the underlying storage.

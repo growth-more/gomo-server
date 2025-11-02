@@ -1,4 +1,4 @@
-package com.gomo.app.support.image.infrastructure;
+package com.gomo.app.support.image.adapter.out.client;
 
 import static com.gomo.app.test.container.MinioContainerInitializer.*;
 import static org.assertj.core.api.Assertions.*;
@@ -21,10 +21,10 @@ import com.gomo.app.test.WithMinio;
 @DisplayName("[Infrastructure integration]: minio 시나리오 테스트")
 @IntegrationTest
 @WithMinio
-class MinioImageAdapterTest {
+class MinioImageClientTest {
 
 	@Autowired
-	private MinioImageAdapter minioImageAdapter;
+	private MinioImageClient minioImageClient;
 	private String uploadedImageUrl;
 
 	@DisplayName("시나리오: 이미지 업로드, 조회, 삭제")
@@ -34,7 +34,7 @@ class MinioImageAdapterTest {
 
 		return List.of(
 			dynamicTest("1단계: 새로운 이미지를 업로드한다", () -> {
-				String imageUrl = minioImageAdapter.save(mockFile);
+				String imageUrl = minioImageClient.save(mockFile);
 
 				assertThat(imageUrl).isNotNull();
 				assertThat(imageUrl).contains(TEST_BUCKET_NAME, ".png");
@@ -45,7 +45,7 @@ class MinioImageAdapterTest {
 			dynamicTest("2단계: 업로드된 이미지가 전체 목록에서 조회된다", () -> {
 				assertThat(this.uploadedImageUrl).as("1단계(업로드)가 먼저 성공해야 한다.").isNotNull();
 
-				Set<String> allImageUrls = minioImageAdapter.findAllImageUrls();
+				Set<String> allImageUrls = minioImageClient.findAllImageUrls();
 
 				assertThat(allImageUrls).hasSize(1).contains(this.uploadedImageUrl);
 			}),
@@ -53,9 +53,9 @@ class MinioImageAdapterTest {
 			dynamicTest("3단계: 이미지를 삭제하고, 목록에서 사라졌는지 확인한다", () -> {
 				assertThat(this.uploadedImageUrl).as("1단계(업로드)가 먼저 성공해야 한다.").isNotNull();
 
-				assertDoesNotThrow(() -> minioImageAdapter.delete(this.uploadedImageUrl));
+				assertDoesNotThrow(() -> minioImageClient.delete(this.uploadedImageUrl));
 
-				Set<String> urlsAfterDeletion = minioImageAdapter.findAllImageUrls();
+				Set<String> urlsAfterDeletion = minioImageClient.findAllImageUrls();
 				assertThat(urlsAfterDeletion).isEmpty();
 			})
 		);

@@ -1,8 +1,8 @@
-package com.gomo.app.support.image.application.port;
+package com.gomo.app.support.image.application.port.in;
 
 import java.util.Set;
 
-public interface ReadImagePortIn {
+public interface ImageReader {
 
 	/**
 	 * Retrieves all available image URLs.

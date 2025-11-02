@@ -1,4 +1,4 @@
-package com.gomo.app.support.image.infrastructure;
+package com.gomo.app.support.image.adapter.out.client;
 
 import java.io.IOException;
 import java.security.InvalidKeyException;
@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gomo.app.common.arch.Adapter;
-import com.gomo.app.support.image.application.port.ManageImagePortOut;
+import com.gomo.app.support.image.application.port.out.ImageStore;
 import com.gomo.app.support.image.exception.ImageErrorCode;
 import com.gomo.app.support.image.exception.ImageProcessingException;
 
@@ -27,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Adapter
-class MinioImageAdapter implements ManageImagePortOut {
+class MinioImageClient implements ImageStore {
 
 	private final MinioClient minioClient;
 

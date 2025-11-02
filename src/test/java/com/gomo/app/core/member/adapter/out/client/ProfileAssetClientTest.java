@@ -14,7 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 
-import com.gomo.app.support.image.application.port.ImageUploader;
+import com.gomo.app.support.image.application.port.in.ImageUploader;
 
 @DisplayName("[Adapter unit]: 프로필 관련 에셋 업로드 테스트")
 @ExtendWith(MockitoExtension.class)

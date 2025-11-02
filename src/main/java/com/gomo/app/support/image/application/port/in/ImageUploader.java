@@ -1,4 +1,4 @@
-package com.gomo.app.support.image.application.port;
+package com.gomo.app.support.image.application.port.in;
 
 import java.util.Optional;
 

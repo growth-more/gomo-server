@@ -20,7 +20,7 @@ import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.domain.repository.RepeatQuestRepository;
 import com.gomo.app.core.streak.domain.repository.AchieverRepository;
 import com.gomo.app.core.streak.domain.repository.StreakRepository;
-import com.gomo.app.support.image.application.port.ImageDeleter;
+import com.gomo.app.support.image.application.port.in.ImageDeleter;
 
 import lombok.RequiredArgsConstructor;
 
