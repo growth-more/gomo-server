@@ -19,7 +19,7 @@ public class VerifyEmailAuthCodeSnippet {
 	);
 
 	private static final Snippet RESPONSE_FIELDS = responseFields(
-		fieldWithPath("temporaryToken").type(JsonFieldType.STRING).description("인증된 이메일임을 확인하기 위한 임시 코드")
+		fieldWithPath("temporaryToken").type(JsonFieldType.STRING).description("인증된 이메일임을 확인하기 위한 임시 토큰")
 	);
 
 	public static RestDocumentationFilter create() {
