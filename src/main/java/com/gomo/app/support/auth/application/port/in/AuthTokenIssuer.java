@@ -1,6 +1,6 @@
-package com.gomo.app.core.member.application.port.in;
+package com.gomo.app.support.auth.application.port.in;
 
-public interface EmailTokenIssuer {
+public interface AuthTokenIssuer {
 
 	/**
 	 * Verifies an authentication code sent to a specific email address.

@@ -19,6 +19,7 @@ class MailClient implements AuthCodeSender {
 	String USERNAME;
 	private final JavaMailSender mailSender;
 
+	// TODO [2025-10-10] jhl221123 : 빈번한 요청에 대비해야 합니다.
 	@Override
 	public void send(String email, String authCode) {
 		MimeMessage mimeMessage = mailSender.createMimeMessage();

@@ -1,10 +1,12 @@
 package com.gomo.app.support.auth.application.service;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.common.logging.AuditLog;
 import com.gomo.app.support.auth.application.port.dto.AuthTokenDto;
+import com.gomo.app.support.auth.application.port.in.AuthTokenIssuer;
 import com.gomo.app.support.auth.application.port.in.RefreshTokenDeleter;
 import com.gomo.app.support.auth.application.port.in.RefreshTokenUpdater;
 import com.gomo.app.support.auth.application.port.out.JwtCreator;
@@ -18,11 +20,20 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @ApplicationService
-class AuthTokenService implements RefreshTokenDeleter, RefreshTokenUpdater {
+class AuthTokenService implements AuthTokenIssuer, RefreshTokenDeleter, RefreshTokenUpdater {
 
 	private final JwtCreator jwtCreator;
 	private final JwtVerifier jwtVerifier;
+	private final AuthCodeService authCodeService;
 	private final AuthTokenRepository authTokenRepository;
+
+	@Override
+	@AuditLog(action = "VERIFIED_EMAIL_TOKEN_ISSUE")
+	public String issue(String email, String emailCode) {
+		Objects.requireNonNull(emailCode);
+		authCodeService.verify(email, emailCode);
+		return jwtCreator.createTemporaryToken(email, 1800);
+	}
 
 	@AuditLog(action = "AUTH_TOKEN_CREATE")
 	public AuthToken create(UUID principalId) {

@@ -3,8 +3,10 @@ package com.gomo.app.support.auth.adapter.in.api;
 import static org.springframework.http.HttpStatus.*;
 
 import java.time.Duration;
+import java.util.UUID;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -14,14 +16,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gomo.app.common.arch.CoreApi;
+import com.gomo.app.support.auth.adapter.in.api.request.CreatePrincipalRequest;
 import com.gomo.app.support.auth.adapter.in.api.request.LoginRequest;
 import com.gomo.app.support.auth.adapter.in.api.response.AccessTokenResponse;
+import com.gomo.app.support.auth.adapter.in.api.response.CreatePrincipalResponse;
 import com.gomo.app.support.auth.adapter.in.security.Auth;
 import com.gomo.app.support.auth.adapter.in.security.AuthInfo;
 import com.gomo.app.support.auth.application.port.dto.AuthTokenDto;
 import com.gomo.app.support.auth.application.port.in.LoginProcessor;
 import com.gomo.app.support.auth.application.port.in.RefreshTokenDeleter;
 import com.gomo.app.support.auth.application.port.in.RefreshTokenUpdater;
+import com.gomo.app.support.auth.application.port.in.SignupProcessor;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,9 +35,16 @@ import lombok.RequiredArgsConstructor;
 @CoreApi
 public class AuthApi {
 
+	private final SignupProcessor signupProcessor;
 	private final LoginProcessor loginProcessor;
 	private final RefreshTokenUpdater refreshTokenUpdater;
 	private final RefreshTokenDeleter refreshTokenDeleter;
+
+	@PostMapping("/signup")
+	public ResponseEntity<CreatePrincipalResponse> signup(@RequestBody CreatePrincipalRequest request) {
+		UUID principalId = signupProcessor.signup(request.toCommand());
+		return ResponseEntity.status(HttpStatus.CREATED).body(CreatePrincipalResponse.of(principalId));
+	}
 
 	@PostMapping("/login")
 	public ResponseEntity<AccessTokenResponse> login(@RequestBody LoginRequest request) {

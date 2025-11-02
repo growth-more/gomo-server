@@ -17,11 +17,10 @@ import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.gomo.app.core.member.adapter.in.api.MemberApi;
-import com.gomo.app.core.member.adapter.in.api.request.CreateMemberRequest;
 import com.gomo.app.core.member.domain.model.LoginProvider;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
 import com.gomo.app.support.auth.adapter.in.api.AuthApi;
+import com.gomo.app.support.auth.adapter.in.api.request.CreatePrincipalRequest;
 import com.gomo.app.support.auth.adapter.in.api.request.LoginRequest;
 import com.gomo.app.support.auth.adapter.in.api.response.AccessTokenResponse;
 import com.gomo.app.support.auth.adapter.in.security.AuthInfo;
@@ -39,9 +38,6 @@ public abstract class DocumentationTestBase {
 	protected int port;
 
 	protected RequestSpecification specification;
-
-	@Autowired
-	protected MemberApi memberApi;
 
 	@Autowired
 	protected JwtCreator jwtCreator;
@@ -82,7 +78,7 @@ public abstract class DocumentationTestBase {
 
 	protected void signup(String email, String password, String handle) {
 		String temporaryToken = jwtCreator.createTemporaryToken(email, 300);
-		memberApi.create(CreateMemberRequest.of(email, password, handle, "testname", "testmotto", LoginProvider.EMAIL.name(), temporaryToken));
+		authApi.signup(CreatePrincipalRequest.of(email, password, handle, "testname", "testmotto", LoginProvider.EMAIL.name(), temporaryToken));
 	}
 
 	protected ResponseEntity<AccessTokenResponse> login(String email, String password) {

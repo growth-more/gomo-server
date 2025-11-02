@@ -1,4 +1,4 @@
-package com.gomo.app.core.member.adapter.in.api.request;
+package com.gomo.app.support.auth.adapter.in.api.request;
 
 import lombok.Getter;
 

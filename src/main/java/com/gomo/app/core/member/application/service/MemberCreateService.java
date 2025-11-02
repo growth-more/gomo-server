@@ -7,7 +7,6 @@ import com.gomo.app.common.logging.AuditLog;
 import com.gomo.app.common.util.UUIDGenerator;
 import com.gomo.app.core.member.application.port.command.CreateMemberCommand;
 import com.gomo.app.core.member.application.port.in.MemberCreator;
-import com.gomo.app.core.member.application.port.out.EmailTokenVerifier;
 import com.gomo.app.core.member.application.port.out.MemberCreateEventPublisher;
 import com.gomo.app.core.member.domain.model.Email;
 import com.gomo.app.core.member.domain.model.Handle;
@@ -26,18 +25,15 @@ import lombok.RequiredArgsConstructor;
 @ApplicationService
 class MemberCreateService implements MemberCreator {
 
-	private final EmailTokenVerifier emailTokenVerifier;
 	private final PasswordService passwordService;
 	private final HandleService handleService;
 	private final EmailService emailService;
 	private final MemberCreateEventPublisher memberCreateEventPublisher;
 	private final MemberRepository memberRepository;
 
-	// TODO [2025-11-02] jhl221123 : 이메일 검증에 대한 책임은 auth 모듈로 이동시켜야합니다.
 	@Override
 	@AuditLog(action = "CREATE_MEMBER")
 	public UUID create(CreateMemberCommand command) {
-		emailTokenVerifier.verify(command.temporaryToken());
 		String email = command.email();
 		emailService.validateDuplicated(command.email());
 

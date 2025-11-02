@@ -1,4 +1,4 @@
-package com.gomo.app.core.member.adapter.in.api;
+package com.gomo.app.support.auth.adapter.in.api;
 
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
@@ -12,16 +12,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.core.member.adapter.in.api.snippet.VerifyEmailAuthCodeSnippet;
+import com.gomo.app.support.auth.adapter.in.api.snippet.VerifyEmailAuthCodeSnippet;
 import com.gomo.app.support.auth.application.port.in.AuthCodeIssuer;
 import com.gomo.app.support.auth.domain.exception.AuthErrorCode;
 import com.gomo.app.support.auth.domain.repository.AuthCodeRepository;
 import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation Documentation]: 이메일 인증 코드 테스트")
-public class VerifyEmailAuthCodeDocumentationTest extends DocumentationTestBase {
+public class VerifyEmailCodeDocumentationTest extends DocumentationTestBase {
 
-	private static final String URL = "/members/emails/codes/verify";
+	private static final String URL = "/auth/codes/emails/verify";
 
 	private final RestDocumentationFilter filter = VerifyEmailAuthCodeSnippet.create();
 	private final RestDocumentationFilter errorFilter = VerifyEmailAuthCodeSnippet.createError();
@@ -40,7 +40,7 @@ public class VerifyEmailAuthCodeDocumentationTest extends DocumentationTestBase 
 	@DisplayName("사용자가 올바른 인증코드를 이용하여 검증한다.")
 	@Test
 	void verify_email_auth_code_with_correct_code() {
-		authCodeIssuer.sendToEmail(sessionEmail);
+		authCodeIssuer.issueForPasswordReset(sessionEmail);
 		String authCode = authCodeRepository.findByEmail(sessionEmail).get();
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)

@@ -38,7 +38,34 @@ public class AuthTokenServiceTest {
 	private JwtVerifier jwtVerifier;
 
 	@Mock
+	private AuthCodeService authCodeService;
+
+	@Mock
 	private AuthTokenRepository authTokenRepository;
+
+	@Nested
+	@DisplayName("검증된 이메일 인증토큰 발급 테스트")
+	class IssueAuthToken {
+
+		String email = "test@email.com";
+
+		@DisplayName("이메일 인증코드를 검증하고, 검증된 이메일 인증 토큰을 생성한다.")
+		@Test
+		void issue_email_auth_code() {
+			String authCode = "000000";
+
+			sut.issue(email, authCode);
+
+			verify(authCodeService, times(1)).verify(email, authCode);
+			verify(jwtCreator, times(1)).createTemporaryToken(email, 1800);
+		}
+
+		@DisplayName("이메일 검증코드가 null이면 검증에 실패한다")
+		@Test
+		void issue_email_auth_code_with_null() {
+			assertThatThrownBy(() -> sut.issue(email, null)).isInstanceOf(NullPointerException.class);
+		}
+	}
 
 	@Nested
 	@DisplayName("리프레시 토큰 재발급 테스트")

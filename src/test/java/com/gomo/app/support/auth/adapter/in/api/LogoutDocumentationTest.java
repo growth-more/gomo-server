@@ -13,7 +13,7 @@ import com.gomo.app.support.auth.adapter.in.api.snippet.LogoutMemberSnippet;
 import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation Documentation]: 회원 로그아웃 테스트")
-public class LogoutMemberDocumentationTest extends DocumentationTestBase {
+public class LogoutDocumentationTest extends DocumentationTestBase {
 	private static final String LOGOUT_MEMBER_URL = "/auth/logout";
 
 	private final RestDocumentationFilter filter = LogoutMemberSnippet.create();

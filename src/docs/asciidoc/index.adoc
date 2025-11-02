@@ -5,10 +5,24 @@
 :toclevels: 2
 :seclinks:
 
+[[auth-api]]
+== 인증 (Auth) API
+
+include::apis/auth-api.adoc[]
+
+==== 에러 코드
+
+`AUT-ROO-001`: Auth code is incorrect +
+`AUT-ROO-002`: Refresh token not found +
+`AUT-ROO-003`: Refresh token is incorrect +
+`AUT-ROO-004`: OAuth member cannot login with password +
+`AUT-ROO-005`: Principal already exists +
+`AUT-ROO-006`: Principal not found +
+`AUT-ROO-007`: Verified email token is incorrect +
+
 [[member-api]]
 == 회원 (Member) API
 
-include::apis/auth-api.adoc[]
 include::apis/member-api.adoc[]
 
 ==== 에러 코드
@@ -52,11 +66,6 @@ include::apis/member-api.adoc[]
 `MEM-QUE-001`: Threshold must meet the minimum value +
 `MEM-QUE-002`: Threshold must meet the maximum value +
 `MEM-QUE-003`: Unexpected quest type +
-
-`AUT-ROO-001`: Auth code is incorrect +
-`AUT-ROO-002`: Refresh token not found +
-`AUT-ROO-003`: Refresh token is incorrect +
-`AUT-ROO-004`: OAuth member cannot login with password +
 
 [[interest-api]]
 == 관심사 (Interest) API

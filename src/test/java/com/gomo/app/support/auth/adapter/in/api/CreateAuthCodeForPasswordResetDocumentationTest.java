@@ -1,4 +1,4 @@
-package com.gomo.app.core.member.adapter.in.api;
+package com.gomo.app.support.auth.adapter.in.api;
 
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
@@ -10,15 +10,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.core.member.adapter.in.api.request.CreateEmailCodeRequest;
-import com.gomo.app.core.member.adapter.in.api.snippet.CreatePasswordAuthCodeSnippet;
-import com.gomo.app.core.member.domain.exception.code.MemberErrorCode;
+import com.gomo.app.support.auth.adapter.in.api.request.CreateEmailCodeRequest;
+import com.gomo.app.support.auth.adapter.in.api.snippet.CreatePasswordAuthCodeSnippet;
+import com.gomo.app.support.auth.domain.exception.AuthErrorCode;
 import com.gomo.app.test.DocumentationTestBase;
 
-@DisplayName("[Presentation Documentation]: 이메일 인증 코드 테스트")
-public class CreatePasswordAuthCodeDocumentationTest extends DocumentationTestBase {
+@DisplayName("[Presentation Documentation]: 비밀번호 초기화를 위한 이메일 인증 코드 테스트")
+public class CreateAuthCodeForPasswordResetDocumentationTest extends DocumentationTestBase {
 
-	private static final String URL = "/members/emails/codes/passwords/reset";
+	private static final String URL = "/auth/codes/emails/passwords/reset";
 
 	private final RestDocumentationFilter filter = CreatePasswordAuthCodeSnippet.create();
 	private final RestDocumentationFilter errorFilter = CreatePasswordAuthCodeSnippet.createError();
@@ -44,11 +44,11 @@ public class CreatePasswordAuthCodeDocumentationTest extends DocumentationTestBa
 			.when()
 			.post(URL)
 			.then()
-			.statusCode(MemberErrorCode.NOT_FOUND.getHttpStatus())
+			.statusCode(AuthErrorCode.PRINCIPAL_NOT_FOUND.getHttpStatus())
 			.body("timestamp", instanceOf(String.class))
 			.body("path", equalTo(URL))
-			.body("httpStatus", equalTo(MemberErrorCode.NOT_FOUND.getHttpStatus()))
-			.body("code", equalTo(MemberErrorCode.NOT_FOUND.getErrorCode()))
-			.body("message", equalTo(MemberErrorCode.NOT_FOUND.getMessage()));
+			.body("httpStatus", equalTo(AuthErrorCode.PRINCIPAL_NOT_FOUND.getHttpStatus()))
+			.body("code", equalTo(AuthErrorCode.PRINCIPAL_NOT_FOUND.getErrorCode()))
+			.body("message", equalTo(AuthErrorCode.PRINCIPAL_NOT_FOUND.getMessage()));
 	}
 }

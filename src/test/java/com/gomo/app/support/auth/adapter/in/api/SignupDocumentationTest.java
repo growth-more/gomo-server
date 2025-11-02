@@ -1,4 +1,4 @@
-package com.gomo.app.core.member.adapter.in.api;
+package com.gomo.app.support.auth.adapter.in.api;
 
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
@@ -12,22 +12,22 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.core.member.adapter.in.api.request.CreateEmailCodeRequest;
-import com.gomo.app.core.member.adapter.in.api.request.CreateMemberRequest;
-import com.gomo.app.core.member.adapter.in.api.request.VerifyEmailCodeRequest;
-import com.gomo.app.core.member.adapter.in.api.snippet.CreateMemberSnippet;
 import com.gomo.app.core.member.domain.model.LoginProvider;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
+import com.gomo.app.support.auth.adapter.in.api.request.CreateEmailCodeRequest;
+import com.gomo.app.support.auth.adapter.in.api.request.CreatePrincipalRequest;
+import com.gomo.app.support.auth.adapter.in.api.request.VerifyEmailCodeRequest;
+import com.gomo.app.support.auth.adapter.in.api.snippet.SignupSnippet;
 import com.gomo.app.support.auth.domain.repository.AuthCodeRepository;
 import com.gomo.app.test.DocumentationTestBase;
 
-@DisplayName("[Presentation Documentation]: 회원 생성 테스트")
-public class CreateMemberDocumentationTest extends DocumentationTestBase {
+@DisplayName("[Presentation Documentation]: 회원 가입 테스트")
+public class SignupDocumentationTest extends DocumentationTestBase {
 
-	private static final String CREATE_MEMBER_URL = "/members";
+	private static final String URL = "/auth/signup";
 
-	private final RestDocumentationFilter filter = CreateMemberSnippet.create();
-	private final RestDocumentationFilter errorFilter = CreateMemberSnippet.createError();
+	private final RestDocumentationFilter filter = SignupSnippet.create();
+	private final RestDocumentationFilter errorFilter = SignupSnippet.createError();
 
 	@Autowired
 	private EmailCodeApi emailCodeApi;
@@ -43,7 +43,7 @@ public class CreateMemberDocumentationTest extends DocumentationTestBase {
 		memberRepository.deleteAllInBatch();
 	}
 
-	@DisplayName("사용자를 등록한다.")
+	@DisplayName("회원 가입한다.")
 	@Test
 	void create_member() {
 		String email = "gomotest3@naver.com";
@@ -53,9 +53,9 @@ public class CreateMemberDocumentationTest extends DocumentationTestBase {
 
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-			.body(CreateMemberRequest.of(email, "Test123@", "@GOMOTEST3", "gomotest3", "TEST MOTTO", LoginProvider.EMAIL.name(), temporaryToken))
+			.body(CreatePrincipalRequest.of(email, "Test123@", "@GOMOTEST3", "gomotest3", "TEST MOTTO", LoginProvider.EMAIL.name(), temporaryToken))
 			.when()
-			.post(CREATE_MEMBER_URL)
+			.post(URL)
 			.then()
 			.statusCode(CREATED.value())
 			.body("id", hasLength(36));

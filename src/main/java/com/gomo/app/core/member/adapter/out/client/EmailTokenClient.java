@@ -1,26 +1,18 @@
 package com.gomo.app.core.member.adapter.out.client;
 
 import com.gomo.app.common.arch.Adapter;
-import com.gomo.app.core.member.application.port.out.EmailTokenCreator;
 import com.gomo.app.core.member.application.port.out.EmailTokenVerifier;
-import com.gomo.app.support.auth.application.port.out.JwtCreator;
 import com.gomo.app.support.auth.application.port.out.JwtVerifier;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Adapter
-class EmailTokenClient implements EmailTokenCreator, EmailTokenVerifier {
+class EmailTokenClient implements EmailTokenVerifier {
 
-	private final JwtCreator jwtCreator;
 	private final JwtVerifier jwtVerifier;
 
 	// TODO [2025-11-02] jhl221123 : 인증 모듈의 책임입니다.
-	@Override
-	public String create(String email, long expiration) {
-		return jwtCreator.createTemporaryToken(email, expiration);
-	}
-
 	@Override
 	public void verify(String temporaryToken) {
 		// TODO [2025-10-18] jhl221123 : jwt 형식 뿐 아니라 내부 이메일이 요청한 이메일과 같은지 검증이 필요합니다.

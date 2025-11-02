@@ -9,8 +9,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.gomo.app.core.member.application.port.in.EmailChecker;
+import com.gomo.app.core.member.application.port.in.MemberCreator;
 import com.gomo.app.core.member.application.port.in.MemberLoginProcessor;
 import com.gomo.app.core.member.application.port.in.MemberOAuthLoginProcessor;
+import com.gomo.app.support.auth.application.port.command.CreatePrincipalCommand;
 
 @DisplayName("[Adapter unit]: 인증 요청 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -20,10 +23,34 @@ class MemberClientTest {
 	private MemberClient sut;
 
 	@Mock
+	private MemberCreator memberCreator;
+
+	@Mock
+	private EmailChecker emailChecker;
+
+	@Mock
 	private MemberLoginProcessor memberLoginProcessor;
 
 	@Mock
 	private MemberOAuthLoginProcessor memberOAuthLoginProcessor;
+
+	@DisplayName("회원 생성을 요청한다.")
+	@Test
+	void create_principal() {
+		CreatePrincipalCommand command = CreatePrincipalCommand.of("test@email.com", "password", "handle", "name", "motto", "loginProvider", "temporaryToken");
+		sut.create(command);
+
+		verify(memberCreator, times(1)).create(any());
+	}
+
+	@DisplayName("이메일 존재 여부를 확인한다.")
+	@Test
+	void exists_email() {
+		String email = "email";
+		sut.exists(email);
+
+		verify(emailChecker, times(1)).exists(email);
+	}
 
 	@DisplayName("일반 회원 로그인 요청한다.")
 	@Test

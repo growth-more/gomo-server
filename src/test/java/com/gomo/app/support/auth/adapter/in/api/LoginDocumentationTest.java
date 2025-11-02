@@ -14,7 +14,7 @@ import com.gomo.app.support.auth.adapter.in.api.snippet.LoginMemberSnippet;
 import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation Documentation]: 회원 로그인 테스트")
-public class LoginMemberDocumentationTest extends DocumentationTestBase {
+public class LoginDocumentationTest extends DocumentationTestBase {
 
 	private static final String URL = "/auth/login";
 

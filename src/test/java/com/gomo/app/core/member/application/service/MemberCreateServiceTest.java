@@ -13,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.member.application.port.command.CreateMemberCommand;
-import com.gomo.app.core.member.application.port.out.EmailTokenVerifier;
 import com.gomo.app.core.member.application.port.out.MemberCreateEventPublisher;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
@@ -25,9 +24,6 @@ public class MemberCreateServiceTest {
 
 	@InjectMocks
 	private MemberCreateService sut;
-
-	@Mock
-	private EmailTokenVerifier emailTokenVerifier;
 
 	@Mock
 	private PasswordService passwordService;
@@ -51,12 +47,10 @@ public class MemberCreateServiceTest {
 		doReturn(member.getPassword()).when(passwordService).encode(any(), any(), any());
 		doReturn(member).when(memberRepository).save(any(Member.class));
 
-		UUID actual = sut.create(CreateMemberCommand.of(
-			member.email(), member.password(), member.handle(), member.name(), member.motto(), member.getLoginProvider().name(), "temporaryToken"
-		));
+		UUID actual = sut.create(
+			CreateMemberCommand.of(member.email(), member.password(), member.handle(), member.name(), member.motto(), member.getLoginProvider().name()));
 
 		assertThat(actual).isEqualTo(member.getId());
-		verify(emailTokenVerifier, times(1)).verify(any());
 		verify(emailService, times(1)).validateDuplicated(any());
 		verify(handleService, times(1)).validateDuplicated(any());
 		verify(memberCreateEventPublisher, times(1)).publish(any());

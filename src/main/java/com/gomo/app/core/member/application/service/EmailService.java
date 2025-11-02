@@ -1,6 +1,7 @@
 package com.gomo.app.core.member.application.service;
 
 import com.gomo.app.common.arch.ApplicationService;
+import com.gomo.app.core.member.application.port.in.EmailChecker;
 import com.gomo.app.core.member.domain.exception.EmailDuplicatedException;
 import com.gomo.app.core.member.domain.exception.code.EmailErrorCode;
 import com.gomo.app.core.member.domain.model.Email;
@@ -10,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @ApplicationService
-class EmailService {
+class EmailService implements EmailChecker {
 
 	private final MemberRepository memberRepository;
 
@@ -18,5 +19,11 @@ class EmailService {
 		memberRepository.findByEmail(Email.of(email)).ifPresent(m -> {
 			throw new EmailDuplicatedException(EmailErrorCode.DUPLICATED);
 		});
+	}
+
+	@Override
+	public boolean exists(String email) {
+		Email verifiedEmail = Email.of(email);
+		return memberRepository.findByEmail(verifiedEmail).isPresent();
 	}
 }

@@ -31,7 +31,7 @@ class EmailServiceTest {
 
 	@DisplayName("이메일이 중복되지 않는다.")
 	@Test
-	void check_non_duplicated_email() {
+	void validate_non_duplicated_email() {
 		doReturn(Optional.empty()).when(memberRepository).findByEmail(any(Email.class));
 
 		assertThatCode(() -> sut.validateDuplicated("nonexistent@naver.com")).doesNotThrowAnyException();
@@ -39,11 +39,31 @@ class EmailServiceTest {
 
 	@DisplayName("이메일이 중복된다.")
 	@Test
-	void check_duplicated_email() {
+	void validate_duplicated_email() {
 		doReturn(Optional.of(mock(Member.class))).when(memberRepository).findByEmail(any(Email.class));
 
 		assertThatThrownBy(() -> sut.validateDuplicated("gomo@naver.com"))
 			.isInstanceOf(EmailDuplicatedException.class)
 			.hasMessageContaining(EmailErrorCode.DUPLICATED.getMessage());
+	}
+
+	@DisplayName("이메일이 이미 존재한다.")
+	@Test
+	void exists_email() {
+		doReturn(Optional.of(mock(Member.class))).when(memberRepository).findByEmail(any(Email.class));
+
+		boolean actual = sut.exists("email@email.com");
+
+		assertThat(actual).isTrue();
+	}
+
+	@DisplayName("이메일이 존재하지 않는다.")
+	@Test
+	void exists_nonexistent_email() {
+		doReturn(Optional.empty()).when(memberRepository).findByEmail(any(Email.class));
+
+		boolean actual = sut.exists("email@email.com");
+
+		assertThat(actual).isFalse();
 	}
 }

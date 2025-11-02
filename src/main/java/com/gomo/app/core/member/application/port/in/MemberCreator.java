@@ -10,12 +10,9 @@ public interface MemberCreator {
 
 	/**
 	 * Creates a new member, validates their information, and publishes an event upon successful creation.
-	 * This process requires a valid email token from a prior email verification step.
 	 *
-	 * @param command A {@link CreateMemberCommand} object containing all necessary information for member registration,
-	 *                such as email, handle, password, and an email verification token.
+	 * @param command A {@link CreateMemberCommand} object containing all necessary information for member.
 	 * @return The {@link UUID} of the newly created member.
-	 * @throws IllegalArgumentException if the provided email token for email verification is invalid.
 	 * @throws EmailDuplicatedException if the provided email is already registered.
 	 * @throws HandleDuplicatedException if the provided handle is already in use.
 	 */

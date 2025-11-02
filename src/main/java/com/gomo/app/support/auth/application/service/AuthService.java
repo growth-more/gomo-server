@@ -1,24 +1,41 @@
 package com.gomo.app.support.auth.application.service;
 
+import static com.gomo.app.support.auth.domain.exception.AuthErrorCode.*;
+
 import java.util.UUID;
 
 import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.common.logging.AuditLog;
+import com.gomo.app.support.auth.application.port.command.CreatePrincipalCommand;
 import com.gomo.app.support.auth.application.port.dto.AuthTokenDto;
 import com.gomo.app.support.auth.application.port.in.LoginProcessor;
+import com.gomo.app.support.auth.application.port.in.SignupProcessor;
 import com.gomo.app.support.auth.application.port.out.JwtVerifier;
+import com.gomo.app.support.auth.application.port.out.PrincipalCreator;
 import com.gomo.app.support.auth.application.port.out.PrincipalLoginProcessor;
+import com.gomo.app.support.auth.domain.exception.AuthenticationFailException;
 import com.gomo.app.support.auth.domain.model.AuthToken;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @ApplicationService
-class AuthService implements LoginProcessor {
+class AuthService implements SignupProcessor, LoginProcessor {
 
+	private final PrincipalCreator principalCreator;
+	private final JwtVerifier jwtVerifier;
 	private final PrincipalLoginProcessor principalLoginProcessor;
 	private final AuthTokenService authTokenService;
-	private final JwtVerifier jwtVerifier;
+
+	@Override
+	@AuditLog(action = "SIGNUP")
+	public UUID signup(CreatePrincipalCommand command) {
+		// TODO [2025-11-02] jhl221123 : 토큰 내부 이메일이 동일한지 확인하는 jwt 기능이 추가되어야 합니다.
+		if (!jwtVerifier.verify(command.temporaryToken())) {
+			throw new AuthenticationFailException(INVALID_VERIFIED_EMAIL_TOKEN);
+		}
+		return principalCreator.create(command);
+	}
 
 	@Override
 	@AuditLog(action = "LOGIN")

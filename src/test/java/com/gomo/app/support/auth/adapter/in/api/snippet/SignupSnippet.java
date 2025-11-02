@@ -1,4 +1,4 @@
-package com.gomo.app.core.member.adapter.in.api.snippet;
+package com.gomo.app.support.auth.adapter.in.api.snippet;
 
 import static org.springframework.http.HttpHeaders.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
@@ -12,8 +12,8 @@ import org.springframework.restdocs.snippet.Snippet;
 
 import com.gomo.app.test.ErrorResponseFields;
 
-public class CreateMemberSnippet {
-	private static final String IDENTIFIER = "member-create";
+public class SignupSnippet {
+	private static final String IDENTIFIER = "auth-signup";
 
 	private static final Snippet REQUEST_HEADERS = requestHeaders(
 		headerWithName(CONTENT_TYPE).description("Content-Type: `application/json`")

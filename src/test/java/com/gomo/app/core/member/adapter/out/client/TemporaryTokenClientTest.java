@@ -11,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.support.auth.application.port.out.JwtCreator;
 import com.gomo.app.support.auth.application.port.out.JwtVerifier;
 
 @DisplayName("[Adapter Unit]: 임시토큰 요청 테스트")
@@ -23,20 +22,6 @@ class TemporaryTokenClientTest {
 
 	@Mock
 	private JwtVerifier jwtVerifier;
-
-	@Mock
-	private JwtCreator jwtCreator;
-
-	@DisplayName("임시토큰을 생성한다.")
-	@Test
-	void create_temporary_token() {
-		String token = "temporaryToken";
-		doReturn(token).when(jwtCreator).createTemporaryToken(any(), anyLong());
-
-		String actual = sut.create("email", 1800);
-
-		assertThat(actual).isEqualTo(token);
-	}
 
 	@DisplayName("임시토큰을 검증한다.")
 	@Test
