@@ -13,9 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.core.member.adapter.in.api.snippet.VerifyEmailAuthCodeSnippet;
-import com.gomo.app.support.auth.application.port.AuthCodeIssuer;
+import com.gomo.app.support.auth.application.port.in.AuthCodeIssuer;
+import com.gomo.app.support.auth.domain.exception.AuthErrorCode;
 import com.gomo.app.support.auth.domain.repository.AuthCodeRepository;
-import com.gomo.app.support.auth.exception.AuthErrorCode;
 import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation Documentation]: 이메일 인증 코드 테스트")

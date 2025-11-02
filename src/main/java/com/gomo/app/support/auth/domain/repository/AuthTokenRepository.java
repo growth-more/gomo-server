@@ -4,9 +4,9 @@ import java.util.UUID;
 
 public interface AuthTokenRepository {
 
-	void setRefreshToken(UUID principalId, String refreshToken);
+	void saveRefreshToken(UUID principalId, String refreshToken);
 
-	String getRefreshToken(UUID principalId);
+	String findRefreshToken(UUID principalId);
 
 	void deleteRefreshToken(UUID principalId);
 }

@@ -9,8 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.support.auth.application.port.AuthCodeIssuer;
-import com.gomo.app.support.auth.application.port.AuthCodeVerifier;
+import com.gomo.app.support.auth.application.port.in.AuthCodeIssuer;
+import com.gomo.app.support.auth.application.port.in.AuthCodeVerifier;
 
 @DisplayName("[Adapter Unit]: 인증 코드 이메일 전송 요청 테스트")
 @ExtendWith(MockitoExtension.class)

@@ -33,6 +33,7 @@ class MemberCreateService implements MemberCreator {
 	private final MemberCreateEventPublisher memberCreateEventPublisher;
 	private final MemberRepository memberRepository;
 
+	// TODO [2025-11-02] jhl221123 : 이메일 검증에 대한 책임은 auth 모듈로 이동시켜야합니다.
 	@Override
 	@AuditLog(action = "CREATE_MEMBER")
 	public UUID create(CreateMemberCommand command) {

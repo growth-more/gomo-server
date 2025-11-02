@@ -10,8 +10,8 @@ import com.gomo.app.core.member.adapter.in.api.request.ResetPasswordRequest;
 import com.gomo.app.core.member.adapter.in.api.request.UpdatePasswordRequest;
 import com.gomo.app.core.member.application.port.in.PasswordResetter;
 import com.gomo.app.core.member.application.port.in.PasswordUpdater;
-import com.gomo.app.support.auth.presentation.security.Auth;
-import com.gomo.app.support.auth.presentation.security.AuthInfo;
+import com.gomo.app.support.auth.adapter.in.security.Auth;
+import com.gomo.app.support.auth.adapter.in.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 

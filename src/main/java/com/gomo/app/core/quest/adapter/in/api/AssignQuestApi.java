@@ -23,8 +23,8 @@ import com.gomo.app.core.quest.application.port.in.AssignQuestCreator;
 import com.gomo.app.core.quest.application.port.in.AssignQuestDeleter;
 import com.gomo.app.core.quest.application.port.in.AssignQuestDetailReader;
 import com.gomo.app.core.quest.application.port.in.AssignQuestUpdater;
-import com.gomo.app.support.auth.presentation.security.Auth;
-import com.gomo.app.support.auth.presentation.security.AuthInfo;
+import com.gomo.app.support.auth.adapter.in.security.Auth;
+import com.gomo.app.support.auth.adapter.in.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 

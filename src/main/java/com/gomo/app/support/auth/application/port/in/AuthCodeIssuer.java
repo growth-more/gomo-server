@@ -1,0 +1,13 @@
+package com.gomo.app.support.auth.application.port.in;
+
+public interface AuthCodeIssuer {
+
+	/**
+	 * Generates a new authentication code and sends it to the specified email.
+	 *
+	 * @param email The destination email address where the authentication code will be sent.
+	 * @throws InvalidEmailFormatException if the provided email format is invalid.
+	 * @throws RateLimitExceededException if requests are too frequent.
+	 */
+	void sendToEmail(String email);
+}

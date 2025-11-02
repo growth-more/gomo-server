@@ -12,8 +12,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.gomo.app.core.member.application.port.out.EmailCodeVerifier;
 import com.gomo.app.core.member.application.port.out.EmailTokenCreator;
-import com.gomo.app.support.auth.exception.AuthErrorCode;
-import com.gomo.app.support.auth.exception.InvalidAuthCodeException;
+import com.gomo.app.support.auth.domain.exception.AuthErrorCode;
+import com.gomo.app.support.auth.domain.exception.InvalidAuthCodeException;
 
 @DisplayName("[Application Unit]: Email 인증 검증 기능 테스트")
 @ExtendWith(MockitoExtension.class)

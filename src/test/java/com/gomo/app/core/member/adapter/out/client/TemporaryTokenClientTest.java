@@ -11,8 +11,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.support.auth.application.port.JwtCreator;
-import com.gomo.app.support.auth.application.port.JwtVerifier;
+import com.gomo.app.support.auth.application.port.out.JwtCreator;
+import com.gomo.app.support.auth.application.port.out.JwtVerifier;
 
 @DisplayName("[Adapter Unit]: 임시토큰 요청 테스트")
 @ExtendWith(MockitoExtension.class)

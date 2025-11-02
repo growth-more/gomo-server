@@ -12,8 +12,8 @@ import com.gomo.app.core.point.adapter.in.api.response.ReadBalanceResponse;
 import com.gomo.app.core.point.application.port.dto.ListPointDto;
 import com.gomo.app.core.point.application.port.in.BalanceReader;
 import com.gomo.app.core.point.application.port.in.PointReader;
-import com.gomo.app.support.auth.presentation.security.Auth;
-import com.gomo.app.support.auth.presentation.security.AuthInfo;
+import com.gomo.app.support.auth.adapter.in.security.Auth;
+import com.gomo.app.support.auth.adapter.in.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 

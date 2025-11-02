@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.gomo.app.common.arch.CoreApi;
 import com.gomo.app.core.interest.adapter.in.api.request.OrderUpdateMajorInterestRequest;
 import com.gomo.app.core.interest.application.port.in.MajorInterestOrderUpdater;
-import com.gomo.app.support.auth.presentation.security.Auth;
-import com.gomo.app.support.auth.presentation.security.AuthInfo;
+import com.gomo.app.support.auth.adapter.in.security.Auth;
+import com.gomo.app.support.auth.adapter.in.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 

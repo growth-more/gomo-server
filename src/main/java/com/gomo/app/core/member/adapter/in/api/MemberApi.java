@@ -21,8 +21,8 @@ import com.gomo.app.core.member.application.port.in.MemberCreator;
 import com.gomo.app.core.member.application.port.in.MemberDeleter;
 import com.gomo.app.core.member.application.port.in.MemberReader;
 import com.gomo.app.core.member.application.port.in.MemberUpdater;
-import com.gomo.app.support.auth.presentation.security.Auth;
-import com.gomo.app.support.auth.presentation.security.AuthInfo;
+import com.gomo.app.support.auth.adapter.in.security.Auth;
+import com.gomo.app.support.auth.adapter.in.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,6 +36,7 @@ public class MemberApi {
 	private final MemberUpdater memberUpdater;
 	private final MemberDeleter memberDeleter;
 
+	// TODO [2025-11-02] jhl221123 : 회원가입 진입점을 auth 모듈로 이전해야합니다.
 	@PostMapping
 	public ResponseEntity<CreateMemberResponse> create(@RequestBody CreateMemberRequest request) {
 		UUID memberId = memberCreator.create(request.toCommand());

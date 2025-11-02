@@ -21,11 +21,11 @@ import com.gomo.app.core.member.adapter.in.api.MemberApi;
 import com.gomo.app.core.member.adapter.in.api.request.CreateMemberRequest;
 import com.gomo.app.core.member.domain.model.LoginProvider;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
-import com.gomo.app.support.auth.application.port.JwtCreator;
-import com.gomo.app.support.auth.presentation.api.AuthApi;
-import com.gomo.app.support.auth.presentation.request.LoginRequest;
-import com.gomo.app.support.auth.presentation.response.AccessTokenResponse;
-import com.gomo.app.support.auth.presentation.security.AuthInfo;
+import com.gomo.app.support.auth.adapter.in.api.AuthApi;
+import com.gomo.app.support.auth.adapter.in.api.request.LoginRequest;
+import com.gomo.app.support.auth.adapter.in.api.response.AccessTokenResponse;
+import com.gomo.app.support.auth.adapter.in.security.AuthInfo;
+import com.gomo.app.support.auth.application.port.out.JwtCreator;
 import com.google.common.net.HttpHeaders;
 
 import io.restassured.builder.RequestSpecBuilder;
