@@ -20,8 +20,8 @@ import com.gomo.app.core.interest.application.port.dto.InterestNetworkDto;
 import com.gomo.app.core.interest.application.port.in.InterestNetworkReader;
 import com.gomo.app.core.interest.application.port.in.InterestRelationCreator;
 import com.gomo.app.core.interest.application.port.in.InterestRelationDeleter;
-import com.gomo.app.support.auth.adapter.in.security.Auth;
-import com.gomo.app.support.auth.adapter.in.security.AuthInfo;
+import com.gomo.app.core.auth.adapter.in.security.Auth;
+import com.gomo.app.core.auth.adapter.in.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 

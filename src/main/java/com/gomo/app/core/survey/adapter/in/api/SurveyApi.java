@@ -16,8 +16,8 @@ import com.gomo.app.core.survey.adapter.in.api.response.ListSurveyQuestionRespon
 import com.gomo.app.core.survey.application.dto.SurveyQuestionDto;
 import com.gomo.app.core.survey.application.service.SurveyQuestionService;
 import com.gomo.app.core.survey.application.service.SurveyResultService;
-import com.gomo.app.support.auth.adapter.in.security.Auth;
-import com.gomo.app.support.auth.adapter.in.security.AuthInfo;
+import com.gomo.app.core.auth.adapter.in.security.Auth;
+import com.gomo.app.core.auth.adapter.in.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 

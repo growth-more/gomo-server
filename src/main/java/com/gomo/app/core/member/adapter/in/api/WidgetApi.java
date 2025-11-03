@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.gomo.app.common.arch.CoreApi;
 import com.gomo.app.core.member.adapter.in.api.request.UpdateWidgetRequest;
 import com.gomo.app.core.member.application.port.in.WidgetUpdater;
-import com.gomo.app.support.auth.adapter.in.security.Auth;
-import com.gomo.app.support.auth.adapter.in.security.AuthInfo;
+import com.gomo.app.core.auth.adapter.in.security.Auth;
+import com.gomo.app.core.auth.adapter.in.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 

@@ -11,8 +11,8 @@ import com.gomo.app.common.arch.CoreApi;
 import com.gomo.app.core.member.adapter.in.api.request.UpdateProfileImageRequest;
 import com.gomo.app.core.member.application.port.in.ProfileImageDeleter;
 import com.gomo.app.core.member.application.port.in.ProfileImageUpdater;
-import com.gomo.app.support.auth.adapter.in.security.Auth;
-import com.gomo.app.support.auth.adapter.in.security.AuthInfo;
+import com.gomo.app.core.auth.adapter.in.security.Auth;
+import com.gomo.app.core.auth.adapter.in.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 

@@ -2,7 +2,7 @@ package com.gomo.app.core.member.adapter.out.client;
 
 import com.gomo.app.common.arch.Adapter;
 import com.gomo.app.core.member.application.port.out.EmailTokenVerifier;
-import com.gomo.app.support.auth.application.port.out.JwtVerifier;
+import com.gomo.app.core.auth.application.port.out.JwtVerifier;
 
 import lombok.RequiredArgsConstructor;
 

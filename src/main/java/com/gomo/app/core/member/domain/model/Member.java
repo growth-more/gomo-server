@@ -6,8 +6,8 @@ import java.util.UUID;
 import com.gomo.app.common.jpa.LogicalDeleteBaseAudit;
 import com.gomo.app.core.member.domain.exception.ActivateStatusException;
 import com.gomo.app.core.member.domain.exception.code.ActivateStatusErrorCode;
-import com.gomo.app.support.auth.domain.exception.AuthErrorCode;
-import com.gomo.app.support.auth.domain.exception.AuthenticationFailException;
+import com.gomo.app.core.auth.domain.exception.AuthErrorCode;
+import com.gomo.app.core.auth.domain.exception.AuthenticationFailException;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;

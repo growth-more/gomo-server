@@ -10,7 +10,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import com.gomo.app.support.auth.adapter.in.security.AuthenticationFilter;
+import com.gomo.app.core.auth.adapter.in.security.AuthenticationFilter;
 import com.gomo.app.support.logging.LoggingFilter;
 
 import lombok.RequiredArgsConstructor;

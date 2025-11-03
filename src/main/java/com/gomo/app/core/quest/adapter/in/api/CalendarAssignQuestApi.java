@@ -14,8 +14,8 @@ import com.gomo.app.core.quest.adapter.in.api.response.ReadAssignQuestResponse;
 import com.gomo.app.core.quest.application.port.command.ListAssignQuestCommand;
 import com.gomo.app.core.quest.application.port.dto.AssignQuestDto;
 import com.gomo.app.core.quest.application.port.in.AssignQuestReader;
-import com.gomo.app.support.auth.adapter.in.security.Auth;
-import com.gomo.app.support.auth.adapter.in.security.AuthInfo;
+import com.gomo.app.core.auth.adapter.in.security.Auth;
+import com.gomo.app.core.auth.adapter.in.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 

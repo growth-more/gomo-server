@@ -19,8 +19,8 @@ import com.gomo.app.core.interest.application.port.dto.MajorInterestDto;
 import com.gomo.app.core.interest.application.port.in.MajorInterestCreator;
 import com.gomo.app.core.interest.application.port.in.MajorInterestDeleter;
 import com.gomo.app.core.interest.application.port.in.MajorInterestReader;
-import com.gomo.app.support.auth.adapter.in.security.Auth;
-import com.gomo.app.support.auth.adapter.in.security.AuthInfo;
+import com.gomo.app.core.auth.adapter.in.security.Auth;
+import com.gomo.app.core.auth.adapter.in.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 

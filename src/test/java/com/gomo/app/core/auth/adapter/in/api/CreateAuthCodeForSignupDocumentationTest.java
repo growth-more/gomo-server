@@ -1,0 +1,54 @@
+package com.gomo.app.core.auth.adapter.in.api;
+
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
+import static org.springframework.http.HttpHeaders.*;
+import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.MediaType.*;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.restdocs.restassured.RestDocumentationFilter;
+
+import com.gomo.app.core.auth.adapter.in.api.request.CreateEmailCodeRequest;
+import com.gomo.app.core.auth.adapter.in.api.snippet.CreateEmailAuthCodeSnippet;
+import com.gomo.app.core.auth.domain.exception.AuthErrorCode;
+import com.gomo.app.test.DocumentationTestBase;
+
+@DisplayName("[Presentation Documentation]: 회원 가입을 위한 이메일 인증 코드 테스트")
+public class CreateAuthCodeForSignupDocumentationTest extends DocumentationTestBase {
+
+	private static final String URL = "/auth/codes/emails/signup";
+
+	private final RestDocumentationFilter filter = CreateEmailAuthCodeSnippet.create();
+	private final RestDocumentationFilter errorFilter = CreateEmailAuthCodeSnippet.createError();
+
+	@DisplayName("회원가입을 위해 이메일 인증 코드 생성을 요청한다.")
+	@Test
+	void create_auth_code() {
+		given(this.specification).filter(filter)
+			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.body(CreateEmailCodeRequest.of("test@test.com"))
+			.when()
+			.post(URL)
+			.then()
+			.statusCode(CREATED.value());
+	}
+
+	@DisplayName("이미 가입된 이메일로 인증 코드 생성을 요청한다")
+	@Test
+	void create_auth_code_with_duplicated_email() {
+		given(this.specification).filter(errorFilter)
+			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
+			.body(CreateEmailCodeRequest.of(super.sessionEmail))
+			.when()
+			.post(URL)
+			.then()
+			.statusCode(AuthErrorCode.PRINCIPAL_DUPLICATED.getHttpStatus())
+			.body("timestamp", instanceOf(String.class))
+			.body("path", equalTo(URL))
+			.body("httpStatus", equalTo(AuthErrorCode.PRINCIPAL_DUPLICATED.getHttpStatus()))
+			.body("code", equalTo(AuthErrorCode.PRINCIPAL_DUPLICATED.getErrorCode()))
+			.body("message", equalTo(AuthErrorCode.PRINCIPAL_DUPLICATED.getMessage()));
+	}
+}

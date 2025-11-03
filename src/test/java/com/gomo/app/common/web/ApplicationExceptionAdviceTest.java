@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import com.gomo.app.common.exception.ApplicationException;
-import com.gomo.app.support.auth.adapter.in.security.AuthenticationFilter;
+import com.gomo.app.core.auth.adapter.in.security.AuthenticationFilter;
 
 @WebMvcTest(
 	controllers = ApplicationExceptionAdvice.class,

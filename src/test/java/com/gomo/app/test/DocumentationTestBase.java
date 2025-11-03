@@ -19,12 +19,12 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.gomo.app.core.member.domain.model.LoginProvider;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
-import com.gomo.app.support.auth.adapter.in.api.AuthApi;
-import com.gomo.app.support.auth.adapter.in.api.request.CreatePrincipalRequest;
-import com.gomo.app.support.auth.adapter.in.api.request.LoginRequest;
-import com.gomo.app.support.auth.adapter.in.api.response.AccessTokenResponse;
-import com.gomo.app.support.auth.adapter.in.security.AuthInfo;
-import com.gomo.app.support.auth.application.port.out.JwtCreator;
+import com.gomo.app.core.auth.adapter.in.api.AuthApi;
+import com.gomo.app.core.auth.adapter.in.api.request.CreatePrincipalRequest;
+import com.gomo.app.core.auth.adapter.in.api.request.LoginRequest;
+import com.gomo.app.core.auth.adapter.in.api.response.AccessTokenResponse;
+import com.gomo.app.core.auth.adapter.in.security.AuthInfo;
+import com.gomo.app.core.auth.application.port.out.JwtCreator;
 import com.google.common.net.HttpHeaders;
 
 import io.restassured.builder.RequestSpecBuilder;

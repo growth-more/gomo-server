@@ -14,8 +14,8 @@ import com.gomo.app.core.member.application.port.dto.MemberDto;
 import com.gomo.app.core.member.application.port.in.MemberDeleter;
 import com.gomo.app.core.member.application.port.in.MemberReader;
 import com.gomo.app.core.member.application.port.in.MemberUpdater;
-import com.gomo.app.support.auth.adapter.in.security.Auth;
-import com.gomo.app.support.auth.adapter.in.security.AuthInfo;
+import com.gomo.app.core.auth.adapter.in.security.Auth;
+import com.gomo.app.core.auth.adapter.in.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 

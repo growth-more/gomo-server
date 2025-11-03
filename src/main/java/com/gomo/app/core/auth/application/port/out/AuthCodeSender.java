@@ -1,0 +1,13 @@
+package com.gomo.app.core.auth.application.port.out;
+
+public interface AuthCodeSender {
+
+	/**
+	 * Sends a given authentication code to the specified email address.
+	 *
+	 * @param email The recipient's email address.
+	 * @param authCode The authentication code to be sent.
+	 * @throws IllegalStateException if the email delivery fails.
+	 */
+	void send(String email, String authCode);
+}
