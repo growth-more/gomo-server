@@ -10,6 +10,8 @@ import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -21,6 +23,7 @@ import com.gomo.app.core.auth.application.port.out.PrincipalCreator;
 import com.gomo.app.core.auth.application.port.out.PrincipalLoginProcessor;
 import com.gomo.app.core.auth.domain.exception.AuthenticationFailException;
 import com.gomo.app.core.auth.domain.model.AuthToken;
+import com.gomo.app.core.member.domain.model.LoginProvider;
 
 @DisplayName("[Application Unit]: 사용자 로그인 테스트")
 @ExtendWith(MockitoExtension.class)
@@ -41,12 +44,25 @@ public class AuthServiceTest {
 	@Mock
 	private AuthTokenService authTokenService;
 
-	@DisplayName("사용자가 가입한다.")
+	@DisplayName("이메일로 회원 가입한다.")
 	@Test
-	void signup() {
-		CreatePrincipalCommand command = CreatePrincipalCommand.of("email@email.com", "Gomo123@", "handle", "name", "motto", "loginProvider", "temporaryToken");
+	void email_signup() {
+		CreatePrincipalCommand command = CreatePrincipalCommand.of("email@email.com", "Gomo123@", "handle", "name", "motto", LoginProvider.EMAIL.name(), "token");
 		UUID principalId = UUID.randomUUID();
 		doReturn(true).when(jwtVerifier).verify(anyString());
+		doReturn(principalId).when(principalCreator).create(any());
+
+		UUID actual = sut.signup(command);
+
+		assertThat(actual).isEqualTo(principalId);
+	}
+
+	@DisplayName("OAuth로 회원 가입한다.")
+	@ParameterizedTest
+	@EnumSource(value = LoginProvider.class, names = {"NAVER", "GOOGLE", "KAKAO"})
+	void oauth_signup(LoginProvider loginProvider) {
+		CreatePrincipalCommand command = CreatePrincipalCommand.of("email@email.com", "Gomo123@", "handle", "name", "motto", loginProvider.name(), "token");
+		UUID principalId = UUID.randomUUID();
 		doReturn(principalId).when(principalCreator).create(any());
 
 		UUID actual = sut.signup(command);
@@ -57,7 +73,7 @@ public class AuthServiceTest {
 	@DisplayName("유효하지 않은 검증된 이메일 토큰으로 가입한다.")
 	@Test
 	void signup_with_invalid_auth_token() {
-		CreatePrincipalCommand command = CreatePrincipalCommand.of("email@email.com", "Gomo123@", "handle", "name", "motto", "loginProvider", "temporaryToken");
+		CreatePrincipalCommand command = CreatePrincipalCommand.of("email@email.com", "Gomo123@", "handle", "name", "motto", LoginProvider.EMAIL.name(), "token");
 		doReturn(false).when(jwtVerifier).verify(anyString());
 
 		assertThatThrownBy(() -> sut.signup(command))

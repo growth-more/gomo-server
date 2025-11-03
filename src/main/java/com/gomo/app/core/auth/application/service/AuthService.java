@@ -15,6 +15,7 @@ import com.gomo.app.core.auth.application.port.out.PrincipalCreator;
 import com.gomo.app.core.auth.application.port.out.PrincipalLoginProcessor;
 import com.gomo.app.core.auth.domain.exception.AuthenticationFailException;
 import com.gomo.app.core.auth.domain.model.AuthToken;
+import com.gomo.app.core.member.domain.model.LoginProvider;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,7 +32,7 @@ class AuthService implements SignupProcessor, LoginProcessor {
 	@AuditLog(action = "SIGNUP")
 	public UUID signup(CreatePrincipalCommand command) {
 		// TODO [2025-11-02] jhl221123 : 토큰 내부 이메일이 동일한지 확인하는 jwt 기능이 추가되어야 합니다.
-		if (!jwtVerifier.verify(command.temporaryToken())) {
+		if (LoginProvider.EMAIL.name().equals(command.loginProvider()) && !jwtVerifier.verify(command.temporaryToken())) {
 			throw new AuthenticationFailException(INVALID_VERIFIED_EMAIL_TOKEN);
 		}
 		return principalCreator.create(command);
