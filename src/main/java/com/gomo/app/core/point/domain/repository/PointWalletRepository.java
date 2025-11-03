@@ -12,4 +12,6 @@ public interface PointWalletRepository extends JpaRepository<PointWallet, UUID> 
 	Optional<PointWallet> findByTransactorId(UUID transactorId);
 
 	void deletePointWalletByTransactorId(UUID transactorId);
+
+	boolean existsByTransactorId(UUID transactorId);
 }

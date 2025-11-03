@@ -1,6 +1,6 @@
 package com.gomo.app.core.interest.domain.model;
 
-import static com.gomo.app.core.interest.exception.code.MajorInterestErrorCode.*;
+import static com.gomo.app.core.interest.domain.exception.code.MajorInterestErrorCode.*;
 
 import java.util.UUID;
 
@@ -8,7 +8,7 @@ import com.gomo.app.common.arch.Authorizable;
 import com.gomo.app.common.displayorder.DisplayOrder;
 import com.gomo.app.common.displayorder.OrderChangeable;
 import com.gomo.app.common.jpa.BaseAudit;
-import com.gomo.app.core.interest.exception.MajorInterestAccessDeniedException;
+import com.gomo.app.core.interest.domain.exception.MajorInterestAccessDeniedException;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -39,6 +39,11 @@ public class MajorInterest extends BaseAudit implements OrderChangeable, Authori
 
 	public static MajorInterest of(UUID id, UUID registrantId, UUID interestId, DisplayOrder displayOrder) {
 		return new MajorInterest(id, registrantId, interestId, displayOrder);
+	}
+
+	public static MajorInterest createNext(UUID id, UUID registrantId, UUID interestId, int currentHighestOrder) {
+		DisplayOrder nextOrder = DisplayOrder.of(currentHighestOrder + 1);
+		return MajorInterest.of(id, registrantId, interestId, nextOrder);
 	}
 
 	public int displayOrder() {

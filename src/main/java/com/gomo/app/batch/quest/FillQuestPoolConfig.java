@@ -25,8 +25,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import com.gomo.app.core.member.domain.model.ActivateStatus;
 import com.gomo.app.core.member.domain.model.Member;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
-import com.gomo.app.core.quest.application.port.PublishCreateQuestPoolPortIn;
 import com.gomo.app.core.quest.application.port.command.PublishCreateQuestPoolCommand;
+import com.gomo.app.core.quest.application.port.in.QuestPoolEventPublisher;
 import com.gomo.app.core.quest.domain.model.participant.Participant;
 import com.gomo.app.core.quest.domain.model.participant.QuestQuota;
 
@@ -38,14 +38,14 @@ public class FillQuestPoolConfig {
 	private final JobRepository jobRepository;
 	private final PlatformTransactionManager transactionManager;
 	private final MemberRepository memberRepository;
-	private final PublishCreateQuestPoolPortIn publishCreateQuestPoolPortIn;
+	private final QuestPoolEventPublisher questPoolEventPublisher;
 
 	public FillQuestPoolConfig(JobRepository jobRepository, @Qualifier("metaTransactionManager") PlatformTransactionManager metaTransactionManager,
-		MemberRepository memberRepository, PublishCreateQuestPoolPortIn publishCreateQuestPoolPortIn) {
+		MemberRepository memberRepository, QuestPoolEventPublisher questPoolEventPublisher) {
 		this.jobRepository = jobRepository;
 		this.transactionManager = metaTransactionManager;
 		this.memberRepository = memberRepository;
-		this.publishCreateQuestPoolPortIn = publishCreateQuestPoolPortIn;
+		this.questPoolEventPublisher = questPoolEventPublisher;
 	}
 
 	@Bean
@@ -85,7 +85,7 @@ public class FillQuestPoolConfig {
 	) {
 		return chunk -> {
 			PublishCreateQuestPoolCommand command = PublishCreateQuestPoolCommand.of(createParticipants(chunk), questType, limitPerMember);
-			publishCreateQuestPoolPortIn.publish(command);
+			questPoolEventPublisher.publish(command);
 		};
 	}
 

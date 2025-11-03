@@ -8,7 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.gomo.app.common.displayorder.DisplayOrder;
-import com.gomo.app.core.interest.exception.MajorInterestAccessDeniedException;
+import com.gomo.app.core.interest.domain.exception.MajorInterestAccessDeniedException;
 
 @DisplayName("[Domain unit]: 주요 관심사 생성 및 수정 테스트")
 public class MajorInterestTest {
@@ -27,6 +27,15 @@ public class MajorInterestTest {
 		assertThat(majorInterest)
 			.extracting("id", "registrantId", "interestId", "displayOrder")
 			.containsExactly(ID, REGISTRANT_ID, INTEREST_ID, DISPLAY_ORDER);
+	}
+
+	@DisplayName("다음 순서의 주요 관심사를 생성한다.")
+	@Test
+	void create_next_major_interest() {
+		int displayOrder = DISPLAY_ORDER.getDisplayOrder();
+		MajorInterest majorInterest = MajorInterest.createNext(ID, REGISTRANT_ID, INTEREST_ID, displayOrder);
+
+		assertThat(majorInterest.displayOrder()).isEqualTo(displayOrder + 1);
 	}
 
 	@DisplayName("주요 관심사 정렬 순서를 변경한다.")

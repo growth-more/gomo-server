@@ -1,6 +1,7 @@
 package com.gomo.app.core.interest.domain.model;
 
 import com.gomo.app.common.arch.ValueObject;
+import com.gomo.app.core.interest.domain.service.ProficiencyCalculator;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;

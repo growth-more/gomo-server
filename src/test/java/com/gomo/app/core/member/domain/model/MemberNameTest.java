@@ -8,8 +8,8 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.core.member.exception.MemberNameConstraintViolationException;
-import com.gomo.app.core.member.exception.code.MemberNameErrorCode;
+import com.gomo.app.core.member.domain.exception.MemberNameConstraintViolationException;
+import com.gomo.app.core.member.domain.exception.code.MemberNameErrorCode;
 
 @DisplayName("[Domain unit]: 이름 생성 및 수정 테스트")
 public class MemberNameTest {

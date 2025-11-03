@@ -13,8 +13,8 @@ import com.gomo.app.core.quest.domain.model.quest.Quest;
 import com.gomo.app.core.quest.domain.model.quest.QuestContent;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.model.subject.SubjectName;
-import com.gomo.app.core.quest.exception.RepeatQuestAccessDeniedException;
-import com.gomo.app.core.quest.exception.code.RepeatQuestErrorCode;
+import com.gomo.app.core.quest.domain.exception.RepeatQuestAccessDeniedException;
+import com.gomo.app.core.quest.domain.exception.code.RepeatQuestErrorCode;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;

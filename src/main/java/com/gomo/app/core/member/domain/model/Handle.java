@@ -3,8 +3,8 @@ package com.gomo.app.core.member.domain.model;
 import java.util.regex.Pattern;
 
 import com.gomo.app.common.arch.ValueObject;
-import com.gomo.app.core.member.exception.HandleConstraintViolationException;
-import com.gomo.app.core.member.exception.code.HandleErrorCode;
+import com.gomo.app.core.member.domain.exception.HandleConstraintViolationException;
+import com.gomo.app.core.member.domain.exception.code.HandleErrorCode;
 
 import jakarta.persistence.Embeddable;
 import lombok.EqualsAndHashCode;

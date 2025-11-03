@@ -1,8 +1,8 @@
 package com.gomo.app.core.interest.domain.model;
 
 import com.gomo.app.common.arch.ValueObject;
-import com.gomo.app.core.interest.exception.LevelConstraintViolationException;
-import com.gomo.app.core.interest.exception.code.LevelErrorCode;
+import com.gomo.app.core.interest.domain.exception.LevelConstraintViolationException;
+import com.gomo.app.core.interest.domain.exception.code.LevelErrorCode;
 
 import jakarta.persistence.Embeddable;
 import lombok.EqualsAndHashCode;

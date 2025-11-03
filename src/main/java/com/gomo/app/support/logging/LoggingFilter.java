@@ -80,6 +80,7 @@ public class LoggingFilter implements Filter {
 			int status = wrappedResponse.getStatus();
 			String body;
 			if (userAgent.contains("Prometheus")) {
+				// Condense prometheus health check messages
 				body = "prometheus health check message...";
 			} else {
 				body = new String(wrappedResponse.getContentAsByteArray(), wrappedResponse.getCharacterEncoding());

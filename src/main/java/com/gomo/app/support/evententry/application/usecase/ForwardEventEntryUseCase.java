@@ -11,7 +11,7 @@ import com.gomo.app.common.util.JsonParser;
 import com.gomo.app.support.evententry.application.port.ForwardEventEntryPortIn;
 import com.gomo.app.support.evententry.domain.model.EventEntry;
 import com.gomo.app.support.evententry.domain.repository.EventEntryRepository;
-import com.gomo.app.support.messagebroker.application.port.PublishMessagePortIn;
+import com.gomo.app.support.messagebroker.application.port.in.MessagePublisher;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,7 +21,7 @@ class ForwardEventEntryUseCase implements ForwardEventEntryPortIn {
 
 	private final EventEntryRepository eventEntryRepository;
 	private final EventRouter eventRouter;
-	private final PublishMessagePortIn publishMessagePortIn;
+	private final MessagePublisher messagePublisher;
 
 	@Override
 	public void execute(int size) {
@@ -30,7 +30,7 @@ class ForwardEventEntryUseCase implements ForwardEventEntryPortIn {
 			String eventName = entry.getEventName();
 			String exchange = eventRouter.getExchange(eventName);
 			String routingKey = eventRouter.getRoutingKey(eventName);
-			publishMessagePortIn.send(exchange, routingKey, JsonParser.toJson(entry));
+			messagePublisher.send(exchange, routingKey, JsonParser.toJson(entry));
 			entry.update(EventStatus.PROCESSED);
 		}
 	}

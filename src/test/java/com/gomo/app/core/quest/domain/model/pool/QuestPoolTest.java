@@ -8,7 +8,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.core.quest.exception.QuestAccessDeniedException;
+import com.gomo.app.core.quest.domain.exception.QuestAccessDeniedException;
 import com.gomo.app.core.quest.fixture.QuestFixture;
 
 @DisplayName("[Domain unit]: 퀘스트 풀 생성 및 수정 테스트")

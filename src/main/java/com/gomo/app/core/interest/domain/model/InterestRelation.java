@@ -1,12 +1,12 @@
 package com.gomo.app.core.interest.domain.model;
 
-import static com.gomo.app.core.interest.exception.code.InterestRelationErrorCode.*;
+import static com.gomo.app.core.interest.domain.exception.code.InterestRelationErrorCode.*;
 
 import java.util.UUID;
 
 import com.gomo.app.common.arch.Authorizable;
 import com.gomo.app.common.jpa.BaseAudit;
-import com.gomo.app.core.interest.exception.InterestRelationAccessDeniedException;
+import com.gomo.app.core.interest.domain.exception.InterestRelationAccessDeniedException;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

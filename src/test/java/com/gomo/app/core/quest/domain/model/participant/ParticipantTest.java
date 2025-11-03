@@ -8,8 +8,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
-import com.gomo.app.core.quest.exception.QuestConstraintViolationException;
-import com.gomo.app.core.quest.exception.code.QuestErrorCode;
+import com.gomo.app.core.quest.domain.exception.QuestConstraintViolationException;
+import com.gomo.app.core.quest.domain.exception.code.QuestErrorCode;
 
 @DisplayName("[Domain unit]: 퀘스트 참여자 엔티티 테스트")
 public class ParticipantTest {
