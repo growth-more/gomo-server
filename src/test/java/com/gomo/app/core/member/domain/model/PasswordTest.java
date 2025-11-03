@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.core.member.exception.PasswordConstraintViolationException;
-import com.gomo.app.core.member.exception.code.PasswordErrorCode;
+import com.gomo.app.core.member.domain.exception.PasswordConstraintViolationException;
+import com.gomo.app.core.member.domain.exception.code.PasswordErrorCode;
 
 @DisplayName("[Domain Unit]: 비밀번호 생성 및 수정 테스트")
 @ExtendWith(MockitoExtension.class)

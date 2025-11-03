@@ -17,15 +17,14 @@ import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.gomo.app.common.security.jwt.application.port.GenerateJwtPortIn;
 import com.gomo.app.core.member.domain.model.LoginProvider;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
-import com.gomo.app.core.member.presentation.MemberApi;
-import com.gomo.app.core.member.presentation.request.CreateMemberRequest;
-import com.gomo.app.support.auth.presentation.api.AuthApi;
-import com.gomo.app.support.auth.presentation.request.LoginRequest;
-import com.gomo.app.support.auth.presentation.response.AccessTokenResponse;
-import com.gomo.app.support.auth.presentation.security.AuthInfo;
+import com.gomo.app.core.auth.adapter.in.api.AuthApi;
+import com.gomo.app.core.auth.adapter.in.api.request.CreatePrincipalRequest;
+import com.gomo.app.core.auth.adapter.in.api.request.LoginRequest;
+import com.gomo.app.core.auth.adapter.in.api.response.AccessTokenResponse;
+import com.gomo.app.core.auth.adapter.in.security.AuthInfo;
+import com.gomo.app.core.auth.application.port.out.JwtCreator;
 import com.google.common.net.HttpHeaders;
 
 import io.restassured.builder.RequestSpecBuilder;
@@ -41,10 +40,7 @@ public abstract class DocumentationTestBase {
 	protected RequestSpecification specification;
 
 	@Autowired
-	protected MemberApi memberApi;
-
-	@Autowired
-	protected GenerateJwtPortIn generateJwtPortIn;
+	protected JwtCreator jwtCreator;
 
 	@Autowired
 	protected AuthApi authApi;
@@ -81,8 +77,8 @@ public abstract class DocumentationTestBase {
 	}
 
 	protected void signup(String email, String password, String handle) {
-		String temporaryToken = generateJwtPortIn.generateTemporaryToken(email, 300);
-		memberApi.create(CreateMemberRequest.of(email, password, handle, "testname", "testmotto", LoginProvider.EMAIL.name(), temporaryToken));
+		String temporaryToken = jwtCreator.createTemporaryToken(email, 300);
+		authApi.signup(CreatePrincipalRequest.of(email, password, handle, "testname", "testmotto", LoginProvider.EMAIL.name(), temporaryToken));
 	}
 
 	protected ResponseEntity<AccessTokenResponse> login(String email, String password) {

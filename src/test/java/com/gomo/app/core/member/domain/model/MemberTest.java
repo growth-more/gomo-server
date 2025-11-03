@@ -10,8 +10,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.core.member.exception.ActivateStatusException;
-import com.gomo.app.core.member.exception.code.ActivateStatusErrorCode;
+import com.gomo.app.core.member.domain.exception.ActivateStatusException;
+import com.gomo.app.core.member.domain.exception.code.ActivateStatusErrorCode;
 import com.gomo.app.core.member.fixture.MemberFixture;
 
 @DisplayName("[Domain unit]: 회원 테스트")

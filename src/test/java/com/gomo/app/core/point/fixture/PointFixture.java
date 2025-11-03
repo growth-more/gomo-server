@@ -32,4 +32,16 @@ public class PointFixture {
 			LocalDateTime.now()
 		);
 	}
+
+	public static Point create(UUID id, UUID transactionId) {
+		return Point.of(
+			id,
+			transactionId,
+			SourceType.QUEST,
+			TransactionType.GAIN,
+			10,
+			SourceType.QUEST.getDescription() + TransactionType.GAIN.getDescription(),
+			LocalDateTime.now()
+		);
+	}
 }

@@ -1,0 +1,15 @@
+package com.gomo.app.core.quest.domain.exception;
+
+import com.gomo.app.common.exception.ApplicationException;
+import com.gomo.app.core.quest.domain.exception.code.QuestErrorCode;
+
+public class QuestConstraintViolationException extends ApplicationException {
+
+	public QuestConstraintViolationException(QuestErrorCode errorCode) {
+		super(errorCode.getHttpStatus(), errorCode.getErrorCode(), errorCode.getMessage());
+	}
+
+	public QuestConstraintViolationException(QuestErrorCode errorCode, Throwable cause) {
+		super(errorCode.getHttpStatus(), errorCode.getErrorCode(), errorCode.getMessage(), cause);
+	}
+}

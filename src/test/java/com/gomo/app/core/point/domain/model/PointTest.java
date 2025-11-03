@@ -10,7 +10,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.core.point.exception.PointConstraintViolationException;
+import com.gomo.app.core.point.domain.exception.PointConstraintViolationException;
 
 @DisplayName("[Domain unit]: 포인트 생성 테스트")
 public class PointTest {

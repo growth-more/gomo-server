@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.gomo.app.common.jpa.BaseAudit;
-import com.gomo.app.core.point.exception.PointConstraintViolationException;
-import com.gomo.app.core.point.exception.code.PointErrorCode;
+import com.gomo.app.core.point.domain.exception.PointConstraintViolationException;
+import com.gomo.app.core.point.domain.exception.code.PointErrorCode;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

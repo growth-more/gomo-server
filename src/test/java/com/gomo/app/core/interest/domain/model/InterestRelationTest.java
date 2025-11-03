@@ -7,7 +7,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.gomo.app.core.interest.exception.InterestRelationAccessDeniedException;
+import com.gomo.app.core.interest.domain.exception.InterestRelationAccessDeniedException;
 
 @DisplayName("[Domain unit]: 관심사 관계 생성 및 접근 테스트")
 public class InterestRelationTest {

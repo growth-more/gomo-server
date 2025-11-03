@@ -11,11 +11,11 @@ import com.gomo.app.core.quest.domain.model.quest.Quest;
 import com.gomo.app.core.quest.domain.model.quest.QuestContent;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.model.subject.SubjectName;
-import com.gomo.app.core.quest.exception.AssignQuestAccessDeniedException;
-import com.gomo.app.core.quest.exception.AssignQuestConstraintViolationException;
-import com.gomo.app.core.quest.exception.QuestTypeConstraintViolationException;
-import com.gomo.app.core.quest.exception.code.AssignQuestErrorCode;
-import com.gomo.app.core.quest.exception.code.QuestTypeErrorCode;
+import com.gomo.app.core.quest.domain.exception.AssignQuestAccessDeniedException;
+import com.gomo.app.core.quest.domain.exception.AssignQuestConstraintViolationException;
+import com.gomo.app.core.quest.domain.exception.QuestTypeConstraintViolationException;
+import com.gomo.app.core.quest.domain.exception.code.AssignQuestErrorCode;
+import com.gomo.app.core.quest.domain.exception.code.QuestTypeErrorCode;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
