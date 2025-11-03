@@ -1,7 +1,6 @@
 package com.gomo.app.support.llm.application;
 
 import com.gomo.app.common.arch.ApplicationService;
-import com.gomo.app.support.llm.infrastructure.GeminiApiAdapter;
 
 import lombok.RequiredArgsConstructor;
 
@@ -9,10 +8,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 class GeminiGenerateTextUseCase implements GenerateTextPortIn {
 
-	private final GeminiApiAdapter geminiApiAdapter;
+	private final LlmClientPortOut llmClientPortOut;
 
 	@Override
 	public GenerateTextDto generate(GenerateTextCommand command) {
-		return geminiApiAdapter.generate(command);
+		return llmClientPortOut.generate(command);
 	}
 }

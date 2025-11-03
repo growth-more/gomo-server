@@ -1,10 +1,7 @@
 package com.gomo.app.support.llm.infrastructure;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -14,20 +11,20 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gomo.app.common.arch.Adapter;
-import com.gomo.app.common.util.PromptLoader;
 import com.gomo.app.support.llm.application.GenerateTextCommand;
 import com.gomo.app.support.llm.application.GenerateTextDto;
 import com.gomo.app.support.llm.application.LlmClientPortOut;
-import com.gomo.app.support.llm.exception.GenerateQuestException;
-import com.gomo.app.support.llm.exception.GenerateQuestErrorCode;
+import com.gomo.app.support.llm.exception.LlmErrorCode;
+import com.gomo.app.support.llm.exception.LlmException;
+import com.gomo.app.support.llm.util.PromptLoader;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
-@Adapter
 @Slf4j
-public class GeminiApiAdapter implements LlmClientPortOut {
+@Adapter
+class GeminiApiAdapter implements LlmClientPortOut {
 	private final RestClient restClient;
 
 	@Value("${spring.ai.openai.api-key}")
@@ -40,8 +37,8 @@ public class GeminiApiAdapter implements LlmClientPortOut {
 
 	private static final String GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions";
 
-	public GenerateTextDto generate(GenerateTextCommand command){
-		try{
+	public GenerateTextDto generate(GenerateTextCommand command) {
+		try {
 			String apiKey = "Bearer " + this.apiKey;
 			GeminiRequest request = createGeminiRequest(command);
 
@@ -60,40 +57,41 @@ public class GeminiApiAdapter implements LlmClientPortOut {
 		}
 	}
 
-	private GeminiRequest createGeminiRequest(GenerateTextCommand command){
+	private GeminiRequest createGeminiRequest(GenerateTextCommand command) {
 		return GeminiRequest.createPrompt(command.interests(), command.questType(), command.amount(), promptLoader);
 	}
 
-	private GenerateTextDto convertToGenerateTextDto(GeminiResponse response){
-		if (response.choices() == null || response.choices().isEmpty()){
-			throw new GenerateQuestException(GenerateQuestErrorCode.EMPTY_RESPONSE);
+	private GenerateTextDto convertToGenerateTextDto(GeminiResponse response) {
+		if (response.choices() == null || response.choices().isEmpty()) {
+			throw new LlmException(LlmErrorCode.EMPTY_RESPONSE);
 		}
 
 		String generatedText = response.choices().get(0).message().content();
 		return new GenerateTextDto(parseDtofromText(generatedText));
 	}
 
-	private Map<String, List<String>> parseDtofromText(String text){
-		try{
+	private Map<String, List<String>> parseDtofromText(String text) {
+		try {
 			String cleanText = text.trim();
 
 			if (cleanText.startsWith("```json")) {
 				cleanText = cleanText.substring(7);
 			}
 
-			if (cleanText.endsWith("```")){
-				cleanText = cleanText.substring(0, cleanText.length()-3);
+			if (cleanText.endsWith("```")) {
+				cleanText = cleanText.substring(0, cleanText.length() - 3);
 			}
 
 			cleanText = cleanText.trim();
 			ObjectMapper objectMapper = new ObjectMapper();
-			TypeReference<Map<String, List<String>>> typeRef = new TypeReference<Map<String, List<String>>>() {};
+			TypeReference<Map<String, List<String>>> typeRef = new TypeReference<Map<String, List<String>>>() {
+			};
 
 			return objectMapper.readValue(cleanText, typeRef);
-		} catch (JsonProcessingException e){
-			throw new GenerateQuestException(GenerateQuestErrorCode.INVALID_JSON_FORMAT);
-		} catch (Exception e){
-			throw new GenerateQuestException(GenerateQuestErrorCode.PARSING_ERROR);
+		} catch (JsonProcessingException e) {
+			throw new LlmException(LlmErrorCode.INVALID_JSON_FORMAT);
+		} catch (Exception e) {
+			throw new LlmException(LlmErrorCode.PARSING_ERROR);
 		}
 	}
 }

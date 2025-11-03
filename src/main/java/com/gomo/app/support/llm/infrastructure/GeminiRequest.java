@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.gomo.app.common.util.PromptLoader;
+import com.gomo.app.support.llm.util.PromptLoader;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
 
 public record GeminiRequest(
