@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gomo.app.common.arch.CoreApi;
+import com.gomo.app.common.session.Session;
+import com.gomo.app.common.session.SessionInfo;
 import com.gomo.app.core.quest.adapter.in.api.request.CreateRepeatQuestRequest;
 import com.gomo.app.core.quest.adapter.in.api.request.UpdateRepeatQuestRequest;
 import com.gomo.app.core.quest.adapter.in.api.response.CreateRepeatQuestResponse;
@@ -23,8 +25,6 @@ import com.gomo.app.core.quest.application.port.in.RepeatQuestCreator;
 import com.gomo.app.core.quest.application.port.in.RepeatQuestDeleter;
 import com.gomo.app.core.quest.application.port.in.RepeatQuestReader;
 import com.gomo.app.core.quest.application.port.in.RepeatQuestUpdater;
-import com.gomo.app.core.auth.adapter.in.security.Auth;
-import com.gomo.app.core.auth.adapter.in.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -39,26 +39,26 @@ public class RepeatQuestApi {
 	private final RepeatQuestDeleter repeatQuestDeleter;
 
 	@PostMapping
-	public ResponseEntity<CreateRepeatQuestResponse> create(@Auth AuthInfo authInfo, @RequestBody CreateRepeatQuestRequest request) {
-		UUID repeatQuestId = repeatQuestCreator.create(request.toCommand(authInfo.getPrincipalId()));
+	public ResponseEntity<CreateRepeatQuestResponse> create(@Session SessionInfo sessionInfo, @RequestBody CreateRepeatQuestRequest request) {
+		UUID repeatQuestId = repeatQuestCreator.create(request.toCommand(sessionInfo.getPrincipalId()));
 		return ResponseEntity.status(CREATED).body(CreateRepeatQuestResponse.of(repeatQuestId));
 	}
 
 	@GetMapping
-	public ResponseEntity<ListRepeatQuestResponse> findAll(@Auth AuthInfo authInfo) {
-		ListRepeatQuestDto dto = repeatQuestReader.readAll(authInfo.getPrincipalId());
+	public ResponseEntity<ListRepeatQuestResponse> findAll(@Session SessionInfo sessionInfo) {
+		ListRepeatQuestDto dto = repeatQuestReader.readAll(sessionInfo.getPrincipalId());
 		return ResponseEntity.ok(ListRepeatQuestResponse.from(dto));
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @PathVariable("id") UUID repeatQuestId, @RequestBody UpdateRepeatQuestRequest request) {
-		repeatQuestUpdater.update(request.toCommand(authInfo.getPrincipalId(), repeatQuestId));
+	public ResponseEntity<Void> update(@Session SessionInfo sessionInfo, @PathVariable("id") UUID repeatQuestId, @RequestBody UpdateRepeatQuestRequest request) {
+		repeatQuestUpdater.update(request.toCommand(sessionInfo.getPrincipalId(), repeatQuestId));
 		return ResponseEntity.noContent().build();
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> delete(@Auth AuthInfo authInfo, @PathVariable("id") UUID repeatQuestId) {
-		repeatQuestDeleter.delete(authInfo.getPrincipalId(), repeatQuestId);
+	public ResponseEntity<Void> delete(@Session SessionInfo sessionInfo, @PathVariable("id") UUID repeatQuestId) {
+		repeatQuestDeleter.delete(sessionInfo.getPrincipalId(), repeatQuestId);
 		return ResponseEntity.noContent().build();
 	}
 }

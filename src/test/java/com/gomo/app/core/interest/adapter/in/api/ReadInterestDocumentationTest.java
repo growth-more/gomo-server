@@ -55,6 +55,6 @@ public class ReadInterestDocumentationTest extends DocumentationTestBase {
 	}
 
 	private UUID createInterest(String name) {
-		return interestApi.create(super.authInfo, CreateInterestRequest.of(name, "#FF0000", null)).getBody().getId();
+		return interestApi.create(super.sessionInfo, CreateInterestRequest.of(name, "#FF0000", null)).getBody().getId();
 	}
 }

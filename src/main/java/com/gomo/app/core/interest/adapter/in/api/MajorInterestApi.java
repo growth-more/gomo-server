@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gomo.app.common.arch.CoreApi;
+import com.gomo.app.common.session.Session;
+import com.gomo.app.common.session.SessionInfo;
 import com.gomo.app.core.interest.adapter.in.api.response.CreateMajorInterestResponse;
 import com.gomo.app.core.interest.adapter.in.api.response.ListMajorInterestResponse;
 import com.gomo.app.core.interest.application.port.dto.MajorInterestDto;
 import com.gomo.app.core.interest.application.port.in.MajorInterestCreator;
 import com.gomo.app.core.interest.application.port.in.MajorInterestDeleter;
 import com.gomo.app.core.interest.application.port.in.MajorInterestReader;
-import com.gomo.app.core.auth.adapter.in.security.Auth;
-import com.gomo.app.core.auth.adapter.in.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,20 +34,20 @@ public class MajorInterestApi {
 	private final MajorInterestDeleter majorInterestDeleter;
 
 	@PostMapping("/{id}/majors")
-	public ResponseEntity<CreateMajorInterestResponse> create(@Auth AuthInfo authInfo, @PathVariable("id") UUID interestId) {
-		UUID majorInterestId = majorInterestCreator.create(authInfo.getPrincipalId(), interestId);
+	public ResponseEntity<CreateMajorInterestResponse> create(@Session SessionInfo sessionInfo, @PathVariable("id") UUID interestId) {
+		UUID majorInterestId = majorInterestCreator.create(sessionInfo.getPrincipalId(), interestId);
 		return ResponseEntity.status(CREATED).body(CreateMajorInterestResponse.of(majorInterestId));
 	}
 
 	@GetMapping("/majors")
-	public ResponseEntity<ListMajorInterestResponse> findAll(@Auth AuthInfo authInfo) {
-		List<MajorInterestDto> dtos = majorInterestReader.readAll(authInfo.getPrincipalId());
+	public ResponseEntity<ListMajorInterestResponse> findAll(@Session SessionInfo sessionInfo) {
+		List<MajorInterestDto> dtos = majorInterestReader.readAll(sessionInfo.getPrincipalId());
 		return ResponseEntity.ok(ListMajorInterestResponse.of(dtos));
 	}
 
 	@DeleteMapping("/majors/{id}")
-	public ResponseEntity<Void> delete(@Auth AuthInfo authInfo, @PathVariable("id") UUID majorInterestId) {
-		majorInterestDeleter.delete(authInfo.getPrincipalId(), majorInterestId);
+	public ResponseEntity<Void> delete(@Session SessionInfo sessionInfo, @PathVariable("id") UUID majorInterestId) {
+		majorInterestDeleter.delete(sessionInfo.getPrincipalId(), majorInterestId);
 		return ResponseEntity.noContent().build();
 	}
 }

@@ -35,9 +35,9 @@ public class ListRepeatQuestDocumentationTest extends DocumentationTestBase {
 
 	@BeforeEach
 	public void setUp() {
-		repeatQuestApi.create(super.authInfo, getCreateRepeatQuestRequest(QuestType.DAILY.name())).getBody().getId();
-		repeatQuestApi.create(super.authInfo, getCreateRepeatQuestRequest(QuestType.WEEKLY.name())).getBody().getId();
-		repeatQuestApi.create(super.authInfo, getCreateRepeatQuestRequest(QuestType.MONTHLY.name())).getBody().getId();
+		repeatQuestApi.create(super.sessionInfo, getCreateRepeatQuestRequest(QuestType.DAILY.name())).getBody().getId();
+		repeatQuestApi.create(super.sessionInfo, getCreateRepeatQuestRequest(QuestType.WEEKLY.name())).getBody().getId();
+		repeatQuestApi.create(super.sessionInfo, getCreateRepeatQuestRequest(QuestType.MONTHLY.name())).getBody().getId();
 	}
 
 	@AfterEach

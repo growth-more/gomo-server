@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gomo.app.common.arch.CoreApi;
+import com.gomo.app.common.session.Session;
+import com.gomo.app.common.session.SessionInfo;
 import com.gomo.app.core.interest.adapter.in.api.request.CreateInterestRequest;
 import com.gomo.app.core.interest.adapter.in.api.request.UpdateInterestRequest;
 import com.gomo.app.core.interest.adapter.in.api.response.CreateInterestResponse;
@@ -27,8 +29,6 @@ import com.gomo.app.core.interest.application.port.in.InterestCreator;
 import com.gomo.app.core.interest.application.port.in.InterestDeleter;
 import com.gomo.app.core.interest.application.port.in.InterestReader;
 import com.gomo.app.core.interest.application.port.in.InterestUpdater;
-import com.gomo.app.core.auth.adapter.in.security.Auth;
-import com.gomo.app.core.auth.adapter.in.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -43,8 +43,8 @@ public class InterestApi {
 	private final InterestDeleter interestDeleter;
 
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<CreateInterestResponse> create(@Auth AuthInfo authInfo, @ModelAttribute CreateInterestRequest request) {
-		UUID interestId = interestCreator.create(request.toCommand(authInfo.getPrincipalId()));
+	public ResponseEntity<CreateInterestResponse> create(@Session SessionInfo sessionInfo, @ModelAttribute CreateInterestRequest request) {
+		UUID interestId = interestCreator.create(request.toCommand(sessionInfo.getPrincipalId()));
 		return ResponseEntity.status(CREATED).body(CreateInterestResponse.of(interestId));
 	}
 
@@ -55,22 +55,22 @@ public class InterestApi {
 	}
 
 	@GetMapping
-	public ResponseEntity<ListInterestResponse> list(@Auth AuthInfo authInfo) {
-		List<ReadInterestResponse> responses = interestReader.readAll(authInfo.getPrincipalId()).stream()
+	public ResponseEntity<ListInterestResponse> list(@Session SessionInfo sessionInfo) {
+		List<ReadInterestResponse> responses = interestReader.readAll(sessionInfo.getPrincipalId()).stream()
 			.map(ReadInterestResponse::from)
 			.toList();
 		return ResponseEntity.status(OK).body(ListInterestResponse.of(responses));
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @PathVariable("id") UUID interestId, @RequestBody UpdateInterestRequest request) {
-		interestUpdater.update(request.toCommand(authInfo.getPrincipalId(), interestId));
+	public ResponseEntity<Void> update(@Session SessionInfo sessionInfo, @PathVariable("id") UUID interestId, @RequestBody UpdateInterestRequest request) {
+		interestUpdater.update(request.toCommand(sessionInfo.getPrincipalId(), interestId));
 		return ResponseEntity.noContent().build();
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> delete(@Auth AuthInfo authInfo, @PathVariable("id") UUID interestId) {
-		interestDeleter.delete(authInfo.getPrincipalId(), interestId);
+	public ResponseEntity<Void> delete(@Session SessionInfo sessionInfo, @PathVariable("id") UUID interestId) {
+		interestDeleter.delete(sessionInfo.getPrincipalId(), interestId);
 		return ResponseEntity.noContent().build();
 	}
 }

@@ -1,5 +1,6 @@
-package com.gomo.app.core.auth.adapter.in.security;
+package com.gomo.app.core.auth.adapter.in.filter;
 
+import static com.gomo.app.common.session.SessionInfo.*;
 import static com.gomo.app.support.logging.MDC.*;
 
 import java.io.IOException;
@@ -55,10 +56,10 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 		}
 		try {
 			token = token.substring(BEARER_TOKEN.length());
-			String memberId = jwtVerifier.extractSubject(token);
-			MDC.put(MEMBER_ID.name(), memberId);
-			log.info("action=MEMBER_AUTHENTICATION, status=success, memberId={}", memberId);
-			request.setAttribute("memberId", memberId);
+			String principalId = jwtVerifier.extractSubject(token);
+			MDC.put(MEMBER_ID.name(), principalId);
+			log.info("action=PRINCIPAL_AUTHENTICATION, status=success, principalId={}", principalId);
+			request.setAttribute(SESSION_PRINCIPAL_ID, principalId);
 		} catch (JwtException e) {
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			response.getWriter().write("Invalid or Expired JWT Token");

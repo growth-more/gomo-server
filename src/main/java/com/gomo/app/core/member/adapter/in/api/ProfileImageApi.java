@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gomo.app.common.arch.CoreApi;
+import com.gomo.app.common.session.Session;
+import com.gomo.app.common.session.SessionInfo;
 import com.gomo.app.core.member.adapter.in.api.request.UpdateProfileImageRequest;
 import com.gomo.app.core.member.application.port.in.ProfileImageDeleter;
 import com.gomo.app.core.member.application.port.in.ProfileImageUpdater;
-import com.gomo.app.core.auth.adapter.in.security.Auth;
-import com.gomo.app.core.auth.adapter.in.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,14 +25,14 @@ public class ProfileImageApi {
 	private final ProfileImageDeleter profileImageDeleter;
 
 	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @ModelAttribute UpdateProfileImageRequest request) {
-		profileImageUpdater.update(authInfo.getPrincipalId(), request.getProfileImage());
+	public ResponseEntity<Void> update(@Session SessionInfo sessionInfo, @ModelAttribute UpdateProfileImageRequest request) {
+		profileImageUpdater.update(sessionInfo.getPrincipalId(), request.getProfileImage());
 		return ResponseEntity.noContent().build();
 	}
 
 	@DeleteMapping
-	public ResponseEntity<Void> delete(@Auth AuthInfo authInfo) {
-		profileImageDeleter.delete(authInfo.getPrincipalId());
+	public ResponseEntity<Void> delete(@Session SessionInfo sessionInfo) {
+		profileImageDeleter.delete(sessionInfo.getPrincipalId());
 		return ResponseEntity.ok().build();
 	}
 }

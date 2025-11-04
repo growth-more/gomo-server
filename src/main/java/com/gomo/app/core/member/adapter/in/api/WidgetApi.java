@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gomo.app.common.arch.CoreApi;
+import com.gomo.app.common.session.Session;
+import com.gomo.app.common.session.SessionInfo;
 import com.gomo.app.core.member.adapter.in.api.request.UpdateWidgetRequest;
 import com.gomo.app.core.member.application.port.in.WidgetUpdater;
-import com.gomo.app.core.auth.adapter.in.security.Auth;
-import com.gomo.app.core.auth.adapter.in.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,8 +21,8 @@ public class WidgetApi {
 	private final WidgetUpdater widgetUpdater;
 
 	@PutMapping
-	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @RequestBody UpdateWidgetRequest request) {
-		widgetUpdater.update(authInfo.getPrincipalId(), request.getSnapshot());
+	public ResponseEntity<Void> update(@Session SessionInfo sessionInfo, @RequestBody UpdateWidgetRequest request) {
+		widgetUpdater.update(sessionInfo.getPrincipalId(), request.getSnapshot());
 		return ResponseEntity.noContent().build();
 	}
 }

@@ -1,6 +1,8 @@
-package com.gomo.app.core.auth.adapter.in.security;
+package com.gomo.app.common.session;
 
-import jakarta.servlet.http.HttpServletRequest;
+import static com.gomo.app.common.session.SessionInfo.*;
+
+import java.util.UUID;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -9,21 +11,19 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import java.util.UUID;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Component
-public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
+public class SessionArgumentResolver implements HandlerMethodArgumentResolver {
+	
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		return parameter.hasParameterAnnotation(Auth.class);
+		return parameter.hasParameterAnnotation(Session.class);
 	}
 
 	@Override
-	public Object resolveArgument(MethodParameter parameter,
-		ModelAndViewContainer mavContainer,
-		NativeWebRequest webRequest,
-		WebDataBinderFactory binderFactory) {
+	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
 		HttpServletRequest request = (HttpServletRequest)webRequest.getNativeRequest();
-		return AuthInfo.of(UUID.fromString((String)request.getAttribute("memberId")));
+		return SessionInfo.of(UUID.fromString((String)request.getAttribute(SESSION_PRINCIPAL_ID)));
 	}
 }

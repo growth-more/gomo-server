@@ -66,10 +66,10 @@ public class ListMajorInterestDocumentationTest extends DocumentationTestBase {
 	}
 
 	private void createMajorInterest(UUID interestId) {
-		majorInterestApi.create(this.authInfo, interestId);
+		majorInterestApi.create(this.sessionInfo, interestId);
 	}
 
 	private UUID createInterest(String name) {
-		return interestApi.create(super.authInfo, CreateInterestRequest.of(name, "#FF0000", null)).getBody().getId();
+		return interestApi.create(super.sessionInfo, CreateInterestRequest.of(name, "#FF0000", null)).getBody().getId();
 	}
 }

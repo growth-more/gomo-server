@@ -17,14 +17,14 @@ import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.gomo.app.core.member.domain.model.LoginProvider;
-import com.gomo.app.core.member.domain.repository.MemberRepository;
+import com.gomo.app.common.session.SessionInfo;
 import com.gomo.app.core.auth.adapter.in.api.AuthApi;
 import com.gomo.app.core.auth.adapter.in.api.request.CreatePrincipalRequest;
 import com.gomo.app.core.auth.adapter.in.api.request.LoginRequest;
 import com.gomo.app.core.auth.adapter.in.api.response.AccessTokenResponse;
-import com.gomo.app.core.auth.adapter.in.security.AuthInfo;
 import com.gomo.app.core.auth.application.port.out.JwtCreator;
+import com.gomo.app.core.member.domain.model.LoginProvider;
+import com.gomo.app.core.member.domain.repository.MemberRepository;
 import com.google.common.net.HttpHeaders;
 
 import io.restassured.builder.RequestSpecBuilder;
@@ -48,7 +48,7 @@ public abstract class DocumentationTestBase {
 	@Autowired
 	private MemberRepository memberRepository;
 
-	protected AuthInfo authInfo;
+	protected SessionInfo sessionInfo;
 	protected UUID sessionMemberId;
 	protected String accessToken;
 	protected String refreshToken;
@@ -89,7 +89,7 @@ public abstract class DocumentationTestBase {
 		AccessTokenResponse responseBody = responseEntity.getBody();
 		List<String> cookies = responseEntity.getHeaders().get(HttpHeaders.SET_COOKIE);
 		this.sessionMemberId = responseBody.getPrincipalId();
-		this.authInfo = AuthInfo.of(sessionMemberId);
+		this.sessionInfo = SessionInfo.of(sessionMemberId);
 		this.accessToken = responseBody.getAccessToken();
 		this.refreshToken = extractTokenFromCookie(cookies);
 	}

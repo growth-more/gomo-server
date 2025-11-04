@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gomo.app.common.arch.CoreApi;
+import com.gomo.app.common.session.Session;
+import com.gomo.app.common.session.SessionInfo;
 import com.gomo.app.core.survey.adapter.in.api.request.CreateSurveyResultRequest;
 import com.gomo.app.core.survey.adapter.in.api.response.ListSurveyQuestionResponse;
 import com.gomo.app.core.survey.application.dto.SurveyQuestionDto;
 import com.gomo.app.core.survey.application.service.SurveyQuestionService;
 import com.gomo.app.core.survey.application.service.SurveyResultService;
-import com.gomo.app.core.auth.adapter.in.security.Auth;
-import com.gomo.app.core.auth.adapter.in.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,8 +30,8 @@ public class SurveyApi {
 	private final SurveyQuestionService surveyQuestionService;
 
 	@PostMapping
-	public ResponseEntity<Void> createSurveyResult(@Auth AuthInfo authInfo, @RequestBody CreateSurveyResultRequest request) {
-		surveyResultService.create(request.toCommand(authInfo.getPrincipalId()));
+	public ResponseEntity<Void> createSurveyResult(@Session SessionInfo sessionInfo, @RequestBody CreateSurveyResultRequest request) {
+		surveyResultService.create(request.toCommand(sessionInfo.getPrincipalId()));
 		return ResponseEntity.status(CREATED).build();
 	}
 
