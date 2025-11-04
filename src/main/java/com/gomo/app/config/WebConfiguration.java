@@ -7,8 +7,8 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.gomo.app.common.session.SessionArgumentResolver;
 import com.gomo.app.common.web.OctetStreamReadMsgConverter;
-import com.gomo.app.core.auth.adapter.in.security.AuthArgumentResolver;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,12 +16,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class WebConfiguration implements WebMvcConfigurer {
 
-	private final AuthArgumentResolver authArgumentResolver;
+	private final SessionArgumentResolver sessionArgumentResolver;
 	private final OctetStreamReadMsgConverter octetStreamReadMsgConverter;
 
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-		resolvers.add(authArgumentResolver);
+		resolvers.add(sessionArgumentResolver);
 	}
 
 	@Override

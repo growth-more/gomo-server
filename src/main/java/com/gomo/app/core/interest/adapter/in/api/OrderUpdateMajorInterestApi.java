@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gomo.app.common.arch.CoreApi;
+import com.gomo.app.common.session.Session;
+import com.gomo.app.common.session.SessionInfo;
 import com.gomo.app.core.interest.adapter.in.api.request.OrderUpdateMajorInterestRequest;
 import com.gomo.app.core.interest.application.port.in.MajorInterestOrderUpdater;
-import com.gomo.app.core.auth.adapter.in.security.Auth;
-import com.gomo.app.core.auth.adapter.in.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,8 +21,8 @@ public class OrderUpdateMajorInterestApi {
 	private final MajorInterestOrderUpdater majorInterestOrderUpdater;
 
 	@PutMapping
-	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @RequestBody OrderUpdateMajorInterestRequest request) {
-		majorInterestOrderUpdater.update(request.toCommand(authInfo.getPrincipalId()));
+	public ResponseEntity<Void> update(@Session SessionInfo sessionInfo, @RequestBody OrderUpdateMajorInterestRequest request) {
+		majorInterestOrderUpdater.update(request.toCommand(sessionInfo.getPrincipalId()));
 		return ResponseEntity.noContent().build();
 	}
 }

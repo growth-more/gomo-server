@@ -19,9 +19,9 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import com.gomo.app.core.quest.adapter.in.api.request.CreateRepeatQuestRequest;
 import com.gomo.app.core.quest.adapter.in.api.request.UpdateRepeatQuestRequest;
 import com.gomo.app.core.quest.adapter.in.api.snippet.UpdateRepeatQuestSnippet;
+import com.gomo.app.core.quest.domain.exception.code.QuestContentErrorCode;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
 import com.gomo.app.core.quest.domain.repository.RepeatQuestRepository;
-import com.gomo.app.core.quest.domain.exception.code.QuestContentErrorCode;
 import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation documentation]: 반복 퀘스트 수정 테스트")
@@ -39,7 +39,7 @@ public class UpdateRepeatQuestDocumentationTest extends DocumentationTestBase {
 
 	@BeforeEach
 	public void setUp() {
-		repeatQuestId = repeatQuestApi.create(super.authInfo, getCreateRepeatQuestRequest()).getBody().getId();
+		repeatQuestId = repeatQuestApi.create(super.sessionInfo, getCreateRepeatQuestRequest()).getBody().getId();
 	}
 
 	@AfterEach

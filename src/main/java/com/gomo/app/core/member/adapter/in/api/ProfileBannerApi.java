@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gomo.app.common.arch.CoreApi;
+import com.gomo.app.common.session.Session;
+import com.gomo.app.common.session.SessionInfo;
 import com.gomo.app.core.member.adapter.in.api.request.UpdateProfileBannerRequest;
 import com.gomo.app.core.member.application.port.in.ProfileBannerDeleter;
 import com.gomo.app.core.member.application.port.in.ProfileBannerUpdater;
-import com.gomo.app.core.auth.adapter.in.security.Auth;
-import com.gomo.app.core.auth.adapter.in.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,14 +25,14 @@ public class ProfileBannerApi {
 	private final ProfileBannerDeleter profileBannerDeleter;
 
 	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @ModelAttribute UpdateProfileBannerRequest request) {
-		profileBannerUpdater.update(authInfo.getPrincipalId(), request.getProfileBanner());
+	public ResponseEntity<Void> update(@Session SessionInfo sessionInfo, @ModelAttribute UpdateProfileBannerRequest request) {
+		profileBannerUpdater.update(sessionInfo.getPrincipalId(), request.getProfileBanner());
 		return ResponseEntity.noContent().build();
 	}
 
 	@DeleteMapping
-	public ResponseEntity<Void> delete(@Auth AuthInfo authInfo) {
-		profileBannerDeleter.delete(authInfo.getPrincipalId());
+	public ResponseEntity<Void> delete(@Session SessionInfo sessionInfo) {
+		profileBannerDeleter.delete(sessionInfo.getPrincipalId());
 		return ResponseEntity.ok().build();
 	}
 }

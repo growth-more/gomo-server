@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gomo.app.common.arch.CoreApi;
+import com.gomo.app.common.session.Session;
+import com.gomo.app.common.session.SessionInfo;
 import com.gomo.app.core.auth.adapter.in.api.request.CreatePrincipalRequest;
 import com.gomo.app.core.auth.adapter.in.api.request.LoginRequest;
 import com.gomo.app.core.auth.adapter.in.api.response.AccessTokenResponse;
 import com.gomo.app.core.auth.adapter.in.api.response.CreatePrincipalResponse;
-import com.gomo.app.core.auth.adapter.in.security.Auth;
-import com.gomo.app.core.auth.adapter.in.security.AuthInfo;
 import com.gomo.app.core.auth.application.port.dto.AuthTokenDto;
 import com.gomo.app.core.auth.application.port.in.LoginProcessor;
 import com.gomo.app.core.auth.application.port.in.RefreshTokenDeleter;
@@ -63,8 +63,8 @@ public class AuthApi {
 	}
 
 	@GetMapping("/logout")
-	public ResponseEntity<Void> logout(@Auth AuthInfo authInfo) {
-		refreshTokenDeleter.delete(authInfo.getPrincipalId());
+	public ResponseEntity<Void> logout(@Session SessionInfo sessionInfo) {
+		refreshTokenDeleter.delete(sessionInfo.getPrincipalId());
 		ResponseCookie cookie = createResponseCookie("", 0);
 		return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).build();
 	}

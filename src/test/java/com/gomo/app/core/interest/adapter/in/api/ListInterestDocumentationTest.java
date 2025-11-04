@@ -55,6 +55,6 @@ public class ListInterestDocumentationTest extends DocumentationTestBase {
 	}
 
 	private void createInterest(String name) {
-		interestApi.create(super.authInfo, CreateInterestRequest.of(name, "#FF0000", null));
+		interestApi.create(super.sessionInfo, CreateInterestRequest.of(name, "#FF0000", null));
 	}
 }

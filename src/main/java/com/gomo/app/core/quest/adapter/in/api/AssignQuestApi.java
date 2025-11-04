@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gomo.app.common.arch.CoreApi;
+import com.gomo.app.common.session.Session;
+import com.gomo.app.common.session.SessionInfo;
 import com.gomo.app.core.quest.adapter.in.api.request.CreateAssignQuestRequest;
 import com.gomo.app.core.quest.adapter.in.api.request.UpdateAssignQuestRequest;
 import com.gomo.app.core.quest.adapter.in.api.response.CreateAssignQuestResponse;
@@ -23,8 +25,6 @@ import com.gomo.app.core.quest.application.port.in.AssignQuestCreator;
 import com.gomo.app.core.quest.application.port.in.AssignQuestDeleter;
 import com.gomo.app.core.quest.application.port.in.AssignQuestDetailReader;
 import com.gomo.app.core.quest.application.port.in.AssignQuestUpdater;
-import com.gomo.app.core.auth.adapter.in.security.Auth;
-import com.gomo.app.core.auth.adapter.in.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -39,26 +39,26 @@ public class AssignQuestApi {
 	private final AssignQuestDeleter assignQuestDeleter;
 
 	@PostMapping
-	public ResponseEntity<CreateAssignQuestResponse> create(@Auth AuthInfo authInfo, @RequestBody CreateAssignQuestRequest request) {
-		UUID assignQuestId = assignQuestCreator.create(request.toCommand(authInfo.getPrincipalId()));
+	public ResponseEntity<CreateAssignQuestResponse> create(@Session SessionInfo sessionInfo, @RequestBody CreateAssignQuestRequest request) {
+		UUID assignQuestId = assignQuestCreator.create(request.toCommand(sessionInfo.getPrincipalId()));
 		return ResponseEntity.status(CREATED).body(CreateAssignQuestResponse.of(assignQuestId));
 	}
 
 	@GetMapping
-	public ResponseEntity<ListAssignQuestDetailResponse> findAll(@Auth AuthInfo authInfo) {
-		ListAssignQuestDetailDto dto = assignQuestDetailReader.readAll(authInfo.getPrincipalId());
+	public ResponseEntity<ListAssignQuestDetailResponse> findAll(@Session SessionInfo sessionInfo) {
+		ListAssignQuestDetailDto dto = assignQuestDetailReader.readAll(sessionInfo.getPrincipalId());
 		return ResponseEntity.ok(ListAssignQuestDetailResponse.from(dto));
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @PathVariable("id") UUID assignQuestId, @RequestBody UpdateAssignQuestRequest request) {
-		assignQuestUpdater.update(request.toCommand(authInfo.getPrincipalId(), assignQuestId));
+	public ResponseEntity<Void> update(@Session SessionInfo sessionInfo, @PathVariable("id") UUID assignQuestId, @RequestBody UpdateAssignQuestRequest request) {
+		assignQuestUpdater.update(request.toCommand(sessionInfo.getPrincipalId(), assignQuestId));
 		return ResponseEntity.noContent().build();
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> delete(@Auth AuthInfo authInfo, @PathVariable("id") UUID assignQuestId) {
-		assignQuestDeleter.delete(authInfo.getPrincipalId(), assignQuestId);
+	public ResponseEntity<Void> delete(@Session SessionInfo sessionInfo, @PathVariable("id") UUID assignQuestId) {
+		assignQuestDeleter.delete(sessionInfo.getPrincipalId(), assignQuestId);
 		return ResponseEntity.noContent().build();
 	}
 }

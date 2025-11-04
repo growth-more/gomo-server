@@ -67,10 +67,10 @@ public class DeleteInterestRelationDocumentationTest extends DocumentationTestBa
 	}
 
 	private UUID createInterest(String name) {
-		return interestApi.create(super.authInfo, CreateInterestRequest.of(name, "#FF0000", null)).getBody().getId();
+		return interestApi.create(super.sessionInfo, CreateInterestRequest.of(name, "#FF0000", null)).getBody().getId();
 	}
 
 	private UUID createInterestRelation(UUID depth1Id, UUID depth2Id) {
-		return interestNetworkApi.createRelation(this.authInfo, CreateInterestRelationRequest.of(depth1Id, depth2Id)).getBody().getId();
+		return interestNetworkApi.createRelation(this.sessionInfo, CreateInterestRelationRequest.of(depth1Id, depth2Id)).getBody().getId();
 	}
 }

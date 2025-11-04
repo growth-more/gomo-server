@@ -81,10 +81,10 @@ public class OrderUpdateMajorInterestDocumentationTest extends DocumentationTest
 	}
 
 	private UUID createMajorInterest(UUID interestId) {
-		return majorInterestApi.create(this.authInfo, interestId).getBody().getId();
+		return majorInterestApi.create(this.sessionInfo, interestId).getBody().getId();
 	}
 
 	private UUID createInterest(String name) {
-		return interestApi.create(super.authInfo, CreateInterestRequest.of(name, "#FF0000", null)).getBody().getId();
+		return interestApi.create(super.sessionInfo, CreateInterestRequest.of(name, "#FF0000", null)).getBody().getId();
 	}
 }
