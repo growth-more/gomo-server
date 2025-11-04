@@ -22,10 +22,10 @@ import com.gomo.app.core.member.adapter.in.api.QuestPropertyApi;
 import com.gomo.app.core.member.adapter.in.api.request.UpdateQuestPropertyRequest;
 import com.gomo.app.core.quest.adapter.in.api.request.CreateRepeatQuestRequest;
 import com.gomo.app.core.quest.adapter.in.api.snippet.CreateRepeatQuestSnippet;
-import com.gomo.app.core.quest.domain.model.quest.QuestType;
-import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.domain.exception.code.QuestContentErrorCode;
 import com.gomo.app.core.quest.domain.exception.code.QuestErrorCode;
+import com.gomo.app.core.quest.domain.model.quest.QuestType;
+import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation documentation]: 반복 퀘스트 생성 테스트")
@@ -44,7 +44,7 @@ public class CreateRepeatQuestDocumentationTest extends DocumentationTestBase {
 
 	@BeforeEach
 	public void setUp() {
-		subjectId = interestApi.create(super.authInfo, CreateInterestRequest.of("name", "#FF0000", null))
+		subjectId = interestApi.create(super.sessionInfo, CreateInterestRequest.of("name", "#FF0000", null))
 			.getBody()
 			.getId();
 	}
@@ -104,7 +104,7 @@ public class CreateRepeatQuestDocumentationTest extends DocumentationTestBase {
 	@DisplayName("사용자가 퀘스트 제한 개수를 초과하는 반복 퀘스트를 생성한다.")
 	@Test
 	void create_repeat_quest_exceeding_threshold() {
-		questPropertyApi.update(super.authInfo, UpdateQuestPropertyRequest.of(0, 0, 0));
+		questPropertyApi.update(super.sessionInfo, UpdateQuestPropertyRequest.of(0, 0, 0));
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.header(AUTHORIZATION, "Bearer " + accessToken)

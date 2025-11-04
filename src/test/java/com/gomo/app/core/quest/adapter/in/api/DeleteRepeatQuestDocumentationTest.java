@@ -35,7 +35,7 @@ public class DeleteRepeatQuestDocumentationTest extends DocumentationTestBase {
 
 	@BeforeEach
 	public void setUp() {
-		repeatQuestId = repeatQuestApi.create(super.authInfo, getCreateRepeatQuestRequest()).getBody().getId();
+		repeatQuestId = repeatQuestApi.create(super.sessionInfo, getCreateRepeatQuestRequest()).getBody().getId();
 	}
 
 	@AfterEach

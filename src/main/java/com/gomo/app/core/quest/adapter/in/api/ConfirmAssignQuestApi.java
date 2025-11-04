@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gomo.app.common.arch.CoreApi;
+import com.gomo.app.common.session.Session;
+import com.gomo.app.common.session.SessionInfo;
 import com.gomo.app.core.quest.application.port.in.AssignQuestConfirmer;
-import com.gomo.app.core.auth.adapter.in.security.Auth;
-import com.gomo.app.core.auth.adapter.in.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,8 +22,8 @@ public class ConfirmAssignQuestApi {
 	private final AssignQuestConfirmer assignQuestConfirmer;
 
 	@PutMapping
-	public ResponseEntity<Void> confirm(@Auth AuthInfo authInfo, @PathVariable("id") UUID assignQuestId) {
-		assignQuestConfirmer.confirm(authInfo.getPrincipalId(), assignQuestId);
+	public ResponseEntity<Void> confirm(@Session SessionInfo sessionInfo, @PathVariable("id") UUID assignQuestId) {
+		assignQuestConfirmer.confirm(sessionInfo.getPrincipalId(), assignQuestId);
 		return ResponseEntity.noContent().build();
 	}
 }

@@ -1,4 +1,4 @@
-package com.gomo.app.core.auth.adapter.in.security;
+package com.gomo.app.common.session;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,5 +7,5 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Auth {
+public @interface Session {
 }

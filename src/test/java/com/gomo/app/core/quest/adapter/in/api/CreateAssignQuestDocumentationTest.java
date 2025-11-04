@@ -18,10 +18,10 @@ import com.gomo.app.core.member.adapter.in.api.QuestPropertyApi;
 import com.gomo.app.core.member.adapter.in.api.request.UpdateQuestPropertyRequest;
 import com.gomo.app.core.quest.adapter.in.api.request.CreateAssignQuestRequest;
 import com.gomo.app.core.quest.adapter.in.api.snippet.CreateAssignQuestSnippet;
-import com.gomo.app.core.quest.domain.model.quest.QuestType;
-import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.core.quest.domain.exception.code.QuestContentErrorCode;
 import com.gomo.app.core.quest.domain.exception.code.QuestErrorCode;
+import com.gomo.app.core.quest.domain.model.quest.QuestType;
+import com.gomo.app.core.quest.domain.repository.AssignQuestRepository;
 import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation documentation]: 할당 퀘스트 생성 테스트")
@@ -85,7 +85,7 @@ public class CreateAssignQuestDocumentationTest extends DocumentationTestBase {
 	@DisplayName("사용자가 퀘스트 제한 개수를 초과하는 할당 퀘스트를 생성한다.")
 	@Test
 	void create_assign_quest_exceeding_threshold() {
-		questPropertyApi.update(super.authInfo, UpdateQuestPropertyRequest.of(0, 0, 0));
+		questPropertyApi.update(super.sessionInfo, UpdateQuestPropertyRequest.of(0, 0, 0));
 		given(this.specification).filter(errorFilter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.header(AUTHORIZATION, "Bearer " + accessToken)

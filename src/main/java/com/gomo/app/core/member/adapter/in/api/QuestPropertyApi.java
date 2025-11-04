@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gomo.app.common.arch.CoreApi;
+import com.gomo.app.common.session.Session;
+import com.gomo.app.common.session.SessionInfo;
 import com.gomo.app.core.member.adapter.in.api.request.UpdateQuestPropertyRequest;
 import com.gomo.app.core.member.adapter.in.api.response.ReadQuestPropertyResponse;
 import com.gomo.app.core.member.application.port.dto.QuestPropertyDto;
 import com.gomo.app.core.member.application.port.in.QuestPropertyReader;
 import com.gomo.app.core.member.application.port.in.QuestPropertyUpdater;
-import com.gomo.app.core.auth.adapter.in.security.Auth;
-import com.gomo.app.core.auth.adapter.in.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,14 +26,14 @@ public class QuestPropertyApi {
 	private final QuestPropertyUpdater questPropertyUpdater;
 
 	@GetMapping
-	public ResponseEntity<ReadQuestPropertyResponse> find(@Auth AuthInfo authInfo) {
-		QuestPropertyDto dto = questPropertyReader.read(authInfo.getPrincipalId());
+	public ResponseEntity<ReadQuestPropertyResponse> find(@Session SessionInfo sessionInfo) {
+		QuestPropertyDto dto = questPropertyReader.read(sessionInfo.getPrincipalId());
 		return ResponseEntity.ok(ReadQuestPropertyResponse.of(dto));
 	}
 
 	@PutMapping
-	public ResponseEntity<Void> update(@Auth AuthInfo authInfo, @RequestBody UpdateQuestPropertyRequest request) {
-		questPropertyUpdater.update(request.toCommand(authInfo.getPrincipalId()));
+	public ResponseEntity<Void> update(@Session SessionInfo sessionInfo, @RequestBody UpdateQuestPropertyRequest request) {
+		questPropertyUpdater.update(request.toCommand(sessionInfo.getPrincipalId()));
 		return ResponseEntity.noContent().build();
 	}
 }

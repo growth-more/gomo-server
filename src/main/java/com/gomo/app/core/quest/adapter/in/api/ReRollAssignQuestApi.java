@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gomo.app.common.arch.CoreApi;
+import com.gomo.app.common.session.Session;
+import com.gomo.app.common.session.SessionInfo;
 import com.gomo.app.core.quest.adapter.in.api.request.ReRollAssignQuestRequest;
 import com.gomo.app.core.quest.adapter.in.api.response.ReadAssignQuestDetailResponse;
 import com.gomo.app.core.quest.application.port.dto.AssignQuestDetailDto;
 import com.gomo.app.core.quest.application.port.in.AssignQuestReRoller;
-import com.gomo.app.core.auth.adapter.in.security.Auth;
-import com.gomo.app.core.auth.adapter.in.security.AuthInfo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,8 +25,8 @@ public class ReRollAssignQuestApi {
 	private final AssignQuestReRoller assignQuestReRoller;
 
 	@PostMapping
-	public ResponseEntity<ReadAssignQuestDetailResponse> reRoll(@Auth AuthInfo authInfo, @RequestBody ReRollAssignQuestRequest request) {
-		AssignQuestDetailDto assignQuestDetailDto = assignQuestReRoller.reRoll(authInfo.getPrincipalId(), request.getAssignQuestId());
+	public ResponseEntity<ReadAssignQuestDetailResponse> reRoll(@Session SessionInfo sessionInfo, @RequestBody ReRollAssignQuestRequest request) {
+		AssignQuestDetailDto assignQuestDetailDto = assignQuestReRoller.reRoll(sessionInfo.getPrincipalId(), request.getAssignQuestId());
 		return ResponseEntity.status(CREATED).body(ReadAssignQuestDetailResponse.from(assignQuestDetailDto));
 	}
 }

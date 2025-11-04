@@ -70,7 +70,7 @@ public class CreateMajorInterestDocumentationTest extends DocumentationTestBase 
 	@DisplayName("이미 등록된 주요 관심사를 중복 등록한다.")
 	@Test
 	void create_already_major_interest() {
-		majorInterestApi.create(super.authInfo, interestId);
+		majorInterestApi.create(super.sessionInfo, interestId);
 
 		given(this.specification)
 			.filter(errorFilter)
@@ -88,6 +88,6 @@ public class CreateMajorInterestDocumentationTest extends DocumentationTestBase 
 	}
 
 	private UUID createInterest(String name) {
-		return interestApi.create(super.authInfo, CreateInterestRequest.of(name, "#FF0000", null)).getBody().getId();
+		return interestApi.create(super.sessionInfo, CreateInterestRequest.of(name, "#FF0000", null)).getBody().getId();
 	}
 }
