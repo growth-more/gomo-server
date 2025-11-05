@@ -5,8 +5,7 @@ import org.springframework.modulith.PackageInfo;
 
 @ApplicationModule(
 	id = "support-logging",
-	displayName = "support-logging",
-	type = ApplicationModule.Type.OPEN
+	displayName = "support-logging"
 )
 @PackageInfo
 class SpringModulithPackageInfo {
