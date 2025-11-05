@@ -1,4 +1,4 @@
-package com.gomo.app.core.member.adapter.in.api.snippet;
+package com.gomo.app.core.auth.adapter.in.api.snippet;
 
 import static com.gomo.app.test.ErrorResponseFields.*;
 import static org.springframework.http.HttpHeaders.*;
@@ -12,7 +12,7 @@ import org.springframework.restdocs.restassured.RestDocumentationFilter;
 import org.springframework.restdocs.snippet.Snippet;
 
 public class ResetPasswordSnippet {
-	private static final String IDENTIFIER = "member-password-reset";
+	private static final String IDENTIFIER = "auth-password-reset";
 
 	private static final Snippet REQUEST_HEADERS = requestHeaders(
 		headerWithName(CONTENT_TYPE).description("Content-Type: `application/json`")

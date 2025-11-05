@@ -1,10 +1,8 @@
-package com.gomo.app.core.quest.domain.event;
+package com.gomo.app.common.event;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.gomo.app.common.event.Event;
-import com.gomo.app.common.event.EventRouting;
 import com.gomo.app.core.quest.domain.model.quest.QuestType;
 
 import lombok.AccessLevel;

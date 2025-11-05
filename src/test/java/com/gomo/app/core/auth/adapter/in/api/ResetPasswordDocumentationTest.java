@@ -1,4 +1,4 @@
-package com.gomo.app.core.member.adapter.in.api;
+package com.gomo.app.core.auth.adapter.in.api;
 
 import static io.restassured.RestAssured.*;
 import static org.springframework.http.HttpHeaders.*;
@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.core.auth.adapter.in.api.request.ResetPasswordRequest;
-import com.gomo.app.core.member.adapter.in.api.snippet.ResetPasswordSnippet;
+import com.gomo.app.core.auth.adapter.in.api.snippet.ResetPasswordSnippet;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
 import com.gomo.app.test.DocumentationTestBase;
 

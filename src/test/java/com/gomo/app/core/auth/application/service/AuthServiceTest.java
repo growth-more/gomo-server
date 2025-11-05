@@ -21,6 +21,7 @@ import com.gomo.app.core.auth.application.port.dto.AuthTokenDto;
 import com.gomo.app.core.auth.application.port.out.JwtVerifier;
 import com.gomo.app.core.auth.application.port.out.PrincipalCreator;
 import com.gomo.app.core.auth.application.port.out.PrincipalLoginProcessor;
+import com.gomo.app.core.auth.application.port.out.PrincipalPasswordResetter;
 import com.gomo.app.core.auth.domain.exception.AuthenticationFailException;
 import com.gomo.app.core.auth.domain.model.AuthToken;
 import com.gomo.app.core.member.domain.model.LoginProvider;
@@ -43,6 +44,9 @@ public class AuthServiceTest {
 
 	@Mock
 	private AuthTokenService authTokenService;
+
+	@Mock
+	private PrincipalPasswordResetter principalPasswordResetter;
 
 	@DisplayName("이메일로 회원 가입한다.")
 	@Test
@@ -94,5 +98,25 @@ public class AuthServiceTest {
 		AuthTokenDto actual = sut.login("test@gmail.com", "Gomo123@");
 
 		assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+	}
+
+	@DisplayName("사용자 비밀번호 초기화 요청을 처리한다.")
+	@Test
+	void reset_password() {
+		doReturn(true).when(jwtVerifier).verify(anyString());
+
+		sut.reset("email@email.com", "Gomo123@", "token");
+
+		verify(principalPasswordResetter, times(1)).reset(anyString(), anyString());
+	}
+
+	@DisplayName("사용자 비밀번호 초기화 요청을 처리한다.")
+	@Test
+	void reset_password_with_invalid_token() {
+		doReturn(false).when(jwtVerifier).verify(anyString());
+
+		assertThatThrownBy(() -> sut.reset("email@email.com", "Gomo123@", "token"))
+			.isInstanceOf(AuthenticationFailException.class)
+			.hasMessageContaining(INVALID_VERIFIED_EMAIL_TOKEN.getMessage());
 	}
 }
