@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-import com.gomo.app.core.member.adapter.in.api.request.ResetPasswordRequest;
+import com.gomo.app.core.auth.adapter.in.api.request.ResetPasswordRequest;
 import com.gomo.app.core.member.adapter.in.api.snippet.ResetPasswordSnippet;
 import com.gomo.app.core.member.domain.repository.MemberRepository;
 import com.gomo.app.test.DocumentationTestBase;
@@ -19,7 +19,7 @@ import com.gomo.app.test.DocumentationTestBase;
 @DisplayName("[Presentation Documentation]: 비밀번호 초기화 테스트")
 public class ResetPasswordDocumentationTest extends DocumentationTestBase {
 
-	private static final String RESET_PASSWORD_URL = "/members/passwords/reset";
+	private static final String URL = "/auth/passwords/reset";
 
 	private final RestDocumentationFilter filter = ResetPasswordSnippet.create();
 	private final RestDocumentationFilter errorFilter = ResetPasswordSnippet.createError();
@@ -34,14 +34,14 @@ public class ResetPasswordDocumentationTest extends DocumentationTestBase {
 
 	@DisplayName("비밀번호를 초기화 한다.")
 	@Test
-	void update_password() {
+	void reset_password() {
 		String email = "testmember@naver.com";
 		String temporaryToken = jwtCreator.createTemporaryToken(email, 300);
 		given(this.specification).filter(filter)
 			.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
 			.body(ResetPasswordRequest.of(email, "Test1234!", temporaryToken))
 			.when()
-			.put(RESET_PASSWORD_URL)
+			.put(URL)
 			.then()
 			.statusCode(NO_CONTENT.value());
 	}

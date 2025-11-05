@@ -5,9 +5,9 @@ import java.util.UUID;
 
 import com.gomo.app.common.jpa.LogicalDeleteBaseAudit;
 import com.gomo.app.core.member.domain.exception.ActivateStatusException;
+import com.gomo.app.core.member.domain.exception.MemberAuthenticationFailedException;
 import com.gomo.app.core.member.domain.exception.code.ActivateStatusErrorCode;
-import com.gomo.app.core.auth.domain.exception.AuthErrorCode;
-import com.gomo.app.core.auth.domain.exception.AuthenticationFailException;
+import com.gomo.app.core.member.domain.exception.code.MemberErrorCode;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
@@ -193,7 +193,7 @@ public class Member extends LogicalDeleteBaseAudit {
 
 	public void validateLoginProviderIsEmail() {
 		if (this.loginProvider != LoginProvider.EMAIL) {
-			throw new AuthenticationFailException(AuthErrorCode.UNSUPPORTED_LOGIN_METHOD);
+			throw new MemberAuthenticationFailedException(MemberErrorCode.UNSUPPORTED_LOGIN);
 		}
 	}
 
