@@ -1,4 +1,4 @@
-= Spring Modulith Documentation
+= Module Docs
 :modulith-docs: ../../../build/spring-modulith-docs
 
 == core-auth
