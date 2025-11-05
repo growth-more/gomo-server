@@ -1,4 +1,4 @@
-= gomo api docs
+= GOMO Docs - API
 :doctype: book
 :source-highlighter: highlightjs
 :toc: left

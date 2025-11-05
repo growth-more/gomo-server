@@ -1,4 +1,4 @@
-= Module Docs
+= GOMO Docs - Module
 :modulith-docs: ../../../build/spring-modulith-docs
 
 == core-auth
