@@ -14,7 +14,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.gomo.app.core.member.application.port.out.EmailTokenVerifier;
 import com.gomo.app.core.member.application.port.out.PasswordEncodeManager;
 import com.gomo.app.core.member.domain.exception.MemberAuthenticationFailedException;
 import com.gomo.app.core.member.domain.model.LoginProvider;
@@ -30,9 +29,6 @@ class PasswordServiceTest {
 	private PasswordService sut;
 
 	@Mock
-	private EmailTokenVerifier emailTokenVerifier;
-
-	@Mock
 	private PasswordEncodeManager passwordEncodeManager;
 
 	@Mock
@@ -46,10 +42,9 @@ class PasswordServiceTest {
 		doReturn(member).when(memberService).findByEmail(any());
 		doReturn(encoded).when(passwordEncodeManager).encode(any());
 
-		sut.reset(member.email(), "New1234@", "temporaryToken");
+		sut.reset(member.email(), "New1234@");
 
 		assertThat(member.password()).isEqualTo(encoded);
-		verify(emailTokenVerifier, times(1)).verify(any());
 	}
 
 	@DisplayName("비밀번호를 변경한다.")

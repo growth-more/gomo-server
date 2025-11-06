@@ -1,4 +1,4 @@
-= gomo api docs
+= GOMO Docs - API
 :doctype: book
 :source-highlighter: highlightjs
 :toc: left
@@ -15,7 +15,6 @@ include::apis/auth-api.adoc[]
 `AUT-ROO-001`: Auth code is incorrect +
 `AUT-ROO-002`: Refresh token not found +
 `AUT-ROO-003`: Refresh token is incorrect +
-`AUT-ROO-004`: OAuth member cannot login with password +
 `AUT-ROO-005`: Principal already exists +
 `AUT-ROO-006`: Principal not found +
 `AUT-ROO-007`: Verified email token is incorrect +
@@ -30,6 +29,7 @@ include::apis/member-api.adoc[]
 `MEM-ROO-001`: Member not found  +
 `MEM-ROO-002`: Access denied for the member  +
 `MEM-ROO-003`: Member Authentication fail  +
+`MEM-ROO-004`: OAuth member cannot login with password  +
 
 `MEM-EMA-001`: Email must not be blank +
 `MEM-EMA-002`: Email must be at least 10 characters +

@@ -35,6 +35,11 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    set('springModulithVersion', "1.4.4")
+    snippetsDir = file('build/generated-snippets')
+}
+
 dependencies {
     // web
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -91,9 +96,13 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 
-    // batch
+    // spring batch
     implementation("org.springframework.boot:spring-boot-starter-batch")
     implementation("org.springframework.boot:spring-boot-starter-quartz")
+
+    // spring modulith
+    implementation 'org.springframework.modulith:spring-modulith-starter-jpa'
+    testImplementation 'org.springframework.modulith:spring-modulith-starter-test'
 
     // test
     testRuntimeOnly "org.junit.platform:junit-platform-launcher"
@@ -110,8 +119,10 @@ dependencies {
     testImplementation "org.testcontainers:minio"
 }
 
-ext {
-    snippetsDir = file('build/generated-snippets')
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.modulith:spring-modulith-bom:${springModulithVersion}"
+    }
 }
 
 tasks.named('test') {

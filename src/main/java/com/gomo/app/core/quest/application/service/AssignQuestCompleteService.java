@@ -5,12 +5,12 @@ import java.util.UUID;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gomo.app.common.arch.ApplicationService;
+import com.gomo.app.common.event.CompleteQuestEvent;
 import com.gomo.app.common.logging.AuditLog;
 import com.gomo.app.common.util.JsonParser;
 import com.gomo.app.common.util.TimestampGenerator;
 import com.gomo.app.core.quest.application.port.command.CompleteAssignQuestCommand;
 import com.gomo.app.core.quest.application.port.in.AssignQuestCompleter;
-import com.gomo.app.core.quest.domain.event.CompleteQuestEvent;
 import com.gomo.app.core.quest.domain.model.assign.AssignQuest;
 import com.gomo.app.core.quest.domain.model.assign.CompletionProof;
 import com.gomo.app.core.quest.domain.model.reward.QuestReward;

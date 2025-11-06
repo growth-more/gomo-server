@@ -1,0 +1,2 @@
+org.springframework.modulith.core.ApplicationModuleDetectionStrategy=\
+  com.gomo.app.modulith.AnnotationBasedModuleDetectionStrategy

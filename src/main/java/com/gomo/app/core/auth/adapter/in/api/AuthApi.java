@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -20,10 +21,12 @@ import com.gomo.app.common.session.Session;
 import com.gomo.app.common.session.SessionInfo;
 import com.gomo.app.core.auth.adapter.in.api.request.CreatePrincipalRequest;
 import com.gomo.app.core.auth.adapter.in.api.request.LoginRequest;
+import com.gomo.app.core.auth.adapter.in.api.request.ResetPasswordRequest;
 import com.gomo.app.core.auth.adapter.in.api.response.AccessTokenResponse;
 import com.gomo.app.core.auth.adapter.in.api.response.CreatePrincipalResponse;
 import com.gomo.app.core.auth.application.port.dto.AuthTokenDto;
 import com.gomo.app.core.auth.application.port.in.LoginProcessor;
+import com.gomo.app.core.auth.application.port.in.PasswordResetProcessor;
 import com.gomo.app.core.auth.application.port.in.RefreshTokenDeleter;
 import com.gomo.app.core.auth.application.port.in.RefreshTokenUpdater;
 import com.gomo.app.core.auth.application.port.in.SignupProcessor;
@@ -36,6 +39,7 @@ import lombok.RequiredArgsConstructor;
 public class AuthApi {
 
 	private final SignupProcessor signupProcessor;
+	private final PasswordResetProcessor passwordResetProcessor;
 	private final LoginProcessor loginProcessor;
 	private final RefreshTokenUpdater refreshTokenUpdater;
 	private final RefreshTokenDeleter refreshTokenDeleter;
@@ -44,6 +48,12 @@ public class AuthApi {
 	public ResponseEntity<CreatePrincipalResponse> signup(@RequestBody CreatePrincipalRequest request) {
 		UUID principalId = signupProcessor.signup(request.toCommand());
 		return ResponseEntity.status(HttpStatus.CREATED).body(CreatePrincipalResponse.of(principalId));
+	}
+
+	@PutMapping("/passwords/reset")
+	public ResponseEntity<Void> reset(@RequestBody ResetPasswordRequest request) {
+		passwordResetProcessor.reset(request.getEmail(), request.getNewPassword(), request.getTemporaryToken());
+		return ResponseEntity.noContent().build();
 	}
 
 	@PostMapping("/login")

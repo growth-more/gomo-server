@@ -15,9 +15,9 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.gomo.app.common.event.CompleteQuestEvent;
 import com.gomo.app.common.util.JsonParser;
 import com.gomo.app.core.interest.application.port.in.ProficiencyPropagator;
-import com.gomo.app.core.quest.domain.event.CompleteQuestEvent;
 import com.gomo.app.support.evententry.domain.model.EventEntry;
 
 @DisplayName("[Consumer unit]: 퀘스트 완료(점수) 이벤트 처리 테스트")

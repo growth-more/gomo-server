@@ -9,9 +9,11 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
 import com.gomo.app.core.member.adapter.in.api.snippet.DeleteMemberSnippet;
+import com.gomo.app.core.member.domain.repository.MemberRepository;
 import com.gomo.app.test.DocumentationTestBase;
 
 @DisplayName("[Presentation documentation]: 회원 탈퇴 테스트")
@@ -21,6 +23,9 @@ public class DeleteMemberDocumentationTest extends DocumentationTestBase {
 
 	private final RestDocumentationFilter filter = DeleteMemberSnippet.create();
 	private final RestDocumentationFilter errorFilter = DeleteMemberSnippet.createError();
+
+	@Autowired
+	private MemberRepository memberRepository;
 
 	@BeforeEach
 	void setSessionToTestPrincipal() {
@@ -33,6 +38,7 @@ public class DeleteMemberDocumentationTest extends DocumentationTestBase {
 	@AfterEach
 	void setSessionToOriginalPrincipal() {
 		sessionInit(login(sessionEmail, sessionPassword));
+		memberRepository.deleteAllInBatch();
 	}
 
 	@DisplayName("사용자가 회원 탈퇴를 요청한다.")

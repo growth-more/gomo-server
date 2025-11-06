@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.gomo.app.common.arch.CoreApi;
 import com.gomo.app.common.session.Session;
 import com.gomo.app.common.session.SessionInfo;
-import com.gomo.app.core.member.adapter.in.api.request.ResetPasswordRequest;
 import com.gomo.app.core.member.adapter.in.api.request.UpdatePasswordRequest;
-import com.gomo.app.core.member.application.port.in.PasswordResetter;
 import com.gomo.app.core.member.application.port.in.PasswordUpdater;
 
 import lombok.RequiredArgsConstructor;
@@ -21,17 +19,10 @@ import lombok.RequiredArgsConstructor;
 public class PasswordApi {
 
 	private final PasswordUpdater passwordUpdater;
-	private final PasswordResetter passwordResetter;
 
 	@PutMapping
 	public ResponseEntity<Void> update(@Session SessionInfo sessionInfo, @RequestBody UpdatePasswordRequest request) {
 		passwordUpdater.update(sessionInfo.getPrincipalId(), request.getOriginPassword(), request.getNewPassword());
-		return ResponseEntity.noContent().build();
-	}
-
-	@PutMapping("/reset")
-	public ResponseEntity<Void> reset(@RequestBody ResetPasswordRequest request) {
-		passwordResetter.reset(request.getEmail(), request.getNewPassword(), request.getTemporaryToken());
 		return ResponseEntity.noContent().build();
 	}
 }
