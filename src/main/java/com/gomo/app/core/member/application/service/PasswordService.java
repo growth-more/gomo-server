@@ -8,7 +8,6 @@ import com.gomo.app.common.arch.ApplicationService;
 import com.gomo.app.common.logging.AuditLog;
 import com.gomo.app.core.member.application.port.in.PasswordResetter;
 import com.gomo.app.core.member.application.port.in.PasswordUpdater;
-import com.gomo.app.core.member.application.port.out.EmailTokenVerifier;
 import com.gomo.app.core.member.application.port.out.PasswordEncodeManager;
 import com.gomo.app.core.member.domain.exception.MemberAuthenticationFailedException;
 import com.gomo.app.core.member.domain.model.LoginProvider;
@@ -23,15 +22,12 @@ import lombok.RequiredArgsConstructor;
 @ApplicationService
 class PasswordService implements PasswordResetter, PasswordUpdater {
 
-	private final EmailTokenVerifier emailTokenVerifier;
 	private final PasswordEncodeManager passwordEncodeManager;
 	private final MemberService memberService;
 
 	@Override
 	@AuditLog(action = "PASSWORD_RESET")
-	public void reset(String email, String newPassword, String temporaryToken) {
-		emailTokenVerifier.verify(temporaryToken);
-
+	public void reset(String email, String newPassword) {
 		Member member = memberService.findByEmail(email);
 		String encoded = passwordEncodeManager.encode(Password.ofRaw(newPassword).getPassword());
 		member.updatePassword(Password.ofEncoded(encoded));

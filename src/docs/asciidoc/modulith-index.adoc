@@ -1,0 +1,67 @@
+= GOMO Docs - Module
+:modulith-docs: ../../../build/spring-modulith-docs
+
+== core-auth
+
+plantuml::{modulith-docs}/module-core-auth.puml[format="svg"]
+include::{modulith-docs}/module-core-auth.adoc[]
+
+== core-member
+
+plantuml::{modulith-docs}/module-core-member.puml[format="svg"]
+include::{modulith-docs}/module-core-member.adoc[]
+
+== core-interest
+
+plantuml::{modulith-docs}/module-core-interest.puml[format="svg"]
+include::{modulith-docs}/module-core-interest.adoc[]
+
+== core-quest
+
+plantuml::{modulith-docs}/module-core-quest.puml[format="svg"]
+include::{modulith-docs}/module-core-quest.adoc[]
+
+== core-streak
+
+plantuml::{modulith-docs}/module-core-streak.puml[format="svg"]
+include::{modulith-docs}/module-core-streak.adoc[]
+
+== core-point
+
+plantuml::{modulith-docs}/module-core-point.puml[format="svg"]
+include::{modulith-docs}/module-core-point.adoc[]
+
+== core-survey
+
+plantuml::{modulith-docs}/module-core-survey.puml[format="svg"]
+include::{modulith-docs}/module-core-survey.adoc[]
+
+== support-image
+
+plantuml::{modulith-docs}/module-support-image.puml[format="svg"]
+include::{modulith-docs}/module-support-image.adoc[]
+
+== support-messagebroker
+
+plantuml::{modulith-docs}/module-support-messagebroker.puml[format="svg"]
+include::{modulith-docs}/module-support-messagebroker.adoc[]
+
+== support-logging
+
+plantuml::{modulith-docs}/module-support-logging.puml[format="svg"]
+include::{modulith-docs}/module-support-logging.adoc[]
+
+== support-evententry
+
+plantuml::{modulith-docs}/module-support-evententry.puml[format="svg"]
+include::{modulith-docs}/module-support-evententry.adoc[]
+
+== support-llm
+
+plantuml::{modulith-docs}/module-support-llm.puml[format="svg"]
+include::{modulith-docs}/module-support-llm.adoc[]
+
+== support-diagnostic
+
+plantuml::{modulith-docs}/module-support-diagnostic.puml[format="svg"]
+include::{modulith-docs}/module-support-diagnostic.adoc[]

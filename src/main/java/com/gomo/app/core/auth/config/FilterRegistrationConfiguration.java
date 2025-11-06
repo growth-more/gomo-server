@@ -1,4 +1,4 @@
-package com.gomo.app.config;
+package com.gomo.app.core.auth.config;
 
 import java.util.Arrays;
 

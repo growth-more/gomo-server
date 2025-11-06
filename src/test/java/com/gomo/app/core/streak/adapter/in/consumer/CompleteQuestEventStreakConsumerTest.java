@@ -15,8 +15,8 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.gomo.app.common.event.CompleteQuestEvent;
 import com.gomo.app.common.util.JsonParser;
-import com.gomo.app.core.quest.domain.event.CompleteQuestEvent;
 import com.gomo.app.core.streak.application.port.in.StreakCreator;
 import com.gomo.app.support.evententry.domain.model.EventEntry;
 

@@ -1,4 +1,4 @@
-package com.gomo.app.support.diagnositc;
+package com.gomo.app.support.diagnostic;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.PostMapping;

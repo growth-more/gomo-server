@@ -3,10 +3,10 @@ package com.gomo.app.core.quest.adapter.in.consumer;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
 import com.gomo.app.common.arch.EventConsumer;
+import com.gomo.app.common.event.CreateQuestPoolEvent;
 import com.gomo.app.common.util.JsonParser;
 import com.gomo.app.core.quest.application.port.command.CreateQuestPoolCommand;
 import com.gomo.app.core.quest.application.port.in.QuestPoolCreator;
-import com.gomo.app.core.quest.domain.event.CreateQuestPoolEvent;
 import com.gomo.app.support.messagebroker.application.port.in.IdempotentDirectEventConsumer;
 import com.gomo.app.support.messagebroker.domain.model.DirectEvent;
 

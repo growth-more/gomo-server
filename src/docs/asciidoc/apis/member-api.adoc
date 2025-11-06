@@ -153,30 +153,6 @@ operation::member-quest-property-read-error[snippets='http-response,response-fie
 
 '''
 
-=== 비밀번호 초기화 (찾기)
-
-`PUT /members/passwords/reset`
-
-이메일 인증 등을 통해 본인인증이 완료된 사용자가 비밀번호를 새로 설정합니다.
-
-==== 요청 헤더
-
-operation::member-password-reset[snippets='request-headers']
-
-==== 요청 본문 (JSON)
-
-operation::member-password-reset[snippets='http-request,request-fields']
-
-==== 성공 응답
-
-성공 시 `204 No Content` 상태 코드와 함께 빈 응답 본문을 반환합니다.
-
-==== 에러 응답
-
-operation::member-password-reset-error[snippets='http-response,response-fields']
-
-'''
-
 === 핸들 수정
 
 `PUT /members/handles`

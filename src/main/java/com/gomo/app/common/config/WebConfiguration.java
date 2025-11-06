@@ -1,4 +1,4 @@
-package com.gomo.app.config;
+package com.gomo.app.common.config;
 
 import java.util.List;
 
