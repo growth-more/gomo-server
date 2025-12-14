@@ -7,7 +7,6 @@ import com.gomo.app.common.arch.Adapter;
 import com.gomo.app.core.quest.application.port.command.CreateQuestContentCommand;
 import com.gomo.app.core.quest.application.port.dto.QuestContentDto;
 import com.gomo.app.core.quest.application.port.out.QuestContentCreator;
-import com.gomo.app.support.llm.application.GenerateTextPortIn;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
